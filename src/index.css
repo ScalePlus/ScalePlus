@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('/fonts/Open_Sans/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('/fonts/Open_Sans/OpenSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rockwell-Regular';
+  src: url('/fonts/Rockwell-Font/ROCK.TTF') format('truetype');
+}
