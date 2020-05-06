@@ -38,4 +38,7 @@ export const MainContainer = styled.div`
       color: ${theme.colors.black};
     }
   }
+  .seprator {
+    margin: 5px;
+  }
 `;

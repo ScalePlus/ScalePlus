@@ -9,11 +9,12 @@ const Header = () => {
         <span className="icon-container">+</span>
       </div>
       <div className="action-container">
-        {localStorage.getItem("token")
-          ? "Account"
-          : window.location.pathname.includes("login")
+        {window.location.pathname.includes("login")
           ? "Register"
-          : "Login"}
+          : window.location.pathname.includes("register") ||
+            window.location.pathname.includes("verification")
+          ? "Login"
+          : "Account"}
       </div>
     </Container>
   );

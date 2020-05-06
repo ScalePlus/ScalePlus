@@ -1,8 +1,8 @@
 export const Constants = {
   BASE_URL: "",
   ROLES: {
-    STARTUP_INDIVIDUAL: "1",
-    ORGANIZATION: "2",
-    MENTOR_JUDGE: "3",
+    STARTUP_INDIVIDUAL: "Startup or Individual",
+    ORGANIZATION: "Organization",
+    MENTOR_JUDGE: "Mentor / Judge",
   },
 };

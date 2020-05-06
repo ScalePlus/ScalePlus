@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -12,22 +12,18 @@ const SignIn = ({ history }) => {
   const [password, changePassword] = useState("");
 
   const onLogin = () => {
-    if (email === "user1@gmail.com" && password === "123456") {
-      localStorage.setItem("token", "test");
-      localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
-      history.push("/organization/detail");
-    } else if (email === "user2@gmail.com" && password === "123456") {
-      localStorage.setItem("token", "test");
-      localStorage.setItem("userRole", Constants.ROLES.ORGANIZATION);
-      history.push("/organization/detail");
-    } else if (email === "user3@gmail.com" && password === "123456") {
-      localStorage.setItem("token", "test");
-      localStorage.setItem("userRole", Constants.ROLES.MENTOR_JUDGE);
+    if (localStorage.getItem("userRole")) {
       history.push("/organization/detail");
     } else {
       toast.error("Invalid Credentials", { position: "bottom-right" });
     }
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem("userRole")) {
+      localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
+    }
+  }, []);
 
   return (
     <MainContainer>

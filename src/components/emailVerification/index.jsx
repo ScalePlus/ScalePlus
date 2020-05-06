@@ -6,6 +6,7 @@ import { Title, Input, PrimaryButton } from "../common";
 
 const EmailVerification = ({ history }) => {
   const [verified, clickVerify] = useState(false);
+
   return (
     <MainContainer>
       <Row className="justify-content-center">
@@ -13,7 +14,13 @@ const EmailVerification = ({ history }) => {
           <Row className="title-container">
             <Col>
               <Title
-                text={verified ? "Account Verified" : "Email Verification"}
+                text={
+                  verified
+                    ? localStorage.getItem("userRole") +
+                      " " +
+                      `Account Verified`
+                    : "Email Verification"
+                }
               />
             </Col>
           </Row>
@@ -24,16 +31,16 @@ const EmailVerification = ({ history }) => {
                 <Col lg={7} md={10} sm={10}>
                   <Row className="justify-content-center form-container">
                     <Col md={3} sm={3} xs={3}>
-                      <Input type="text" />
+                      <Input type="text" max={1} />
                     </Col>
                     <Col md={3} sm={3} xs={3}>
-                      <Input type="text" />
+                      <Input type="text" max={1} />
                     </Col>
                     <Col md={3} sm={3} xs={3}>
-                      <Input type="text" />
+                      <Input type="text" max={1} />
                     </Col>
                     <Col md={3} sm={3} xs={3}>
-                      <Input type="text" />
+                      <Input type="text" max={1} />
                     </Col>
                   </Row>
                 </Col>
@@ -56,7 +63,8 @@ const EmailVerification = ({ history }) => {
             ) : (
               <Col>
                 Please enter the verification code that was sent to your email
-                address. test@gmail.com |
+                address. test@gmail.com
+                <span className="seprator">|</span>
                 <Link className="link" to="/">
                   Resend Email
                 </Link>

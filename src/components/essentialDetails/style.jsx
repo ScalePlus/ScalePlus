@@ -27,7 +27,7 @@ export const MainContainer = styled.div`
     }
     .tab-sub-container {
       padding: 20px 0px;
-      margin-bottom: 25px;
+      margin-bottom: 1rem;
     }
   }
   .button-container {

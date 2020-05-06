@@ -48,12 +48,13 @@ export const BackButtonContainer = styled.div`
 `;
 
 export const TabContainer = styled.div`
+  cursor: pointer;
   .tab-sub-container {
     text-align: center;
     border: 1px solid ${theme.colors.black};
     border-radius: 6px;
     background-color: ${theme.colors.white};
-    padding: 15px 0px;
+    padding: 10px;
     .tab-main-text {
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};

@@ -12,7 +12,7 @@ export const MainContainer = styled.div`
   .tab-container {
     margin-top: 35px;
     .tab-sub-container {
-      margin-bottom: 25px;
+      margin-bottom: 1rem;
     }
   }
   .form-container {

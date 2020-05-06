@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import { components } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import {
   TitleContainer,
@@ -24,13 +23,14 @@ function Description({ children }) {
   return <DescriptionContainer>{children}</DescriptionContainer>;
 }
 
-function Input({ type, placeholder, value, onChange }) {
+function Input({ type, placeholder, value, onChange, max }) {
   return (
     <Form.Group>
       <Form.Control
         type={type}
         placeholder={placeholder}
         value={value}
+        maxLength={max}
         onChange={onChange ? onChange : () => {}}
       />
     </Form.Group>
@@ -112,34 +112,34 @@ function DropDown({ options, placeholder, value, onChange }) {
     }),
     control: (provided, state) => ({
       ...provided,
-      padding: "10px 25px",
+      padding: "10px 20px",
       minHeight: "70px",
       border: `1px solid`,
       borderColor: theme.colors.black,
-      boxShadow: `0 0 0 1px ${theme.colors.black}`,
       borderRadius: "6px",
       backgroundColor: theme.colors.white,
-      color: "#979797",
       fontFamily: theme.fontFamily.regular,
       fontSize: theme.fontSize.regular,
+      boxShadow: "none",
       "&:hover": {
         borderColor: theme.colors.black,
+        boxShadow: "none",
       },
+    }),
+    menu: (provided, state) => ({
+      ...provided,
+      textAlign: "left",
+      backgroundColor: "#fafafa",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      fontFamily: theme.fontFamily.regular,
+      fontSize: theme.fontSize.regular,
+      paddingLeft: "35px",
+      color: theme.colors.black,
     }),
   };
   const customComponent = {
-    Menu: (props) => {
-      const optionSelectedLength = props.getValue().length || 0;
-      return (
-        <components.Menu {...props}>
-          {optionSelectedLength < 3 ? (
-            props.children
-          ) : (
-            <div>Max limit achieved</div>
-          )}
-        </components.Menu>
-      );
-    },
     DropdownIndicator: (props) => {
       return (
         <img

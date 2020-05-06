@@ -6,6 +6,62 @@ import { Constants } from "../../lib/constant";
 
 const EssentialDetail = ({ history }) => {
   const [textAreaValue, setTextAreaValue] = useState("");
+  const [coreBusinessTabs, selectCoreBusinessTab] = useState([
+    {
+      id: 1,
+      text: "Software",
+      isActive: true,
+    },
+    {
+      id: 2,
+      text: "Physical Products",
+      isActive: false,
+    },
+    {
+      id: 3,
+      text: "Consulting",
+      isActive: false,
+    },
+  ]);
+  const [marketStageTabs, selectMarketStageTab] = useState([
+    {
+      id: 1,
+      text: "Idea",
+      isActive: true,
+    },
+    {
+      id: 2,
+      text: "Prototype",
+      isActive: false,
+    },
+    {
+      id: 3,
+      text: "Ready For Market",
+      isActive: false,
+    },
+    {
+      id: 4,
+      text: "Product Released",
+      isActive: false,
+    },
+  ]);
+  const [fundingTabs, selectFundingTab] = useState([
+    {
+      id: 1,
+      text: "Consulting",
+      isActive: true,
+    },
+    {
+      id: 2,
+      text: "Ext. Investment",
+      isActive: false,
+    },
+    {
+      id: 3,
+      text: "Revenue",
+      isActive: false,
+    },
+  ]);
   const isStartUp_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
     isOrganisation =
@@ -50,15 +106,41 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
           <Row className="tab-container">
-            <Col lg={4} md={6} sm={6} xs={12}>
-              <Tab text={"Software"} isActive={true} />
-            </Col>
-            <Col lg={4} md={6} sm={6} xs={12}>
-              <Tab text={"Physical Products"} isActive={false} />
-            </Col>
-            <Col lg={4} md={6} sm={6} xs={12}>
-              <Tab text={"Consulting"} isActive={false} />
-            </Col>
+            {coreBusinessTabs.map((each) => {
+              return (
+                <Col
+                  key={each.id}
+                  lg={4}
+                  md={6}
+                  sm={6}
+                  xs={12}
+                  onClick={() => {
+                    selectCoreBusinessTab(
+                      coreBusinessTabs.map((record) => {
+                        if (record.id === each.id) {
+                          record.isActive = true;
+                          return record;
+                        } else {
+                          record.isActive = false;
+                          return record;
+                        }
+                      })
+                    );
+                  }}
+                >
+                  <div
+                    className={
+                      each.id !==
+                      coreBusinessTabs[coreBusinessTabs.length - 1].id
+                        ? "outer-tab-container"
+                        : ""
+                    }
+                  >
+                    <Tab text={each.text} isActive={each.isActive} />
+                  </div>
+                </Col>
+              );
+            })}
           </Row>
 
           <Row className="tab-title">
@@ -73,18 +155,40 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
           <Row className="tab-container">
-            <Col lg={3} md={6} sm={6} xs={12}>
-              <Tab text={"Idea"} isActive={true} />
-            </Col>
-            <Col lg={3} md={6} sm={6} xs={12}>
-              <Tab text={"Prototype"} isActive={false} />
-            </Col>
-            <Col lg={3} md={6} sm={6} xs={12}>
-              <Tab text={"Ready For Market"} isActive={false} />
-            </Col>
-            <Col lg={3} md={6} sm={6} xs={12}>
-              <Tab text={"Product Released"} isActive={false} />
-            </Col>
+            {marketStageTabs.map((each) => {
+              return (
+                <Col
+                  key={each.id}
+                  lg={3}
+                  md={6}
+                  sm={6}
+                  xs={12}
+                  onClick={() => {
+                    selectMarketStageTab(
+                      marketStageTabs.map((record) => {
+                        if (record.id === each.id) {
+                          record.isActive = true;
+                          return record;
+                        } else {
+                          record.isActive = false;
+                          return record;
+                        }
+                      })
+                    );
+                  }}
+                >
+                  <div
+                    className={
+                      each.id !== marketStageTabs[marketStageTabs.length - 1].id
+                        ? "outer-tab-container"
+                        : ""
+                    }
+                  >
+                    <Tab text={each.text} isActive={each.isActive} />
+                  </div>
+                </Col>
+              );
+            })}
           </Row>
 
           {isStartUp_Individual || isOrganisation ? (
@@ -95,15 +199,40 @@ const EssentialDetail = ({ history }) => {
                 </Col>
               </Row>
               <Row className="tab-container">
-                <Col lg={4} md={6} sm={6} xs={12}>
-                  <Tab text={"Consulting"} isActive={false} />
-                </Col>
-                <Col lg={4} md={6} sm={6} xs={12}>
-                  <Tab text={"Ext. Investment"} isActive={false} />
-                </Col>
-                <Col lg={4} md={6} sm={6} xs={12}>
-                  <Tab text={"Revenue"} isActive={true} />
-                </Col>
+                {fundingTabs.map((each) => {
+                  return (
+                    <Col
+                      key={each.id}
+                      lg={4}
+                      md={6}
+                      sm={6}
+                      xs={12}
+                      onClick={() => {
+                        selectFundingTab(
+                          fundingTabs.map((record) => {
+                            if (record.id === each.id) {
+                              record.isActive = true;
+                              return record;
+                            } else {
+                              record.isActive = false;
+                              return record;
+                            }
+                          })
+                        );
+                      }}
+                    >
+                      <div
+                        className={
+                          each.id !== fundingTabs[fundingTabs.length - 1].id
+                            ? "outer-tab-container"
+                            : ""
+                        }
+                      >
+                        <Tab text={each.text} isActive={each.isActive} />
+                      </div>
+                    </Col>
+                  );
+                })}
               </Row>
             </>
           ) : null}

@@ -4,13 +4,11 @@ import theme from "../theme";
 export const GlobalStyle = createGlobalStyle`
 .main-layout {
   font-family: ${theme.fontFamily.regular};
-  background-color: ${theme.colors.lightGray};
 }
 
-.form-control,
-.Dropdown-control {
+.form-control{
   text-align: left;
-  padding: 10px 25px;
+  padding: 10px 20px;
   height: 70px;
   border: 1px solid ${theme.colors.black};
   border-radius: 6px;
@@ -24,24 +22,16 @@ export const GlobalStyle = createGlobalStyle`
    background-color: ${theme.colors.white};
 }
 
-
-.Dropdown-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+#verify-email-form .form-control{
+  text-align: center;
 }
 
-.Dropdown-menu {
-  text-align: left;
-  background-color: #fafafa;
+@media (min-width: 992px) {
+.outer-tab-container {
+    margin-right: -15px;
+  }
 }
 
-.Dropdown-option {
-  padding: 8px 25px;
-  font-size: ${theme.fontSize.regular};
-  color: ${theme.colors.black};
-  font-weight: 500;
-}
 
 .arrow-class {
   top: auto;
