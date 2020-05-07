@@ -8,14 +8,18 @@ export const GlobalStyle = createGlobalStyle`
 
 .form-control{
   text-align: left;
-  padding: 10px 20px;
+  padding: 20px;
   height: 70px;
-  border: 1px solid ${theme.colors.black};
+  border: 1px solid ${theme.colors.border_gray};
   border-radius: 6px;
   background-color: ${theme.colors.white};
-  color: #979797;
+  color: ${theme.colors.gray};
   font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
+}
+
+.form-control:focus{
+  color: ${theme.colors.gray};
 }
 
 .form-control[readonly]{
@@ -43,13 +47,12 @@ export const GlobalStyle = createGlobalStyle`
 
 .active-tab .tab-main-text {
   color: ${theme.colors.black} !important;
-  font-family: ${theme.fontFamily.bold}!important;
-  opacity: 1 !important;
+  font-family: ${theme.fontFamily.regular}!important;
+  font-weight: 600 !important;
 }
 
 .active-tab .tab-sub-text {
   color: ${theme.colors.black}; !important;
-  opacity: 1 !important;
 }
 
 
@@ -100,7 +103,7 @@ export const GlobalStyle = createGlobalStyle`
 .custom-switch .custom-control-label::before {
   height: 36px;
   width: 61px;
-  border: 1px solid ${theme.colors.black};
+  border: 1px solid ${theme.colors.border_gray};
   border-radius: 18.5px;
 }
 
@@ -115,12 +118,12 @@ export const GlobalStyle = createGlobalStyle`
 
 .custom-control-input:checked~.custom-control-label::before {
   color: ${theme.colors.white};
-  border: 1px solid ${theme.colors.black};
+  border: 1px solid ${theme.colors.border_gray};
   background-color: ${theme.colors.white};
 }
 
 .custom-control-input:focus:not(:checked)~.custom-control-label::before {
-  border-color: ${theme.colors.black};
+  border-color: ${theme.colors.border_gray};
 }
 
 .custom-switch .custom-control-input:checked~.custom-control-label::after {

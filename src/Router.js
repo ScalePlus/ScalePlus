@@ -11,10 +11,15 @@ import EssentialDetail from "./components/essentialDetails";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
+import { Constants } from "./lib/constant";
+
 class MainRouter extends Component {
   render() {
     history.listen((location, action) => {
       window.scrollTo(0, 0);
+      if (!localStorage.getItem("userRole")) {
+        localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
+      }
     });
 
     const OpenRoute = ({ component: Component, layout: Layout, ...rest }) => (

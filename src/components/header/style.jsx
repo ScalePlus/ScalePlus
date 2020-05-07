@@ -5,7 +5,7 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 80px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid ${theme.colors.border_gray};
   background-color: ${theme.colors.white};
 
   .logo-text {

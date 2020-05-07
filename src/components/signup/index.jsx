@@ -20,7 +20,9 @@ const SignUp = ({ history }) => {
       text: "Startup or Individual",
       subText: "Create Solutions",
       isActive:
-        localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL
+        localStorage.getItem("userRole") ===
+          Constants.ROLES.STARTUP_INDIVIDUAL ||
+        !localStorage.getItem("userRole")
           ? true
           : false,
     },

@@ -16,7 +16,8 @@ export const MainContainer = styled.div`
     }
   }
   .button-container {
-    margin: 80px 0px;
+    margin-top: 80px;
+    margin-bottom: 80px;
     align-items: center;
   }
   .market-label {
@@ -24,7 +25,8 @@ export const MainContainer = styled.div`
     margin-left: 10px;
     margin-top: 10px;
     color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.bold};
+    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
+    font-weight: 600;
   }
 `;

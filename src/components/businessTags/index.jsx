@@ -147,7 +147,7 @@ const BusinessTags = ({ history }) => {
           </Row>
 
           <Row className="button-container">
-            <Col md={2} xs={2}>
+            <Col lg={2} md={2} sm={2} xs={2}>
               <BackButton
                 text={"Back"}
                 onClick={() => {
@@ -155,7 +155,7 @@ const BusinessTags = ({ history }) => {
                 }}
               ></BackButton>
             </Col>
-            <Col md={8} xs={8}>
+            <Col lg={8} md={8} sm={8} xs={8}>
               <PrimaryButton
                 text={"Essential Details"}
                 onClick={() => {
@@ -163,7 +163,7 @@ const BusinessTags = ({ history }) => {
                 }}
               ></PrimaryButton>
             </Col>
-            <Col md={2} xs={2} />
+            <Col lg={2} md={2} sm={2} xs={2} />
           </Row>
         </Col>
       </Row>

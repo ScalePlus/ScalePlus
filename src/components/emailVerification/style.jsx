@@ -9,12 +9,14 @@ export const MainContainer = styled.div`
   .description-container {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
+    font-weight: 600;
     font-size: ${theme.fontSize.small};
     margin-top: 25px;
   }
   .verified-description-container {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
+    font-weight: 600;
     font-size: ${theme.fontSize.small};
     margin-top: 80px;
   }
@@ -26,16 +28,23 @@ export const MainContainer = styled.div`
   }
   .bottom-container {
     margin: 80px 0px;
-    opacity: 0.5;
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
+    font-weight: 600;
   }
-  .link {
+  .resend-link {
     color: ${theme.colors.black};
     text-decoration: underline;
     &:hover {
       color: ${theme.colors.black};
+    }
+  }
+  .link {
+    color: ${theme.colors.gray};
+    text-decoration: underline;
+    &:hover {
+      color: ${theme.colors.gray};
     }
   }
   .seprator {

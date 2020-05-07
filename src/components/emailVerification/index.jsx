@@ -65,7 +65,7 @@ const EmailVerification = ({ history }) => {
                 Please enter the verification code that was sent to your email
                 address. test@gmail.com
                 <span className="seprator">|</span>
-                <Link className="link" to="/">
+                <Link className="resend-link" to="/">
                   Resend Email
                 </Link>
               </Col>
