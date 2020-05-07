@@ -199,9 +199,9 @@ function Switch({ checked, onChange }) {
   );
 }
 
-function PrimaryButton({ text, onClick }) {
+function PrimaryButton({ text, onClick, disabled }) {
   return (
-    <ButtonContainer onClick={onClick}>
+    <ButtonContainer onClick={onClick} disabled={disabled}>
       <span className="button-text">{text}</span>
       <span className="icon-container">></span>
     </ButtonContainer>

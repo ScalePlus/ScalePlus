@@ -66,7 +66,7 @@ const SignUp = ({ history }) => {
   }, [signupReducer]);
 
   const onSignup = () => {
-    if (email && password) {
+    if (email && password && !signupReducer.loading) {
       signupMethod({
         email: email,
         password: password,
@@ -171,6 +171,7 @@ const SignUp = ({ history }) => {
                 onClick={() => {
                   onSignup();
                 }}
+                disabled={signupReducer.loading}
               ></PrimaryButton>
             </Col>
           </Row>

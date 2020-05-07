@@ -9,7 +9,7 @@ import Api from "./api";
 import history from "../../history";
 
 function* signupSaga(data) {
-  yield put({ type: SIGNUP_LOADING, payload: true });
+  yield put({ type: SIGNUP_LOADING });
   try {
     let res = yield call(Api.signup, data.payload);
     if (res.status) {
@@ -19,8 +19,7 @@ function* signupSaga(data) {
       history.push(`/verification/${res.result.userId}`);
     }
   } catch (error) {
-    yield put({ type: SIGNUP_ERROR, payload: error });
-    yield put({ type: SIGNUP_LOADING, payload: false });
+    yield put({ type: SIGNUP_ERROR, payload: error.message });
   }
 }
 

@@ -34,11 +34,9 @@ export const MainContainer = styled.div`
     font-weight: 600;
   }
   .resend-link {
+    cursor: pointer;
     color: ${theme.colors.black};
     text-decoration: underline;
-    &:hover {
-      color: ${theme.colors.black};
-    }
   }
   .link {
     color: ${theme.colors.gray};

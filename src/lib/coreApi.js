@@ -44,4 +44,25 @@ export default {
           reject(error);
         });
     }),
+
+  PUT: (link, data) =>
+    new Promise((resolve, reject) => {
+      const token = localStorage.getItem("token");
+      const url = domainUrl + link;
+      fetch(url, {
+        body: JSON.stringify(data),
+        method: "PUT",
+        headers: {
+          Authorization: token ? `jwt ${token}` : "",
+          "Content-type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((responseText) => {
+          resolve(responseText);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    }),
 };

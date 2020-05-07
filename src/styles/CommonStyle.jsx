@@ -20,6 +20,8 @@ export const GlobalStyle = createGlobalStyle`
 
 .form-control:focus{
   color: ${theme.colors.gray};
+  border: 1px solid ${theme.colors.border_gray};
+  box-shadow: none;
 }
 
 .form-control[readonly]{

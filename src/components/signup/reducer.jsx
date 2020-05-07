@@ -25,6 +25,7 @@ export const signupReducer = createReducer(initialState, {
   [SIGNUP_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
+      data: null,
       error: action.payload,
     });
   },

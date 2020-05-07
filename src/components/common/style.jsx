@@ -18,8 +18,12 @@ export const DescriptionContainer = styled.span`
   color: ${theme.colors.gray};
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.button`
   text-align: center;
+  border: none;
+  :focus {
+    outline: 0;
+  }
   .button-text {
     cursor: pointer;
     color: ${theme.colors.black};
