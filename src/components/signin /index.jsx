@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Title, Input, PassInput, PrimaryButton } from "../common";
 import { MainContainer } from "./style";
-import { Constants } from "../../lib/constant";
 
 const SignIn = ({ history }) => {
   const [showPass, changeToggle] = useState(false);
@@ -18,12 +17,6 @@ const SignIn = ({ history }) => {
       toast.error("Invalid Credentials", { position: "bottom-right" });
     }
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem("userRole")) {
-      localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
-    }
-  }, []);
 
   return (
     <MainContainer>

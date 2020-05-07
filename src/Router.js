@@ -10,8 +10,7 @@ import BusinessTags from "./components/businessTags";
 import EssentialDetail from "./components/essentialDetails";
 import store from "./store";
 import { Provider } from "react-redux";
-import { createBrowserHistory } from "history";
-export const history = createBrowserHistory();
+import history from "./history";
 class MainRouter extends Component {
   render() {
     history.listen((location, action) => {
@@ -46,7 +45,7 @@ class MainRouter extends Component {
               component={SignUp}
             />
             <OpenRoute
-              path="/verification"
+              path="/verification/:id"
               exact
               layout={MainLayout}
               component={EmailVerification}

@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { signupAction } from "./action";
 import { MainContainer } from "./style";
 import { Title, Description, Input, PrimaryButton, Tab } from "../common";
 import { Constants } from "../../lib/constant";
 
 const SignUp = ({ history }) => {
+  const dispatch = useDispatch();
+  const signupMethod = (data) => dispatch(signupAction(data));
+  const signupReducer = useSelector((state) => {
+    return state.signupReducer;
+  });
   const [tabs, selectTab] = useState([
     {
       id: 1,
@@ -35,12 +43,37 @@ const SignUp = ({ history }) => {
           : false,
     },
   ]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (!localStorage.getItem("userRole")) {
       localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
     }
   }, []);
+
+  useEffect(() => {
+    const { error } = signupReducer;
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i++) {
+        toast.error(error[i], { position: "bottom-right" });
+      }
+    } else if (typeof error === "string") {
+      toast.error(error, { position: "bottom-right" });
+    }
+  }, [signupReducer]);
+
+  const onSignup = () => {
+    if (email && password) {
+      signupMethod({
+        email: email,
+        password: password,
+        role: localStorage.getItem("userRole"),
+      });
+    } else {
+      toast.error("Something went wrong", { position: "bottom-right" });
+    }
+  };
 
   return (
     <MainContainer>
@@ -102,9 +135,29 @@ const SignUp = ({ history }) => {
 
           <Row className="form-container">
             <Col>
-              <Form>
-                <Input type="email" placeholder="Enter email"></Input>
-                <Input type="password" placeholder="Password"></Input>
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSignup();
+                }}
+              >
+                <Input
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                ></Input>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                ></Input>
+                <input type="submit" style={{ display: "none" }}></input>
               </Form>
             </Col>
           </Row>
@@ -114,7 +167,7 @@ const SignUp = ({ history }) => {
               <PrimaryButton
                 text={"Email Verification"}
                 onClick={() => {
-                  history.push("/verification");
+                  onSignup();
                 }}
               ></PrimaryButton>
             </Col>
