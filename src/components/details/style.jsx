@@ -23,15 +23,13 @@ export const MainContainer = styled.div`
   }
   .startup-text {
     margin-right: 50px;
-    opacity: 0.5;
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
   }
   .individual-text {
     margin-left: 40px;
-    opacity: 0.5;
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
   }
@@ -39,8 +37,8 @@ export const MainContainer = styled.div`
     margin: 50px 0px;
   }
   .active {
-    opacity: 1;
     color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.bold};
+    font-family: ${theme.fontFamily.regular};
+    font-weight: 600;
   }
 `;

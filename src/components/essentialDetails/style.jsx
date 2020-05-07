@@ -12,16 +12,14 @@ export const MainContainer = styled.div`
   }
   .tab-title {
     text-align: left;
-    opacity: 0.5;
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
     margin-bottom: 5px;
   }
   .tab-container {
     .tab-main-text {
-      opacity: 0.5;
-      color: ${theme.colors.black};
+      color: ${theme.colors.gray};
       font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.regular};
     }
@@ -31,7 +29,8 @@ export const MainContainer = styled.div`
     }
   }
   .button-container {
-    margin: 60px 0px;
+    margin-top: 60px;
+    margin-bottom: 60px;
     align-items: center;
   }
 `;

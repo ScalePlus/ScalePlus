@@ -114,16 +114,17 @@ function DropDown({ options, placeholder, value, onChange }) {
       ...provided,
       padding: "10px 20px",
       minHeight: "70px",
-      border: `1px solid`,
-      borderColor: theme.colors.black,
+      border: `1px solid ${theme.colors.border_gray}`,
+      borderColor: theme.colors.border_gray,
       borderRadius: "6px",
       backgroundColor: theme.colors.white,
       fontFamily: theme.fontFamily.regular,
       fontSize: theme.fontSize.regular,
-      boxShadow: "none",
+      boxShadow: 0,
       "&:hover": {
-        borderColor: theme.colors.black,
-        boxShadow: "none",
+        border: `1px solid ${theme.colors.border_gray}`,
+        borderColor: theme.colors.border_gray,
+        boxShadow: 0,
       },
     }),
     menu: (provided, state) => ({
@@ -136,6 +137,12 @@ function DropDown({ options, placeholder, value, onChange }) {
       fontFamily: theme.fontFamily.regular,
       fontSize: theme.fontSize.regular,
       paddingLeft: "35px",
+      color: theme.colors.black,
+    }),
+    multiValueLabel: (provided, state) => ({
+      ...provided,
+      fontFamily: theme.fontFamily.regular,
+      fontSize: theme.fontSize.regular,
       color: theme.colors.black,
     }),
   };
@@ -217,8 +224,10 @@ function Tab({ text, subText, isActive }) {
           isActive ? "tab-sub-container active-tab" : "tab-sub-container"
         }
       >
-        <div className="tab-main-text">{text}</div>
-        {subText && <div className="tab-sub-text">{subText}</div>}
+        <div className={"container"}>
+          <div className="tab-main-text">{text}</div>
+          {subText && <div className="tab-sub-text">{subText}</div>}
+        </div>
       </div>
     </TabContainer>
   );

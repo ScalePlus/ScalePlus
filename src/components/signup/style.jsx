@@ -13,6 +13,7 @@ export const MainContainer = styled.div`
     margin-top: 35px;
     .tab-sub-container {
       margin-bottom: 1rem;
+      min-height: 70px;
     }
   }
   .form-container {
@@ -23,16 +24,16 @@ export const MainContainer = styled.div`
   }
   .bottom-container {
     margin: 80px 0px;
-    opacity: 0.5;
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
+    font-weight: 600;
   }
   .link {
-    color: ${theme.colors.black};
+    color: ${theme.colors.gray};
     text-decoration: underline;
     &:hover {
-      color: ${theme.colors.black};
+      color: ${theme.colors.gray};
     }
   }
 `;
