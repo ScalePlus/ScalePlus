@@ -42,17 +42,18 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .active-tab {
-  background-color: ${theme.colors.yellow}!important;
+  background-color: ${theme.colors.yellow} !important;
 }
 
 .active-tab .tab-main-text {
   color: ${theme.colors.black} !important;
-  font-family: ${theme.fontFamily.regular}!important;
+  font-family: ${theme.fontFamily.regular} !important;
   font-weight: 600 !important;
 }
 
 .active-tab .tab-sub-text {
-  color: ${theme.colors.black}; !important;
+  color: ${theme.colors.black} !important;
+  font-family: ${theme.fontFamily.regular} !important;
 }
 
 
