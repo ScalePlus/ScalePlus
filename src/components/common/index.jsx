@@ -55,14 +55,14 @@ function TextArea({ rows, placeholder, value, onChange }) {
   );
 }
 
-function FileInput({ placeholder, value, onChange }) {
+function FileInput({ placeholder, value, onChange, onUpload }) {
   let fileUploader;
   return (
     <Form.Group>
       <Form.Control
         type={"text"}
         placeholder={placeholder}
-        value={value && value.name ? value.name : ""}
+        value={value && value.name ? value.name : value}
         onClick={() => {
           fileUploader.click();
         }}
@@ -73,10 +73,13 @@ function FileInput({ placeholder, value, onChange }) {
         type="file"
         ref={(ref) => (fileUploader = ref)}
         style={{ display: "none" }}
+        onClick={(event) => {
+          event.target.value = null;
+        }}
         onChange={onChange}
         accept="image/*"
       />
-      <Button variant="secondary" className="upload-button">
+      <Button variant="secondary" className="upload-button" onClick={onUpload}>
         <span className="upload-button-text">Upload</span>
       </Button>
     </Form.Group>

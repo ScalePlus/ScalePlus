@@ -2,7 +2,7 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 
 import MainLayout from "./components/mainLayout";
-import SignIn from "./components/signin ";
+import SignIn from "./components/signin";
 import SignUp from "./components/signup";
 import EmailVerification from "./components/emailVerification";
 import OrganizationDetails from "./components/details";
@@ -11,25 +11,40 @@ import EssentialDetail from "./components/essentialDetails";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
-import { Constants } from "./lib/constant";
 
 class MainRouter extends Component {
   render() {
     history.listen((location, action) => {
       window.scrollTo(0, 0);
-      if (!localStorage.getItem("userRole")) {
-        localStorage.setItem("userRole", Constants.ROLES.STARTUP_INDIVIDUAL);
-      }
     });
 
     const OpenRoute = ({ component: Component, layout: Layout, ...rest }) => (
       <Route
         {...rest}
-        render={(props) => (
-          <Layout>
-            <Component {...props} />
-          </Layout>
-        )}
+        render={(props) =>
+          !localStorage.getItem("token") ? (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          ) : (
+            <Redirect to="/" />
+          )
+        }
+      />
+    );
+
+    const AuthRoute = ({ component: Component, layout: Layout, ...rest }) => (
+      <Route
+        {...rest}
+        render={(props) =>
+          localStorage.getItem("token") ? (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          ) : (
+            <Redirect to="/" />
+          )
+        }
       />
     );
 
@@ -55,25 +70,28 @@ class MainRouter extends Component {
               layout={MainLayout}
               component={EmailVerification}
             />
-            <OpenRoute
-              path="/organization/detail"
+            <AuthRoute
+              path="/detail"
               exact
               layout={MainLayout}
               component={OrganizationDetails}
             />
-            <OpenRoute
+            <AuthRoute
               path="/business/tags"
               exact
               layout={MainLayout}
               component={BusinessTags}
             />
-            <OpenRoute
+            <AuthRoute
               path="/essential/detail"
               exact
               layout={MainLayout}
               component={EssentialDetail}
             />
-            <Redirect from="/" to="/login"></Redirect>
+            <Redirect
+              from="/"
+              to={localStorage.getItem("token") ? "/detail" : "/login"}
+            ></Redirect>
           </Switch>
         </Router>
       </Provider>

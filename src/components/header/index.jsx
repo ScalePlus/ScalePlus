@@ -1,5 +1,7 @@
 import React from "react";
+import { NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
+import history from "../../history";
 
 const Header = () => {
   return (
@@ -8,13 +10,36 @@ const Header = () => {
         <span className="logo-text">Scale</span>{" "}
         <span className="icon-container">+</span>
       </div>
-      <div className="action-container">
-        {window.location.pathname.includes("login")
-          ? "Register"
-          : window.location.pathname.includes("register") ||
+      <div
+        className="action-container"
+        onClick={() => {
+          if (window.location.pathname.includes("login")) {
+            history.push("/register");
+          } else if (
+            window.location.pathname.includes("register") ||
             window.location.pathname.includes("verification")
-          ? "Login"
-          : "Account"}
+          ) {
+            history.push("/login");
+          }
+        }}
+      >
+        {window.location.pathname.includes("login") ? (
+          "Register"
+        ) : window.location.pathname.includes("register") ||
+          window.location.pathname.includes("verification") ? (
+          "Login"
+        ) : (
+          <NavDropdown title="Account">
+            <NavDropdown.Item
+              href="/"
+              onClick={() => {
+                localStorage.clear();
+              }}
+            >
+              Logout
+            </NavDropdown.Item>
+          </NavDropdown>
+        )}
       </div>
     </Container>
   );

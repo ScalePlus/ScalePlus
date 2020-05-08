@@ -20,8 +20,22 @@ export const Container = styled.div`
   }
 
   .action-container {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.rockwell_regular};
-    font-size: ${theme.fontSize.mediumSmall};
+    cursor: pointer;
+    a {
+      color: ${theme.colors.black};
+      font-family: ${theme.fontFamily.rockwell_regular};
+      font-size: ${theme.fontSize.mediumSmall};
+    }
+    .nav-link {
+      padding: 0;
+    }
+    .dropdown-item {
+      color: ${theme.colors.black};
+      font-family: ${theme.fontFamily.rockwell_regular};
+      font-size: ${theme.fontSize.regular};
+    }
+    .dropdown-toggle::after {
+      display: none;
+    }
   }
 `;

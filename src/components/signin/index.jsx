@@ -1,20 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { signinAction } from "./action";
 import { Title, Input, PassInput, PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
-const SignIn = ({ history }) => {
+const SignIn = () => {
+  const dispatch = useDispatch();
+  const signinMethod = (data) => dispatch(signinAction(data));
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
   const [showPass, changeToggle] = useState(false);
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
 
+  useEffect(() => {
+    const { error } = signinReducer;
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i++) {
+        toast.error(error[i], { position: "bottom-right" });
+      }
+    } else if (typeof error === "string") {
+      toast.error(error, { position: "bottom-right" });
+    }
+  }, [signinReducer]);
+
   const onLogin = () => {
-    if (localStorage.getItem("userRole")) {
-      history.push("/organization/detail");
+    if (email && password && !signinReducer.loading) {
+      signinMethod({
+        email: email,
+        password: password,
+      });
     } else {
-      toast.error("Invalid Credentials", { position: "bottom-right" });
+      toast.error("Something went wrong", { position: "bottom-right" });
     }
   };
 
@@ -68,6 +89,7 @@ const SignIn = ({ history }) => {
               <PrimaryButton
                 text={"Login"}
                 onClick={() => onLogin()}
+                disabled={signinReducer.loading}
               ></PrimaryButton>
             </Col>
           </Row>

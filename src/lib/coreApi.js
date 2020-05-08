@@ -15,7 +15,12 @@ export default {
           "Content-type": "application/json",
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 401) {
+            localStorage.clear();
+          }
+          return response.json();
+        })
         .then((responseText) => {
           resolve(responseText);
         })
@@ -36,7 +41,12 @@ export default {
           "Content-type": "application/json",
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 401) {
+            localStorage.clear();
+          }
+          return response.json();
+        })
         .then((responseText) => {
           resolve(responseText);
         })
@@ -57,7 +67,41 @@ export default {
           "Content-type": "application/json",
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 401) {
+            localStorage.clear();
+          }
+          return response.json();
+        })
+        .then((responseText) => {
+          resolve(responseText);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    }),
+
+  FILE_UPLOAD: (link, file) =>
+    new Promise((resolve, reject) => {
+      const token = localStorage.getItem("token");
+      const url = domainUrl + link;
+      let data = new FormData();
+
+      data.append("file", file);
+
+      fetch(url, {
+        body: data,
+        method: "PUT",
+        headers: {
+          Authorization: token ? `jwt ${token}` : "",
+        },
+      })
+        .then((response) => {
+          if (response.status === 401) {
+            localStorage.clear();
+          }
+          return response.json();
+        })
         .then((responseText) => {
           resolve(responseText);
         })

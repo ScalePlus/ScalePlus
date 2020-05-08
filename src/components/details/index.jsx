@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { updateDetailsAction, uploadLogoAction } from "./action";
+import { getLoggedInUserAction } from "../signin/action";
 import { MainContainer } from "./style";
 import {
   Title,
@@ -10,16 +15,130 @@ import {
   PrimaryButton,
 } from "../common";
 import { Constants } from "../../lib/constant";
+import ConfirmationModal from "./confirmationModal";
 
-const OrganizationDetails = ({ history }) => {
-  const [checkSwitch, switchToggle] = useState(false);
-  const [selectedLogo, selectLogo] = useState();
+const OrganizationDetails = () => {
+  const dispatch = useDispatch();
+  const updateDetailsMethod = (data) => dispatch(updateDetailsAction(data));
+  const uploadLogoMethod = (file) => dispatch(uploadLogoAction(file));
+  const getLoggedInUserMethod = useCallback(
+    () => dispatch(getLoggedInUserAction()),
+    [dispatch]
+  );
+  const updateDetailsReducer = useSelector((state) => {
+    return state.updateDetailsReducer;
+  });
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
+
   const isStartUp_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
     isOrganisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     isMentor_Judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+
+  const [roleSwitch, switchToggle] = useState(false);
+  const [logo, changeLogo] = useState("");
+  const [name, changeName] = useState("");
+  const [mobile, changeMobile] = useState("");
+  const [website, changeWebsite] = useState("");
+  const [location, changeLocation] = useState("");
+  const [birthDate, changeBirthDate] = useState("");
+  const [incorporationDate, changeIncorporationDate] = useState("");
+  const [showModal, changeShowModal] = useState(false);
+
+  useEffect(() => {
+    getLoggedInUserMethod();
+  }, [getLoggedInUserMethod]);
+
+  useEffect(() => {
+    const { userData } = signinReducer;
+    if (userData && userData.details) {
+      const {
+        name,
+        logo,
+        mobile,
+        website,
+        locationData,
+        birthDate,
+        incorporationDate,
+        isIndividual,
+      } = userData.details;
+      changeName(name);
+      changeLogo(logo);
+      changeMobile(mobile);
+      changeWebsite(website);
+      changeLocation(locationData);
+      changeBirthDate(moment(birthDate).format("YYYY-MM-DD"));
+      changeIncorporationDate(moment(incorporationDate).format("YYYY-MM-DD"));
+      switchToggle(isIndividual);
+    }
+  }, [signinReducer]);
+
+  useEffect(() => {
+    const { uploadedLogo } = updateDetailsReducer;
+    if (uploadedLogo) {
+      changeLogo(uploadedLogo);
+    }
+  }, [updateDetailsReducer]);
+
+  useEffect(() => {
+    const { error } = updateDetailsReducer;
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i++) {
+        toast.error(error[i], { position: "bottom-right" });
+      }
+    } else if (typeof error === "string") {
+      toast.error(error, { position: "bottom-right" });
+    }
+  }, [updateDetailsReducer]);
+
+  const onUpdateDetails = () => {
+    if (
+      (isStartUp_Individual || isOrganisation) &&
+      name &&
+      logo &&
+      website &&
+      location &&
+      incorporationDate &&
+      !updateDetailsReducer.loading
+    ) {
+      if (logo.name) {
+        changeShowModal(true);
+      } else {
+        updateDetailsMethod({
+          name,
+          logo,
+          website,
+          locationData: location,
+          incorporationDate: new Date(incorporationDate),
+          isStartUp: !roleSwitch,
+          isIndividual: roleSwitch,
+        });
+      }
+    } else if (
+      isMentor_Judge &&
+      name &&
+      mobile &&
+      website &&
+      location &&
+      birthDate &&
+      !updateDetailsReducer.loading
+    ) {
+      updateDetailsMethod({
+        name,
+        mobile,
+        website,
+        locationData: location,
+        birthDate: new Date(birthDate),
+      });
+    } else {
+      toast.error("Something went wrong", { position: "bottom-right" });
+    }
+  };
+
   return (
     <MainContainer>
       <Row className="justify-content-center">
@@ -44,18 +163,18 @@ const OrganizationDetails = ({ history }) => {
             <Row>
               <Col>
                 <div className="switch-container">
-                  <div className={`startup-text ${!checkSwitch && "active"}`}>
+                  <div className={`startup-text ${!roleSwitch && "active"}`}>
                     <span>Startup</span>
                   </div>
                   <div>
                     <Switch
-                      checked={checkSwitch}
+                      checked={roleSwitch}
                       onChange={(e) => {
-                        switchToggle(!checkSwitch);
+                        switchToggle(!roleSwitch);
                       }}
                     ></Switch>
                   </div>
-                  <div className={`individual-text ${checkSwitch && "active"}`}>
+                  <div className={`individual-text ${roleSwitch && "active"}`}>
                     <span>Individual</span>
                   </div>
                 </div>
@@ -74,26 +193,90 @@ const OrganizationDetails = ({ history }) => {
           <Row className="form-container">
             <Col>
               {isStartUp_Individual || isOrganisation ? (
-                <Form>
-                  <Input type="text" placeholder="Organization Name"></Input>
+                <Form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    onUpdateDetails();
+                  }}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Organization Name"
+                    value={name}
+                    onChange={(e) => changeName(e.target.value)}
+                  ></Input>
                   <FileInput
                     placeholder="Logo"
-                    value={selectedLogo}
+                    value={logo}
                     onChange={(e) => {
-                      selectLogo(e.target.files[0]);
+                      changeLogo(e.target.files[0]);
+                    }}
+                    onUpload={() => {
+                      uploadLogoMethod(logo);
                     }}
                   ></FileInput>
-                  <Input type="text" placeholder="Website"></Input>
-                  <Input type="text" placeholder="Location"></Input>
-                  <Input type="text" placeholder="Incorporation Date"></Input>
+                  <Input
+                    type="text"
+                    placeholder="Website"
+                    value={website}
+                    onChange={(e) => changeWebsite(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="text"
+                    placeholder="Location"
+                    value={location}
+                    onChange={(e) => changeLocation(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="date"
+                    placeholder="Incorporation Date"
+                    value={incorporationDate}
+                    onChange={(e) => {
+                      changeIncorporationDate(e.target.value);
+                    }}
+                  ></Input>
+                  <input type="submit" style={{ display: "none" }}></input>
                 </Form>
               ) : isMentor_Judge ? (
-                <Form>
-                  <Input type="text" placeholder="Full Name"></Input>
-                  <Input type="number" placeholder="Mobile Number"></Input>
-                  <Input type="text" placeholder="Website of Linkedin"></Input>
-                  <Input type="text" placeholder="Location"></Input>
-                  <Input type="text" placeholder="Birth Date"></Input>
+                <Form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    onUpdateDetails();
+                  }}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => changeName(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="number"
+                    placeholder="Mobile Number"
+                    value={mobile}
+                    onChange={(e) => changeMobile(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="text"
+                    placeholder="Website of Linkedin"
+                    value={website}
+                    onChange={(e) => changeWebsite(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="text"
+                    placeholder="Location"
+                    value={location}
+                    onChange={(e) => changeLocation(e.target.value)}
+                  ></Input>
+                  <Input
+                    type="date"
+                    placeholder="Birth Date"
+                    value={birthDate}
+                    onChange={(e) => {
+                      changeBirthDate(e.target.value);
+                    }}
+                  ></Input>
+                  <input type="submit" style={{ display: "none" }}></input>
                 </Form>
               ) : (
                 ""
@@ -106,13 +289,35 @@ const OrganizationDetails = ({ history }) => {
               <PrimaryButton
                 text={"Business Tags"}
                 onClick={() => {
-                  history.push("/business/tags");
+                  onUpdateDetails();
                 }}
+                disabled={updateDetailsReducer.loading}
               ></PrimaryButton>
             </Col>
           </Row>
         </Col>
       </Row>
+
+      <ConfirmationModal
+        show={showModal}
+        handleClose={() => {
+          changeShowModal(false);
+        }}
+        handleNewUpload={() => {
+          uploadLogoMethod(logo);
+          changeShowModal(false);
+        }}
+        handleContinueOld={() => {
+          changeLogo(
+            signinReducer.userData &&
+              signinReducer.userData.details &&
+              signinReducer.userData.details.logo
+              ? signinReducer.userData.details.logo
+              : ""
+          );
+          changeShowModal(false);
+        }}
+      />
     </MainContainer>
   );
 };

@@ -1,73 +1,122 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { updateEssentialDetailsAction } from "./action";
+import { getLoggedInUserAction } from "../signin/action";
 import { MainContainer } from "./style";
 import { Title, TextArea, PrimaryButton, BackButton, Tab } from "../common";
 import { Constants } from "../../lib/constant";
+const coreBusinessTabs = ["Software", "Physical Products", "Consulting"],
+  marketStageTabs = ["Idea", "Prototype", "Ready For Market"],
+  fundingTabs = ["Consulting", "Ext. Investment", "Revenue"];
+const isStartUp_Individual =
+    localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+  isOrganisation =
+    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+  isMentor_Judge =
+    localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
 const EssentialDetail = ({ history }) => {
+  const dispatch = useDispatch();
+  const updateEssentialDetailsMethod = (data) =>
+    dispatch(updateEssentialDetailsAction(data));
+  const getLoggedInUserMethod = useCallback(
+    () => dispatch(getLoggedInUserAction()),
+    [dispatch]
+  );
+  const updateEssentialDetailsReducer = useSelector((state) => {
+    return state.updateEssentialDetailsReducer;
+  });
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [coreBusinessTabs, selectCoreBusinessTab] = useState([
-    {
-      id: 1,
-      text: "Software",
-      isActive: true,
-    },
-    {
-      id: 2,
-      text: "Physical Products",
-      isActive: false,
-    },
-    {
-      id: 3,
-      text: "Consulting",
-      isActive: false,
-    },
-  ]);
-  const [marketStageTabs, selectMarketStageTab] = useState([
-    {
-      id: 1,
-      text: "Idea",
-      isActive: true,
-    },
-    {
-      id: 2,
-      text: "Prototype",
-      isActive: false,
-    },
-    {
-      id: 3,
-      text: "Ready For Market",
-      isActive: false,
-    },
-    {
-      id: 4,
-      text: "Product Released",
-      isActive: false,
-    },
-  ]);
-  const [fundingTabs, selectFundingTab] = useState([
-    {
-      id: 1,
-      text: "Consulting",
-      isActive: true,
-    },
-    {
-      id: 2,
-      text: "Ext. Investment",
-      isActive: false,
-    },
-    {
-      id: 3,
-      text: "Revenue",
-      isActive: false,
-    },
-  ]);
-  const isStartUp_Individual =
-      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-    isOrganisation =
-      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isMentor_Judge =
-      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+  const [coreBusiness, selectCoreBusiness] = useState(coreBusinessTabs[0]);
+  const [marketStage, selectMarketStage] = useState(marketStageTabs[0]);
+  const [funding, selectFunding] = useState(fundingTabs[0]);
+
+  useEffect(() => {
+    getLoggedInUserMethod();
+  }, [getLoggedInUserMethod]);
+
+  useEffect(() => {
+    const { userData } = signinReducer;
+    if (userData && userData.essentialDetails) {
+      const {
+        companyDesciption,
+        summary,
+        coreBusiness,
+        marketStage,
+        expertise,
+        funding,
+      } = userData.essentialDetails;
+      if ((isStartUp_Individual || isOrganisation) && companyDesciption) {
+        setTextAreaValue(companyDesciption);
+      }
+      if (isMentor_Judge && summary) {
+        setTextAreaValue(summary);
+      }
+      if (coreBusiness) {
+        selectCoreBusiness(coreBusiness);
+      }
+
+      if ((isStartUp_Individual || isOrganisation) && funding) {
+        selectFunding(funding);
+      }
+
+      if ((isStartUp_Individual || isOrganisation) && marketStage) {
+        selectMarketStage(marketStage);
+      }
+
+      if (isMentor_Judge && expertise) {
+        selectMarketStage(expertise);
+      }
+    }
+  }, [signinReducer]);
+
+  useEffect(() => {
+    const { error } = updateEssentialDetailsReducer;
+    if (Array.isArray(error)) {
+      for (let i = 0; i < error.length; i++) {
+        toast.error(error[i], { position: "bottom-right" });
+      }
+    } else if (typeof error === "string") {
+      toast.error(error, { position: "bottom-right" });
+    }
+  }, [updateEssentialDetailsReducer]);
+
+  const onUpdateEssentialDetails = () => {
+    if (
+      (isStartUp_Individual || isOrganisation) &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage &&
+      funding &&
+      !updateEssentialDetailsReducer.loading
+    ) {
+      updateEssentialDetailsMethod({
+        companyDesciption: textAreaValue,
+        coreBusiness,
+        marketStage,
+        funding,
+      });
+    } else if (
+      isMentor_Judge &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage &&
+      !updateEssentialDetailsReducer.loading
+    ) {
+      updateEssentialDetailsMethod({
+        summary: textAreaValue,
+        coreBusiness,
+        expertise: marketStage,
+      });
+    } else {
+      toast.error("Something went wrong", { position: "bottom-right" });
+    }
+  };
 
   return (
     <MainContainer>
@@ -106,37 +155,26 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
           <Row className="tab-container">
-            {coreBusinessTabs.map((each) => {
+            {coreBusinessTabs.map((each, index) => {
               return (
                 <Col
-                  key={each.id}
+                  key={index}
                   lg={4}
                   md={6}
                   sm={6}
                   xs={12}
                   onClick={() => {
-                    selectCoreBusinessTab(
-                      coreBusinessTabs.map((record) => {
-                        if (record.id === each.id) {
-                          record.isActive = true;
-                          return record;
-                        } else {
-                          record.isActive = false;
-                          return record;
-                        }
-                      })
-                    );
+                    selectCoreBusiness(each);
                   }}
                 >
                   <div
                     className={
-                      each.id !==
-                      coreBusinessTabs[coreBusinessTabs.length - 1].id
+                      each !== coreBusinessTabs[coreBusinessTabs.length - 1]
                         ? "outer-tab-container"
                         : ""
                     }
                   >
-                    <Tab text={each.text} isActive={each.isActive} />
+                    <Tab text={each} isActive={each === coreBusiness} />
                   </div>
                 </Col>
               );
@@ -155,36 +193,26 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
           <Row className="tab-container">
-            {marketStageTabs.map((each) => {
+            {marketStageTabs.map((each, index) => {
               return (
                 <Col
-                  key={each.id}
+                  key={index}
                   lg={3}
                   md={6}
                   sm={6}
                   xs={12}
                   onClick={() => {
-                    selectMarketStageTab(
-                      marketStageTabs.map((record) => {
-                        if (record.id === each.id) {
-                          record.isActive = true;
-                          return record;
-                        } else {
-                          record.isActive = false;
-                          return record;
-                        }
-                      })
-                    );
+                    selectMarketStage(each);
                   }}
                 >
                   <div
                     className={
-                      each.id !== marketStageTabs[marketStageTabs.length - 1].id
+                      each !== marketStageTabs[marketStageTabs.length - 1]
                         ? "outer-tab-container"
                         : ""
                     }
                   >
-                    <Tab text={each.text} isActive={each.isActive} />
+                    <Tab text={each} isActive={each === marketStage} />
                   </div>
                 </Col>
               );
@@ -199,36 +227,26 @@ const EssentialDetail = ({ history }) => {
                 </Col>
               </Row>
               <Row className="tab-container">
-                {fundingTabs.map((each) => {
+                {fundingTabs.map((each, index) => {
                   return (
                     <Col
-                      key={each.id}
+                      key={index}
                       lg={4}
                       md={6}
                       sm={6}
                       xs={12}
                       onClick={() => {
-                        selectFundingTab(
-                          fundingTabs.map((record) => {
-                            if (record.id === each.id) {
-                              record.isActive = true;
-                              return record;
-                            } else {
-                              record.isActive = false;
-                              return record;
-                            }
-                          })
-                        );
+                        selectFunding(each);
                       }}
                     >
                       <div
                         className={
-                          each.id !== fundingTabs[fundingTabs.length - 1].id
+                          each !== fundingTabs[fundingTabs.length - 1]
                             ? "outer-tab-container"
                             : ""
                         }
                       >
-                        <Tab text={each.text} isActive={each.isActive} />
+                        <Tab text={each} isActive={each === funding} />
                       </div>
                     </Col>
                   );
@@ -257,9 +275,9 @@ const EssentialDetail = ({ history }) => {
                     ? "Join"
                     : ""
                 }
+                disabled={updateEssentialDetailsReducer.loading}
                 onClick={() => {
-                  localStorage.clear();
-                  history.push("/");
+                  onUpdateEssentialDetails();
                 }}
               ></PrimaryButton>
             </Col>

@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import theme from "../theme";
 
 export const GlobalStyle = createGlobalStyle`
-.main-layout {
+.main-layout,.modal-content {
   font-family: ${theme.fontFamily.regular};
 }
 
@@ -22,6 +22,13 @@ export const GlobalStyle = createGlobalStyle`
   color: ${theme.colors.gray};
   border: 1px solid ${theme.colors.border_gray};
   box-shadow: none;
+}
+
+#verifyModal .modal-footer {
+  justify-content: space-around !important;
+  .button-text,.icon-container {
+    font-size: ${theme.fontSize.regular};
+  }
 }
 
 .form-control[readonly]{
