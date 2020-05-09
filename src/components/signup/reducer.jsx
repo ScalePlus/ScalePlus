@@ -4,28 +4,28 @@ import { SIGNUP_LOADING, SIGNUP_SUCCESS, SIGNUP_ERROR } from "./types";
 let initialState = {
   loading: false,
   error: null,
-  data: null,
+  success: null,
 };
 
 export const signupReducer = createReducer(initialState, {
   [SIGNUP_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      data: null,
+      success: null,
       error: null,
     });
   },
   [SIGNUP_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: action.payload,
+      success: action.payload,
       error: null,
     });
   },
   [SIGNUP_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: null,
+      success: null,
       error: action.payload,
     });
   },

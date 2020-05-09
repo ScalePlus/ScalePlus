@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import CreatableSelect from "react-select/creatable";
 import {
   TitleContainer,
@@ -7,6 +7,7 @@ import {
   ButtonContainer,
   BackButtonContainer,
   TabContainer,
+  LoadingContainer,
 } from "./style";
 import theme from "../../theme";
 
@@ -202,9 +203,9 @@ function Switch({ checked, onChange }) {
   );
 }
 
-function PrimaryButton({ text, onClick, disabled }) {
+function PrimaryButton({ text, onClick, disabled, type }) {
   return (
-    <ButtonContainer onClick={onClick} disabled={disabled}>
+    <ButtonContainer onClick={onClick} disabled={disabled} type={type}>
       <span className="button-text">{text}</span>
       <span className="icon-container">></span>
     </ButtonContainer>
@@ -236,6 +237,14 @@ function Tab({ text, subText, isActive }) {
   );
 }
 
+function Loading() {
+  return (
+    <LoadingContainer>
+      <Spinner animation="border" />
+    </LoadingContainer>
+  );
+}
+
 export {
   Title,
   Description,
@@ -248,4 +257,5 @@ export {
   PrimaryButton,
   BackButton,
   Tab,
+  Loading,
 };

@@ -21,6 +21,7 @@ export const DescriptionContainer = styled.span`
 export const ButtonContainer = styled.button`
   text-align: center;
   border: none;
+  background: none;
   :focus {
     outline: 0;
   }
@@ -76,5 +77,23 @@ export const TabContainer = styled.div`
       font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
     }
+  }
+`;
+
+export const LoadingContainer = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: ${theme.colors.lightGray};
+  .spinner-border {
+    width: 4rem;
+    height: 4rem;
   }
 `;

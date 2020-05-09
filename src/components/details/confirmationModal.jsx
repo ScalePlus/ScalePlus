@@ -17,10 +17,15 @@ const ConfirmationModal = ({
         Do you want to upload new selected logo or continue with old logo ?
       </Modal.Body>
       <Modal.Footer>
-        <PrimaryButton onClick={handleNewUpload} text={"Upload New"} />
+        <PrimaryButton
+          onClick={handleNewUpload}
+          text={"Upload New"}
+          type="button"
+        />
         <PrimaryButton
           onClick={handleContinueOld}
           text={"Continue using Old"}
+          type="button"
         />
       </Modal.Footer>
     </Modal>

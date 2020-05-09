@@ -5,7 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { signupAction } from "./action";
 import { MainContainer } from "./style";
-import { Title, Description, Input, PrimaryButton, Tab } from "../common";
+import {
+  Title,
+  Description,
+  Input,
+  PassInput,
+  PrimaryButton,
+  Tab,
+  Loading,
+} from "../common";
 import { Constants } from "../../lib/constant";
 
 const SignUp = ({ history }) => {
@@ -17,7 +25,7 @@ const SignUp = ({ history }) => {
   const [tabs, selectTab] = useState([
     {
       id: 1,
-      text: "Startup or Individual",
+      text: Constants.ROLES.STARTUP_INDIVIDUAL,
       subText: "Create Solutions",
       isActive:
         localStorage.getItem("userRole") ===
@@ -28,7 +36,7 @@ const SignUp = ({ history }) => {
     },
     {
       id: 2,
-      text: "Organization",
+      text: Constants.ROLES.ORGANIZATION,
       subText: "Face Challenges",
       isActive:
         localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION
@@ -37,7 +45,7 @@ const SignUp = ({ history }) => {
     },
     {
       id: 3,
-      text: "Mentor / Judge",
+      text: Constants.ROLES.MENTOR_JUDGE,
       subText: "Bring Experience",
       isActive:
         localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE
@@ -45,6 +53,7 @@ const SignUp = ({ history }) => {
           : false,
     },
   ]);
+  const [showPass, changeToggle] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -65,15 +74,25 @@ const SignUp = ({ history }) => {
     }
   }, [signupReducer]);
 
-  const onSignup = () => {
-    if (email && password && !signupReducer.loading) {
+  const onSignup = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!email) {
+      toast.error(Constants.Errors.email, { position: "bottom-right" });
+    }
+    if (!password) {
+      toast.error(Constants.Errors.password, { position: "bottom-right" });
+    }
+    if (!localStorage.getItem("userRole")) {
+      toast.error(Constants.Errors.role, { position: "bottom-right" });
+    }
+
+    if (email && password && localStorage.getItem("userRole")) {
       signupMethod({
         email: email,
         password: password,
         role: localStorage.getItem("userRole"),
       });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
     }
   };
 
@@ -134,15 +153,9 @@ const SignUp = ({ history }) => {
               );
             })}
           </Row>
-
-          <Row className="form-container">
-            <Col>
-              <Form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  onSignup();
-                }}
-              >
+          <Form onSubmit={onSignup}>
+            <Row className="form-container">
+              <Col>
                 <Input
                   type="email"
                   placeholder="Enter email"
@@ -151,30 +164,30 @@ const SignUp = ({ history }) => {
                     setEmail(e.target.value);
                   }}
                 ></Input>
-                <Input
-                  type="password"
+                <PassInput
+                  showPass={showPass}
                   placeholder="Password"
+                  iconClick={(e) => {
+                    e.preventDefault();
+                    changeToggle(!showPass);
+                  }}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                ></Input>
-                <input type="submit" style={{ display: "none" }}></input>
-              </Form>
-            </Col>
-          </Row>
+                ></PassInput>
+              </Col>
+            </Row>
 
-          <Row className="button-container">
-            <Col>
-              <PrimaryButton
-                text={"Email Verification"}
-                onClick={() => {
-                  onSignup();
-                }}
-                disabled={signupReducer.loading}
-              ></PrimaryButton>
-            </Col>
-          </Row>
+            <Row className="button-container">
+              <Col>
+                <PrimaryButton
+                  text={"Email Verification"}
+                  type="submit"
+                ></PrimaryButton>
+              </Col>
+            </Row>
+          </Form>
 
           <Row className="bottom-container">
             <Col>
@@ -186,6 +199,7 @@ const SignUp = ({ history }) => {
           </Row>
         </Col>
       </Row>
+      {signupReducer.loading && <Loading />}
     </MainContainer>
   );
 };

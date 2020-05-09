@@ -18,9 +18,62 @@ export const GlobalStyle = createGlobalStyle`
   font-size: ${theme.fontSize.regular};
 }
 
+.custom-date-picker{
+  height: 70px;
+  width: 100%;
+}
+
+.react-calendar__tile--active{
+  background-color: ${theme.colors.yellow} !important;
+}
+.react-calendar__tile--now{
+  background-color: #e6e6e6;
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus{
+  background-color: ${theme.colors.yellow} !important;
+}
+
+.react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus{
+  background-color: #e6e6e6;
+}
+
+.custom-date-picker .react-date-picker__wrapper{
+  text-align: left;
+  padding: 20px;
+  border: 1px solid ${theme.colors.border_gray};
+  border-radius: 6px;
+  background-color: ${theme.colors.white};
+  color: ${theme.colors.gray};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
+}
+
+.custom-date-picker .react-date-picker__wrapper input{
+  color: ${theme.colors.gray};
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+
+.custom-date-picker .react-date-picker__wrapper button{
+  display: none;
+}
+
 .form-control:focus{
   color: ${theme.colors.gray};
   border: 1px solid ${theme.colors.border_gray};
+  box-shadow: none;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid{
+  background-image:none;
+}
+
+.form-control.is-valid, .was-validated .form-control:valid,.form-control.is-valid:focus, .was-validated .form-control:valid:focus{
+  border-color: ${theme.colors.border_gray};
+  background-image:none;
   box-shadow: none;
 }
 

@@ -19,7 +19,7 @@ function* updateEssentialDetailsSaga(data) {
         type: UPDATE_ESSENTIAL_DETAILS_SUCCESS,
         payload: res.result,
       });
-      history.push(`/`);
+      history.push(`/detail`);
     }
   } catch (error) {
     yield put({ type: UPDATE_ESSENTIAL_DETAILS_ERROR, payload: error.message });

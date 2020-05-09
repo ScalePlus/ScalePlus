@@ -11,7 +11,7 @@ import {
 let initialState = {
   loading: false,
   error: null,
-  data: null,
+  success: null,
   userData: null,
 };
 
@@ -19,21 +19,21 @@ export const signinReducer = createReducer(initialState, {
   [SIGNIN_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      data: null,
+      success: null,
       error: null,
     });
   },
   [SIGNIN_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: action.payload,
+      success: action.payload,
       error: null,
     });
   },
   [SIGNIN_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: null,
+      success: null,
       error: action.payload,
     });
   },

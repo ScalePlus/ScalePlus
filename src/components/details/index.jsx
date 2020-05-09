@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import moment from "moment";
+import DatePicker from "react-date-picker";
 import { updateDetailsAction, uploadLogoAction } from "./action";
 import { getLoggedInUserAction } from "../signin/action";
 import { MainContainer } from "./style";
@@ -13,9 +13,13 @@ import {
   FileInput,
   Switch,
   PrimaryButton,
+  Loading,
 } from "../common";
 import { Constants } from "../../lib/constant";
 import ConfirmationModal from "./confirmationModal";
+const isURL = new RegExp(
+  "https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,}"
+);
 
 const OrganizationDetails = () => {
   const dispatch = useDispatch();
@@ -45,8 +49,8 @@ const OrganizationDetails = () => {
   const [mobile, changeMobile] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
-  const [birthDate, changeBirthDate] = useState("");
-  const [incorporationDate, changeIncorporationDate] = useState("");
+  const [birthDate, changeBirthDate] = useState(new Date());
+  const [incorporationDate, changeIncorporationDate] = useState(new Date());
   const [showModal, changeShowModal] = useState(false);
 
   useEffect(() => {
@@ -71,8 +75,8 @@ const OrganizationDetails = () => {
       changeMobile(mobile);
       changeWebsite(website);
       changeLocation(locationData);
-      changeBirthDate(moment(birthDate).format("YYYY-MM-DD"));
-      changeIncorporationDate(moment(incorporationDate).format("YYYY-MM-DD"));
+      changeBirthDate(new Date(birthDate));
+      changeIncorporationDate(new Date(incorporationDate));
       switchToggle(isIndividual);
     }
   }, [signinReducer]);
@@ -95,47 +99,84 @@ const OrganizationDetails = () => {
     }
   }, [updateDetailsReducer]);
 
-  const onUpdateDetails = () => {
-    if (
-      (isStartUp_Individual || isOrganisation) &&
-      name &&
-      logo &&
-      website &&
-      location &&
-      incorporationDate &&
-      !updateDetailsReducer.loading
-    ) {
-      if (logo.name) {
-        changeShowModal(true);
-      } else {
-        updateDetailsMethod({
-          name,
-          logo,
-          website,
-          locationData: location,
-          incorporationDate: new Date(incorporationDate),
-          isStartUp: !roleSwitch,
-          isIndividual: roleSwitch,
+  const onUpdateDetails = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isStartUp_Individual || isOrganisation) {
+      if (!name) {
+        toast.error(Constants.Errors.name, { position: "bottom-right" });
+      }
+      if (!logo) {
+        toast.error(Constants.Errors.logo, { position: "bottom-right" });
+      }
+      if (!website || (website && !isURL.test(website))) {
+        toast.error(Constants.Errors.website, { position: "bottom-right" });
+      }
+      if (!location) {
+        toast.error(Constants.Errors.location, { position: "bottom-right" });
+      }
+      if (!incorporationDate) {
+        toast.error(Constants.Errors.incorporationDate, {
+          position: "bottom-right",
         });
       }
-    } else if (
-      isMentor_Judge &&
-      name &&
-      mobile &&
-      website &&
-      location &&
-      birthDate &&
-      !updateDetailsReducer.loading
-    ) {
-      updateDetailsMethod({
-        name,
-        mobile,
-        website,
-        locationData: location,
-        birthDate: new Date(birthDate),
-      });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
+      if (
+        name &&
+        logo &&
+        website &&
+        isURL.test(website) &&
+        location &&
+        incorporationDate
+      ) {
+        if (logo.name) {
+          changeShowModal(true);
+        } else {
+          updateDetailsMethod({
+            name,
+            logo,
+            website,
+            locationData: location,
+            incorporationDate,
+            isStartUp: !roleSwitch,
+            isIndividual: roleSwitch,
+          });
+        }
+      }
+    }
+    if (isMentor_Judge) {
+      if (!name) {
+        toast.error(Constants.Errors.name, { position: "bottom-right" });
+      }
+      if (!mobile) {
+        toast.error(Constants.Errors.mobile, { position: "bottom-right" });
+      }
+      if (!website || (website && !isURL.test(website))) {
+        toast.error(Constants.Errors.website, { position: "bottom-right" });
+      }
+      if (!location) {
+        toast.error(Constants.Errors.location, { position: "bottom-right" });
+      }
+      if (!birthDate) {
+        toast.error(Constants.Errors.birthDate, {
+          position: "bottom-right",
+        });
+      }
+      if (
+        name &&
+        mobile &&
+        website &&
+        isURL.test(website) &&
+        location &&
+        birthDate
+      ) {
+        updateDetailsMethod({
+          name,
+          mobile,
+          website,
+          locationData: location,
+          birthDate,
+        });
+      }
     }
   };
 
@@ -189,16 +230,10 @@ const OrganizationDetails = () => {
               </Description>
             </Col>
           </Row>
-
-          <Row className="form-container">
-            <Col>
+          <Form onSubmit={onUpdateDetails}>
+            <Row className="form-container">
               {isStartUp_Individual || isOrganisation ? (
-                <Form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    onUpdateDetails();
-                  }}
-                >
+                <Col>
                   <Input
                     type="text"
                     placeholder="Organization Name"
@@ -227,23 +262,18 @@ const OrganizationDetails = () => {
                     value={location}
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
-                  <Input
-                    type="date"
-                    placeholder="Incorporation Date"
-                    value={incorporationDate}
-                    onChange={(e) => {
-                      changeIncorporationDate(e.target.value);
+                  <DatePicker
+                    className="custom-date-picker"
+                    format="dd/MM/y"
+                    clearIcon={null}
+                    onChange={(date) => {
+                      changeIncorporationDate(date);
                     }}
-                  ></Input>
-                  <input type="submit" style={{ display: "none" }}></input>
-                </Form>
+                    value={incorporationDate}
+                  />
+                </Col>
               ) : isMentor_Judge ? (
-                <Form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    onUpdateDetails();
-                  }}
-                >
+                <Col>
                   <Input
                     type="text"
                     placeholder="Full Name"
@@ -268,36 +298,31 @@ const OrganizationDetails = () => {
                     value={location}
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
-                  <Input
-                    type="date"
-                    placeholder="Birth Date"
-                    value={birthDate}
-                    onChange={(e) => {
-                      changeBirthDate(e.target.value);
+                  <DatePicker
+                    className="custom-date-picker"
+                    format="dd/MM/y"
+                    clearIcon={null}
+                    onChange={(date) => {
+                      changeBirthDate(date);
                     }}
-                  ></Input>
-                  <input type="submit" style={{ display: "none" }}></input>
-                </Form>
-              ) : (
-                ""
-              )}
-            </Col>
-          </Row>
+                    value={birthDate}
+                  />
+                </Col>
+              ) : null}
+            </Row>
 
-          <Row className="button-container">
-            <Col>
-              <PrimaryButton
-                text={"Business Tags"}
-                onClick={() => {
-                  onUpdateDetails();
-                }}
-                disabled={updateDetailsReducer.loading}
-              ></PrimaryButton>
-            </Col>
-          </Row>
+            <Row className="button-container">
+              <Col>
+                <PrimaryButton
+                  text={"Business Tags"}
+                  type="submit"
+                ></PrimaryButton>
+              </Col>
+            </Row>
+          </Form>
         </Col>
       </Row>
-
+      {updateDetailsReducer.loading && <Loading />}
       <ConfirmationModal
         show={showModal}
         handleClose={() => {

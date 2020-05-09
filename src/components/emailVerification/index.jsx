@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
 import { MainContainer } from "./style";
-import { Title, Input, PrimaryButton } from "../common";
+import { Title, Input, PrimaryButton, Loading } from "../common";
+import { Constants } from "../../lib/constant";
 
 const EmailVerification = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -33,21 +34,19 @@ const EmailVerification = ({ history, match }) => {
     }
   }, [emailVerificationReducer]);
 
-  const onVerify = () => {
-    if (
-      first &&
-      second &&
-      third &&
-      forth &&
-      match.params.id &&
-      !emailVerificationReducer.loading
-    ) {
+  const onVerify = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!first || !second || !third || !forth) {
+      toast.error(Constants.Errors.verificationCode, {
+        position: "bottom-right",
+      });
+    }
+    if (first && second && third && forth && match.params.id) {
       verifyEmailMethod({
         id: match.params.id,
         verificationCode: first + second + third + forth,
       });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
     }
   };
 
@@ -59,7 +58,7 @@ const EmailVerification = ({ history, match }) => {
             <Col>
               <Title
                 text={
-                  emailVerificationReducer.data
+                  emailVerificationReducer.success
                     ? localStorage.getItem("userRole") +
                       " " +
                       `Account Verified`
@@ -69,14 +68,8 @@ const EmailVerification = ({ history, match }) => {
             </Col>
           </Row>
 
-          {emailVerificationReducer.data ? null : (
-            <Form
-              id="verify-email-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                onVerify();
-              }}
-            >
+          <Form id="verify-email-form" onSubmit={onVerify}>
+            {emailVerificationReducer.success ? null : (
               <Row className="justify-content-center">
                 <Col lg={7} md={10} sm={10}>
                   <Row className="justify-content-center form-container">
@@ -123,61 +116,54 @@ const EmailVerification = ({ history, match }) => {
                   </Row>
                 </Col>
               </Row>
-              <input type="submit" style={{ display: "none" }}></input>
-            </Form>
-          )}
-
-          <Row
-            className={
-              emailVerificationReducer.data
-                ? "verified-description-container"
-                : "description-container"
-            }
-          >
-            {emailVerificationReducer.data ? (
-              <Col>
-                Thank you for verifying your email, you can login to manage your
-                account in order to be able to create challenges
-              </Col>
-            ) : (
-              <Col>
-                Please enter the verification code that was sent to your email
-                address. test@gmail.com
-                <span className="seprator">|</span>
-                <span
-                  className="resend-link"
-                  onClick={resendVerificationMethod}
-                >
-                  Resend Email
-                </span>
-              </Col>
             )}
-          </Row>
 
-          <Row className="button-container">
-            {emailVerificationReducer.data ? (
-              <Col>
-                <PrimaryButton
-                  text={"Login"}
-                  onClick={() => {
-                    history.push("/login");
-                  }}
-                />
-              </Col>
-            ) : (
-              <Col>
-                <PrimaryButton
-                  text={"Verify"}
-                  disabled={emailVerificationReducer.loading}
-                  onClick={() => {
-                    onVerify();
-                  }}
-                />
-              </Col>
-            )}
-          </Row>
+            <Row
+              className={
+                emailVerificationReducer.success
+                  ? "verified-description-container"
+                  : "description-container"
+              }
+            >
+              {emailVerificationReducer.success ? (
+                <Col>
+                  Thank you for verifying your email, you can login to manage
+                  your account in order to be able to create challenges
+                </Col>
+              ) : (
+                <Col>
+                  Please enter the verification code that was sent to your email
+                  address. test@gmail.com
+                  <span className="seprator">|</span>
+                  <span
+                    className="resend-link"
+                    onClick={resendVerificationMethod}
+                  >
+                    Resend Email
+                  </span>
+                </Col>
+              )}
+            </Row>
 
-          {emailVerificationReducer.data ? null : (
+            <Row className="button-container">
+              {emailVerificationReducer.success ? (
+                <Col>
+                  <PrimaryButton
+                    text={"Login"}
+                    onClick={() => {
+                      history.push("/login");
+                    }}
+                    type="button"
+                  />
+                </Col>
+              ) : (
+                <Col>
+                  <PrimaryButton text={"Verify"} type="submit" />
+                </Col>
+              )}
+            </Row>
+          </Form>
+          {emailVerificationReducer.success ? null : (
             <Row className="bottom-container">
               <Col>
                 Have an Account?{" "}
@@ -189,6 +175,7 @@ const EmailVerification = ({ history, match }) => {
           )}
         </Col>
       </Row>
+      {emailVerificationReducer.loading && <Loading />}
     </MainContainer>
   );
 };

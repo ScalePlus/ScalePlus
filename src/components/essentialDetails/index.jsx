@@ -5,17 +5,23 @@ import { toast } from "react-toastify";
 import { updateEssentialDetailsAction } from "./action";
 import { getLoggedInUserAction } from "../signin/action";
 import { MainContainer } from "./style";
-import { Title, TextArea, PrimaryButton, BackButton, Tab } from "../common";
+import {
+  Title,
+  TextArea,
+  PrimaryButton,
+  BackButton,
+  Tab,
+  Loading,
+} from "../common";
 import { Constants } from "../../lib/constant";
 const coreBusinessTabs = ["Software", "Physical Products", "Consulting"],
-  marketStageTabs = ["Idea", "Prototype", "Ready For Market"],
+  marketStageTabs = [
+    "Idea",
+    "Prototype",
+    "Ready For Market",
+    "Product Released",
+  ],
   fundingTabs = ["Consulting", "Ext. Investment", "Revenue"];
-const isStartUp_Individual =
-    localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-  isOrganisation =
-    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-  isMentor_Judge =
-    localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
 const EssentialDetail = ({ history }) => {
   const dispatch = useDispatch();
@@ -31,6 +37,13 @@ const EssentialDetail = ({ history }) => {
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
+
+  const isStartUp_Individual =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+    isOrganisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    isMentor_Judge =
+      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [textAreaValue, setTextAreaValue] = useState("");
   const [coreBusiness, selectCoreBusiness] = useState(coreBusinessTabs[0]);
   const [marketStage, selectMarketStage] = useState(marketStageTabs[0]);
@@ -73,7 +86,7 @@ const EssentialDetail = ({ history }) => {
         selectMarketStage(expertise);
       }
     }
-  }, [signinReducer]);
+  }, [signinReducer, isStartUp_Individual, isOrganisation, isMentor_Judge]);
 
   useEffect(() => {
     const { error } = updateEssentialDetailsReducer;
@@ -86,35 +99,63 @@ const EssentialDetail = ({ history }) => {
     }
   }, [updateEssentialDetailsReducer]);
 
-  const onUpdateEssentialDetails = () => {
-    if (
-      (isStartUp_Individual || isOrganisation) &&
-      textAreaValue &&
-      coreBusiness &&
-      marketStage &&
-      funding &&
-      !updateEssentialDetailsReducer.loading
-    ) {
-      updateEssentialDetailsMethod({
-        companyDesciption: textAreaValue,
-        coreBusiness,
-        marketStage,
-        funding,
-      });
-    } else if (
-      isMentor_Judge &&
-      textAreaValue &&
-      coreBusiness &&
-      marketStage &&
-      !updateEssentialDetailsReducer.loading
-    ) {
-      updateEssentialDetailsMethod({
-        summary: textAreaValue,
-        coreBusiness,
-        expertise: marketStage,
-      });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
+  const onUpdateEssentialDetails = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isStartUp_Individual || isOrganisation) {
+      if (!textAreaValue) {
+        toast.error(Constants.Errors.companyDesciption, {
+          position: "bottom-right",
+        });
+      }
+      if (!coreBusiness) {
+        toast.error(Constants.Errors.coreBusiness, {
+          position: "bottom-right",
+        });
+      }
+      if (!marketStage) {
+        toast.error(Constants.Errors.marketStage, {
+          position: "bottom-right",
+        });
+      }
+      if (!funding) {
+        toast.error(Constants.Errors.funding, {
+          position: "bottom-right",
+        });
+      }
+      if (textAreaValue && coreBusiness && marketStage && funding) {
+        updateEssentialDetailsMethod({
+          companyDesciption: textAreaValue,
+          coreBusiness,
+          marketStage,
+          funding,
+        });
+      }
+    }
+    if (isMentor_Judge) {
+      if (!textAreaValue) {
+        toast.error(Constants.Errors.summary, {
+          position: "bottom-right",
+        });
+      }
+      if (!coreBusiness) {
+        toast.error(Constants.Errors.coreBusiness, {
+          position: "bottom-right",
+        });
+      }
+      if (!marketStage) {
+        toast.error(Constants.Errors.expertise, {
+          position: "bottom-right",
+        });
+      }
+
+      if (textAreaValue && coreBusiness && marketStage) {
+        updateEssentialDetailsMethod({
+          summary: textAreaValue,
+          coreBusiness,
+          expertise: marketStage,
+        });
+      }
     }
   };
 
@@ -128,9 +169,9 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
 
-          <Row className="form-container">
-            <Col>
-              <Form>
+          <Form onSubmit={onUpdateEssentialDetails}>
+            <Row className="form-container">
+              <Col>
                 <TextArea
                   rows="12"
                   placeholder={
@@ -145,146 +186,144 @@ const EssentialDetail = ({ history }) => {
                     setTextAreaValue(e.target.value);
                   }}
                 />
-              </Form>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
 
-          <Row className="tab-title">
-            <Col>
-              <span>Core Business</span>
-            </Col>
-          </Row>
-          <Row className="tab-container">
-            {coreBusinessTabs.map((each, index) => {
-              return (
-                <Col
-                  key={index}
-                  lg={4}
-                  md={6}
-                  sm={6}
-                  xs={12}
-                  onClick={() => {
-                    selectCoreBusiness(each);
-                  }}
-                >
-                  <div
-                    className={
-                      each !== coreBusinessTabs[coreBusinessTabs.length - 1]
-                        ? "outer-tab-container"
-                        : ""
-                    }
+            <Row className="tab-title">
+              <Col>
+                <span>Core Business</span>
+              </Col>
+            </Row>
+            <Row className="tab-container">
+              {coreBusinessTabs.map((each, index) => {
+                return (
+                  <Col
+                    key={index}
+                    lg={4}
+                    md={6}
+                    sm={6}
+                    xs={12}
+                    onClick={() => {
+                      selectCoreBusiness(each);
+                    }}
                   >
-                    <Tab text={each} isActive={each === coreBusiness} />
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-
-          <Row className="tab-title">
-            <Col>
-              <span>
-                {isStartUp_Individual || isOrganisation
-                  ? "Market Stage"
-                  : isMentor_Judge
-                  ? "Expertise"
-                  : ""}
-              </span>
-            </Col>
-          </Row>
-          <Row className="tab-container">
-            {marketStageTabs.map((each, index) => {
-              return (
-                <Col
-                  key={index}
-                  lg={3}
-                  md={6}
-                  sm={6}
-                  xs={12}
-                  onClick={() => {
-                    selectMarketStage(each);
-                  }}
-                >
-                  <div
-                    className={
-                      each !== marketStageTabs[marketStageTabs.length - 1]
-                        ? "outer-tab-container"
-                        : ""
-                    }
-                  >
-                    <Tab text={each} isActive={each === marketStage} />
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-
-          {isStartUp_Individual || isOrganisation ? (
-            <>
-              <Row className="tab-title">
-                <Col>
-                  <span>Funding</span>
-                </Col>
-              </Row>
-              <Row className="tab-container">
-                {fundingTabs.map((each, index) => {
-                  return (
-                    <Col
-                      key={index}
-                      lg={4}
-                      md={6}
-                      sm={6}
-                      xs={12}
-                      onClick={() => {
-                        selectFunding(each);
-                      }}
+                    <div
+                      className={
+                        each !== coreBusinessTabs[coreBusinessTabs.length - 1]
+                          ? "outer-tab-container"
+                          : ""
+                      }
                     >
-                      <div
-                        className={
-                          each !== fundingTabs[fundingTabs.length - 1]
-                            ? "outer-tab-container"
-                            : ""
-                        }
-                      >
-                        <Tab text={each} isActive={each === funding} />
-                      </div>
-                    </Col>
-                  );
-                })}
-              </Row>
-            </>
-          ) : null}
+                      <Tab text={each} isActive={each === coreBusiness} />
+                    </div>
+                  </Col>
+                );
+              })}
+            </Row>
 
-          <Row className="button-container">
-            <Col lg={2} md={2} sm={2} xs={2}>
-              <BackButton
-                text={"Back"}
-                onClick={() => {
-                  history.goBack();
-                }}
-              ></BackButton>
-            </Col>
-            <Col lg={8} md={8} sm={8} xs={8}>
-              <PrimaryButton
-                text={
-                  isStartUp_Individual
-                    ? "Add Members"
-                    : isOrganisation
-                    ? "Create My Account"
+            <Row className="tab-title">
+              <Col>
+                <span>
+                  {isStartUp_Individual || isOrganisation
+                    ? "Market Stage"
                     : isMentor_Judge
-                    ? "Join"
-                    : ""
-                }
-                disabled={updateEssentialDetailsReducer.loading}
-                onClick={() => {
-                  onUpdateEssentialDetails();
-                }}
-              ></PrimaryButton>
-            </Col>
-            <Col lg={2} md={2} sm={2} xs={2} />
-          </Row>
+                    ? "Expertise"
+                    : ""}
+                </span>
+              </Col>
+            </Row>
+            <Row className="tab-container">
+              {marketStageTabs.map((each, index) => {
+                return (
+                  <Col
+                    key={index}
+                    lg={3}
+                    md={6}
+                    sm={6}
+                    xs={12}
+                    onClick={() => {
+                      selectMarketStage(each);
+                    }}
+                  >
+                    <div
+                      className={
+                        each !== marketStageTabs[marketStageTabs.length - 1]
+                          ? "outer-tab-container"
+                          : ""
+                      }
+                    >
+                      <Tab text={each} isActive={each === marketStage} />
+                    </div>
+                  </Col>
+                );
+              })}
+            </Row>
+
+            {isStartUp_Individual || isOrganisation ? (
+              <>
+                <Row className="tab-title">
+                  <Col>
+                    <span>Funding</span>
+                  </Col>
+                </Row>
+                <Row className="tab-container">
+                  {fundingTabs.map((each, index) => {
+                    return (
+                      <Col
+                        key={index}
+                        lg={4}
+                        md={6}
+                        sm={6}
+                        xs={12}
+                        onClick={() => {
+                          selectFunding(each);
+                        }}
+                      >
+                        <div
+                          className={
+                            each !== fundingTabs[fundingTabs.length - 1]
+                              ? "outer-tab-container"
+                              : ""
+                          }
+                        >
+                          <Tab text={each} isActive={each === funding} />
+                        </div>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </>
+            ) : null}
+
+            <Row className="button-container">
+              <Col lg={2} md={2} sm={2} xs={2}>
+                <BackButton
+                  text={"Back"}
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                ></BackButton>
+              </Col>
+              <Col lg={8} md={8} sm={8} xs={8}>
+                <PrimaryButton
+                  text={
+                    isStartUp_Individual
+                      ? "Add Members"
+                      : isOrganisation
+                      ? "Create My Account"
+                      : isMentor_Judge
+                      ? "Join"
+                      : ""
+                  }
+                  type="submit"
+                ></PrimaryButton>
+              </Col>
+              <Col lg={2} md={2} sm={2} xs={2} />
+            </Row>
+          </Form>
         </Col>
       </Row>
+      {updateEssentialDetailsReducer.loading && <Loading />}
     </MainContainer>
   );
 };

@@ -4,8 +4,9 @@ import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { signinAction } from "./action";
-import { Title, Input, PassInput, PrimaryButton } from "../common";
+import { Title, Input, PassInput, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
+import { Constants } from "../../lib/constant";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -28,14 +29,20 @@ const SignIn = () => {
     }
   }, [signinReducer]);
 
-  const onLogin = () => {
-    if (email && password && !signinReducer.loading) {
+  const onLogin = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!email) {
+      toast.error(Constants.Errors.email, { position: "bottom-right" });
+    }
+    if (!password) {
+      toast.error(Constants.Errors.password, { position: "bottom-right" });
+    }
+    if (email && password) {
       signinMethod({
         email: email,
         password: password,
       });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
     }
   };
 
@@ -48,15 +55,9 @@ const SignIn = () => {
               <Title text={"Login"}></Title>
             </Col>
           </Row>
-
-          <Row className="form-container">
-            <Col>
-              <Form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  onLogin();
-                }}
-              >
+          <Form onSubmit={onLogin}>
+            <Row className="form-container">
+              <Col>
                 <Input
                   type="email"
                   placeholder="Enter email"
@@ -79,31 +80,27 @@ const SignIn = () => {
                 />
 
                 <div className="reset-link">Reset Password</div>
-                <input type="submit" style={{ display: "none" }}></input>
-              </Form>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
 
-          <Row className="button-container">
-            <Col>
-              <PrimaryButton
-                text={"Login"}
-                onClick={() => onLogin()}
-                disabled={signinReducer.loading}
-              ></PrimaryButton>
-            </Col>
-          </Row>
+            <Row className="button-container">
+              <Col>
+                <PrimaryButton text={"Login"} type="submit"></PrimaryButton>
+              </Col>
+            </Row>
 
-          <Row className="bottom-container">
-            <Col>
-              Don't have an Account?{" "}
-              <Link to="/register" className="link">
-                Register
-              </Link>
-            </Col>
-          </Row>
+            <Row className="bottom-container">
+              <Col>
+                Don't have an Account?{" "}
+                <Link to="/register" className="link">
+                  Register
+                </Link>
+              </Col>
+            </Row>
+          </Form>
         </Col>
       </Row>
+      {signinReducer.loading && <Loading />}
     </MainContainer>
   );
 };

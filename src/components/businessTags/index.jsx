@@ -19,7 +19,9 @@ import {
   DropDown,
   PrimaryButton,
   BackButton,
+  Loading,
 } from "../common";
+import { Constants } from "../../lib/constant";
 
 const BusinessTags = ({ history }) => {
   const dispatch = useDispatch();
@@ -169,7 +171,44 @@ const BusinessTags = ({ history }) => {
     }
   }, [updateBusinessTagsReducer]);
 
-  const onUpdateBusinessTags = () => {
+  const onUpdateBusinessTags = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (
+      !selectedIndustries ||
+      (selectedIndustries && !selectedIndustries.length)
+    ) {
+      toast.error(Constants.Errors.industry, { position: "bottom-right" });
+    }
+    if (!selectedServices || (selectedServices && !selectedServices.length)) {
+      toast.error(Constants.Errors.service, { position: "bottom-right" });
+    }
+    if (
+      !selectedTechnologies ||
+      (selectedTechnologies && !selectedTechnologies.length)
+    ) {
+      toast.error(Constants.Errors.technology, { position: "bottom-right" });
+    }
+    if (
+      !selectedBusinessModels ||
+      (selectedBusinessModels && !selectedBusinessModels.length)
+    ) {
+      toast.error(Constants.Errors.businessModel, { position: "bottom-right" });
+    }
+    if (
+      !selectedTargetMarkets ||
+      (selectedTargetMarkets && !selectedTargetMarkets.length)
+    ) {
+      toast.error(Constants.Errors.targetMarket, { position: "bottom-right" });
+    }
+    if (
+      !selectedGeographicalMarket ||
+      (selectedGeographicalMarket && !selectedGeographicalMarket.length)
+    ) {
+      toast.error(Constants.Errors.georgraphicalMarket, {
+        position: "bottom-right",
+      });
+    }
     if (
       selectedIndustries &&
       selectedIndustries.length &&
@@ -182,49 +221,18 @@ const BusinessTags = ({ history }) => {
       selectedTargetMarkets &&
       selectedTargetMarkets.length &&
       selectedGeographicalMarket &&
-      selectedGeographicalMarket.length &&
-      !updateBusinessTagsReducer.loading
+      selectedGeographicalMarket.length
     ) {
       updateBusinessTagsActionMethod({
-        industry: selectedIndustries.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
-        services: selectedServices.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
-        technology: selectedTechnologies.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
-        businessModel: selectedBusinessModels.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
-        targetMarket: selectedTargetMarkets.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
-        georgraphicalMarket: selectedGeographicalMarket.map((each) => {
-          if (each.__isNew__) {
-            return each;
-          }
-          return each.value;
-        }),
+        industry: selectedIndustries ? selectedIndustries : [],
+        services: selectedServices ? selectedServices : [],
+        technology: selectedTechnologies ? selectedTechnologies : [],
+        businessModel: selectedBusinessModels ? selectedBusinessModels : [],
+        targetMarket: selectedTargetMarkets ? selectedTargetMarkets : [],
+        georgraphicalMarket: selectedGeographicalMarket
+          ? selectedGeographicalMarket
+          : [],
       });
-    } else {
-      toast.error("Something went wrong", { position: "bottom-right" });
     }
   };
 
@@ -237,20 +245,15 @@ const BusinessTags = ({ history }) => {
               <Title text={"Business Tags"}></Title>
             </Col>
           </Row>
+          <Form onSubmit={onUpdateBusinessTags}>
+            <Row className="description-container">
+              <Col>
+                <Description>
+                  Select from the list below what fits your business
+                </Description>
+              </Col>
+            </Row>
 
-          <Row className="description-container">
-            <Col>
-              <Description>
-                Select from the list below what fits your business
-              </Description>
-            </Col>
-          </Row>
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onUpdateBusinessTags();
-            }}
-          >
             <Row className="form-container">
               <Col>
                 <DropDown
@@ -350,30 +353,28 @@ const BusinessTags = ({ history }) => {
                 />
               </Col>
             </Row>
-            <input type="submit" style={{ display: "none" }}></input>
+
+            <Row className="button-container">
+              <Col lg={2} md={2} sm={2} xs={2}>
+                <BackButton
+                  text={"Back"}
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                ></BackButton>
+              </Col>
+              <Col lg={8} md={8} sm={8} xs={8}>
+                <PrimaryButton
+                  text={"Essential Details"}
+                  type="submit"
+                ></PrimaryButton>
+              </Col>
+              <Col lg={2} md={2} sm={2} xs={2} />
+            </Row>
           </Form>
-          <Row className="button-container">
-            <Col lg={2} md={2} sm={2} xs={2}>
-              <BackButton
-                text={"Back"}
-                onClick={() => {
-                  history.goBack();
-                }}
-              ></BackButton>
-            </Col>
-            <Col lg={8} md={8} sm={8} xs={8}>
-              <PrimaryButton
-                text={"Essential Details"}
-                onClick={() => {
-                  onUpdateBusinessTags();
-                }}
-                disabled={updateBusinessTagsReducer.loading}
-              ></PrimaryButton>
-            </Col>
-            <Col lg={2} md={2} sm={2} xs={2} />
-          </Row>
         </Col>
       </Row>
+      {updateBusinessTagsReducer.loading && <Loading />}
     </MainContainer>
   );
 };

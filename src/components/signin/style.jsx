@@ -33,6 +33,7 @@ export const MainContainer = styled.div`
   }
 
   .reset-link {
+    cursor: pointer;
     text-align: right;
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};

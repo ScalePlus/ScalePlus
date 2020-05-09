@@ -11,7 +11,7 @@ import {
 let initialState = {
   loading: false,
   error: null,
-  data: null,
+  success: null,
   resendSuccess: null,
 };
 
@@ -19,7 +19,7 @@ export const emailVerificationReducer = createReducer(initialState, {
   [EMAIL_VERIFICATION_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      data: null,
+      success: null,
       error: null,
       resendSuccess: null,
     });
@@ -27,7 +27,7 @@ export const emailVerificationReducer = createReducer(initialState, {
   [EMAIL_VERIFICATION_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: action.payload,
+      success: action.payload,
       error: null,
       resendSuccess: null,
     });
@@ -35,7 +35,7 @@ export const emailVerificationReducer = createReducer(initialState, {
   [EMAIL_VERIFICATION_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      data: null,
+      success: null,
       error: action.payload,
       resendSuccess: null,
     });
