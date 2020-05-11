@@ -20,9 +20,14 @@ function* signinSaga(data) {
       yield put({ type: SIGNIN_ERROR, payload: res.message });
     } else {
       yield put({ type: SIGNIN_SUCCESS, payload: res.result });
-      localStorage.setItem("token", res.result.token);
-      localStorage.setItem("userRole", res.result.userRole);
-      history.push("/detail");
+      if (res.result.token) {
+        localStorage.setItem("token", res.result.token);
+        localStorage.setItem("userRole", res.result.userRole);
+        history.push("/detail");
+      } else {
+        localStorage.setItem("userRole", res.result.userRole);
+        history.push(`/verification/${res.result.userId}`);
+      }
     }
   } catch (error) {
     yield put({ type: SIGNIN_ERROR, payload: error.message });

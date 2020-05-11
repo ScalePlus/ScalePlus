@@ -19,6 +19,7 @@ function* emailVerificationSaga(data) {
       yield put({ type: EMAIL_VERIFICATION_ERROR, payload: res.message });
     } else {
       yield put({ type: EMAIL_VERIFICATION_SUCCESS, payload: res.message });
+      localStorage.setItem("userRole", res.result.roles[0]);
     }
   } catch (error) {
     yield put({ type: EMAIL_VERIFICATION_ERROR, payload: error.message });

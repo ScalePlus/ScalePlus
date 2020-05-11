@@ -81,16 +81,22 @@ export default {
         });
     }),
 
-  FILE_UPLOAD: (link, file) =>
+  FILE_UPLOAD: (link, data, file) =>
     new Promise((resolve, reject) => {
       const token = localStorage.getItem("token");
       const url = domainUrl + link;
-      let data = new FormData();
+      let formData = new FormData();
+      delete data["logo"];
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+          formData.append(key, data[key]);
+        }
+      }
 
-      data.append("file", file);
+      formData.append("file", file);
 
       fetch(url, {
-        body: data,
+        body: formData,
         method: "PUT",
         headers: {
           Authorization: token ? `jwt ${token}` : "",

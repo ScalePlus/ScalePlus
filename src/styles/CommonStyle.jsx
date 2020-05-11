@@ -124,10 +124,16 @@ export const GlobalStyle = createGlobalStyle`
   margin-top: -66px;
   right: 0;
   margin-right: 20px;
-  border-color: ${theme.colors.mediumgray};
   border-radius: 6px;
+  padding: 18px 60px;  
+  border-color: ${theme.colors.mediumgray};
   background-color: ${theme.colors.mediumgray};
-  padding: 18px 60px;
+  :hover,:focus,:not(:disabled):not(.disabled):active,:not(:disabled):not(.disabled):active:focus {
+    color: ${theme.colors.black};
+    border-color: ${theme.colors.mediumgray};
+    background-color: ${theme.colors.mediumgray};
+    box-shadow:none;
+  }
 }
 
 .upload-button-text {

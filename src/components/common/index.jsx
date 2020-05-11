@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import CreatableSelect from "react-select/creatable";
+import DatePicker from "react-date-picker";
 import {
   TitleContainer,
   DescriptionContainer,
@@ -56,7 +57,7 @@ function TextArea({ rows, placeholder, value, onChange }) {
   );
 }
 
-function FileInput({ placeholder, value, onChange, onUpload }) {
+function FileInput({ placeholder, value, onChange }) {
   let fileUploader;
   return (
     <Form.Group>
@@ -64,9 +65,6 @@ function FileInput({ placeholder, value, onChange, onUpload }) {
         type={"text"}
         placeholder={placeholder}
         value={value && value.name ? value.name : value}
-        onClick={() => {
-          fileUploader.click();
-        }}
         onChange={() => {}}
         readOnly
       />
@@ -80,7 +78,12 @@ function FileInput({ placeholder, value, onChange, onUpload }) {
         onChange={onChange}
         accept="image/*"
       />
-      <Button variant="secondary" className="upload-button" onClick={onUpload}>
+      <Button
+        className="upload-button"
+        onClick={() => {
+          fileUploader.click();
+        }}
+      >
         <span className="upload-button-text">Upload</span>
       </Button>
     </Form.Group>
@@ -106,6 +109,18 @@ function PassInput({ showPass, placeholder, iconClick, value, onChange }) {
         onClick={iconClick}
       ></img>
     </Form.Group>
+  );
+}
+
+function DateInput({ value, onChange }) {
+  return (
+    <DatePicker
+      className="custom-date-picker"
+      format="dd/MM/y"
+      clearIcon={null}
+      value={value}
+      onChange={onChange}
+    />
   );
 }
 
@@ -252,6 +267,7 @@ export {
   TextArea,
   FileInput,
   PassInput,
+  DateInput,
   DropDown,
   Switch,
   PrimaryButton,

@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import DatePicker from "react-date-picker";
-import { updateDetailsAction, uploadLogoAction } from "./action";
+import { updateDetailsAction } from "./action";
 import { getLoggedInUserAction } from "../signin/action";
 import { MainContainer } from "./style";
 import {
@@ -11,12 +10,12 @@ import {
   Description,
   Input,
   FileInput,
+  DateInput,
   Switch,
   PrimaryButton,
   Loading,
 } from "../common";
 import { Constants } from "../../lib/constant";
-import ConfirmationModal from "./confirmationModal";
 const isURL = new RegExp(
   "https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,}"
 );
@@ -24,7 +23,6 @@ const isURL = new RegExp(
 const OrganizationDetails = () => {
   const dispatch = useDispatch();
   const updateDetailsMethod = (data) => dispatch(updateDetailsAction(data));
-  const uploadLogoMethod = (file) => dispatch(uploadLogoAction(file));
   const getLoggedInUserMethod = useCallback(
     () => dispatch(getLoggedInUserAction()),
     [dispatch]
@@ -51,7 +49,6 @@ const OrganizationDetails = () => {
   const [location, changeLocation] = useState("");
   const [birthDate, changeBirthDate] = useState(new Date());
   const [incorporationDate, changeIncorporationDate] = useState(new Date());
-  const [showModal, changeShowModal] = useState(false);
 
   useEffect(() => {
     getLoggedInUserMethod();
@@ -80,13 +77,6 @@ const OrganizationDetails = () => {
       switchToggle(isIndividual);
     }
   }, [signinReducer]);
-
-  useEffect(() => {
-    const { uploadedLogo } = updateDetailsReducer;
-    if (uploadedLogo) {
-      changeLogo(uploadedLogo);
-    }
-  }, [updateDetailsReducer]);
 
   useEffect(() => {
     const { error } = updateDetailsReducer;
@@ -128,19 +118,15 @@ const OrganizationDetails = () => {
         location &&
         incorporationDate
       ) {
-        if (logo.name) {
-          changeShowModal(true);
-        } else {
-          updateDetailsMethod({
-            name,
-            logo,
-            website,
-            locationData: location,
-            incorporationDate,
-            isStartUp: !roleSwitch,
-            isIndividual: roleSwitch,
-          });
-        }
+        updateDetailsMethod({
+          name,
+          logo,
+          website,
+          locationData: location,
+          incorporationDate,
+          isStartUp: !roleSwitch,
+          isIndividual: roleSwitch,
+        });
       }
     }
     if (isMentor_Judge) {
@@ -246,9 +232,6 @@ const OrganizationDetails = () => {
                     onChange={(e) => {
                       changeLogo(e.target.files[0]);
                     }}
-                    onUpload={() => {
-                      uploadLogoMethod(logo);
-                    }}
                   ></FileInput>
                   <Input
                     type="text"
@@ -262,14 +245,11 @@ const OrganizationDetails = () => {
                     value={location}
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
-                  <DatePicker
-                    className="custom-date-picker"
-                    format="dd/MM/y"
-                    clearIcon={null}
+                  <DateInput
+                    value={incorporationDate}
                     onChange={(date) => {
                       changeIncorporationDate(date);
                     }}
-                    value={incorporationDate}
                   />
                 </Col>
               ) : isMentor_Judge ? (
@@ -298,14 +278,11 @@ const OrganizationDetails = () => {
                     value={location}
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
-                  <DatePicker
-                    className="custom-date-picker"
-                    format="dd/MM/y"
-                    clearIcon={null}
+                  <DateInput
+                    value={birthDate}
                     onChange={(date) => {
                       changeBirthDate(date);
                     }}
-                    value={birthDate}
                   />
                 </Col>
               ) : null}
@@ -323,26 +300,6 @@ const OrganizationDetails = () => {
         </Col>
       </Row>
       {updateDetailsReducer.loading && <Loading />}
-      <ConfirmationModal
-        show={showModal}
-        handleClose={() => {
-          changeShowModal(false);
-        }}
-        handleNewUpload={() => {
-          uploadLogoMethod(logo);
-          changeShowModal(false);
-        }}
-        handleContinueOld={() => {
-          changeLogo(
-            signinReducer.userData &&
-              signinReducer.userData.details &&
-              signinReducer.userData.details.logo
-              ? signinReducer.userData.details.logo
-              : ""
-          );
-          changeShowModal(false);
-        }}
-      />
     </MainContainer>
   );
 };
