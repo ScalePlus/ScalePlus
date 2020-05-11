@@ -8,6 +8,8 @@ import EmailVerification from "./components/emailVerification";
 import OrganizationDetails from "./components/details";
 import BusinessTags from "./components/businessTags";
 import EssentialDetail from "./components/essentialDetails";
+import ResetPassword from "./components/resetPassword";
+import ChangePassword from "./components/resetPassword/changePassword";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -69,6 +71,18 @@ class MainRouter extends Component {
               exact
               layout={MainLayout}
               component={EmailVerification}
+            />
+            <OpenRoute
+              path="/reset/password"
+              exact
+              layout={MainLayout}
+              component={ResetPassword}
+            />
+            <OpenRoute
+              path="/change/password/:resetPasswordCode"
+              exact
+              layout={MainLayout}
+              component={ChangePassword}
             />
             <AuthRoute
               path="/detail"

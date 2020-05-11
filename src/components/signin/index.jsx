@@ -8,13 +8,13 @@ import { Title, Input, PassInput, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
-const SignIn = () => {
+const SignIn = ({ history }) => {
   const dispatch = useDispatch();
   const signinMethod = (data) => dispatch(signinAction(data));
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
-  const [showPass, changeToggle] = useState(false);
+
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
 
@@ -67,19 +67,21 @@ const SignIn = () => {
                   }}
                 />
                 <PassInput
-                  showPass={showPass}
                   placeholder="Password"
-                  iconClick={(e) => {
-                    e.preventDefault();
-                    changeToggle(!showPass);
-                  }}
                   value={password}
                   onChange={(e) => {
                     changePassword(e.target.value);
                   }}
                 />
 
-                <div className="reset-link">Reset Password</div>
+                <div
+                  className="reset-link"
+                  onClick={() => {
+                    history.push("/reset/password");
+                  }}
+                >
+                  Reset Password
+                </div>
               </Col>
             </Row>
 

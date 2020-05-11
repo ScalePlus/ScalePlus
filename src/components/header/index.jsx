@@ -17,7 +17,9 @@ const Header = () => {
             history.push("/register");
           } else if (
             window.location.pathname.includes("register") ||
-            window.location.pathname.includes("verification")
+            window.location.pathname.includes("verification") ||
+            window.location.pathname.includes("reset/password") ||
+            window.location.pathname.includes("change/password")
           ) {
             history.push("/login");
           }
@@ -26,7 +28,9 @@ const Header = () => {
         {window.location.pathname.includes("login") ? (
           "Register"
         ) : window.location.pathname.includes("register") ||
-          window.location.pathname.includes("verification") ? (
+          window.location.pathname.includes("verification") ||
+          window.location.pathname.includes("reset/password") ||
+          window.location.pathname.includes("change/password") ? (
           "Login"
         ) : (
           <NavDropdown title="Account">

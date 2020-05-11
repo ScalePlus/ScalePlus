@@ -6,6 +6,9 @@ import {
   LOGGEDIN_USER_LOADING,
   LOGGEDIN_USER_SUCCESS,
   LOGGEDIN_USER_ERROR,
+  GET_USER_LOADING,
+  GET_USER_SUCCESS,
+  GET_USER_ERROR,
 } from "./types";
 
 let initialState = {
@@ -52,6 +55,27 @@ export const signinReducer = createReducer(initialState, {
     });
   },
   [LOGGEDIN_USER_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      userData: null,
+      error: action.payload,
+    });
+  },
+  [GET_USER_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      userData: null,
+      error: null,
+    });
+  },
+  [GET_USER_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      userData: action.payload,
+      error: null,
+    });
+  },
+  [GET_USER_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
       userData: null,

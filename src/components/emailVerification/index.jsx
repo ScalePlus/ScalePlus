@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
+import { getUser } from "../signin/action";
 import { MainContainer } from "./style";
 import { Title, Input, PrimaryButton, Loading } from "../common";
 import { Constants } from "../../lib/constant";
@@ -13,13 +14,24 @@ const EmailVerification = ({ history, match }) => {
   const verifyEmailMethod = (data) => dispatch(verifyEmailAction(data));
   const resendVerificationMethod = () =>
     dispatch(resendVerificationAction({ id: match.params.id }));
+  const getUserMethod = useCallback((id) => dispatch(getUser(id)), [dispatch]);
+
   const emailVerificationReducer = useSelector((state) => {
     return state.emailVerificationReducer;
   });
+
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
+
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [third, setThird] = useState("");
   const [forth, setForth] = useState("");
+
+  useEffect(() => {
+    getUserMethod(match.params.id);
+  }, [getUserMethod, match]);
 
   useEffect(() => {
     const { error, resendSuccess } = emailVerificationReducer;
@@ -58,7 +70,10 @@ const EmailVerification = ({ history, match }) => {
             <Col>
               <Title
                 text={
-                  emailVerificationReducer.success
+                  emailVerificationReducer.success ||
+                  (signinReducer &&
+                    signinReducer.userData &&
+                    signinReducer.userData.emailVerification)
                     ? localStorage.getItem("userRole") +
                       " " +
                       `Account Verified`
@@ -69,7 +84,10 @@ const EmailVerification = ({ history, match }) => {
           </Row>
 
           <Form id="verify-email-form" onSubmit={onVerify}>
-            {emailVerificationReducer.success ? null : (
+            {emailVerificationReducer.success ||
+            (signinReducer &&
+              signinReducer.userData &&
+              signinReducer.userData.emailVerification) ? null : (
               <Row className="justify-content-center">
                 <Col lg={7} md={10} sm={10}>
                   <Row className="justify-content-center form-container">
@@ -120,12 +138,18 @@ const EmailVerification = ({ history, match }) => {
 
             <Row
               className={
-                emailVerificationReducer.success
+                emailVerificationReducer.success ||
+                (signinReducer &&
+                  signinReducer.userData &&
+                  signinReducer.userData.emailVerification)
                   ? "verified-description-container"
                   : "description-container"
               }
             >
-              {emailVerificationReducer.success ? (
+              {emailVerificationReducer.success ||
+              (signinReducer &&
+                signinReducer.userData &&
+                signinReducer.userData.emailVerification) ? (
                 <Col>
                   Thank you for verifying your email, you can login to manage
                   your account in order to be able to create challenges
@@ -133,7 +157,10 @@ const EmailVerification = ({ history, match }) => {
               ) : (
                 <Col>
                   Please enter the verification code that was sent to your email
-                  address. test@gmail.com
+                  address.{" "}
+                  {signinReducer &&
+                    signinReducer.userData &&
+                    signinReducer.userData.email}
                   <span className="seprator">|</span>
                   <span
                     className="resend-link"
@@ -146,7 +173,10 @@ const EmailVerification = ({ history, match }) => {
             </Row>
 
             <Row className="button-container">
-              {emailVerificationReducer.success ? (
+              {emailVerificationReducer.success ||
+              (signinReducer &&
+                signinReducer.userData &&
+                signinReducer.userData.emailVerification) ? (
                 <Col>
                   <PrimaryButton
                     text={"Login"}
@@ -163,7 +193,10 @@ const EmailVerification = ({ history, match }) => {
               )}
             </Row>
           </Form>
-          {emailVerificationReducer.success ? null : (
+          {emailVerificationReducer.success ||
+          (signinReducer &&
+            signinReducer.userData &&
+            signinReducer.userData.emailVerification) ? null : (
             <Row className="bottom-container">
               <Col>
                 Have an Account?{" "}

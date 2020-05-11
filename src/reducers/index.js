@@ -5,6 +5,7 @@ import * as signinReducer from "../components/signin/reducer";
 import * as updateDetailsReducer from "../components/details/reducer";
 import * as updateBusinessTagsReducer from "../components/businessTags/reducer";
 import * as updateEssentialDetailsReducer from "../components/essentialDetails/reducer";
+import * as resetPasswordReducer from "../components/resetPassword/reducer";
 
 export default combineReducers(
   Object.assign(
@@ -13,6 +14,7 @@ export default combineReducers(
     signinReducer,
     updateDetailsReducer,
     updateBusinessTagsReducer,
-    updateEssentialDetailsReducer
+    updateEssentialDetailsReducer,
+    resetPasswordReducer
   )
 );

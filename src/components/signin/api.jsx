@@ -11,4 +11,9 @@ export default {
     let result = coreApi.GET(url);
     return result;
   },
+  getUser: (id) => {
+    let url = `/user/get/${id}`;
+    let result = coreApi.GET(url);
+    return result;
+  },
 };

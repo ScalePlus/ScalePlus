@@ -99,8 +99,13 @@ const OrganizationDetails = () => {
       if (!logo) {
         toast.error(Constants.Errors.logo, { position: "bottom-right" });
       }
-      if (!website || (website && !isURL.test(website))) {
+      if (!website) {
         toast.error(Constants.Errors.website, { position: "bottom-right" });
+      }
+      if (website && !isURL.test(website)) {
+        toast.error(Constants.Errors.invalid_website, {
+          position: "bottom-right",
+        });
       }
       if (!location) {
         toast.error(Constants.Errors.location, { position: "bottom-right" });
@@ -136,8 +141,13 @@ const OrganizationDetails = () => {
       if (!mobile) {
         toast.error(Constants.Errors.mobile, { position: "bottom-right" });
       }
-      if (!website || (website && !isURL.test(website))) {
+      if (!website) {
         toast.error(Constants.Errors.website, { position: "bottom-right" });
+      }
+      if (website && !isURL.test(website)) {
+        toast.error(Constants.Errors.invalid_website, {
+          position: "bottom-right",
+        });
       }
       if (!location) {
         toast.error(Constants.Errors.location, { position: "bottom-right" });

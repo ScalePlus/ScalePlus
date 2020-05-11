@@ -53,7 +53,7 @@ const SignUp = ({ history }) => {
           : false,
     },
   ]);
-  const [showPass, changeToggle] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -165,12 +165,7 @@ const SignUp = ({ history }) => {
                   }}
                 ></Input>
                 <PassInput
-                  showPass={showPass}
                   placeholder="Password"
-                  iconClick={(e) => {
-                    e.preventDefault();
-                    changeToggle(!showPass);
-                  }}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);

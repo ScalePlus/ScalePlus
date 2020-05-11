@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import CreatableSelect from "react-select/creatable";
 import DatePicker from "react-date-picker";
@@ -90,7 +90,8 @@ function FileInput({ placeholder, value, onChange }) {
   );
 }
 
-function PassInput({ showPass, placeholder, iconClick, value, onChange }) {
+function PassInput({ placeholder, value, onChange }) {
+  const [showPass, changeToggle] = useState(false);
   return (
     <Form.Group>
       <Form.Control
@@ -106,7 +107,10 @@ function PassInput({ showPass, placeholder, iconClick, value, onChange }) {
         height="25px"
         width="25px"
         alt=""
-        onClick={iconClick}
+        onClick={(e) => {
+          e.preventDefault();
+          changeToggle(!showPass);
+        }}
       ></img>
     </Form.Group>
   );

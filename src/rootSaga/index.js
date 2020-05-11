@@ -6,6 +6,7 @@ import watchSigninAsync from "../components/signin/saga";
 import watchUpdateDetailsAsync from "../components/details/saga";
 import updateBusinessTagsSaga from "../components/businessTags/saga";
 import watchUpdateEssentialDetailsAsync from "../components/essentialDetails/saga";
+import watchResetPasswordAsync from "../components/resetPassword/saga";
 
 export function* rootSaga() {
   yield fork(watchSignupAsync);
@@ -14,4 +15,5 @@ export function* rootSaga() {
   yield fork(watchUpdateDetailsAsync);
   yield fork(updateBusinessTagsSaga);
   yield fork(watchUpdateEssentialDetailsAsync);
+  yield fork(watchResetPasswordAsync);
 }
