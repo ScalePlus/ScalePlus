@@ -17,13 +17,16 @@ const ResetPassword = ({ history }) => {
   const [email, changeEmail] = useState("");
 
   useEffect(() => {
-    const { error } = resetPasswordReducer;
+    const { error, restPasswordSuccess } = resetPasswordReducer;
     if (Array.isArray(error)) {
       for (let i = 0; i < error.length; i++) {
         toast.error(error[i], { position: "bottom-right" });
       }
     } else if (typeof error === "string") {
       toast.error(error, { position: "bottom-right" });
+    }
+    if (restPasswordSuccess) {
+      toast.success(restPasswordSuccess, { position: "bottom-right" });
     }
   }, [resetPasswordReducer]);
 
@@ -48,7 +51,7 @@ const ResetPassword = ({ history }) => {
               <Title text={"Reset Password"}></Title>
             </Col>
           </Row>
-          {resetPasswordReducer.success ? (
+          {resetPasswordReducer.restPasswordSuccess ? (
             <>
               <Row className="changed-description-container">
                 <Col>

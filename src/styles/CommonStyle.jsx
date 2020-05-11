@@ -77,13 +77,6 @@ export const GlobalStyle = createGlobalStyle`
   box-shadow: none;
 }
 
-#verifyModal .modal-footer {
-  justify-content: space-around !important;
-  .button-text,.icon-container {
-    font-size: ${theme.fontSize.regular};
-  }
-}
-
 .form-control[readonly]{
    background-color: ${theme.colors.white};
 }

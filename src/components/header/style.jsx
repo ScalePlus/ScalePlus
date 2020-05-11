@@ -34,6 +34,10 @@ export const Container = styled.div`
       font-family: ${theme.fontFamily.rockwell_regular};
       font-size: ${theme.fontSize.regular};
     }
+    .dropdown-item.active,
+    .dropdown-item:active {
+      background-color: ${theme.colors.lightGray};
+    }
     .dropdown-toggle::after {
       display: none;
     }

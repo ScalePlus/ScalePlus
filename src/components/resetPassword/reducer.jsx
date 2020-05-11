@@ -11,7 +11,7 @@ import {
 let initialState = {
   loading: false,
   error: null,
-  success: null,
+  restPasswordSuccess: null,
   changePasswordSuccess: null,
 };
 
@@ -19,21 +19,21 @@ export const resetPasswordReducer = createReducer(initialState, {
   [RESET_PASSWORD_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      success: null,
+      restPasswordSuccess: null,
       error: null,
     });
   },
   [RESET_PASSWORD_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: action.payload,
+      restPasswordSuccess: action.payload,
       error: null,
     });
   },
   [RESET_PASSWORD_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: null,
+      restPasswordSuccess: null,
       error: action.payload,
     });
   },
