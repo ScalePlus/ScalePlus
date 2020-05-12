@@ -10,6 +10,15 @@ import {
   GET_USER_SUCCESS,
   GET_USER_ERROR,
 } from "./types";
+import { UPDATE_DETAILS_SUCCESS } from "../details/types";
+import {
+  UPDATE_BUSINESS_TAGS_SUCCESS,
+  PRESERVE_BUSSINESS_TAG_SUCCESS,
+} from "../businessTags/types";
+import {
+  UPDATE_ESSENTIAL_DETAILS_SUCCESS,
+  PRESERVE_ESSENTIAL_DATA_SUCCESS,
+} from "../essentialDetails/types";
 
 let initialState = {
   loading: false,
@@ -51,6 +60,51 @@ export const signinReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       userData: action.payload,
+      error: null,
+    });
+  },
+  [UPDATE_DETAILS_SUCCESS](state, action) {
+    let userData = state.userData;
+    userData["details"] = action.payload.details;
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
+      error: null,
+    });
+  },
+  [UPDATE_BUSINESS_TAGS_SUCCESS](state, action) {
+    let userData = state.userData;
+    userData["businessTags"] = action.payload.businessTags;
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
+      error: null,
+    });
+  },
+  [PRESERVE_BUSSINESS_TAG_SUCCESS](state, action) {
+    let userData = state.userData;
+    userData["businessTags"] = action.payload;
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
+      error: null,
+    });
+  },
+  [UPDATE_ESSENTIAL_DETAILS_SUCCESS](state, action) {
+    let userData = state.userData;
+    userData["essentialDetails"] = action.payload.essentialDetails;
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
+      error: null,
+    });
+  },
+  [PRESERVE_ESSENTIAL_DATA_SUCCESS](state, action) {
+    let userData = state.userData;
+    userData["essentialDetails"] = action.payload;
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
       error: null,
     });
   },

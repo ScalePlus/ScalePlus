@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { updateEssentialDetailsAction } from "./action";
-import { getLoggedInUserAction } from "../signin/action";
+import { updateEssentialDetailsAction, preserveDataAction } from "./action";
+
 import { MainContainer } from "./style";
 import {
   Title,
@@ -27,10 +27,8 @@ const EssentialDetail = ({ history }) => {
   const dispatch = useDispatch();
   const updateEssentialDetailsMethod = (data) =>
     dispatch(updateEssentialDetailsAction(data));
-  const getLoggedInUserMethod = useCallback(
-    () => dispatch(getLoggedInUserAction()),
-    [dispatch]
-  );
+  const preserveDataMethod = (data) => dispatch(preserveDataAction(data));
+
   const updateEssentialDetailsReducer = useSelector((state) => {
     return state.updateEssentialDetailsReducer;
   });
@@ -48,10 +46,6 @@ const EssentialDetail = ({ history }) => {
   const [coreBusiness, selectCoreBusiness] = useState(coreBusinessTabs[0]);
   const [marketStage, selectMarketStage] = useState(marketStageTabs[0]);
   const [funding, selectFunding] = useState(fundingTabs[0]);
-
-  useEffect(() => {
-    getLoggedInUserMethod();
-  }, [getLoggedInUserMethod]);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -300,6 +294,30 @@ const EssentialDetail = ({ history }) => {
                 <BackButton
                   text={"Back"}
                   onClick={() => {
+                    if (isStartUp_Individual || isOrganisation) {
+                      if (
+                        textAreaValue &&
+                        coreBusiness &&
+                        marketStage &&
+                        funding
+                      ) {
+                        preserveDataMethod({
+                          companyDesciption: textAreaValue,
+                          coreBusiness,
+                          marketStage,
+                          funding,
+                        });
+                      }
+                    }
+
+                    if (isMentor_Judge) {
+                      preserveDataMethod({
+                        summary: textAreaValue,
+                        coreBusiness,
+                        expertise: marketStage,
+                      });
+                    }
+
                     history.goBack();
                   }}
                 ></BackButton>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
-import CreatableSelect from "react-select/creatable";
+// import CreatableSelect from "react-select/creatable";
+import Select from "react-select";
 import DatePicker from "react-date-picker";
 import {
   TitleContainer,
@@ -66,6 +67,9 @@ function FileInput({ placeholder, value, onChange }) {
         placeholder={placeholder}
         value={value && value.name ? value.name : value}
         onChange={() => {}}
+        onClick={() => {
+          fileUploader.click();
+        }}
         readOnly
       />
       <input
@@ -187,15 +191,14 @@ function DropDown({ options, placeholder, value, onChange }) {
   };
   return (
     <Form.Group>
-      <CreatableSelect
+      <Select
         isMulti
         placeholder={placeholder}
-        isValidNewOption={(inputValue, selectValue) => {
-          return inputValue.length > 0 && selectValue.length < 3;
-        }}
+        // isValidNewOption={(inputValue, selectValue) => {
+        //   return inputValue.length > 0 && selectValue.length < 3;
+        // }}
         value={value}
         onChange={(newValue, actionMeta) => {
-          // console.log(newValue, actionMeta);
           if ((newValue && newValue.length <= 3) || !newValue) {
             onChange(newValue);
           }

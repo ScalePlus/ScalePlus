@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { updateDetailsAction } from "./action";
-import { getLoggedInUserAction } from "../signin/action";
+
 import { MainContainer } from "./style";
 import {
   Title,
@@ -23,10 +23,6 @@ const isURL = new RegExp(
 const OrganizationDetails = () => {
   const dispatch = useDispatch();
   const updateDetailsMethod = (data) => dispatch(updateDetailsAction(data));
-  const getLoggedInUserMethod = useCallback(
-    () => dispatch(getLoggedInUserAction()),
-    [dispatch]
-  );
   const updateDetailsReducer = useSelector((state) => {
     return state.updateDetailsReducer;
   });
@@ -49,10 +45,6 @@ const OrganizationDetails = () => {
   const [location, changeLocation] = useState("");
   const [birthDate, changeBirthDate] = useState(new Date());
   const [incorporationDate, changeIncorporationDate] = useState(new Date());
-
-  useEffect(() => {
-    getLoggedInUserMethod();
-  }, [getLoggedInUserMethod]);
 
   useEffect(() => {
     const { userData } = signinReducer;

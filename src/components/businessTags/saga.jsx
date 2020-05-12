@@ -4,6 +4,8 @@ import {
   UPDATE_BUSINESS_TAGS_LOADING,
   UPDATE_BUSINESS_TAGS_SUCCESS,
   UPDATE_BUSINESS_TAGS_ERROR,
+  PRESERVE_BUSSINESS_TAG_ACTION,
+  PRESERVE_BUSSINESS_TAG_SUCCESS,
   INDUSTRIES_OPTIONS_ACTION,
   INDUSTRIES_OPTIONS_LOADING,
   INDUSTRIES_OPTIONS_SUCCESS,
@@ -140,6 +142,13 @@ function* geographicalMarketsOptionsSaga() {
   }
 }
 
+function* preserveDataSaga(data) {
+  yield put({
+    type: PRESERVE_BUSSINESS_TAG_SUCCESS,
+    payload: data.payload,
+  });
+}
+
 function* watchUpdateBusinessTagsAsync() {
   yield takeLatest(UPDATE_BUSINESS_TAGS_ACTION, updateBusinessTagsSaga);
   yield takeLatest(INDUSTRIES_OPTIONS_ACTION, industriesOptionsSaga);
@@ -151,6 +160,7 @@ function* watchUpdateBusinessTagsAsync() {
     GEOGRAPHICAL_MARKET_OPTIONS_ACTION,
     geographicalMarketsOptionsSaga
   );
+  yield takeLatest(PRESERVE_BUSSINESS_TAG_ACTION, preserveDataSaga);
 }
 
 export default watchUpdateBusinessTagsAsync;

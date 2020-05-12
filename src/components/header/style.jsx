@@ -21,6 +21,9 @@ export const Container = styled.div`
 
   .action-container {
     cursor: pointer;
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.rockwell_regular};
+    font-size: ${theme.fontSize.mediumSmall};
     a {
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.rockwell_regular};

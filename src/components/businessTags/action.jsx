@@ -6,6 +6,7 @@ import {
   BUSINESS_MODELS_OPTIONS_ACTION,
   TARGET_MARKET_OPTIONS_ACTION,
   GEOGRAPHICAL_MARKET_OPTIONS_ACTION,
+  PRESERVE_BUSSINESS_TAG_ACTION,
 } from "./types";
 
 export const updateBusinessTagsAction = (data) => ({
@@ -35,4 +36,9 @@ export const targetMarketsOptionsAction = () => ({
 
 export const geographicalMarketsOptionsAction = () => ({
   type: GEOGRAPHICAL_MARKET_OPTIONS_ACTION,
+});
+
+export const preserveDataAction = (data) => ({
+  type: PRESERVE_BUSSINESS_TAG_ACTION,
+  payload: data,
 });

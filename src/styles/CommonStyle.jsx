@@ -148,9 +148,9 @@ export const GlobalStyle = createGlobalStyle`
 
 .textarea-count {
   position: absolute;
-  margin-top: -25px;
+  margin-top: -30px;
   right: 0;
-  margin-right: 25px;
+  margin-right: 35px;
   cursor: pointer;
   color: ${theme.colors.black};
   background-color: ${theme.colors.white};

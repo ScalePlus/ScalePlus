@@ -10,8 +10,9 @@ import {
   businessModelsOptionsAction,
   targetMarketsOptionsAction,
   geographicalMarketsOptionsAction,
+  preserveDataAction,
 } from "./action";
-import { getLoggedInUserAction } from "../signin/action";
+
 import { MainContainer } from "./style";
 import {
   Title,
@@ -27,10 +28,7 @@ const BusinessTags = ({ history }) => {
   const dispatch = useDispatch();
   const updateBusinessTagsActionMethod = (data) =>
     dispatch(updateBusinessTagsAction(data));
-  const getLoggedInUserMethod = useCallback(
-    () => dispatch(getLoggedInUserAction()),
-    [dispatch]
-  );
+  const preserveDataMethod = (data) => dispatch(preserveDataAction(data));
   const industriesOptionsMethod = useCallback(
     () => dispatch(industriesOptionsAction()),
     [dispatch]
@@ -75,10 +73,6 @@ const BusinessTags = ({ history }) => {
     targetMarketsOptions,
     geographicalMarketsOptions,
   } = updateBusinessTagsReducer;
-
-  useEffect(() => {
-    getLoggedInUserMethod();
-  }, [getLoggedInUserMethod]);
 
   useEffect(() => {
     industriesOptionsMethod();
@@ -357,6 +351,45 @@ const BusinessTags = ({ history }) => {
                 <BackButton
                   text={"Back"}
                   onClick={() => {
+                    preserveDataMethod({
+                      industry:
+                        selectedIndustries && selectedIndustries.length
+                          ? selectedIndustries.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : [],
+                      services:
+                        selectedServices && selectedServices.length
+                          ? selectedServices.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : null,
+                      technology:
+                        selectedTechnologies && selectedTechnologies.length
+                          ? selectedTechnologies.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : [],
+                      businessModel:
+                        selectedBusinessModels && selectedBusinessModels.length
+                          ? selectedBusinessModels.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : [],
+                      targetMarket:
+                        selectedTargetMarkets && selectedTargetMarkets.length
+                          ? selectedTargetMarkets.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : [],
+                      georgraphicalMarket:
+                        selectedGeographicalMarket &&
+                        selectedGeographicalMarket.length
+                          ? selectedGeographicalMarket.map((each) => {
+                              return { _id: each.value, name: each.label };
+                            })
+                          : [],
+                    });
                     history.goBack();
                   }}
                 ></BackButton>

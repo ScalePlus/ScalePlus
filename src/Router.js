@@ -27,7 +27,7 @@ export default function MainRouter() {
             <Component {...props} />
           </Layout>
         ) : (
-          <Redirect to="/" />
+          <Redirect to="/detail" />
         )
       }
     />
@@ -42,7 +42,7 @@ export default function MainRouter() {
             <Component {...props} />
           </Layout>
         ) : (
-          <Redirect to="/" />
+          <Redirect to="/login" />
         )
       }
     />
