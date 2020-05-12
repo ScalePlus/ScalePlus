@@ -8,6 +8,8 @@ import {
   CHANGE_PASSWORD_LOADING,
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_ERROR,
+  CLEAR_ALL,
+  CLEAR_ALL_SUCCESS,
 } from "./types";
 import Api from "./api";
 import history from "../../history";
@@ -19,7 +21,10 @@ function* resetPasswordSaga(data) {
     if (res.status) {
       yield put({ type: RESET_PASSWORD_ERROR, payload: res.message });
     } else {
-      yield put({ type: RESET_PASSWORD_SUCCESS, payload: res.message });
+      yield put({ type: RESET_PASSWORD_SUCCESS, payload: res });
+      if (window.location.pathname !== "/reset/password/confirmation") {
+        history.push(`/reset/password/confirmation`);
+      }
     }
   } catch (error) {
     yield put({ type: RESET_PASSWORD_ERROR, payload: error.message });
@@ -41,9 +46,14 @@ function* changePasswordSaga(data) {
   }
 }
 
+function* clearAllSaga() {
+  yield put({ type: CLEAR_ALL_SUCCESS });
+}
+
 function* watchResetPasswordAsync() {
   yield takeLatest(RESET_PASSWORD_ACTION, resetPasswordSaga);
   yield takeLatest(CHANGE_PASSWORD_ACTION, changePasswordSaga);
+  yield takeLatest(CLEAR_ALL, clearAllSaga);
 }
 
 export default watchResetPasswordAsync;

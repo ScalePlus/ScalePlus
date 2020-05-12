@@ -6,6 +6,7 @@ import {
   CHANGE_PASSWORD_LOADING,
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_ERROR,
+  CLEAR_ALL_SUCCESS,
 } from "./types";
 
 let initialState = {
@@ -16,10 +17,17 @@ let initialState = {
 };
 
 export const resetPasswordReducer = createReducer(initialState, {
+  [CLEAR_ALL_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      error: null,
+      restPasswordSuccess: null,
+      changePasswordSuccess: null,
+    });
+  },
   [RESET_PASSWORD_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      restPasswordSuccess: null,
       error: null,
     });
   },

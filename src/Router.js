@@ -8,6 +8,7 @@ import OrganizationDetails from "./components/details";
 import BusinessTags from "./components/businessTags";
 import EssentialDetail from "./components/essentialDetails";
 import ResetPassword from "./components/resetPassword";
+import ResetConfirmation from "./components/resetPassword/resetConfirmation";
 import ChangePassword from "./components/resetPassword/changePassword";
 import store from "./store";
 import { Provider } from "react-redux";
@@ -75,6 +76,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={ResetPassword}
+          />
+          <OpenRoute
+            path="/reset/password/confirmation"
+            exact
+            layout={MainLayout}
+            component={ResetConfirmation}
           />
           <OpenRoute
             path="/change/password/:resetPasswordCode"
