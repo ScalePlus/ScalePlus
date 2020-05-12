@@ -53,7 +53,7 @@ const ResetPassword = ({ history }) => {
           </Row>
           {resetPasswordReducer.restPasswordSuccess ? (
             <>
-              <Row className="changed-description-container">
+              <Row className="description-container">
                 <Col>
                   We sent a reset password email to {email}. Please click the
                   link to set your new password. Didn't receive the email yet?

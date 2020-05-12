@@ -323,7 +323,9 @@ const EssentialDetail = ({ history }) => {
           </Form>
         </Col>
       </Row>
-      {updateEssentialDetailsReducer.loading && <Loading />}
+      {(updateEssentialDetailsReducer.loading || signinReducer.loading) && (
+        <Loading />
+      )}
     </MainContainer>
   );
 };

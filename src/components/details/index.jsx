@@ -309,7 +309,7 @@ const OrganizationDetails = () => {
           </Form>
         </Col>
       </Row>
-      {updateDetailsReducer.loading && <Loading />}
+      {(updateDetailsReducer.loading || signinReducer.loading) && <Loading />}
     </MainContainer>
   );
 };

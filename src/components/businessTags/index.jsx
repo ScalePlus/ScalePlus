@@ -224,14 +224,12 @@ const BusinessTags = ({ history }) => {
       selectedGeographicalMarket.length
     ) {
       updateBusinessTagsActionMethod({
-        industry: selectedIndustries ? selectedIndustries : [],
-        services: selectedServices ? selectedServices : [],
-        technology: selectedTechnologies ? selectedTechnologies : [],
-        businessModel: selectedBusinessModels ? selectedBusinessModels : [],
-        targetMarket: selectedTargetMarkets ? selectedTargetMarkets : [],
-        georgraphicalMarket: selectedGeographicalMarket
-          ? selectedGeographicalMarket
-          : [],
+        industry: selectedIndustries,
+        services: selectedServices,
+        technology: selectedTechnologies,
+        businessModel: selectedBusinessModels,
+        targetMarket: selectedTargetMarkets,
+        georgraphicalMarket: selectedGeographicalMarket,
       });
     }
   };
@@ -374,7 +372,9 @@ const BusinessTags = ({ history }) => {
           </Form>
         </Col>
       </Row>
-      {updateBusinessTagsReducer.loading && <Loading />}
+      {(updateBusinessTagsReducer.loading || signinReducer.loading) && (
+        <Loading />
+      )}
     </MainContainer>
   );
 };
