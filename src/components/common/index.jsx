@@ -8,6 +8,7 @@ import {
   TitleContainer,
   DescriptionContainer,
   ButtonContainer,
+  SecondaryButtonContainer,
   BackButtonContainer,
   TabContainer,
   LoadingContainer,
@@ -28,9 +29,18 @@ function Description({ children }) {
   return <DescriptionContainer>{children}</DescriptionContainer>;
 }
 
-function Input({ type, placeholder, value, onChange, max }) {
+function Input({
+  type,
+  placeholder,
+  value,
+  onChange,
+  max,
+  label,
+  description,
+}) {
   return (
     <Form.Group>
+      {label && <Form.Label>{label}</Form.Label>}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -38,24 +48,41 @@ function Input({ type, placeholder, value, onChange, max }) {
         maxLength={max}
         onChange={onChange ? onChange : () => {}}
       />
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
     </Form.Group>
   );
 }
 
-function TextArea({ rows, placeholder, value, onChange }) {
+function TextArea({
+  rows,
+  placeholder,
+  value,
+  onChange,
+  label,
+  description,
+  showCount,
+}) {
   return (
     <Form.Group>
+      {label && <Form.Label>{label}</Form.Label>}
       <Form.Control
         as="textarea"
         rows={rows}
         placeholder={placeholder}
         value={value}
         onChange={onChange ? onChange : () => {}}
-        maxLength={1000}
+        maxLength={showCount}
       />
-      <span className="textarea-count">
-        {value && value.length ? value.length : 0}|1000 letters
-      </span>
+      {showCount && (
+        <span className="textarea-count">
+          {value && value.length ? value.length : 0}|{showCount} letters
+        </span>
+      )}
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
     </Form.Group>
   );
 }
@@ -92,6 +119,44 @@ function FileInput({ placeholder, value, onChange }) {
       >
         <span className="upload-button-text">Upload</span>
       </Button>
+    </Form.Group>
+  );
+}
+
+function BannerInput({ value, onChange, label, description }) {
+  let fileUploader;
+  return (
+    <Form.Group>
+      {label && <Form.Label>{label}</Form.Label>}
+      <div
+        className="banner-input"
+        // value={value && value.name ? value.name : value}
+        onClick={() => {
+          fileUploader.click();
+        }}
+      />
+      <div
+        className="upload-container"
+        onClick={() => {
+          fileUploader.click();
+        }}
+      >
+        <img src={"/images/image.svg"} height="35px" width="35px" alt=""></img>
+        <div>Upload image</div>
+      </div>
+      <input
+        type="file"
+        ref={(ref) => (fileUploader = ref)}
+        style={{ display: "none" }}
+        onClick={(event) => {
+          event.target.value = null;
+        }}
+        onChange={onChange}
+        accept="image/*"
+      />
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
     </Form.Group>
   );
 }
@@ -158,15 +223,22 @@ function DateInput({
   );
 }
 
-function DropDown({ options, placeholder, value, onChange }) {
+function DropDown({
+  options,
+  placeholder,
+  value,
+  onChange,
+  label,
+  description,
+}) {
   const customStyle = {
     indicatorSeparator: () => ({
       display: "none",
     }),
     control: (provided, state) => ({
       ...provided,
-      padding: "10px 20px",
-      minHeight: "70px",
+      padding: label ? "0px 10px 0px 0px" : "10px 20px",
+      minHeight: label ? "40px" : "70px",
       border: `1px solid ${theme.colors.border_gray}`,
       borderColor: theme.colors.border_gray,
       borderRadius: "6px",
@@ -208,8 +280,8 @@ function DropDown({ options, placeholder, value, onChange }) {
               ? "/images/chevronUp.png"
               : "/images/chevronDown.png"
           }
-          height="25px"
-          width="25px"
+          height={label ? "15px" : "25px"}
+          width={label ? "15px" : "25px"}
           alt=""
         ></img>
       );
@@ -217,6 +289,7 @@ function DropDown({ options, placeholder, value, onChange }) {
   };
   return (
     <Form.Group>
+      {label && <Form.Label>{label}</Form.Label>}
       <Select
         isMulti
         placeholder={placeholder}
@@ -233,6 +306,9 @@ function DropDown({ options, placeholder, value, onChange }) {
         styles={customStyle}
         components={customComponent}
       />
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
     </Form.Group>
   );
 }
@@ -257,6 +333,14 @@ function PrimaryButton({ text, onClick, disabled, type }) {
       <span className="button-text">{text}</span>
       <span className="icon-container">></span>
     </ButtonContainer>
+  );
+}
+
+function SecondaryButton({ text, onClick, disabled }) {
+  return (
+    <SecondaryButtonContainer onClick={onClick} disabled={disabled}>
+      <span className="button-text">{text}</span>
+    </SecondaryButtonContainer>
   );
 }
 
@@ -299,11 +383,13 @@ export {
   Input,
   TextArea,
   FileInput,
+  BannerInput,
   PassInput,
   DateInput,
   DropDown,
   Switch,
   PrimaryButton,
+  SecondaryButton,
   BackButton,
   Tab,
   Loading,

@@ -41,6 +41,24 @@ export const ButtonContainer = styled.button`
   }
 `;
 
+export const SecondaryButtonContainer = styled.button`
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+  background: ${theme.colors.yellow};
+  padding: 5px 30px;
+  :focus {
+    outline: 0;
+  }
+  .button-text {
+    cursor: pointer;
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.small};
+    font-weight: 600;
+  }
+`;
+
 export const BackButtonContainer = styled.div`
   text-align: left;
   .back-button-text {

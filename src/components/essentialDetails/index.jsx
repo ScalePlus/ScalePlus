@@ -179,6 +179,7 @@ const EssentialDetail = ({ history }) => {
                   onChange={(e) => {
                     setTextAreaValue(e.target.value);
                   }}
+                  showCount={1000}
                 />
               </Col>
             </Row>

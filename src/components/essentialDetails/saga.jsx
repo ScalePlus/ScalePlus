@@ -8,6 +8,7 @@ import {
   PRESERVE_ESSENTIAL_DATA_SUCCESS,
 } from "./types";
 import Api from "./api";
+import history from "../../history";
 
 function* updateEssentialDetailsSaga(data) {
   yield put({ type: UPDATE_ESSENTIAL_DETAILS_LOADING });
@@ -20,7 +21,8 @@ function* updateEssentialDetailsSaga(data) {
         type: UPDATE_ESSENTIAL_DETAILS_SUCCESS,
         payload: res.result,
       });
-      alert("All information saved successfully");
+      // alert("All information saved successfully");
+      history.push("/challenge");
     }
   } catch (error) {
     yield put({ type: UPDATE_ESSENTIAL_DETAILS_ERROR, payload: error.message });

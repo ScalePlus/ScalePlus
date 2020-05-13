@@ -10,6 +10,7 @@ import EssentialDetail from "./components/essentialDetails";
 import ResetPassword from "./components/resetPassword";
 import ResetConfirmation from "./components/resetPassword/resetConfirmation";
 import ChangePassword from "./components/resetPassword/changePassword";
+import ChallengeMaster from "./components/challengeMaster";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -106,6 +107,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={EssentialDetail}
+          />
+          <AuthRoute
+            path="/challenge"
+            exact
+            layout={MainLayout}
+            component={ChallengeMaster}
           />
           <Redirect
             from="/"

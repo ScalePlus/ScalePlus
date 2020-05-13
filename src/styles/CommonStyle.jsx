@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
   font-family: ${theme.fontFamily.regular};
 }
 
-.form-control{
+.form-control,.banner-input{
   text-align: left;
   padding: 20px;
   height: 70px;
@@ -16,6 +16,13 @@ export const GlobalStyle = createGlobalStyle`
   color: ${theme.colors.gray};
   font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
+}
+
+.text-muted-description{
+  color: ${theme.colors.gray};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.small};
+  margin-top:5px;
 }
 
 .react-datepicker-wrapper,.react-datepicker-wrapper input{
@@ -140,6 +147,20 @@ export const GlobalStyle = createGlobalStyle`
 .active-tab .tab-sub-text {
   color: ${theme.colors.black} !important;
   font-family: ${theme.fontFamily.regular} !important;
+}
+
+.upload-container{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin-top: -130px;
+  color: ${theme.colors.gray};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
+  cursor: pointer;
 }
 
 
