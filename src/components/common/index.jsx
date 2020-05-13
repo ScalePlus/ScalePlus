@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 // import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
-import DatePicker from "react-date-picker";
+// import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
 import {
   TitleContainer,
   DescriptionContainer,
@@ -12,6 +13,7 @@ import {
   LoadingContainer,
 } from "./style";
 import theme from "../../theme";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Title({ text }) {
   return (
@@ -120,15 +122,39 @@ function PassInput({ placeholder, value, onChange }) {
   );
 }
 
-function DateInput({ value, onChange }) {
+function DateInput({
+  value,
+  onChange,
+  placeholder,
+  minDate,
+  maxDate,
+  openToDate,
+}) {
   return (
     <DatePicker
-      className="custom-date-picker"
-      format="dd/MM/y"
-      clearIcon={null}
-      value={value}
+      dateFormat="dd/MM/yyyy"
+      showPopperArrow={false}
+      selected={value}
       onChange={onChange}
+      placeholderText={placeholder}
+      showMonthDropdown
+      showYearDropdown
+      className="form-control"
+      minDate={minDate}
+      maxDate={maxDate}
+      openToDate={openToDate}
+      withPortal
     />
+    // <DatePicker
+    //   className="custom-date-picker"
+    //   format="dd/MM/y"
+    //   clearIcon={null}
+    //   value={value}
+    //   onChange={onChange}
+    //   dayPlaceholder="DD"
+    //   monthPlaceholder="MM"
+    //   yearPlaceholder="YYYY"
+    // />
   );
 }
 

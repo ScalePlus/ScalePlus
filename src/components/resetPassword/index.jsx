@@ -7,12 +7,13 @@ import { Title, Input, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
-const ResetPassword = ({ history }) => {
+const ResetPassword = () => {
   const dispatch = useDispatch();
   const forgotPasswordMethod = (data) => dispatch(forgotPasswordAction(data));
   const clearAllMethod = useCallback((data) => dispatch(clearAll(data)), [
     dispatch,
   ]);
+
   const resetPasswordReducer = useSelector((state) => {
     return state.resetPasswordReducer;
   });

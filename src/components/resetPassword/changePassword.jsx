@@ -7,7 +7,7 @@ import { Title, PassInput, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
-const ChangePassword = ({ history, match }) => {
+const ChangePassword = ({ match }) => {
   const dispatch = useDispatch();
   const changePasswordMethod = (data) => dispatch(changePasswordAction(data));
 

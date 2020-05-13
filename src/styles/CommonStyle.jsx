@@ -18,6 +18,37 @@ export const GlobalStyle = createGlobalStyle`
   font-size: ${theme.fontSize.regular};
 }
 
+.react-datepicker-wrapper,.react-datepicker-wrapper input{
+  width: 100%;
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+
+.react-datepicker__day--selected,.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected{
+  background-color: ${theme.colors.yellow};
+  :hover{
+    background-color: ${theme.colors.yellow};
+  }
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+
+.react-datepicker__day ,.react-datepicker__day--disabled,.react-datepicker button{
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+
+.Toastify__toast button{
+ color: ${theme.colors.white} !important;
+ opacity:1 !important;
+}
+
 .custom-date-picker{
   height: 70px;
   width: 100%;

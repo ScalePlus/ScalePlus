@@ -43,8 +43,8 @@ const OrganizationDetails = () => {
   const [mobile, changeMobile] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
-  const [birthDate, changeBirthDate] = useState(new Date());
-  const [incorporationDate, changeIncorporationDate] = useState(new Date());
+  const [birthDate, changeBirthDate] = useState(null);
+  const [incorporationDate, changeIncorporationDate] = useState(null);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -248,7 +248,9 @@ const OrganizationDetails = () => {
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
                   <DateInput
+                    placeholder="Incorporation Date"
                     value={incorporationDate}
+                    maxDate={new Date()}
                     onChange={(date) => {
                       changeIncorporationDate(date);
                     }}
@@ -281,7 +283,19 @@ const OrganizationDetails = () => {
                     onChange={(e) => changeLocation(e.target.value)}
                   ></Input>
                   <DateInput
+                    placeholder="Birth Date"
                     value={birthDate}
+                    openToDate={
+                      birthDate
+                        ? birthDate
+                        : new Date().setFullYear(new Date().getFullYear() - 18)
+                    }
+                    minDate={new Date().setFullYear(
+                      new Date().getFullYear() - 150
+                    )}
+                    maxDate={new Date().setFullYear(
+                      new Date().getFullYear() - 18
+                    )}
                     onChange={(date) => {
                       changeBirthDate(date);
                     }}

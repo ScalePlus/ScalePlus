@@ -26,8 +26,13 @@ export const resetPasswordReducer = createReducer(initialState, {
     });
   },
   [RESET_PASSWORD_LOADING](state, action) {
+    const { restPasswordSuccess } = state;
+    if (restPasswordSuccess && restPasswordSuccess.message) {
+      restPasswordSuccess["message"] = "";
+    }
     return Object.assign({}, state, {
       loading: true,
+      restPasswordSuccess,
       error: null,
     });
   },
