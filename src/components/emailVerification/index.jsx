@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
 import { getUser } from "../signin/action";
 import { MainContainer } from "./style";
-import { Title, Input, PrimaryButton, Loading } from "../common";
+import { Title, Input, IconButton, Loading } from "../common";
 import { Constants } from "../../lib/constant";
 
 const EmailVerification = ({ history, match }) => {
@@ -178,7 +178,7 @@ const EmailVerification = ({ history, match }) => {
                 signinReducer.userData &&
                 signinReducer.userData.emailVerification) ? (
                 <Col>
-                  <PrimaryButton
+                  <IconButton
                     text={"Login"}
                     onClick={() => {
                       history.push("/login");
@@ -188,7 +188,7 @@ const EmailVerification = ({ history, match }) => {
                 </Col>
               ) : (
                 <Col>
-                  <PrimaryButton text={"Verify"} type="submit" />
+                  <IconButton text={"Verify"} type="submit" />
                 </Col>
               )}
             </Row>

@@ -4,7 +4,7 @@ import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { signinAction } from "./action";
-import { Title, Input, PassInput, PrimaryButton, Loading } from "../common";
+import { Title, Input, PassInput, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
@@ -87,7 +87,7 @@ const SignIn = ({ history }) => {
 
             <Row className="button-container">
               <Col>
-                <PrimaryButton text={"Login"} type="submit"></PrimaryButton>
+                <IconButton text={"Login"} type="submit"></IconButton>
               </Col>
             </Row>
 

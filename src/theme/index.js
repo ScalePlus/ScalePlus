@@ -5,7 +5,7 @@ export default {
     transparent: "#ffffff00",
     yellow: "#FFC000",
     gray: "#7f7f7f",
-    border_gray: "#404040",
+    border_gray: "#808080",
     lightGray: "#FDFDFD",
     mediumgray: "#E0E0E0",
     stepperDefaultColor: "#D8D8D8",

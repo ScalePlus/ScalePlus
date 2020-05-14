@@ -8,7 +8,7 @@ import { MainContainer } from "./style";
 import {
   Title,
   TextArea,
-  PrimaryButton,
+  IconButton,
   BackButton,
   Tab,
   Loading,
@@ -324,7 +324,7 @@ const EssentialDetail = ({ history }) => {
                 ></BackButton>
               </Col>
               <Col lg={8} md={8} sm={8} xs={8}>
-                <PrimaryButton
+                <IconButton
                   text={
                     isStartUp_Individual
                       ? "Add Members"
@@ -335,7 +335,7 @@ const EssentialDetail = ({ history }) => {
                       : ""
                   }
                   type="submit"
-                ></PrimaryButton>
+                ></IconButton>
               </Col>
               <Col lg={2} md={2} sm={2} xs={2} />
             </Row>

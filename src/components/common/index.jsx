@@ -8,10 +8,11 @@ import {
   TitleContainer,
   DescriptionContainer,
   ButtonContainer,
-  SecondaryButtonContainer,
+  PrimaryButtonContainer,
   BackButtonContainer,
   TabContainer,
   LoadingContainer,
+  PageTitleContainer,
 } from "./style";
 import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
@@ -40,7 +41,7 @@ function Input({
 }) {
   return (
     <Form.Group>
-      {label && <Form.Label>{label}</Form.Label>}
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Form.Control
         type={type}
         placeholder={placeholder}
@@ -66,7 +67,7 @@ function TextArea({
 }) {
   return (
     <Form.Group>
-      {label && <Form.Label>{label}</Form.Label>}
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Form.Control
         as="textarea"
         rows={rows}
@@ -127,7 +128,7 @@ function BannerInput({ value, onChange, label, description }) {
   let fileUploader;
   return (
     <Form.Group>
-      {label && <Form.Label>{label}</Form.Label>}
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <div
         className="banner-input"
         // value={value && value.name ? value.name : value}
@@ -194,22 +195,38 @@ function DateInput({
   minDate,
   maxDate,
   openToDate,
+  label,
+  description,
 }) {
   return (
-    <DatePicker
-      dateFormat="dd/MM/yyyy"
-      showPopperArrow={false}
-      selected={value}
-      onChange={onChange}
-      placeholderText={placeholder}
-      showMonthDropdown
-      showYearDropdown
-      className="form-control"
-      minDate={minDate}
-      maxDate={maxDate}
-      openToDate={openToDate}
-      withPortal
-    />
+    <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
+      <DatePicker
+        dateFormat="dd/MM/yyyy"
+        showPopperArrow={false}
+        selected={value}
+        onChange={onChange}
+        placeholderText={placeholder}
+        showMonthDropdown
+        showYearDropdown
+        className="form-control"
+        minDate={minDate}
+        maxDate={maxDate}
+        openToDate={openToDate}
+        withPortal
+      />
+      <img
+        src={"/images/interface.svg"}
+        className="calendar-icon"
+        style={{ marginTop: label ? "-32px" : "-48px" }}
+        height="25px"
+        width="25px"
+        alt=""
+      ></img>
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
+    </Form.Group>
     // <DatePicker
     //   className="custom-date-picker"
     //   format="dd/MM/y"
@@ -289,7 +306,7 @@ function DropDown({
   };
   return (
     <Form.Group>
-      {label && <Form.Label>{label}</Form.Label>}
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Select
         isMulti
         placeholder={placeholder}
@@ -327,7 +344,7 @@ function Switch({ checked, onChange }) {
   );
 }
 
-function PrimaryButton({ text, onClick, disabled, type }) {
+function IconButton({ text, onClick, disabled, type }) {
   return (
     <ButtonContainer onClick={onClick} disabled={disabled} type={type}>
       <span className="button-text">{text}</span>
@@ -336,11 +353,15 @@ function PrimaryButton({ text, onClick, disabled, type }) {
   );
 }
 
-function SecondaryButton({ text, onClick, disabled }) {
+function PrimaryButton({ text, onClick, disabled, variant }) {
   return (
-    <SecondaryButtonContainer onClick={onClick} disabled={disabled}>
+    <PrimaryButtonContainer
+      onClick={onClick}
+      disabled={disabled}
+      variant={variant}
+    >
       <span className="button-text">{text}</span>
-    </SecondaryButtonContainer>
+    </PrimaryButtonContainer>
   );
 }
 
@@ -377,6 +398,10 @@ function Loading() {
   );
 }
 
+function PageTitle({ text }) {
+  return <PageTitleContainer>{text}</PageTitleContainer>;
+}
+
 export {
   Title,
   Description,
@@ -388,9 +413,10 @@ export {
   DateInput,
   DropDown,
   Switch,
+  IconButton,
   PrimaryButton,
-  SecondaryButton,
   BackButton,
   Tab,
   Loading,
+  PageTitle,
 };

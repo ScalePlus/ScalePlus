@@ -18,7 +18,7 @@ import {
   Title,
   Description,
   DropDown,
-  PrimaryButton,
+  IconButton,
   BackButton,
   Loading,
 } from "../common";
@@ -395,10 +395,10 @@ const BusinessTags = ({ history }) => {
                 ></BackButton>
               </Col>
               <Col lg={8} md={8} sm={8} xs={8}>
-                <PrimaryButton
+                <IconButton
                   text={"Essential Details"}
                   type="submit"
-                ></PrimaryButton>
+                ></IconButton>
               </Col>
               <Col lg={2} md={2} sm={2} xs={2} />
             </Row>

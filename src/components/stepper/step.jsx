@@ -166,8 +166,14 @@ export default class Step extends Component {
 
     return (
       <div style={styles.step}>
-        <div style={circleStyle} onClick={onClick}>
-          <span onClick={onClick} style={styles.index}>
+        <div
+          style={circleStyle}
+          onClick={active || completed ? (e) => onClick(e) : () => {}}
+        >
+          <span
+            onClick={active || completed ? (e) => onClick(e) : () => {}}
+            style={styles.index}
+          >
             {stepContent}
           </span>
         </div>

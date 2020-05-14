@@ -3,6 +3,15 @@ import theme from "../../theme";
 
 export const MainContainer = styled.div`
   text-align: center;
+  .col-lg-4 {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  .container {
+    @media (min-width: 992px) {
+      padding: 0px 40px;
+    }
+  }
   .form-control {
     padding: 10px;
     height: 40px;
@@ -18,11 +27,7 @@ export const MainContainer = styled.div`
     margin-top: 50px;
     text-align: left;
   }
-  .title {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.mediumLarge};
-    font-weight: 600;
+  .title-container {
     margin: 10px -15px;
   }
   .sub-title {
@@ -42,6 +47,9 @@ export const MainContainer = styled.div`
     border-radius: 6px;
     cursor: pointer;
     padding: 10px;
+    :hover {
+      box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.14);
+    }
     .image-container {
       margin: 25px 0px;
       display: flex;
@@ -56,11 +64,11 @@ export const MainContainer = styled.div`
       font-size: ${theme.fontSize.mediumSmall};
       font-weight: 600;
     }
-    .description {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.regular};
-    }
+  }
+  .description {
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.regular};
   }
   .right-content-container {
     color: ${theme.colors.gray};
@@ -71,6 +79,7 @@ export const MainContainer = styled.div`
   }
   .button-container {
     text-align: center;
+    margin: 35px -15px;
   }
   .bottom-container {
     color: ${theme.colors.black};
@@ -85,5 +94,20 @@ export const MainContainer = styled.div`
   }
   .form-container {
     margin-top: 35px;
+  }
+  .challenge-completed-container {
+    margin-top: 55px;
+    .image-container {
+      margin: 25px 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+  }
+  .center-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;

@@ -41,12 +41,15 @@ export const ButtonContainer = styled.button`
   }
 `;
 
-export const SecondaryButtonContainer = styled.button`
-  text-align: center;
+export const PrimaryButtonContainer = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 6px;
-  background: ${theme.colors.yellow};
-  padding: 5px 30px;
+  background: ${(props) =>
+    props.variant === "primary" ? theme.colors.yellow : "rgba(0, 0, 0, 0.11)"};
+  padding: 10px 30px;
   :focus {
     outline: 0;
   }
@@ -114,4 +117,10 @@ export const LoadingContainer = styled.div`
     width: 4rem;
     height: 4rem;
   }
+`;
+
+export const PageTitleContainer = styled.h2`
+  color: ${theme.colors.black};
+  font-family: ${theme.fontFamily.bold};
+  font-size: ${theme.fontSize.mediumLarge};
 `;

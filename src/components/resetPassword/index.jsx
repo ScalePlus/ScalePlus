@@ -3,7 +3,7 @@ import { Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { forgotPasswordAction, clearAll } from "./action";
-import { Title, Input, PrimaryButton, Loading } from "../common";
+import { Title, Input, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
@@ -72,10 +72,7 @@ const ResetPassword = () => {
 
             <Row className="button-container">
               <Col>
-                <PrimaryButton
-                  text={"Reset Password"}
-                  type="submit"
-                ></PrimaryButton>
+                <IconButton text={"Reset Password"} type="submit"></IconButton>
               </Col>
             </Row>
           </Form>

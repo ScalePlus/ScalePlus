@@ -3,20 +3,23 @@ import {
   Input,
   DropDown,
   TextArea,
-  SecondaryButton,
+  PrimaryButton,
   BannerInput,
+  PageTitle,
 } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
 
-function Step2() {
+function Step2({ setActiveStep }) {
   return (
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
           <Col>WHAT’S YOUR ELEVATOR PITCH?</Col>
         </Row>
-        <Row className="title">
-          <Col>Challenge Overview</Col>
+        <Row className="title-container">
+          <Col>
+            <PageTitle text="Challenge Overview" />
+          </Col>
         </Row>
         <Row className="sub-title">
           <Col>
@@ -30,6 +33,7 @@ function Step2() {
               <Input type="text" label="Title *" />
               <DropDown
                 label="Categories *"
+                placeholder=""
                 description="The categories help people use search criteria to find your challenge. Select no more than 3."
                 options={[]}
               />
@@ -58,11 +62,14 @@ function Step2() {
             <Col>You can always edit this information later</Col>
           </Row>
           <Row className="button-container">
-            <Col>
-              <SecondaryButton
+            <Col className="center-component">
+              <PrimaryButton
+                variant="primary"
                 text={"Continue"}
-                onClick={() => {}}
-              ></SecondaryButton>
+                onClick={() => {
+                  setActiveStep(2);
+                }}
+              ></PrimaryButton>
             </Col>
           </Row>
           <Row className="bottom-container">

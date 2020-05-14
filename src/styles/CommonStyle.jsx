@@ -25,6 +25,12 @@ export const GlobalStyle = createGlobalStyle`
   margin-top:5px;
 }
 
+.text-label{
+  color: ${theme.colors.black};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
+}
+
 .react-datepicker-wrapper,.react-datepicker-wrapper input{
   width: 100%;
   :focus {
@@ -192,6 +198,14 @@ export const GlobalStyle = createGlobalStyle`
 .password-icon {
   position: absolute;
   margin-top: -45px;
+  right: 0;
+  margin-right: 25px;
+  font-size: ${theme.fontSize.title};
+  cursor: pointer;
+}
+
+.calendar-icon {
+  position: absolute;
   right: 0;
   margin-right: 25px;
   font-size: ${theme.fontSize.title};

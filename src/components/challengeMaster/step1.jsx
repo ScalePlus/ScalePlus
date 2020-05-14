@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { PageTitle } from "../common";
 import { Row, Col } from "react-bootstrap";
 const tabs = [
   {
@@ -19,18 +20,19 @@ const tabs = [
   },
 ];
 
-function Step1() {
-  const [selectedTab, selectTab] = useState("IDEAS");
+function Step1({ setActiveStep }) {
   return (
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
           <Col>WHAT ARE YOU LOOKING FOR?</Col>
         </Row>
-        <Row className="title">
+        <Row className="title-container">
           <Col>
-            Have A Business Problem? Launch a Challenge to Get Innovative
-            Solutions
+            <PageTitle
+              text="Have A Business Problem? Launch a Challenge to Get Innovative
+            Solutions"
+            />
           </Col>
         </Row>
         <Row className="sub-title">
@@ -42,14 +44,8 @@ function Step1() {
               <Col lg={4} md={4} sm={4} xs={12} key={index}>
                 <div
                   className="box-container"
-                  style={{
-                    boxShadow:
-                      selectedTab === each.title
-                        ? "0 5px 20px 0 rgba(0,0,0,0.14)"
-                        : "none",
-                  }}
                   onClick={() => {
-                    selectTab(each.title);
+                    setActiveStep(1);
                   }}
                 >
                   <div className="image-container">

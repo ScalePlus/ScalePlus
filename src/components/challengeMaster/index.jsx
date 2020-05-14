@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stepper from "../stepper";
 import { Row, Col } from "react-bootstrap";
 import theme from "../../theme";
@@ -9,12 +9,16 @@ import Step4 from "./step4";
 import { MainContainer } from "./style";
 
 function ChallengeMaster() {
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeStep]);
 
   return (
     <MainContainer>
       <Row className="justify-content-center">
-        <Col lg={6} md={10} sm={12}>
+        <Col lg={7} md={10} sm={12} className="container">
           <Stepper
             steps={[
               {
@@ -54,11 +58,11 @@ function ChallengeMaster() {
           />
 
           {activeStep === 0 ? (
-            <Step1></Step1>
+            <Step1 setActiveStep={setActiveStep}></Step1>
           ) : activeStep === 1 ? (
-            <Step2></Step2>
+            <Step2 setActiveStep={setActiveStep}></Step2>
           ) : activeStep === 2 ? (
-            <Step3></Step3>
+            <Step3 setActiveStep={setActiveStep}></Step3>
           ) : activeStep === 3 ? (
             <Step4></Step4>
           ) : null}

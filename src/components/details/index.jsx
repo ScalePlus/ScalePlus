@@ -12,7 +12,7 @@ import {
   FileInput,
   DateInput,
   Switch,
-  PrimaryButton,
+  IconButton,
   Loading,
 } from "../common";
 import { Constants } from "../../lib/constant";
@@ -306,10 +306,7 @@ const OrganizationDetails = () => {
 
             <Row className="button-container">
               <Col>
-                <PrimaryButton
-                  text={"Business Tags"}
-                  type="submit"
-                ></PrimaryButton>
+                <IconButton text={"Business Tags"} type="submit"></IconButton>
               </Col>
             </Row>
           </Form>

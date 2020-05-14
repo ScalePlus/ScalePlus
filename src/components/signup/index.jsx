@@ -10,7 +10,7 @@ import {
   Description,
   Input,
   PassInput,
-  PrimaryButton,
+  IconButton,
   Tab,
   Loading,
 } from "../common";
@@ -176,10 +176,10 @@ const SignUp = ({ history }) => {
 
             <Row className="button-container">
               <Col>
-                <PrimaryButton
+                <IconButton
                   text={"Email Verification"}
                   type="submit"
-                ></PrimaryButton>
+                ></IconButton>
               </Col>
             </Row>
           </Form>

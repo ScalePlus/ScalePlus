@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { forgotPasswordAction } from "./action";
-import { Title, PrimaryButton, Loading } from "../common";
+import { Title, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
 
 const ResetConfirmation = ({ history }) => {
@@ -63,13 +63,13 @@ const ResetConfirmation = ({ history }) => {
             </Row>
             <Row className="login-button-container">
               <Col>
-                <PrimaryButton
+                <IconButton
                   text={"Login"}
                   type="button"
                   onClick={() => {
                     history.push("/login");
                   }}
-                ></PrimaryButton>
+                ></IconButton>
               </Col>
             </Row>
           </Col>
