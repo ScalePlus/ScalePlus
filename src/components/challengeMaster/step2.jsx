@@ -43,7 +43,7 @@ function Step2({ setActiveStep }) {
                 description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
               />
               <TextArea
-                rows="5"
+                rows="4"
                 label="Short Description"
                 description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
               />

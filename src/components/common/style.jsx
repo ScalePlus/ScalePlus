@@ -48,7 +48,13 @@ export const PrimaryButtonContainer = styled.button`
   border: none;
   border-radius: 6px;
   background: ${(props) =>
-    props.variant === "primary" ? theme.colors.yellow : "rgba(0, 0, 0, 0.11)"};
+    props.variant === "primary"
+      ? theme.colors.yellow
+      : props.variant === "secondary"
+      ? "rgba(0, 0, 0, 0.11)"
+      : props.variant === "info"
+      ? "#5AC8FA"
+      : "#5AC8FA"};
   padding: 10px 30px;
   :focus {
     outline: 0;

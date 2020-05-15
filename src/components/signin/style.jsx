@@ -21,7 +21,6 @@ export const MainContainer = styled.div`
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
-    font-weight: 600;
   }
 
   .link {

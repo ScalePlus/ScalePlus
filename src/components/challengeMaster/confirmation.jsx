@@ -38,7 +38,7 @@ function ChallengeConfirmation() {
             <Col lg={2} md={2} sm={2} xs={2} />
             <Col lg={4} md={4} sm={4} xs={4} className="center-component">
               <PrimaryButton
-                type="secondary"
+                variant="secondary"
                 text={"Edit Challenge Details"}
                 onClick={() => {}}
               ></PrimaryButton>

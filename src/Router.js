@@ -12,6 +12,7 @@ import ResetConfirmation from "./components/resetPassword/resetConfirmation";
 import ChangePassword from "./components/resetPassword/changePassword";
 import ChallengeMaster from "./components/challengeMaster";
 import ChallengeConfirmation from "./components/challengeMaster/confirmation";
+import ChallengePreview from "./components/challengePreview";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -120,6 +121,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={ChallengeConfirmation}
+          />
+          <AuthRoute
+            path="/challenge/preview"
+            exact
+            layout={MainLayout}
+            component={ChallengePreview}
           />
           <Redirect
             from="/"
