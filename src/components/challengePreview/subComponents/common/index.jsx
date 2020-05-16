@@ -4,7 +4,7 @@ import { PrimaryButton } from "../../../common";
 import {
   TitleContainer,
   ExpandCollapseContainer,
-  StepperContainer,
+  StepperVerticalContainer,
 } from "./style";
 
 export function HeaderComponent({ titleText, buttonText }) {
@@ -60,28 +60,54 @@ export function ExpandCollapse({ title, timestamp, link, description }) {
   );
 }
 
-export function Stepper({ steps }) {
+export function VeticalStepper({ steps }) {
+  const activeIndex = steps.findIndex((each) => {
+    return each.active;
+  });
+
   return (
-    <StepperContainer>
-      {steps &&
-        steps.length &&
-        steps.map((each, index) => {
-          return (
-            <div className="main-container" key={index}>
-              <div className="side-border" active={index}></div>
-              <div className="step-circle"></div>
-              <div className="content">
-                <div className="timestamp"> April 9, 2020, 9 a.m. +04</div>
-                <div className="title">Date Launched</div>
-                <div className="description">
-                  Give a tiny bot a new set of tools to explore the moon. Share
-                  your ideas for a mini payload to make lunar exploration more
-                  effective.
+    <StepperVerticalContainer>
+      <div className="steps">
+        {steps &&
+          steps.length &&
+          steps.map((each, index) => {
+            return (
+              <div
+                className={
+                  each.active
+                    ? "step active"
+                    : index < activeIndex
+                    ? "step selected"
+                    : "step"
+                }
+                key={index}
+              >
+                {index === 0 && (
+                  <div className="start-label">
+                    <span>Start</span>
+                  </div>
+                )}
+                {index === steps.length - 1 && (
+                  <div className="end-label">
+                    <span>Finish</span>
+                  </div>
+                )}
+                <div className="outer-oval">
+                  <div className="inner-oval" />
+                </div>
+                <div className={each.active ? "content active" : "content"}>
+                  {each.timestamp && (
+                    <div className="timestamp"> {each.timestamp}</div>
+                  )}
+                  {each.title && <div className="title">{each.title}</div>}
+                  {each.description && (
+                    <div className="description">{each.description}</div>
+                  )}
                 </div>
               </div>
-            </div>
-          );
-        })}
-    </StepperContainer>
+            );
+          })}
+      </div>
+    </StepperVerticalContainer>
   );
 }

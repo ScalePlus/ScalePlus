@@ -19,6 +19,7 @@ export default {
     extraSmall: "0.688rem",
     small: "0.75rem",
     regular: "0.875rem",
+    mediumRegular: "1rem",
     mediumSmall: "1.125rem",
     medium: "1.25rem",
     extraMedium: "1.375rem",
