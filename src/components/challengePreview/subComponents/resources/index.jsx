@@ -6,15 +6,12 @@ import { MainContainer } from "./style";
 export default function Resources() {
   return (
     <MainContainer>
-      <Row
-        className="justify-content-center"
-        style={{ alignItems: "center", marginBottom: 40 }}
-      >
+      <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
           <HeaderComponent titleText="Resources" buttonText="Add New" />
         </Col>
       </Row>
-      <Row className="justify-content-center" style={{ alignItems: "center" }}>
+      <Row className="justify-content-center center-alignment">
         <Col lg={11} md={11} sm={11} xs={11}>
           <ExpandCollapse
             title="Challenge NDA Document"

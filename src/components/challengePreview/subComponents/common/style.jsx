@@ -5,27 +5,56 @@ export const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: left;
   .title {
     color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
+    font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiLarge};
-    font-weight: 600;
+
+    span {
+      padding-bottom: 5px;
+      padding-right: 5px;
+      border-bottom: 5px solid ${theme.colors.yellow};
+    }
   }
-  .title-border {
-    height: 8px;
-    margin-top: 5px;
-    background-color: ${theme.colors.yellow};
+`;
+
+export const TitleContainerWithSearchBox = styled.div`
+  text-align: left;
+  .title {
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.semiLarge};
+
+    margin-bottom: 35px;
+    span {
+      padding-bottom: 5px;
+      padding-right: 5px;
+      border-bottom: 5px solid ${theme.colors.yellow};
+    }
+  }
+  .search-container {
+    align-items: center;
+    .form-group {
+      margin-bottom: 0;
+    }
+    .form-control {
+      height: 35px;
+      padding: 10px;
+    }
   }
 `;
 
 export const ExpandCollapseContainer = styled.div`
   margin-bottom: 15px;
+  text-align: left;
+  cursor: pointer;
   .main-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    height: 50px;
+    padding: 15px 10px;
+    min-height: 50px;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     background-color: #fbfbfb;
@@ -33,15 +62,17 @@ export const ExpandCollapseContainer = styled.div`
   .content-container {
     .title {
       color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
+      font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.regular};
       margin-right: 30px;
-      font-weight: 600;
     }
     .timestamp {
       color: ${theme.colors.gray};
       font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
+    }
+    span {
+      vertical-align: middle;
     }
   }
   .icon-container {
@@ -58,42 +89,12 @@ export const ExpandCollapseContainer = styled.div`
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
     .link {
-      font-weight: 600;
-      margin-bottom: 5px;
+      font-family: ${theme.fontFamily.bold};
+      margin-bottom: 10px;
       text-decoration: underline;
       a {
         color: ${theme.colors.black};
       }
-    }
-  }
-`;
-
-export const UpdateTabContainer = styled.div`
-  margin-bottom: 15px;
-  .collapse-container {
-    text-align: left;
-    padding: 10px;
-    min-height: 90px;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
-  }
-  .content-container {
-    margin-bottom: 5px;
-    .title {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.regular};
-      margin-right: 30px;
-      font-weight: 600;
-    }
-    .timestamp {
-      color: ${theme.colors.gray};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.small};
     }
   }
 `;
@@ -105,7 +106,7 @@ export const StepperVerticalContainer = styled.div`
   }
 
   .step {
-    padding: 0px 0px 15px 50px;
+    padding: 0px 0px 15px 45px;
     position: relative;
     display: flex;
     align-items: center;
@@ -113,8 +114,8 @@ export const StepperVerticalContainer = styled.div`
 
   .start-label {
     position: absolute;
-    margin-top: -25px;
-    left: calc(50px / 2);
+    top: 25px;
+    left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;
     color: ${theme.colors.black};
@@ -124,8 +125,8 @@ export const StepperVerticalContainer = styled.div`
 
   .end-label {
     position: absolute;
-    margin-top: 25px;
-    left: calc(50px / 2);
+    bottom: 30px;
+    left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;
     color: ${theme.colors.black};
@@ -141,7 +142,7 @@ export const StepperVerticalContainer = styled.div`
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    left: calc(50px / 2);
+    left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;
   }
@@ -159,21 +160,19 @@ export const StepperVerticalContainer = styled.div`
     height: 100%;
     width: 2px;
     background-color: #d8d8d8;
-    left: calc(50px / 2);
+    left: calc(20px / 2);
     top: 0;
     z-index: 1;
   }
 
   .step:first-child::after {
-    top: auto;
+    top: 50%;
     height: 50%;
-    bottom: 0;
   }
 
   .step:last-child::after {
-    bottom: 0;
+    bottom: 50%;
     height: 50%;
-    top: 0;
   }
 
   .selected {
@@ -184,35 +183,39 @@ export const StepperVerticalContainer = styled.div`
 
   .selected::after {
     background-color: ${theme.colors.yellow};
-    height: 140%;
   }
 
   .active {
     .outer-oval {
       border: 1px solid #ffc000;
-      background-color: ${theme.colors.white};
+      background-color: #fdfdfd;
     }
     .inner-oval {
       background-color: ${theme.colors.yellow};
     }
   }
 
-  .active::after {
-    top: auto;
+  .step:not(:first-child).active::before {
+    content: "";
+    position: absolute;
     height: 50%;
-    bottom: 0;
+    width: 2px;
+    background-color: ${theme.colors.yellow};
+    left: calc(20px / 2);
+    top: 0;
+    z-index: 1;
   }
 
-  .step:first-child.selected::after {
+  .active::after {
     top: 50%;
-    height: 155%;
-    bottom: auto;
+    height: 50%;
   }
 
   .step:last-child.active::after {
-    bottom: 0;
-    height: 0%;
     top: 0;
+    bottom: 50%;
+    height: 50%;
+    background-color: ${theme.colors.yellow};
   }
 
   .content {
@@ -226,10 +229,9 @@ export const StepperVerticalContainer = styled.div`
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
     .title {
-      font-family: ${theme.fontFamily.regular};
+      font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumRegular};
-      margin-bottom: 5px;
-      font-weight: 600;
+      margin-bottom: 10px;
     }
     .timestamp {
       font-family: ${theme.fontFamily.regular};

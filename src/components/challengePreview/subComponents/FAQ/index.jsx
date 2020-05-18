@@ -6,10 +6,7 @@ import { MainContainer } from "./style";
 export default function FAQ() {
   return (
     <MainContainer>
-      <Row
-        className="justify-content-center"
-        style={{ alignItems: "center", marginBottom: 40 }}
-      >
+      <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
           <HeaderComponent
             titleText="Frequently Asked Questions"
@@ -17,7 +14,7 @@ export default function FAQ() {
           />
         </Col>
       </Row>
-      <Row className="justify-content-center" style={{ alignItems: "center" }}>
+      <Row className="justify-content-center center-alignment">
         <Col lg={11} md={11} sm={11} xs={11}>
           <ExpandCollapse
             title="Do I have to register on Scale+ to follow the challenge, leave a comment or register to compete in the challenge?"

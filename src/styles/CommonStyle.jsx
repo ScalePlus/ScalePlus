@@ -204,6 +204,14 @@ export const GlobalStyle = createGlobalStyle`
   cursor: pointer;
 }
 
+.search-icon{
+  position: absolute;
+  margin-top: -25px;
+  right: 0;
+  margin-right: 25px;
+  cursor: pointer;
+}
+
 .calendar-icon {
   position: absolute;
   right: 0;

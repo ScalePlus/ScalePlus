@@ -56,6 +56,39 @@ function Input({
   );
 }
 
+function SearchInput({
+  placeholder,
+  value,
+  onChange,
+  max,
+  label,
+  description,
+}) {
+  return (
+    <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
+      <Form.Control
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        maxLength={max}
+        onChange={onChange ? onChange : () => {}}
+      />
+      <img
+        src={"/images/search.svg"}
+        className="search-icon"
+        height="15px"
+        width="15px"
+        alt=""
+        onClick={(e) => {}}
+      ></img>
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
+    </Form.Group>
+  );
+}
+
 function TextArea({
   rows,
   placeholder,
@@ -406,6 +439,7 @@ export {
   Title,
   Description,
   Input,
+  SearchInput,
   TextArea,
   FileInput,
   BannerInput,

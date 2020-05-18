@@ -13,6 +13,7 @@ export default {
   fontFamily: {
     regular: "OpenSans-Regular",
     bold: "OpenSans-Bold",
+    semi_bold: "OpenSans-SemiBold",
     rockwell_regular: "Rockwell-Regular",
   },
   fontSize: {

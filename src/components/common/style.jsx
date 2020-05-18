@@ -55,16 +55,16 @@ export const PrimaryButtonContainer = styled.button`
       : props.variant === "info"
       ? "#5AC8FA"
       : "#5AC8FA"};
-  padding: 10px 30px;
+  padding: 10px 15px;
+  min-width: 100px;
   :focus {
     outline: 0;
   }
   .button-text {
     cursor: pointer;
     color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
+    font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.small};
-    font-weight: 600;
   }
 `;
 

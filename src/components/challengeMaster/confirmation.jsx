@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { PrimaryButton, PageTitle } from "../common";
 import { MainContainer } from "./style";
+import history from "../../history";
 
 function ChallengeConfirmation() {
   return (
@@ -28,13 +29,16 @@ function ChallengeConfirmation() {
           <Row className="sub-title" style={{ marginBottom: "35px" }}>
             <Col>New 1</Col>
           </Row>
-          <Row className="description" style={{ marginBottom: "50px" }}>
+          <Row
+            className="description text-left"
+            style={{ marginBottom: "50px" }}
+          >
             <Col>
               Great job on creating a challenge! Scale+ team will review the
               content and give you the green light to go live if you want.
             </Col>
           </Row>
-          <Row>
+          <Row style={{ marginBottom: "50px" }}>
             <Col lg={2} md={2} sm={2} xs={2} />
             <Col lg={4} md={4} sm={4} xs={4} className="center-component">
               <PrimaryButton
@@ -47,7 +51,9 @@ function ChallengeConfirmation() {
               <PrimaryButton
                 variant="primary"
                 text={"Preview Challenge"}
-                onClick={() => {}}
+                onClick={() => {
+                  history.push("/challenge/preview");
+                }}
               ></PrimaryButton>
             </Col>
             <Col lg={2} md={2} sm={2} xs={2} />

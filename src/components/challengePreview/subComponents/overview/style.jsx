@@ -3,6 +3,9 @@ import theme from "../../../../theme";
 
 export const MainContainer = styled.div`
   text-align: left;
+  .image-box-container {
+    margin-bottom: 20px;
+  }
   .left-container {
     height: 400px;
     border: 1px solid ${theme.colors.border_gray};
@@ -14,7 +17,6 @@ export const MainContainer = styled.div`
     align-items: center;
   }
   .right-container {
-    height: 400px;
     margin-bottom: 25px;
     overflow: auto;
     h2 {
@@ -44,11 +46,11 @@ export const MainContainer = styled.div`
     }
     .bottom-container {
       display: flex;
-      font-family: ${theme.fontFamily.regular};
+      font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumSmall};
-      font-weight: 600;
+
       .stage-container {
-        margin-right: 150px;
+        margin-right: 120px;
       }
       .title-text {
         color: ${theme.colors.gray};
@@ -62,14 +64,19 @@ export const MainContainer = styled.div`
 
 export const ContentContainer = styled.div`
   .description {
-    margin-bottom: 40px;
+    margin-bottom: 45px;
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.extraMedium};
+    font-size: ${theme.fontSize.medium};
+  }
+
+  .header-container {
+    align-items: center;
+    margin-bottom: 45px;
   }
 
   .image-container {
-    margin-bottom: 40px;
+    margin-bottom: 45px;
     height: 500px;
     border: 1px solid ${theme.colors.border_gray};
     border-radius: 6px;

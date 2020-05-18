@@ -8,12 +8,9 @@ export const MainContainer = styled.div`
     background-color: #efefef;
     margin-bottom: 25px;
     padding: 5px;
-    span {
+    h2 {
       opacity: 0.3;
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.mediumLarge};
-      font-weight: 600;
+      margin-bottom: 0px;
     }
   }
   .left-continer {
@@ -22,8 +19,8 @@ export const MainContainer = styled.div`
     justify-content: flex-start;
   }
   .oval-container {
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     border: 1px solid #979797;
     background-color: ${theme.colors.white};
     border-radius: 50%;
@@ -34,9 +31,8 @@ export const MainContainer = styled.div`
   }
   .organization-name {
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
+    font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumSmall};
-    font-weight: 600;
   }
   .right-continer {
     display: flex;
@@ -44,11 +40,11 @@ export const MainContainer = styled.div`
     justify-content: flex-end;
   }
   .progress-oval-container {
-    height: 50px;
-    width: 50px;
+    height: 35px;
+    width: 35px;
   }
   .full-width-cotainer {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     border-top: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;
     background-color: #f9f9f9;
@@ -65,36 +61,43 @@ export const WarningContainer = styled.div`
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
   }
+  .read-more-text {
+    text-decoration: underline;
+  }
+  .bold-text {
+    font-family: ${theme.fontFamily.bold};
+  }
 `;
 
 export const TabContainer = styled.div`
-  .tabs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
+  border: none;
+  .nav {
+    float: right;
   }
-  .tab {
-    margin-top: 15px;
+  .nav-tabs {
+    border: none;
+  }
+  .nav-item {
+    margin-left: 25px;
+  }
+  .nav-link {
+    border-bottom: 8px solid transparent;
     cursor: pointer;
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
+    font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumSmall};
-    font-weight: 600;
-    margin-left: 70px;
+    padding: 1rem 1.2rem 0.5rem 1.2rem;
   }
-  .tab-border {
-    height: 8px;
-    margin-top: 10px;
-    margin-left: -25px;
-    margin-right: -25px;
-    background-color: none;
-  }
-  .selected-tab {
+  .nav-item.show .nav-link,
+  .nav-link.active {
     color: ${theme.colors.black};
-    .tab-border {
-      background-color: ${theme.colors.yellow};
-    }
+    background: transparent;
+    border-bottom: 8px solid ${theme.colors.yellow};
+  }
+  .nav-link:focus,
+  .nav-link:hover {
+    text-decoration: none;
+    outline: none;
   }
   .count-container {
     height: 20px;
@@ -106,8 +109,8 @@ export const TabContainer = styled.div`
     align-items: center;
     margin-right: 10px;
     position: absolute;
-    margin-top: -55px;
-    margin-left: 145px;
+    margin-top: -50px;
+    margin-left: 95px;
     span {
       color: ${theme.colors.white};
       font-family: ${theme.fontFamily.regular};

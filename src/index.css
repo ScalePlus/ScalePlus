@@ -5,16 +5,21 @@ body {
 }
 
 @font-face {
-  font-family: 'OpenSans-Regular';
-  src: url('/fonts/Open_Sans/OpenSans-Regular.ttf') format('truetype');
+  font-family: "OpenSans-Regular";
+  src: url("/fonts/Open_Sans/OpenSans-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'OpenSans-Bold';
-  src: url('/fonts/Open_Sans/OpenSans-Bold.ttf') format('truetype');
+  font-family: "OpenSans-Bold";
+  src: url("/fonts/Open_Sans/OpenSans-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Rockwell-Regular';
-  src: url('/fonts/Rockwell-Font/ROCK.TTF') format('truetype');
+  font-family: "OpenSans-SemiBold";
+  src: url("/fonts/Open_Sans/OpenSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Rockwell-Regular";
+  src: url("/fonts/Rockwell-Font/ROCK.TTF") format("truetype");
 }

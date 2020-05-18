@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Collapse } from "react-bootstrap";
-import { PrimaryButton } from "../../../common";
+import { Collapse, Row, Col } from "react-bootstrap";
+
+import { SearchInput, PrimaryButton } from "../../../common";
 import {
   TitleContainer,
+  TitleContainerWithSearchBox,
   ExpandCollapseContainer,
   StepperVerticalContainer,
 } from "./style";
@@ -10,11 +12,8 @@ import {
 export function HeaderComponent({ titleText, buttonText }) {
   return (
     <TitleContainer>
-      <div>
-        <div className={"title"}>
-          <span>{titleText}</span>
-          <div className="title-border"></div>
-        </div>
+      <div className={"title"}>
+        <span>{titleText}</span>
       </div>
       <div>
         <PrimaryButton
@@ -27,11 +26,42 @@ export function HeaderComponent({ titleText, buttonText }) {
   );
 }
 
+export function HeaderComponentWithSearchBox({ titleText, buttonText }) {
+  return (
+    <TitleContainerWithSearchBox>
+      <div className={"title"}>
+        <span>{titleText}</span>
+      </div>
+      <div className="search-container">
+        <Row>
+          <Col lg={3} md={3} sm={6} xs={6}>
+            <SearchInput placeholder="Search Forum"></SearchInput>
+          </Col>
+          <Col
+            lg={{ span: 4, offset: 5 }}
+            md={{ span: 4, offset: 4 }}
+            sm={6}
+            xs={6}
+          >
+            <div className="float-right">
+              <PrimaryButton
+                variant="info"
+                text={buttonText}
+                onClick={() => {}}
+              ></PrimaryButton>
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </TitleContainerWithSearchBox>
+  );
+}
+
 export function ExpandCollapse({ title, timestamp, link, description }) {
   const [open, setOpen] = useState(false);
   return (
     <ExpandCollapseContainer>
-      <div className="main-container">
+      <div className="main-container" onClick={() => setOpen(!open)}>
         <div className="content-container">
           {title && <span className="title">{title}</span>}
           {timestamp && <span className="timestamp">{timestamp}</span>}
@@ -42,18 +72,19 @@ export function ExpandCollapse({ title, timestamp, link, description }) {
             height={"20px"}
             width={"20px"}
             alt=""
-            onClick={() => setOpen(!open)}
           ></img>
         </div>
       </div>
       <Collapse in={open}>
-        <div className="collapse-container">
-          {link && (
-            <div className="link">
-              <a href="/">{link}</a>
-            </div>
-          )}
-          {description && <div className="description">{description}</div>}
+        <div>
+          <div className="collapse-container">
+            {link && (
+              <div className="link">
+                <a href="/">{link}</a>
+              </div>
+            )}
+            {description && <div className="description">{description}</div>}
+          </div>
         </div>
       </Collapse>
     </ExpandCollapseContainer>

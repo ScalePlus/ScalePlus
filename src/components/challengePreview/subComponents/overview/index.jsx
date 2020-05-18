@@ -8,7 +8,7 @@ const tags = ["Challenge Tag", "Challenge Tag", "Challenge Tag"];
 export default function OverView() {
   return (
     <MainContainer>
-      <Row className="justify-content-center" style={{ marginBottom: 20 }}>
+      <Row className="justify-content-center image-box-container">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
             <Col lg={7} md={8} sm={12} xs={12}>
@@ -60,10 +60,7 @@ export default function OverView() {
         </Col>
       </Row>
       <ContentContainer>
-        <Row
-          className="justify-content-center"
-          style={{ alignItems: "center", marginBottom: 30 }}
-        >
+        <Row className="justify-content-center header-container">
           <Col lg={11} md={11} sm={11} xs={11}>
             <HeaderComponent
               titleText="Challenge Overview"
