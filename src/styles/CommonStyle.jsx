@@ -111,6 +111,31 @@ export const GlobalStyle = createGlobalStyle`
   box-shadow: none;
 }
 
+.form-control.is-invalid:focus, .was-validated .form-control:invalid:focus{
+  box-shadow:none;
+}
+
+.was-validated .invalid-select__control{
+  border: 1px solid #dc3545 !important;
+}
+
+.is-invalid~.invalid-feedback{
+  display:none;
+}
+
+.was-validated .is-invalid~.invalid-feedback{
+  display:block;
+}
+
+.form-control.is-invalid,.form-control.is-invalid:focus{
+  border-color: ${theme.colors.border_gray} !important;
+}
+
+
+.was-validated .form-control.is-invalid,.was-validated .form-control.is-invalid:focus{
+  border-color: #dc3545 !important;
+}
+
 .form-control.is-invalid, .was-validated .form-control:invalid{
   background-image:none;
 }

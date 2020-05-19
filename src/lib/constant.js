@@ -7,6 +7,7 @@ export const Constants = {
   },
   Errors: {
     email: "Email is required",
+    invalid_email: "Invalid Email",
     password: "Password is required",
     confirmPassword: "Confirm password is required",
     passwordMismatch: "Password does not match",
@@ -32,5 +33,13 @@ export const Constants = {
     funding: "Funding is required",
     summary: "Summary is required",
     expertise: "Expertise is required",
+    title: "Title is required",
+    prize: "Prize is required",
+    Categories: "Categories is required",
+    launchDate: "Launch date is required",
+    dueDate: "Due date is required",
+    biginDate: "Bigins date is required",
+    endDate: "Ends date is required",
+    anounceDate: "Announce date is required",
   },
 };

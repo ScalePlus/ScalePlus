@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { updateDetailsAction } from "./action";
 
 import { MainContainer } from "./style";
@@ -45,6 +44,8 @@ const OrganizationDetails = () => {
   const [location, changeLocation] = useState("");
   const [birthDate, changeBirthDate] = useState(null);
   const [incorporationDate, changeIncorporationDate] = useState(null);
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -72,100 +73,58 @@ const OrganizationDetails = () => {
 
   useEffect(() => {
     const { error } = updateDetailsReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [updateDetailsReducer]);
 
   const onUpdateDetails = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (isStartUp_Individual || isOrganisation) {
-      if (!name) {
-        toast.error(Constants.Errors.name, { position: "bottom-right" });
-      }
-      if (!logo) {
-        toast.error(Constants.Errors.logo, { position: "bottom-right" });
-      }
-      if (!website) {
-        toast.error(Constants.Errors.website, { position: "bottom-right" });
-      }
-      if (website && !isURL.test(website)) {
-        toast.error(Constants.Errors.invalid_website, {
-          position: "bottom-right",
-        });
-      }
-      if (!location) {
-        toast.error(Constants.Errors.location, { position: "bottom-right" });
-      }
-      if (!incorporationDate) {
-        toast.error(Constants.Errors.incorporationDate, {
-          position: "bottom-right",
-        });
-      }
-      if (
-        name &&
-        logo &&
-        website &&
-        isURL.test(website) &&
-        location &&
-        incorporationDate
-      ) {
-        updateDetailsMethod({
-          name,
-          logo,
-          website,
-          locationData: location,
-          incorporationDate,
-          isStartUp: !roleSwitch,
-          isIndividual: roleSwitch,
-        });
-      }
+    const form = event.currentTarget;
+    if (
+      (isStartUp_Individual || isOrganisation) &&
+      name &&
+      logo &&
+      website &&
+      isURL.test(website) &&
+      location &&
+      incorporationDate &&
+      form.checkValidity()
+    ) {
+      updateDetailsMethod({
+        name,
+        logo,
+        website,
+        locationData: location,
+        incorporationDate,
+        isStartUp: !roleSwitch,
+        isIndividual: roleSwitch,
+      });
     }
-    if (isMentor_Judge) {
-      if (!name) {
-        toast.error(Constants.Errors.name, { position: "bottom-right" });
-      }
-      if (!mobile) {
-        toast.error(Constants.Errors.mobile, { position: "bottom-right" });
-      }
-      if (!website) {
-        toast.error(Constants.Errors.website, { position: "bottom-right" });
-      }
-      if (website && !isURL.test(website)) {
-        toast.error(Constants.Errors.invalid_website, {
-          position: "bottom-right",
-        });
-      }
-      if (!location) {
-        toast.error(Constants.Errors.location, { position: "bottom-right" });
-      }
-      if (!birthDate) {
-        toast.error(Constants.Errors.birthDate, {
-          position: "bottom-right",
-        });
-      }
-      if (
-        name &&
-        mobile &&
-        website &&
-        isURL.test(website) &&
-        location &&
-        birthDate
-      ) {
-        updateDetailsMethod({
-          name,
-          mobile,
-          website,
-          locationData: location,
-          birthDate,
-        });
-      }
+    if (
+      isMentor_Judge &&
+      name &&
+      mobile &&
+      website &&
+      isURL.test(website) &&
+      location &&
+      birthDate &&
+      form.checkValidity()
+    ) {
+      updateDetailsMethod({
+        name,
+        mobile,
+        website,
+        locationData: location,
+        birthDate,
+      });
     }
+    setValidated(true);
   };
 
   return (
@@ -218,92 +177,130 @@ const OrganizationDetails = () => {
               </Description>
             </Col>
           </Row>
-          <Form onSubmit={onUpdateDetails}>
-            <Row className="form-container">
-              {isStartUp_Individual || isOrganisation ? (
-                <Col>
-                  <Input
-                    type="text"
-                    placeholder="Organization Name"
-                    value={name}
-                    onChange={(e) => changeName(e.target.value)}
-                  ></Input>
-                  <FileInput
-                    placeholder="Logo"
-                    value={logo}
-                    onChange={(e) => {
-                      changeLogo(e.target.files[0]);
-                    }}
-                  ></FileInput>
-                  <Input
-                    type="text"
-                    placeholder="Website"
-                    value={website}
-                    onChange={(e) => changeWebsite(e.target.value)}
-                  ></Input>
-                  <Input
-                    type="text"
-                    placeholder="Location"
-                    value={location}
-                    onChange={(e) => changeLocation(e.target.value)}
-                  ></Input>
-                  <DateInput
-                    placeholder="Incorporation Date"
-                    value={incorporationDate}
-                    maxDate={new Date()}
-                    onChange={(date) => {
-                      changeIncorporationDate(date);
-                    }}
-                  />
-                </Col>
-              ) : isMentor_Judge ? (
-                <Col>
-                  <Input
-                    type="text"
-                    placeholder="Full Name"
-                    value={name}
-                    onChange={(e) => changeName(e.target.value)}
-                  ></Input>
-                  <Input
-                    type="number"
-                    placeholder="Mobile Number"
-                    value={mobile}
-                    onChange={(e) => changeMobile(e.target.value)}
-                  ></Input>
-                  <Input
-                    type="text"
-                    placeholder="Website of Linkedin"
-                    value={website}
-                    onChange={(e) => changeWebsite(e.target.value)}
-                  ></Input>
-                  <Input
-                    type="text"
-                    placeholder="Location"
-                    value={location}
-                    onChange={(e) => changeLocation(e.target.value)}
-                  ></Input>
-                  <DateInput
-                    placeholder="Birth Date"
-                    value={birthDate}
-                    openToDate={
-                      birthDate
-                        ? birthDate
-                        : new Date().setFullYear(new Date().getFullYear() - 18)
-                    }
-                    minDate={new Date().setFullYear(
-                      new Date().getFullYear() - 150
-                    )}
-                    maxDate={new Date().setFullYear(
-                      new Date().getFullYear() - 18
-                    )}
-                    onChange={(date) => {
-                      changeBirthDate(date);
-                    }}
-                  />
-                </Col>
+          <Form noValidate validated={validated} onSubmit={onUpdateDetails}>
+            <div className="form-container">
+              {errors && errors.length ? (
+                <Alert variant={"danger"} className="text-left">
+                  {errors.map((each, index) => {
+                    return <div key={index}>{each}</div>;
+                  })}
+                </Alert>
               ) : null}
-            </Row>
-
+              <Row>
+                {isStartUp_Individual || isOrganisation ? (
+                  <Col>
+                    <Input
+                      type="text"
+                      placeholder="Organization Name"
+                      value={name}
+                      onChange={(e) => changeName(e.target.value)}
+                      required
+                      errorMessage={Constants.Errors.name}
+                    ></Input>
+                    <FileInput
+                      placeholder="Logo"
+                      value={logo}
+                      onChange={(e) => {
+                        changeLogo(e.target.files[0]);
+                      }}
+                      required
+                      errorMessage={Constants.Errors.logo}
+                    ></FileInput>
+                    <Input
+                      type="text"
+                      placeholder="Website"
+                      value={website}
+                      onChange={(e) => changeWebsite(e.target.value)}
+                      isInvalid={!website || (website && !isURL.test(website))}
+                      errorMessage={
+                        website
+                          ? Constants.Errors.invalid_website
+                          : Constants.Errors.website
+                      }
+                    ></Input>
+                    <Input
+                      type="text"
+                      placeholder="Location"
+                      value={location}
+                      onChange={(e) => changeLocation(e.target.value)}
+                      required
+                      errorMessage={Constants.Errors.location}
+                    ></Input>
+                    <DateInput
+                      placeholder="Incorporation Date"
+                      value={incorporationDate}
+                      maxDate={new Date()}
+                      onChange={(date) => {
+                        changeIncorporationDate(date);
+                      }}
+                      required
+                      errorMessage={Constants.Errors.incorporationDate}
+                    />
+                  </Col>
+                ) : isMentor_Judge ? (
+                  <Col>
+                    <Input
+                      type="text"
+                      placeholder="Full Name"
+                      value={name}
+                      onChange={(e) => changeName(e.target.value)}
+                      required
+                      errorMessage={Constants.Errors.name}
+                    ></Input>
+                    <Input
+                      type="number"
+                      placeholder="Mobile Number"
+                      value={mobile}
+                      onChange={(e) => changeMobile(e.target.value)}
+                      required
+                      errorMessage={Constants.Errors.mobile}
+                    ></Input>
+                    <Input
+                      type="text"
+                      placeholder="Website of Linkedin"
+                      value={website}
+                      onChange={(e) => changeWebsite(e.target.value)}
+                      required
+                      errorMessage={
+                        website
+                          ? Constants.Errors.invalid_website
+                          : Constants.Errors.website
+                      }
+                    ></Input>
+                    <Input
+                      type="text"
+                      placeholder="Location"
+                      value={location}
+                      onChange={(e) => changeLocation(e.target.value)}
+                      required
+                      errorMessage={Constants.Errors.location}
+                    ></Input>
+                    <DateInput
+                      placeholder="Birth Date"
+                      value={birthDate}
+                      openToDate={
+                        birthDate
+                          ? birthDate
+                          : new Date().setFullYear(
+                              new Date().getFullYear() - 18
+                            )
+                      }
+                      minDate={new Date().setFullYear(
+                        new Date().getFullYear() - 150
+                      )}
+                      maxDate={new Date().setFullYear(
+                        new Date().getFullYear() - 18
+                      )}
+                      onChange={(date) => {
+                        changeBirthDate(date);
+                      }}
+                      required
+                      errorMessage={Constants.Errors.birthDate}
+                    />
+                  </Col>
+                ) : null}
+              </Row>
+            </div>
             <Row className="button-container">
               <Col>
                 <IconButton text={"Business Tags"} type="submit"></IconButton>

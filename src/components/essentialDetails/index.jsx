@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { updateEssentialDetailsAction, preserveDataAction } from "./action";
 
 import { MainContainer } from "./style";
@@ -46,6 +45,8 @@ const EssentialDetail = ({ history }) => {
   const [coreBusiness, selectCoreBusiness] = useState(coreBusinessTabs[0]);
   const [marketStage, selectMarketStage] = useState(marketStageTabs[0]);
   const [funding, selectFunding] = useState(fundingTabs[0]);
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -84,73 +85,50 @@ const EssentialDetail = ({ history }) => {
 
   useEffect(() => {
     const { error } = updateEssentialDetailsReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [updateEssentialDetailsReducer]);
 
   const onUpdateEssentialDetails = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (isStartUp_Individual || isOrganisation) {
-      if (!textAreaValue) {
-        toast.error(Constants.Errors.companyDesciption, {
-          position: "bottom-right",
-        });
-      }
-      if (!coreBusiness) {
-        toast.error(Constants.Errors.coreBusiness, {
-          position: "bottom-right",
-        });
-      }
-      if (!marketStage) {
-        toast.error(Constants.Errors.marketStage, {
-          position: "bottom-right",
-        });
-      }
-      if (!funding) {
-        toast.error(Constants.Errors.funding, {
-          position: "bottom-right",
-        });
-      }
-      if (textAreaValue && coreBusiness && marketStage && funding) {
-        updateEssentialDetailsMethod({
-          companyDesciption: textAreaValue,
-          coreBusiness,
-          marketStage,
-          funding,
-        });
-      }
+    const form = event.currentTarget;
+    if (
+      (isStartUp_Individual || isOrganisation) &&
+      form.checkValidity() &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage &&
+      funding
+    ) {
+      updateEssentialDetailsMethod({
+        companyDesciption: textAreaValue,
+        coreBusiness,
+        marketStage,
+        funding,
+      });
     }
-    if (isMentor_Judge) {
-      if (!textAreaValue) {
-        toast.error(Constants.Errors.summary, {
-          position: "bottom-right",
-        });
-      }
-      if (!coreBusiness) {
-        toast.error(Constants.Errors.coreBusiness, {
-          position: "bottom-right",
-        });
-      }
-      if (!marketStage) {
-        toast.error(Constants.Errors.expertise, {
-          position: "bottom-right",
-        });
-      }
 
-      if (textAreaValue && coreBusiness && marketStage) {
-        updateEssentialDetailsMethod({
-          summary: textAreaValue,
-          coreBusiness,
-          expertise: marketStage,
-        });
-      }
+    if (
+      isMentor_Judge &&
+      form.checkValidity() &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage
+    ) {
+      updateEssentialDetailsMethod({
+        summary: textAreaValue,
+        coreBusiness,
+        expertise: marketStage,
+      });
     }
+
+    setValidated(true);
   };
 
   return (
@@ -163,8 +141,20 @@ const EssentialDetail = ({ history }) => {
             </Col>
           </Row>
 
-          <Form onSubmit={onUpdateEssentialDetails}>
-            <Row className="form-container">
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={onUpdateEssentialDetails}
+            className="form-container"
+          >
+            {errors && errors.length ? (
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            ) : null}
+            <Row>
               <Col>
                 <TextArea
                   rows="12"
@@ -180,6 +170,12 @@ const EssentialDetail = ({ history }) => {
                     setTextAreaValue(e.target.value);
                   }}
                   showCount={1000}
+                  required
+                  errorMessage={
+                    isStartUp_Individual || isOrganisation
+                      ? Constants.Errors.companyDesciption
+                      : Constants.Errors.summary
+                  }
                 />
               </Col>
             </Row>

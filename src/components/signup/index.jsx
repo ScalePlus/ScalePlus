@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { signupAction } from "./action";
 import { MainContainer } from "./style";
 import {
@@ -56,6 +55,8 @@ const SignUp = ({ history }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("userRole")) {
@@ -65,35 +66,38 @@ const SignUp = ({ history }) => {
 
   useEffect(() => {
     const { error } = signupReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [signupReducer]);
 
   const onSignup = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (!email) {
-      toast.error(Constants.Errors.email, { position: "bottom-right" });
-    }
-    if (!password) {
-      toast.error(Constants.Errors.password, { position: "bottom-right" });
-    }
+    const form = event.currentTarget;
+
     if (!localStorage.getItem("userRole")) {
-      toast.error(Constants.Errors.role, { position: "bottom-right" });
+      setErrors([Constants.Errors.role]);
+      setValidated(true);
     }
 
-    if (email && password && localStorage.getItem("userRole")) {
+    if (
+      email &&
+      password &&
+      localStorage.getItem("userRole") &&
+      form.checkValidity()
+    ) {
       signupMethod({
         email: email,
         password: password,
         role: localStorage.getItem("userRole"),
       });
     }
+    setValidated(true);
   };
 
   return (
@@ -153,7 +157,14 @@ const SignUp = ({ history }) => {
               );
             })}
           </Row>
-          <Form onSubmit={onSignup}>
+          <Form noValidate validated={validated} onSubmit={onSignup}>
+            {errors && errors.length ? (
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            ) : null}
             <Row className="form-container">
               <Col>
                 <Input
@@ -163,6 +174,12 @@ const SignUp = ({ history }) => {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
+                  required
+                  errorMessage={
+                    email
+                      ? Constants.Errors.invalid_email
+                      : Constants.Errors.email
+                  }
                 ></Input>
                 <PassInput
                   placeholder="Password"
@@ -170,6 +187,8 @@ const SignUp = ({ history }) => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  required
+                  errorMessage={Constants.Errors.password}
                 ></PassInput>
               </Col>
             </Row>

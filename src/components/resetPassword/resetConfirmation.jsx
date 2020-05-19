@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { forgotPasswordAction } from "./action";
 import { Title, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
@@ -13,20 +12,22 @@ const ResetConfirmation = ({ history }) => {
   const resetPasswordReducer = useSelector((state) => {
     return state.resetPasswordReducer;
   });
+  const [errors, setErrors] = useState([]);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     const { error, restPasswordSuccess } = resetPasswordReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
+    setSuccess(null);
     if (restPasswordSuccess && restPasswordSuccess.message) {
-      toast.success(restPasswordSuccess.message, {
-        position: "bottom-right",
-      });
+      setErrors([]);
+      setSuccess(restPasswordSuccess.message);
     }
   }, [resetPasswordReducer]);
 
@@ -42,25 +43,41 @@ const ResetConfirmation = ({ history }) => {
                 <Title text={"Reset Password"}></Title>
               </Col>
             </Row>
-            <Row className="description-container">
-              <Col>
-                We sent a reset password email to{" "}
-                {resetPasswordReducer.restPasswordSuccess.result.email}. Please
-                click the link to set your new password. Didn't receive the
-                email yet? Please check your spam folder, or{" "}
-                <span
-                  className="resend-link"
-                  onClick={() => {
-                    forgotPasswordMethod({
-                      email:
-                        resetPasswordReducer.restPasswordSuccess.result.email,
-                    });
-                  }}
-                >
-                  try again.
-                </span>
-              </Col>
-            </Row>
+
+            <div className="description-container">
+              {errors && errors.length ? (
+                <Alert variant={"danger"} className="text-left">
+                  {errors.map((each, index) => {
+                    return <div key={index}>{each}</div>;
+                  })}
+                </Alert>
+              ) : null}
+              {success ? (
+                <Alert variant={"success"} className="text-left">
+                  <div>{success}</div>
+                </Alert>
+              ) : null}
+              <Row>
+                <Col>
+                  We sent a reset password email to{" "}
+                  {resetPasswordReducer.restPasswordSuccess.result.email}.
+                  Please click the link to set your new password. Didn't receive
+                  the email yet? Please check your spam folder, or{" "}
+                  <span
+                    className="resend-link"
+                    onClick={() => {
+                      forgotPasswordMethod({
+                        email:
+                          resetPasswordReducer.restPasswordSuccess.result.email,
+                      });
+                    }}
+                  >
+                    try again.
+                  </span>
+                </Col>
+              </Row>
+            </div>
+
             <Row className="login-button-container">
               <Col>
                 <IconButton

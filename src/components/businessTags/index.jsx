@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import {
   updateBusinessTagsAction,
   industriesOptionsAction,
@@ -65,6 +64,8 @@ const BusinessTags = ({ history }) => {
   const [selectedBusinessModels, selectBusinessModels] = useState([]);
   const [selectedTargetMarkets, selectTargetMarket] = useState([]);
   const [selectedGeographicalMarket, selectGeographicalMarket] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
   const {
     industriesOptions,
     servicesOptions,
@@ -156,53 +157,20 @@ const BusinessTags = ({ history }) => {
 
   useEffect(() => {
     const { error } = updateBusinessTagsReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [updateBusinessTagsReducer]);
 
   const onUpdateBusinessTags = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (
-      !selectedIndustries ||
-      (selectedIndustries && !selectedIndustries.length)
-    ) {
-      toast.error(Constants.Errors.industry, { position: "bottom-right" });
-    }
-    if (!selectedServices || (selectedServices && !selectedServices.length)) {
-      toast.error(Constants.Errors.service, { position: "bottom-right" });
-    }
-    if (
-      !selectedTechnologies ||
-      (selectedTechnologies && !selectedTechnologies.length)
-    ) {
-      toast.error(Constants.Errors.technology, { position: "bottom-right" });
-    }
-    if (
-      !selectedBusinessModels ||
-      (selectedBusinessModels && !selectedBusinessModels.length)
-    ) {
-      toast.error(Constants.Errors.businessModel, { position: "bottom-right" });
-    }
-    if (
-      !selectedTargetMarkets ||
-      (selectedTargetMarkets && !selectedTargetMarkets.length)
-    ) {
-      toast.error(Constants.Errors.targetMarket, { position: "bottom-right" });
-    }
-    if (
-      !selectedGeographicalMarket ||
-      (selectedGeographicalMarket && !selectedGeographicalMarket.length)
-    ) {
-      toast.error(Constants.Errors.georgraphicalMarket, {
-        position: "bottom-right",
-      });
-    }
+    const form = event.currentTarget;
+
     if (
       selectedIndustries &&
       selectedIndustries.length &&
@@ -215,7 +183,8 @@ const BusinessTags = ({ history }) => {
       selectedTargetMarkets &&
       selectedTargetMarkets.length &&
       selectedGeographicalMarket &&
-      selectedGeographicalMarket.length
+      selectedGeographicalMarket.length &&
+      form.checkValidity()
     ) {
       updateBusinessTagsActionMethod({
         industry: selectedIndustries,
@@ -226,6 +195,7 @@ const BusinessTags = ({ history }) => {
         georgraphicalMarket: selectedGeographicalMarket,
       });
     }
+    setValidated(true);
   };
 
   return (
@@ -237,7 +207,11 @@ const BusinessTags = ({ history }) => {
               <Title text={"Business Tags"}></Title>
             </Col>
           </Row>
-          <Form onSubmit={onUpdateBusinessTags}>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={onUpdateBusinessTags}
+          >
             <Row className="description-container">
               <Col>
                 <Description>
@@ -246,67 +220,98 @@ const BusinessTags = ({ history }) => {
               </Col>
             </Row>
 
-            <Row className="form-container">
-              <Col>
-                <DropDown
-                  placeholder={"Industry"}
-                  options={
-                    industriesOptions &&
-                    industriesOptions.length &&
-                    industriesOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
-                  }
-                  value={selectedIndustries}
-                  onChange={(val) => {
-                    selectIndustry(val);
-                  }}
-                />
-                <DropDown
-                  placeholder={"Sevices / products you offer"}
-                  options={
-                    servicesOptions &&
-                    servicesOptions.length &&
-                    servicesOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
-                  }
-                  value={selectedServices}
-                  onChange={(val) => {
-                    selectService(val);
-                  }}
-                />
-                <DropDown
-                  placeholder={"Technology"}
-                  options={
-                    technologiesOptions &&
-                    technologiesOptions.length &&
-                    technologiesOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
-                  }
-                  value={selectedTechnologies}
-                  onChange={(val) => {
-                    selectTechnology(val);
-                  }}
-                />
-                <DropDown
-                  placeholder={"Business Model"}
-                  options={
-                    businessModelsOptions &&
-                    businessModelsOptions.length &&
-                    businessModelsOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
-                  }
-                  value={selectedBusinessModels}
-                  onChange={(val) => {
-                    selectBusinessModels(val);
-                  }}
-                />
-              </Col>
-            </Row>
+            <div className="form-container">
+              {errors && errors.length ? (
+                <Alert variant={"danger"} className="text-left">
+                  {errors.map((each, index) => {
+                    return <div key={index}>{each}</div>;
+                  })}
+                </Alert>
+              ) : null}
 
+              <Row>
+                <Col>
+                  <DropDown
+                    placeholder={"Industry"}
+                    options={
+                      industriesOptions &&
+                      industriesOptions.length &&
+                      industriesOptions.map((each) => {
+                        return { value: each._id, label: each.name };
+                      })
+                    }
+                    value={selectedIndustries}
+                    onChange={(val) => {
+                      selectIndustry(val);
+                    }}
+                    isInvalid={
+                      !selectedIndustries ||
+                      (selectedIndustries && selectedIndustries.length === 0)
+                    }
+                    errorMessage={Constants.Errors.industry}
+                  />
+                  <DropDown
+                    placeholder={"Sevices / products you offer"}
+                    options={
+                      servicesOptions &&
+                      servicesOptions.length &&
+                      servicesOptions.map((each) => {
+                        return { value: each._id, label: each.name };
+                      })
+                    }
+                    value={selectedServices}
+                    onChange={(val) => {
+                      selectService(val);
+                    }}
+                    isInvalid={
+                      !selectedServices ||
+                      (selectedServices && selectedServices.length === 0)
+                    }
+                    errorMessage={Constants.Errors.service}
+                  />
+                  <DropDown
+                    placeholder={"Technology"}
+                    options={
+                      technologiesOptions &&
+                      technologiesOptions.length &&
+                      technologiesOptions.map((each) => {
+                        return { value: each._id, label: each.name };
+                      })
+                    }
+                    value={selectedTechnologies}
+                    onChange={(val) => {
+                      selectTechnology(val);
+                    }}
+                    isInvalid={
+                      !selectedTechnologies ||
+                      (selectedTechnologies &&
+                        selectedTechnologies.length === 0)
+                    }
+                    errorMessage={Constants.Errors.technology}
+                  />
+                  <DropDown
+                    placeholder={"Business Model"}
+                    options={
+                      businessModelsOptions &&
+                      businessModelsOptions.length &&
+                      businessModelsOptions.map((each) => {
+                        return { value: each._id, label: each.name };
+                      })
+                    }
+                    value={selectedBusinessModels}
+                    onChange={(val) => {
+                      selectBusinessModels(val);
+                    }}
+                    isInvalid={
+                      !selectedBusinessModels ||
+                      (selectedBusinessModels &&
+                        selectedBusinessModels.length === 0)
+                    }
+                    errorMessage={Constants.Errors.businessModel}
+                  />
+                </Col>
+              </Row>
+            </div>
             <Row>
               <Col className="market-label">
                 <span>Market Details</span>
@@ -328,6 +333,12 @@ const BusinessTags = ({ history }) => {
                   onChange={(val) => {
                     selectTargetMarket(val);
                   }}
+                  isInvalid={
+                    !selectedTargetMarkets ||
+                    (selectedTargetMarkets &&
+                      selectedTargetMarkets.length === 0)
+                  }
+                  errorMessage={Constants.Errors.targetMarket}
                 />
                 <DropDown
                   placeholder={"Geographical Market"}
@@ -342,6 +353,12 @@ const BusinessTags = ({ history }) => {
                   onChange={(val) => {
                     selectGeographicalMarket(val);
                   }}
+                  isInvalid={
+                    !selectedGeographicalMarket ||
+                    (selectedGeographicalMarket &&
+                      selectedGeographicalMarket.length === 0)
+                  }
+                  errorMessage={Constants.Errors.georgraphicalMarket}
                 />
               </Col>
             </Row>

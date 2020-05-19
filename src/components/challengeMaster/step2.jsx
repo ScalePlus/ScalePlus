@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Input,
   DropDown,
@@ -8,8 +8,13 @@ import {
   PageTitle,
 } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
+import { Constants } from "../../lib/constant";
 
 function Step2({ setActiveStep }) {
+  const [title, setTitle] = useState([]);
+  const [prize, setPrize] = useState([]);
+  const [selectedCategories, selectCategories] = useState([]);
+  const [validated, setValidated] = useState(false);
   return (
     <Row className="sub-container">
       <Col>
@@ -27,20 +32,56 @@ function Step2({ setActiveStep }) {
             challenge visual.
           </Col>
         </Row>
-        <Form>
+        <Form
+          noValidate
+          validated={validated}
+          onSubmit={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const form = event.currentTarget;
+            if (form.checkValidity()) {
+              setActiveStep(2);
+            }
+            setValidated(true);
+          }}
+        >
           <Row className="form-container">
             <Col>
-              <Input type="text" label="Title *" />
+              <Input
+                type="text"
+                label="Title *"
+                required
+                errorMessage={Constants.Errors.title}
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
               <DropDown
                 label="Categories *"
                 placeholder=""
                 description="The categories help people use search criteria to find your challenge. Select no more than 3."
-                options={[]}
+                options={[{ value: "1", label: "category1" }]}
+                value={selectedCategories}
+                onChange={(val) => {
+                  selectCategories(val);
+                }}
+                isInvalid={
+                  !selectedCategories ||
+                  (selectedCategories && selectedCategories.length === 0)
+                }
+                errorMessage={Constants.Errors.Categories}
               />
               <Input
                 type="text"
                 label="Prize *"
                 description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
+                required
+                errorMessage={Constants.Errors.prize}
+                value={prize}
+                onChange={(e) => {
+                  setPrize(e.target.value);
+                }}
               />
               <TextArea
                 rows="4"
@@ -66,9 +107,7 @@ function Step2({ setActiveStep }) {
               <PrimaryButton
                 variant="primary"
                 text={"Continue"}
-                onClick={() => {
-                  setActiveStep(2);
-                }}
+                type="submit"
               ></PrimaryButton>
             </Col>
           </Row>

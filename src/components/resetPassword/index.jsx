@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { forgotPasswordAction, clearAll } from "./action";
 import { Title, Input, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
@@ -19,6 +18,8 @@ const ResetPassword = () => {
   });
 
   const [email, changeEmail] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     clearAllMethod();
@@ -26,25 +27,25 @@ const ResetPassword = () => {
 
   useEffect(() => {
     const { error } = resetPasswordReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [resetPasswordReducer]);
 
   const onResetPassword = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (!email) {
-      toast.error(Constants.Errors.email, { position: "bottom-right" });
-    } else {
+    const form = event.currentTarget;
+    if (email && form.checkValidity()) {
       forgotPasswordMethod({
         email,
       });
     }
+    setValidated(true);
   };
 
   return (
@@ -56,19 +57,34 @@ const ResetPassword = () => {
               <Title text={"Reset Password"}></Title>
             </Col>
           </Row>
-          <Form onSubmit={onResetPassword}>
-            <Row className="form-container">
-              <Col>
-                <Input
-                  type="email"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => {
-                    changeEmail(e.target.value);
-                  }}
-                />
-              </Col>
-            </Row>
+          <Form noValidate validated={validated} onSubmit={onResetPassword}>
+            <div className="form-container">
+              {errors && errors.length ? (
+                <Alert variant={"danger"} className="text-left">
+                  {errors.map((each, index) => {
+                    return <div key={index}>{each}</div>;
+                  })}
+                </Alert>
+              ) : null}
+              <Row>
+                <Col>
+                  <Input
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => {
+                      changeEmail(e.target.value);
+                    }}
+                    required
+                    errorMessage={
+                      email
+                        ? Constants.Errors.invalid_email
+                        : Constants.Errors.email
+                    }
+                  />
+                </Col>
+              </Row>
+            </div>
 
             <Row className="button-container">
               <Col>

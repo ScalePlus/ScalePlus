@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { signinAction } from "./action";
 import { Title, Input, PassInput, IconButton, Loading } from "../common";
 import { MainContainer } from "./style";
@@ -17,33 +16,31 @@ const SignIn = ({ history }) => {
 
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     const { error } = signinReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
+      errors.push(error);
     }
+    setErrors(errors);
   }, [signinReducer]);
 
   const onLogin = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (!email) {
-      toast.error(Constants.Errors.email, { position: "bottom-right" });
-    }
-    if (!password) {
-      toast.error(Constants.Errors.password, { position: "bottom-right" });
-    }
-    if (email && password) {
+    const form = event.currentTarget;
+    if (email && password && form.checkValidity()) {
       signinMethod({
         email: email,
         password: password,
       });
     }
+    setValidated(true);
   };
 
   return (
@@ -55,8 +52,21 @@ const SignIn = ({ history }) => {
               <Title text={"Login"}></Title>
             </Col>
           </Row>
-          <Form onSubmit={onLogin}>
-            <Row className="form-container">
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={onLogin}
+            className="form-container"
+          >
+            {errors && errors.length ? (
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            ) : null}
+
+            <Row>
               <Col>
                 <Input
                   type="email"
@@ -65,6 +75,12 @@ const SignIn = ({ history }) => {
                   onChange={(e) => {
                     changeEmail(e.target.value);
                   }}
+                  required
+                  errorMessage={
+                    email
+                      ? Constants.Errors.invalid_email
+                      : Constants.Errors.email
+                  }
                 />
                 <PassInput
                   placeholder="Password"
@@ -72,6 +88,8 @@ const SignIn = ({ history }) => {
                   onChange={(e) => {
                     changePassword(e.target.value);
                   }}
+                  required
+                  errorMessage={Constants.Errors.password}
                 />
 
                 <div

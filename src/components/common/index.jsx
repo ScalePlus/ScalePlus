@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
-// import CreatableSelect from "react-select/creatable";
 import Select from "react-select";
-// import DatePicker from "react-date-picker";
 import DatePicker from "react-datepicker";
 import {
   TitleContainer,
@@ -30,25 +28,16 @@ function Description({ children }) {
   return <DescriptionContainer>{children}</DescriptionContainer>;
 }
 
-function Input({
-  type,
-  placeholder,
-  value,
-  onChange,
-  max,
-  label,
-  description,
-}) {
+function Input({ max, description, errorMessage, label, ...props }) {
   return (
     <Form.Group>
       {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Control
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        maxLength={max}
-        onChange={onChange ? onChange : () => {}}
-      />
+      <Form.Control {...props} maxLength={max} />
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>
       )}
@@ -91,12 +80,12 @@ function SearchInput({
 
 function TextArea({
   rows,
-  placeholder,
   value,
-  onChange,
   label,
   description,
   showCount,
+  errorMessage,
+  ...props
 }) {
   return (
     <Form.Group>
@@ -104,10 +93,9 @@ function TextArea({
       <Form.Control
         as="textarea"
         rows={rows}
-        placeholder={placeholder}
         value={value}
-        onChange={onChange ? onChange : () => {}}
         maxLength={showCount}
+        {...props}
       />
       {showCount && (
         <span className="textarea-count">
@@ -117,11 +105,16 @@ function TextArea({
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>
       )}
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
     </Form.Group>
   );
 }
 
-function FileInput({ placeholder, value, onChange }) {
+function FileInput({ placeholder, value, errorMessage, onChange, ...props }) {
   let fileUploader;
   return (
     <Form.Group>
@@ -133,7 +126,8 @@ function FileInput({ placeholder, value, onChange }) {
         onClick={() => {
           fileUploader.click();
         }}
-        readOnly
+        // readOnly
+        {...props}
       />
       <input
         type="file"
@@ -153,6 +147,11 @@ function FileInput({ placeholder, value, onChange }) {
       >
         <span className="upload-button-text">Upload</span>
       </Button>
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
     </Form.Group>
   );
 }
@@ -195,17 +194,11 @@ function BannerInput({ value, onChange, label, description }) {
   );
 }
 
-function PassInput({ placeholder, value, onChange }) {
+function PassInput({ errorMessage, ...props }) {
   const [showPass, changeToggle] = useState(false);
   return (
     <Form.Group>
-      <Form.Control
-        type={showPass ? "text" : "password"}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange ? onChange : () => {}}
-      />
-
+      <Form.Control type={showPass ? "text" : "password"} {...props} />
       <img
         src={showPass ? "/images/eyeSlash.svg" : "/images/eye.svg"}
         className="password-icon"
@@ -217,6 +210,11 @@ function PassInput({ placeholder, value, onChange }) {
           changeToggle(!showPass);
         }}
       ></img>
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
     </Form.Group>
   );
 }
@@ -230,6 +228,8 @@ function DateInput({
   openToDate,
   label,
   description,
+  required,
+  errorMessage,
 }) {
   return (
     <Form.Group>
@@ -247,6 +247,7 @@ function DateInput({
         maxDate={maxDate}
         openToDate={openToDate}
         withPortal
+        required={required}
       />
       <img
         src={"/images/interface.svg"}
@@ -256,20 +257,22 @@ function DateInput({
         width="25px"
         alt=""
       ></img>
+
+      <Form.Control
+        style={{ display: "none" }}
+        required={required}
+        value={value ? value : ""}
+        onChange={() => {}}
+      ></Form.Control>
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>
       )}
     </Form.Group>
-    // <DatePicker
-    //   className="custom-date-picker"
-    //   format="dd/MM/y"
-    //   clearIcon={null}
-    //   value={value}
-    //   onChange={onChange}
-    //   dayPlaceholder="DD"
-    //   monthPlaceholder="MM"
-    //   yearPlaceholder="YYYY"
-    // />
   );
 }
 
@@ -280,6 +283,8 @@ function DropDown({
   onChange,
   label,
   description,
+  isInvalid,
+  errorMessage,
 }) {
   const customStyle = {
     indicatorSeparator: () => ({
@@ -353,11 +358,23 @@ function DropDown({
           }
         }}
         options={options}
+        classNamePrefix={isInvalid ? "invalid-select" : ""}
         styles={customStyle}
         components={customComponent}
       />
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
+      <Form.Control
+        style={{ display: "none" }}
+        isInvalid={isInvalid}
+        value={value ? value : ""}
+        onChange={() => {}}
+      ></Form.Control>
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
       )}
     </Form.Group>
   );
@@ -386,12 +403,13 @@ function IconButton({ text, onClick, disabled, type }) {
   );
 }
 
-function PrimaryButton({ text, onClick, disabled, variant }) {
+function PrimaryButton({ text, onClick, disabled, variant, type }) {
   return (
     <PrimaryButtonContainer
       onClick={onClick}
       disabled={disabled}
       variant={variant}
+      type={type ? type : "button"}
     >
       <span className="button-text">{text}</span>
     </PrimaryButtonContainer>

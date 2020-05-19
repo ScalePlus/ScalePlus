@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Form, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
 import { getUser } from "../signin/action";
@@ -28,6 +27,9 @@ const EmailVerification = ({ history, match }) => {
   const [second, setSecond] = useState("");
   const [third, setThird] = useState("");
   const [forth, setForth] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [success, setSuccess] = useState(null);
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     getUserMethod(match.params.id);
@@ -35,31 +37,44 @@ const EmailVerification = ({ history, match }) => {
 
   useEffect(() => {
     const { error, resendSuccess } = emailVerificationReducer;
+    let errors = [];
     if (Array.isArray(error)) {
-      for (let i = 0; i < error.length; i++) {
-        toast.error(error[i], { position: "bottom-right" });
-      }
+      errors = error;
     } else if (typeof error === "string") {
-      toast.error(error, { position: "bottom-right" });
-    } else if (resendSuccess) {
-      toast.success(resendSuccess, { position: "bottom-right" });
+      errors.push(error);
+    }
+    setErrors(errors);
+    setSuccess(null);
+    if (resendSuccess) {
+      setErrors([]);
+      setSuccess(resendSuccess);
     }
   }, [emailVerificationReducer]);
 
   const onVerify = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    const form = event.currentTarget;
+
     if (!first || !second || !third || !forth) {
-      toast.error(Constants.Errors.verificationCode, {
-        position: "bottom-right",
-      });
+      setSuccess(null);
+      setErrors([Constants.Errors.verificationCode]);
+      setValidated(true);
     }
-    if (first && second && third && forth && match.params.id) {
+    if (
+      first &&
+      second &&
+      third &&
+      forth &&
+      match.params.id &&
+      form.checkValidity()
+    ) {
       verifyEmailMethod({
         id: match.params.id,
         verificationCode: first + second + third + forth,
       });
     }
+    setValidated(true);
   };
 
   return (
@@ -83,55 +98,78 @@ const EmailVerification = ({ history, match }) => {
             </Col>
           </Row>
 
-          <Form id="verify-email-form" onSubmit={onVerify}>
+          <Form
+            noValidate
+            validated={validated}
+            id="verify-email-form"
+            onSubmit={onVerify}
+          >
             {emailVerificationReducer.success ||
             (signinReducer &&
               signinReducer.userData &&
               signinReducer.userData.emailVerification) ? null : (
               <Row className="justify-content-center">
                 <Col lg={7} md={10} sm={10}>
-                  <Row className="justify-content-center form-container">
-                    <Col md={3} sm={3} xs={3}>
-                      <Input
-                        type="text"
-                        max={1}
-                        value={first}
-                        onChange={(e) => {
-                          setFirst(e.target.value);
-                        }}
-                      />
-                    </Col>
-                    <Col md={3} sm={3} xs={3}>
-                      <Input
-                        type="text"
-                        max={1}
-                        value={second}
-                        onChange={(e) => {
-                          setSecond(e.target.value);
-                        }}
-                      />
-                    </Col>
-                    <Col md={3} sm={3} xs={3}>
-                      <Input
-                        type="text"
-                        max={1}
-                        value={third}
-                        onChange={(e) => {
-                          setThird(e.target.value);
-                        }}
-                      />
-                    </Col>
-                    <Col md={3} sm={3} xs={3}>
-                      <Input
-                        type="text"
-                        max={1}
-                        value={forth}
-                        onChange={(e) => {
-                          setForth(e.target.value);
-                        }}
-                      />
-                    </Col>
-                  </Row>
+                  <div className="form-container">
+                    {errors && errors.length ? (
+                      <Alert variant={"danger"} className="text-left">
+                        {errors.map((each, index) => {
+                          return <div key={index}>{each}</div>;
+                        })}
+                      </Alert>
+                    ) : null}
+                    {success ? (
+                      <Alert variant={"success"} className="text-left">
+                        <div>{success}</div>
+                      </Alert>
+                    ) : null}
+                    <Row className="justify-content-center ">
+                      <Col md={3} sm={3} xs={3}>
+                        <Input
+                          type="text"
+                          max={1}
+                          value={first}
+                          onChange={(e) => {
+                            setFirst(e.target.value);
+                          }}
+                          required
+                        />
+                      </Col>
+                      <Col md={3} sm={3} xs={3}>
+                        <Input
+                          type="text"
+                          max={1}
+                          value={second}
+                          onChange={(e) => {
+                            setSecond(e.target.value);
+                          }}
+                          required
+                        />
+                      </Col>
+                      <Col md={3} sm={3} xs={3}>
+                        <Input
+                          type="text"
+                          max={1}
+                          value={third}
+                          onChange={(e) => {
+                            setThird(e.target.value);
+                          }}
+                          required
+                        />
+                      </Col>
+                      <Col md={3} sm={3} xs={3}>
+                        <Input
+                          type="text"
+                          max={1}
+                          value={forth}
+                          onChange={(e) => {
+                            setForth(e.target.value);
+                          }}
+                          required
+                        />
+                      </Col>
+                    </Row>
+                  </div>
                 </Col>
               </Row>
             )}
