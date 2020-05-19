@@ -13,6 +13,7 @@ import ChangePassword from "./components/resetPassword/changePassword";
 import ChallengeMaster from "./components/challengeMaster";
 import ChallengeConfirmation from "./components/challengeMaster/confirmation";
 import ChallengePreview from "./components/challengePreview";
+import ChallengeEdit from "./components/challengeEdit";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -30,6 +31,8 @@ export default function MainRouter() {
           <Layout>
             <Component {...props} />
           </Layout>
+        ) : localStorage.getItem("profileUpdated") ? (
+          <Redirect to="/challenge" />
         ) : (
           <Redirect to="/detail" />
         )
@@ -128,9 +131,21 @@ export default function MainRouter() {
             layout={MainLayout}
             component={ChallengePreview}
           />
+          <AuthRoute
+            path="/challenge/edit"
+            exact
+            layout={MainLayout}
+            component={ChallengeEdit}
+          />
           <Redirect
             from="/"
-            to={localStorage.getItem("token") ? "/detail" : "/login"}
+            to={
+              localStorage.getItem("profileUpdated")
+                ? "/challenge"
+                : localStorage.getItem("token")
+                ? "/detail"
+                : "/login"
+            }
           ></Redirect>
         </Switch>
       </Router>

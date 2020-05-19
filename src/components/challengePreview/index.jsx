@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Tab, Nav } from "react-bootstrap";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import { PrimaryButton, PageTitle } from "../common";
-import theme from "../../theme";
-import { MainContainer, WarningContainer, TabContainer } from "./style";
+import { PageTitle, WarningBlock, ChallengeHeader } from "../common";
+import { MainContainer, TabContainer } from "./style";
 import OverView from "./subComponents/overview";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
@@ -22,23 +20,14 @@ const tabs = [
   "Resources",
 ];
 
-function ChallengePreview() {
+function ChallengePreview({ history }) {
   const [selectedTab, selectTab] = useState(tabs[0]);
 
   return (
     <MainContainer>
       <Row>
         <Col>
-          <WarningContainer>
-            <span>
-              The challenge is not published yet. Before you can publish, you
-              will need to request an invoice to pay the platform fee and have
-              Scale+ team review the content of your page.{" "}
-              <b className="read-more-text bold-text">Read more.</b> <br /> If
-              you have any questions, please contact us by emailing{" "}
-              <b className="bold-text">help@scaleplus.co</b>
-            </span>
-          </WarningContainer>
+          <WarningBlock />
         </Col>
       </Row>
 
@@ -52,52 +41,14 @@ function ChallengePreview() {
 
       <Row className="justify-content-center" style={{ marginBottom: 25 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
-          <Row style={{ alignItems: "center" }}>
-            <Col lg={6} md={6} sm={6} xs={12}>
-              <div className="left-continer">
-                <div className="oval-container">
-                  <img
-                    src={"/images/image.svg"}
-                    height="20px"
-                    width="20px"
-                    alt=""
-                  ></img>
-                </div>
-                <div className="organization-name">
-                  <span>Organization Name Here</span>
-                </div>
-              </div>
-            </Col>
-            <Col lg={6} md={6} sm={6} xs={12}>
-              <div className="right-continer">
-                <CircularProgressbar
-                  value={20}
-                  text={`${20}%`}
-                  className="progress-oval-container"
-                  background={true}
-                  styles={buildStyles({
-                    textSize: "30px",
-                    pathColor: "#4CD964",
-                    textColor: theme.colors.black,
-                    trailColor: "#d7d7d7",
-                    backgroundColor: theme.colors.white,
-                  })}
-                />
-                <div style={{ margin: "0px 10px" }}>
-                  <PrimaryButton
-                    variant="secondary"
-                    text={"Edit Challenge Details"}
-                    onClick={() => {}}
-                  ></PrimaryButton>
-                </div>
-                <PrimaryButton
-                  variant="primary"
-                  text={"Submit for review"}
-                  onClick={() => {}}
-                ></PrimaryButton>
-              </div>
-            </Col>
-          </Row>
+          <ChallengeHeader
+            primaryButtonText="Submit for review"
+            secondaryButtonText="Edit Challenge Details"
+            primaryButtonClick={() => {}}
+            secondaryButtonClick={() => {
+              history.push("/challenge/edit");
+            }}
+          />
         </Col>
       </Row>
 

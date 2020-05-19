@@ -11,6 +11,7 @@ export default function FAQ() {
           <HeaderComponent
             titleText="Frequently Asked Questions"
             buttonText="Add New"
+            buttonVariant="info"
           />
         </Col>
       </Row>

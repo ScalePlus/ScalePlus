@@ -13,7 +13,6 @@ const ResetConfirmation = ({ history }) => {
     return state.resetPasswordReducer;
   });
   const [errors, setErrors] = useState([]);
-  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     const { error, restPasswordSuccess } = resetPasswordReducer;
@@ -24,10 +23,9 @@ const ResetConfirmation = ({ history }) => {
       errors.push(error);
     }
     setErrors(errors);
-    setSuccess(null);
+
     if (restPasswordSuccess && restPasswordSuccess.message) {
-      setErrors([]);
-      setSuccess(restPasswordSuccess.message);
+      // setSuccess(restPasswordSuccess.message);
     }
   }, [resetPasswordReducer]);
 
@@ -52,11 +50,7 @@ const ResetConfirmation = ({ history }) => {
                   })}
                 </Alert>
               ) : null}
-              {success ? (
-                <Alert variant={"success"} className="text-left">
-                  <div>{success}</div>
-                </Alert>
-              ) : null}
+
               <Row>
                 <Col>
                   We sent a reset password email to{" "}

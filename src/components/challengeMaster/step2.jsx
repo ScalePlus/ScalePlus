@@ -11,8 +11,8 @@ import { Form, Row, Col } from "react-bootstrap";
 import { Constants } from "../../lib/constant";
 
 function Step2({ setActiveStep }) {
-  const [title, setTitle] = useState([]);
-  const [prize, setPrize] = useState([]);
+  const [title, setTitle] = useState("");
+  const [prize, setPrize] = useState("");
   const [selectedCategories, selectCategories] = useState([]);
   const [validated, setValidated] = useState(false);
   return (
@@ -73,7 +73,7 @@ function Step2({ setActiveStep }) {
                 errorMessage={Constants.Errors.Categories}
               />
               <Input
-                type="text"
+                type="number"
                 label="Prize *"
                 description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
                 required

@@ -56,11 +56,6 @@ const EmailVerification = ({ history, match }) => {
     event.stopPropagation();
     const form = event.currentTarget;
 
-    if (!first || !second || !third || !forth) {
-      setSuccess(null);
-      setErrors([Constants.Errors.verificationCode]);
-      setValidated(true);
-    }
     if (
       first &&
       second &&
@@ -167,6 +162,20 @@ const EmailVerification = ({ history, match }) => {
                           }}
                           required
                         />
+                      </Col>
+                    </Row>
+                    <Row
+                      className="justify-content-center"
+                      style={{ marginTop: "-0.8rem" }}
+                    >
+                      <Col>
+                        <Form.Control
+                          style={{ display: "none" }}
+                          isInvalid={!first || !second || !third || !forth}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {Constants.Errors.verificationCode}
+                        </Form.Control.Feedback>
                       </Col>
                     </Row>
                   </div>

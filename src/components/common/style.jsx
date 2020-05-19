@@ -45,8 +45,9 @@ export const PrimaryButtonContainer = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: none;
   border-radius: 6px;
+  border: ${(props) =>
+    props.variant === "light" ? "1px solid #aeaeae" : "none"};
   background: ${(props) =>
     props.variant === "primary"
       ? theme.colors.yellow
@@ -54,6 +55,10 @@ export const PrimaryButtonContainer = styled.button`
       ? "rgba(0, 0, 0, 0.11)"
       : props.variant === "info"
       ? "#5AC8FA"
+      : props.variant === "light"
+      ? theme.colors.white
+      : props.variant === "success"
+      ? "#4CD964"
       : "#5AC8FA"};
   padding: 10px 15px;
   min-width: 100px;
@@ -129,4 +134,56 @@ export const PageTitleContainer = styled.h2`
   color: ${theme.colors.black};
   font-family: ${theme.fontFamily.bold};
   font-size: ${theme.fontSize.mediumLarge};
+`;
+
+export const WarningContainer = styled.div`
+  margin: 5px;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #f8d9a6;
+  text-align: center;
+  span {
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.regular};
+  }
+  .read-more-text {
+    text-decoration: underline;
+  }
+  .bold-text {
+    font-family: ${theme.fontFamily.bold};
+  }
+`;
+
+export const ChallengeHeaderContainer = styled.div`
+  .left-continer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .oval-container {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #979797;
+    background-color: ${theme.colors.white};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+  }
+  .organization-name {
+    color: ${theme.colors.gray};
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.mediumSmall};
+  }
+  .right-continer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .progress-oval-container {
+    height: 35px;
+    width: 35px;
+  }
 `;

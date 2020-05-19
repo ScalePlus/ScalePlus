@@ -8,7 +8,11 @@ export default function Updates() {
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent titleText="Updates" buttonText="Add New" />
+          <HeaderComponent
+            titleText="Updates"
+            buttonText="Add New"
+            buttonVariant="info"
+          />
         </Col>
       </Row>
       <Row className="justify-content-center center-alignment">

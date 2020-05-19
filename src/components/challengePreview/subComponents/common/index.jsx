@@ -9,7 +9,7 @@ import {
   StepperVerticalContainer,
 } from "./style";
 
-export function HeaderComponent({ titleText, buttonText }) {
+export function HeaderComponent({ titleText, buttonText, buttonVariant }) {
   return (
     <TitleContainer>
       <div className={"title"}>
@@ -17,7 +17,7 @@ export function HeaderComponent({ titleText, buttonText }) {
       </div>
       <div>
         <PrimaryButton
-          variant="info"
+          variant={buttonVariant}
           text={buttonText}
           onClick={() => {}}
         ></PrimaryButton>

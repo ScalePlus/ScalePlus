@@ -27,7 +27,12 @@ function* signinSaga(data) {
       if (res.result.token) {
         localStorage.setItem("token", res.result.token);
         localStorage.setItem("userRole", res.result.userRole);
-        history.push("/detail");
+        localStorage.setItem("profileUpdated", res.result.profileUpdated);
+        if (res.result.profileUpdated) {
+          history.push("/challenge");
+        } else {
+          history.push("/detail");
+        }
       } else {
         localStorage.setItem("userRole", res.result.userRole);
         history.push(`/verification/${res.result.userId}`);

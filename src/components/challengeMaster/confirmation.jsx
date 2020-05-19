@@ -44,7 +44,9 @@ function ChallengeConfirmation() {
               <PrimaryButton
                 variant="secondary"
                 text={"Edit Challenge Details"}
-                onClick={() => {}}
+                onClick={() => {
+                  history.push("/challenge/edit");
+                }}
               ></PrimaryButton>
             </Col>
             <Col lg={4} md={4} sm={4} xs={4} className="center-component">

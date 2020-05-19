@@ -65,6 +65,7 @@ export default function OverView() {
             <HeaderComponent
               titleText="Challenge Overview"
               buttonText="Edit Overview"
+              buttonVariant="info"
             />
           </Col>
         </Row>

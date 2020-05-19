@@ -8,7 +8,11 @@ export default function Resources() {
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent titleText="Resources" buttonText="Add New" />
+          <HeaderComponent
+            titleText="Resources"
+            buttonText="Add New"
+            buttonVariant="info"
+          />
         </Col>
       </Row>
       <Row className="justify-content-center center-alignment">

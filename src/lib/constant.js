@@ -38,8 +38,8 @@ export const Constants = {
     Categories: "Categories is required",
     launchDate: "Launch date is required",
     dueDate: "Due date is required",
-    biginDate: "Bigins date is required",
-    endDate: "Ends date is required",
+    biginDate: "Bigin date is required",
+    endDate: "End date is required",
     anounceDate: "Announce date is required",
   },
 };

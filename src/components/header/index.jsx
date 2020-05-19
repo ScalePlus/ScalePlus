@@ -35,6 +35,13 @@ const Header = () => {
         ) : (
           <NavDropdown title="Account">
             <NavDropdown.Item
+              onClick={() => {
+                history.push("/detail");
+              }}
+            >
+              Update Profile
+            </NavDropdown.Item>
+            <NavDropdown.Item
               href="/"
               onClick={() => {
                 localStorage.clear();

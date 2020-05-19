@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button, Spinner, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import {
   TitleContainer,
   DescriptionContainer,
@@ -11,6 +12,8 @@ import {
   TabContainer,
   LoadingContainer,
   PageTitleContainer,
+  WarningContainer,
+  ChallengeHeaderContainer,
 } from "./style";
 import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
@@ -453,6 +456,79 @@ function PageTitle({ text }) {
   return <PageTitleContainer>{text}</PageTitleContainer>;
 }
 
+function WarningBlock() {
+  return (
+    <WarningContainer>
+      <span>
+        The challenge is not published yet. Before you can publish, you will
+        need to request an invoice to pay the platform fee and have Scale+ team
+        review the content of your page.{" "}
+        <b className="read-more-text bold-text">Read more.</b> <br /> If you
+        have any questions, please contact us by emailing{" "}
+        <b className="bold-text">help@scaleplus.co</b>
+      </span>
+    </WarningContainer>
+  );
+}
+
+function ChallengeHeader({
+  primaryButtonText,
+  primaryButtonClick,
+  secondaryButtonText,
+  secondaryButtonClick,
+}) {
+  return (
+    <ChallengeHeaderContainer>
+      <Row style={{ alignItems: "center" }}>
+        <Col lg={6} md={6} sm={6} xs={12}>
+          <div className="left-continer">
+            <div className="oval-container">
+              <img
+                src={"/images/image.svg"}
+                height="20px"
+                width="20px"
+                alt=""
+              ></img>
+            </div>
+            <div className="organization-name">
+              <span>Organization Name Here</span>
+            </div>
+          </div>
+        </Col>
+        <Col lg={6} md={6} sm={6} xs={12}>
+          <div className="right-continer">
+            <CircularProgressbar
+              value={20}
+              text={`${20}%`}
+              className="progress-oval-container"
+              background={true}
+              styles={buildStyles({
+                textSize: "30px",
+                pathColor: "#4CD964",
+                textColor: theme.colors.black,
+                trailColor: "#d7d7d7",
+                backgroundColor: theme.colors.white,
+              })}
+            />
+            <div style={{ margin: "0px 10px" }}>
+              <PrimaryButton
+                variant="secondary"
+                text={secondaryButtonText}
+                onClick={secondaryButtonClick}
+              ></PrimaryButton>
+            </div>
+            <PrimaryButton
+              variant="primary"
+              text={primaryButtonText}
+              onClick={primaryButtonClick}
+            ></PrimaryButton>
+          </div>
+        </Col>
+      </Row>
+    </ChallengeHeaderContainer>
+  );
+}
+
 export {
   Title,
   Description,
@@ -471,4 +547,6 @@ export {
   Tab,
   Loading,
   PageTitle,
+  WarningBlock,
+  ChallengeHeader,
 };
