@@ -2,9 +2,9 @@ import styled from "styled-components";
 import theme from "../../../../theme";
 
 export const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  .row {
+    align-items: center;
+  }
   text-align: left;
   .title {
     color: ${theme.colors.black};

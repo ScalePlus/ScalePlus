@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Spinner, Row, Col } from "react-bootstrap";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { Editor } from "react-draft-wysiwyg";
 import {
   TitleContainer,
   DescriptionContainer,
@@ -17,6 +18,7 @@ import {
 } from "./style";
 import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 function Title({ text }) {
   return (
@@ -36,6 +38,58 @@ function Input({ max, description, errorMessage, label, ...props }) {
     <Form.Group>
       {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Form.Control {...props} maxLength={max} />
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
+    </Form.Group>
+  );
+}
+
+function EditorInput({ description, errorMessage, label, ...props }) {
+  return (
+    <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
+      <Editor
+        {...props}
+        wrapperClassName="custom-editor-wrapper"
+        toolbarClassName="custom-editor-toolbar"
+        editorClassName="custom-editor"
+      />
+      {errorMessage && (
+        <Form.Control.Feedback className="text-left" type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      )}
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
+    </Form.Group>
+  );
+}
+
+function CheckBox({
+  description,
+  errorMessage,
+  label,
+  checkBoxText,
+  ...props
+}) {
+  return (
+    <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
+      <Form.Check
+        custom
+        className="large-checkbox"
+        type="checkbox"
+        id={`checkbox`}
+        label={checkBoxText}
+        {...props}
+      />
       {errorMessage && (
         <Form.Control.Feedback className="text-left" type="invalid">
           {errorMessage}
@@ -105,22 +159,31 @@ function TextArea({
           {value && value.length ? value.length : 0}|{showCount} letters
         </span>
       )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
       {errorMessage && (
         <Form.Control.Feedback className="text-left" type="invalid">
           {errorMessage}
         </Form.Control.Feedback>
       )}
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
+      )}
     </Form.Group>
   );
 }
 
-function FileInput({ placeholder, value, errorMessage, onChange, ...props }) {
+function FileInput({
+  placeholder,
+  label,
+  value,
+  errorMessage,
+  onChange,
+  buttonText,
+  ...props
+}) {
   let fileUploader;
   return (
     <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Form.Control
         type={"text"}
         placeholder={placeholder}
@@ -148,7 +211,7 @@ function FileInput({ placeholder, value, errorMessage, onChange, ...props }) {
           fileUploader.click();
         }}
       >
-        <span className="upload-button-text">Upload</span>
+        <span className="upload-button-text">{buttonText}</span>
       </Button>
       {errorMessage && (
         <Form.Control.Feedback className="text-left" type="invalid">
@@ -344,6 +407,27 @@ function DropDown({
         ></img>
       );
     },
+    Menu: (props) => {
+      const optionSelectedLength = props.getValue().length || 0;
+      return (
+        <components.Menu {...props}>
+          {optionSelectedLength < 3 ? (
+            props.children
+          ) : (
+            <div
+              style={{
+                fontFamily: theme.fontFamily.regular,
+                fontSize: theme.fontSize.regular,
+                padding: "10px 35px",
+                color: theme.colors.black,
+              }}
+            >
+              <span>Max limit achieved</span>
+            </div>
+          )}
+        </components.Menu>
+      );
+    },
   };
   return (
     <Form.Group>
@@ -365,9 +449,6 @@ function DropDown({
         styles={customStyle}
         components={customComponent}
       />
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
       <Form.Control
         style={{ display: "none" }}
         isInvalid={isInvalid}
@@ -378,6 +459,9 @@ function DropDown({
         <Form.Control.Feedback className="text-left" type="invalid">
           {errorMessage}
         </Form.Control.Feedback>
+      )}
+      {description && (
+        <Form.Text className="text-muted-description">{description}</Form.Text>
       )}
     </Form.Group>
   );
@@ -533,6 +617,8 @@ export {
   Title,
   Description,
   Input,
+  EditorInput,
+  CheckBox,
   SearchInput,
   TextArea,
   FileInput,

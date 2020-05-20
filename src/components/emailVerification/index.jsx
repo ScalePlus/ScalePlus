@@ -36,6 +36,21 @@ const EmailVerification = ({ history, match }) => {
   }, [getUserMethod, match]);
 
   useEffect(() => {
+    const { userData } = signinReducer;
+
+    if (
+      userData &&
+      userData.verificationCode &&
+      userData.verificationCode.length === 4
+    ) {
+      setFirst(userData.verificationCode.slice(0, 1));
+      setSecond(userData.verificationCode.slice(1, 2));
+      setThird(userData.verificationCode.slice(2, 3));
+      setForth(userData.verificationCode.slice(3, 4));
+    }
+  }, [signinReducer]);
+
+  useEffect(() => {
     const { error, resendSuccess } = emailVerificationReducer;
     let errors = [];
     if (Array.isArray(error)) {

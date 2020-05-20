@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Nav } from "react-bootstrap";
 import { WarningBlock, ChallengeHeader, PrimaryButton } from "../common";
 import Description from "./subComponents/description";
+import Overview from "./subComponents/overview";
+import FAQ from "./subComponents/FAQ";
+import Resources from "./subComponents/resources";
+import Guidelines from "./subComponents/guidelines";
+import Updates from "./subComponents/updates";
 import { MainContainer } from "./style";
 const challengeLinks = [
   "Description",
@@ -24,6 +29,7 @@ const submissionLinks = [
 const otherLinks = ["Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history }) => {
+  const [activeKey, selectKey] = useState(challengeLinks[0]);
   return (
     <MainContainer>
       <Row style={{ marginBottom: 20 }}>
@@ -50,13 +56,17 @@ const ChallengeEdit = ({ history }) => {
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
-            <Col lg={3} md={3} sm={3} xs={3}>
+            <Col lg={3} md={4} sm={4} xs={12}>
               <div className="custom-sidebar">
                 <div>
                   <div className="title">
                     <span>Challenge page</span>
                   </div>
-                  <Nav className="flex-column">
+                  <Nav
+                    activeKey={activeKey}
+                    onSelect={(k) => selectKey(k)}
+                    className="flex-column"
+                  >
                     {challengeLinks.map((each, index) => {
                       return (
                         <Nav.Item key={index}>
@@ -70,7 +80,11 @@ const ChallengeEdit = ({ history }) => {
                   <div className="title">
                     <span>Submissions and judging</span>
                   </div>
-                  <Nav className="flex-column">
+                  <Nav
+                    activeKey={activeKey}
+                    onSelect={(k) => selectKey(k)}
+                    className="flex-column"
+                  >
                     {submissionLinks.map((each, index) => {
                       return (
                         <Nav.Item key={index}>
@@ -80,11 +94,15 @@ const ChallengeEdit = ({ history }) => {
                     })}
                   </Nav>
                 </div>
-                <div style={{ marginTop: 20 }}>
+                <div style={{ margin: "20px 0px" }}>
                   <div className="title">
                     <span>Other</span>
                   </div>
-                  <Nav className="flex-column">
+                  <Nav
+                    activeKey={activeKey}
+                    onSelect={(k) => selectKey(k)}
+                    className="flex-column"
+                  >
                     {otherLinks.map((each, index) => {
                       return (
                         <Nav.Item key={index}>
@@ -103,9 +121,14 @@ const ChallengeEdit = ({ history }) => {
                 ></PrimaryButton>
               </div>
             </Col>
-            <Col lg={9} md={9} sm={9} xs={9}>
+            <Col lg={9} md={8} sm={8} xs={12}>
               <div className="content-container">
-                <Description />
+                {activeKey === "Description" && <Description />}
+                {activeKey === "Overview" && <Overview />}
+                {activeKey === "FAQ" && <FAQ />}
+                {activeKey === "Resources" && <Resources />}
+                {activeKey === "Guidelines" && <Guidelines />}
+                {activeKey === "Updates" && <Updates />}
               </div>
             </Col>
           </Row>

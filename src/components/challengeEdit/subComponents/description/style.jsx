@@ -1,3 +1,33 @@
 import styled from "styled-components";
+import theme from "../../../../theme";
 
-export const MainContainer = styled.div``;
+export const MainContainer = styled.div`
+  .complete-task-dialogue {
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    background-color: ${theme.colors.white};
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.14);
+    width: 260px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    margin-top: -30px;
+    .step {
+      display: flex;
+      .icon-container {
+        margin-right: 5px;
+      }
+      .title {
+        color: ${theme.colors.black};
+        font-family: ${theme.fontFamily.bold};
+        font-size: ${theme.fontSize.small};
+      }
+      .description {
+        color: ${theme.colors.black};
+        font-family: ${theme.fontFamily.regular};
+        font-size: ${theme.fontSize.extraSmall};
+      }
+    }
+  }
+`;

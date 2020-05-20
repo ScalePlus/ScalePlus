@@ -9,19 +9,47 @@ import {
   StepperVerticalContainer,
 } from "./style";
 
-export function HeaderComponent({ titleText, buttonText, buttonVariant }) {
+export function HeaderComponent({
+  titleText,
+  buttonText,
+  buttonVariant,
+  buttonType,
+  infoButtonText,
+  infoButtonVariant,
+  infoButtonType,
+  infoButtonClick,
+}) {
   return (
     <TitleContainer>
-      <div className={"title"}>
-        <span>{titleText}</span>
-      </div>
-      <div>
-        <PrimaryButton
-          variant={buttonVariant}
-          text={buttonText}
-          onClick={() => {}}
-        ></PrimaryButton>
-      </div>
+      <Row>
+        <Col lg={8} md={8} sm={8} xs={6}>
+          <div className={"title"}>
+            <span>{titleText}</span>
+          </div>
+        </Col>
+        <Col lg={4} md={4} sm={4} xs={6}>
+          <div className="float-right" style={{ display: "flex" }}>
+            {infoButtonText && (
+              <div style={{ marginRight: 10 }}>
+                <PrimaryButton
+                  variant={infoButtonVariant}
+                  type={infoButtonType}
+                  text={infoButtonText}
+                  onClick={infoButtonClick}
+                ></PrimaryButton>
+              </div>
+            )}
+            <div>
+              <PrimaryButton
+                variant={buttonVariant}
+                type={buttonType}
+                text={buttonText}
+                onClick={() => {}}
+              ></PrimaryButton>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </TitleContainer>
   );
 }

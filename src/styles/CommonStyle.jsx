@@ -245,6 +245,51 @@ export const GlobalStyle = createGlobalStyle`
   cursor: pointer;
 }
 
+.custom-editor-wrapper {
+  border: 1px solid ${theme.colors.border_gray};
+  border-radius: 6px;
+}
+.custom-editor,
+.custom-editor-toolbar {
+  border: none;
+  border-radius: 6px;
+}
+
+.custom-editor-toolbar{
+  margin-bottom:0px;
+}
+
+.custom-editor{
+  border-top : none;
+  background-color: ${theme.colors.white};
+  padding:10px;
+}
+
+.large-checkbox .custom-control-input{
+  border-radius:6px;
+  :checked~.custom-control-label::before,
+  :checked~.custom-control-label::after{ 
+    border-radius:6px;
+    background-color: ${theme.colors.yellow};
+  }
+}
+
+.large-checkbox .custom-control-label{
+  color: ${theme.colors.black};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
+  margin-left:10px;
+}
+
+.large-checkbox .custom-control-label::before, 
+.large-checkbox .custom-control-label::after {
+    width: 25px;
+    height: 25px;
+    top: -1px;
+    left: -35px;
+    border-radius:6px;
+}
+
 .textarea-count {
   position: absolute;
   margin-top: -30px;

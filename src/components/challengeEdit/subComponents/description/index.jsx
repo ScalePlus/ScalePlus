@@ -22,15 +22,6 @@ const Description = () => {
           />
         </Col>
       </Row>
-      <Row style={{ marginBottom: 45 }}>
-        <Col>
-          <HeaderComponent
-            titleText="Description"
-            buttonText="Save"
-            buttonVariant="success"
-          />
-        </Col>
-      </Row>
       <Form
         noValidate
         validated={validated}
@@ -44,6 +35,81 @@ const Description = () => {
           setValidated(true);
         }}
       >
+        <Row style={{ marginBottom: 45 }}>
+          <Col>
+            <HeaderComponent
+              titleText="Description"
+              buttonText="Save"
+              buttonVariant="success"
+              buttonType="submit"
+            />
+          </Col>
+        </Row>
+        <div className="complete-task-dialogue">
+          <div className="step">
+            <div className="icon-container">
+              <span style={{ marginLeft: 3 }}>></span>
+            </div>
+            <div style={{ marginLeft: 3 }}>
+              <span className="title">
+                Before we can publish your challenge live, you need to complete
+                the following tasks:
+              </span>
+            </div>
+          </div>
+          <div className="step">
+            <div className="icon-container">
+              <img
+                src={"/images/check-circle-active.svg"}
+                height="15px"
+                width="15px"
+                alt=""
+              ></img>
+            </div>
+            <div>
+              <span className="title">Short Description</span>
+              <br />
+              <span className="description">
+                Describe the challenge in 140 characters or less.
+              </span>
+            </div>
+          </div>
+          <div className="step">
+            <div className="icon-container">
+              <img
+                src={"/images/check-circle-active.svg"}
+                height="15px"
+                width="15px"
+                alt=""
+              ></img>
+            </div>
+            <div>
+              <span className="title">Categories</span>
+              <br />
+              <span className="description">
+                Choose appropriate categories for your challenge.
+              </span>
+            </div>
+          </div>
+          <div className="step">
+            <div className="icon-container">
+              <img
+                src={"/images/check-circle.svg"}
+                height="15px"
+                width="15px"
+                alt=""
+              ></img>
+            </div>
+            <div>
+              <span className="title">Add Image</span>
+              <br />
+              <span className="description">
+                The image should illustrate your challenge. Recommended size is
+                1280 by 720
+              </span>
+            </div>
+          </div>
+        </div>
         <Row>
           <Col>
             <Input

@@ -35,6 +35,7 @@ function Step4() {
             if (form.checkValidity()) {
               history.push("/challenge/confirmation");
             }
+            window.scrollTo(0, 0);
             setValidated(true);
           }}
         >

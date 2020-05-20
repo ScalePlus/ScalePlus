@@ -26,12 +26,18 @@ export const MainContainer = styled.div`
       border-radius: 6px;
       background-color: #f3f3f3;
     }
+    .nav {
+      padding: 0rem 0.5rem;
+    }
+    .nav-item:not(:last-child) {
+      border-bottom: 1px solid #f3f3f3;
+    }
     .nav-link {
       cursor: pointer;
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.mediumRegular};
-      padding: 0.5rem;
+      padding: 0.5rem 0rem;
     }
     .nav-item.show .nav-link,
     .nav-link.active {

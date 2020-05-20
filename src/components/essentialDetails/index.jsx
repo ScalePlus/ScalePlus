@@ -42,9 +42,9 @@ const EssentialDetail = ({ history }) => {
     isMentor_Judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [coreBusiness, selectCoreBusiness] = useState(coreBusinessTabs[0]);
-  const [marketStage, selectMarketStage] = useState(marketStageTabs[0]);
-  const [funding, selectFunding] = useState(fundingTabs[0]);
+  const [coreBusiness, selectCoreBusiness] = useState("");
+  const [marketStage, selectMarketStage] = useState("");
+  const [funding, selectFunding] = useState("");
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
 
@@ -98,37 +98,46 @@ const EssentialDetail = ({ history }) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget;
-    if (
-      (isStartUp_Individual || isOrganisation) &&
-      form.checkValidity() &&
-      textAreaValue &&
-      coreBusiness &&
-      marketStage &&
-      funding
-    ) {
-      updateEssentialDetailsMethod({
-        companyDesciption: textAreaValue,
-        coreBusiness,
-        marketStage,
-        funding,
-      });
+    let errors = [];
+    if ((isStartUp_Individual || isOrganisation) && form.checkValidity()) {
+      if (textAreaValue && coreBusiness && marketStage && funding) {
+        updateEssentialDetailsMethod({
+          companyDesciption: textAreaValue,
+          coreBusiness,
+          marketStage,
+          funding,
+        });
+      }
+      if (!coreBusiness) {
+        errors.push(Constants.Errors.coreBusiness);
+      }
+      if (!marketStage) {
+        errors.push(Constants.Errors.marketStage);
+      }
+      if (!funding) {
+        errors.push(Constants.Errors.funding);
+      }
+      setErrors(errors);
+      setValidated(true);
     }
 
-    if (
-      isMentor_Judge &&
-      form.checkValidity() &&
-      textAreaValue &&
-      coreBusiness &&
-      marketStage
-    ) {
-      updateEssentialDetailsMethod({
-        summary: textAreaValue,
-        coreBusiness,
-        expertise: marketStage,
-      });
+    if (isMentor_Judge && form.checkValidity()) {
+      if (textAreaValue && coreBusiness && marketStage) {
+        updateEssentialDetailsMethod({
+          summary: textAreaValue,
+          coreBusiness,
+          expertise: marketStage,
+        });
+      }
+      if (!coreBusiness) {
+        errors.push(Constants.Errors.coreBusiness);
+      }
+      if (!marketStage) {
+        errors.push(Constants.Errors.expertise);
+      }
+      setErrors(errors);
+      setValidated(true);
     }
-
-    setValidated(true);
   };
 
   return (

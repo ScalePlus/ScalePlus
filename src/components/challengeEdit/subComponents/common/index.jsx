@@ -8,13 +8,15 @@ export function InfoBlock({ infoText, buttonText }) {
       <div className={"title"}>
         <span>{infoText}</span>
       </div>
-      <div>
-        <PrimaryButton
-          variant="light"
-          text={buttonText}
-          onClick={() => {}}
-        ></PrimaryButton>
-      </div>
+      {buttonText && (
+        <div>
+          <PrimaryButton
+            variant="light"
+            text={buttonText}
+            onClick={() => {}}
+          ></PrimaryButton>
+        </div>
+      )}
     </InformationBlock>
   );
 }

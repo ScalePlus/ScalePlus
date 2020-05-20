@@ -42,6 +42,7 @@ function Step2({ setActiveStep }) {
             if (form.checkValidity()) {
               setActiveStep(2);
             }
+            window.scrollTo(0, 0);
             setValidated(true);
           }}
         >

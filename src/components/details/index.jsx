@@ -91,7 +91,7 @@ const OrganizationDetails = () => {
       name &&
       logo &&
       website &&
-      isURL.test(website) &&
+      website.match(isURL) &&
       location &&
       incorporationDate &&
       form.checkValidity()
@@ -111,7 +111,7 @@ const OrganizationDetails = () => {
       name &&
       mobile &&
       website &&
-      isURL.test(website) &&
+      website.match(isURL) &&
       location &&
       birthDate &&
       form.checkValidity()
@@ -205,13 +205,14 @@ const OrganizationDetails = () => {
                       }}
                       required
                       errorMessage={Constants.Errors.logo}
+                      buttonText="Upload"
                     ></FileInput>
                     <Input
                       type="text"
                       placeholder="Website"
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
-                      isInvalid={!website || (website && !isURL.test(website))}
+                      isInvalid={!website || (website && !website.match(isURL))}
                       errorMessage={
                         website
                           ? Constants.Errors.invalid_website
