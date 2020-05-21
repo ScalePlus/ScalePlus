@@ -3,10 +3,17 @@ import { Row, Col, Nav } from "react-bootstrap";
 import { WarningBlock, ChallengeHeader, PrimaryButton } from "../common";
 import Description from "./subComponents/description";
 import Overview from "./subComponents/overview";
+import Timeline from "./subComponents/timeline";
 import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
+import JudgingCriteria from "./subComponents/judgingCriteria";
+import JudgingActivities from "./subComponents/judgingActivities";
+import Judges from "./subComponents/judges";
+import JudgesNDA from "./subComponents/judgesNDA";
+import LegalAgreement from "./subComponents/legalAgreement";
+import Settings from "./subComponents/settings";
 import { MainContainer } from "./style";
 const challengeLinks = [
   "Description",
@@ -125,10 +132,17 @@ const ChallengeEdit = ({ history }) => {
               <div className="content-container">
                 {activeKey === "Description" && <Description />}
                 {activeKey === "Overview" && <Overview />}
+                {activeKey === "Timeline" && <Timeline />}
                 {activeKey === "FAQ" && <FAQ />}
                 {activeKey === "Resources" && <Resources />}
                 {activeKey === "Guidelines" && <Guidelines />}
                 {activeKey === "Updates" && <Updates />}
+                {activeKey === "Judging criteria" && <JudgingCriteria />}
+                {activeKey === "Judging activities" && <JudgingActivities />}
+                {activeKey === "Judges" && <Judges />}
+                {activeKey === "Judges NDA" && <JudgesNDA />}
+                {activeKey === "Legal agreement" && <LegalAgreement />}
+                {activeKey === "Settings" && <Settings />}
               </div>
             </Col>
           </Row>

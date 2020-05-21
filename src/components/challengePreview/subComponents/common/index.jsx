@@ -39,14 +39,16 @@ export function HeaderComponent({
                 ></PrimaryButton>
               </div>
             )}
-            <div>
-              <PrimaryButton
-                variant={buttonVariant}
-                type={buttonType}
-                text={buttonText}
-                onClick={() => {}}
-              ></PrimaryButton>
-            </div>
+            {buttonText && (
+              <div>
+                <PrimaryButton
+                  variant={buttonVariant}
+                  type={buttonType}
+                  text={buttonText}
+                  onClick={() => {}}
+                ></PrimaryButton>
+              </div>
+            )}
           </div>
         </Col>
       </Row>

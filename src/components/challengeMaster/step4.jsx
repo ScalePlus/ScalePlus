@@ -42,6 +42,7 @@ function Step4() {
           <Row className="form-container">
             <Col>
               <DateInput
+                isSmall={true}
                 label="My challenge launch date: *"
                 description="Asia/Dubai"
                 maxDate={new Date()}
@@ -53,6 +54,7 @@ function Step4() {
                 errorMessage={Constants.Errors.launchDate}
               />
               <DateInput
+                isSmall={true}
                 label="My challenge submissions are due on: *"
                 description="Asia/Dubai"
                 maxDate={new Date()}
@@ -64,6 +66,7 @@ function Step4() {
                 errorMessage={Constants.Errors.dueDate}
               />
               <DateInput
+                isSmall={true}
                 label="My challenge judging begins on: *"
                 description="Asia/Dubai"
                 maxDate={new Date()}
@@ -75,6 +78,7 @@ function Step4() {
                 errorMessage={Constants.Errors.biginDate}
               />
               <DateInput
+                isSmall={true}
                 label="My challenge judging ends on: *"
                 description="Asia/Dubai"
                 maxDate={new Date()}
@@ -86,6 +90,7 @@ function Step4() {
                 errorMessage={Constants.Errors.endDate}
               />
               <DateInput
+                isSmall={true}
                 label="Challenge winners are announced on: *"
                 description="Asia/Dubai"
                 maxDate={new Date()}

@@ -228,6 +228,7 @@ const OrganizationDetails = () => {
                       errorMessage={Constants.Errors.location}
                     ></Input>
                     <DateInput
+                      isSmall={false}
                       placeholder="Incorporation Date"
                       value={incorporationDate}
                       maxDate={new Date()}
@@ -277,6 +278,7 @@ const OrganizationDetails = () => {
                       errorMessage={Constants.Errors.location}
                     ></Input>
                     <DateInput
+                      isSmall={false}
                       placeholder="Birth Date"
                       value={birthDate}
                       openToDate={

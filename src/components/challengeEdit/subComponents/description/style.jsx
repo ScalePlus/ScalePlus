@@ -15,8 +15,12 @@ export const MainContainer = styled.div`
     margin-top: -30px;
     .step {
       display: flex;
+      margin-bottom: 10px;
       .icon-container {
         margin-right: 5px;
+        img {
+          margin-top: -8px;
+        }
       }
       .title {
         color: ${theme.colors.black};

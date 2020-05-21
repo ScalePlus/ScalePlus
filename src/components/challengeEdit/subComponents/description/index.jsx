@@ -16,10 +16,12 @@ const Description = () => {
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
         <Col>
-          <InfoBlock
-            infoText="Want to see some successful strategies from past crowdsourcing challenges on Scale+? See our template"
-            buttonText="Click Here"
-          />
+          <InfoBlock buttonText="Click Here">
+            <span>
+              Want to see some successful strategies from past crowdsourcing
+              challenges on Scale+? See our template
+            </span>
+          </InfoBlock>
         </Col>
       </Row>
       <Form
@@ -67,11 +69,12 @@ const Description = () => {
               ></img>
             </div>
             <div>
-              <span className="title">Short Description</span>
-              <br />
-              <span className="description">
-                Describe the challenge in 140 characters or less.
-              </span>
+              <div className="title">
+                <span>Short Description</span>
+              </div>
+              <div className="description">
+                <span>Describe the challenge in 140 characters or less.</span>
+              </div>
             </div>
           </div>
           <div className="step">
@@ -84,11 +87,12 @@ const Description = () => {
               ></img>
             </div>
             <div>
-              <span className="title">Categories</span>
-              <br />
-              <span className="description">
-                Choose appropriate categories for your challenge.
-              </span>
+              <div className="title">
+                <span>Categories</span>
+              </div>
+              <div className="description">
+                <span>Choose appropriate categories for your challenge.</span>
+              </div>
             </div>
           </div>
           <div className="step">
@@ -101,12 +105,15 @@ const Description = () => {
               ></img>
             </div>
             <div>
-              <span className="title">Add Image</span>
-              <br />
-              <span className="description">
-                The image should illustrate your challenge. Recommended size is
-                1280 by 720
-              </span>
+              <div className="title">
+                <span>Add Image</span>
+              </div>
+              <div className="description">
+                <span>
+                  The image should illustrate your challenge. Recommended size
+                  is 1280 by 720
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -123,6 +130,7 @@ const Description = () => {
               }}
             />
             <DropDown
+              isSmall={true}
               label="Categories *"
               placeholder=""
               description="The categories help people use search criteria to find your challenge. Select no more than 3."
@@ -149,6 +157,7 @@ const Description = () => {
               }}
             />
             <DropDown
+              isSmall={true}
               label="Tags *"
               placeholder=""
               description="The categories help people use search criteria to find your challenge. Select no more than 3."

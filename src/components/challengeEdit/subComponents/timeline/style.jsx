@@ -12,4 +12,11 @@ export const MainContainer = styled.div`
       min-height: 100px;
     }
   }
+  .timeline {
+    border: 1px solid #000000;
+    border-radius: 6px;
+    background-color: rgba(255, 192, 0, 0.1);
+    padding: 1rem;
+    overflow: auto;
+  }
 `;

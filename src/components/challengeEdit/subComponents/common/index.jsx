@@ -2,12 +2,10 @@ import React from "react";
 import { PrimaryButton } from "../../../common";
 import { InformationBlock } from "./style";
 
-export function InfoBlock({ infoText, buttonText }) {
+export function InfoBlock({ children, buttonText }) {
   return (
     <InformationBlock>
-      <div className={"title"}>
-        <span>{infoText}</span>
-      </div>
+      <div className={"title"}>{children}</div>
       {buttonText && (
         <div>
           <PrimaryButton

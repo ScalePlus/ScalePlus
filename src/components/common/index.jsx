@@ -15,8 +15,13 @@ import {
   PageTitleContainer,
   WarningContainer,
   ChallengeHeaderContainer,
+  RemoveButtonContainer,
+  UpdateCountButtonContainer,
+  TableContainer,
 } from "./style";
 import theme from "../../theme";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -296,6 +301,7 @@ function DateInput({
   description,
   required,
   errorMessage,
+  isSmall,
 }) {
   return (
     <Form.Group>
@@ -318,7 +324,7 @@ function DateInput({
       <img
         src={"/images/interface.svg"}
         className="calendar-icon"
-        style={{ marginTop: label ? "-32px" : "-48px" }}
+        style={{ marginTop: isSmall ? "-32px" : "-48px" }}
         height="25px"
         width="25px"
         alt=""
@@ -334,6 +340,7 @@ function DateInput({
 }
 
 function DropDown({
+  isSmall,
   options,
   placeholder,
   value,
@@ -349,8 +356,8 @@ function DropDown({
     }),
     control: (provided, state) => ({
       ...provided,
-      padding: label ? "0px 10px 0px 0px" : "10px 20px",
-      minHeight: label ? "40px" : "70px",
+      padding: isSmall ? "0px 10px 0px 0px" : "10px 20px",
+      minHeight: isSmall ? "40px" : "70px",
       border: `1px solid ${theme.colors.border_gray}`,
       borderColor: theme.colors.border_gray,
       borderRadius: "6px",
@@ -392,8 +399,8 @@ function DropDown({
               ? "/images/chevronUp.png"
               : "/images/chevronDown.png"
           }
-          height={label ? "15px" : "25px"}
-          width={label ? "15px" : "25px"}
+          height={isSmall ? "15px" : "25px"}
+          width={isSmall ? "15px" : "25px"}
           alt=""
         ></img>
       );
@@ -596,6 +603,67 @@ function ChallengeHeader({
   );
 }
 
+function RemoveButton({ onClick }) {
+  return (
+    <RemoveButtonContainer onClick={onClick}>
+      <img src={"/images/trash.svg"} height="20px" width="20px" alt=""></img>
+    </RemoveButtonContainer>
+  );
+}
+
+function UpdateCountButton({ onClick }) {
+  return (
+    <UpdateCountButtonContainer onClick={onClick}>
+      <div style={{ height: "12px" }}>
+        <img
+          src={"/images/uparrow.svg"}
+          height="12px"
+          width="12px"
+          alt=""
+        ></img>
+      </div>
+      <div style={{ height: "12px" }}>
+        <img
+          src={"/images/downarrow.svg"}
+          height="12px"
+          width="12px"
+          alt=""
+        ></img>
+      </div>
+    </UpdateCountButtonContainer>
+  );
+}
+
+function CommonTable({ columns, data, showPagination }) {
+  return (
+    <TableContainer>
+      <BootstrapTable data={data} pagination={showPagination} bordered={false}>
+        {columns &&
+          columns.length &&
+          columns.map((column, index) => {
+            return (
+              <TableHeaderColumn
+                isKey={index === 0 ? true : false}
+                dataField={column.accessor}
+                key={index}
+                width={column.width ? column.width : ""}
+                dataFormat={(cell, row) => {
+                  if (column.Cell) {
+                    return column.Cell(cell);
+                  } else {
+                    return cell;
+                  }
+                }}
+              >
+                {column.Header}
+              </TableHeaderColumn>
+            );
+          })}
+      </BootstrapTable>
+    </TableContainer>
+  );
+}
+
 export {
   Title,
   Description,
@@ -618,4 +686,7 @@ export {
   PageTitle,
   WarningBlock,
   ChallengeHeader,
+  RemoveButton,
+  UpdateCountButton,
+  CommonTable,
 };

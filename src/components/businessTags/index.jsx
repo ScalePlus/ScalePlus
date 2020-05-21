@@ -232,6 +232,7 @@ const BusinessTags = ({ history }) => {
               <Row>
                 <Col>
                   <DropDown
+                    isSmall={false}
                     placeholder={"Industry"}
                     options={
                       industriesOptions &&
@@ -251,6 +252,7 @@ const BusinessTags = ({ history }) => {
                     errorMessage={Constants.Errors.industry}
                   />
                   <DropDown
+                    isSmall={false}
                     placeholder={"Sevices / products you offer"}
                     options={
                       servicesOptions &&
@@ -270,6 +272,7 @@ const BusinessTags = ({ history }) => {
                     errorMessage={Constants.Errors.service}
                   />
                   <DropDown
+                    isSmall={false}
                     placeholder={"Technology"}
                     options={
                       technologiesOptions &&
@@ -290,6 +293,7 @@ const BusinessTags = ({ history }) => {
                     errorMessage={Constants.Errors.technology}
                   />
                   <DropDown
+                    isSmall={false}
                     placeholder={"Business Model"}
                     options={
                       businessModelsOptions &&
@@ -321,6 +325,7 @@ const BusinessTags = ({ history }) => {
             <Row className="form-container">
               <Col>
                 <DropDown
+                  isSmall={false}
                   placeholder={"Target Market"}
                   options={
                     targetMarketsOptions &&
@@ -341,6 +346,7 @@ const BusinessTags = ({ history }) => {
                   errorMessage={Constants.Errors.targetMarket}
                 />
                 <DropDown
+                  isSmall={false}
                   placeholder={"Geographical Market"}
                   options={
                     geographicalMarketsOptions &&

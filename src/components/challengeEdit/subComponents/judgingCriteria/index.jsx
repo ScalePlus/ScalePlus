@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
-import { CheckBox, Input, EditorInput, RemoveButton } from "../../../common";
+import {
+  Input,
+  TextArea,
+  RemoveButton,
+  UpdateCountButton,
+} from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
+import { Constants } from "../../../../lib/constant";
 
-const Updates = () => {
+const JudgingCriteria = () => {
   const [validated, setValidated] = useState(false);
-  const [check, setCheck] = useState(false);
   const [updates, changeUpdates] = useState([
-    { title: "", description: EditorState.createEmpty() },
+    { title: "", description: "", score: "" },
   ]);
   return (
     <MainContainer>
@@ -18,8 +22,9 @@ const Updates = () => {
         <Col>
           <InfoBlock>
             <span>
-              Create updates that will be posted to the Updates tab of your
-              challenge page.
+              Enter each criteria for judging, its maximum score and its
+              description here. Your judges will use these criteria to score the
+              submissions.
             </span>
           </InfoBlock>
         </Col>
@@ -40,7 +45,7 @@ const Updates = () => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Updates"
+              titleText="Judging criteria"
               buttonText="Save"
               buttonVariant="success"
               buttonType="submit"
@@ -51,20 +56,10 @@ const Updates = () => {
                 changeUpdates(
                   updates.concat({
                     title: "",
-                    description: EditorState.createEmpty(),
+                    description: "",
+                    score: "",
                   })
                 );
-              }}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <CheckBox
-              checkBoxText="Enable Updates tab"
-              checked={check}
-              onChange={() => {
-                setCheck(!check);
               }}
             />
           </Col>
@@ -76,11 +71,34 @@ const Updates = () => {
                 <div className="box-container" key={index}>
                   <Row>
                     <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input type="text" label="Title" />
-                      <EditorInput label="Description"></EditorInput>
+                      <Row>
+                        <Col lg={6} md={6} sm={12} xs={12}>
+                          <Input type="text" label="Title" />
+                        </Col>
+                        <Col lg={6} md={6} sm={12} xs={12}>
+                          <Input
+                            type="number"
+                            label="Max score *"
+                            value={each.score}
+                            onChange={(e) => {
+                              changeUpdates(
+                                updates.map((data, i) => {
+                                  if (index === i) {
+                                    data["score"] = e.target.value;
+                                  }
+                                  return data;
+                                })
+                              );
+                            }}
+                            required
+                            errorMessage={Constants.Errors.score}
+                          />
+                        </Col>
+                      </Row>
+                      <TextArea label="Description" rows="2"></TextArea>
                     </Col>
                     <Col lg={1} md={1} sm={2} xs={2}>
-                      <div className="float-right">
+                      <div className="float-right" style={{ marginBottom: 10 }}>
                         <RemoveButton
                           onClick={() => {
                             if (updates.length > 1) {
@@ -93,6 +111,7 @@ const Updates = () => {
                           }}
                         />
                       </div>
+                      <UpdateCountButton onClick={() => {}} />
                     </Col>
                   </Row>
                 </div>
@@ -105,4 +124,4 @@ const Updates = () => {
   );
 };
 
-export default Updates;
+export default JudgingCriteria;

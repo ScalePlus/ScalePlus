@@ -59,6 +59,7 @@ function Step2({ setActiveStep }) {
                 }}
               />
               <DropDown
+                isSmall={true}
                 label="Categories *"
                 placeholder=""
                 description="The categories help people use search criteria to find your challenge. Select no more than 3."

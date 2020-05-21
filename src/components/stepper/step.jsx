@@ -39,6 +39,7 @@ export default class Step extends Component {
       activeBorderStyle,
       // lineMarginOffset,
       defaultBorderWidth,
+      borderTopWidth,
     } = this.props;
 
     return {
@@ -85,6 +86,12 @@ export default class Step extends Component {
         lineHeight: `${size + circleFontSize / 4}px`,
         color: circleFontColor,
       },
+      label: {
+        fontSize: titleFontSize,
+        textAlign: "center",
+        marginTop: `-${circleTop + size}px`,
+        marginBottom: `${size + 14}px`,
+      },
       title: {
         marginTop: titleTop,
         fontSize: titleFontSize,
@@ -107,7 +114,7 @@ export default class Step extends Component {
         top: circleTop + size / 2,
         height: 1,
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: borderTopWidth ? borderTopWidth : 1,
         borderTopColor: defaultBarColor,
         left: 0,
         right: "50%",
@@ -119,7 +126,7 @@ export default class Step extends Component {
         top: circleTop + size / 2,
         height: 1,
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: borderTopWidth ? borderTopWidth : 1,
         borderTopColor: defaultBarColor,
         right: 0,
         left: "50%",
@@ -128,7 +135,7 @@ export default class Step extends Component {
       },
       completedBar: {
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: borderTopWidth ? borderTopWidth : 1,
         borderTopColor: completeBarColor,
         opacity: completeOpacity,
       },
@@ -144,6 +151,9 @@ export default class Step extends Component {
       first,
       isLast,
       onClick,
+      showNumber,
+      showStartEndLabel,
+      title,
     } = this.props;
 
     const styles = this.getStyles();
@@ -152,7 +162,12 @@ export default class Step extends Component {
       completed ? styles.completedCircle : {},
       active ? styles.activeCircle : {}
     );
-
+    const labelStyle = Object.assign(styles.label);
+    const titleStyle = Object.assign(
+      styles.title,
+      completed ? styles.completedTitle : {},
+      active ? styles.activeTitle : {}
+    );
     const leftStyle = Object.assign(
       styles.leftBar,
       active || completed ? styles.completedBar : {}
@@ -162,7 +177,11 @@ export default class Step extends Component {
       completed ? styles.completedBar : {}
     );
 
-    const stepContent = icon ? <img src={icon} alt={index + 1} /> : index + 1;
+    const stepContent = icon ? (
+      <img src={icon} alt={index + 1} />
+    ) : showNumber ? (
+      index + 1
+    ) : null;
 
     return (
       <div style={styles.step}>
@@ -177,6 +196,12 @@ export default class Step extends Component {
             {stepContent}
           </span>
         </div>
+
+        {first && showStartEndLabel && <div style={labelStyle}>Start</div>}
+        {isLast && showStartEndLabel && <div style={labelStyle}>Finish</div>}
+
+        {title && <div style={titleStyle}>{title}</div>}
+
         {!first && <div style={leftStyle}></div>}
         {!isLast && <div style={rightStyle}></div>}
       </div>
@@ -215,7 +240,7 @@ Step.propTypes = {
   circleFontColor: PropTypes.string,
   size: PropTypes.number,
   circleFontSize: PropTypes.number,
-  titleFontSize: PropTypes.number,
+  titleFontSize: PropTypes.string,
   circleTop: PropTypes.number,
   titleTop: PropTypes.number,
   title: PropTypes.string,

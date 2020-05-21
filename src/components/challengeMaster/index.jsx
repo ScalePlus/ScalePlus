@@ -55,6 +55,8 @@ function ChallengeMaster() {
             circleTop={40}
             size={32}
             circleFontSize={14}
+            showNumber={true}
+            showStartEndLabel={false}
           />
 
           {activeStep === 0 ? (

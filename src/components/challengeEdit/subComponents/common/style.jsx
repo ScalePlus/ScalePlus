@@ -7,7 +7,7 @@ export const InformationBlock = styled.div`
   align-items: center;
   border-radius: 6px;
   background-color: #dcf2ff;
-  padding: 10px;
+  padding: 10px 15px;
   button {
     padding: 5px 15px;
   }

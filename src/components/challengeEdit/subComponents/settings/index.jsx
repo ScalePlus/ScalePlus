@@ -1,27 +1,16 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
-import { EditorInput } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
+import { TextArea, PrimaryButton } from "../../../common";
 import { MainContainer } from "./style";
-import { InfoBlock } from "../common";
 
-const Overview = () => {
+const Settings = () => {
   const [validated, setValidated] = useState(false);
-  const [description, changeDescription] = useState(EditorState.createEmpty());
+  const [cancelreason, changeReason] = useState(
+    "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?"
+  );
   return (
     <MainContainer>
-      <Row style={{ marginBottom: 30 }}>
-        <Col>
-          <InfoBlock>
-            <span>
-              Use this section to describe what your challenge is about, why it
-              is important, and what breakthrough you want to achieve. You may
-              include images and videos
-            </span>
-          </InfoBlock>
-        </Col>
-      </Row>
       <Form
         noValidate
         validated={validated}
@@ -38,7 +27,7 @@ const Overview = () => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Overview"
+              titleText="Settings"
               buttonText="Save"
               buttonVariant="success"
               buttonType="submit"
@@ -47,13 +36,19 @@ const Overview = () => {
         </Row>
         <Row>
           <Col>
-            <EditorInput
-              description="The overview provides the full description of the challenge."
-              editorState={description}
-              onEditorStateChange={(editorState) => {
-                changeDescription(editorState);
-              }}
+            <TextArea
+              rows="4"
+              label="Cancel challenge"
+              value={cancelreason}
+              onChange={(e) => changeReason(e.target.value)}
             />
+            <div className="danger-button-container">
+              <PrimaryButton
+                variant="danger"
+                text={"Delete challenge"}
+                onClick={() => {}}
+              ></PrimaryButton>
+            </div>
           </Col>
         </Row>
       </Form>
@@ -61,4 +56,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default Settings;

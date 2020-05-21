@@ -59,15 +59,19 @@ export const PrimaryButtonContainer = styled.button`
       ? theme.colors.white
       : props.variant === "success"
       ? "#4CD964"
+      : props.variant === "danger"
+      ? "#FF3B30"
       : "#5AC8FA"};
   padding: 10px 15px;
   min-width: 100px;
+  color: ${(props) =>
+    props.variant === "danger" ? theme.colors.white : theme.colors.black};
   :focus {
     outline: 0;
   }
   .button-text {
     cursor: pointer;
-    color: ${theme.colors.black};
+
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.small};
   }
@@ -185,5 +189,56 @@ export const ChallengeHeaderContainer = styled.div`
   .progress-oval-container {
     height: 35px;
     width: 35px;
+  }
+`;
+
+export const RemoveButtonContainer = styled.div`
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+  background-color: #e49393;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
+export const UpdateCountButtonContainer = styled.div`
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+  background-color: #818181;
+  justify-content: center;
+  float: right;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
+export const TableContainer = styled.div`
+  thead {
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.regular};
+    color: ${theme.colors.black};
+  }
+  tbody {
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.regular};
+    color: ${theme.colors.black};
+  }
+  td {
+    border: none;
+    border-bottom: 1px solid #e9e9e9;
+  }
+  th {
+    border: none;
+    border-bottom: 2px solid #979797;
+  }
+  td:focus,
+  th:focus {
+    outline: 0;
+  }
+  .table > tbody > tr > td {
+    vertical-align: middle;
   }
 `;

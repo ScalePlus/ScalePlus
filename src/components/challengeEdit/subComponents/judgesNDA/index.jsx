@@ -6,7 +6,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Guidelines = () => {
+const JudgesNDA = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [description, changeDescription] = useState(EditorState.createEmpty());
@@ -16,9 +16,9 @@ const Guidelines = () => {
         <Col>
           <InfoBlock>
             <span>
-              Use this section to describe what your challenge is about, why it
-              is important, and what breakthrough you want to achieve. You may
-              include images and videos
+              Review and customize the Non-Disclosure Agreement (NDA) for your
+              judges here. All judges must agree to the NDA before they can be
+              confirmed.
             </span>
           </InfoBlock>
         </Col>
@@ -39,7 +39,7 @@ const Guidelines = () => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Guidelines"
+              titleText="Judges NDA"
               buttonText="Save"
               buttonVariant="success"
               buttonType="submit"
@@ -49,7 +49,7 @@ const Guidelines = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <CheckBox
-              checkBoxText="Enable Guidelines tab"
+              checkBoxText="Enable Judges NDA"
               checked={check}
               onChange={() => {
                 setCheck(!check);
@@ -64,6 +64,7 @@ const Guidelines = () => {
               onEditorStateChange={(editorState) => {
                 changeDescription(editorState);
               }}
+              description="The judges NDA agreement that applies to this challenge."
             />
           </Col>
         </Row>
@@ -72,4 +73,4 @@ const Guidelines = () => {
   );
 };
 
-export default Guidelines;
+export default JudgesNDA;

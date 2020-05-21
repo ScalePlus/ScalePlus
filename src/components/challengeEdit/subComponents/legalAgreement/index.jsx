@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { EditorState } from "draft-js";
-import { CheckBox, EditorInput } from "../../../common";
+import { EditorInput } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Guidelines = () => {
+const LegalAgreement = () => {
   const [validated, setValidated] = useState(false);
-  const [check, setCheck] = useState(false);
   const [description, changeDescription] = useState(EditorState.createEmpty());
   return (
     <MainContainer>
@@ -16,9 +15,14 @@ const Guidelines = () => {
         <Col>
           <InfoBlock>
             <span>
-              Use this section to describe what your challenge is about, why it
-              is important, and what breakthrough you want to achieve. You may
-              include images and videos
+              Review and customize your legal agreement here. Every user who
+              registers to compete in your challenge will need to accept this
+              agreement. The Legal Agreement cannot be revised once the
+              challenge goes into the Enter stage. <br /> Not sure which legal
+              agreement to use?
+              <span className="bold-text">
+                You can view our breakdown of each one here.
+              </span>
             </span>
           </InfoBlock>
         </Col>
@@ -39,21 +43,10 @@ const Guidelines = () => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Guidelines"
+              titleText="Legal agreement"
               buttonText="Save"
               buttonVariant="success"
               buttonType="submit"
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <CheckBox
-              checkBoxText="Enable Guidelines tab"
-              checked={check}
-              onChange={() => {
-                setCheck(!check);
-              }}
             />
           </Col>
         </Row>
@@ -64,6 +57,7 @@ const Guidelines = () => {
               onEditorStateChange={(editorState) => {
                 changeDescription(editorState);
               }}
+              description="The judges NDA agreement that applies to this challenge."
             />
           </Col>
         </Row>
@@ -72,4 +66,4 @@ const Guidelines = () => {
   );
 };
 
-export default Guidelines;
+export default LegalAgreement;

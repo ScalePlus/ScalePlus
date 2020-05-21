@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { EditorState } from "draft-js";
-import { CheckBox, Input, EditorInput } from "../../../common";
+import { CheckBox, Input, EditorInput, RemoveButton } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
@@ -16,7 +16,12 @@ const FAQ = () => {
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
         <Col>
-          <InfoBlock infoText="Create an FAQ section that will be displayed on the FAQ tab of your challenge page." />
+          <InfoBlock>
+            <span>
+              Create an FAQ section that will be displayed on the FAQ tab of
+              your challenge page.
+            </span>
+          </InfoBlock>
         </Col>
       </Row>
       <Form
@@ -69,29 +74,27 @@ const FAQ = () => {
             {FAQS.map((each, index) => {
               return (
                 <div className="box-container" key={index}>
-                  <div>
-                    <Input type="text" label="Question" />
-                    <EditorInput label="Answer"></EditorInput>
-                  </div>
-                  <div
-                    className="remove-container"
-                    onClick={() => {
-                      if (FAQS.length > 1) {
-                        changeFAQS(
-                          FAQS.filter((data, i) => {
-                            return index !== i;
-                          })
-                        );
-                      }
-                    }}
-                  >
-                    <img
-                      src={"/images/trash.svg"}
-                      height="20px"
-                      width="20px"
-                      alt=""
-                    ></img>
-                  </div>
+                  <Row>
+                    <Col lg={11} md={11} sm={10} xs={10}>
+                      <Input type="text" label="Question" />
+                      <EditorInput label="Answer"></EditorInput>
+                    </Col>
+                    <Col lg={1} md={1} sm={2} xs={2}>
+                      <div className="float-right">
+                        <RemoveButton
+                          onClick={() => {
+                            if (FAQS.length > 1) {
+                              changeFAQS(
+                                FAQS.filter((data, i) => {
+                                  return index !== i;
+                                })
+                              );
+                            }
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
                 </div>
               );
             })}
