@@ -323,17 +323,8 @@ function DateInput({
         width="25px"
         alt=""
       ></img>
-
-      <Form.Control
-        style={{ display: "none" }}
-        required={required}
-        value={value ? value : ""}
-        onChange={() => {}}
-      ></Form.Control>
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
+      {!value && errorMessage && (
+        <Form.Text className="invalid-text">{errorMessage}</Form.Text>
       )}
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>
@@ -449,16 +440,8 @@ function DropDown({
         styles={customStyle}
         components={customComponent}
       />
-      <Form.Control
-        style={{ display: "none" }}
-        isInvalid={isInvalid}
-        value={value ? value : ""}
-        onChange={() => {}}
-      ></Form.Control>
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
+      {isInvalid && errorMessage && (
+        <Form.Text className="invalid-text">{errorMessage}</Form.Text>
       )}
       {description && (
         <Form.Text className="text-muted-description">{description}</Form.Text>

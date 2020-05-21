@@ -140,6 +140,19 @@ export const GlobalStyle = createGlobalStyle`
   background-image:none;
 }
 
+.invalid-text{
+  display:none;
+}
+
+.was-validated .invalid-text{
+  display:block;
+  text-align:left;
+  width: 100%;
+  margin-top: .25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
 .form-control.is-valid, .was-validated .form-control:valid,.form-control.is-valid:focus, .was-validated .form-control:valid:focus{
   border-color: ${theme.colors.border_gray};
   background-image:none;

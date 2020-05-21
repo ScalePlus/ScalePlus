@@ -184,13 +184,11 @@ const EmailVerification = ({ history, match }) => {
                       style={{ marginTop: "-0.8rem" }}
                     >
                       <Col>
-                        <Form.Control
-                          style={{ display: "none" }}
-                          isInvalid={!first || !second || !third || !forth}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {Constants.Errors.verificationCode}
-                        </Form.Control.Feedback>
+                        {!first || !second || !third || !forth ? (
+                          <Form.Text className="invalid-text text-center">
+                            {Constants.Errors.verificationCode}
+                          </Form.Text>
+                        ) : null}
                       </Col>
                     </Row>
                   </div>

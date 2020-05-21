@@ -98,46 +98,37 @@ const EssentialDetail = ({ history }) => {
     event.preventDefault();
     event.stopPropagation();
     const form = event.currentTarget;
-    let errors = [];
-    if ((isStartUp_Individual || isOrganisation) && form.checkValidity()) {
-      if (textAreaValue && coreBusiness && marketStage && funding) {
-        updateEssentialDetailsMethod({
-          companyDesciption: textAreaValue,
-          coreBusiness,
-          marketStage,
-          funding,
-        });
-      }
-      if (!coreBusiness) {
-        errors.push(Constants.Errors.coreBusiness);
-      }
-      if (!marketStage) {
-        errors.push(Constants.Errors.marketStage);
-      }
-      if (!funding) {
-        errors.push(Constants.Errors.funding);
-      }
-      setErrors(errors);
-      setValidated(true);
+    if (
+      (isStartUp_Individual || isOrganisation) &&
+      form.checkValidity() &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage &&
+      funding
+    ) {
+      updateEssentialDetailsMethod({
+        companyDesciption: textAreaValue,
+        coreBusiness,
+        marketStage,
+        funding,
+      });
     }
 
-    if (isMentor_Judge && form.checkValidity()) {
-      if (textAreaValue && coreBusiness && marketStage) {
-        updateEssentialDetailsMethod({
-          summary: textAreaValue,
-          coreBusiness,
-          expertise: marketStage,
-        });
-      }
-      if (!coreBusiness) {
-        errors.push(Constants.Errors.coreBusiness);
-      }
-      if (!marketStage) {
-        errors.push(Constants.Errors.expertise);
-      }
-      setErrors(errors);
-      setValidated(true);
+    if (
+      isMentor_Judge &&
+      form.checkValidity() &&
+      textAreaValue &&
+      coreBusiness &&
+      marketStage
+    ) {
+      updateEssentialDetailsMethod({
+        summary: textAreaValue,
+        coreBusiness,
+        expertise: marketStage,
+      });
     }
+
+    setValidated(true);
   };
 
   return (
@@ -219,6 +210,16 @@ const EssentialDetail = ({ history }) => {
                   </Col>
                 );
               })}
+              <Col md={12}>
+                {!coreBusiness && (
+                  <Form.Text
+                    className="invalid-text"
+                    style={{ marginTop: -10, marginBottom: 15 }}
+                  >
+                    {Constants.Errors.coreBusiness}
+                  </Form.Text>
+                )}
+              </Col>
             </Row>
 
             <Row className="tab-title">
@@ -257,6 +258,18 @@ const EssentialDetail = ({ history }) => {
                   </Col>
                 );
               })}
+              <Col md={12}>
+                {!marketStage && (
+                  <Form.Text
+                    className="invalid-text"
+                    style={{ marginTop: -10, marginBottom: 15 }}
+                  >
+                    {isMentor_Judge
+                      ? Constants.Errors.expertise
+                      : Constants.Errors.marketStage}
+                  </Form.Text>
+                )}
+              </Col>
             </Row>
 
             {isStartUp_Individual || isOrganisation ? (
@@ -291,6 +304,16 @@ const EssentialDetail = ({ history }) => {
                       </Col>
                     );
                   })}
+                  <Col md={12}>
+                    {!funding && (
+                      <Form.Text
+                        className="invalid-text"
+                        style={{ marginTop: -10, marginBottom: 15 }}
+                      >
+                        {Constants.Errors.funding}
+                      </Form.Text>
+                    )}
+                  </Col>
                 </Row>
               </>
             ) : null}
