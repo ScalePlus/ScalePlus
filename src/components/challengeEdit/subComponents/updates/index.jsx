@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
 import { CheckBox, Input, EditorInput, RemoveButton } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
@@ -9,9 +8,7 @@ import { InfoBlock } from "../common";
 const Updates = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
-  const [updates, changeUpdates] = useState([
-    { title: "", description: EditorState.createEmpty() },
-  ]);
+  const [updates, changeUpdates] = useState([{ title: "", description: "" }]);
   return (
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
@@ -51,7 +48,7 @@ const Updates = () => {
                 changeUpdates(
                   updates.concat({
                     title: "",
-                    description: EditorState.createEmpty(),
+                    description: "",
                   })
                 );
               }}

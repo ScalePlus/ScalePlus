@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
+
 import {
   CheckBox,
   Input,
@@ -16,7 +16,7 @@ const Resources = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [resources, changeResources] = useState([
-    { title: "", description: EditorState.createEmpty() },
+    { title: "", description: "" },
   ]);
   return (
     <MainContainer>
@@ -57,7 +57,7 @@ const Resources = () => {
                 changeResources(
                   resources.concat({
                     title: "",
-                    description: EditorState.createEmpty(),
+                    description: "",
                   })
                 );
               }}

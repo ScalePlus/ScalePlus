@@ -258,26 +258,6 @@ export const GlobalStyle = createGlobalStyle`
   cursor: pointer;
 }
 
-.custom-editor-wrapper {
-  border: 1px solid ${theme.colors.border_gray};
-  border-radius: 6px;
-}
-.custom-editor,
-.custom-editor-toolbar {
-  border: none;
-  border-radius: 6px;
-}
-
-.custom-editor-toolbar{
-  margin-bottom:0px;
-}
-
-.custom-editor{
-  border-top : none;
-  background-color: ${theme.colors.white};
-  padding:10px;
-}
-
 .large-checkbox .custom-control-input{
   border-radius:6px;
   :checked~.custom-control-label::before,

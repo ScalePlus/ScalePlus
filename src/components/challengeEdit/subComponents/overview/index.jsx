@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
 import { EditorInput } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
@@ -8,7 +7,7 @@ import { InfoBlock } from "../common";
 
 const Overview = () => {
   const [validated, setValidated] = useState(false);
-  const [description, changeDescription] = useState(EditorState.createEmpty());
+  const [description, changeDescription] = useState("");
   return (
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
@@ -50,8 +49,8 @@ const Overview = () => {
             <EditorInput
               description="The overview provides the full description of the challenge."
               editorState={description}
-              onEditorStateChange={(editorState) => {
-                changeDescription(editorState);
+              onChange={(value) => {
+                changeDescription(value);
               }}
             />
           </Col>

@@ -3,7 +3,7 @@ import { Form, Button, Spinner, Row, Col } from "react-bootstrap";
 import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import { Editor } from "react-draft-wysiwyg";
+import ReactQuill from "react-quill";
 import {
   TitleContainer,
   DescriptionContainer,
@@ -23,7 +23,7 @@ import theme from "../../theme";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import "react-datepicker/dist/react-datepicker.css";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "react-quill/dist/quill.snow.css";
 
 function Title({ text }) {
   return (
@@ -59,12 +59,7 @@ function EditorInput({ description, errorMessage, label, ...props }) {
   return (
     <Form.Group>
       {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Editor
-        {...props}
-        wrapperClassName="custom-editor-wrapper"
-        toolbarClassName="custom-editor-toolbar"
-        editorClassName="custom-editor"
-      />
+      <ReactQuill {...props} />
       {errorMessage && (
         <Form.Control.Feedback className="text-left" type="invalid">
           {errorMessage}

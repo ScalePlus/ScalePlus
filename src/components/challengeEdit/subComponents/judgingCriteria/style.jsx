@@ -8,8 +8,5 @@ export const MainContainer = styled.div`
     background-color: ${theme.colors.white};
     padding: 1rem 1rem 0px 1rem;
     margin-bottom: 1rem;
-    .custom-editor {
-      min-height: 100px;
-    }
   }
 `;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { EditorState } from "draft-js";
 import { CheckBox, Input, EditorInput, RemoveButton } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
@@ -9,9 +8,7 @@ import { InfoBlock } from "../common";
 const FAQ = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
-  const [FAQS, changeFAQS] = useState([
-    { question: "", answer: EditorState.createEmpty() },
-  ]);
+  const [FAQS, changeFAQS] = useState([{ question: "", answer: "" }]);
   return (
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
@@ -51,7 +48,7 @@ const FAQ = () => {
                 changeFAQS(
                   FAQS.concat({
                     question: "",
-                    answer: EditorState.createEmpty(),
+                    answer: "",
                   })
                 );
               }}
