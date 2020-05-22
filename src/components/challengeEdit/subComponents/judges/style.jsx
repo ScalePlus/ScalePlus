@@ -22,14 +22,17 @@ export const MainContainer = styled.div`
   .action-container {
     display: flex;
     align-items: center;
-    button {
-      margin-right: 10px;
-      padding: 5px 0px;
-    }
-    .button-text {
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.extraSmall};
-      color: ${theme.colors.black};
+    .status-tab {
+      padding: 2px;
+      border-radius: 6px;
+      margin-right: 20px;
+      min-width: 70px;
+      text-align: center;
+      span {
+        font-family: ${theme.fontFamily.regular};
+        font-size: ${theme.fontSize.extraSmall};
+        color: ${theme.colors.black};
+      }
     }
   }
 `;

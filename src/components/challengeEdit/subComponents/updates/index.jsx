@@ -71,54 +71,50 @@ const Updates = () => {
             {updates.map((each, index) => {
               return (
                 <div className="box-container" key={index}>
-                  <Row>
-                    <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input
-                        type="text"
-                        label="Title"
-                        value={each.title}
-                        onChange={(e) => {
-                          changeUpdates(
-                            updates.map((data, i) => {
-                              if (index === i) {
-                                data["title"] = e.target.value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      />
-                      <EditorInput
-                        label="Description"
-                        value={each.description}
-                        onChange={(value) => {
-                          changeUpdates(
-                            updates.map((data, i) => {
-                              if (index === i) {
-                                data["description"] = value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      ></EditorInput>
-                    </Col>
-                    <Col lg={1} md={1} sm={2} xs={2}>
-                      <div className="float-right">
-                        <RemoveButton
-                          onClick={() => {
-                            if (updates.length > 1) {
-                              changeUpdates(
-                                updates.filter((data, i) => {
-                                  return index !== i;
-                                })
-                              );
+                  <div className="left-container">
+                    <Input
+                      type="text"
+                      label="Title"
+                      value={each.title}
+                      onChange={(e) => {
+                        changeUpdates(
+                          updates.map((data, i) => {
+                            if (index === i) {
+                              data["title"] = e.target.value;
                             }
-                          }}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
+                            return data;
+                          })
+                        );
+                      }}
+                    />
+                    <EditorInput
+                      label="Description"
+                      value={each.description}
+                      onChange={(value) => {
+                        changeUpdates(
+                          updates.map((data, i) => {
+                            if (index === i) {
+                              data["description"] = value;
+                            }
+                            return data;
+                          })
+                        );
+                      }}
+                    ></EditorInput>
+                  </div>
+                  <div className="right-container">
+                    <RemoveButton
+                      onClick={() => {
+                        if (updates.length > 1) {
+                          changeUpdates(
+                            updates.filter((data, i) => {
+                              return index !== i;
+                            })
+                          );
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               );
             })}

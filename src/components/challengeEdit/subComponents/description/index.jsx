@@ -156,7 +156,7 @@ const Description = () => {
             />
             <Input
               type="number"
-              label="Prize *"
+              label="Prize"
               description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
               required
               errorMessage={Constants.Errors.prize}

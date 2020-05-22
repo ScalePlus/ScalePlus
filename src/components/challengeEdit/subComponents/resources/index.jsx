@@ -82,100 +82,97 @@ const Resources = () => {
             {resources.map((each, index) => {
               return (
                 <div className="box-container" key={index}>
-                  <Row>
-                    <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input
-                        type="text"
-                        label="Title"
-                        value={each.title}
-                        onChange={(e) => {
-                          changeResources(
-                            resources.map((data, i) => {
-                              if (index === i) {
-                                data["title"] = e.target.value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      />
-                      <Row className="align-items-center fileContainer">
-                        <Col lg={4} md={6} sm={12} xs={12}>
-                          <FileInput
-                            placeholder="choose file"
-                            label="Attachment"
-                            buttonText="Upload File"
-                            value={each.file}
-                            onChange={(e) => {
-                              changeResources(
-                                resources.map((data, i) => {
-                                  if (index === i) {
-                                    data["file"] = e.target.files[0];
-                                  }
-                                  return data;
-                                })
-                              );
-                            }}
-                          ></FileInput>
-                        </Col>
-                        <Col
-                          lg={4}
-                          md={6}
-                          sm={12}
-                          xs={12}
-                          style={{ marginTop: "25px" }}
-                        >
-                          <span className="info-text">
-                            Allowed file types are: ......
-                          </span>
-                        </Col>
-                      </Row>
-                      <EditorInput
-                        label="Description"
-                        value={each.description}
-                        onChange={(value) => {
-                          changeResources(
-                            resources.map((data, i) => {
-                              if (index === i) {
-                                data["description"] = value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      ></EditorInput>
-                      <Input
-                        type="text"
-                        label="Link"
-                        value={each.link}
-                        onChange={(e) => {
-                          changeResources(
-                            resources.map((data, i) => {
-                              if (index === i) {
-                                data["link"] = e.target.value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      />
-                    </Col>
-                    <Col lg={1} md={1} sm={2} xs={2}>
-                      <div className="float-right">
-                        <RemoveButton
-                          onClick={() => {
-                            if (resources.length > 1) {
-                              changeResources(
-                                resources.filter((data, i) => {
-                                  return index !== i;
-                                })
-                              );
+                  <div className="left-container">
+                    <Input
+                      type="text"
+                      label="Title"
+                      value={each.title}
+                      onChange={(e) => {
+                        changeResources(
+                          resources.map((data, i) => {
+                            if (index === i) {
+                              data["title"] = e.target.value;
                             }
+                            return data;
+                          })
+                        );
+                      }}
+                    />
+                    <Row className="align-items-center fileContainer">
+                      <Col lg={4} md={6} sm={12} xs={12}>
+                        <FileInput
+                          placeholder="choose file"
+                          label="Attachment"
+                          buttonText="Upload File"
+                          value={each.file}
+                          onChange={(e) => {
+                            changeResources(
+                              resources.map((data, i) => {
+                                if (index === i) {
+                                  data["file"] = e.target.files[0];
+                                }
+                                return data;
+                              })
+                            );
                           }}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
+                        ></FileInput>
+                      </Col>
+                      <Col
+                        lg={4}
+                        md={6}
+                        sm={12}
+                        xs={12}
+                        style={{ marginTop: "25px" }}
+                      >
+                        <span className="info-text">
+                          Allowed file types are: ......
+                        </span>
+                      </Col>
+                    </Row>
+                    <EditorInput
+                      label="Description"
+                      value={each.description}
+                      onChange={(value) => {
+                        changeResources(
+                          resources.map((data, i) => {
+                            if (index === i) {
+                              data["description"] = value;
+                            }
+                            return data;
+                          })
+                        );
+                      }}
+                    ></EditorInput>
+                    <Input
+                      type="text"
+                      label="Link"
+                      value={each.link}
+                      onChange={(e) => {
+                        changeResources(
+                          resources.map((data, i) => {
+                            if (index === i) {
+                              data["link"] = e.target.value;
+                            }
+                            return data;
+                          })
+                        );
+                      }}
+                    />
+                  </div>
+
+                  <div className="right-container">
+                    <RemoveButton
+                      onClick={() => {
+                        if (resources.length > 1) {
+                          changeResources(
+                            resources.filter((data, i) => {
+                              return index !== i;
+                            })
+                          );
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               );
             })}

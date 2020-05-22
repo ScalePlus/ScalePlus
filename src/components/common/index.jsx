@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Spinner, Row, Col } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -59,7 +59,57 @@ function EditorInput({ description, errorMessage, label, ...props }) {
   return (
     <Form.Group>
       {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <ReactQuill {...props} />
+      <ReactQuill
+        modules={{
+          toolbar: [
+            [{ header: "1" }, { header: "2" }, { font: [] }],
+            [{ size: [] }],
+            ["bold", "italic", "underline", "strike", "blockquote"],
+            [
+              { list: "ordered" },
+              { list: "bullet" },
+              { indent: "-1" },
+              { indent: "+1" },
+            ],
+            [
+              "align",
+              "link",
+              "image",
+              "video",
+              "background",
+              "color",
+              "code",
+              "direction",
+            ],
+            ["clean"],
+          ],
+          clipboard: {
+            matchVisual: false,
+          },
+        }}
+        formats={[
+          "header",
+          "font",
+          "size",
+          "bold",
+          "italic",
+          "underline",
+          "strike",
+          "blockquote",
+          "list",
+          "bullet",
+          "indent",
+          "link",
+          "image",
+          "video",
+          "background",
+          "color",
+          "code",
+          "align",
+          "direction",
+        ]}
+        {...props}
+      />
       {errorMessage && (
         <Form.Control.Feedback className="text-left" type="invalid">
           {errorMessage}
@@ -319,7 +369,9 @@ function DateInput({
       <img
         src={"/images/interface.svg"}
         className="calendar-icon"
-        style={{ marginTop: isSmall ? "-32px" : "-48px" }}
+        style={{
+          marginTop: isSmall ? "-32px" : "-48px",
+        }}
         height="25px"
         width="25px"
         alt=""
@@ -549,52 +601,46 @@ function ChallengeHeader({
 }) {
   return (
     <ChallengeHeaderContainer>
-      <Row style={{ alignItems: "center" }}>
-        <Col lg={6} md={6} sm={6} xs={12}>
-          <div className="left-continer">
-            <div className="oval-container">
-              <img
-                src={"/images/image.svg"}
-                height="20px"
-                width="20px"
-                alt=""
-              ></img>
-            </div>
-            <div className="organization-name">
-              <span>Organization Name Here</span>
-            </div>
-          </div>
-        </Col>
-        <Col lg={6} md={6} sm={6} xs={12}>
-          <div className="right-continer">
-            <CircularProgressbar
-              value={20}
-              text={`${20}%`}
-              className="progress-oval-container"
-              background={true}
-              styles={buildStyles({
-                textSize: "30px",
-                pathColor: "#4CD964",
-                textColor: theme.colors.black,
-                trailColor: "#d7d7d7",
-                backgroundColor: theme.colors.white,
-              })}
-            />
-            <div style={{ margin: "0px 10px" }}>
-              <PrimaryButton
-                variant="secondary"
-                text={secondaryButtonText}
-                onClick={secondaryButtonClick}
-              ></PrimaryButton>
-            </div>
-            <PrimaryButton
-              variant="primary"
-              text={primaryButtonText}
-              onClick={primaryButtonClick}
-            ></PrimaryButton>
-          </div>
-        </Col>
-      </Row>
+      <div className="left-continer">
+        <div className="oval-container">
+          <img
+            src={"/images/image.svg"}
+            height="20px"
+            width="20px"
+            alt=""
+          ></img>
+        </div>
+        <div className="organization-name">
+          <span>Organization Name Here</span>
+        </div>
+      </div>
+      <div className="right-continer">
+        <CircularProgressbar
+          value={20}
+          text={`${20}%`}
+          className="progress-oval-container"
+          background={true}
+          styles={buildStyles({
+            textSize: "30px",
+            pathColor: "#4CD964",
+            textColor: theme.colors.black,
+            trailColor: "#d7d7d7",
+            backgroundColor: theme.colors.white,
+          })}
+        />
+        <div style={{ margin: "0px 10px" }}>
+          <PrimaryButton
+            variant="secondary"
+            text={secondaryButtonText}
+            onClick={secondaryButtonClick}
+          ></PrimaryButton>
+        </div>
+        <PrimaryButton
+          variant="primary"
+          text={primaryButtonText}
+          onClick={primaryButtonClick}
+        ></PrimaryButton>
+      </div>
     </ChallengeHeaderContainer>
   );
 }

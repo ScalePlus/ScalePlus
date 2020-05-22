@@ -13,6 +13,7 @@ export const MainContainer = styled.div`
     z-index: 1;
     right: 0;
     margin-top: -30px;
+    margin-right: -5%;
     .step {
       display: flex;
       margin-bottom: 10px;

@@ -8,12 +8,24 @@ export const MainContainer = styled.div`
     background-color: ${theme.colors.white};
     padding: 1rem 1rem 0px 1rem;
     margin-bottom: 1rem;
+    display: flex;
+  }
+  .left-container {
+    flex: auto;
+  }
+  .right-container {
+    margin-left: 1rem;
   }
   .timeline {
     border: 1px solid #000000;
     border-radius: 6px;
     background-color: rgba(255, 192, 0, 0.1);
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     overflow: auto;
+  }
+  .bottom-block {
+    .title {
+      padding: 30px 0px;
+    }
   }
 `;

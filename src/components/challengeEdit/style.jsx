@@ -6,6 +6,11 @@ export const MainContainer = styled.div`
     padding: 10px;
     height: 40px;
   }
+  .text-label {
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.bold} !important;
+    font-size: ${theme.fontSize.regular};
+  }
   textarea.form-control {
     height: auto;
   }
@@ -19,7 +24,7 @@ export const MainContainer = styled.div`
     border-radius: 8px;
     background-color: ${theme.colors.white};
     .title {
-      padding: 0.7rem 0.5rem;
+      padding: 15px;
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumRegular};
@@ -27,7 +32,7 @@ export const MainContainer = styled.div`
       background-color: #f3f3f3;
     }
     .nav {
-      padding: 0rem 0.5rem;
+      padding: 0 20px;
     }
     .nav-item:not(:last-child) {
       border-bottom: 1px solid #f3f3f3;

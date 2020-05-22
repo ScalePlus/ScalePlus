@@ -69,79 +69,81 @@ const JudgingCriteria = () => {
             {updates.map((each, index) => {
               return (
                 <div className="box-container" key={index}>
-                  <Row>
-                    <Col lg={11} md={11} sm={10} xs={10}>
-                      <Row>
-                        <Col lg={6} md={6} sm={12} xs={12}>
-                          <Input
-                            type="text"
-                            label="Title"
-                            value={each.title}
-                            onChange={(e) => {
-                              changeUpdates(
-                                updates.map((data, i) => {
-                                  if (index === i) {
-                                    data["title"] = e.target.value;
-                                  }
-                                  return data;
-                                })
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col lg={6} md={6} sm={12} xs={12}>
-                          <Input
-                            type="number"
-                            label="Max score *"
-                            value={each.score}
-                            onChange={(e) => {
-                              changeUpdates(
-                                updates.map((data, i) => {
-                                  if (index === i) {
-                                    data["score"] = e.target.value;
-                                  }
-                                  return data;
-                                })
-                              );
-                            }}
-                            required
-                            errorMessage={Constants.Errors.score}
-                          />
-                        </Col>
-                      </Row>
-                      <TextArea
-                        label="Description"
-                        rows="2"
-                        value={each.description}
-                        onChange={(e) => {
-                          changeUpdates(
-                            updates.map((data, i) => {
-                              if (index === i) {
-                                data["description"] = e.target.value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      ></TextArea>
-                    </Col>
-                    <Col lg={1} md={1} sm={2} xs={2}>
-                      <div className="float-right" style={{ marginBottom: 10 }}>
-                        <RemoveButton
-                          onClick={() => {
-                            if (updates.length > 1) {
-                              changeUpdates(
-                                updates.filter((data, i) => {
-                                  return index !== i;
-                                })
-                              );
-                            }
+                  <div className="left-container">
+                    <Row>
+                      <Col lg={6} md={6} sm={12} xs={12}>
+                        <Input
+                          type="text"
+                          label="Title"
+                          value={each.title}
+                          onChange={(e) => {
+                            changeUpdates(
+                              updates.map((data, i) => {
+                                if (index === i) {
+                                  data["title"] = e.target.value;
+                                }
+                                return data;
+                              })
+                            );
                           }}
                         />
-                      </div>
-                      <UpdateCountButton onClick={() => {}} />
-                    </Col>
-                  </Row>
+                      </Col>
+                      <Col lg={6} md={6} sm={12} xs={12}>
+                        <Input
+                          type="number"
+                          label="Max score *"
+                          value={each.score}
+                          onChange={(e) => {
+                            changeUpdates(
+                              updates.map((data, i) => {
+                                if (index === i) {
+                                  data["score"] = e.target.value;
+                                }
+                                return data;
+                              })
+                            );
+                          }}
+                          required
+                          errorMessage={Constants.Errors.score}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <TextArea
+                          label="Description"
+                          rows="2"
+                          value={each.description}
+                          onChange={(e) => {
+                            changeUpdates(
+                              updates.map((data, i) => {
+                                if (index === i) {
+                                  data["description"] = e.target.value;
+                                }
+                                return data;
+                              })
+                            );
+                          }}
+                        ></TextArea>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div className="right-container">
+                    <div style={{ marginBottom: 10 }}>
+                      <RemoveButton
+                        onClick={() => {
+                          if (updates.length > 1) {
+                            changeUpdates(
+                              updates.filter((data, i) => {
+                                return index !== i;
+                              })
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                    <UpdateCountButton onClick={() => {}} />
+                  </div>
                 </div>
               );
             })}

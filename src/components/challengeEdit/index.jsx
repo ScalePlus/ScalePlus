@@ -46,7 +46,7 @@ const ChallengeEdit = ({ history }) => {
         </Col>
       </Row>
 
-      <Row className="justify-content-center" style={{ marginBottom: 50 }}>
+      <Row className="justify-content-center" style={{ marginBottom: 35 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
           <ChallengeHeader
             primaryButtonText="Submit for review"
@@ -72,12 +72,17 @@ const ChallengeEdit = ({ history }) => {
                   </div>
                   <Nav
                     activeKey={activeKey}
-                    onSelect={(k) => selectKey(k)}
+                    // onSelect={(k) => selectKey(k)}
                     className="flex-column"
                   >
                     {challengeLinks.map((each, index) => {
                       return (
-                        <Nav.Item key={index}>
+                        <Nav.Item
+                          key={index}
+                          onClick={() => {
+                            selectKey(each);
+                          }}
+                        >
                           <Nav.Link eventKey={each}>{each}</Nav.Link>
                         </Nav.Item>
                       );
@@ -90,12 +95,17 @@ const ChallengeEdit = ({ history }) => {
                   </div>
                   <Nav
                     activeKey={activeKey}
-                    onSelect={(k) => selectKey(k)}
+                    // onSelect={(k) => selectKey(k)}
                     className="flex-column"
                   >
                     {submissionLinks.map((each, index) => {
                       return (
-                        <Nav.Item key={index}>
+                        <Nav.Item
+                          key={index}
+                          onClick={() => {
+                            selectKey(each);
+                          }}
+                        >
                           <Nav.Link eventKey={each}>{each}</Nav.Link>
                         </Nav.Item>
                       );
@@ -108,12 +118,17 @@ const ChallengeEdit = ({ history }) => {
                   </div>
                   <Nav
                     activeKey={activeKey}
-                    onSelect={(k) => selectKey(k)}
+                    // onSelect={(k) => selectKey(k)}
                     className="flex-column"
                   >
                     {otherLinks.map((each, index) => {
                       return (
-                        <Nav.Item key={index}>
+                        <Nav.Item
+                          key={index}
+                          onClick={() => {
+                            selectKey(each);
+                          }}
+                        >
                           <Nav.Link eventKey={each}>{each}</Nav.Link>
                         </Nav.Item>
                       );

@@ -3,12 +3,7 @@ import { Row, Col, Form } from "react-bootstrap";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
-import {
-  CheckBox,
-  CommonTable,
-  PrimaryButton,
-  RemoveButton,
-} from "../../../common";
+import { CheckBox, CommonTable, RemoveButton } from "../../../common";
 const data = [
   {
     name: "Judge Name",
@@ -92,7 +87,7 @@ const Judges = () => {
                 {
                   Header: "",
                   accessor: "name",
-                  width: "10%",
+                  width: "8%",
                   Cell: (data) => {
                     return <div className="avtar-container"></div>;
                   },
@@ -113,21 +108,23 @@ const Judges = () => {
                 {
                   Header: "Status",
                   accessor: "status",
-                  width: "20%",
+                  width: "22%",
                   Cell: (data) => {
                     return (
                       <div className="action-container">
-                        <PrimaryButton
-                          variant={
-                            data === "Accepeted"
-                              ? "success"
-                              : data === "Declined"
-                              ? "danger"
-                              : "secondary"
-                          }
-                          text={data}
-                          onClick={() => {}}
-                        />
+                        <div
+                          className="status-tab"
+                          style={{
+                            background:
+                              data === "Accepeted"
+                                ? "#4CD964"
+                                : data === "Declined"
+                                ? "#FF3B30"
+                                : "rgba(0, 0, 0, 0.11)",
+                          }}
+                        >
+                          <span>{data}</span>
+                        </div>
                         <RemoveButton onClick={() => {}} />
                       </div>
                     );

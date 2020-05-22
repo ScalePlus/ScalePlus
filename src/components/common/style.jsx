@@ -160,10 +160,14 @@ export const WarningContainer = styled.div`
 `;
 
 export const ChallengeHeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   .left-continer {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    margin-bottom: 15px;
   }
   .oval-container {
     height: 35px;
@@ -184,7 +188,7 @@ export const ChallengeHeaderContainer = styled.div`
   .right-continer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    margin-bottom: 15px;
   }
   .progress-oval-container {
     height: 35px;
@@ -210,7 +214,6 @@ export const UpdateCountButtonContainer = styled.div`
   border-radius: 6px;
   background-color: #818181;
   justify-content: center;
-  float: right;
   margin-bottom: 10px;
   text-align: center;
 `;

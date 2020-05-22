@@ -39,7 +39,7 @@ function ChallengePreview({ history }) {
         </Col>
       </Row>
 
-      <Row className="justify-content-center" style={{ marginBottom: 25 }}>
+      <Row className="justify-content-center" style={{ marginBottom: 10 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
           <ChallengeHeader
             primaryButtonText="Submit for review"
@@ -60,12 +60,17 @@ function ChallengePreview({ history }) {
                 <Col md={11}>
                   <Tab.Container
                     activeKey={selectedTab}
-                    onSelect={(k) => selectTab(k)}
+                    // onSelect={(k) => selectTab(k)}
                   >
                     <Nav>
                       {tabs.map((each, index) => {
                         return (
-                          <Nav.Item key={index}>
+                          <Nav.Item
+                            key={index}
+                            onClick={() => {
+                              selectTab(each);
+                            }}
+                          >
                             <Nav.Link eventKey={each}>{each}</Nav.Link>
                             {each === "Updates" && (
                               <div className="count-container">

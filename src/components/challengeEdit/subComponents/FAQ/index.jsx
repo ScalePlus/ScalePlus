@@ -71,54 +71,50 @@ const FAQ = () => {
             {FAQS.map((each, index) => {
               return (
                 <div className="box-container" key={index}>
-                  <Row>
-                    <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input
-                        type="text"
-                        label="Question"
-                        value={each.question}
-                        onChange={(e) => {
-                          changeFAQS(
-                            FAQS.map((data, i) => {
-                              if (index === i) {
-                                data["question"] = e.target.value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      />
-                      <EditorInput
-                        label="Answer"
-                        value={each.answer}
-                        onChange={(value) => {
-                          changeFAQS(
-                            FAQS.map((data, i) => {
-                              if (index === i) {
-                                data["answer"] = value;
-                              }
-                              return data;
-                            })
-                          );
-                        }}
-                      ></EditorInput>
-                    </Col>
-                    <Col lg={1} md={1} sm={2} xs={2}>
-                      <div className="float-right">
-                        <RemoveButton
-                          onClick={() => {
-                            if (FAQS.length > 1) {
-                              changeFAQS(
-                                FAQS.filter((data, i) => {
-                                  return index !== i;
-                                })
-                              );
+                  <div className="left-container">
+                    <Input
+                      type="text"
+                      label="Question"
+                      value={each.question}
+                      onChange={(e) => {
+                        changeFAQS(
+                          FAQS.map((data, i) => {
+                            if (index === i) {
+                              data["question"] = e.target.value;
                             }
-                          }}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
+                            return data;
+                          })
+                        );
+                      }}
+                    />
+                    <EditorInput
+                      label="Answer"
+                      value={each.answer}
+                      onChange={(value) => {
+                        changeFAQS(
+                          FAQS.map((data, i) => {
+                            if (index === i) {
+                              data["answer"] = value;
+                            }
+                            return data;
+                          })
+                        );
+                      }}
+                    ></EditorInput>
+                  </div>
+                  <div className="right-container">
+                    <RemoveButton
+                      onClick={() => {
+                        if (FAQS.length > 1) {
+                          changeFAQS(
+                            FAQS.filter((data, i) => {
+                              return index !== i;
+                            })
+                          );
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               );
             })}

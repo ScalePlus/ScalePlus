@@ -50,6 +50,7 @@ function Stepper({
   // lineMarginOffset,
   defaultBorderWidth,
   showNumber,
+  isLeftAligned,
   showStartEndLabel,
 }) {
   return (
@@ -102,6 +103,7 @@ function Stepper({
             completeBarColor={completeBarColor}
             showStartEndLabel={showStartEndLabel}
             showNumber={showNumber}
+            isLeftAligned={isLeftAligned}
             // lineMarginOffset={lineMarginOffset}
           />
         ))}
@@ -126,7 +128,6 @@ Stepper.propTypes = {
   circleFontColor: PropTypes.string,
   size: PropTypes.number,
   circleFontSize: PropTypes.number,
-  titleFontSize: PropTypes.string,
   circleTop: PropTypes.number,
   titleTop: PropTypes.number,
   defaultOpacity: PropTypes.string,

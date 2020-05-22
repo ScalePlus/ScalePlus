@@ -7,11 +7,12 @@ export const InformationBlock = styled.div`
   align-items: center;
   border-radius: 6px;
   background-color: #dcf2ff;
-  padding: 10px 15px;
+  padding: 0px 15px;
   button {
     padding: 5px 15px;
   }
   .title {
+    padding: 15px 0px;
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};

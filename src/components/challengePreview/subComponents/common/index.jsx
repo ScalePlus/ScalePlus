@@ -21,37 +21,31 @@ export function HeaderComponent({
 }) {
   return (
     <TitleContainer>
-      <Row>
-        <Col lg={8} md={8} sm={8} xs={6}>
-          <div className={"title"}>
-            <span>{titleText}</span>
+      <div className={"title"} style={{ marginBottom: 10 }}>
+        <span>{titleText}</span>
+      </div>
+      <div style={{ display: "flex", marginBottom: 10 }}>
+        {infoButtonText && (
+          <div style={{ marginRight: 10 }}>
+            <PrimaryButton
+              variant={infoButtonVariant}
+              type={infoButtonType}
+              text={infoButtonText}
+              onClick={infoButtonClick}
+            ></PrimaryButton>
           </div>
-        </Col>
-        <Col lg={4} md={4} sm={4} xs={6}>
-          <div className="float-right" style={{ display: "flex" }}>
-            {infoButtonText && (
-              <div style={{ marginRight: 10 }}>
-                <PrimaryButton
-                  variant={infoButtonVariant}
-                  type={infoButtonType}
-                  text={infoButtonText}
-                  onClick={infoButtonClick}
-                ></PrimaryButton>
-              </div>
-            )}
-            {buttonText && (
-              <div>
-                <PrimaryButton
-                  variant={buttonVariant}
-                  type={buttonType}
-                  text={buttonText}
-                  onClick={() => {}}
-                ></PrimaryButton>
-              </div>
-            )}
+        )}
+        {buttonText && (
+          <div>
+            <PrimaryButton
+              variant={buttonVariant}
+              type={buttonType}
+              text={buttonText}
+              onClick={() => {}}
+            ></PrimaryButton>
           </div>
-        </Col>
-      </Row>
+        )}
+      </div>
     </TitleContainer>
   );
 }
