@@ -7,6 +7,7 @@ export const MainContainer = styled.div`
     font-size: ${theme.fontSize.regular};
     color: ${theme.colors.black};
     text-decoration: underline;
+    cursor: pointer;
   }
   .bold-text {
     font-family: ${theme.fontFamily.bold};

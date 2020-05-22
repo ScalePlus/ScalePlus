@@ -18,6 +18,36 @@ export const GlobalStyle = createGlobalStyle`
   font-size: ${theme.fontSize.regular};
 }
 
+.ql-toolbar{
+  background-color: #fafafa;
+}
+.ql-editor {
+  min-height: 500px;
+}
+.ql-container {
+  border: 1px solid ${theme.colors.border_gray} !important;
+  border-top: none !important;
+}
+
+.box-container{
+  .form-control,.quill {
+    background-color: #F9F9F9;
+  }
+  .quill {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+  }
+  .ql-editor {
+    min-height: 100px;
+  }
+  .ql-container,
+  .ql-toolbar {
+    border: none !important;
+    border-radius: 6px;
+    background-color: #F9F9F9;
+  }
+}
+
 .text-muted-description{
   color: ${theme.colors.gray};
   font-family: ${theme.fontFamily.regular};

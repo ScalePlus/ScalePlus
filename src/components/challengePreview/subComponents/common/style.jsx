@@ -95,6 +95,7 @@ export const ExpandCollapseContainer = styled.div`
       a {
         color: ${theme.colors.black};
       }
+      cursor: pointer;
     }
   }
 `;

@@ -36,6 +36,7 @@ const Timeline = () => {
           }
           setValidated(true);
         }}
+        style={{ marginBottom: 30 }}
       >
         <Row style={{ marginBottom: 45 }}>
           <Col>
@@ -95,23 +96,62 @@ const Timeline = () => {
                 <Col lg={11} md={11} sm={10} xs={10}>
                   <Row>
                     <Col lg={6} md={6} sm={12} xs={12}>
-                      <DateInput isSmall={true} maxDate={new Date()} />
+                      <DateInput
+                        isSmall={true}
+                        maxDate={new Date()}
+                        value={each.date}
+                        onChange={(date) => {
+                          changeTimeline(
+                            timeline.map((data, i) => {
+                              if (index === i) {
+                                data["date"] = date;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      />
                     </Col>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <DropDown
                         isSmall={true}
+                        inBox={true}
                         placeholder=""
                         options={[
                           { value: "1", label: "Start" },
-                          { value: "1", label: "Submission Deadline" },
-                          { value: "1", label: "Judging" },
-                          { value: "1", label: "Judging Closed" },
-                          { value: "1", label: "Won" },
+                          { value: "2", label: "Submission Deadline" },
+                          { value: "3", label: "Judging" },
+                          { value: "5", label: "Judging Closed" },
+                          { value: "5", label: "Won" },
                         ]}
+                        value={each.dropDown}
+                        onChange={(val) => {
+                          changeTimeline(
+                            timeline.map((data, i) => {
+                              if (index === i) {
+                                data["dropDown"] = val;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
                       />
                     </Col>
                   </Row>
-                  <TextArea rows="2" />
+                  <TextArea
+                    rows="2"
+                    value={each.description}
+                    onChange={(e) => {
+                      changeTimeline(
+                        timeline.map((data, i) => {
+                          if (index === i) {
+                            data["description"] = e.target.value;
+                          }
+                          return data;
+                        })
+                      );
+                    }}
+                  />
                 </Col>
                 <Col lg={1} md={1} sm={2} xs={2}>
                   <div className="float-right">
@@ -133,6 +173,22 @@ const Timeline = () => {
           );
         })}
       </Form>
+
+      <Row>
+        <Col>
+          <InfoBlock>
+            <span>
+              Adding a timeline to your challenge page not only allows visitors
+              to see your important dates, it enables your challenge to move
+              seamlessly from one stage to the next. For example, when you add
+              the Enter stage to your timeline, the Scale+ platform will
+              automatically change the buttons on your challenge page to begin
+              accepting registrations at the date and time you set. Start
+              building your timeline now by clicking the Add Event button.
+            </span>
+          </InfoBlock>
+        </Col>
+      </Row>
     </MainContainer>
   );
 };

@@ -59,7 +59,7 @@ const Guidelines = () => {
         <Row>
           <Col>
             <EditorInput
-              editorState={description}
+              value={description}
               onChange={(value) => {
                 changeDescription(value);
               }}

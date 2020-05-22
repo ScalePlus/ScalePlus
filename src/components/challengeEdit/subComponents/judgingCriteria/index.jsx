@@ -73,7 +73,21 @@ const JudgingCriteria = () => {
                     <Col lg={11} md={11} sm={10} xs={10}>
                       <Row>
                         <Col lg={6} md={6} sm={12} xs={12}>
-                          <Input type="text" label="Title" />
+                          <Input
+                            type="text"
+                            label="Title"
+                            value={each.title}
+                            onChange={(e) => {
+                              changeUpdates(
+                                updates.map((data, i) => {
+                                  if (index === i) {
+                                    data["title"] = e.target.value;
+                                  }
+                                  return data;
+                                })
+                              );
+                            }}
+                          />
                         </Col>
                         <Col lg={6} md={6} sm={12} xs={12}>
                           <Input
@@ -95,7 +109,21 @@ const JudgingCriteria = () => {
                           />
                         </Col>
                       </Row>
-                      <TextArea label="Description" rows="2"></TextArea>
+                      <TextArea
+                        label="Description"
+                        rows="2"
+                        value={each.description}
+                        onChange={(e) => {
+                          changeUpdates(
+                            updates.map((data, i) => {
+                              if (index === i) {
+                                data["description"] = e.target.value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      ></TextArea>
                     </Col>
                     <Col lg={1} md={1} sm={2} xs={2}>
                       <div className="float-right" style={{ marginBottom: 10 }}>

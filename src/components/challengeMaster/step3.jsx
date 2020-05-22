@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextArea, PrimaryButton, PageTitle } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
 
 function Step3({ setActiveStep }) {
+  const [problemStatement, changeProblemStatement] = useState("");
+  const [currentSolution, changeCurrentSolution] = useState("");
+  const [painPoint, changePainPoint] = useState("");
   return (
     <Row className="sub-container">
       <Col>
@@ -27,16 +30,28 @@ function Step3({ setActiveStep }) {
                 rows="4"
                 label="Problem Statement (optional)"
                 description="What problem are you tackling?"
+                value={problemStatement}
+                onChange={(e) => {
+                  changeProblemStatement(e.target.value);
+                }}
               />
               <TextArea
                 rows="4"
                 label="Current Solutions (optional)"
                 description="What are the current solutions to this problem?"
+                value={currentSolution}
+                onChange={(e) => {
+                  changeCurrentSolution(e.target.value);
+                }}
               />
               <TextArea
                 rows="4"
                 label="Pain Point (optional)"
                 description="What are the current solutions missing?"
+                value={painPoint}
+                onChange={(e) => {
+                  changePainPoint(e.target.value);
+                }}
               />
             </Col>
           </Row>

@@ -8,6 +8,7 @@ import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
+import SubmissionForm from "./subComponents/submissionForm";
 import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
 import Judges from "./subComponents/judges";
@@ -120,7 +121,7 @@ const ChallengeEdit = ({ history }) => {
                   </Nav>
                 </div>
               </div>
-              <div className="button-container">
+              <div className="button-container" style={{ marginBottom: 30 }}>
                 <PrimaryButton
                   variant="primary"
                   text={"Need Help?"}
@@ -137,6 +138,7 @@ const ChallengeEdit = ({ history }) => {
                 {activeKey === "Resources" && <Resources />}
                 {activeKey === "Guidelines" && <Guidelines />}
                 {activeKey === "Updates" && <Updates />}
+                {activeKey === "Submission form" && <SubmissionForm />}
                 {activeKey === "Judging criteria" && <JudgingCriteria />}
                 {activeKey === "Judging activities" && <JudgingActivities />}
                 {activeKey === "Judges" && <Judges />}

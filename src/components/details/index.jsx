@@ -15,9 +15,6 @@ import {
   Loading,
 } from "../common";
 import { Constants } from "../../lib/constant";
-const isURL = new RegExp(
-  /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-);
 
 const OrganizationDetails = () => {
   const dispatch = useDispatch();
@@ -91,7 +88,7 @@ const OrganizationDetails = () => {
       name &&
       logo &&
       website &&
-      website.match(isURL) &&
+      website.match(Constants.isURL) &&
       location &&
       incorporationDate &&
       form.checkValidity()
@@ -111,7 +108,7 @@ const OrganizationDetails = () => {
       name &&
       mobile &&
       website &&
-      website.match(isURL) &&
+      website.match(Constants.isURL) &&
       location &&
       birthDate &&
       form.checkValidity()
@@ -212,7 +209,9 @@ const OrganizationDetails = () => {
                       placeholder="Website"
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
-                      isInvalid={!website || (website && !website.match(isURL))}
+                      isInvalid={
+                        !website || (website && !website.match(Constants.isURL))
+                      }
                       errorMessage={
                         website
                           ? Constants.Errors.invalid_website

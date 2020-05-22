@@ -10,6 +10,12 @@ const Description = () => {
   const [title, setTitle] = useState("");
   const [prize, setPrize] = useState("");
   const [selectedCategories, selectCategories] = useState([]);
+  const [sortDesc, changeSortDesc] = useState("");
+  const [problemStatment, changeProblemStatment] = useState("");
+  const [currentSolution, changeCurrentSolution] = useState("");
+  const [painPoint, changePainPoint] = useState("");
+  const [bannerImage, changeBannerImage] = useState("");
+  const [videoURL, changeVideoUrl] = useState("");
   const [selectedTag, selectTag] = useState([]);
   const [validated, setValidated] = useState(false);
   return (
@@ -31,7 +37,10 @@ const Description = () => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (
+            form.checkValidity() &&
+            (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
+          ) {
             alert();
           }
           setValidated(true);
@@ -175,30 +184,56 @@ const Description = () => {
               rows="4"
               label="Short Description"
               description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
+              value={sortDesc}
+              onChange={(e) => {
+                changeSortDesc(e.target.value);
+              }}
             />
             <TextArea
               rows="4"
               label="Problem Statement (optional)"
               description="What problem are you tackling?"
+              value={problemStatment}
+              onChange={(e) => {
+                changeProblemStatment(e.target.value);
+              }}
             />
             <TextArea
               rows="4"
               label="Current Solutions (optional)"
               description="What are the current solutions to this problem?"
+              value={currentSolution}
+              onChange={(e) => {
+                changeCurrentSolution(e.target.value);
+              }}
             />
             <TextArea
               rows="4"
               label="Pain Point (optional)"
               description="What are the current solutions missing?"
+              value={painPoint}
+              onChange={(e) => {
+                changePainPoint(e.target.value);
+              }}
             />
             <BannerInput
               label="Challenge Banner Image"
               description="The image should illustrate your challenge. Recommended size is 1280 by 720"
+              value={bannerImage}
+              onChange={(e) => {
+                changeBannerImage(e.target.files[0]);
+              }}
             />
             <Input
               type="text"
               label="Video URL"
               description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
+              value={videoURL}
+              onChange={(e) => {
+                changeVideoUrl(e.target.value);
+              }}
+              isInvalid={videoURL && !videoURL.match(Constants.isURL)}
+              errorMessage={Constants.Errors.invalid_videoURL}
             />
           </Col>
         </Row>

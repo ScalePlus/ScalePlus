@@ -73,8 +73,35 @@ const FAQ = () => {
                 <div className="box-container" key={index}>
                   <Row>
                     <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input type="text" label="Question" />
-                      <EditorInput label="Answer"></EditorInput>
+                      <Input
+                        type="text"
+                        label="Question"
+                        value={each.question}
+                        onChange={(e) => {
+                          changeFAQS(
+                            FAQS.map((data, i) => {
+                              if (index === i) {
+                                data["question"] = e.target.value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      />
+                      <EditorInput
+                        label="Answer"
+                        value={each.answer}
+                        onChange={(value) => {
+                          changeFAQS(
+                            FAQS.map((data, i) => {
+                              if (index === i) {
+                                data["answer"] = value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      ></EditorInput>
                     </Col>
                     <Col lg={1} md={1} sm={2} xs={2}>
                       <div className="float-right">

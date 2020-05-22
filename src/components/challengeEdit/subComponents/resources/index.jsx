@@ -16,7 +16,7 @@ const Resources = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [resources, changeResources] = useState([
-    { title: "", description: "" },
+    { title: "", file: "", description: "", link: "" },
   ]);
   return (
     <MainContainer>
@@ -57,7 +57,9 @@ const Resources = () => {
                 changeResources(
                   resources.concat({
                     title: "",
+                    file: "",
                     description: "",
+                    link: "",
                   })
                 );
               }}
@@ -82,13 +84,38 @@ const Resources = () => {
                 <div className="box-container" key={index}>
                   <Row>
                     <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input type="text" label="Title" />
+                      <Input
+                        type="text"
+                        label="Title"
+                        value={each.title}
+                        onChange={(e) => {
+                          changeResources(
+                            resources.map((data, i) => {
+                              if (index === i) {
+                                data["title"] = e.target.value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      />
                       <Row className="align-items-center fileContainer">
                         <Col lg={4} md={6} sm={12} xs={12}>
                           <FileInput
                             placeholder="choose file"
                             label="Attachment"
                             buttonText="Upload File"
+                            value={each.file}
+                            onChange={(e) => {
+                              changeResources(
+                                resources.map((data, i) => {
+                                  if (index === i) {
+                                    data["file"] = e.target.files[0];
+                                  }
+                                  return data;
+                                })
+                              );
+                            }}
                           ></FileInput>
                         </Col>
                         <Col
@@ -103,8 +130,35 @@ const Resources = () => {
                           </span>
                         </Col>
                       </Row>
-                      <EditorInput label="Description"></EditorInput>
-                      <Input type="text" label="Link" />
+                      <EditorInput
+                        label="Description"
+                        value={each.description}
+                        onChange={(value) => {
+                          changeResources(
+                            resources.map((data, i) => {
+                              if (index === i) {
+                                data["description"] = value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      ></EditorInput>
+                      <Input
+                        type="text"
+                        label="Link"
+                        value={each.link}
+                        onChange={(e) => {
+                          changeResources(
+                            resources.map((data, i) => {
+                              if (index === i) {
+                                data["link"] = e.target.value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      />
                     </Col>
                     <Col lg={1} md={1} sm={2} xs={2}>
                       <div className="float-right">

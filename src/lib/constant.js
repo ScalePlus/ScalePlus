@@ -1,5 +1,8 @@
 export const Constants = {
   BASE_URL: "http://localhost:3001/api",
+  isURL: new RegExp(
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+  ),
   ROLES: {
     STARTUP_INDIVIDUAL: "Startup or Individual",
     ORGANIZATION: "Organization",
@@ -41,5 +44,7 @@ export const Constants = {
     biginDate: "Bigin date is required",
     endDate: "End date is required",
     anounceDate: "Announce date is required",
+    score: "Score is required",
+    invalid_videoURL: "Invalid video URL",
   },
 };

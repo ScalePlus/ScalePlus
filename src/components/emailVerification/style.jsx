@@ -43,6 +43,7 @@ export const MainContainer = styled.div`
     &:hover {
       color: ${theme.colors.gray};
     }
+    cursor: pointer;
   }
   .seprator {
     margin: 5px;

@@ -73,8 +73,35 @@ const Updates = () => {
                 <div className="box-container" key={index}>
                   <Row>
                     <Col lg={11} md={11} sm={10} xs={10}>
-                      <Input type="text" label="Title" />
-                      <EditorInput label="Description"></EditorInput>
+                      <Input
+                        type="text"
+                        label="Title"
+                        value={each.title}
+                        onChange={(e) => {
+                          changeUpdates(
+                            updates.map((data, i) => {
+                              if (index === i) {
+                                data["title"] = e.target.value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      />
+                      <EditorInput
+                        label="Description"
+                        value={each.description}
+                        onChange={(value) => {
+                          changeUpdates(
+                            updates.map((data, i) => {
+                              if (index === i) {
+                                data["description"] = value;
+                              }
+                              return data;
+                            })
+                          );
+                        }}
+                      ></EditorInput>
                     </Col>
                     <Col lg={1} md={1} sm={2} xs={2}>
                       <div className="float-right">

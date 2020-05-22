@@ -14,6 +14,9 @@ function Step2({ setActiveStep }) {
   const [title, setTitle] = useState("");
   const [prize, setPrize] = useState("");
   const [selectedCategories, selectCategories] = useState([]);
+  const [sortDescription, setSortDescription] = useState("");
+  const [bannerImage, setBannerImage] = useState("");
+  const [videoURL, setVideoURL] = useState("");
   const [validated, setValidated] = useState(false);
   return (
     <Row className="sub-container">
@@ -39,7 +42,10 @@ function Step2({ setActiveStep }) {
             event.preventDefault();
             event.stopPropagation();
             const form = event.currentTarget;
-            if (form.checkValidity()) {
+            if (
+              form.checkValidity() &&
+              (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
+            ) {
               setActiveStep(2);
             }
             window.scrollTo(0, 0);
@@ -89,15 +95,29 @@ function Step2({ setActiveStep }) {
                 rows="4"
                 label="Short Description"
                 description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
+                value={sortDescription}
+                onChange={(e) => {
+                  setSortDescription(e.target.value);
+                }}
               />
               <BannerInput
                 label="Challenge Banner Image"
                 description="The image should illustrate your challenge. Recommended size is 1280 by 720"
+                value={bannerImage}
+                onChange={(e) => {
+                  setBannerImage(e.target.files[0]);
+                }}
               />
               <Input
                 type="text"
                 label="Video URL"
                 description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
+                value={videoURL}
+                onChange={(e) => {
+                  setVideoURL(e.target.value);
+                }}
+                isInvalid={videoURL && !videoURL.match(Constants.isURL)}
+                errorMessage={Constants.Errors.invalid_videoURL}
               />
             </Col>
           </Row>

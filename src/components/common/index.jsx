@@ -336,6 +336,7 @@ function DateInput({
 
 function DropDown({
   isSmall,
+  inBox,
   options,
   placeholder,
   value,
@@ -356,7 +357,7 @@ function DropDown({
       border: `1px solid ${theme.colors.border_gray}`,
       borderColor: theme.colors.border_gray,
       borderRadius: "6px",
-      backgroundColor: theme.colors.white,
+      backgroundColor: inBox ? "#F9F9F9" : theme.colors.white,
       fontFamily: theme.fontFamily.regular,
       fontSize: theme.fontSize.regular,
       boxShadow: 0,
