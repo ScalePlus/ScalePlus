@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Nav } from "react-bootstrap";
+import { Row, Col, Nav, Navbar } from "react-bootstrap";
 import { WarningBlock, ChallengeHeader, PrimaryButton } from "../common";
 import Description from "./subComponents/description";
 import Overview from "./subComponents/overview";
@@ -38,6 +38,7 @@ const otherLinks = ["Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history }) => {
   const [activeKey, selectKey] = useState(challengeLinks[0]);
+  const [expanded, onToggle] = useState(false);
   return (
     <MainContainer>
       <Row style={{ marginBottom: 20 }}>
@@ -64,79 +65,95 @@ const ChallengeEdit = ({ history }) => {
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
-            <Col lg={3} md={4} sm={4} xs={12}>
-              <div className="custom-sidebar">
-                <div>
-                  <div className="title">
-                    <span>Challenge page</span>
-                  </div>
-                  <Nav
-                    activeKey={activeKey}
-                    // onSelect={(k) => selectKey(k)}
-                    className="flex-column"
-                  >
-                    {challengeLinks.map((each, index) => {
-                      return (
-                        <Nav.Item
-                          key={index}
-                          onClick={() => {
-                            selectKey(each);
-                          }}
+            <Col lg={3} md={4} sm={12} xs={12}>
+              <Navbar
+                expand="md"
+                onToggle={() => {
+                  onToggle(!expanded);
+                }}
+                expanded={expanded}
+              >
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <div style={{ flex: "auto" }}>
+                    <div className="custom-sidebar">
+                      <div>
+                        <div className="title">
+                          <span>Challenge page</span>
+                        </div>
+                        <Nav
+                          activeKey={activeKey}
+                          // onSelect={(k) => selectKey(k)}
+                          className="flex-column"
                         >
-                          <Nav.Link eventKey={each}>{each}</Nav.Link>
-                        </Nav.Item>
-                      );
-                    })}
-                  </Nav>
-                </div>
-                <div style={{ marginTop: 20 }}>
-                  <div className="title">
-                    <span>Submissions and judging</span>
-                  </div>
-                  <Nav
-                    activeKey={activeKey}
-                    // onSelect={(k) => selectKey(k)}
-                    className="flex-column"
-                  >
-                    {submissionLinks.map((each, index) => {
-                      return (
-                        <Nav.Item
-                          key={index}
-                          onClick={() => {
-                            selectKey(each);
-                          }}
+                          {challengeLinks.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  selectKey(each);
+                                  onToggle(false);
+                                }}
+                              >
+                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                              </Nav.Item>
+                            );
+                          })}
+                        </Nav>
+                      </div>
+                      <div style={{ marginTop: 20 }}>
+                        <div className="title">
+                          <span>Submissions and judging</span>
+                        </div>
+                        <Nav
+                          activeKey={activeKey}
+                          // onSelect={(k) => selectKey(k)}
+                          className="flex-column"
                         >
-                          <Nav.Link eventKey={each}>{each}</Nav.Link>
-                        </Nav.Item>
-                      );
-                    })}
-                  </Nav>
-                </div>
-                <div style={{ margin: "20px 0px" }}>
-                  <div className="title">
-                    <span>Other</span>
-                  </div>
-                  <Nav
-                    activeKey={activeKey}
-                    // onSelect={(k) => selectKey(k)}
-                    className="flex-column"
-                  >
-                    {otherLinks.map((each, index) => {
-                      return (
-                        <Nav.Item
-                          key={index}
-                          onClick={() => {
-                            selectKey(each);
-                          }}
+                          {submissionLinks.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  selectKey(each);
+                                  onToggle(false);
+                                }}
+                              >
+                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                              </Nav.Item>
+                            );
+                          })}
+                        </Nav>
+                      </div>
+                      <div style={{ margin: "20px 0px" }}>
+                        <div className="title">
+                          <span>Other</span>
+                        </div>
+                        <Nav
+                          activeKey={activeKey}
+                          // onSelect={(k) => selectKey(k)}
+                          className="flex-column"
                         >
-                          <Nav.Link eventKey={each}>{each}</Nav.Link>
-                        </Nav.Item>
-                      );
-                    })}
-                  </Nav>
-                </div>
-              </div>
-              <div className="button-container" style={{ marginBottom: 30 }}>
+                          {otherLinks.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  selectKey(each);
+                                  onToggle(false);
+                                }}
+                              >
+                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                              </Nav.Item>
+                            );
+                          })}
+                        </Nav>
+                      </div>
+                    </div>
+                  </div>
+                </Navbar.Collapse>
+              </Navbar>
+              <div className="button-container">
                 <PrimaryButton
                   variant="primary"
                   text={"Need Help?"}
@@ -144,7 +161,7 @@ const ChallengeEdit = ({ history }) => {
                 ></PrimaryButton>
               </div>
             </Col>
-            <Col lg={9} md={8} sm={8} xs={12}>
+            <Col lg={9} md={8} sm={12} xs={12}>
               <div className="content-container">
                 {activeKey === "Description" && <Description />}
                 {activeKey === "Overview" && <Overview />}
