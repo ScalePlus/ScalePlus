@@ -3,10 +3,6 @@ import theme from "../../theme";
 
 export const MainContainer = styled.div`
   text-align: center;
-  .col-lg-4 {
-    padding-right: 8px;
-    padding-left: 8px;
-  }
   .container {
     @media (min-width: 992px) {
       padding: 0px 40px;

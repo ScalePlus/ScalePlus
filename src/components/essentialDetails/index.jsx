@@ -198,15 +198,7 @@ const EssentialDetail = ({ history }) => {
                       selectCoreBusiness(each);
                     }}
                   >
-                    <div
-                      className={
-                        each !== coreBusinessTabs[coreBusinessTabs.length - 1]
-                          ? "outer-tab-container"
-                          : ""
-                      }
-                    >
-                      <Tab text={each} isActive={each === coreBusiness} />
-                    </div>
+                    <Tab text={each} isActive={each === coreBusiness} />
                   </Col>
                 );
               })}
@@ -246,15 +238,7 @@ const EssentialDetail = ({ history }) => {
                       selectMarketStage(each);
                     }}
                   >
-                    <div
-                      className={
-                        each !== marketStageTabs[marketStageTabs.length - 1]
-                          ? "outer-tab-container"
-                          : ""
-                      }
-                    >
-                      <Tab text={each} isActive={each === marketStage} />
-                    </div>
+                    <Tab text={each} isActive={each === marketStage} />
                   </Col>
                 );
               })}
@@ -292,15 +276,7 @@ const EssentialDetail = ({ history }) => {
                           selectFunding(each);
                         }}
                       >
-                        <div
-                          className={
-                            each !== fundingTabs[fundingTabs.length - 1]
-                              ? "outer-tab-container"
-                              : ""
-                          }
-                        >
-                          <Tab text={each} isActive={each === funding} />
-                        </div>
+                        <Tab text={each} isActive={each === funding} />
                       </Col>
                     );
                   })}

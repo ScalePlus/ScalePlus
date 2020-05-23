@@ -20,7 +20,7 @@ export const MainContainer = styled.div`
     position: absolute;
     margin-top: -36px;
     right: 0;
-    margin-right: 20px;
+    margin-right: 13px;
     border-radius: 6px;
     padding: 3px 30px;
     border-color: rgba(0, 0, 0, 0.5);

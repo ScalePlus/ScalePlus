@@ -140,19 +140,11 @@ const SignUp = ({ history }) => {
                     );
                   }}
                 >
-                  <div
-                    className={
-                      each.id !== tabs[tabs.length - 1].id
-                        ? "outer-tab-container "
-                        : ""
-                    }
-                  >
-                    <Tab
-                      text={each.text}
-                      subText={each.subText}
-                      isActive={each.isActive}
-                    />
-                  </div>
+                  <Tab
+                    text={each.text}
+                    subText={each.subText}
+                    isActive={each.isActive}
+                  />
                 </Col>
               );
             })}

@@ -371,6 +371,7 @@ function DateInput({
         className="calendar-icon"
         style={{
           marginTop: isSmall ? "-32px" : "-48px",
+          marginRight: isSmall ? "15px" : "20px",
         }}
         height="25px"
         width="25px"
