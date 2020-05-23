@@ -22,7 +22,7 @@ function* updateEssentialDetailsSaga(data) {
         payload: res.result,
       });
       // alert("All information saved successfully");
-      history.push("/challenge");
+      history.push("/dashboard");
     }
   } catch (error) {
     yield put({ type: UPDATE_ESSENTIAL_DETAILS_ERROR, payload: error.message });

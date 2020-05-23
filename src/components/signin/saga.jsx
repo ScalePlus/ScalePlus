@@ -29,7 +29,7 @@ function* signinSaga(data) {
         localStorage.setItem("userRole", res.result.userRole);
         localStorage.setItem("profileUpdated", res.result.profileUpdated);
         if (res.result.profileUpdated) {
-          history.push("/challenge");
+          history.push("/dashboard");
         } else {
           history.push("/detail");
         }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button, Spinner, Table } from "react-bootstrap";
 import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -20,8 +20,6 @@ import {
   TableContainer,
 } from "./style";
 import theme from "../../theme";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
 
@@ -680,29 +678,42 @@ function UpdateCountButton({ onClick }) {
 function CommonTable({ columns, data, showPagination }) {
   return (
     <TableContainer>
-      <BootstrapTable data={data} pagination={showPagination} bordered={false}>
-        {columns &&
-          columns.length &&
-          columns.map((column, index) => {
-            return (
-              <TableHeaderColumn
-                isKey={index === 0 ? true : false}
-                dataField={column.accessor}
-                key={index}
-                width={column.width ? column.width : ""}
-                dataFormat={(cell, row) => {
-                  if (column.Cell) {
-                    return column.Cell(cell);
-                  } else {
-                    return cell;
-                  }
-                }}
-              >
-                {column.Header}
-              </TableHeaderColumn>
-            );
-          })}
-      </BootstrapTable>
+      <Table responsive>
+        <thead>
+          <tr>
+            {columns &&
+              columns.length &&
+              columns.map((column, index) => {
+                return (
+                  <th key={index} width={column.width ? column.width : "auto"}>
+                    {column.Header}
+                  </th>
+                );
+              })}
+          </tr>
+        </thead>
+        <tbody>
+          {data &&
+            data.length &&
+            data.map((each, index) => {
+              return (
+                <tr key={index}>
+                  {columns &&
+                    columns.length &&
+                    columns.map((column, index) => {
+                      return (
+                        <td key={index}>
+                          {column.Cell
+                            ? column.Cell(each[column.accessor])
+                            : each[column.accessor]}
+                        </td>
+                      );
+                    })}
+                </tr>
+              );
+            })}
+        </tbody>
+      </Table>
     </TableContainer>
   );
 }

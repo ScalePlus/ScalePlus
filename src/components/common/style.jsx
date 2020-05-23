@@ -223,20 +223,21 @@ export const TableContainer = styled.div`
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.regular};
     color: ${theme.colors.black};
+    th {
+      border: none;
+      border-bottom: 2px solid #979797;
+    }
   }
   tbody {
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
     color: ${theme.colors.black};
+    tr {
+      border: none;
+      border-bottom: 1px solid #e9e9e9;
+    }
   }
-  td {
-    border: none;
-    border-bottom: 1px solid #e9e9e9;
-  }
-  th {
-    border: none;
-    border-bottom: 2px solid #979797;
-  }
+
   td:focus,
   th:focus {
     outline: 0;
