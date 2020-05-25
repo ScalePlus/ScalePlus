@@ -38,27 +38,40 @@ export const MainContainer = styled.div`
     font-size: ${theme.fontSize.mediumRegular};
     margin-left: 5px;
   }
+  .content-container {
+    padding-top: 25px;
+  }
   .content {
-    padding: 20px 20px;
+    padding: 0px 10px;
+    margin-top: 7px;
+    margin-bottom: 33px;
   }
   .outer-content {
-    padding: 10px 20px;
+    padding: 7px 10px;
+  }
+  .inner-content {
+    margin-top: 5px;
   }
   .name {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
+    line-height: 16px;
   }
   .sub-name {
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
+    letter-spacing: 0;
+    line-height: 14px;
   }
   .grey-button {
     cursor: pointer;
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
+    letter-spacing: 0;
+    line-height: 14px;
   }
 `;
 

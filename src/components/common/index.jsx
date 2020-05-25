@@ -556,10 +556,8 @@ function Tab({ text, subText, isActive }) {
           isActive ? "tab-sub-container active-tab" : "tab-sub-container"
         }
       >
-        <div className={"container"}>
-          <div className="tab-main-text">{text}</div>
-          {subText && <div className="tab-sub-text">{subText}</div>}
-        </div>
+        <div className="tab-main-text">{text}</div>
+        {subText && <div className="tab-sub-text">{subText}</div>}
       </div>
     </TabContainer>
   );

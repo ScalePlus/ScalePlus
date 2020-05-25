@@ -75,11 +75,11 @@ export default function Content({ history }) {
               {challenges.map((each, index) => {
                 return (
                   <div key={index} className="content">
-                    <div>
-                      <span className="name">{each}</span>
+                    <div className="name">
+                      <span>{each}</span>
                     </div>
-                    <div>
-                      <span className="grey-button">Modify</span>
+                    <div className="grey-button">
+                      <span>Modify</span>
                     </div>
                   </div>
                 );
@@ -102,15 +102,15 @@ export default function Content({ history }) {
               {users.map((each, index) => {
                 return (
                   <div key={index} className="outer-content">
-                    <div>
-                      <span className="name">{each.name}</span>
+                    <div className="name">
+                      <span>{each.name}</span>
                     </div>
                     <div className="inner-content">
-                      <div>
-                        <span className="sub-name">{each.challengeName}</span>
+                      <div className="sub-name">
+                        <span>{each.challengeName}</span>
                       </div>
-                      <div>
-                        <span className="grey-button">{each.status}</span>
+                      <div className="grey-button">
+                        <span>{each.status}</span>
                       </div>
                     </div>
                   </div>
@@ -134,12 +134,12 @@ export default function Content({ history }) {
               {judges.map((each, index) => {
                 return (
                   <div key={index} className="outer-content">
-                    <div>
-                      <span className="name">{each.name}</span>
+                    <div className="name">
+                      <span>{each.name}</span>
                     </div>
                     <div className="inner-content">
-                      <div>
-                        <span className="sub-name">{each.challengeName}</span>
+                      <div className="sub-name">
+                        <span>{each.challengeName}</span>
                       </div>
                       {/* <div>
                         <span className="grey-button">Modify</span>

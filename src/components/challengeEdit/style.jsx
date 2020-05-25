@@ -21,18 +21,13 @@ export const MainContainer = styled.div`
   .navbar {
     padding: 0px;
     margin-bottom: 10px;
-    background-color: ${theme.colors.white};
-    border-radius: 6px;
-  }
-
-  .navbar-toggler:focus {
-    outline: none;
-  }
-  .custom-sidebar {
-    text-alignt: left;
-    border: 1px solid #f3f3f3;
     border-radius: 8px;
     background-color: ${theme.colors.white};
+    border: 1px solid #f3f3f3;
+  }
+
+  .custom-sidebar {
+    text-alignt: left;
     .title {
       padding: 15px;
       color: ${theme.colors.black};

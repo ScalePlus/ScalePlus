@@ -15,6 +15,7 @@ import ChallengeConfirmation from "./components/challengeMaster/confirmation";
 import ChallengePreview from "./components/challengePreview";
 import ChallengeEdit from "./components/challengeEdit";
 import Dashboard from "./components/dashboard";
+import AllChallenges from "./components/allChallenges";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -143,6 +144,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={ChallengeEdit}
+          />
+          <AuthRoute
+            path="/challenges"
+            exact
+            layout={MainLayout}
+            component={AllChallenges}
           />
           <Redirect
             from="/"

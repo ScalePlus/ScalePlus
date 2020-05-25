@@ -7,12 +7,10 @@ export const MainContainer = styled.div`
     padding: 0px;
     background-color: #f6f6f6 !important;
   }
-  .navbar-toggler:focus {
-    outline: none;
-  }
+
   .navbar-nav {
     min-height: 450px;
-    padding: 25px;
+    padding: 15px 20px;
     flex: auto !important;
   }
   .nav-item:not(:last-child) {

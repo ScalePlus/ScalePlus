@@ -66,6 +66,10 @@ export const GlobalStyle = createGlobalStyle`
   font-size: ${theme.fontSize.regular};
 }
 
+.navbar-toggler:focus {
+  outline: none;
+}
+
 .react-datepicker-wrapper,.react-datepicker-wrapper input{
   width: 100%;
   :focus {
@@ -355,5 +359,17 @@ export const GlobalStyle = createGlobalStyle`
 .custom-switch .custom-control-input:checked~.custom-control-label::after {
   background-color: ${theme.colors.yellow};
   transform: translateX(1.5rem);
+}
+
+.fullscreen-modal {
+  max-width: 100%;
+  margin:0px !important;
+  height: 100vh;
+  .modal-content{
+    height: 100vh;
+  }
+  .modal-body{
+    background-color: ${theme.colors.white};
+  }
 }
 `;

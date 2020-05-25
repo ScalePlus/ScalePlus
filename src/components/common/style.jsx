@@ -96,13 +96,12 @@ export const TabContainer = styled.div`
     background-color: ${theme.colors.white};
     min-height: 60px;
     position: relative;
-    .container {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 100px;
+    padding: 0 1.5rem;
     .tab-main-text {
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};
