@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Form, Button, Spinner, Table } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Spinner,
+  Table,
+  Card,
+  ProgressBar,
+} from "react-bootstrap";
 import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
@@ -18,6 +25,7 @@ import {
   RemoveButtonContainer,
   UpdateCountButtonContainer,
   TableContainer,
+  CardContainer,
 } from "./style";
 import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
@@ -716,6 +724,75 @@ function CommonTable({ columns, data, showPagination }) {
   );
 }
 
+function CardComponent({ src, variant, progress, label }) {
+  return (
+    <CardContainer>
+      <Card>
+        <Card.Img variant="top" src={src} />
+        <Card.Body>
+          <Card.Text>By Rio Tinto</Card.Text>
+          <Card.Title>Low Impact Agriculture Challenge</Card.Title>
+          <Card.Text className="description">
+            Lorem ipsum dolor sit amet, oportere prodesset at mei. Vel in tollit
+            viderer pertinacia. Mel timeam corpora vituperatoribus ei. In
+            inimicus sententiae interesset usu……everti officiis sensibus cum, an
+            theophrastus interpretaris pro. Ut eum aperiri atomorum.
+          </Card.Text>
+        </Card.Body>
+        <Card.Footer>
+          <div className="days-price-container bordered-container">
+            <div className="days-container">
+              <img
+                src={"/images/interface.svg"}
+                height="25px"
+                width="25px"
+                alt=""
+              ></img>
+              <div className="days-text">
+                <span>30 days left</span>
+              </div>
+            </div>
+            <div className="prize-text">
+              <span>Prize AED 50K </span>
+            </div>
+          </div>
+          {variant && progress && label && (
+            <>
+              <div className="bordered-container">
+                <div className="heading-text">
+                  <span>Current Milestone</span>
+                </div>
+                <div className="sub-heading-text">
+                  <ProgressBar variant={variant} now={progress} label={label} />
+                </div>
+              </div>
+              <div className="bordered-container">
+                <div className="heading-text">
+                  <span>Participants/Matches</span>
+                </div>
+                <div className="sub-heading-text">
+                  <span>6</span>
+                </div>
+              </div>
+              <div className="bordered-container">
+                <div className="heading-text">
+                  <span>Judges</span>
+                </div>
+                <div className="sub-heading-text">
+                  <span>6</span>
+                </div>
+              </div>
+            </>
+          )}
+        </Card.Footer>
+      </Card>
+      <div className="circle-container">
+        <img src={"/images/image.svg"} height="40px" width="40px" alt=""></img>
+      </div>
+    </CardContainer>
+  );
+}
+
 export {
   Title,
   Description,
@@ -741,4 +818,5 @@ export {
   RemoveButton,
   UpdateCountButton,
   CommonTable,
+  CardComponent,
 };

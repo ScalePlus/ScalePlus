@@ -93,32 +93,32 @@ export default function Footer() {
               <div className="circle-container">
                 <img
                   src={"/images/facebook.svg"}
-                  height="20px"
-                  width="20px"
+                  height="15px"
+                  width="15px"
                   alt=""
                 ></img>
               </div>
               <div className="circle-container">
                 <img
                   src={"/images/twitter.svg"}
-                  height="20px"
-                  width="20px"
+                  height="15px"
+                  width="15px"
                   alt=""
                 ></img>
               </div>
               <div className="circle-container">
                 <img
                   src={"/images/linkedin.svg"}
-                  height="20px"
-                  width="20px"
+                  height="15px"
+                  width="15px"
                   alt=""
                 ></img>
               </div>
               <div className="circle-container">
                 <img
                   src={"/images/whatsapp.svg"}
-                  height="20px"
-                  width="20px"
+                  height="15px"
+                  width="15px"
                   alt=""
                 ></img>
               </div>

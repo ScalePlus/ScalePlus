@@ -245,3 +245,109 @@ export const TableContainer = styled.div`
     vertical-align: middle;
   }
 `;
+
+export const CardContainer = styled.div`
+  .circle-container {
+    height: 70px;
+    width: 70px;
+    border: 1px solid #979797;
+    background-color: ${theme.colors.white};
+    border-radius: 50%;
+    position: absolute;
+    top: 142px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card {
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    background-color: ${theme.colors.white};
+    cursor: pointer;
+    :hover {
+      box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.14);
+    }
+    margin-bottom: 40px;
+    .card-img-top {
+      height: 200px;
+    }
+    .card-body {
+      padding-bottom: 10px;
+    }
+    .description {
+      height: 60px;
+      overflow: hidden;
+    }
+    .card-title {
+      color: ${theme.colors.black};
+      font-family: ${theme.fontFamily.bold};
+      font-size: ${theme.fontSize.title};
+      margin-bottom: 5px;
+    }
+    .card-text {
+      color: ${theme.colors.black};
+      font-family: ${theme.fontFamily.regular};
+      font-size: ${theme.fontSize.regular};
+      margin-bottom: 5px;
+    }
+    .card-footer {
+      background-color: ${theme.colors.white};
+      border: none;
+      padding-top: 0px;
+      .days-price-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .days-container {
+          display: flex;
+          align-items: center;
+        }
+        .days-text {
+          color: ${theme.colors.gray};
+          font-family: ${theme.fontFamily.bold};
+          font-size: ${theme.fontSize.regular};
+          margin-left: 10px;
+        }
+        .prize-text {
+          color: ${theme.colors.black};
+          font-family: ${theme.fontFamily.bold};
+          font-size: ${theme.fontSize.regular};
+        }
+      }
+      .bordered-container {
+        padding: 10px 0px;
+        :not(:last-child) {
+          border-bottom: 1px solid #e9e9e9;
+        }
+      }
+      .heading-text {
+        color: ${theme.colors.black};
+        font-family: ${theme.fontFamily.bold};
+        font-size: ${theme.fontSize.regular};
+        margin-bottom: 8px;
+      }
+      .sub-heading-text {
+        color: ${theme.colors.black};
+        font-family: ${theme.fontFamily.regular};
+        font-size: ${theme.fontSize.regular};
+      }
+      .progress {
+        height: 25px;
+        .bg-warning {
+          background-color: ${theme.colors.yellow} !important;
+        }
+        .bg-success {
+          background-color: #66e397 !important;
+        }
+        .progress-bar {
+          color: ${theme.colors.black};
+          font-family: ${theme.fontFamily.regular};
+          font-size: ${theme.fontSize.regular};
+          text-align: left;
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+`;

@@ -41,7 +41,13 @@ export default function HowItWorks() {
         <Row className="justify-content-center align-items-center">
           <Col lg={10} md={10} sm={10} xs={10}>
             <Row>
-              <Col lg={6} md={6} sm={12} xs={12} className="image-container">
+              <Col
+                lg={6}
+                md={6}
+                sm={12}
+                xs={12}
+                className="timer-image-container"
+              >
                 <img alt="" src="/images/timer.png"></img>
               </Col>
               <Col lg={6} md={6} sm={12} xs={12}>
@@ -92,7 +98,13 @@ export default function HowItWorks() {
                   ></PrimaryButton>
                 </div>
               </Col>
-              <Col lg={6} md={6} sm={12} xs={12} className="image-container">
+              <Col
+                lg={6}
+                md={6}
+                sm={12}
+                xs={12}
+                className="live-image-container"
+              >
                 <img alt="" src="/images/live.png"></img>
               </Col>
             </Row>

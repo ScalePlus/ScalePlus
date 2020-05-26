@@ -17,6 +17,7 @@ import ChallengeEdit from "./components/challengeEdit";
 import Dashboard from "./components/dashboard";
 import AllChallenges from "./components/allChallenges";
 import HowItWorks from "./components/howItWorks";
+import MyChallenges from "./components/myChallenges";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -123,7 +124,7 @@ export default function MainRouter() {
             component={EssentialDetail}
           />
           <AuthRoute
-            path="/challenge"
+            path="/create/challenge"
             exact
             layout={MainLayout}
             component={ChallengeMaster}
@@ -147,7 +148,7 @@ export default function MainRouter() {
             component={ChallengeEdit}
           />
           <AuthRoute
-            path="/challenges"
+            path="/all/challenges"
             exact
             layout={MainLayout}
             component={AllChallenges}
@@ -157,6 +158,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={HowItWorks}
+          />
+          <AuthRoute
+            path="/my/challenges"
+            exact
+            layout={MainLayout}
+            component={MyChallenges}
           />
           <Redirect
             from="/"

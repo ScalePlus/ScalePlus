@@ -40,11 +40,41 @@ export const MainContainer = styled.div`
   .time-container .button-container button {
     padding: 20px 50px;
   }
-  .image-container {
+  .timer-image-container,
+  .image-container,
+  .live-image-container {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 10px;
+  }
+  .timer-image-container {
+    @media (min-width: 576px) {
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      justify-content: center;
+    }
+
+    @media (min-width: 992px) {
+      justify-content: flex-start;
+    }
+  }
+  .live-image-container {
+    @media (min-width: 576px) {
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      justify-content: center;
+    }
+
+    @media (min-width: 992px) {
+      justify-content: flex-end;
+    }
+  }
+  .image-container {
+    justify-content: center;
   }
   .expert-container {
     background-image: url("/images/subscribe-banner@2x.png");

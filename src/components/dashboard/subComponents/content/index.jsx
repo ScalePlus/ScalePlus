@@ -65,7 +65,7 @@ export default function Content({ history }) {
               </div>
               <AddButton
                 onClick={() => {
-                  history.push("/challenge");
+                  history.push("/create/challenge");
                 }}
               >
                 <span className="button-text">Create</span>

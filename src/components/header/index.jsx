@@ -3,9 +3,9 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 const links = [
-  { label: "ALL CHALLENGES", link: "/challenges" },
+  { label: "ALL CHALLENGES", link: "/all/challenges" },
   { label: "HOW IT WORKS", link: "/workflow" },
-  { label: "LAUNCH CHALLENGE", link: "/challenge" },
+  { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
   { label: "MY CHALLENGES", link: "/my/challenges" },
 ];
 

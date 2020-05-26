@@ -5,7 +5,8 @@ export const Container = styled.div`
   .navbar {
     min-height: 80px;
     border-bottom: 1px solid ${theme.colors.border_gray} !important;
-    background-color: ${theme.colors.lightGray} !important;
+    background-color: ${theme.colors.white} !important;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.15);
     padding: 0 !important;
   }
 
