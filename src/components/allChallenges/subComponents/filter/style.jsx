@@ -33,7 +33,6 @@ export const MainContainer = styled.div`
     padding: 10px 20px;
   }
   .button-text {
-    font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
   }
   .close-button-container {

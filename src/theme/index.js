@@ -29,5 +29,6 @@ export default {
     semiLarge: "2rem",
     mediumLarge: "2.25rem",
     extraLarge: "2.5rem",
+    xxLarge: "2.875rem",
   },
 };

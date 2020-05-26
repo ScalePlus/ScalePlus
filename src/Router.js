@@ -16,6 +16,7 @@ import ChallengePreview from "./components/challengePreview";
 import ChallengeEdit from "./components/challengeEdit";
 import Dashboard from "./components/dashboard";
 import AllChallenges from "./components/allChallenges";
+import HowItWorks from "./components/howItWorks";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -150,6 +151,12 @@ export default function MainRouter() {
             exact
             layout={MainLayout}
             component={AllChallenges}
+          />
+          <AuthRoute
+            path="/workflow"
+            exact
+            layout={MainLayout}
+            component={HowItWorks}
           />
           <Redirect
             from="/"

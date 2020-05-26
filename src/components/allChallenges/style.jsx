@@ -21,7 +21,6 @@ export const MainContainer = styled.div`
       background: ${theme.colors.white};
       padding: 5px 50px;
       .button-text {
-        font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.mediumRegular};
       }
     }

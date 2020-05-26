@@ -4,8 +4,8 @@ import { Container } from "./style";
 import history from "../../history";
 const links = [
   { label: "ALL CHALLENGES", link: "/challenges" },
-  { label: "HOW IT WORKS", link: "/howitworks" },
-  { label: "LAUNCH CHALLENGE", link: "/launch/challenge" },
+  { label: "HOW IT WORKS", link: "/workflow" },
+  { label: "LAUNCH CHALLENGE", link: "/challenge" },
   { label: "MY CHALLENGES", link: "/my/challenges" },
 ];
 
