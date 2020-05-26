@@ -53,7 +53,7 @@ const Header = () => {
           </Nav>
           <Navbar.Text>
             <img
-              src={"/images/search.svg"}
+              src={"/images/search.png"}
               className="search-img"
               height="25px"
               width="25px"

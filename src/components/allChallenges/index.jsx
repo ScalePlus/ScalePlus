@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import Filters from "./subComponents/filter";
+import Footer from "../footer";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 let cards = [
@@ -166,6 +167,7 @@ export default function AllChallenges() {
           </Col>
         </Row>
       </div>
+      <Footer />
       <Filters show={show} setShow={setShow} />
     </MainContainer>
   );

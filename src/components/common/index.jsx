@@ -169,7 +169,7 @@ function SearchInput({
         onChange={onChange ? onChange : () => {}}
       />
       <img
-        src={"/images/search.svg"}
+        src={"/images/search.png"}
         className="search-icon"
         height="15px"
         width="15px"
