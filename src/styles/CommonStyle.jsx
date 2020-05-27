@@ -2,6 +2,12 @@ import { createGlobalStyle } from "styled-components";
 import theme from "../theme";
 
 export const GlobalStyle = createGlobalStyle`
+body {
+  margin: 0;
+  padding: 0;
+  background-color: ${theme.colors.lightWhite} !important;
+}
+
 .col, [class*="col-"] ,.row{
   padding-right: 8px;
   padding-left: 8px;
@@ -15,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   text-align: left;
   padding: 20px;
   height: 70px;
-  border: 1px solid ${theme.colors.border_gray};
+  border: 1px solid ${theme.colors.borderGrey};
   border-radius: 6px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.gray};
@@ -24,19 +30,19 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .ql-toolbar{
-  background-color: #fafafa;
+  background-color: ${theme.colors.gray98};
 }
 .ql-editor {
   min-height: 500px;
 }
 .ql-container {
-  border: 1px solid ${theme.colors.border_gray} !important;
+  border: 1px solid ${theme.colors.borderGrey} !important;
   border-top: none !important;
 }
 
 .box-container{
   .form-control,.quill {
-    background-color: #F9F9F9;
+    background-color: ${theme.colors.alabaster};
   }
   .quill {
     border: 1px solid rgba(0, 0, 0, 0.5);
@@ -49,7 +55,7 @@ export const GlobalStyle = createGlobalStyle`
   .ql-toolbar {
     border: none !important;
     border-radius: 6px;
-    background-color: #F9F9F9;
+    background-color: ${theme.colors.alabaster};
   }
 }
 
@@ -110,7 +116,7 @@ export const GlobalStyle = createGlobalStyle`
   background-color: ${theme.colors.yellow} !important;
 }
 .react-calendar__tile--now{
-  background-color: #e6e6e6;
+  background-color: ${theme.colors.whisper};
 }
 
 .react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus{
@@ -118,13 +124,13 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus{
-  background-color: #e6e6e6;
+  background-color: ${theme.colors.whisper};
 }
 
 .custom-date-picker .react-date-picker__wrapper{
   text-align: left;
   padding: 20px;
-  border: 1px solid ${theme.colors.border_gray};
+  border: 1px solid ${theme.colors.borderGrey};
   border-radius: 6px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.gray};
@@ -146,7 +152,7 @@ export const GlobalStyle = createGlobalStyle`
 
 .form-control:focus{
   color: ${theme.colors.gray};
-  border: 1px solid ${theme.colors.border_gray};
+  border: 1px solid ${theme.colors.borderGrey};
   box-shadow: none;
 }
 
@@ -155,7 +161,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .was-validated .invalid-select__control{
-  border: 1px solid #dc3545 !important;
+  border: 1px solid ${theme.colors.amaranth} !important;
 }
 
 .is-invalid~.invalid-feedback{
@@ -167,12 +173,12 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 .form-control.is-invalid,.form-control.is-invalid:focus{
-  border-color: ${theme.colors.border_gray} !important;
+  border-color: ${theme.colors.borderGrey} !important;
 }
 
 
 .was-validated .form-control.is-invalid,.was-validated .form-control.is-invalid:focus{
-  border-color: #dc3545 !important;
+  border-color: ${theme.colors.amaranth} !important;
 }
 
 .form-control.is-invalid, .was-validated .form-control:invalid{
@@ -189,11 +195,11 @@ export const GlobalStyle = createGlobalStyle`
   width: 100%;
   margin-top: .25rem;
   font-size: 80%;
-  color: #dc3545;
+  color: ${theme.colors.amaranth};
 }
 
 .form-control.is-valid, .was-validated .form-control:valid,.form-control.is-valid:focus, .was-validated .form-control:valid:focus{
-  border-color: ${theme.colors.border_gray};
+  border-color: ${theme.colors.borderGrey};
   background-image:none;
   box-shadow: none;
 }
@@ -333,7 +339,7 @@ export const GlobalStyle = createGlobalStyle`
 .custom-switch .custom-control-label::before {
   height: 36px;
   width: 61px;
-  border: 1px solid ${theme.colors.border_gray};
+  border: 1px solid ${theme.colors.borderGrey};
   border-radius: 18.5px;
 }
 
@@ -348,12 +354,12 @@ export const GlobalStyle = createGlobalStyle`
 
 .custom-control-input:checked~.custom-control-label::before {
   color: ${theme.colors.white};
-  border: 1px solid ${theme.colors.border_gray};
+  border: 1px solid ${theme.colors.borderGrey};
   background-color: ${theme.colors.white};
 }
 
 .custom-control-input:focus:not(:checked)~.custom-control-label::before {
-  border-color: ${theme.colors.border_gray};
+  border-color: ${theme.colors.borderGrey};
 }
 
 .custom-switch .custom-control-input:checked~.custom-control-label::after {

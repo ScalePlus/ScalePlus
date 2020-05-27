@@ -4,7 +4,7 @@ export const Container = styled.div`
   align-items: center;
   .navbar {
     min-height: 80px;
-    border-bottom: 1px solid ${theme.colors.border_gray} !important;
+    border-bottom: 1px solid ${theme.colors.borderGrey} !important;
     background-color: ${theme.colors.white} !important;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.15);
     padding: 0 !important;
@@ -19,7 +19,7 @@ export const Container = styled.div`
     cursor: pointer !important;
     color: ${theme.colors.black} !important;
     font-family: ${theme.fontFamily.bold} !important;
-    font-size: ${theme.fontSize.mediumSmall} !important;
+    font-size: ${theme.fontSize.mediumRegular} !important;
     padding: 5px 15px !important;
   }
 
@@ -57,7 +57,7 @@ export const Container = styled.div`
     cursor: pointer;
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.mediumSmall};
+    font-size: ${theme.fontSize.mediumRegular};
     .nav-link {
       padding-left: 15px !important;
       padding-right: 0px !important;
@@ -74,7 +74,7 @@ export const Container = styled.div`
     }
     .dropdown-item.active,
     .dropdown-item:active {
-      background-color: ${theme.colors.lightGray};
+      background-color: ${theme.colors.lightWhite};
     }
     .dropdown-toggle::after {
       display: none;

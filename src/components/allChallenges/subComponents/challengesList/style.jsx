@@ -18,7 +18,7 @@ export const ChallengesListContainer = styled.div`
     .text {
       color: ${theme.colors.gray};
       font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.mediumSmall};
+      font-size: ${theme.fontSize.mediumRegular};
     }
     .filter-container {
       display: flex;
@@ -29,18 +29,18 @@ export const ChallengesListContainer = styled.div`
       width: 140px;
       border: 1px solid #e3e3e3;
       border-radius: 6px;
-      background-color: #ffffff;
+      background-color: ${theme.colors.white};
       padding: 0px 15px;
       cursor: pointer;
       .filter-text {
         color: ${theme.colors.black};
         font-family: ${theme.fontFamily.bold};
-        font-size: ${theme.fontSize.mediumRegular};
+        font-size: ${theme.fontSize.semiRegular};
       }
       .filter-count {
         height: 22px;
         width: 22px;
-        background-color: #d8d8d8;
+        background-color: ${theme.colors.lightSilver};
         border-radius: 50%;
         display: flex;
         justify-content: center;
@@ -62,7 +62,7 @@ export const ChallengesListContainer = styled.div`
     }
     .button-text {
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.mediumRegular};
+      font-size: ${theme.fontSize.semiRegular};
     }
   }
 `;

@@ -14,11 +14,11 @@ export const MainContainer = styled.div`
   }
   .block {
     height: 100%;
-    background: #fafafa;
+    background: ${theme.colors.gray98};
   }
   .header {
     padding: 10px 0px;
-    background-color: #fdfdfd;
+    background-color: ${theme.colors.lightWhite};
   }
   .header,
   .content,
@@ -30,12 +30,12 @@ export const MainContainer = styled.div`
   .title {
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.mediumRegular};
+    font-size: ${theme.fontSize.semiRegular};
   }
   .count {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.mediumRegular};
+    font-size: ${theme.fontSize.semiRegular};
     margin-left: 5px;
   }
   .content-container {

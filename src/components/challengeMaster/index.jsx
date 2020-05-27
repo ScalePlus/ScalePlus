@@ -48,9 +48,9 @@ const ChallengeMaster = () => {
             ]}
             activeStep={activeStep}
             activeColor={theme.colors.yellow}
-            defaultColor={theme.colors.stepperDefaultColor}
+            defaultColor={theme.colors.lightSilver}
             completeColor={theme.colors.yellow}
-            defaultBarColor={theme.colors.stepperDefaultColor}
+            defaultBarColor={theme.colors.lightSilver}
             completeBarColor={theme.colors.yellow}
             circleTop={40}
             size={32}

@@ -33,7 +33,7 @@ export const MainContainer = styled.div`
     padding: 10px 20px;
   }
   .button-text {
-    font-size: ${theme.fontSize.mediumRegular};
+    font-size: ${theme.fontSize.semiRegular};
   }
   .close-button-container {
     height: 50px;

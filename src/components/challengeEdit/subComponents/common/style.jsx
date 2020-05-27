@@ -6,7 +6,7 @@ export const InformationBlock = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 6px;
-  background-color: #dcf2ff;
+  background-color: ${theme.colors.aliceBlue};
   padding: 0px 15px;
   button {
     padding: 5px 15px;

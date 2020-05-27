@@ -68,7 +68,7 @@ export const MainContainer = styled.div`
       button {
         width: 100%;
         .button-text {
-          font-size: ${theme.fontSize.mediumSmall};
+          font-size: ${theme.fontSize.mediumRegular};
         }
       }
     }

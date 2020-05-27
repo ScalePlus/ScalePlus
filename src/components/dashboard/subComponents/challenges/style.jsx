@@ -23,16 +23,16 @@ export const MainContainer = styled.div`
   .title {
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.mediumRegular};
+    font-size: ${theme.fontSize.semiRegular};
   }
   .count {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.mediumRegular};
+    font-size: ${theme.fontSize.semiRegular};
     margin-left: 5px;
   }
   .content-container {
-    background: #fafafa;
+    background: ${theme.colors.gray98};
     padding: 0px 20px;
     .content-title {
       color: ${theme.colors.black};

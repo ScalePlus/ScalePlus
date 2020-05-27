@@ -5,7 +5,7 @@ export const MainContainer = styled.div`
   text-align: center;
   .preview-container {
     border-radius: 6px;
-    background-color: #efefef;
+    background-color: ${theme.colors.whiteSmokeTint5};
     margin-bottom: 25px;
     padding: 5px;
     h2 {
@@ -18,7 +18,7 @@ export const MainContainer = styled.div`
     margin-bottom: 30px;
     border-top: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;
-    background-color: #f9f9f9;
+    background-color: ${theme.colors.alabaster};
   }
 `;
 
@@ -38,7 +38,7 @@ export const TabContainer = styled.div`
     cursor: pointer;
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.mediumSmall};
+    font-size: ${theme.fontSize.mediumRegular};
     padding: 1rem 1.2rem 0.5rem 1.2rem;
   }
   .nav-item.show .nav-link,

@@ -5,7 +5,7 @@ export const MainContainer = styled.div`
   margin-bottom: 25px;
   .navbar {
     padding: 0px;
-    background-color: #f6f6f6 !important;
+    background-color: ${theme.colors.whiteSmokeTint3} !important;
   }
 
   .navbar-nav {
@@ -14,13 +14,13 @@ export const MainContainer = styled.div`
     flex: auto !important;
   }
   .nav-item:not(:last-child) {
-    border-bottom: 1px solid #f3f3f3;
+    border-bottom: 1px solid ${theme.colors.whiteSmokeTint1};
   }
   .nav-link {
     cursor: pointer !important;
     color: ${theme.colors.black} !important;
     font-family: ${theme.fontFamily.regular} !important;
-    font-size: ${theme.fontSize.mediumSmall} !important;
+    font-size: ${theme.fontSize.mediumRegular} !important;
     padding: 0.5rem 0rem !important;
   }
   .nav-item.show .nav-link,

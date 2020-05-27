@@ -23,7 +23,7 @@ export const MainContainer = styled.div`
     margin-bottom: 10px;
     border-radius: 8px;
     background-color: ${theme.colors.white};
-    border: 1px solid #f3f3f3;
+    border: 1px solid ${theme.colors.whiteSmokeTint1};
   }
 
   .custom-sidebar {
@@ -32,21 +32,21 @@ export const MainContainer = styled.div`
       padding: 15px;
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.mediumRegular};
+      font-size: ${theme.fontSize.semiRegular};
       border-radius: 6px;
-      background-color: #f3f3f3;
+      background-color: ${theme.colors.whiteSmokeTint1};
     }
     .navbar-nav {
       padding: 0 20px;
     }
     .nav-item:not(:last-child) {
-      border-bottom: 1px solid #f3f3f3;
+      border-bottom: 1px solid ${theme.colors.whiteSmokeTint1};
     }
     .nav-link {
       cursor: pointer !important;
       color: ${theme.colors.black} !important;
       font-family: ${theme.fontFamily.regular} !important;
-      font-size: ${theme.fontSize.mediumRegular} !important;
+      font-size: ${theme.fontSize.semiRegular} !important;
       padding: 0.5rem 0rem !important;
     }
     .nav-item.show .nav-link,
@@ -66,7 +66,7 @@ export const MainContainer = styled.div`
       padding: 15px;
       width: 100%;
       .button-text {
-        font-size: ${theme.fontSize.mediumRegular};
+        font-size: ${theme.fontSize.semiRegular};
       }
     }
   }

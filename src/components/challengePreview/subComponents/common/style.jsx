@@ -58,7 +58,7 @@ export const ExpandCollapseContainer = styled.div`
     min-height: 50px;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-    background-color: #fbfbfb;
+    background-color: ${theme.colors.snow};
   }
   .content-container {
     .title {
@@ -153,7 +153,7 @@ export const StepperVerticalContainer = styled.div`
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background-color: #d8d8d8;
+    background-color: ${theme.colors.lightSilver};
   }
 
   .step::after {
@@ -161,7 +161,7 @@ export const StepperVerticalContainer = styled.div`
     position: absolute;
     height: 100%;
     width: 2px;
-    background-color: #d8d8d8;
+    background-color: ${theme.colors.lightSilver};
     left: calc(20px / 2);
     top: 0;
     z-index: 1;
@@ -190,7 +190,7 @@ export const StepperVerticalContainer = styled.div`
   .active {
     .outer-oval {
       border: 1px solid ${theme.colors.yellow};
-      background-color: #fdfdfd;
+      background-color: ${theme.colors.lightWhite};
     }
     .inner-oval {
       background-color: ${theme.colors.yellow};
@@ -232,12 +232,12 @@ export const StepperVerticalContainer = styled.div`
     font-size: ${theme.fontSize.regular};
     .title {
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.mediumRegular};
+      font-size: ${theme.fontSize.semiRegular};
       margin-bottom: 10px;
     }
     .timestamp {
       font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.mediumRegular};
+      font-size: ${theme.fontSize.semiRegular};
     }
   }
 

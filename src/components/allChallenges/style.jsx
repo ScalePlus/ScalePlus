@@ -22,7 +22,7 @@ export const MainContainer = styled.div`
       background: ${theme.colors.white};
       padding: 5px 50px;
       .button-text {
-        font-size: ${theme.fontSize.mediumRegular};
+        font-size: ${theme.fontSize.semiRegular};
       }
     }
   }

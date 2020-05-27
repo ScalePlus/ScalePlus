@@ -3,7 +3,7 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   .group-container {
     height: 130px;
-    background-color: #f5f5f5;
+    background-color: ${theme.colors.whiteSmokeTint2};
     background-image: url("/images/partner-bg.png");
     background-size: cover;
   }
@@ -20,7 +20,7 @@ export const MainContainer = styled.div`
       a {
         color: ${theme.colors.gray};
         font-family: ${theme.fontFamily.bold};
-        font-size: ${theme.fontSize.mediumSmall};
+        font-size: ${theme.fontSize.mediumRegular};
         :hover {
           text-decoration: none;
         }
@@ -42,7 +42,7 @@ export const MainContainer = styled.div`
       a {
         color: ${theme.colors.black};
         font-family: ${theme.fontFamily.regular};
-        font-size: ${theme.fontSize.mediumSmall};
+        font-size: ${theme.fontSize.mediumRegular};
         :hover {
           text-decoration: none;
         }

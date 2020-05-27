@@ -91,7 +91,7 @@ export const TabContainer = styled.div`
   cursor: pointer;
   .tab-sub-container {
     text-align: center;
-    border: 1px solid ${theme.colors.border_gray};
+    border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
     background-color: ${theme.colors.white};
     min-height: 60px;
@@ -126,7 +126,7 @@ export const LoadingContainer = styled.div`
   top: 0;
   left: 0;
   z-index: 9999;
-  background-color: ${theme.colors.lightGray};
+  background-color: ${theme.colors.lightWhite};
   .spinner-border {
     width: 4rem;
     height: 4rem;
@@ -143,7 +143,7 @@ export const WarningContainer = styled.div`
   margin: 5px;
   padding: 15px;
   border-radius: 6px;
-  background-color: #f8d9a6;
+  background-color: ${theme.colors.peachYellow};
   text-align: center;
   span {
     color: ${theme.colors.black};
@@ -182,7 +182,7 @@ export const ChallengeHeaderContainer = styled.div`
   .organization-name {
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.mediumSmall};
+    font-size: ${theme.fontSize.mediumRegular};
   }
   .right-continer {
     display: flex;
@@ -200,7 +200,7 @@ export const RemoveButtonContainer = styled.div`
   height: 40px;
   width: 40px;
   border-radius: 6px;
-  background-color: #e49393;
+  background-color: ${theme.colors.sweetPink};
   justify-content: center;
   align-items: center;
   display: flex;
@@ -211,7 +211,7 @@ export const UpdateCountButtonContainer = styled.div`
   height: 40px;
   width: 40px;
   border-radius: 6px;
-  background-color: #818181;
+  background-color: ${theme.colors.grey};
   justify-content: center;
   margin-bottom: 10px;
   text-align: center;
@@ -338,7 +338,7 @@ export const CardContainer = styled.div`
           background-color: ${theme.colors.yellow} !important;
         }
         .bg-success {
-          background-color: #66e397 !important;
+          background-color: ${theme.colors.mediumAquamarine} !important;
         }
         .progress-bar {
           color: ${theme.colors.black};

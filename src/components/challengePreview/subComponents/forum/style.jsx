@@ -17,7 +17,7 @@ export const TableContainer = styled.div`
     span {
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.mediumSmall};
+      font-size: ${theme.fontSize.mediumRegular};
     }
   }
   .table-body-container {

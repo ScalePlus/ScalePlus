@@ -8,7 +8,7 @@ export const MainContainer = styled.div`
   }
   .left-container {
     height: 400px;
-    border: 1px solid ${theme.colors.border_gray};
+    border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
     background-color: ${theme.colors.white};
     margin-bottom: 25px;
@@ -47,7 +47,7 @@ export const MainContainer = styled.div`
     .bottom-container {
       display: flex;
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.mediumSmall};
+      font-size: ${theme.fontSize.mediumRegular};
 
       .stage-container {
         margin-right: 120px;
@@ -78,7 +78,7 @@ export const ContentContainer = styled.div`
   .image-container {
     margin-bottom: 45px;
     height: 500px;
-    border: 1px solid ${theme.colors.border_gray};
+    border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
     background-color: ${theme.colors.white};
     display: flex;

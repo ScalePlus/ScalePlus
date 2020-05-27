@@ -29,7 +29,7 @@ export const MainContainer = styled.div`
   .sub-title {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.mediumSmall};
+    font-size: ${theme.fontSize.mediumRegular};
   }
   .tabs-container {
     margin-top: 35px;
@@ -57,7 +57,7 @@ export const MainContainer = styled.div`
       margin-bottom: 20px;
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.mediumSmall};
+      font-size: ${theme.fontSize.mediumRegular};
       font-weight: 600;
     }
   }

@@ -3,7 +3,7 @@ import theme from "../../theme";
 
 export const MainContainer = styled.div`
   .my-content-container {
-    background-color: #f7f7f7;
+    background-color: ${theme.colors.whiteSmokeTint4};
     padding: 65px 0px;
   }
   .header {
@@ -18,7 +18,7 @@ export const MainContainer = styled.div`
     .circle-container {
       height: 45px;
       width: 45px;
-      background-color: #eeeeee;
+      background-color: ${theme.colors.whisper};
       border-radius: 50%;
       display: flex;
       align-items: center;
