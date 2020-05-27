@@ -20,7 +20,7 @@ const tabs = [
   "Resources",
 ];
 
-function ChallengePreview({ history }) {
+const ChallengePreview = ({ history }) => {
   const [selectedTab, selectTab] = useState(tabs[0]);
 
   return (
@@ -114,6 +114,6 @@ function ChallengePreview({ history }) {
       </Tab.Container>
     </MainContainer>
   );
-}
+};
 
 export default ChallengePreview;

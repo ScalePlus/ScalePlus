@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
 
-export default function FAQ() {
+const FAQ = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -32,4 +32,6 @@ export default function FAQ() {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(FAQ);

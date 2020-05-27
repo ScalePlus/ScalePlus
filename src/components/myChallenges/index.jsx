@@ -19,7 +19,7 @@ let cards = [
   },
 ];
 
-export default function MyChallenges({ history }) {
+const MyChallenges = ({ history }) => {
   return (
     <MainContainer>
       <div className="my-content-container">
@@ -70,4 +70,6 @@ export default function MyChallenges({ history }) {
       <Footer />
     </MainContainer>
   );
-}
+};
+
+export default MyChallenges;

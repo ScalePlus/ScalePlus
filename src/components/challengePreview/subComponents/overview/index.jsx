@@ -5,7 +5,7 @@ import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 const tags = ["Challenge Tag", "Challenge Tag", "Challenge Tag"];
 
-export default function OverView() {
+const OverView = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center image-box-container">
@@ -142,4 +142,6 @@ export default function OverView() {
       </ContentContainer>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(OverView);

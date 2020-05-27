@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponentWithSearchBox } from "../common";
 import { MainContainer, TableContainer } from "./style";
 
-export default function Forum() {
+const Forum = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -38,4 +38,6 @@ export default function Forum() {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(Forum);

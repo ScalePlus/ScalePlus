@@ -2,7 +2,7 @@ import React from "react";
 import { PrimaryButton } from "../../../common";
 import { InformationBlock } from "./style";
 
-export function InfoBlock({ children, buttonText }) {
+export const InfoBlock = React.memo(({ children, buttonText }) => {
   return (
     <InformationBlock>
       <div className={"title"}>{children}</div>
@@ -17,4 +17,4 @@ export function InfoBlock({ children, buttonText }) {
       )}
     </InformationBlock>
   );
-}
+});

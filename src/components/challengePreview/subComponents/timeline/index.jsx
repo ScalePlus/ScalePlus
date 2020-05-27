@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, VeticalStepper } from "../common";
 import { MainContainer } from "./style";
 
-export default function Timeline() {
+const Timeline = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -71,4 +71,6 @@ export default function Timeline() {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(Timeline);

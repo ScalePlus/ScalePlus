@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-function Stepper({
+const Stepper = ({
   activeStep,
   steps,
   disabledSteps,
@@ -52,7 +52,7 @@ function Stepper({
   showNumber,
   isLeftAligned,
   showStartEndLabel,
-}) {
+}) => {
   return (
     <div style={styles.root}>
       <div style={styles.stepper}>
@@ -110,7 +110,7 @@ function Stepper({
       </div>
     </div>
   );
-}
+};
 
 Stepper.defaultProps = {
   activeStep: 0,

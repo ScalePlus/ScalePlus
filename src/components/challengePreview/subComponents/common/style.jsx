@@ -189,7 +189,7 @@ export const StepperVerticalContainer = styled.div`
 
   .active {
     .outer-oval {
-      border: 1px solid #ffc000;
+      border: 1px solid ${theme.colors.yellow};
       background-color: #fdfdfd;
     }
     .inner-oval {

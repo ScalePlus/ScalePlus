@@ -10,7 +10,7 @@ import {
 import { Form, Row, Col } from "react-bootstrap";
 import { Constants } from "../../lib/constant";
 
-function Step2({ setActiveStep }) {
+const Step2 = ({ setActiveStep }) => {
   const [title, setTitle] = useState("");
   const [prize, setPrize] = useState("");
   const [selectedCategories, selectCategories] = useState([]);
@@ -143,6 +143,6 @@ function Step2({ setActiveStep }) {
       </Col>
     </Row>
   );
-}
+};
 
-export default Step2;
+export default React.memo(Step2);

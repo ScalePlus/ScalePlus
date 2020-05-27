@@ -4,7 +4,7 @@ import { PrimaryButton, PageTitle } from "../common";
 import { MainContainer } from "./style";
 import history from "../../history";
 
-function ChallengeConfirmation() {
+const ChallengeConfirmation = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center challenge-completed-container">
@@ -64,6 +64,6 @@ function ChallengeConfirmation() {
       </Row>
     </MainContainer>
   );
-}
+};
 
 export default ChallengeConfirmation;

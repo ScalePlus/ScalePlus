@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { MainContainer } from "./style";
 
-export default function Sidebar({ links, selectKey, activeKey }) {
+const Sidebar = ({ links, selectKey, activeKey }) => {
   const [expanded, onToggle] = useState(false);
   return (
     <MainContainer>
@@ -34,4 +34,6 @@ export default function Sidebar({ links, selectKey, activeKey }) {
       </Navbar>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(Sidebar);

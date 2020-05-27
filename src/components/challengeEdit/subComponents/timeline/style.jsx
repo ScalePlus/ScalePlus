@@ -17,7 +17,7 @@ export const MainContainer = styled.div`
     margin-left: 1rem;
   }
   .timeline {
-    border: 1px solid #000000;
+    border: 1px solid ${theme.colors.black};
     border-radius: 6px;
     background-color: rgba(255, 192, 0, 0.1);
     padding: 1rem 1.5rem;

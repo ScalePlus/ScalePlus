@@ -4,6 +4,8 @@ export const MainContainer = styled.div`
   .group-container {
     height: 130px;
     background-color: #f5f5f5;
+    background-image: url("/images/partner-bg.png");
+    background-size: cover;
   }
   .middle-container {
     border-bottom: 1px solid #dbdbdb;

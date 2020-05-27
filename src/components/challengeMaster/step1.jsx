@@ -20,7 +20,7 @@ const tabs = [
   },
 ];
 
-function Step1({ setActiveStep }) {
+const Step1 = ({ setActiveStep }) => {
   return (
     <Row className="sub-container">
       <Col>
@@ -75,6 +75,6 @@ function Step1({ setActiveStep }) {
       </Col>
     </Row>
   );
-}
+};
 
-export default Step1;
+export default React.memo(Step1);

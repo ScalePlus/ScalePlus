@@ -5,6 +5,7 @@ export const MainContainer = styled.div`
   .subscribe-container {
     text-align: center;
     background-image: url("/images/subscribe-banner.png");
+    background-size: cover;
     background-color: ${theme.colors.yellow};
     min-height: 180px;
     padding: 25px;

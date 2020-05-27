@@ -13,20 +13,28 @@ export const MainContainer = styled.div`
     background-image: url("/images/workflow-subscribe-banner@2x.png");
     background-size: cover;
     min-height: 600px;
-    display: flex;
-    align-items: center;
   }
   .title {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.xxLarge};
   }
+  .subscribe-container .desscription {
+    padding: 50px 0px;
+  }
+  .time-container .desscription {
+    padding: 40px 0px;
+  }
+  .expert-container .desscription {
+    padding: 25px 0px;
+  }
+
   .desscription {
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.extraMedium};
-    padding: 60px 0px;
   }
+
   .button-container {
     button {
       .button-text {
@@ -77,7 +85,10 @@ export const MainContainer = styled.div`
     justify-content: center;
   }
   .expert-container {
-    background-image: url("/images/subscribe-banner@2x.png");
+    background-image: url("/images/plus-yellow.png");
+    background-repeat: no-repeat;
+    background-position: 0px -120px;
+    background-color: ${theme.colors.yellow};
     min-height: 600px;
     display: flex;
     align-items: center;
@@ -87,6 +98,9 @@ export const MainContainer = styled.div`
     padding: 20px 50px;
   }
   .expect-container {
+    background-image: url("/images/plus.png");
+    background-repeat: no-repeat;
+    background-position: 100% 35%;
     .title {
       text-align: center;
       padding-bottom: 15px;

@@ -7,13 +7,13 @@ import reduxReset from "redux-reset";
 
 const sagaMiddleware = createSagaMiddleware();
 
-function configureStore(initialState) {
+const configureStore = (initialState) => {
   const enhancer = compose(
     applyMiddleware(thunkMiddleware, sagaMiddleware),
     reduxReset()
   );
   return createStore(reducers, initialState, enhancer);
-}
+};
 
 const store = configureStore({});
 sagaMiddleware.run(rootSaga);

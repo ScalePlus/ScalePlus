@@ -6,7 +6,7 @@ import { MainContainer } from "./style";
 
 const links = ["Dashboard", "Challenges", "Users"];
 
-export default function Dashboard({ history }) {
+const Dashboard = ({ history }) => {
   const [activeKey, selectKey] = useState(links[0]);
   return (
     <MainContainer>
@@ -20,4 +20,6 @@ export default function Dashboard({ history }) {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default Dashboard;

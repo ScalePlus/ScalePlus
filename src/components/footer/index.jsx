@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { MainContainer } from "./style";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <MainContainer>
       <Row style={{ marginBottom: 70 }}>
@@ -128,4 +128,5 @@ export default function Footer() {
       </Row>
     </MainContainer>
   );
-}
+};
+export default Footer;

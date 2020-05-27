@@ -42,7 +42,6 @@ export const MainContainer = styled.div`
     border-radius: 6px;
     background-color: ${theme.colors.white};
     position: absolute;
-    top: 130px;
     right: 0;
     cursor: pointer;
     display: flex;
@@ -50,5 +49,10 @@ export const MainContainer = styled.div`
     justify-content: center;
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.extraLarge};
+    top: 0px;
+
+    @media (min-width: 768px), @media (min-width: 992px) {
+      top: 130px;
+    }
   }
 `;

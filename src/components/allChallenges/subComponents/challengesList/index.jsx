@@ -18,7 +18,7 @@ let cards = [
   { src: "/images/Rectangle6.png" },
 ];
 
-export default function ChallengesList({ history }) {
+const ChallengesList = ({ history }) => {
   const [show, setShow] = useState(false);
   return (
     <ChallengesListContainer>
@@ -31,31 +31,36 @@ export default function ChallengesList({ history }) {
               </div>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <div className="sub-header-container">
-                <div className="text">
-                  <span>Find a challenge, solve it, make a difference</span>
+          {localStorage.getItem("token") && (
+            <Row>
+              <Col>
+                <div className="sub-header-container">
+                  <div className="text">
+                    <span>Find a challenge, solve it, make a difference</span>
+                  </div>
+                  <div
+                    className="filter-container"
+                    onClick={() => setShow(true)}
+                  >
+                    <div>
+                      <img
+                        src={"/images/filter-icon.png"}
+                        height="20px"
+                        width="20px"
+                        alt=""
+                      ></img>
+                    </div>
+                    <div className="filter-text">
+                      <span>Filters</span>
+                    </div>
+                    <div className="filter-count">
+                      <span className="count-text">2</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="filter-container" onClick={() => setShow(true)}>
-                  <div>
-                    <img
-                      src={"/images/filter-icon.png"}
-                      height="20px"
-                      width="20px"
-                      alt=""
-                    ></img>
-                  </div>
-                  <div className="filter-text">
-                    <span>Filters</span>
-                  </div>
-                  <div className="filter-count">
-                    <span className="count-text">2</span>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          )}
           <Row style={{ marginTop: 25 }}>
             <Col>
               <div className="card-list">
@@ -100,4 +105,6 @@ export default function ChallengesList({ history }) {
       <Filters show={show} setShow={setShow} />
     </ChallengesListContainer>
   );
-}
+};
+
+export default React.memo(ChallengesList);

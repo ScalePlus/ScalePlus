@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 
-export default function Updates() {
+const Updates = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -59,4 +59,6 @@ export default function Updates() {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(Updates);

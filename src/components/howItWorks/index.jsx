@@ -4,7 +4,7 @@ import Footer from "../footer";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
-export default function HowItWorks() {
+const HowItWorks = () => {
   return (
     <MainContainer>
       <div className="subscribe-container">
@@ -173,4 +173,6 @@ export default function HowItWorks() {
       <Footer />
     </MainContainer>
   );
-}
+};
+
+export default HowItWorks;

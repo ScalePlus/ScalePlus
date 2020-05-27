@@ -61,29 +61,8 @@ const Header = () => {
             ></img>
             <span>Search</span>
           </Navbar.Text>
-          <div
-            className="action-container"
-            onClick={() => {
-              if (window.location.pathname.includes("login")) {
-                history.push("/register");
-              } else if (
-                window.location.pathname.includes("register") ||
-                window.location.pathname.includes("verification") ||
-                window.location.pathname.includes("reset/password") ||
-                window.location.pathname.includes("change/password")
-              ) {
-                history.push("/login");
-              }
-            }}
-          >
-            {window.location.pathname.includes("login") ? (
-              "Register"
-            ) : window.location.pathname.includes("register") ||
-              window.location.pathname.includes("verification") ||
-              window.location.pathname.includes("reset/password") ||
-              window.location.pathname.includes("change/password") ? (
-              "Login"
-            ) : (
+          <div className="action-container">
+            {localStorage.getItem("token") ? (
               <NavDropdown title="Account">
                 <NavDropdown.Item
                   onClick={() => {
@@ -101,14 +80,27 @@ const Header = () => {
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
+            ) : window.location.pathname.includes("login") ? (
+              <span
+                onClick={() => {
+                  history.push("/register");
+                }}
+              >
+                Register
+              </span>
+            ) : (
+              <span
+                onClick={() => {
+                  history.push("/login");
+                }}
+              >
+                Login
+              </span>
             )}
           </div>
         </Navbar.Collapse>
       </Navbar>
     </Container>
-    // <Container>
-
-    // </Container>
   );
 };
 

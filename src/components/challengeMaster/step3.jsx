@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextArea, PrimaryButton, PageTitle } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
 
-function Step3({ setActiveStep }) {
+const Step3 = ({ setActiveStep }) => {
   const [problemStatement, changeProblemStatement] = useState("");
   const [currentSolution, changeCurrentSolution] = useState("");
   const [painPoint, changePainPoint] = useState("");
@@ -79,6 +79,6 @@ function Step3({ setActiveStep }) {
       </Col>
     </Row>
   );
-}
+};
 
-export default Step3;
+export default React.memo(Step3);

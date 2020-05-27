@@ -9,113 +9,119 @@ import {
   StepperVerticalContainer,
 } from "./style";
 
-export function HeaderComponent({
-  titleText,
-  buttonText,
-  buttonVariant,
-  buttonType,
-  infoButtonText,
-  infoButtonVariant,
-  infoButtonType,
-  infoButtonClick,
-}) {
-  return (
-    <TitleContainer>
-      <div className={"title"} style={{ marginBottom: 10 }}>
-        <span>{titleText}</span>
-      </div>
-      <div style={{ display: "flex", marginBottom: 10 }}>
-        {infoButtonText && (
-          <div style={{ marginRight: 10 }}>
-            <PrimaryButton
-              variant={infoButtonVariant}
-              type={infoButtonType}
-              text={infoButtonText}
-              onClick={infoButtonClick}
-            ></PrimaryButton>
-          </div>
-        )}
-        {buttonText && (
-          <div>
-            <PrimaryButton
-              variant={buttonVariant}
-              type={buttonType}
-              text={buttonText}
-              onClick={() => {}}
-            ></PrimaryButton>
-          </div>
-        )}
-      </div>
-    </TitleContainer>
-  );
-}
-
-export function HeaderComponentWithSearchBox({ titleText, buttonText }) {
-  return (
-    <TitleContainerWithSearchBox>
-      <div className={"title"}>
-        <span>{titleText}</span>
-      </div>
-      <div className="search-container">
-        <Row>
-          <Col lg={3} md={3} sm={6} xs={6}>
-            <SearchInput placeholder="Search Forum"></SearchInput>
-          </Col>
-          <Col
-            lg={{ span: 4, offset: 5 }}
-            md={{ span: 4, offset: 4 }}
-            sm={6}
-            xs={6}
-          >
-            <div className="float-right">
+export const HeaderComponent = React.memo(
+  ({
+    titleText,
+    buttonText,
+    buttonVariant,
+    buttonType,
+    infoButtonText,
+    infoButtonVariant,
+    infoButtonType,
+    infoButtonClick,
+  }) => {
+    return (
+      <TitleContainer>
+        <div className={"title"} style={{ marginBottom: 10 }}>
+          <span>{titleText}</span>
+        </div>
+        <div style={{ display: "flex", marginBottom: 10 }}>
+          {infoButtonText && (
+            <div style={{ marginRight: 10 }}>
               <PrimaryButton
-                variant="info"
+                variant={infoButtonVariant}
+                type={infoButtonType}
+                text={infoButtonText}
+                onClick={infoButtonClick}
+              ></PrimaryButton>
+            </div>
+          )}
+          {buttonText && (
+            <div>
+              <PrimaryButton
+                variant={buttonVariant}
+                type={buttonType}
                 text={buttonText}
                 onClick={() => {}}
               ></PrimaryButton>
             </div>
-          </Col>
-        </Row>
-      </div>
-    </TitleContainerWithSearchBox>
-  );
-}
+          )}
+        </div>
+      </TitleContainer>
+    );
+  }
+);
 
-export function ExpandCollapse({ title, timestamp, link, description }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <ExpandCollapseContainer>
-      <div className="main-container" onClick={() => setOpen(!open)}>
-        <div className="content-container">
-          {title && <span className="title">{title}</span>}
-          {timestamp && <span className="timestamp">{timestamp}</span>}
+export const HeaderComponentWithSearchBox = React.memo(
+  ({ titleText, buttonText }) => {
+    return (
+      <TitleContainerWithSearchBox>
+        <div className={"title"}>
+          <span>{titleText}</span>
         </div>
-        <div className="icon-container">
-          <img
-            src={open ? "/images/chevronUp.png" : "/images/chevronDown.png"}
-            height={"20px"}
-            width={"20px"}
-            alt=""
-          ></img>
-        </div>
-      </div>
-      <Collapse in={open}>
-        <div>
-          <div className="collapse-container">
-            {link && (
-              <div className="link">
-                <a href="/">{link}</a>
+        <div className="search-container">
+          <Row>
+            <Col lg={3} md={3} sm={6} xs={6}>
+              <SearchInput placeholder="Search Forum"></SearchInput>
+            </Col>
+            <Col
+              lg={{ span: 4, offset: 5 }}
+              md={{ span: 4, offset: 4 }}
+              sm={6}
+              xs={6}
+            >
+              <div className="float-right">
+                <PrimaryButton
+                  variant="info"
+                  text={buttonText}
+                  onClick={() => {}}
+                ></PrimaryButton>
               </div>
-            )}
-            {description && <div className="description">{description}</div>}
+            </Col>
+          </Row>
+        </div>
+      </TitleContainerWithSearchBox>
+    );
+  }
+);
+
+export const ExpandCollapse = React.memo(
+  ({ title, timestamp, link, description }) => {
+    const [open, setOpen] = useState(false);
+    return (
+      <ExpandCollapseContainer>
+        <div className="main-container" onClick={() => setOpen(!open)}>
+          <div className="content-container">
+            {title && <span className="title">{title}</span>}
+            {timestamp && <span className="timestamp">{timestamp}</span>}
+          </div>
+          <div className="icon-container">
+            <img
+              src={open ? "/images/chevronUp.png" : "/images/chevronDown.png"}
+              height={"20px"}
+              width={"20px"}
+              alt=""
+            ></img>
           </div>
         </div>
-      </Collapse>
-    </ExpandCollapseContainer>
-  );
-}
+        <Collapse in={open}>
+          <div>
+            <div className="collapse-container">
+              {link && (
+                <div className="link">
+                  <a href="/">{link}</a>
+                </div>
+              )}
+              {description && <div className="description">{description}</div>}
+            </div>
+          </div>
+        </Collapse>
+      </ExpandCollapseContainer>
+    );
+  }
+);
 
-export function VeticalStepper({ steps }) {
+export const VeticalStepper = React.memo(({ steps }) => {
   const activeIndex = steps.findIndex((each) => {
     return each.active;
   });
@@ -165,4 +171,4 @@ export function VeticalStepper({ steps }) {
       </div>
     </StepperVerticalContainer>
   );
-}
+});

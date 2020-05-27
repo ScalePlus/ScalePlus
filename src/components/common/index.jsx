@@ -31,292 +31,302 @@ import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
 
-function Title({ text }) {
+export const Title = React.memo(({ text }) => {
   return (
     <TitleContainer>
       {text}
       <span className="icon-container">+</span>
     </TitleContainer>
   );
-}
+});
 
-function Description({ children }) {
+export const Description = React.memo(({ children }) => {
   return <DescriptionContainer>{children}</DescriptionContainer>;
-}
+});
 
-function Input({ max, description, errorMessage, label, ...props }) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Control {...props} maxLength={max} />
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+export const Input = React.memo(
+  ({ max, description, errorMessage, label, ...props }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Control {...props} maxLength={max} />
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function EditorInput({ description, errorMessage, label, ...props }) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <ReactQuill
-        modules={{
-          toolbar: [
-            [{ header: "1" }, { header: "2" }, { font: [] }],
-            [{ size: [] }],
-            ["bold", "italic", "underline", "strike", "blockquote"],
-            [
-              { list: "ordered" },
-              { list: "bullet" },
-              { indent: "-1" },
-              { indent: "+1" },
+export const EditorInput = React.memo(
+  ({ description, errorMessage, label, ...props }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <ReactQuill
+          modules={{
+            toolbar: [
+              [{ header: "1" }, { header: "2" }, { font: [] }],
+              [{ size: [] }],
+              ["bold", "italic", "underline", "strike", "blockquote"],
+              [
+                { list: "ordered" },
+                { list: "bullet" },
+                { indent: "-1" },
+                { indent: "+1" },
+              ],
+              [
+                "align",
+                "link",
+                "image",
+                "video",
+                "background",
+                "color",
+                "code",
+                "direction",
+              ],
+              ["clean"],
             ],
-            [
-              "align",
-              "link",
-              "image",
-              "video",
-              "background",
-              "color",
-              "code",
-              "direction",
-            ],
-            ["clean"],
-          ],
-          clipboard: {
-            matchVisual: false,
-          },
-        }}
-        formats={[
-          "header",
-          "font",
-          "size",
-          "bold",
-          "italic",
-          "underline",
-          "strike",
-          "blockquote",
-          "list",
-          "bullet",
-          "indent",
-          "link",
-          "image",
-          "video",
-          "background",
-          "color",
-          "code",
-          "align",
-          "direction",
-        ]}
-        {...props}
-      />
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+            clipboard: {
+              matchVisual: false,
+            },
+          }}
+          formats={[
+            "header",
+            "font",
+            "size",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "blockquote",
+            "list",
+            "bullet",
+            "indent",
+            "link",
+            "image",
+            "video",
+            "background",
+            "color",
+            "code",
+            "align",
+            "direction",
+          ]}
+          {...props}
+        />
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function CheckBox({
-  description,
-  errorMessage,
-  label,
-  checkBoxText,
-  ...props
-}) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Check
-        custom
-        className="large-checkbox"
-        type="checkbox"
-        id={`checkbox`}
-        label={checkBoxText}
-        {...props}
-      />
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+export const CheckBox = React.memo(
+  ({ description, errorMessage, label, checkBoxText, ...props }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Check
+          custom
+          className="large-checkbox"
+          type="checkbox"
+          id={`checkbox`}
+          label={checkBoxText}
+          {...props}
+        />
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function SearchInput({
-  placeholder,
-  value,
-  onChange,
-  max,
-  label,
-  description,
-}) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Control
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        maxLength={max}
-        onChange={onChange ? onChange : () => {}}
-      />
-      <img
-        src={"/images/search.png"}
-        className="search-icon"
-        height="15px"
-        width="15px"
-        alt=""
-        onClick={(e) => {}}
-      ></img>
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+export const SearchInput = React.memo(
+  ({ placeholder, value, onChange, max, label, description }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Control
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          maxLength={max}
+          onChange={onChange ? onChange : () => {}}
+        />
+        <img
+          src={"/images/search.png"}
+          className="search-icon"
+          height="15px"
+          width="15px"
+          alt=""
+          onClick={(e) => {}}
+        ></img>
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function TextArea({
-  rows,
-  value,
-  label,
-  description,
-  showCount,
-  errorMessage,
-  ...props
-}) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Control
-        as="textarea"
-        rows={rows}
-        value={value}
-        maxLength={showCount}
-        {...props}
-      />
-      {showCount && (
-        <span className="textarea-count">
-          {value && value.length ? value.length : 0}|{showCount} letters
-        </span>
-      )}
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+export const TextArea = React.memo(
+  ({ rows, value, label, description, showCount, errorMessage, ...props }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Control
+          as="textarea"
+          rows={rows}
+          value={value}
+          maxLength={showCount}
+          {...props}
+        />
+        {showCount && (
+          <span className="textarea-count">
+            {value && value.length ? value.length : 0}|{showCount} letters
+          </span>
+        )}
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function FileInput({
-  placeholder,
-  label,
-  value,
-  errorMessage,
-  onChange,
-  buttonText,
-  ...props
-}) {
-  let fileUploader;
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Form.Control
-        type={"text"}
-        placeholder={placeholder}
-        value={value && value.name ? value.name : value}
-        onChange={() => {}}
-        onClick={() => {
-          fileUploader.click();
-        }}
-        // readOnly
-        {...props}
-      />
-      <input
-        type="file"
-        ref={(ref) => (fileUploader = ref)}
-        style={{ display: "none" }}
-        onClick={(event) => {
-          event.target.value = null;
-        }}
-        onChange={onChange}
-        accept="image/*"
-      />
-      <Button
-        className="upload-button"
-        onClick={() => {
-          fileUploader.click();
-        }}
-      >
-        <span className="upload-button-text">{buttonText}</span>
-      </Button>
-      {errorMessage && (
-        <Form.Control.Feedback className="text-left" type="invalid">
-          {errorMessage}
-        </Form.Control.Feedback>
-      )}
-    </Form.Group>
-  );
-}
+export const FileInput = React.memo(
+  ({
+    placeholder,
+    label,
+    value,
+    errorMessage,
+    onChange,
+    buttonText,
+    ...props
+  }) => {
+    let fileUploader;
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Control
+          type={"text"}
+          placeholder={placeholder}
+          value={value && value.name ? value.name : value}
+          onChange={() => {}}
+          onClick={() => {
+            fileUploader.click();
+          }}
+          // readOnly
+          {...props}
+        />
+        <input
+          type="file"
+          ref={(ref) => (fileUploader = ref)}
+          style={{ display: "none" }}
+          onClick={(event) => {
+            event.target.value = null;
+          }}
+          onChange={onChange}
+          accept="image/*"
+        />
+        <Button
+          className="upload-button"
+          onClick={() => {
+            fileUploader.click();
+          }}
+        >
+          <span className="upload-button-text">{buttonText}</span>
+        </Button>
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function BannerInput({ value, onChange, label, description }) {
-  let fileUploader;
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <div
-        className="banner-input"
-        // value={value && value.name ? value.name : value}
-        onClick={() => {
-          fileUploader.click();
-        }}
-      />
-      <div
-        className="upload-container"
-        onClick={() => {
-          fileUploader.click();
-        }}
-      >
-        <img src={"/images/image.svg"} height="35px" width="35px" alt=""></img>
-        <div>Upload image</div>
-      </div>
-      <input
-        type="file"
-        ref={(ref) => (fileUploader = ref)}
-        style={{ display: "none" }}
-        onClick={(event) => {
-          event.target.value = null;
-        }}
-        onChange={onChange}
-        accept="image/*"
-      />
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+export const BannerInput = React.memo(
+  ({ value, onChange, label, description }) => {
+    let fileUploader;
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <div
+          className="banner-input"
+          // value={value && value.name ? value.name : value}
+          onClick={() => {
+            fileUploader.click();
+          }}
+        />
+        <div
+          className="upload-container"
+          onClick={() => {
+            fileUploader.click();
+          }}
+        >
+          <img
+            src={"/images/image.svg"}
+            height="35px"
+            width="35px"
+            alt=""
+          ></img>
+          <div>Upload image</div>
+        </div>
+        <input
+          type="file"
+          ref={(ref) => (fileUploader = ref)}
+          style={{ display: "none" }}
+          onClick={(event) => {
+            event.target.value = null;
+          }}
+          onChange={onChange}
+          accept="image/*"
+        />
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function PassInput({ errorMessage, ...props }) {
+export const PassInput = React.memo(({ errorMessage, ...props }) => {
   const [showPass, changeToggle] = useState(false);
   return (
     <Form.Group>
@@ -339,180 +349,188 @@ function PassInput({ errorMessage, ...props }) {
       )}
     </Form.Group>
   );
-}
+});
 
-function DateInput({
-  value,
-  onChange,
-  placeholder,
-  minDate,
-  maxDate,
-  openToDate,
-  label,
-  description,
-  required,
-  errorMessage,
-  isSmall,
-}) {
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <DatePicker
-        dateFormat="dd/MM/yyyy"
-        showPopperArrow={false}
-        selected={value}
-        onChange={onChange}
-        placeholderText={placeholder}
-        showMonthDropdown
-        showYearDropdown
-        className="form-control"
-        minDate={minDate}
-        maxDate={maxDate}
-        openToDate={openToDate}
-        withPortal
-        required={required}
-      />
-      <img
-        src={"/images/interface.svg"}
-        className="calendar-icon"
-        style={{
-          marginTop: isSmall ? "-32px" : "-48px",
-          marginRight: isSmall ? "15px" : "20px",
-        }}
-        height="25px"
-        width="25px"
-        alt=""
-      ></img>
-      {!value && errorMessage && (
-        <Form.Text className="invalid-text">{errorMessage}</Form.Text>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
-
-function DropDown({
-  isSmall,
-  inBox,
-  options,
-  placeholder,
-  value,
-  onChange,
-  label,
-  description,
-  isInvalid,
-  errorMessage,
-}) {
-  const customStyle = {
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      padding: isSmall ? "0px 10px 0px 0px" : "10px 20px",
-      minHeight: isSmall ? "40px" : "70px",
-      border: `1px solid ${theme.colors.border_gray}`,
-      borderColor: theme.colors.border_gray,
-      borderRadius: "6px",
-      backgroundColor: inBox ? "#F9F9F9" : theme.colors.white,
-      fontFamily: theme.fontFamily.regular,
-      fontSize: theme.fontSize.regular,
-      boxShadow: 0,
-      "&:hover": {
-        border: `1px solid ${theme.colors.border_gray}`,
-        borderColor: theme.colors.border_gray,
-        boxShadow: 0,
-      },
-    }),
-    menu: (provided, state) => ({
-      ...provided,
-      textAlign: "left",
-      backgroundColor: "#fafafa",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      fontFamily: theme.fontFamily.regular,
-      fontSize: theme.fontSize.regular,
-      paddingLeft: "35px",
-      color: theme.colors.black,
-    }),
-    multiValueLabel: (provided, state) => ({
-      ...provided,
-      fontFamily: theme.fontFamily.regular,
-      fontSize: theme.fontSize.regular,
-      color: theme.colors.black,
-    }),
-  };
-  const customComponent = {
-    DropdownIndicator: (props) => {
-      return (
+export const DateInput = React.memo(
+  ({
+    value,
+    onChange,
+    placeholder,
+    minDate,
+    maxDate,
+    openToDate,
+    label,
+    description,
+    required,
+    errorMessage,
+    isSmall,
+  }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <DatePicker
+          dateFormat="dd/MM/yyyy"
+          showPopperArrow={false}
+          selected={value}
+          onChange={onChange}
+          placeholderText={placeholder}
+          showMonthDropdown
+          showYearDropdown
+          className="form-control"
+          minDate={minDate}
+          maxDate={maxDate}
+          openToDate={openToDate}
+          withPortal
+          required={required}
+        />
         <img
-          src={
-            props.selectProps.menuIsOpen
-              ? "/images/chevronUp.png"
-              : "/images/chevronDown.png"
-          }
-          height={isSmall ? "15px" : "25px"}
-          width={isSmall ? "15px" : "25px"}
+          src={"/images/interface.svg"}
+          className="calendar-icon"
+          style={{
+            marginTop: isSmall ? "-32px" : "-48px",
+            marginRight: isSmall ? "15px" : "20px",
+          }}
+          height="25px"
+          width="25px"
           alt=""
         ></img>
-      );
-    },
-    Menu: (props) => {
-      const optionSelectedLength = props.getValue().length || 0;
-      return (
-        <components.Menu {...props}>
-          {optionSelectedLength < 3 ? (
-            props.children
-          ) : (
-            <div
-              style={{
-                fontFamily: theme.fontFamily.regular,
-                fontSize: theme.fontSize.regular,
-                padding: "10px 35px",
-                color: theme.colors.black,
-              }}
-            >
-              <span>Max limit achieved</span>
-            </div>
-          )}
-        </components.Menu>
-      );
-    },
-  };
-  return (
-    <Form.Group>
-      {label && <Form.Label className="text-label">{label}</Form.Label>}
-      <Select
-        isMulti
-        placeholder={placeholder}
-        // isValidNewOption={(inputValue, selectValue) => {
-        //   return inputValue.length > 0 && selectValue.length < 3;
-        // }}
-        value={value}
-        onChange={(newValue, actionMeta) => {
-          if ((newValue && newValue.length <= 3) || !newValue) {
-            onChange(newValue);
-          }
-        }}
-        options={options}
-        classNamePrefix={isInvalid ? "invalid-select" : ""}
-        styles={customStyle}
-        components={customComponent}
-      />
-      {isInvalid && errorMessage && (
-        <Form.Text className="invalid-text">{errorMessage}</Form.Text>
-      )}
-      {description && (
-        <Form.Text className="text-muted-description">{description}</Form.Text>
-      )}
-    </Form.Group>
-  );
-}
+        {!value && errorMessage && (
+          <Form.Text className="invalid-text">{errorMessage}</Form.Text>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
 
-function Switch({ checked, onChange }) {
+export const DropDown = React.memo(
+  ({
+    isSmall,
+    inBox,
+    options,
+    placeholder,
+    value,
+    onChange,
+    label,
+    description,
+    isInvalid,
+    errorMessage,
+  }) => {
+    const customStyle = {
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+      control: (provided, state) => ({
+        ...provided,
+        padding: isSmall ? "0px 10px 0px 0px" : "10px 20px",
+        minHeight: isSmall ? "40px" : "70px",
+        border: `1px solid ${theme.colors.border_gray}`,
+        borderColor: theme.colors.border_gray,
+        borderRadius: "6px",
+        backgroundColor: inBox ? "#F9F9F9" : theme.colors.white,
+        fontFamily: theme.fontFamily.regular,
+        fontSize: theme.fontSize.regular,
+        boxShadow: 0,
+        "&:hover": {
+          border: `1px solid ${theme.colors.border_gray}`,
+          borderColor: theme.colors.border_gray,
+          boxShadow: 0,
+        },
+      }),
+      menu: (provided, state) => ({
+        ...provided,
+        textAlign: "left",
+        backgroundColor: "#fafafa",
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        fontFamily: theme.fontFamily.regular,
+        fontSize: theme.fontSize.regular,
+        paddingLeft: "35px",
+        color: theme.colors.black,
+      }),
+      multiValueLabel: (provided, state) => ({
+        ...provided,
+        fontFamily: theme.fontFamily.regular,
+        fontSize: theme.fontSize.regular,
+        color: theme.colors.black,
+      }),
+    };
+    const customComponent = {
+      DropdownIndicator: (props) => {
+        return (
+          <img
+            src={
+              props.selectProps.menuIsOpen
+                ? "/images/chevronUp.png"
+                : "/images/chevronDown.png"
+            }
+            height={isSmall ? "15px" : "25px"}
+            width={isSmall ? "15px" : "25px"}
+            alt=""
+          ></img>
+        );
+      },
+      Menu: (props) => {
+        const optionSelectedLength = props.getValue().length || 0;
+        return (
+          <components.Menu {...props}>
+            {optionSelectedLength < 3 ? (
+              props.children
+            ) : (
+              <div
+                style={{
+                  fontFamily: theme.fontFamily.regular,
+                  fontSize: theme.fontSize.regular,
+                  padding: "10px 35px",
+                  color: theme.colors.black,
+                }}
+              >
+                <span>Max limit achieved</span>
+              </div>
+            )}
+          </components.Menu>
+        );
+      },
+    };
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Select
+          isMulti
+          placeholder={placeholder}
+          // isValidNewOption={(inputValue, selectValue) => {
+          //   return inputValue.length > 0 && selectValue.length < 3;
+          // }}
+          value={value}
+          onChange={(newValue, actionMeta) => {
+            if ((newValue && newValue.length <= 3) || !newValue) {
+              onChange(newValue);
+            }
+          }}
+          options={options}
+          classNamePrefix={isInvalid ? "invalid-select" : ""}
+          styles={customStyle}
+          components={customComponent}
+        />
+        {isInvalid && errorMessage && (
+          <Form.Text className="invalid-text">{errorMessage}</Form.Text>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
+
+export const Switch = React.memo(({ checked, onChange }) => {
   return (
     <Form.Group>
       <Form.Check
@@ -524,39 +542,41 @@ function Switch({ checked, onChange }) {
       />
     </Form.Group>
   );
-}
+});
 
-function IconButton({ text, onClick, disabled, type }) {
+export const IconButton = React.memo(({ text, onClick, disabled, type }) => {
   return (
     <ButtonContainer onClick={onClick} disabled={disabled} type={type}>
       <span className="button-text">{text}</span>
       <span className="icon-container">></span>
     </ButtonContainer>
   );
-}
+});
 
-function PrimaryButton({ text, onClick, disabled, variant, type }) {
-  return (
-    <PrimaryButtonContainer
-      onClick={onClick}
-      disabled={disabled}
-      variant={variant}
-      type={type ? type : "button"}
-    >
-      <span className="button-text">{text}</span>
-    </PrimaryButtonContainer>
-  );
-}
+export const PrimaryButton = React.memo(
+  ({ text, onClick, disabled, variant, type }) => {
+    return (
+      <PrimaryButtonContainer
+        onClick={onClick}
+        disabled={disabled}
+        variant={variant}
+        type={type ? type : "button"}
+      >
+        <span className="button-text">{text}</span>
+      </PrimaryButtonContainer>
+    );
+  }
+);
 
-function BackButton({ text, onClick }) {
+export const BackButton = React.memo(({ text, onClick }) => {
   return (
     <BackButtonContainer onClick={onClick}>
       <span className="back-button-text">{text}</span>
     </BackButtonContainer>
   );
-}
+});
 
-function Tab({ text, subText, isActive }) {
+export const Tab = React.memo(({ text, subText, isActive }) => {
   return (
     <TabContainer>
       <div
@@ -569,21 +589,21 @@ function Tab({ text, subText, isActive }) {
       </div>
     </TabContainer>
   );
-}
+});
 
-function Loading() {
+export const Loading = () => {
   return (
     <LoadingContainer>
       <Spinner animation="border" />
     </LoadingContainer>
   );
-}
+};
 
-function PageTitle({ text }) {
+export const PageTitle = React.memo(({ text }) => {
   return <PageTitleContainer>{text}</PageTitleContainer>;
-}
+});
 
-function WarningBlock() {
+export const WarningBlock = () => {
   return (
     <WarningContainer>
       <span>
@@ -596,69 +616,71 @@ function WarningBlock() {
       </span>
     </WarningContainer>
   );
-}
+};
 
-function ChallengeHeader({
-  primaryButtonText,
-  primaryButtonClick,
-  secondaryButtonText,
-  secondaryButtonClick,
-}) {
-  return (
-    <ChallengeHeaderContainer>
-      <div className="left-continer">
-        <div className="oval-container">
-          <img
-            src={"/images/image.svg"}
-            height="20px"
-            width="20px"
-            alt=""
-          ></img>
+export const ChallengeHeader = React.memo(
+  ({
+    primaryButtonText,
+    primaryButtonClick,
+    secondaryButtonText,
+    secondaryButtonClick,
+  }) => {
+    return (
+      <ChallengeHeaderContainer>
+        <div className="left-continer">
+          <div className="oval-container">
+            <img
+              src={"/images/image.svg"}
+              height="20px"
+              width="20px"
+              alt=""
+            ></img>
+          </div>
+          <div className="organization-name">
+            <span>Organization Name Here</span>
+          </div>
         </div>
-        <div className="organization-name">
-          <span>Organization Name Here</span>
-        </div>
-      </div>
-      <div className="right-continer">
-        <CircularProgressbar
-          value={20}
-          text={`${20}%`}
-          className="progress-oval-container"
-          background={true}
-          styles={buildStyles({
-            textSize: "30px",
-            pathColor: "#4CD964",
-            textColor: theme.colors.black,
-            trailColor: "#d7d7d7",
-            backgroundColor: theme.colors.white,
-          })}
-        />
-        <div style={{ margin: "0px 10px" }}>
+        <div className="right-continer">
+          <CircularProgressbar
+            value={20}
+            text={`${20}%`}
+            className="progress-oval-container"
+            background={true}
+            styles={buildStyles({
+              textSize: "30px",
+              pathColor: "#4CD964",
+              textColor: theme.colors.black,
+              trailColor: "#d7d7d7",
+              backgroundColor: theme.colors.white,
+            })}
+          />
+          <div style={{ margin: "0px 10px" }}>
+            <PrimaryButton
+              variant="secondary"
+              text={secondaryButtonText}
+              onClick={secondaryButtonClick}
+            ></PrimaryButton>
+          </div>
           <PrimaryButton
-            variant="secondary"
-            text={secondaryButtonText}
-            onClick={secondaryButtonClick}
+            variant="primary"
+            text={primaryButtonText}
+            onClick={primaryButtonClick}
           ></PrimaryButton>
         </div>
-        <PrimaryButton
-          variant="primary"
-          text={primaryButtonText}
-          onClick={primaryButtonClick}
-        ></PrimaryButton>
-      </div>
-    </ChallengeHeaderContainer>
-  );
-}
+      </ChallengeHeaderContainer>
+    );
+  }
+);
 
-function RemoveButton({ onClick }) {
+export const RemoveButton = React.memo(({ onClick }) => {
   return (
     <RemoveButtonContainer onClick={onClick}>
       <img src={"/images/trash.svg"} height="20px" width="20px" alt=""></img>
     </RemoveButtonContainer>
   );
-}
+});
 
-function UpdateCountButton({ onClick }) {
+export const UpdateCountButton = React.memo(({ onClick }) => {
   return (
     <UpdateCountButtonContainer onClick={onClick}>
       <div style={{ height: "12px" }}>
@@ -679,9 +701,9 @@ function UpdateCountButton({ onClick }) {
       </div>
     </UpdateCountButtonContainer>
   );
-}
+});
 
-function CommonTable({ columns, data, showPagination }) {
+export const CommonTable = React.memo(({ columns, data, showPagination }) => {
   return (
     <TableContainer>
       <Table responsive>
@@ -722,9 +744,9 @@ function CommonTable({ columns, data, showPagination }) {
       </Table>
     </TableContainer>
   );
-}
+});
 
-function CardComponent({ src, variant, progress, label }) {
+export const CardComponent = React.memo(({ src, variant, progress, label }) => {
   return (
     <CardContainer>
       <Card>
@@ -791,32 +813,4 @@ function CardComponent({ src, variant, progress, label }) {
       </div>
     </CardContainer>
   );
-}
-
-export {
-  Title,
-  Description,
-  Input,
-  EditorInput,
-  CheckBox,
-  SearchInput,
-  TextArea,
-  FileInput,
-  BannerInput,
-  PassInput,
-  DateInput,
-  DropDown,
-  Switch,
-  IconButton,
-  PrimaryButton,
-  BackButton,
-  Tab,
-  Loading,
-  PageTitle,
-  WarningBlock,
-  ChallengeHeader,
-  RemoveButton,
-  UpdateCountButton,
-  CommonTable,
-  CardComponent,
-};
+});

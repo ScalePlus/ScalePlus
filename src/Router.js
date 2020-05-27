@@ -18,16 +18,28 @@ import Dashboard from "./components/dashboard";
 import AllChallenges from "./components/allChallenges";
 import HowItWorks from "./components/howItWorks";
 import MyChallenges from "./components/myChallenges";
+import Home from "./components/home";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
 
-export default function MainRouter() {
+const MainRouter = () => {
   history.listen((location, action) => {
     window.scrollTo(0, 0);
   });
 
   const OpenRoute = ({ component: Component, layout: Layout, ...rest }) => (
+    <Route
+      {...rest}
+      render={(props) => (
+        <Layout>
+          <Component {...props} />
+        </Layout>
+      )}
+    />
+  );
+
+  const NotAuthRoute = ({ component: Component, layout: Layout, ...rest }) => (
     <Route
       {...rest}
       render={(props) =>
@@ -63,37 +75,37 @@ export default function MainRouter() {
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <OpenRoute
+          <NotAuthRoute
             path="/login"
             exact
             layout={MainLayout}
             component={SignIn}
           />
-          <OpenRoute
+          <NotAuthRoute
             path="/register"
             exact
             layout={MainLayout}
             component={SignUp}
           />
-          <OpenRoute
+          <NotAuthRoute
             path="/verification/:id"
             exact
             layout={MainLayout}
             component={EmailVerification}
           />
-          <OpenRoute
+          <NotAuthRoute
             path="/reset/password"
             exact
             layout={MainLayout}
             component={ResetPassword}
           />
-          <OpenRoute
+          <NotAuthRoute
             path="/reset/password/confirmation"
             exact
             layout={MainLayout}
             component={ResetConfirmation}
           />
-          <OpenRoute
+          <NotAuthRoute
             path="/change/password/:resetPasswordCode"
             exact
             layout={MainLayout}
@@ -165,6 +177,7 @@ export default function MainRouter() {
             layout={MainLayout}
             component={MyChallenges}
           />
+          <OpenRoute path="/home" exact layout={MainLayout} component={Home} />
           <Redirect
             from="/"
             to={
@@ -179,4 +192,6 @@ export default function MainRouter() {
       </Router>
     </Provider>
   );
-}
+};
+
+export default MainRouter;

@@ -4,7 +4,7 @@ import { DateInput, PrimaryButton, PageTitle } from "../common";
 import history from "../../history";
 import { Constants } from "../../lib/constant";
 
-function Step4() {
+const Step4 = () => {
   const [launchDate, changeLaunchDate] = useState(null);
   const [dueDate, changeDueDate] = useState(null);
   const [biginDate, changeBiginDate] = useState(null);
@@ -119,6 +119,6 @@ function Step4() {
       </Col>
     </Row>
   );
-}
+};
 
-export default Step4;
+export default React.memo(Step4);

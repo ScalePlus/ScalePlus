@@ -5,7 +5,7 @@ import Footer from "../footer";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
-export default function AllChallenges({ history }) {
+const AllChallenges = ({ history }) => {
   return (
     <MainContainer>
       <div className="subscribe-container">
@@ -37,4 +37,6 @@ export default function AllChallenges({ history }) {
       <Footer />
     </MainContainer>
   );
-}
+};
+
+export default AllChallenges;

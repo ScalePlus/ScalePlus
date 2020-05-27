@@ -30,7 +30,7 @@ const stageTabs = [
   ],
   orderByTabs = ["Newest", "Popular"];
 
-export default function Filters({ show, setShow }) {
+const Filters = ({ show, setShow }) => {
   const [stage, selectStage] = useState("");
   const [category, selectCategory] = useState("");
   const [orderby, selectOrder] = useState("");
@@ -151,4 +151,6 @@ export default function Filters({ show, setShow }) {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+export default React.memo(Filters);

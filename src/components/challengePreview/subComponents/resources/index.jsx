@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
 
-export default function Resources() {
+const Resources = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -42,4 +42,6 @@ export default function Resources() {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default React.memo(Resources);

@@ -242,4 +242,4 @@ const Description = () => {
   );
 };
 
-export default Description;
+export default React.memo(Description);

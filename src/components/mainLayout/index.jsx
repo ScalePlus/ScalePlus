@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getLoggedInUserAction } from "../signin/action";
 
-export default function MainLayout({ children }) {
+const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
   const getLoggedInUserMethod = useCallback(
     () => dispatch(getLoggedInUserAction()),
@@ -27,4 +27,6 @@ export default function MainLayout({ children }) {
       </div>
     </Container>
   );
-}
+};
+
+export default MainLayout;

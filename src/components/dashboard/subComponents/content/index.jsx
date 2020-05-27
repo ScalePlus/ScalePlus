@@ -52,7 +52,7 @@ const judges = [
   },
 ];
 
-export default function Content({ history }) {
+const Content = ({ history }) => {
   return (
     <MainContainer>
       <Row>
@@ -154,4 +154,6 @@ export default function Content({ history }) {
       </Row>
     </MainContainer>
   );
-}
+};
+
+export default Content;

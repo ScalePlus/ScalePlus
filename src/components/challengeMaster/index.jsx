@@ -8,7 +8,7 @@ import Step3 from "./step3";
 import Step4 from "./step4";
 import { MainContainer } from "./style";
 
-function ChallengeMaster() {
+const ChallengeMaster = () => {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
@@ -72,6 +72,6 @@ function ChallengeMaster() {
       </Row>
     </MainContainer>
   );
-}
+};
 
 export default ChallengeMaster;
