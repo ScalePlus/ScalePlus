@@ -159,13 +159,13 @@ const MainRouter = () => {
             layout={MainLayout}
             component={ChallengeEdit}
           />
-          <AuthRoute
+          <OpenRoute
             path="/all/challenges"
             exact
             layout={MainLayout}
             component={AllChallenges}
           />
-          <AuthRoute
+          <OpenRoute
             path="/workflow"
             exact
             layout={MainLayout}

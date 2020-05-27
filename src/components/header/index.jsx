@@ -1,25 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
-const links = [
-  { label: "ALL CHALLENGES", link: "/all/challenges" },
-  { label: "HOW IT WORKS", link: "/workflow" },
-  { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
-  { label: "MY CHALLENGES", link: "/my/challenges" },
-];
 
 const Header = () => {
+  const [links, setLinks] = useState([
+    { label: "ALL CHALLENGES", link: "/all/challenges" },
+    { label: "HOW IT WORKS", link: "/workflow" },
+    { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
+  ]);
   const [activeKey, selectKey] = useState(
     links.find((each) => {
-      return window.location.pathname.includes(each.link);
+      return history.location.pathname === each.link;
     })
       ? links.find((each) => {
-          return window.location.pathname.includes(each.link);
+          return history.location.pathname === each.link;
         }).label
       : ""
   );
   const [expanded, onToggle] = useState(false);
+
+  history.listen((location, action) => {
+    selectKey(
+      links.find((each) => {
+        return location.pathname === each.link;
+      })
+        ? links.find((each) => {
+            return location.pathname === each.link;
+          }).label
+        : ""
+    );
+  });
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLinks((data) =>
+        data.concat({ label: "MY CHALLENGES", link: "/my/challenges" })
+      );
+    }
+  }, []);
+
   return (
     <Container>
       <Navbar
@@ -41,7 +61,6 @@ const Header = () => {
                 <Nav.Item
                   key={index}
                   onClick={() => {
-                    selectKey(each.label);
                     onToggle(false);
                     history.push(each.link);
                   }}
@@ -80,7 +99,7 @@ const Header = () => {
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
-            ) : window.location.pathname.includes("login") ? (
+            ) : history.location.pathname.includes("login") ? (
               <span
                 onClick={() => {
                   history.push("/register");
