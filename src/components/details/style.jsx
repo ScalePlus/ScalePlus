@@ -38,7 +38,6 @@ export const MainContainer = styled.div`
   }
   .active {
     color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-weight: 600;
   }
 `;

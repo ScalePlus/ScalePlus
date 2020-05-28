@@ -25,8 +25,6 @@ export const MainContainer = styled.div`
   .bottom-container {
     margin: 80px 0px;
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
   .link {
     color: ${theme.colors.gray};

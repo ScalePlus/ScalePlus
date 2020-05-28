@@ -4,7 +4,6 @@ import theme from "../../../../theme";
 export const MainContainer = styled.div`
   .header-container {
     .title-text {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumLarge};
       line-height: 40px;

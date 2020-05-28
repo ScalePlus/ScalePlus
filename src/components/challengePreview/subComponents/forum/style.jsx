@@ -15,8 +15,6 @@ export const TableContainer = styled.div`
     border-bottom: 1px solid #979797;
     padding-bottom: 10px;
     span {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.mediumRegular};
     }
   }
@@ -25,8 +23,6 @@ export const TableContainer = styled.div`
     justify-content: center;
     padding: 100px;
     span {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.semiLarge};
     }
   }

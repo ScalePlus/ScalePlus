@@ -7,15 +7,11 @@ export const MainContainer = styled.div`
     margin-top: 80px;
   }
   .description-container {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-weight: 600;
     font-size: ${theme.fontSize.small};
     margin-top: 25px;
   }
   .verified-description-container {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-weight: 600;
     font-size: ${theme.fontSize.small};
     margin-top: 80px;
@@ -29,12 +25,9 @@ export const MainContainer = styled.div`
   .bottom-container {
     margin: 80px 0px;
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
   .resend-link {
     cursor: pointer;
-    color: ${theme.colors.black};
     text-decoration: underline;
   }
   .link {

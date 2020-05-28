@@ -6,6 +6,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: ${theme.colors.lightWhite} !important;
+  color: ${theme.colors.black};
+  font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
 }
 
 .col, [class*="col-"] ,.row{
@@ -14,7 +17,9 @@ body {
 }
 
 .main-layout,.modal-content {
+  color: ${theme.colors.black};
   font-family: ${theme.fontFamily.regular};
+  font-size: ${theme.fontSize.regular};
 }
 
 .form-control,.banner-input{
@@ -25,7 +30,6 @@ body {
   border-radius: 6px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.gray};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
 }
 
@@ -61,14 +65,11 @@ body {
 
 .text-muted-description{
   color: ${theme.colors.gray};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.small};
   margin-top:5px;
 }
 
 .text-label{
-  color: ${theme.colors.black};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
 }
 
@@ -134,7 +135,6 @@ body {
   border-radius: 6px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.gray};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
 }
 
@@ -240,7 +240,6 @@ body {
   text-align: center;
   margin-top: -130px;
   color: ${theme.colors.gray};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
   cursor: pointer;
 }
@@ -266,7 +265,6 @@ body {
 .upload-button-text {
   opacity: 0.6;
   color: ${theme.colors.black};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
 }
 
@@ -305,8 +303,6 @@ body {
 }
 
 .large-checkbox .custom-control-label{
-  color: ${theme.colors.black};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
   margin-left:10px;
 }
@@ -326,9 +322,7 @@ body {
   right: 0;
   margin-right: 35px;
   cursor: pointer;
-  color: ${theme.colors.black};
   background-color: ${theme.colors.white};
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
 }
 

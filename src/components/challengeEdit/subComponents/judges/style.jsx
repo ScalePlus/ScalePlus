@@ -3,9 +3,6 @@ import theme from "../../../../theme";
 
 export const MainContainer = styled.div`
   .link {
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
-    color: ${theme.colors.black};
     text-decoration: underline;
     cursor: pointer;
   }
@@ -29,9 +26,7 @@ export const MainContainer = styled.div`
       min-width: 70px;
       text-align: center;
       span {
-        font-family: ${theme.fontFamily.regular};
         font-size: ${theme.fontSize.extraSmall};
-        color: ${theme.colors.black};
       }
     }
   }

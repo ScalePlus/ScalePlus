@@ -13,8 +13,5 @@ export const InformationBlock = styled.div`
   }
   .title {
     padding: 15px 0px;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
 `;

@@ -8,7 +8,6 @@ export const TitleContainer = styled.div`
   flex-wrap: wrap;
   text-align: left;
   .title {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiLarge};
 
@@ -23,7 +22,6 @@ export const TitleContainer = styled.div`
 export const TitleContainerWithSearchBox = styled.div`
   text-align: left;
   .title {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiLarge};
 
@@ -62,14 +60,11 @@ export const ExpandCollapseContainer = styled.div`
   }
   .content-container {
     .title {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.regular};
       margin-right: 30px;
     }
     .timestamp {
       color: ${theme.colors.gray};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
     }
     span {
@@ -86,9 +81,6 @@ export const ExpandCollapseContainer = styled.div`
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     background-color: ${theme.colors.white};
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
     .link {
       font-family: ${theme.fontFamily.bold};
       margin-bottom: 10px;
@@ -120,8 +112,6 @@ export const StepperVerticalContainer = styled.div`
     left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
   }
 
@@ -131,8 +121,6 @@ export const StepperVerticalContainer = styled.div`
     left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
   }
 
@@ -227,16 +215,12 @@ export const StepperVerticalContainer = styled.div`
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     background-color: ${theme.colors.white};
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
     .title {
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.semiRegular};
       margin-bottom: 10px;
     }
     .timestamp {
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.semiRegular};
     }
   }

@@ -15,23 +15,20 @@ export const MainContainer = styled.div`
     min-height: 600px;
   }
   .title {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.xxLarge};
   }
-  .subscribe-container .desscription {
+  .subscribe-container .description {
     padding: 50px 0px;
   }
-  .time-container .desscription {
+  .time-container .description {
     padding: 40px 0px;
   }
-  .expert-container .desscription {
+  .expert-container .description {
     padding: 25px 0px;
   }
 
-  .desscription {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
+  .description {
     font-size: ${theme.fontSize.extraMedium};
   }
 
@@ -106,7 +103,6 @@ export const MainContainer = styled.div`
       padding-bottom: 15px;
     }
     .text {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.extraMedium};
     }

@@ -19,21 +19,15 @@ export const ContentContainer = styled.div`
     border: 1px solid #d9d9d9;
     border-radius: 6px;
     background-color: ${theme.colors.white};
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
   .content-container {
     margin-bottom: 10px;
     .title {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.regular};
       margin-right: 30px;
     }
     .timestamp {
       color: ${theme.colors.gray};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
     }
     span {

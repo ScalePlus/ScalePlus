@@ -29,11 +29,9 @@ export const MainContainer = styled.div`
   }
   .title {
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.semiRegular};
   }
   .count {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiRegular};
     margin-left: 5px;
@@ -53,14 +51,10 @@ export const MainContainer = styled.div`
     margin-top: 5px;
   }
   .name {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
     line-height: 16px;
   }
   .sub-name {
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
     letter-spacing: 0;
     line-height: 14px;
@@ -68,7 +62,6 @@ export const MainContainer = styled.div`
   .grey-button {
     cursor: pointer;
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
     letter-spacing: 0;
     line-height: 14px;
@@ -85,7 +78,6 @@ export const AddButton = styled.button`
   }
   .button-text {
     cursor: pointer;
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.regular};
   }

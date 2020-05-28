@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../../theme";
 
 export const MainContainer = styled.div`
   text-align: center;
@@ -24,9 +23,6 @@ export const MainContainer = styled.div`
     text-align: left;
     margin-left: 10px;
     margin-top: 10px;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
     font-weight: 600;
   }
 `;

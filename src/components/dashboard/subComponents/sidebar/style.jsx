@@ -25,7 +25,7 @@ export const MainContainer = styled.div`
   }
   .nav-item.show .nav-link,
   .nav-link.active {
-    color: ${theme.colors.black}!important;
+    color: ${theme.colors.black};!important;
     font-family: ${theme.fontFamily.bold}!important;
   }
   .nav-link.active:after {

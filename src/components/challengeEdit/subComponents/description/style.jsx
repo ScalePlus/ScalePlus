@@ -24,13 +24,10 @@ export const MainContainer = styled.div`
         }
       }
       .title {
-        color: ${theme.colors.black};
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.small};
       }
       .description {
-        color: ${theme.colors.black};
-        font-family: ${theme.fontFamily.regular};
         font-size: ${theme.fontSize.extraSmall};
       }
     }

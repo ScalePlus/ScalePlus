@@ -10,7 +10,6 @@ export const MainContainer = styled.div`
     min-height: 180px;
     padding: 25px;
     .text {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.extraMedium};
     }

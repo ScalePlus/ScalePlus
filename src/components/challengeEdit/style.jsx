@@ -7,9 +7,7 @@ export const MainContainer = styled.div`
     height: 40px;
   }
   .text-label {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold} !important;
-    font-size: ${theme.fontSize.regular};
   }
   textarea.form-control {
     height: auto;
@@ -30,7 +28,6 @@ export const MainContainer = styled.div`
     text-alignt: left;
     .title {
       padding: 15px;
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.semiRegular};
       border-radius: 6px;

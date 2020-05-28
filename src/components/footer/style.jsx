@@ -41,7 +41,6 @@ export const MainContainer = styled.div`
       margin: 10px;
       a {
         color: ${theme.colors.black};
-        font-family: ${theme.fontFamily.regular};
         font-size: ${theme.fontSize.mediumRegular};
         :hover {
           text-decoration: none;

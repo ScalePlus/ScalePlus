@@ -4,7 +4,6 @@ import theme from "../../../../theme";
 export const ChallengesListContainer = styled.div`
   .header-container {
     .title-text {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumLarge};
       line-height: 40px;
@@ -17,7 +16,6 @@ export const ChallengesListContainer = styled.div`
     flex-wrap: wrap;
     .text {
       color: ${theme.colors.gray};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.mediumRegular};
     }
     .filter-container {
@@ -33,7 +31,6 @@ export const ChallengesListContainer = styled.div`
       padding: 0px 15px;
       cursor: pointer;
       .filter-text {
-        color: ${theme.colors.black};
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.semiRegular};
       }
@@ -46,7 +43,6 @@ export const ChallengesListContainer = styled.div`
         justify-content: center;
         align-items: center;
         .count-text {
-          color: ${theme.colors.black};
           font-family: ${theme.fontFamily.bold};
           font-size: ${theme.fontSize.small};
         }

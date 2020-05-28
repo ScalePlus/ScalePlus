@@ -12,15 +12,12 @@ export const MainContainer = styled.div`
     height: 770px;
   }
   .title {
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.xxLarge};
     line-height: 60px;
     margin-top: 30px;
   }
-  .desscription {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
+  .description {
     font-size: ${theme.fontSize.extraMedium};
     line-height: 30px;
     margin-top: 30px;
@@ -52,14 +49,11 @@ export const MainContainer = styled.div`
       object-fit: cover;
     }
     .box-title {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.large};
       margin-top: 15px;
     }
     .description {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.extraMedium};
       margin-top: 10px;
     }

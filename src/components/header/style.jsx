@@ -55,7 +55,6 @@ export const Container = styled.div`
 
   .action-container {
     cursor: pointer;
-    color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
     .nav-link {

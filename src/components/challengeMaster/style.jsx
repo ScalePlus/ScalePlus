@@ -27,8 +27,6 @@ export const MainContainer = styled.div`
     margin: 10px -15px;
   }
   .sub-title {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.mediumRegular};
   }
   .tabs-container {
@@ -55,20 +53,14 @@ export const MainContainer = styled.div`
     }
     .tab-title {
       margin-bottom: 20px;
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.mediumRegular};
       font-weight: 600;
     }
   }
   .description {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
   .right-content-container {
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.extraSmall};
     text-align: right;
     margin: 35px -15px;
@@ -78,8 +70,6 @@ export const MainContainer = styled.div`
     margin: 35px -15px;
   }
   .bottom-container {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.small};
     text-align: left;
     margin: 45px -15px;

@@ -66,7 +66,6 @@ export const TabContainer = styled.div`
     margin-left: 95px;
     span {
       color: ${theme.colors.white};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
     }
   }

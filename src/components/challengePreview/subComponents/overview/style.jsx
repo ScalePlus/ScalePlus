@@ -30,7 +30,6 @@ export const MainContainer = styled.div`
         margin-right: 5px;
         border-radius: 12px;
         color: ${theme.colors.white};
-        font-family: ${theme.fontFamily.regular};
         font-size: ${theme.fontSize.extraSmall};
         background-color: ${theme.colors.black};
       }
@@ -39,8 +38,6 @@ export const MainContainer = styled.div`
       margin-bottom: 60px;
       span {
         margin-right: 5px;
-        color: ${theme.colors.black};
-        font-family: ${theme.fontFamily.regular};
         font-size: ${theme.fontSize.medium};
       }
     }
@@ -55,9 +52,6 @@ export const MainContainer = styled.div`
       .title-text {
         color: ${theme.colors.gray};
       }
-      .sub-text {
-        color: ${theme.colors.black};
-      }
     }
   }
 `;
@@ -65,8 +59,6 @@ export const MainContainer = styled.div`
 export const ContentContainer = styled.div`
   .description {
     margin-bottom: 45px;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.medium};
   }
 

@@ -21,15 +21,13 @@ const Header = () => {
   const [expanded, onToggle] = useState(false);
 
   history.listen((location, action) => {
-    selectKey(
-      links.find((each) => {
-        return location.pathname === each.link;
-      })
-        ? links.find((each) => {
-            return location.pathname === each.link;
-          }).label
-        : ""
-    );
+    let record = links.find((each) => {
+      return location.pathname === each.link;
+    });
+
+    if (record && activeKey !== record.label) {
+      selectKey(record ? record.label : "");
+    }
   });
 
   useEffect(() => {

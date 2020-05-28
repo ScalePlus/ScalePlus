@@ -10,7 +10,6 @@ export const MainContainer = styled.div`
     display: flex;
     align-items: center;
     .title {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumLarge};
       margin-right: 20px;
@@ -24,7 +23,6 @@ export const MainContainer = styled.div`
       align-items: center;
       justify-content: center;
       .count {
-        color: ${theme.colors.black};
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.title};
       }

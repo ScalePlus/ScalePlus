@@ -25,6 +25,7 @@ export const MainContainer = styled.div`
     padding: 3px 30px;
     border-color: rgba(0, 0, 0, 0.5);
     background-color: ${theme.colors.white};
+    color: ${theme.colors.black};
     :hover,
     :focus,
     :not(:disabled):not(.disabled):active,
@@ -41,9 +42,6 @@ export const MainContainer = styled.div`
       margin-bottom: 0;
     }
     .info-text {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.regular};
     }
   }
 `;

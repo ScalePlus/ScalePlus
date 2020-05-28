@@ -9,8 +9,6 @@ export const MainContainer = styled.div`
   }
 
   .description-container {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-weight: 600;
     font-size: ${theme.fontSize.small};
     margin-top: 80px;
@@ -30,7 +28,6 @@ export const MainContainer = styled.div`
 
   .resend-link {
     cursor: pointer;
-    color: ${theme.colors.black};
     text-decoration: underline;
   }
 `;

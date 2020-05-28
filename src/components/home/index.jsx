@@ -17,7 +17,7 @@ const Home = ({ history }) => {
                 <div className="title">
                   <span>Everyday Challenges Solved the right way!</span>
                 </div>
-                <div className="desscription">
+                <div className="description">
                   <span>
                     We connect everyday problem solvers like you to bring
                     innovative thinking to the world.

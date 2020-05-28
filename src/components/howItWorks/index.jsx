@@ -15,7 +15,7 @@ const HowItWorks = () => {
                 <div className="title">
                   <span>Innovate the easy way.</span>
                 </div>
-                <div className="desscription">
+                <div className="description">
                   <span>
                     Find innovative solutions on Scale Plus through the power of
                     crowdsourcing. We provide a two-sided platform where our
@@ -54,7 +54,7 @@ const HowItWorks = () => {
                 <div className="title">
                   <span>How Much Time Will it Take to Get a Solution?</span>
                 </div>
-                <div className="desscription">
+                <div className="description">
                   <span>
                     On average, challenges run between 2 to 4 months. Some of
                     the more technical challenges can run for much longer. With
@@ -82,7 +82,7 @@ const HowItWorks = () => {
                 <div className="title">
                   <span>Can I Get Help Setting Up My Challenge?</span>
                 </div>
-                <div className="desscription">
+                <div className="description">
                   <span>
                     Yes. Scale Plus has plenty of experts who are willing to
                     help. Use their expertise in every aspect of your challenge

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import theme from "../../theme";
 
 export const TitleContainer = styled.span`
-  font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.title};
   font-weight: 600;
   .icon-container {
@@ -13,8 +12,6 @@ export const TitleContainer = styled.span`
 `;
 
 export const DescriptionContainer = styled.span`
-  font-family: ${theme.fontFamily.regular};
-  font-size: ${theme.fontSize.regular};
   color: ${theme.colors.gray};
 `;
 
@@ -27,15 +24,12 @@ export const ButtonContainer = styled.button`
   }
   .button-text {
     cursor: pointer;
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.medium};
     font-weight: 600;
   }
   .icon-container {
     color: ${theme.colors.yellow};
     font-size: ${theme.fontSize.medium};
-    font-family: ${theme.fontFamily.regular};
     font-weight: 600;
     cursor: pointer;
   }
@@ -82,7 +76,6 @@ export const BackButtonContainer = styled.div`
   .back-button-text {
     cursor: pointer;
     color: ${theme.colors.gray};
-    font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.medium};
   }
 `;
@@ -104,12 +97,9 @@ export const TabContainer = styled.div`
     padding: 0 1.5rem;
     .tab-main-text {
       color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.regular};
     }
     .tab-sub-text {
       color: ${theme.colors.gray};
-      font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.small};
     }
   }
@@ -134,7 +124,6 @@ export const LoadingContainer = styled.div`
 `;
 
 export const PageTitleContainer = styled.h2`
-  color: ${theme.colors.black};
   font-family: ${theme.fontFamily.bold};
   font-size: ${theme.fontSize.mediumLarge};
 `;
@@ -146,9 +135,6 @@ export const WarningContainer = styled.div`
   background-color: ${theme.colors.peachYellow};
   text-align: center;
   span {
-    color: ${theme.colors.black};
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
   }
   .read-more-text {
     text-decoration: underline;
@@ -220,17 +206,12 @@ export const UpdateCountButtonContainer = styled.div`
 export const TableContainer = styled.div`
   thead {
     font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.regular};
-    color: ${theme.colors.black};
     th {
       border: none;
       border-bottom: 2px solid #979797;
     }
   }
   tbody {
-    font-family: ${theme.fontFamily.regular};
-    font-size: ${theme.fontSize.regular};
-    color: ${theme.colors.black};
     tr {
       border: none;
       border-bottom: 1px solid #e9e9e9;
@@ -280,15 +261,11 @@ export const CardContainer = styled.div`
       overflow: hidden;
     }
     .card-title {
-      color: ${theme.colors.black};
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.title};
       margin-bottom: 5px;
     }
     .card-text {
-      color: ${theme.colors.black};
-      font-family: ${theme.fontFamily.regular};
-      font-size: ${theme.fontSize.regular};
       margin-bottom: 5px;
     }
     .card-footer {
@@ -306,13 +283,10 @@ export const CardContainer = styled.div`
         .days-text {
           color: ${theme.colors.gray};
           font-family: ${theme.fontFamily.bold};
-          font-size: ${theme.fontSize.regular};
           margin-left: 10px;
         }
         .prize-text {
-          color: ${theme.colors.black};
           font-family: ${theme.fontFamily.bold};
-          font-size: ${theme.fontSize.regular};
         }
       }
       .bordered-container {
@@ -322,15 +296,10 @@ export const CardContainer = styled.div`
         }
       }
       .heading-text {
-        color: ${theme.colors.black};
         font-family: ${theme.fontFamily.bold};
-        font-size: ${theme.fontSize.regular};
         margin-bottom: 8px;
       }
       .sub-heading-text {
-        color: ${theme.colors.black};
-        font-family: ${theme.fontFamily.regular};
-        font-size: ${theme.fontSize.regular};
       }
       .progress {
         height: 25px;
@@ -342,7 +311,6 @@ export const CardContainer = styled.div`
         }
         .progress-bar {
           color: ${theme.colors.black};
-          font-family: ${theme.fontFamily.regular};
           font-size: ${theme.fontSize.regular};
           text-align: left;
           padding-left: 5px;
