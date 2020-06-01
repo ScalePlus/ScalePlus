@@ -1,14 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
+import { Input, PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
 const Footer = () => {
   return (
     <MainContainer>
-      <Row style={{ marginBottom: 70 }}>
+      <Row>
         <Col>
           <div className="group-container"></div>
+        </Col>
+      </Row>
+      <Row style={{ marginBottom: 70 }}>
+        <Col>
+          <div className="subscribe-container">
+            <Row className="justify-content-center">
+              <Col lg={10} md={10} sm={10} xs={10}>
+                <div className="content-container">
+                  <div className="text">
+                    <span>
+                      Be the first to know when crowdsourcing projects like this
+                      are posted.
+                    </span>
+                  </div>
+                  <div className="form-container">
+                    <Input type="email" placeholder="Your email address" />
+                    <PrimaryButton
+                      variant="secondary"
+                      text={"Subscribe"}
+                      onClick={() => {}}
+                    ></PrimaryButton>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
       <Row className="justify-content-center" style={{ marginBottom: 25 }}>

@@ -7,6 +7,70 @@ export const MainContainer = styled.div`
     background-image: url("/images/partner-bg.png");
     background-size: cover;
   }
+  .subscribe-container {
+    min-height: 100px;
+    background-image: url("/images/subscribe-banner.png");
+    background-size: cover;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .content-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 1;
+  }
+  .content-container {
+    .text {
+      font-size: ${theme.fontSize.mediumRegular};
+      font-family: ${theme.fontFamily.bold};
+      text-align: center;
+      @media (min-width: 992px) {
+        margin-right: 40px;
+      }
+    }
+    .form-container {
+      .form-group {
+        flex: 1;
+        @media (min-width: 576px) {
+          margin-right: 10px;
+        }
+
+        @media (min-width: 768px) {
+          margin-right: 10px;
+        }
+
+        @media (min-width: 992px) {
+          margin-right: 10px;
+        }
+
+        .form-control {
+          height: 40px;
+        }
+      }
+      button {
+        background: ${theme.colors.white};
+        padding: 8px 50px;
+        .button-text {
+          font-size: ${theme.fontSize.semiRegular};
+        }
+      }
+    }
+    .text,
+    .form-group,
+    button {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+  }
   .middle-container {
     border-bottom: 1px solid #dbdbdb;
     padding-bottom: 40px;

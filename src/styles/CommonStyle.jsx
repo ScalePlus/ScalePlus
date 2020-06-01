@@ -164,6 +164,10 @@ body {
   border: 1px solid ${theme.colors.amaranth} !important;
 }
 
+.invalid-feedback{
+  font-size: 90%;
+}
+
 .is-invalid~.invalid-feedback{
   display:none;
 }
@@ -194,7 +198,7 @@ body {
   text-align:left;
   width: 100%;
   margin-top: .25rem;
-  font-size: 80%;
+  font-size: 90%;
   color: ${theme.colors.amaranth};
 }
 

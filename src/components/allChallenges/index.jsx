@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "./subComponents/challengesList";
-import Footer from "../footer";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
@@ -34,7 +33,6 @@ const AllChallenges = ({ history }) => {
         </Row>
       </div>
       <ChallengesList history={history} />
-      <Footer />
     </MainContainer>
   );
 };

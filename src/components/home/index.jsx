@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "../allChallenges/subComponents/challengesList";
-import Footer from "../footer";
 import { MainContainer } from "./style";
 import { PrimaryButton } from "../common";
 
@@ -99,7 +98,6 @@ const Home = ({ history }) => {
       <div className="challenge-list">
         <ChallengesList history={history} />
       </div>
-      <Footer />
     </MainContainer>
   );
 };

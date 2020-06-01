@@ -1,7 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "../allChallenges/subComponents/challengesList";
-import Footer from "../footer";
 import { CardComponent } from "../common";
 import { MainContainer } from "./style";
 let cards = [
@@ -67,7 +66,6 @@ const MyChallenges = ({ history }) => {
           <ChallengesList history={history} />
         </Col>
       </Row>
-      <Footer />
     </MainContainer>
   );
 };

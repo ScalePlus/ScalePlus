@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import Footer from "../footer";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 
@@ -170,7 +169,6 @@ const HowItWorks = () => {
           </Col>
         </Row>
       </div>
-      <Footer />
     </MainContainer>
   );
 };

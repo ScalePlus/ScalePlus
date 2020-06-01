@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import Header from "../header";
+import Footer from "../footer";
 import { Container } from "react-bootstrap";
 import { Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -24,6 +25,7 @@ const MainLayout = ({ children }) => {
       <div className="main-layout">
         <Header />
         <Route render={() => children} />
+        <Footer />
       </div>
     </Container>
   );
