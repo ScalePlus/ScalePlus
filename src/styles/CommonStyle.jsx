@@ -376,4 +376,15 @@ body {
     background-color: ${theme.colors.white};
   }
 }
+
+.subscribe-modal{
+  max-width:670px;
+  .modal-content{
+    border-radius: 10px;
+    border: 1px solid #979797;
+  }
+  .modal-header,.modal-body{
+    padding:0px;
+  }
+}
 `;

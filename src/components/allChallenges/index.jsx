@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "./subComponents/challengesList";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
+import Subscribe from "./subComponents/subscribeModal";
 
 const AllChallenges = ({ history }) => {
+  const [show, setShow] = useState(false);
   return (
     <MainContainer>
       <div className="subscribe-container">
@@ -24,7 +26,9 @@ const AllChallenges = ({ history }) => {
                   <PrimaryButton
                     variant="secondary"
                     text={"Subscribe"}
-                    onClick={() => {}}
+                    onClick={() => {
+                      setShow(true);
+                    }}
                   ></PrimaryButton>
                 </div>
               </Col>
@@ -33,6 +37,7 @@ const AllChallenges = ({ history }) => {
         </Row>
       </div>
       <ChallengesList history={history} />
+      <Subscribe show={show} setShow={setShow} />
     </MainContainer>
   );
 };

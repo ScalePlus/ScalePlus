@@ -16,7 +16,7 @@ const Footer = () => {
         <Col>
           <div className="subscribe-container">
             <Row className="justify-content-center">
-              <Col lg={10} md={10} sm={10} xs={10}>
+              <Col lg={9} md={9} sm={9} xs={9}>
                 <div className="content-container">
                   <div className="text">
                     <span>
