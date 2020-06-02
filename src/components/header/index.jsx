@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
+import SearchModal from "./subComponents/searchModal";
 
 const Header = () => {
   const [links, setLinks] = useState([
@@ -19,6 +20,7 @@ const Header = () => {
       : ""
   );
   const [expanded, onToggle] = useState(false);
+  const [show, setShow] = useState(false);
 
   history.listen((location, action) => {
     let record = links.find((each) => {
@@ -68,7 +70,11 @@ const Header = () => {
               );
             })}
           </Nav>
-          <Navbar.Text>
+          <Navbar.Text
+            onClick={() => {
+              setShow(true);
+            }}
+          >
             <img
               src={"/images/search.png"}
               className="search-img"
@@ -117,6 +123,7 @@ const Header = () => {
           </div>
         </Navbar.Collapse>
       </Navbar>
+      <SearchModal show={show} setShow={setShow} />
     </Container>
   );
 };

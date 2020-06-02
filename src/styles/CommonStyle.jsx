@@ -365,7 +365,7 @@ body {
   transform: translateX(1.5rem);
 }
 
-.fullscreen-modal {
+.fullscreen-modal,.search-modal {
   max-width: 100%;
   margin:0px !important;
   height: 100vh;
@@ -385,6 +385,24 @@ body {
   }
   .modal-header,.modal-body{
     padding:0px;
+  }
+}
+
+.search-modal {
+  border:none;
+  border-radius:0;
+  .modal-header,.modal-body{
+    padding:0px;
+  }
+  .modal-header{
+    background-color: ${theme.colors.yellow};
+    border:none;
+    border-radius:0;
+  }
+  .modal-content,.modal-body{
+    background-color: ${theme.colors.black};
+    border:none;
+    border-radius:0;
   }
 }
 `;

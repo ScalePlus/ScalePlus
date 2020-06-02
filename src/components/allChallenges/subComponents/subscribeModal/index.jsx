@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Row, Col } from "react-bootstrap";
-import { Input, Tab, PrimaryButton } from "../../../common";
+import { Input, PrimaryButton } from "../../../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
 const Subscribe = ({ show, setShow }) => {
