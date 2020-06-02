@@ -25,7 +25,7 @@ body {
 .form-control,.banner-input{
   text-align: left;
   padding: 20px;
-  height: 70px;
+  height: 60px;
   border: 1px solid ${theme.colors.borderGrey};
   border-radius: 6px;
   background-color: ${theme.colors.white};
@@ -109,7 +109,7 @@ body {
 }
 
 .custom-date-picker{
-  height: 70px;
+  height: 60px;
   width: 100%;
 }
 
@@ -251,11 +251,11 @@ body {
 
 .upload-button {
   position: absolute;
-  margin-top: -66px;
+  margin-top: -55px;
   right: 0;
   margin-right: 13px;
   border-radius: 6px;
-  padding: 18px 60px;  
+  padding: 12px 60px;  
   border-color: ${theme.colors.mediumgray};
   background-color: ${theme.colors.mediumgray};
   :hover,:focus,:not(:disabled):not(.disabled):active,:not(:disabled):not(.disabled):active:focus {
@@ -403,6 +403,15 @@ body {
     background-color: ${theme.colors.black};
     border:none;
     border-radius:0;
+  }
+}
+
+.checkbox-label{
+  margin-left:35px;
+  margin-top:-24px;
+  .privacy-links{
+    font-family: ${theme.fontFamily.bold};
+    text-decoration: underline;
   }
 }
 `;

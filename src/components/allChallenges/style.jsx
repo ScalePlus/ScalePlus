@@ -18,7 +18,6 @@ export const MainContainer = styled.div`
       justify-content: center;
     }
     button {
-      background: ${theme.colors.white};
       padding: 5px 50px;
       .button-text {
         font-size: ${theme.fontSize.semiRegular};

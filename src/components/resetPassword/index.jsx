@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPasswordAction, clearAll } from "./action";
-import { Title, Input, IconButton, Loading } from "../common";
+import { Title, Input, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
@@ -54,44 +54,50 @@ const ResetPassword = () => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Reset Password"}></Title>
+              <Title text={"Reset Password"} icon={false}></Title>
             </Col>
           </Row>
-          <Form noValidate validated={validated} onSubmit={onResetPassword}>
-            <div className="form-container">
-              {errors && errors.length ? (
-                <Alert variant={"danger"} className="text-left">
-                  {errors.map((each, index) => {
-                    return <div key={index}>{each}</div>;
-                  })}
-                </Alert>
-              ) : null}
-              <Row>
+          <div className="content-container">
+            <Form noValidate validated={validated} onSubmit={onResetPassword}>
+              <div className="form-container">
+                {errors && errors.length ? (
+                  <Alert variant={"danger"} className="text-left">
+                    {errors.map((each, index) => {
+                      return <div key={index}>{each}</div>;
+                    })}
+                  </Alert>
+                ) : null}
+                <Row>
+                  <Col>
+                    <Input
+                      type="email"
+                      placeholder="Enter email"
+                      value={email}
+                      onChange={(e) => {
+                        changeEmail(e.target.value);
+                      }}
+                      required
+                      errorMessage={
+                        email
+                          ? Constants.Errors.invalid_email
+                          : Constants.Errors.email
+                      }
+                    />
+                  </Col>
+                </Row>
+              </div>
+
+              <Row className="button-container">
                 <Col>
-                  <Input
-                    type="email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={(e) => {
-                      changeEmail(e.target.value);
-                    }}
-                    required
-                    errorMessage={
-                      email
-                        ? Constants.Errors.invalid_email
-                        : Constants.Errors.email
-                    }
-                  />
+                  <PrimaryButton
+                    variant="primary"
+                    text={"Reset Password"}
+                    type="submit"
+                  ></PrimaryButton>
                 </Col>
               </Row>
-            </div>
-
-            <Row className="button-container">
-              <Col>
-                <IconButton text={"Reset Password"} type="submit"></IconButton>
-              </Col>
-            </Row>
-          </Form>
+            </Form>
+          </div>
         </Col>
       </Row>
       {resetPasswordReducer.loading && <Loading />}

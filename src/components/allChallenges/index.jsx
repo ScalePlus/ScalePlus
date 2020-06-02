@@ -24,7 +24,7 @@ const AllChallenges = ({ history }) => {
               <Col>
                 <div className="button-container">
                   <PrimaryButton
-                    variant="secondary"
+                    variant="light"
                     text={"Subscribe"}
                     onClick={() => {
                       setShow(true);

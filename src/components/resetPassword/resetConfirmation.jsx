@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPasswordAction } from "./action";
-import { Title, IconButton, Loading } from "../common";
+import { Title, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 
 const ResetConfirmation = ({ history }) => {
@@ -38,51 +38,60 @@ const ResetConfirmation = ({ history }) => {
           <Col lg={5} md={10} sm={12}>
             <Row className="title-container">
               <Col>
-                <Title text={"Reset Password"}></Title>
+                <Title text={"Reset Password"} icon={false}></Title>
               </Col>
             </Row>
 
-            <div className="description-container">
-              {errors && errors.length ? (
-                <Alert variant={"danger"} className="text-left">
-                  {errors.map((each, index) => {
-                    return <div key={index}>{each}</div>;
-                  })}
-                </Alert>
-              ) : null}
+            <div className="content-container">
+              <div className="description-container">
+                {errors && errors.length ? (
+                  <Alert variant={"danger"} className="text-left">
+                    {errors.map((each, index) => {
+                      return <div key={index}>{each}</div>;
+                    })}
+                  </Alert>
+                ) : null}
 
-              <Row>
+                <Row>
+                  <Col>
+                    <div className="bold-text">
+                      We sent a reset password email to{" "}
+                      {resetPasswordReducer.restPasswordSuccess.result.email}.
+                    </div>
+                    <div>
+                      <span>
+                        Please click the link to set your new password. Didn't
+                        receive the email yet? Please check your spam folder, or{" "}
+                      </span>
+                      <span
+                        className="resend-link"
+                        onClick={() => {
+                          forgotPasswordMethod({
+                            email:
+                              resetPasswordReducer.restPasswordSuccess.result
+                                .email,
+                          });
+                        }}
+                      >
+                        try again.
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+
+              <Row className="login-button-container">
                 <Col>
-                  We sent a reset password email to{" "}
-                  {resetPasswordReducer.restPasswordSuccess.result.email}.
-                  Please click the link to set your new password. Didn't receive
-                  the email yet? Please check your spam folder, or{" "}
-                  <span
-                    className="resend-link"
+                  <PrimaryButton
+                    variant="primary"
+                    text={"Login"}
                     onClick={() => {
-                      forgotPasswordMethod({
-                        email:
-                          resetPasswordReducer.restPasswordSuccess.result.email,
-                      });
+                      history.push("/login");
                     }}
-                  >
-                    try again.
-                  </span>
+                  ></PrimaryButton>
                 </Col>
               </Row>
             </div>
-
-            <Row className="login-button-container">
-              <Col>
-                <IconButton
-                  text={"Login"}
-                  type="button"
-                  onClick={() => {
-                    history.push("/login");
-                  }}
-                ></IconButton>
-              </Col>
-            </Row>
           </Col>
         </Row>
       ) : (

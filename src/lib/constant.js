@@ -3,15 +3,21 @@ export const Constants = {
   isURL: new RegExp(
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
   ),
+  isValidPassword: new RegExp(
+    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/g
+  ),
   ROLES: {
     STARTUP_INDIVIDUAL: "Startup or Individual",
     ORGANIZATION: "Organization",
     MENTOR_JUDGE: "Mentor / Judge",
   },
   Errors: {
+    fname: "First name is required",
+    lname: "Last name is required",
     email: "Email is required",
     invalid_email: "Invalid Email",
     password: "Password is required",
+    invalid_password: "Invalid password",
     confirmPassword: "Confirm password is required",
     passwordMismatch: "Password does not match",
     role: "Role is required",

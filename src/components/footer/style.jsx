@@ -57,7 +57,7 @@ export const MainContainer = styled.div`
         }
       }
       button {
-        background: ${theme.colors.white};
+        border: none;
         padding: 8px 50px;
         .button-text {
           font-size: ${theme.fontSize.semiRegular};

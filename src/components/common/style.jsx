@@ -1,12 +1,63 @@
 import styled from "styled-components";
 import theme from "../../theme";
 
+export const SocialLoginContainer = styled.div`
+  width: 100%;
+  color: ${theme.colors.white};
+  background: ${(props) => props.background};
+  font-size: ${theme.fontSize.semiRegular};
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid ${(props) => props.border};
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  .text-container {
+    margin-left: 20px !important;
+    span {
+      vertical-align: middle;
+    }
+  }
+  .icon-container {
+    margin-right: 10px !important;
+  }
+  .icon-container::after {
+    content: "";
+    position: absolute;
+    height: 44px;
+    width: 2px;
+    background-color: ${(props) => props.border};
+    margin-top: -9px;
+    margin-left: 10px;
+    z-index: 1;
+  }
+`;
+
+export const ORDeviderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${theme.fontSize.mediumRegular};
+  font-family: ${theme.fontFamily.bold};
+  .left-border {
+    border-top: 1px solid #979797;
+    flex: 0.45;
+  }
+  .right-border {
+    border-top: 1px solid #979797;
+    flex: 0.45;
+  }
+  span {
+    flex: 0.1;
+  }
+`;
+
 export const TitleContainer = styled.span`
-  font-size: ${theme.fontSize.title};
-  font-weight: 600;
+  font-size: ${theme.fontSize.extraLarge};
+  font-family: ${theme.fontFamily.bold};
   .icon-container {
     color: ${theme.colors.yellow};
-    font-weight: 600;
+    font-family: ${theme.fontFamily.bold};
     cursor: pointer;
   }
 `;
@@ -25,12 +76,12 @@ export const ButtonContainer = styled.button`
   .button-text {
     cursor: pointer;
     font-size: ${theme.fontSize.medium};
-    font-weight: 600;
+    font-family: ${theme.fontFamily.bold};
   }
   .icon-container {
     color: ${theme.colors.yellow};
     font-size: ${theme.fontSize.medium};
-    font-weight: 600;
+    font-family: ${theme.fontFamily.bold};
     cursor: pointer;
   }
 `;

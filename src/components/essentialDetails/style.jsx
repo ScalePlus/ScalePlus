@@ -4,7 +4,7 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   text-align: center;
   .title-container {
-    margin-top: 80px;
+    margin-top: 40px;
   }
   .form-container {
     margin-top: 50px;
@@ -25,8 +25,13 @@ export const MainContainer = styled.div`
     }
   }
   .button-container {
-    margin-top: 60px;
-    margin-bottom: 60px;
+    margin-top: 35px;
+    margin-bottom: 80px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    button {
+      padding: 0px;
+    }
   }
 `;

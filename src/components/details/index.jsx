@@ -140,6 +140,7 @@ const OrganizationDetails = () => {
                     ? "Judge / Mentor Details"
                     : ""
                 }
+                icon={true}
               ></Title>
             </Col>
           </Row>
@@ -305,7 +306,10 @@ const OrganizationDetails = () => {
             </div>
             <Row className="button-container">
               <Col>
-                <IconButton text={"Business Tags"} type="submit"></IconButton>
+                <IconButton
+                  text={"Next: Business Tags"}
+                  type="submit"
+                ></IconButton>
               </Col>
             </Row>
           </Form>

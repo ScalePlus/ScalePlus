@@ -10,6 +10,15 @@ const Header = () => {
     { label: "HOW IT WORKS", link: "/workflow" },
     { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
   ]);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLinks((data) =>
+        data.concat({ label: "DASHBOARD", link: "/dashboard" })
+      );
+    }
+  }, []);
+
   const [activeKey, selectKey] = useState(
     links.find((each) => {
       return history.location.pathname === each.link;
@@ -32,14 +41,6 @@ const Header = () => {
     }
   });
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLinks((data) =>
-        data.concat({ label: "MY CHALLENGES", link: "/my/challenges" })
-      );
-    }
-  }, []);
-
   return (
     <Container>
       <Navbar
@@ -50,7 +51,7 @@ const Header = () => {
         }}
         expanded={expanded}
       >
-        <Navbar.Brand href="/dashboard">
+        <Navbar.Brand href="/home">
           <img src={"/images/scaleplus-logo.png"} alt=""></img>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

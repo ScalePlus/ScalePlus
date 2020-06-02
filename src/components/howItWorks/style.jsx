@@ -91,7 +91,7 @@ export const MainContainer = styled.div`
     align-items: center;
   }
   .expert-container .button-container button {
-    background: ${theme.colors.white};
+    border: none;
     padding: 20px 50px;
   }
   .expect-container {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Input, PrimaryButton } from "../common";
 import { MainContainer } from "./style";
+import history from "../../history";
 
 const Footer = () => {
   return (
@@ -27,7 +28,7 @@ const Footer = () => {
                   <div className="form-container">
                     <Input type="email" placeholder="Your email address" />
                     <PrimaryButton
-                      variant="secondary"
+                      variant="light"
                       text={"Subscribe"}
                       onClick={() => {}}
                     ></PrimaryButton>
@@ -47,7 +48,12 @@ const Footer = () => {
               sm={{ span: 3, offset: 1 }}
               xs={{ span: 5, offset: 1 }}
             >
-              <div className="logo-container">
+              <div
+                className="logo-container"
+                onClick={() => {
+                  history.push("/home");
+                }}
+              >
                 <img
                   src={"/images/scaleplus-logo.png"}
                   height="45px"

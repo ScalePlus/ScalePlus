@@ -12,6 +12,8 @@ import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import ReactQuill from "react-quill";
 import {
+  SocialLoginContainer,
+  ORDeviderContainer,
   TitleContainer,
   DescriptionContainer,
   ButtonContainer,
@@ -31,11 +33,39 @@ import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
 
-export const Title = React.memo(({ text }) => {
+export const SocialLoginButton = React.memo(
+  ({ text, icon, svgIcon, background, border }) => {
+    return (
+      <SocialLoginContainer background={background} border={border}>
+        {icon && (
+          <div className="icon-container">
+            <img src={icon} alt="" height={25} width={25} />{" "}
+          </div>
+        )}
+        {svgIcon && <div className="icon-container">{svgIcon}</div>}
+        <div className="text-container">
+          <span>{text}</span>
+        </div>
+      </SocialLoginContainer>
+    );
+  }
+);
+
+export const OrDevider = React.memo(() => {
+  return (
+    <ORDeviderContainer>
+      <div className="left-border"></div>
+      <span>or</span>
+      <div className="right-border"></div>
+    </ORDeviderContainer>
+  );
+});
+
+export const Title = React.memo(({ text, icon }) => {
   return (
     <TitleContainer>
       {text}
-      <span className="icon-container">+</span>
+      {icon && <span className="icon-container">+</span>}
     </TitleContainer>
   );
 });
@@ -146,9 +176,10 @@ export const CheckBox = React.memo(
           className="large-checkbox"
           type="checkbox"
           id={`checkbox`}
-          label={checkBoxText}
+          label={""}
           {...props}
         />
+        <div className="checkbox-label">{checkBoxText}</div>
         {errorMessage && (
           <Form.Control.Feedback className="text-left" type="invalid">
             {errorMessage}
@@ -387,7 +418,7 @@ export const DateInput = React.memo(
           src={"/images/interface.svg"}
           className="calendar-icon"
           style={{
-            marginTop: isSmall ? "-32px" : "-48px",
+            marginTop: isSmall ? "-32px" : "-42px",
             marginRight: isSmall ? "15px" : "20px",
           }}
           height="25px"
@@ -427,7 +458,7 @@ export const DropDown = React.memo(
       control: (provided, state) => ({
         ...provided,
         padding: isSmall ? "0px 10px 0px 0px" : "10px 20px",
-        minHeight: isSmall ? "40px" : "70px",
+        minHeight: isSmall ? "40px" : "60px",
         border: `1px solid ${theme.colors.borderGrey}`,
         borderColor: theme.colors.borderGrey,
         borderRadius: "6px",

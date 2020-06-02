@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changePasswordAction } from "./action";
-import { Title, PassInput, IconButton, Loading } from "../common";
+import { Title, PassInput, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
@@ -44,6 +44,7 @@ const ChangePassword = ({ match }) => {
     if (
       password &&
       confirmPassword &&
+      password.match(Constants.isValidPassword) &&
       password === confirmPassword &&
       match.params.resetPasswordCode &&
       form.checkValidity()
@@ -61,56 +62,76 @@ const ChangePassword = ({ match }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Change Password"}></Title>
+              <Title text={"Change Password"} icon={false}></Title>
             </Col>
           </Row>
-          <Form noValidate validated={validated} onSubmit={onChangePassword}>
-            <div className="form-container">
-              {errors && errors.length ? (
-                <Alert variant={"danger"} className="text-left">
-                  {errors.map((each, index) => {
-                    return <div key={index}>{each}</div>;
-                  })}
-                </Alert>
-              ) : null}
-              <Row>
+          <div className="content-container">
+            <Form noValidate validated={validated} onSubmit={onChangePassword}>
+              <div className="form-container">
+                {errors && errors.length ? (
+                  <Alert variant={"danger"} className="text-left">
+                    {errors.map((each, index) => {
+                      return <div key={index}>{each}</div>;
+                    })}
+                  </Alert>
+                ) : null}
+                <Row>
+                  <Col>
+                    <PassInput
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => {
+                        changePassword(e.target.value);
+                      }}
+                      isInvalid={
+                        !password ||
+                        (password && !password.match(Constants.isValidPassword))
+                      }
+                      errorMessage={
+                        password
+                          ? Constants.Errors.invalid_password
+                          : Constants.Errors.password
+                      }
+                    />
+                    <div className="password-feedback">
+                      <span>
+                        Your password must be at least 8 characters long and
+                        must contain a minimum of 1 letter, 1 number, and 1
+                        special character.
+                      </span>
+                    </div>
+                    <PassInput
+                      placeholder="Confirm Password"
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        changeConfirmPassword(e.target.value);
+                      }}
+                      isInvalid={
+                        !confirmPassword ||
+                        (password &&
+                          confirmPassword &&
+                          password !== confirmPassword)
+                      }
+                      errorMessage={
+                        confirmPassword
+                          ? Constants.Errors.passwordMismatch
+                          : Constants.Errors.confirmPassword
+                      }
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <Row className="button-container">
                 <Col>
-                  <PassInput
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => {
-                      changePassword(e.target.value);
-                    }}
-                    required
-                    errorMessage={Constants.Errors.password}
-                  />
-                  <PassInput
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => {
-                      changeConfirmPassword(e.target.value);
-                    }}
-                    isInvalid={
-                      !confirmPassword ||
-                      (password &&
-                        confirmPassword &&
-                        password !== confirmPassword)
-                    }
-                    errorMessage={
-                      confirmPassword
-                        ? Constants.Errors.passwordMismatch
-                        : Constants.Errors.confirmPassword
-                    }
-                  />
+                  <PrimaryButton
+                    variant="primary"
+                    text={"Change Password"}
+                    type="submit"
+                  ></PrimaryButton>
                 </Col>
               </Row>
-            </div>
-            <Row className="button-container">
-              <Col>
-                <IconButton text={"Change Password"} type="submit"></IconButton>
-              </Col>
-            </Row>
-          </Form>
+            </Form>
+          </div>
         </Col>
       </Row>
       {resetPasswordReducer.loading && <Loading />}

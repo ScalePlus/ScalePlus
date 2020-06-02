@@ -137,7 +137,7 @@ const EssentialDetail = ({ history }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Essential Detail"}></Title>
+              <Title text={"Essential Detail"} icon={true}></Title>
             </Col>
           </Row>
 
@@ -294,54 +294,53 @@ const EssentialDetail = ({ history }) => {
               </>
             ) : null}
 
-            <Row className="button-container">
-              <Col lg={2} md={2} sm={2} xs={2}>
-                <BackButton
-                  text={"Back"}
-                  onClick={() => {
-                    if (isStartUp_Individual || isOrganisation) {
-                      if (
-                        textAreaValue &&
-                        coreBusiness &&
-                        marketStage &&
-                        funding
-                      ) {
+            <Row>
+              <Col>
+                <div className="button-container">
+                  <BackButton
+                    text={"Back"}
+                    onClick={() => {
+                      if (isStartUp_Individual || isOrganisation) {
+                        if (
+                          textAreaValue &&
+                          coreBusiness &&
+                          marketStage &&
+                          funding
+                        ) {
+                          preserveDataMethod({
+                            companyDesciption: textAreaValue,
+                            coreBusiness,
+                            marketStage,
+                            funding,
+                          });
+                        }
+                      }
+
+                      if (isMentor_Judge) {
                         preserveDataMethod({
-                          companyDesciption: textAreaValue,
+                          summary: textAreaValue,
                           coreBusiness,
-                          marketStage,
-                          funding,
+                          expertise: marketStage,
                         });
                       }
-                    }
 
-                    if (isMentor_Judge) {
-                      preserveDataMethod({
-                        summary: textAreaValue,
-                        coreBusiness,
-                        expertise: marketStage,
-                      });
+                      history.goBack();
+                    }}
+                  ></BackButton>
+                  <IconButton
+                    text={
+                      isStartUp_Individual
+                        ? "Add Members"
+                        : isOrganisation
+                        ? "Create My Account"
+                        : isMentor_Judge
+                        ? "Join"
+                        : ""
                     }
-
-                    history.goBack();
-                  }}
-                ></BackButton>
+                    type="submit"
+                  ></IconButton>
+                </div>
               </Col>
-              <Col lg={8} md={8} sm={8} xs={8}>
-                <IconButton
-                  text={
-                    isStartUp_Individual
-                      ? "Add Members"
-                      : isOrganisation
-                      ? "Create My Account"
-                      : isMentor_Judge
-                      ? "Join"
-                      : ""
-                  }
-                  type="submit"
-                ></IconButton>
-              </Col>
-              <Col lg={2} md={2} sm={2} xs={2} />
             </Row>
           </Form>
         </Col>

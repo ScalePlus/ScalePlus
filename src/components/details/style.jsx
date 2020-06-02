@@ -4,10 +4,11 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   text-align: center;
   .title-container {
-    margin-top: 80px;
+    margin-top: 40px;
   }
   .description-container {
-    margin-top: 15px;
+    margin-top: 30px;
+    font-family: ${theme.fontFamily.bold};
   }
   .form-container {
     margin-top: 15px;
@@ -34,7 +35,12 @@ export const MainContainer = styled.div`
     font-size: ${theme.fontSize.regular};
   }
   .button-container {
-    margin: 50px 0px;
+    text-align: right;
+    margin-top: 35px;
+    margin-bottom: 80px;
+    button {
+      padding: 0px;
+    }
   }
   .active {
     color: ${theme.colors.black};

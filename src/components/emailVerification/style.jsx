@@ -4,27 +4,49 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   text-align: center;
   .title-container {
-    margin-top: 80px;
+    margin-top: 40px;
+  }
+  .content-container {
+    margin-top: 20px;
+    border: 1px solid #979797;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 12px 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-bottom: 150px;
   }
   .description-container {
     font-weight: 600;
-    font-size: ${theme.fontSize.small};
+    font-size: ${theme.fontSize.regular};
     margin-top: 25px;
+    margin-bottom: 85px;
   }
   .verified-description-container {
     font-weight: 600;
-    font-size: ${theme.fontSize.small};
-    margin-top: 80px;
+    font-size: ${theme.fontSize.regular};
+    margin-top: 10px;
+    margin-bottom: 40px;
+    .thanks-text {
+      font-size: ${theme.fontSize.mediumRegular};
+      font-family: ${theme.fontFamily.bold};
+    }
   }
   .form-container {
-    margin-top: 50px;
+    margin-top: 10px;
   }
   .button-container {
-    margin-top: 65px;
+    margin-bottom: 20px;
   }
+
+  .button-container,
   .bottom-container {
-    margin: 80px 0px;
-    color: ${theme.colors.gray};
+    button {
+      width: 100%;
+      padding: 20px 0px;
+      .button-text {
+        font-size: ${theme.fontSize.semiRegular};
+      }
+    }
   }
   .resend-link {
     cursor: pointer;

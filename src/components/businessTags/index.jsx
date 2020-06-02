@@ -204,7 +204,7 @@ const BusinessTags = ({ history }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Business Tags"}></Title>
+              <Title text={"Business Tags"} icon={true}></Title>
             </Col>
           </Row>
           <Form
@@ -369,61 +369,61 @@ const BusinessTags = ({ history }) => {
               </Col>
             </Row>
 
-            <Row className="button-container">
-              <Col lg={2} md={2} sm={2} xs={2}>
-                <BackButton
-                  text={"Back"}
-                  onClick={() => {
-                    preserveDataMethod({
-                      industry:
-                        selectedIndustries && selectedIndustries.length
-                          ? selectedIndustries.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : [],
-                      services:
-                        selectedServices && selectedServices.length
-                          ? selectedServices.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : null,
-                      technology:
-                        selectedTechnologies && selectedTechnologies.length
-                          ? selectedTechnologies.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : [],
-                      businessModel:
-                        selectedBusinessModels && selectedBusinessModels.length
-                          ? selectedBusinessModels.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : [],
-                      targetMarket:
-                        selectedTargetMarkets && selectedTargetMarkets.length
-                          ? selectedTargetMarkets.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : [],
-                      georgraphicalMarket:
-                        selectedGeographicalMarket &&
-                        selectedGeographicalMarket.length
-                          ? selectedGeographicalMarket.map((each) => {
-                              return { _id: each.value, name: each.label };
-                            })
-                          : [],
-                    });
-                    history.goBack();
-                  }}
-                ></BackButton>
+            <Row>
+              <Col>
+                <div className="button-container">
+                  <BackButton
+                    text={"Back"}
+                    onClick={() => {
+                      preserveDataMethod({
+                        industry:
+                          selectedIndustries && selectedIndustries.length
+                            ? selectedIndustries.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : [],
+                        services:
+                          selectedServices && selectedServices.length
+                            ? selectedServices.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : null,
+                        technology:
+                          selectedTechnologies && selectedTechnologies.length
+                            ? selectedTechnologies.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : [],
+                        businessModel:
+                          selectedBusinessModels &&
+                          selectedBusinessModels.length
+                            ? selectedBusinessModels.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : [],
+                        targetMarket:
+                          selectedTargetMarkets && selectedTargetMarkets.length
+                            ? selectedTargetMarkets.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : [],
+                        georgraphicalMarket:
+                          selectedGeographicalMarket &&
+                          selectedGeographicalMarket.length
+                            ? selectedGeographicalMarket.map((each) => {
+                                return { _id: each.value, name: each.label };
+                              })
+                            : [],
+                      });
+                      history.goBack();
+                    }}
+                  ></BackButton>
+                  <IconButton
+                    text={"Next: Essential Details"}
+                    type="submit"
+                  ></IconButton>
+                </div>
               </Col>
-              <Col lg={8} md={8} sm={8} xs={8}>
-                <IconButton
-                  text={"Essential Details"}
-                  type="submit"
-                ></IconButton>
-              </Col>
-              <Col lg={2} md={2} sm={2} xs={2} />
             </Row>
           </Form>
         </Col>

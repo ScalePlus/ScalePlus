@@ -14,7 +14,6 @@ import ChallengeMaster from "./components/challengeMaster";
 import ChallengeConfirmation from "./components/challengeMaster/confirmation";
 import ChallengePreview from "./components/challengePreview";
 import ChallengeEdit from "./components/challengeEdit";
-import Dashboard from "./components/dashboard";
 import AllChallenges from "./components/allChallenges";
 import HowItWorks from "./components/howItWorks";
 import MyChallenges from "./components/myChallenges";
@@ -115,7 +114,7 @@ const MainRouter = () => {
             path="/dashboard"
             exact
             layout={MainLayout}
-            component={Dashboard}
+            component={MyChallenges}
           />
           <AuthRoute
             path="/detail"
@@ -170,12 +169,6 @@ const MainRouter = () => {
             exact
             layout={MainLayout}
             component={HowItWorks}
-          />
-          <AuthRoute
-            path="/my/challenges"
-            exact
-            layout={MainLayout}
-            component={MyChallenges}
           />
           <OpenRoute path="/home" exact layout={MainLayout} component={Home} />
           <Redirect

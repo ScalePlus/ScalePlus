@@ -91,7 +91,7 @@ const HowItWorks = () => {
                 </div>
                 <div className="button-container">
                   <PrimaryButton
-                    variant="secondary"
+                    variant="light"
                     text={"Meet Our Challenge Expert"}
                     onClick={() => {}}
                   ></PrimaryButton>

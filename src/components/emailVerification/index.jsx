@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
 import { getUser } from "../signin/action";
 import { MainContainer } from "./style";
-import { Title, Input, IconButton, Loading } from "../common";
+import { Title, Input, PrimaryButton, Loading } from "../common";
 import { Constants } from "../../lib/constant";
 
 const EmailVerification = ({ history, match }) => {
@@ -30,6 +29,11 @@ const EmailVerification = ({ history, match }) => {
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(null);
   const [validated, setValidated] = useState(false);
+  const isVerified =
+    emailVerificationReducer.success ||
+    (signinReducer &&
+      signinReducer.userData &&
+      signinReducer.userData.emailVerification);
 
   useEffect(() => {
     getUserMethod(match.params.id);
@@ -90,182 +94,191 @@ const EmailVerification = ({ history, match }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center">
-        <Col lg={6} md={10} sm={12}>
+        <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
               <Title
                 text={
-                  emailVerificationReducer.success ||
-                  (signinReducer &&
-                    signinReducer.userData &&
-                    signinReducer.userData.emailVerification)
-                    ? localStorage.getItem("userRole") +
-                      " " +
+                  isVerified
+                    ? // localStorage.getItem("userRole") +
+                      //   " " +
                       `Account Verified`
-                    : "Email Verification"
+                    : "Verification"
                 }
+                icon={false}
               />
             </Col>
           </Row>
-
-          <Form
-            noValidate
-            validated={validated}
-            id="verify-email-form"
-            onSubmit={onVerify}
-          >
-            {emailVerificationReducer.success ||
-            (signinReducer &&
-              signinReducer.userData &&
-              signinReducer.userData.emailVerification) ? null : (
-              <Row className="justify-content-center">
-                <Col lg={7} md={10} sm={10}>
-                  <div className="form-container">
-                    {errors && errors.length ? (
-                      <Alert variant={"danger"} className="text-left">
-                        {errors.map((each, index) => {
-                          return <div key={index}>{each}</div>;
-                        })}
-                      </Alert>
-                    ) : null}
-                    {success ? (
-                      <Alert variant={"success"} className="text-left">
-                        <div>{success}</div>
-                      </Alert>
-                    ) : null}
-                    <Row className="justify-content-center ">
-                      <Col md={3} sm={3} xs={3}>
-                        <Input
-                          type="text"
-                          max={1}
-                          value={first}
-                          onChange={(e) => {
-                            setFirst(e.target.value);
-                          }}
-                          required
-                        />
-                      </Col>
-                      <Col md={3} sm={3} xs={3}>
-                        <Input
-                          type="text"
-                          max={1}
-                          value={second}
-                          onChange={(e) => {
-                            setSecond(e.target.value);
-                          }}
-                          required
-                        />
-                      </Col>
-                      <Col md={3} sm={3} xs={3}>
-                        <Input
-                          type="text"
-                          max={1}
-                          value={third}
-                          onChange={(e) => {
-                            setThird(e.target.value);
-                          }}
-                          required
-                        />
-                      </Col>
-                      <Col md={3} sm={3} xs={3}>
-                        <Input
-                          type="text"
-                          max={1}
-                          value={forth}
-                          onChange={(e) => {
-                            setForth(e.target.value);
-                          }}
-                          required
-                        />
-                      </Col>
-                    </Row>
-                    <Row
-                      className="justify-content-center"
-                      style={{ marginTop: "-0.8rem" }}
-                    >
-                      <Col>
-                        {!first || !second || !third || !forth ? (
-                          <Form.Text className="invalid-text text-center">
-                            {Constants.Errors.verificationCode}
-                          </Form.Text>
-                        ) : null}
-                      </Col>
-                    </Row>
-                  </div>
-                </Col>
-              </Row>
-            )}
-
-            <Row
-              className={
-                emailVerificationReducer.success ||
-                (signinReducer &&
-                  signinReducer.userData &&
-                  signinReducer.userData.emailVerification)
-                  ? "verified-description-container"
-                  : "description-container"
-              }
+          <div className="content-container">
+            <Form
+              noValidate
+              validated={validated}
+              id="verify-email-form"
+              onSubmit={onVerify}
             >
-              {emailVerificationReducer.success ||
-              (signinReducer &&
-                signinReducer.userData &&
-                signinReducer.userData.emailVerification) ? (
-                <Col>
-                  Thank you for verifying your email, you can login to manage
-                  your account in order to be able to create challenges
-                </Col>
-              ) : (
-                <Col>
-                  Please enter the verification code that was sent to your email
-                  address.{" "}
-                  {signinReducer &&
-                    signinReducer.userData &&
-                    signinReducer.userData.email}
-                  <span className="seprator">|</span>
-                  <span
-                    className="resend-link"
-                    onClick={resendVerificationMethod}
-                  >
-                    Resend Email
-                  </span>
-                </Col>
+              {isVerified ? null : (
+                <Row className="justify-content-center">
+                  <Col lg={8} md={10} sm={10}>
+                    <div className="form-container">
+                      {errors && errors.length ? (
+                        <Alert variant={"danger"} className="text-left">
+                          {errors.map((each, index) => {
+                            return <div key={index}>{each}</div>;
+                          })}
+                        </Alert>
+                      ) : null}
+                      {success ? (
+                        <Alert variant={"success"} className="text-left">
+                          <div>{success}</div>
+                        </Alert>
+                      ) : null}
+                      <Row className="justify-content-center ">
+                        <Col md={3} sm={3} xs={3}>
+                          <Input
+                            type="text"
+                            max={1}
+                            value={first}
+                            onChange={(e) => {
+                              setFirst(e.target.value);
+                            }}
+                            required
+                          />
+                        </Col>
+                        <Col md={3} sm={3} xs={3}>
+                          <Input
+                            type="text"
+                            max={1}
+                            value={second}
+                            onChange={(e) => {
+                              setSecond(e.target.value);
+                            }}
+                            required
+                          />
+                        </Col>
+                        <Col md={3} sm={3} xs={3}>
+                          <Input
+                            type="text"
+                            max={1}
+                            value={third}
+                            onChange={(e) => {
+                              setThird(e.target.value);
+                            }}
+                            required
+                          />
+                        </Col>
+                        <Col md={3} sm={3} xs={3}>
+                          <Input
+                            type="text"
+                            max={1}
+                            value={forth}
+                            onChange={(e) => {
+                              setForth(e.target.value);
+                            }}
+                            required
+                          />
+                        </Col>
+                      </Row>
+                      <Row
+                        className="justify-content-center"
+                        style={{ marginTop: "-0.8rem" }}
+                      >
+                        <Col>
+                          {!first || !second || !third || !forth ? (
+                            <Form.Text className="invalid-text text-center">
+                              {Constants.Errors.verificationCode}
+                            </Form.Text>
+                          ) : null}
+                        </Col>
+                      </Row>
+                    </div>
+                  </Col>
+                </Row>
               )}
-            </Row>
 
-            <Row className="button-container">
-              {emailVerificationReducer.success ||
-              (signinReducer &&
-                signinReducer.userData &&
-                signinReducer.userData.emailVerification) ? (
+              <Row
+                className={
+                  isVerified
+                    ? "verified-description-container"
+                    : "description-container"
+                }
+              >
+                {isVerified ? (
+                  <Col>
+                    <div className="thanks-text">
+                      <span>Thank you for verifying your email,</span>
+                    </div>
+                    <div>
+                      <span>
+                        you can login to manage your account in order to be able
+                        to create challenges
+                      </span>
+                    </div>
+                  </Col>
+                ) : (
+                  <Col>
+                    <div>
+                      <span>
+                        Please enter the verification code that was sent to your
+                        email address.
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        {signinReducer &&
+                          signinReducer.userData &&
+                          signinReducer.userData.email}
+                      </span>
+                      <span className="seprator">|</span>
+                      <span
+                        className="resend-link"
+                        onClick={resendVerificationMethod}
+                      >
+                        Resend Email
+                      </span>
+                    </div>
+                  </Col>
+                )}
+              </Row>
+
+              <Row
+                className="button-container"
+                style={{ marginBottom: isVerified ? "0px" : "20px" }}
+              >
+                {isVerified ? (
+                  <Col>
+                    <PrimaryButton
+                      variant="primary"
+                      text="Login"
+                      onClick={() => {
+                        history.push("/login");
+                      }}
+                    ></PrimaryButton>
+                  </Col>
+                ) : (
+                  <Col>
+                    <PrimaryButton
+                      variant="primary"
+                      text="Verify"
+                      type="submit"
+                    ></PrimaryButton>
+                  </Col>
+                )}
+              </Row>
+            </Form>
+            {isVerified ? null : (
+              <Row className="bottom-container">
                 <Col>
-                  <IconButton
-                    text={"Login"}
+                  <PrimaryButton
+                    variant="light"
+                    text="Have an account? Login"
                     onClick={() => {
                       history.push("/login");
                     }}
-                    type="button"
-                  />
+                  ></PrimaryButton>
                 </Col>
-              ) : (
-                <Col>
-                  <IconButton text={"Verify"} type="submit" />
-                </Col>
-              )}
-            </Row>
-          </Form>
-          {emailVerificationReducer.success ||
-          (signinReducer &&
-            signinReducer.userData &&
-            signinReducer.userData.emailVerification) ? null : (
-            <Row className="bottom-container">
-              <Col>
-                Have an Account?{" "}
-                <Link className="link" to="/login">
-                  Login
-                </Link>
-              </Col>
-            </Row>
-          )}
+              </Row>
+            )}
+          </div>
         </Col>
       </Row>
       {emailVerificationReducer.loading && <Loading />}
