@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, VeticalStepper } from "../common";
 import { MainContainer } from "./style";
 
-const Timeline = () => {
+const Timeline = ({ isStartUp_Individual }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -15,9 +15,13 @@ const Timeline = () => {
           />
         </Col>
       </Row>
-      <Row className="justify-content-center center-alignment">
+      <Row
+        className="justify-content-center center-alignment"
+        style={{ marginBottom: 80 }}
+      >
         <Col lg={11} md={11} sm={11} xs={11}>
           <VeticalStepper
+            isStartUp_Individual={isStartUp_Individual}
             steps={[
               {
                 active: false,
@@ -32,6 +36,11 @@ const Timeline = () => {
                 title: "Enter",
                 description:
                   "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
+                downloadFiles: [
+                  "Download Challenge entry form",
+                  "Download Some form",
+                  "Download Some form",
+                ],
               },
               {
                 active: true,
@@ -39,6 +48,11 @@ const Timeline = () => {
                 title: "You are here",
                 description:
                   "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
+                uploadFiles: [
+                  "Submit Challenge entry form",
+                  "Submit Some form",
+                  "Submit Challenge entry form",
+                ],
               },
               {
                 active: false,

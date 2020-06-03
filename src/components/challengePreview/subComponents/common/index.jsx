@@ -121,7 +121,7 @@ export const ExpandCollapse = React.memo(
   }
 );
 
-export const VeticalStepper = React.memo(({ steps }) => {
+export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
   const activeIndex = steps.findIndex((each) => {
     return each.active;
   });
@@ -163,6 +163,44 @@ export const VeticalStepper = React.memo(({ steps }) => {
                   {each.title && <div className="title">{each.title}</div>}
                   {each.description && (
                     <div className="description">{each.description}</div>
+                  )}
+                  {each.downloadFiles && each.downloadFiles.length && (
+                    <div className="download-files-container">
+                      <Row>
+                        {each.downloadFiles.map((fileName, index) => {
+                          return (
+                            <Col
+                              lg={{
+                                span: 5,
+                                offset: index % 2 === 0 ? 0 : 2,
+                              }}
+                              md={12}
+                              sm={12}
+                              xs={12}
+                              key={index}
+                            >
+                              <div className="download-block">
+                                <div className="icon-container">
+                                  <img
+                                    src="/images/attach.png"
+                                    alt=""
+                                    height="25px"
+                                    width="25px"
+                                  />
+                                </div>
+                                <div className="name">{fileName}</div>
+                                <div className="button-container">
+                                  <PrimaryButton
+                                    variant="success_light"
+                                    text={"Download attachment"}
+                                  ></PrimaryButton>
+                                </div>
+                              </div>
+                            </Col>
+                          );
+                        })}
+                      </Row>
+                    </div>
                   )}
                 </div>
               </div>

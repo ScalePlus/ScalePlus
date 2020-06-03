@@ -14,7 +14,10 @@ const Forum = () => {
           />
         </Col>
       </Row>
-      <Row className="justify-content-center center-alignment text-left">
+      <Row
+        className="justify-content-center center-alignment text-left"
+        style={{ marginBottom: 80 }}
+      >
         <Col lg={11} md={11} sm={11} xs={11}>
           <TableContainer>
             <div className="table-header-container">

@@ -27,7 +27,9 @@ const tabs = [
 ];
 
 const ChallengePreview = ({ history }) => {
-  const isOrganisation =
+  const isStartUp_Individual =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+    isOrganisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     isMentor_Judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
@@ -139,7 +141,7 @@ const ChallengePreview = ({ history }) => {
             <Updates />
           </Tab.Pane>
           <Tab.Pane eventKey="Timeline">
-            <Timeline />
+            <Timeline isStartUp_Individual={isStartUp_Individual} />
           </Tab.Pane>
           <Tab.Pane eventKey="Forum">
             <Forum />

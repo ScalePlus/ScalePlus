@@ -11,9 +11,19 @@ body {
   font-size: ${theme.fontSize.regular};
 }
 
-.col, [class*="col-"] ,.row{
+.col, [class*="col-"] {
   padding-right: 8px;
   padding-left: 8px;
+}
+
+.row{
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.container-fluid{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
 
 .main-layout,.modal-content {

@@ -15,7 +15,10 @@ const Resources = () => {
           />
         </Col>
       </Row>
-      <Row className="justify-content-center center-alignment">
+      <Row
+        className="justify-content-center center-alignment"
+        style={{ marginBottom: 80 }}
+      >
         <Col lg={11} md={11} sm={11} xs={11}>
           <ExpandCollapse
             title="Challenge NDA Document"

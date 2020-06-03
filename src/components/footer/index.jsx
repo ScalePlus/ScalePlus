@@ -16,9 +16,9 @@ const groups = [
 const Footer = () => {
   return (
     <MainContainer>
-      <Row>
-        <Col>
-          <div className="group-container">
+      <div className="group-container">
+        <Row>
+          <Col>
             <div className="groups">
               {groups.map((each, index) => {
                 return (
@@ -28,35 +28,31 @@ const Footer = () => {
                 );
               })}
             </div>
+          </Col>
+        </Row>
+      </div>
+
+      <Row className="subscribe-container">
+        <Col lg={9} md={9} sm={9} xs={9}>
+          <div className="content-container">
+            <div className="text">
+              <span>
+                Be the first to know when crowdsourcing projects like this are
+                posted.
+              </span>
+            </div>
+            <div className="form-container">
+              <Input type="email" placeholder="Your email address" />
+              <PrimaryButton
+                variant="light"
+                text={"Subscribe"}
+                onClick={() => {}}
+              ></PrimaryButton>
+            </div>
           </div>
         </Col>
       </Row>
-      <Row style={{ marginBottom: 70 }}>
-        <Col>
-          <div className="subscribe-container">
-            <Row className="justify-content-center">
-              <Col lg={9} md={9} sm={9} xs={9}>
-                <div className="content-container">
-                  <div className="text">
-                    <span>
-                      Be the first to know when crowdsourcing projects like this
-                      are posted.
-                    </span>
-                  </div>
-                  <div className="form-container">
-                    <Input type="email" placeholder="Your email address" />
-                    <PrimaryButton
-                      variant="light"
-                      text={"Subscribe"}
-                      onClick={() => {}}
-                    ></PrimaryButton>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </Col>
-      </Row>
+
       <Row className="justify-content-center" style={{ marginBottom: 25 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row className="align-items-center middle-container">

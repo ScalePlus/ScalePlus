@@ -223,6 +223,32 @@ export const StepperVerticalContainer = styled.div`
     .timestamp {
       font-size: ${theme.fontSize.semiRegular};
     }
+    .download-files-container {
+      border-top: 1px solid #979797;
+      margin-top: 15px;
+      .download-block {
+        display: flex;
+        align-items: center;
+        padding-top: 15px;
+        text-align: left;
+        .icon-container {
+          flex: 0.1;
+        }
+        .name {
+          flex: 0.5;
+          font-size: ${theme.fontSize.semiRegular};
+        }
+        .button-container {
+          flex: 0.4;
+          button {
+            width: 100%;
+            .button-text {
+              font-size: ${theme.fontSize.semiRegular};
+            }
+          }
+        }
+      }
+    }
   }
 
   .content.active {

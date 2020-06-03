@@ -104,6 +104,8 @@ export const PrimaryButtonContainer = styled.button`
       ? theme.colors.white
       : props.variant === "success"
       ? "#4CD964"
+      : props.variant === "success_light"
+      ? "#66E397"
       : props.variant === "danger"
       ? "#FF3B30"
       : "#5AC8FA"};
