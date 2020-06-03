@@ -1,25 +1,18 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import { PageTitle } from "../../../common";
+import { PageTitle, PrimaryButton } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 const tags = ["Challenge Tag", "Challenge Tag", "Challenge Tag"];
 
-const OverView = () => {
+const OverView = ({ isOrganisation, isMentor_Judge }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center image-box-container">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
             <Col lg={7} md={8} sm={12} xs={12}>
-              <div className="left-container">
-                <img
-                  src={"/images/image.svg"}
-                  height="150px"
-                  width="150px"
-                  alt=""
-                ></img>
-              </div>
+              <div className="left-container"></div>
             </Col>
             <Col lg={5} md={4} sm={12} xs={12}>
               <div className="right-container">
@@ -29,7 +22,10 @@ const OverView = () => {
                     return <span key={index}>{each}</span>;
                   })}
                 </div>
-                <div className="sub-text-container">
+                <div
+                  className="sub-text-container"
+                  style={{ marginBottom: !isOrganisation ? 30 : 60 }}
+                >
                   <span>
                     Give a tiny bot a new set of tools to explore the moon.
                     Share your ideas for a mini payload to make lunar
@@ -54,6 +50,21 @@ const OverView = () => {
                     </div>
                   </div>
                 </div>
+                {!isOrganisation && (
+                  <div className="button-container">
+                    <PrimaryButton
+                      variant="primary"
+                      text={
+                        isMentor_Judge
+                          ? "Judge this Challenge"
+                          : "Solve Challenge"
+                      }
+                      onClick={() => {
+                        alert("clicked");
+                      }}
+                    ></PrimaryButton>
+                  </div>
+                )}
               </div>
             </Col>
           </Row>
@@ -139,6 +150,21 @@ const OverView = () => {
             </div>
           </Col>
         </Row>
+        {!isOrganisation && (
+          <Row className="justify-content-center">
+            <Col lg={3} md={3} sm={3} xs={3} className="button-container">
+              <PrimaryButton
+                variant="primary"
+                text={
+                  isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
+                }
+                onClick={() => {
+                  alert("clicked");
+                }}
+              ></PrimaryButton>
+            </Col>
+          </Row>
+        )}
       </ContentContainer>
     </MainContainer>
   );

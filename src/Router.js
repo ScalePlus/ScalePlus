@@ -146,7 +146,7 @@ const MainRouter = () => {
             layout={MainLayout}
             component={ChallengeConfirmation}
           />
-          <AuthRoute
+          <OpenRoute
             path="/challenge/preview"
             exact
             layout={MainLayout}

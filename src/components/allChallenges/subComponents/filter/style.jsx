@@ -9,6 +9,16 @@ export const MainContainer = styled.div`
       line-height: 40px;
     }
   }
+
+  .form-control {
+    height: 70px;
+    font-family: ${theme.fontFamily.bold};
+    ::-webkit-input-placeholder {
+      color: ${theme.colors.black};
+      font-family: ${theme.fontFamily.bold};
+    }
+  }
+
   .tab-title-text,
   .tab-main-text,
   .active-tab .tab-main-text {

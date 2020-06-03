@@ -5,7 +5,7 @@ export const GlobalStyle = createGlobalStyle`
 body {
   margin: 0;
   padding: 0;
-  background-color: ${theme.colors.lightWhite} !important;
+  background-color: ${theme.colors.whiteSmokeTint4} !important;
   color: ${theme.colors.black};
   font-family: ${theme.fontFamily.regular};
   font-size: ${theme.fontSize.regular};
@@ -394,16 +394,15 @@ body {
   .modal-header,.modal-body{
     padding:0px;
   }
-  .modal-header{
-    background-color: ${theme.colors.yellow};
-    border:none;
-    border-radius:0;
-  }
   .modal-content,.modal-body{
     background-color: ${theme.colors.black};
     border:none;
     border-radius:0;
   }
+}
+
+.fade.modal.show{
+  padding-left: 0px !important;
 }
 
 .checkbox-label{

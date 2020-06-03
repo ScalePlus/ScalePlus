@@ -56,8 +56,10 @@ const Home = ({ history }) => {
                   <div className="button-container">
                     <PrimaryButton
                       variant="primary"
-                      text={"Evaluate My Challenge"}
-                      onClick={() => {}}
+                      text={"Create Challenge"}
+                      onClick={() => {
+                        history.push("/create/challenge");
+                      }}
                     ></PrimaryButton>
                   </div>
                 </div>
@@ -86,7 +88,9 @@ const Home = ({ history }) => {
                     <PrimaryButton
                       variant="primary"
                       text={"Solve Challenge"}
-                      onClick={() => {}}
+                      onClick={() => {
+                        history.push("/all/challenges");
+                      }}
                     ></PrimaryButton>
                   </div>
                 </div>

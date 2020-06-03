@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
 
 const Header = () => {
-  const [links, setLinks] = useState([
-    { label: "ALL CHALLENGES", link: "/all/challenges" },
-    { label: "HOW IT WORKS", link: "/workflow" },
-    { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
-  ]);
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLinks((data) =>
-        data.concat({ label: "DASHBOARD", link: "/dashboard" })
-      );
-    }
-  }, []);
-
+  const [links] = useState(
+    localStorage.getItem("token")
+      ? [
+          { label: "ALL CHALLENGES", link: "/all/challenges" },
+          { label: "HOW IT WORKS", link: "/workflow" },
+          { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
+          { label: "DASHBOARD", link: "/dashboard" },
+        ]
+      : [
+          { label: "ALL CHALLENGES", link: "/all/challenges" },
+          { label: "HOW IT WORKS", link: "/workflow" },
+          { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
+        ]
+  );
   const [activeKey, selectKey] = useState(
     links.find((each) => {
       return history.location.pathname === each.link;
@@ -64,6 +64,7 @@ const Header = () => {
                   onClick={() => {
                     onToggle(false);
                     history.push(each.link);
+                    selectKey(each.label);
                   }}
                 >
                   <Nav.Link eventKey={each.label}>{each.label}</Nav.Link>
@@ -71,26 +72,43 @@ const Header = () => {
               );
             })}
           </Nav>
-          <Navbar.Text
-            onClick={() => {
-              setShow(true);
-            }}
-          >
-            <img
-              src={"/images/search.png"}
-              className="search-img"
-              height="25px"
-              width="25px"
-              alt=""
-            ></img>
-            <span>Search</span>
-          </Navbar.Text>
+          {localStorage.getItem("token") && (
+            <div className="notification-container">
+              <div className="bell-img">
+                <Navbar.Text>
+                  <img
+                    src={"/images/bell.png"}
+                    height="30px"
+                    width="30px"
+                    alt=""
+                  ></img>
+                </Navbar.Text>
+              </div>
+              <div className="notification-circle"></div>
+            </div>
+          )}
+          <div className="search-img">
+            <Navbar.Text
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              <img
+                src={"/images/search.png"}
+                height="25px"
+                width="25px"
+                alt=""
+              ></img>
+              <span className="search-text">Search</span>
+            </Navbar.Text>
+          </div>
           <div className="action-container">
             {localStorage.getItem("token") ? (
               <NavDropdown title="Account">
                 <NavDropdown.Item
                   onClick={() => {
                     history.push("/detail");
+                    onToggle(false);
                   }}
                 >
                   Update Profile
@@ -99,6 +117,7 @@ const Header = () => {
                   href="/"
                   onClick={() => {
                     localStorage.clear();
+                    onToggle(false);
                   }}
                 >
                   Logout
@@ -108,17 +127,19 @@ const Header = () => {
               <span
                 onClick={() => {
                   history.push("/register");
+                  onToggle(false);
                 }}
               >
-                Register
+                Sign up
               </span>
             ) : (
               <span
                 onClick={() => {
                   history.push("/login");
+                  onToggle(false);
                 }}
               >
-                Login
+                Sign in
               </span>
             )}
           </div>

@@ -53,6 +53,13 @@ export const MainContainer = styled.div`
     padding: 10px;
   }
   .timer-image-container {
+    height: 340px;
+    width: 360px;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
     @media (min-width: 576px) {
       justify-content: center;
     }
@@ -66,6 +73,13 @@ export const MainContainer = styled.div`
     }
   }
   .live-image-container {
+    height: 340px;
+    width: 340px;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
     @media (min-width: 576px) {
       justify-content: center;
     }
@@ -107,7 +121,7 @@ export const MainContainer = styled.div`
       font-size: ${theme.fontSize.extraMedium};
     }
     .content-bar {
-      padding: 15px 0px;
+      padding: 15px;
     }
   }
 `;

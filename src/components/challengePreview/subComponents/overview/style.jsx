@@ -8,13 +8,11 @@ export const MainContainer = styled.div`
   }
   .left-container {
     height: 400px;
-    border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
     background-color: ${theme.colors.white};
     margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-image: url("/images/Rectangle1.png");
+    background-size: cover;
   }
   .right-container {
     margin-bottom: 25px;
@@ -35,7 +33,6 @@ export const MainContainer = styled.div`
       }
     }
     .sub-text-container {
-      margin-bottom: 60px;
       span {
         margin-right: 5px;
         font-size: ${theme.fontSize.medium};
@@ -51,6 +48,16 @@ export const MainContainer = styled.div`
       }
       .title-text {
         color: ${theme.colors.gray};
+      }
+    }
+    .button-container {
+      margin-top: 20px;
+      button {
+        width: 100%;
+        padding: 15px;
+        .button-text {
+          font-size: ${theme.fontSize.semiRegular};
+        }
       }
     }
   }
@@ -76,5 +83,17 @@ export const ContentContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .button-container {
+    margin-top: 15px;
+    margin-bottom: 80px;
+    button {
+      width: 100%;
+      padding: 15px;
+      .button-text {
+        font-size: ${theme.fontSize.semiRegular};
+      }
+    }
   }
 `;

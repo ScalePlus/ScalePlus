@@ -151,6 +151,7 @@ const SignIn = ({ history }) => {
                 <Col>
                   <div className="remember-container">
                     <CheckBox
+                      id={`checkbox-1`}
                       checkBoxText="Remember me"
                       checked={check}
                       onChange={() => {

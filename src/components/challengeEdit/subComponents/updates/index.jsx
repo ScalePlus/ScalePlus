@@ -58,6 +58,7 @@ const Updates = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <CheckBox
+              id={`checkbox-1`}
               checkBoxText="Enable Updates tab"
               checked={check}
               onChange={() => {

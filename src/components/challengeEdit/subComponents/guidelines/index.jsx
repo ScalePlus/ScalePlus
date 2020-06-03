@@ -48,6 +48,7 @@ const Guidelines = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <CheckBox
+              id={`checkbox-1`}
               checkBoxText="Enable Guidelines tab"
               checked={check}
               onChange={() => {

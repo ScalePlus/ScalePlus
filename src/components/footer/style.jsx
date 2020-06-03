@@ -2,10 +2,20 @@ import styled from "styled-components";
 import theme from "../../theme";
 export const MainContainer = styled.div`
   .group-container {
-    height: 130px;
+    min-height: 130px;
     background-color: ${theme.colors.whiteSmokeTint2};
     background-image: url("/images/partner-bg.png");
     background-size: cover;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .groups {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
   }
   .subscribe-container {
     min-height: 100px;
@@ -22,12 +32,6 @@ export const MainContainer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-  .form-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    flex: 1;
-  }
   .content-container {
     .text {
       font-size: ${theme.fontSize.mediumRegular};
@@ -38,27 +42,22 @@ export const MainContainer = styled.div`
       }
     }
     .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      flex: 1;
       .form-group {
-        flex: 1;
-        @media (min-width: 576px) {
-          margin-right: 10px;
-        }
-
-        @media (min-width: 768px) {
-          margin-right: 10px;
-        }
-
-        @media (min-width: 992px) {
-          margin-right: 10px;
-        }
-
+        flex: 0.7;
+        margin-right: 10px;
         .form-control {
           height: 40px;
         }
       }
       button {
+        flex: 0.3;
         border: none;
-        padding: 8px 50px;
+        width: 100%;
+        padding: 8px 0px;
         .button-text {
           font-size: ${theme.fontSize.semiRegular};
         }

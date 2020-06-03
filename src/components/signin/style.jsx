@@ -29,11 +29,11 @@ export const MainContainer = styled.div`
     flex-wrap: wrap;
     margin-bottom: 30px;
     .google-button {
-      margin-right: 10px;
+      margin-right: 5px;
       flex: 0.5;
     }
     .linkedin-button {
-      margin-left: 10px;
+      margin-left: 5px;
       flex: 0.5;
     }
   }

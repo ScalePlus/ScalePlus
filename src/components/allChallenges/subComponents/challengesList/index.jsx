@@ -31,36 +31,33 @@ const ChallengesList = ({ history }) => {
               </div>
             </Col>
           </Row>
-          {localStorage.getItem("token") && (
-            <Row>
-              <Col>
-                <div className="sub-header-container">
-                  <div className="text">
-                    <span>Find a challenge, solve it, make a difference</span>
+
+          <Row>
+            <Col>
+              <div className="sub-header-container">
+                <div className="text">
+                  <span>Find a challenge, solve it, make a difference</span>
+                </div>
+                <div className="filter-container" onClick={() => setShow(true)}>
+                  <div>
+                    <img
+                      src={"/images/filter-icon.png"}
+                      height="20px"
+                      width="20px"
+                      alt=""
+                    ></img>
                   </div>
-                  <div
-                    className="filter-container"
-                    onClick={() => setShow(true)}
-                  >
-                    <div>
-                      <img
-                        src={"/images/filter-icon.png"}
-                        height="20px"
-                        width="20px"
-                        alt=""
-                      ></img>
-                    </div>
-                    <div className="filter-text">
-                      <span>Filters</span>
-                    </div>
-                    <div className="filter-count">
-                      <span className="count-text">2</span>
-                    </div>
+                  <div className="filter-text">
+                    <span>Filters</span>
+                  </div>
+                  <div className="filter-count">
+                    <span className="count-text">2</span>
                   </div>
                 </div>
-              </Col>
-            </Row>
-          )}
+              </div>
+            </Col>
+          </Row>
+
           <Row style={{ marginTop: 25 }}>
             <Col>
               <div className="card-list">

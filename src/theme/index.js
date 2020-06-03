@@ -5,7 +5,7 @@ export default {
     transparent: "#ffffff00",
     yellow: "#FFC000",
     gray: "#7f7f7f",
-    borderGrey: "#808080",
+    borderGrey: "#000000",
     lightWhite: "#fdfdfd",
     mediumgray: "#E0E0E0",
     lightSilver: "#d8d8d8",

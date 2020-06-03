@@ -12,8 +12,9 @@ export const SocialLoginContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  position: relative;
   .text-container {
-    margin-left: 20px !important;
+    margin-left: 10px !important;
     span {
       vertical-align: middle;
     }
@@ -21,14 +22,13 @@ export const SocialLoginContainer = styled.div`
   .icon-container {
     margin-right: 10px !important;
   }
-  .icon-container::after {
+  ::after {
     content: "";
     position: absolute;
-    height: 44px;
+    height: 100%;
     width: 2px;
     background-color: ${(props) => props.border};
-    margin-top: -9px;
-    margin-left: 10px;
+    margin-left: 35px;
     z-index: 1;
   }
 `;
@@ -229,6 +229,75 @@ export const ChallengeHeaderContainer = styled.div`
   .progress-oval-container {
     height: 35px;
     width: 35px;
+  }
+`;
+
+export const ChallengeViewHeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  .left-continer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .oval-container {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #979797;
+    background-color: ${theme.colors.white};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+  }
+  .organization-name {
+    color: ${theme.colors.gray};
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.mediumRegular};
+  }
+  .right-continer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    .view-container {
+      margin-right: 30px;
+      display: flex;
+      align-items: center;
+      .view-icon-container {
+        margin-right: 10px;
+      }
+      .view-count {
+        font-size: ${theme.fontSize.semiRegular};
+      }
+    }
+    .share-container {
+      margin-right: 30px;
+      button {
+        display: flex;
+        align-items: center;
+        font-family: ${theme.fontFamily.bold};
+        font-size: ${theme.fontSize.semiRegular};
+        border-radius: 6px;
+        padding: 10px 15px;
+        border: 1px solid #e3e3e3;
+        background-color: ${theme.colors.white};
+        .icon-container {
+          margin-right: 10px;
+        }
+        .text span {
+          vertical-align: middle;
+        }
+        :focus {
+          outline: 0;
+        }
+      }
+    }
+    .button-text {
+      font-size: ${theme.fontSize.semiRegular};
+    }
   }
 `;
 

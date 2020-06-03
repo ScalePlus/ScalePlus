@@ -4,13 +4,31 @@ import { Row, Col } from "react-bootstrap";
 import { Input, PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 import history from "../../history";
+const groups = [
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+  "/images/Al-Futtaim_Group_DL_logo.svg",
+];
 
 const Footer = () => {
   return (
     <MainContainer>
       <Row>
         <Col>
-          <div className="group-container"></div>
+          <div className="group-container">
+            <div className="groups">
+              {groups.map((each, index) => {
+                return (
+                  <div key={index}>
+                    <img src={each} height={80} width={170} alt="" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </Col>
       </Row>
       <Row style={{ marginBottom: 70 }}>

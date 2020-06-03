@@ -24,6 +24,7 @@ import {
   PageTitleContainer,
   WarningContainer,
   ChallengeHeaderContainer,
+  ChallengeViewHeaderContainer,
   RemoveButtonContainer,
   UpdateCountButtonContainer,
   TableContainer,
@@ -175,7 +176,6 @@ export const CheckBox = React.memo(
           custom
           className="large-checkbox"
           type="checkbox"
-          id={`checkbox`}
           label={""}
           {...props}
         />
@@ -685,20 +685,83 @@ export const ChallengeHeader = React.memo(
               backgroundColor: theme.colors.white,
             })}
           />
-          <div style={{ margin: "0px 10px" }}>
+          {secondaryButtonText && (
+            <div style={{ margin: "0px 10px" }}>
+              <PrimaryButton
+                variant="secondary"
+                text={secondaryButtonText}
+                onClick={secondaryButtonClick}
+              ></PrimaryButton>
+            </div>
+          )}
+          {primaryButtonText && (
             <PrimaryButton
-              variant="secondary"
-              text={secondaryButtonText}
-              onClick={secondaryButtonClick}
+              variant="primary"
+              text={primaryButtonText}
+              onClick={primaryButtonClick}
             ></PrimaryButton>
-          </div>
-          <PrimaryButton
-            variant="primary"
-            text={primaryButtonText}
-            onClick={primaryButtonClick}
-          ></PrimaryButton>
+          )}
         </div>
       </ChallengeHeaderContainer>
+    );
+  }
+);
+
+export const ChallengeViewHeader = React.memo(
+  ({ primaryButtonText, primaryButtonClick, shareClick }) => {
+    return (
+      <ChallengeViewHeaderContainer>
+        <div className="left-continer">
+          <div className="oval-container">
+            <img
+              src={"/images/image.svg"}
+              height="20px"
+              width="20px"
+              alt=""
+            ></img>
+          </div>
+          <div className="organization-name">
+            <span>Rio Tinto</span>
+          </div>
+        </div>
+        <div className="right-continer">
+          <div className="view-container">
+            <div className="view-icon-container">
+              <img
+                src={"/images/eye-yellow.svg"}
+                height="35px"
+                width="35px"
+                alt=""
+              ></img>
+            </div>
+            <div className="view-count">
+              <span>2000</span>
+            </div>
+          </div>
+          <div className="share-container">
+            <button onClick={shareClick}>
+              <div className="icon-container">
+                <img
+                  src={"/images/share-yellow.svg"}
+                  height="20px"
+                  width="25px"
+                  alt=""
+                ></img>
+              </div>
+              <div className="text">
+                <span>Share</span>
+              </div>
+            </button>
+          </div>
+          {primaryButtonText && (
+            <PrimaryButton
+              variant="primary"
+              text={primaryButtonText}
+              onClick={primaryButtonClick}
+            ></PrimaryButton>
+          )}
+        </div>
+      </ChallengeViewHeaderContainer>
     );
   }
 );

@@ -266,6 +266,7 @@ const SignUp = ({ history }) => {
                 <Col>
                   <div className="checkbox-container">
                     <CheckBox
+                      id={`checkbox-1`}
                       checkBoxText={
                         <span>
                           By signing up you agree to the{" "}
@@ -280,6 +281,7 @@ const SignUp = ({ history }) => {
                       }}
                     />
                     <CheckBox
+                      id={`checkbox-2`}
                       checkBoxText="Receive updates and news"
                       checked={check2}
                       onChange={() => {

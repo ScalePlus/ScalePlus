@@ -69,6 +69,7 @@ const Resources = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <CheckBox
+              id={`checkbox-1`}
               checkBoxText="Enable Resources tab"
               checked={check}
               onChange={() => {

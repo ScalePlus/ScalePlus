@@ -4,10 +4,8 @@ export const Container = styled.div`
   align-items: center;
   .navbar {
     min-height: 80px;
-    border-bottom: 1px solid ${theme.colors.borderGrey} !important;
     background-color: ${theme.colors.white} !important;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.15);
-    padding: 0 !important;
   }
 
   .navbar-brand {
@@ -27,9 +25,30 @@ export const Container = styled.div`
     padding: 5px !important;
   }
 
+  .notification-container {
+    display: flex;
+  }
+
+  .bell-img {
+    margin-left: 10px;
+  }
+
+  .notification-circle {
+    height: 10px;
+    width: 10px;
+    background: ${theme.colors.yellow};
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-left: -9px;
+    margin-top: 7px;
+  }
+
   .search-img {
     margin-right: 5px;
     margin-left: 10px;
+    .search-text {
+      margin-left: 5px;
+    }
   }
 
   .nav-link {
@@ -57,8 +76,10 @@ export const Container = styled.div`
     cursor: pointer;
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
+    padding-left: 15px !important;
+    padding-right: 0px !important;
     .nav-link {
-      padding-left: 15px !important;
+      padding-left: 0px !important;
       padding-right: 0px !important;
     }
     .dropdown-menu {

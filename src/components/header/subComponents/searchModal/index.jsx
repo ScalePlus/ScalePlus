@@ -26,7 +26,7 @@ const SearchModal = ({ show, setShow }) => {
       onHide={() => setShow(false)}
       dialogClassName="search-modal"
     >
-      <Modal.Header>
+      <Modal.Body>
         <HeaderContainer>
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={12} xs={12}>
@@ -49,8 +49,6 @@ const SearchModal = ({ show, setShow }) => {
             </Col>
           </Row>
         </HeaderContainer>
-      </Modal.Header>
-      <Modal.Body>
         <ContentContainer>
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={12} xs={12}>

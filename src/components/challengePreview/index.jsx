@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Row, Col, Tab, Nav } from "react-bootstrap";
-import { PageTitle, WarningBlock, ChallengeHeader } from "../common";
+import {
+  PageTitle,
+  WarningBlock,
+  ChallengeHeader,
+  ChallengeViewHeader,
+} from "../common";
+import { Constants } from "../../lib/constant";
 import { MainContainer, TabContainer } from "./style";
 import OverView from "./subComponents/overview";
 import Guidelines from "./subComponents/guidelines";
@@ -21,36 +27,67 @@ const tabs = [
 ];
 
 const ChallengePreview = ({ history }) => {
+  const isOrganisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    isMentor_Judge =
+      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [selectedTab, selectTab] = useState(tabs[0]);
 
   return (
     <MainContainer>
-      <Row>
-        <Col>
-          <WarningBlock />
-        </Col>
-      </Row>
+      {isOrganisation && (
+        <Row>
+          <Col>
+            <WarningBlock />
+          </Col>
+        </Row>
+      )}
 
-      <Row className="justify-content-center">
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <div className="preview-container">
-            <PageTitle text="Preview" />
-          </div>
-        </Col>
-      </Row>
+      {isOrganisation && (
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <div className="preview-container">
+              <PageTitle text="Preview" />
+            </div>
+          </Col>
+        </Row>
+      )}
 
-      <Row className="justify-content-center" style={{ marginBottom: 10 }}>
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <ChallengeHeader
-            primaryButtonText="Submit for review"
-            secondaryButtonText="Edit Challenge Details"
-            primaryButtonClick={() => {}}
-            secondaryButtonClick={() => {
-              history.push("/challenge/edit");
-            }}
-          />
-        </Col>
-      </Row>
+      {isOrganisation && (
+        <Row className="justify-content-center" style={{ marginBottom: 10 }}>
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <ChallengeHeader
+              primaryButtonText="Submit for review"
+              secondaryButtonText="Edit Challenge Details"
+              primaryButtonClick={() => {}}
+              secondaryButtonClick={() => {
+                history.push("/challenge/edit");
+              }}
+            />
+          </Col>
+        </Row>
+      )}
+
+      {!isOrganisation && (
+        <Row
+          className="justify-content-center"
+          style={{ marginBottom: 10, marginTop: 20 }}
+        >
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <ChallengeViewHeader
+              primaryButtonText={
+                isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
+              }
+              primaryButtonClick={() => {
+                alert("clicked");
+              }}
+              shareClick={() => {
+                alert("clicked");
+              }}
+            />
+          </Col>
+        </Row>
+      )}
 
       <Tab.Container id="left-tabs-example" activeKey={selectedTab}>
         <Row className="justify-content-center full-width-cotainer">
@@ -90,7 +127,10 @@ const ChallengePreview = ({ history }) => {
 
         <Tab.Content>
           <Tab.Pane eventKey="Overview">
-            <OverView />
+            <OverView
+              isOrganisation={isOrganisation}
+              isMentor_Judge={isMentor_Judge}
+            />
           </Tab.Pane>
           <Tab.Pane eventKey="Guidelines">
             <Guidelines />

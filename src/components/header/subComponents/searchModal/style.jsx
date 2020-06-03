@@ -7,18 +7,21 @@ export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: ${theme.colors.yellow};
+  padding: 0px 20px;
   .header-component {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     .left-container {
-      flex: 0.5;
+      flex: 0.8;
       text-align: left;
       .form-group {
         margin-bottom: 0px;
       }
       .form-control {
+        padding: 0px;
         font-size: ${theme.fontSize.mediumRegular};
         font-family: ${theme.fontFamily.bold};
         color: ${theme.colors.black};
@@ -30,7 +33,7 @@ export const HeaderContainer = styled.div`
       }
     }
     .right-container {
-      flex: 0.5;
+      flex: 0.2;
       text-align: right;
       font-size: ${theme.fontSize.large};
       font-family: ${theme.fontFamily.bold};
@@ -41,6 +44,7 @@ export const HeaderContainer = styled.div`
 
 export const ContentContainer = styled.div`
   color: ${theme.colors.white};
+  padding: 0px 20px;
   .title-container {
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumLarge};
@@ -48,6 +52,7 @@ export const ContentContainer = styled.div`
     padding-bottom: 20px;
   }
   .challenge-container {
+    cursor: pointer;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -85,6 +90,7 @@ export const ContentContainer = styled.div`
     }
   }
   .sub-title-container {
+    cursor: pointer;
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
     color: ${theme.colors.yellow};
