@@ -17,6 +17,20 @@ import {
 } from "../common";
 import { Constants } from "../../lib/constant";
 import theme from "../../theme";
+const tabs = [
+  {
+    text: Constants.ROLES.STARTUP_INDIVIDUAL,
+    subText: "Create Solutions",
+  },
+  {
+    text: Constants.ROLES.ORGANIZATION,
+    subText: "Face Challenges",
+  },
+  {
+    text: Constants.ROLES.MENTOR_JUDGE,
+    subText: "Bring Experience",
+  },
+];
 
 const SignUp = ({ history }) => {
   const dispatch = useDispatch();
@@ -24,38 +38,12 @@ const SignUp = ({ history }) => {
   const signupReducer = useSelector((state) => {
     return state.signupReducer;
   });
-  const [tabs, selectTab] = useState([
-    {
-      id: 1,
-      text: Constants.ROLES.STARTUP_INDIVIDUAL,
-      subText: "Create Solutions",
-      isActive:
-        localStorage.getItem("userRole") ===
-          Constants.ROLES.STARTUP_INDIVIDUAL ||
-        !localStorage.getItem("userRole")
-          ? true
-          : false,
-    },
-    {
-      id: 2,
-      text: Constants.ROLES.ORGANIZATION,
-      subText: "Face Challenges",
-      isActive:
-        localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION
-          ? true
-          : false,
-    },
-    {
-      id: 3,
-      text: Constants.ROLES.MENTOR_JUDGE,
-      subText: "Bring Experience",
-      isActive:
-        localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE
-          ? true
-          : false,
-    },
-  ]);
 
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("userRole")
+      ? localStorage.getItem("userRole")
+      : Constants.ROLES.STARTUP_INDIVIDUAL
+  );
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -125,33 +113,23 @@ const SignUp = ({ history }) => {
             </Row>
 
             <Row className="tab-container">
-              {tabs.map((each) => {
+              {tabs.map((each, index) => {
                 return (
                   <Col
-                    key={each.id}
+                    key={index}
                     lg={4}
                     md={6}
                     sm={6}
                     xs={12}
                     onClick={() => {
                       localStorage.setItem("userRole", each.text);
-                      selectTab(
-                        tabs.map((record) => {
-                          if (record.id === each.id) {
-                            record.isActive = true;
-                            return record;
-                          } else {
-                            record.isActive = false;
-                            return record;
-                          }
-                        })
-                      );
+                      setActiveTab(each.text);
                     }}
                   >
                     <Tab
                       text={each.text}
                       subText={each.subText}
-                      isActive={each.isActive}
+                      isActive={activeTab === each.text}
                     />
                   </Col>
                 );
