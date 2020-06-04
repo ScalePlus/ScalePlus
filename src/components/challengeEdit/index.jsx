@@ -14,6 +14,7 @@ import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
 import Judges from "./subComponents/judges";
 import JudgesNDA from "./subComponents/judgesNDA";
+import Team from "./subComponents/team";
 import LegalAgreement from "./subComponents/legalAgreement";
 import Settings from "./subComponents/settings";
 import { MainContainer } from "./style";
@@ -91,6 +92,7 @@ const ChallengeEdit = ({ history }) => {
                                 onClick={() => {
                                   selectKey(each);
                                   onToggle(false);
+                                  window.scrollTo(0, 0);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -111,6 +113,7 @@ const ChallengeEdit = ({ history }) => {
                                 onClick={() => {
                                   selectKey(each);
                                   onToggle(false);
+                                  window.scrollTo(0, 0);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -131,6 +134,7 @@ const ChallengeEdit = ({ history }) => {
                                 onClick={() => {
                                   selectKey(each);
                                   onToggle(false);
+                                  window.scrollTo(0, 0);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -151,6 +155,7 @@ const ChallengeEdit = ({ history }) => {
                                 onClick={() => {
                                   selectKey(each);
                                   onToggle(false);
+                                  window.scrollTo(0, 0);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -186,6 +191,7 @@ const ChallengeEdit = ({ history }) => {
                 {activeKey === "Judging activities" && <JudgingActivities />}
                 {activeKey === "Judges" && <Judges />}
                 {activeKey === "Judges NDA" && <JudgesNDA />}
+                {activeKey === "Team" && <Team />}
                 {activeKey === "Legal agreement" && <LegalAgreement />}
                 {activeKey === "Settings" && <Settings />}
               </div>
