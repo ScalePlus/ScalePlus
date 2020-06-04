@@ -3,6 +3,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
+import NotificationModal from "./subComponents/notificationModal";
 
 const Header = () => {
   const [links] = useState(
@@ -30,6 +31,7 @@ const Header = () => {
   );
   const [expanded, onToggle] = useState(false);
   const [show, setShow] = useState(false);
+  const [showNotification, setNotificationShow] = useState(false);
 
   history.listen((location, action) => {
     let record = links.find((each) => {
@@ -73,7 +75,12 @@ const Header = () => {
             })}
           </Nav>
           {localStorage.getItem("token") && (
-            <div className="notification-container">
+            <div
+              className="notification-container"
+              onClick={() => {
+                setNotificationShow(true);
+              }}
+            >
               <div className="bell-img">
                 <Navbar.Text>
                   <img
@@ -146,6 +153,10 @@ const Header = () => {
         </Navbar.Collapse>
       </Navbar>
       <SearchModal show={show} setShow={setShow} />
+      <NotificationModal
+        show={showNotification}
+        setShow={setNotificationShow}
+      />
     </Container>
   );
 };

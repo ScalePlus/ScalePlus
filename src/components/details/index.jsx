@@ -133,11 +133,11 @@ const OrganizationDetails = () => {
               <Title
                 text={
                   isStartUp_Individual
-                    ? "Startup Details"
+                    ? "Initial Details"
                     : isOrganisation
                     ? "Organization Details"
                     : isMentor_Judge
-                    ? "Judge / Mentor Details"
+                    ? "Initial Details"
                     : ""
                 }
                 icon={true}
@@ -244,12 +244,16 @@ const OrganizationDetails = () => {
                   <Col>
                     <Input
                       type="text"
-                      placeholder="Full Name"
+                      placeholder="Full Name as Per Passport"
                       value={name}
                       onChange={(e) => changeName(e.target.value)}
                       required
                       errorMessage={Constants.Errors.name}
                     ></Input>
+                    <FileInput
+                      placeholder="Personal Photo"
+                      buttonText="Upload"
+                    ></FileInput>
                     <Input
                       type="number"
                       placeholder="Mobile Number"
