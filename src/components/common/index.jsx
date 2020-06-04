@@ -26,6 +26,7 @@ import {
   ChallengeHeaderContainer,
   ChallengeViewHeaderContainer,
   RemoveButtonContainer,
+  AddButtonContainer,
   UpdateCountButtonContainer,
   TableContainer,
   CardContainer,
@@ -777,6 +778,14 @@ export const RemoveButton = React.memo(({ onClick }) => {
     <RemoveButtonContainer onClick={onClick}>
       <img src={"/images/trash.svg"} height="20px" width="20px" alt=""></img>
     </RemoveButtonContainer>
+  );
+});
+
+export const AddButton = React.memo(({ onClick }) => {
+  return (
+    <AddButtonContainer onClick={onClick}>
+      <img src={"/images/more.png"} height="20px" width="20px" alt=""></img>
+    </AddButtonContainer>
   );
 });
 

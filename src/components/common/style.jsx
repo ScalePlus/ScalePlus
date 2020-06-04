@@ -314,6 +314,17 @@ export const RemoveButtonContainer = styled.div`
   display: flex;
 `;
 
+export const AddButtonContainer = styled.div`
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+  background-color: #4cd964;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
 export const UpdateCountButtonContainer = styled.div`
   cursor: pointer;
   height: 40px;

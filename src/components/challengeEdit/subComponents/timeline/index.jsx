@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { DateInput, DropDown, TextArea, RemoveButton } from "../../../common";
+import {
+  DateInput,
+  DropDown,
+  TextArea,
+  RemoveButton,
+  AddButton,
+  PrimaryButton,
+  Input,
+} from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import Stepper from "../../../stepper";
 import { MainContainer } from "./style";
@@ -10,7 +18,13 @@ import theme from "../../../../theme";
 const Timeline = () => {
   const [validated, setValidated] = useState(false);
   const [timeline, changeTimeline] = useState([
-    { date: "", dropDown: "", description: "" },
+    {
+      date: "",
+      dropDown: "",
+      description: "",
+      adminAttachments: [],
+      userAttachments: [],
+    },
   ]);
   return (
     <MainContainer>
@@ -50,7 +64,13 @@ const Timeline = () => {
               infoButtonType="button"
               infoButtonClick={() => {
                 changeTimeline(
-                  timeline.concat({ date: "", dropDown: "", description: "" })
+                  timeline.concat({
+                    date: "",
+                    dropDown: "",
+                    description: "",
+                    adminAttachments: [],
+                    userAttachments: [],
+                  })
                 );
               }}
             />
@@ -158,6 +178,181 @@ const Timeline = () => {
                         />
                       </Col>
                     </Row>
+                    <Row className="file-document-container">
+                      <Col lg={6} md={12} sm={12} xs={12}>
+                        <div className="header-container">
+                          <div className="icon-container">
+                            <img
+                              src="/images/attach.png"
+                              alt=""
+                              height="25px"
+                              width="25px"
+                            />
+                          </div>
+                          <div className="name">
+                            ADMIN | Attach required Forms/documents
+                          </div>
+                          <div className="button-container">
+                            <AddButton
+                              onClick={() => {
+                                changeTimeline(
+                                  timeline.map((data, i) => {
+                                    if (index === i) {
+                                      data.adminAttachments.push({});
+                                    }
+                                    return data;
+                                  })
+                                );
+                              }}
+                            ></AddButton>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                    {each.adminAttachments && each.adminAttachments.length
+                      ? each.adminAttachments.map((attach, attachIndex) => {
+                          let fileUploader;
+                          return (
+                            <div
+                              className="attachment-container"
+                              key={attachIndex}
+                            >
+                              <Row>
+                                <Col lg={5} md={12} sm={12} xs={12}>
+                                  <div className="file-container">
+                                    <Input
+                                      type="text"
+                                      placeholder="file name……word"
+                                      onClick={() => {
+                                        fileUploader.click();
+                                      }}
+                                      readOnly
+                                    ></Input>
+                                    <input
+                                      type="file"
+                                      ref={(ref) => (fileUploader = ref)}
+                                      style={{ display: "none" }}
+                                      onClick={(event) => {
+                                        event.target.value = null;
+                                      }}
+                                    />
+                                    <PrimaryButton
+                                      variant="secondary"
+                                      text={"Browse"}
+                                    ></PrimaryButton>
+                                  </div>
+                                </Col>
+                                <Col lg={7} md={12} sm={12} xs={12}>
+                                  <div className="title-container">
+                                    <div className="title">Title</div>
+                                    <Input
+                                      type="text"
+                                      placeholder="*Default value: File name"
+                                    ></Input>
+                                    <div className="remove-container">
+                                      <RemoveButton
+                                        onClick={() => {
+                                          changeTimeline(
+                                            timeline.filter((data, i) => {
+                                              if (index === i) {
+                                                data.adminAttachments = data.adminAttachments.filter(
+                                                  (record, recordIndex) => {
+                                                    return (
+                                                      recordIndex !==
+                                                      attachIndex
+                                                    );
+                                                  }
+                                                );
+                                              }
+                                              return data;
+                                            })
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </Col>
+                              </Row>
+                            </div>
+                          );
+                        })
+                      : null}
+                    <Row className="file-document-container">
+                      <Col lg={6} md={12} sm={12} xs={12}>
+                        <div className="header-container">
+                          <div className="icon-container">
+                            <img
+                              src="/images/attach.png"
+                              alt=""
+                              height="25px"
+                              width="25px"
+                            />
+                          </div>
+                          <div className="name">
+                            USER | Enable Documents Submission
+                          </div>
+                          <div className="button-container">
+                            <AddButton
+                              onClick={() => {
+                                changeTimeline(
+                                  timeline.map((data, i) => {
+                                    if (index === i) {
+                                      data.userAttachments.push({});
+                                    }
+                                    return data;
+                                  })
+                                );
+                              }}
+                            ></AddButton>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                    {each.userAttachments && each.userAttachments.length
+                      ? each.userAttachments.map((attach, attachIndex) => {
+                          return (
+                            <div
+                              className="attachment-container"
+                              key={attachIndex}
+                            >
+                              <Row>
+                                <Col lg={7} md={12} sm={12} xs={12}>
+                                  <div className="title-container">
+                                    <div className="field-title">
+                                      Field Label
+                                    </div>
+                                    <Input
+                                      type="text"
+                                      placeholder="*Default value: File name"
+                                    ></Input>
+                                    <div className="remove-container">
+                                      <RemoveButton
+                                        onClick={() => {
+                                          changeTimeline(
+                                            timeline.filter((data, i) => {
+                                              if (index === i) {
+                                                data.userAttachments = data.userAttachments.filter(
+                                                  (record, recordIndex) => {
+                                                    return (
+                                                      recordIndex !==
+                                                      attachIndex
+                                                    );
+                                                  }
+                                                );
+                                              }
+                                              return data;
+                                            })
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </Col>
+                              </Row>
+                            </div>
+                          );
+                        })
+                      : null}
                   </div>
                   <div className="right-container">
                     <RemoveButton
