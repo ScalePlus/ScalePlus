@@ -24,7 +24,7 @@ export const MainContainer = styled.div`
     overflow: auto;
   }
   .file-document-container {
-    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-top: 1px solid ${theme.colors.black};
   }
   .header-container {
     flex: 0 100%;
@@ -63,29 +63,9 @@ export const MainContainer = styled.div`
       flex-wrap: wrap;
       align-items: center;
       padding: 10px 0;
-
       .form-group {
+        flex: 1;
         margin-bottom: 0;
-        flex: 0.8;
-        .form-control {
-          border-radius: 0px;
-          border-top-left-radius: 6px;
-          border-bottom-left-radius: 6px;
-          border: 1px solid rgba(0, 0, 0, 0.5);
-        }
-      }
-      button {
-        flex: 0.2;
-        width: 100%;
-        padding: 9px 0px;
-        border-radius: 0px;
-        border-top-right-radius: 6px;
-        border-bottom-right-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, 0.5);
-        .button-text {
-          font-size: ${theme.fontSize.regular};
-          font-family: ${theme.fontFamily.regular};
-        }
       }
     }
 

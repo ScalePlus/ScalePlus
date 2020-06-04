@@ -6,8 +6,8 @@ import {
   TextArea,
   RemoveButton,
   AddButton,
-  PrimaryButton,
   Input,
+  FileInput,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import Stepper from "../../../stepper";
@@ -211,7 +211,6 @@ const Timeline = () => {
                     </Row>
                     {each.adminAttachments && each.adminAttachments.length
                       ? each.adminAttachments.map((attach, attachIndex) => {
-                          let fileUploader;
                           return (
                             <div
                               className="attachment-container"
@@ -220,26 +219,10 @@ const Timeline = () => {
                               <Row>
                                 <Col lg={5} md={12} sm={12} xs={12}>
                                   <div className="file-container">
-                                    <Input
-                                      type="text"
+                                    <FileInput
                                       placeholder="file name……word"
-                                      onClick={() => {
-                                        fileUploader.click();
-                                      }}
-                                      readOnly
-                                    ></Input>
-                                    <input
-                                      type="file"
-                                      ref={(ref) => (fileUploader = ref)}
-                                      style={{ display: "none" }}
-                                      onClick={(event) => {
-                                        event.target.value = null;
-                                      }}
-                                    />
-                                    <PrimaryButton
-                                      variant="secondary"
-                                      text={"Browse"}
-                                    ></PrimaryButton>
+                                      prependButtonText="Browse"
+                                    ></FileInput>
                                   </div>
                                 </Col>
                                 <Col lg={7} md={12} sm={12} xs={12}>

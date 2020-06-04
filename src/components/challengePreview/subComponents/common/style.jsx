@@ -298,27 +298,15 @@ export const StepperVerticalContainer = styled.div`
           align-items: center;
           .form-group {
             margin-bottom: 0;
-            flex: 0.8;
+            flex: 1;
             .form-control {
               height: 35px;
-              border-radius: 0px;
-              border-top-left-radius: 6px;
-              border-bottom-left-radius: 6px;
-              border: 1px solid rgba(0, 0, 0, 0.5);
             }
           }
-          button {
-            flex: 0.2;
-            width: 100%;
-            padding: 8px 0px;
-            border-radius: 0px;
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
-            border: 1px solid rgba(0, 0, 0, 0.5);
-            .button-text {
-              font-size: ${theme.fontSize.semiRegular};
-            }
-          }
+        }
+        .input-group-text {
+          background: ${theme.colors.yellow};
+          font-family: ${theme.fontFamily.bold};
         }
       }
     }

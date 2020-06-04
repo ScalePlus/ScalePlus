@@ -6,6 +6,7 @@ import {
   Table,
   Card,
   ProgressBar,
+  InputGroup,
 } from "react-bootstrap";
 import Select, { components } from "react-select";
 import DatePicker from "react-datepicker";
@@ -266,23 +267,31 @@ export const FileInput = React.memo(
     errorMessage,
     onChange,
     buttonText,
+    prependButtonText,
     ...props
   }) => {
     let fileUploader;
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
-        <Form.Control
-          type={"text"}
-          placeholder={placeholder}
-          value={value && value.name ? value.name : value}
-          onChange={() => {}}
-          onClick={() => {
-            fileUploader.click();
-          }}
-          // readOnly
-          {...props}
-        />
+        <InputGroup>
+          <Form.Control
+            type={"text"}
+            placeholder={placeholder}
+            value={value && value.name ? value.name : value}
+            onChange={() => {}}
+            onClick={() => {
+              fileUploader.click();
+            }}
+            // readOnly
+            {...props}
+          />
+          {prependButtonText && (
+            <InputGroup.Append>
+              <InputGroup.Text>{prependButtonText}</InputGroup.Text>
+            </InputGroup.Append>
+          )}
+        </InputGroup>
         <input
           type="file"
           ref={(ref) => (fileUploader = ref)}
@@ -293,14 +302,16 @@ export const FileInput = React.memo(
           onChange={onChange}
           accept="image/*"
         />
-        <Button
-          className="upload-button"
-          onClick={() => {
-            fileUploader.click();
-          }}
-        >
-          <span className="upload-button-text">{buttonText}</span>
-        </Button>
+        {buttonText && (
+          <Button
+            className="upload-button"
+            onClick={() => {
+              fileUploader.click();
+            }}
+          >
+            <span className="upload-button-text">{buttonText}</span>
+          </Button>
+        )}
         {errorMessage && (
           <Form.Control.Feedback className="text-left" type="invalid">
             {errorMessage}

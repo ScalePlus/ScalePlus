@@ -38,6 +38,17 @@ body {
   font-size: ${theme.fontSize.regular};
 }
 
+.input-group-append{
+  border: 1px solid ${theme.colors.borderGrey};
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  .input-group-text{
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.regular};
+    font-size: ${theme.fontSize.regular};
+  }
+}
+
 .ql-toolbar{
   background-color: ${theme.colors.gray98};
 }

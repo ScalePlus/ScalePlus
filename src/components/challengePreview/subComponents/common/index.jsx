@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Collapse, Row, Col } from "react-bootstrap";
 
-import { SearchInput, PrimaryButton, Input } from "../../../common";
+import { SearchInput, PrimaryButton, FileInput } from "../../../common";
 import {
   TitleContainer,
   TitleContainerWithSearchBox,
@@ -192,42 +192,23 @@ export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
                         })}
                       </div>
                     )}
-                  {isStartUp_Individual &&
-                    each.uploadFiles &&
-                    each.uploadFiles.length && (
-                      <div className="upload-files-container">
-                        {each.uploadFiles.map((name, index) => {
-                          let fileUploader;
-                          return (
-                            <div className="upload-block" key={index}>
-                              <div className="name">{name}</div>
-                              <div className="file-container">
-                                <Input
-                                  type="text"
-                                  placeholder="file name……word"
-                                  onClick={() => {
-                                    fileUploader.click();
-                                  }}
-                                  readOnly
-                                ></Input>
-                                <input
-                                  type="file"
-                                  ref={(ref) => (fileUploader = ref)}
-                                  style={{ display: "none" }}
-                                  onClick={(event) => {
-                                    event.target.value = null;
-                                  }}
-                                />
-                                <PrimaryButton
-                                  variant="primary"
-                                  text={"Browse"}
-                                ></PrimaryButton>
-                              </div>
+                  {each.uploadFiles && each.uploadFiles.length && (
+                    <div className="upload-files-container">
+                      {each.uploadFiles.map((name, index) => {
+                        return (
+                          <div className="upload-block" key={index}>
+                            <div className="name">{name}</div>
+                            <div className="file-container">
+                              <FileInput
+                                placeholder="file name……word"
+                                prependButtonText="Browse"
+                              ></FileInput>
                             </div>
-                          );
-                        })}
-                      </div>
-                    )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             );
