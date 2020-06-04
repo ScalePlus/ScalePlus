@@ -326,6 +326,48 @@ export const UpdateCountButtonContainer = styled.div`
 `;
 
 export const TableContainer = styled.div`
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #979797;
+    .controll-container {
+      flex: 1;
+      align-items: center;
+      @media (min-width: 576px) {
+        flex: 1;
+      }
+      @media (min-width: 768px) {
+        flex: 0.8;
+      }
+      @media (min-width: 992px) {
+        flex: 0.5;
+      }
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .form-group:first-child {
+        flex: 0.3;
+        margin-right: 20px;
+        margin-bottom: 0px;
+      }
+      .form-group:nth-child(2) {
+        flex: 0.5;
+        margin-right: 20px;
+        margin-bottom: 0px;
+        .form-control {
+          height: 40px;
+        }
+      }
+      .text {
+        flex: 0.1;
+        color: ${theme.colors.gray};
+        cursor: pointer;
+      }
+    }
+  }
+
   thead {
     font-family: ${theme.fontFamily.bold};
     th {

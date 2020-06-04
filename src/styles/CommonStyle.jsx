@@ -21,11 +21,6 @@ body {
   margin-left: 0px !important;
 }
 
-.container-fluid{
-  padding-right: 0px !important;
-  padding-left: 0px !important;
-}
-
 .main-layout,.modal-content {
   color: ${theme.colors.black};
   font-family: ${theme.fontFamily.regular};

@@ -803,9 +803,23 @@ export const UpdateCountButton = React.memo(({ onClick }) => {
   );
 });
 
-export const CommonTable = React.memo(({ columns, data, showPagination }) => {
+export const CommonTable = React.memo(({ columns, data, filters }) => {
   return (
     <TableContainer>
+      {filters && (
+        <div className="filter-container">
+          <div className="controll-container">
+            <DropDown
+              isSmall={true}
+              isSingle={true}
+              placeholder="Filter Results"
+              options={[]}
+            />
+            <Input type="text" placeholder="Search" />
+            <div className="text">Search</div>
+          </div>
+        </div>
+      )}
       <Table responsive>
         <thead>
           <tr>
@@ -814,7 +828,7 @@ export const CommonTable = React.memo(({ columns, data, showPagination }) => {
               columns.map((column, index) => {
                 return (
                   <th key={index} width={column.width ? column.width : "auto"}>
-                    {column.Header}
+                    {column.HeaderCell ? column.HeaderCell() : column.Header}
                   </th>
                 );
               })}
@@ -832,7 +846,7 @@ export const CommonTable = React.memo(({ columns, data, showPagination }) => {
                       return (
                         <td key={index}>
                           {column.Cell
-                            ? column.Cell(each[column.accessor])
+                            ? column.Cell(each[column.accessor], each)
                             : each[column.accessor]}
                         </td>
                       );

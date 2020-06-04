@@ -9,6 +9,7 @@ import Resources from "./subComponents/resources";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
 import SubmissionForm from "./subComponents/submissionForm";
+import Submissions from "./subComponents/submissions";
 import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
 import Judges from "./subComponents/judges";
@@ -180,6 +181,7 @@ const ChallengeEdit = ({ history }) => {
                 {activeKey === "Guidelines" && <Guidelines />}
                 {activeKey === "Updates" && <Updates />}
                 {activeKey === "Submission form" && <SubmissionForm />}
+                {activeKey === "Submissions" && <Submissions />}
                 {activeKey === "Judging criteria" && <JudgingCriteria />}
                 {activeKey === "Judging activities" && <JudgingActivities />}
                 {activeKey === "Judges" && <Judges />}
