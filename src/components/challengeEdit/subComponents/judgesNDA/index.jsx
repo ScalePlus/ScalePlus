@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { CheckBox, EditorInput } from "../../../common";
+import { Switch, EditorInput } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
@@ -62,7 +62,7 @@ const JudgesNDA = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
               titleText="Judges NDA"
@@ -74,14 +74,14 @@ const JudgesNDA = () => {
         </Row>
         <Row style={{ marginBottom: 25 }}>
           <Col>
-            <CheckBox
-              id={`checkbox-1`}
-              checkBoxText="Enable Judges NDA"
+            <Switch
               checked={check}
               onChange={() => {
                 setCheck(!check);
               }}
-            />
+              variant="primary"
+              label="Enable Judges NDA"
+            ></Switch>
           </Col>
         </Row>
         <Row>

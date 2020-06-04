@@ -15,6 +15,7 @@ export const HeaderComponent = React.memo(
     buttonText,
     buttonVariant,
     buttonType,
+    buttonClick,
     infoButtonText,
     infoButtonVariant,
     infoButtonType,
@@ -42,7 +43,7 @@ export const HeaderComponent = React.memo(
                 variant={buttonVariant}
                 type={buttonType}
                 text={buttonText}
-                onClick={() => {}}
+                onClick={buttonClick}
               ></PrimaryButton>
             </div>
           )}

@@ -450,6 +450,7 @@ export const DropDown = React.memo(
     description,
     isInvalid,
     errorMessage,
+    isSingle,
   }) => {
     const customStyle = {
       indicatorSeparator: () => ({
@@ -532,17 +533,21 @@ export const DropDown = React.memo(
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <Select
-          isMulti
+          isMulti={isSingle ? false : true}
           placeholder={placeholder}
           // isValidNewOption={(inputValue, selectValue) => {
           //   return inputValue.length > 0 && selectValue.length < 3;
           // }}
           value={value}
-          onChange={(newValue, actionMeta) => {
-            if ((newValue && newValue.length <= 3) || !newValue) {
-              onChange(newValue);
-            }
-          }}
+          onChange={
+            isSingle
+              ? onChange
+              : (newValue, actionMeta) => {
+                  if ((newValue && newValue.length <= 3) || !newValue) {
+                    onChange(newValue);
+                  }
+                }
+          }
           options={options}
           classNamePrefix={isInvalid ? "invalid-select" : ""}
           styles={customStyle}
@@ -561,15 +566,16 @@ export const DropDown = React.memo(
   }
 );
 
-export const Switch = React.memo(({ checked, onChange }) => {
+export const Switch = React.memo(({ checked, onChange, variant, label }) => {
   return (
     <Form.Group>
       <Form.Check
         type="switch"
-        label=""
+        label={label}
         id={`switch-${new Date().getTime()}`}
         checked={checked}
         onChange={onChange}
+        className={variant === "primary" && "primary_switch"}
       />
     </Form.Group>
   );

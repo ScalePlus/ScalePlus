@@ -54,10 +54,11 @@ export const MainContainer = styled.div`
     .tab-title {
       margin-bottom: 20px;
       font-size: ${theme.fontSize.mediumRegular};
-      font-weight: 600;
+      font-family: ${theme.fontFamily.semi_bold};
     }
   }
   .description {
+    font-family: ${theme.fontFamily.semi_bold};
   }
   .right-content-container {
     color: ${theme.colors.gray};
@@ -74,7 +75,7 @@ export const MainContainer = styled.div`
     text-align: left;
     margin: 45px -15px;
     .contact-link {
-      font-weight: 600;
+      font-family: ${theme.fontFamily.semi_bold};
       cursor: pointer;
     }
   }

@@ -8,7 +8,7 @@ const ChallengeConfirmation = () => {
   return (
     <MainContainer>
       <Row className="justify-content-center challenge-completed-container">
-        <Col lg={6} md={10} sm={12}>
+        <Col lg={5} md={10} sm={12}>
           <Row style={{ marginBottom: "20px" }}>
             <Col>
               <div className="image-container">
@@ -29,10 +29,7 @@ const ChallengeConfirmation = () => {
           <Row className="sub-title" style={{ marginBottom: "35px" }}>
             <Col>New 1</Col>
           </Row>
-          <Row
-            className="description text-left"
-            style={{ marginBottom: "50px" }}
-          >
+          <Row className="description" style={{ marginBottom: "50px" }}>
             <Col>
               Great job on creating a challenge! Scale+ team will review the
               content and give you the green light to go live if you want.

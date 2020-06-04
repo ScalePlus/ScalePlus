@@ -44,6 +44,6 @@ export const MainContainer = styled.div`
   }
   .active {
     color: ${theme.colors.black};
-    font-weight: 600;
+    font-family: ${theme.fontFamily.semi_bold};
   }
 `;

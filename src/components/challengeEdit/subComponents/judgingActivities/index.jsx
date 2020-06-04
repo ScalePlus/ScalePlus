@@ -3,7 +3,7 @@ import { Row, Col, Form } from "react-bootstrap";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
-import { CommonTable } from "../../../common";
+import { Switch, CommonTable } from "../../../common";
 const data = [
   {
     date: "May 28, 2020",
@@ -29,6 +29,7 @@ const data = [
 
 const JudgingActivities = () => {
   const [validated, setValidated] = useState(false);
+  const [check, setCheck] = useState(false);
   return (
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
@@ -54,9 +55,21 @@ const JudgingActivities = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent titleText="Judging activities" />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Switch
+              checked={check}
+              onChange={() => {
+                setCheck(!check);
+              }}
+              variant="primary"
+              label="Enable Judges tab"
+            ></Switch>
           </Col>
         </Row>
         <Row>

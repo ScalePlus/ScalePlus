@@ -42,10 +42,7 @@ const MyChallenges = ({ history }) => {
                       sm={12}
                       xs={12}
                       key={index}
-                      style={{
-                        paddingRight: "15px",
-                        paddingLeft: "15px",
-                      }}
+                      className="custom-card"
                     >
                       <CardComponent
                         src={each.src}
@@ -53,6 +50,14 @@ const MyChallenges = ({ history }) => {
                         progress={each.progress}
                         label={each.label}
                       />
+                      <div className="hover-circle-container">
+                        <img
+                          src="/images/ui.png"
+                          alt=""
+                          height="20px"
+                          width="25px"
+                        />
+                      </div>
                     </Col>
                   );
                 })}

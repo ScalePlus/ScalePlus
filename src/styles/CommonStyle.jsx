@@ -236,8 +236,7 @@ body {
 
 .active-tab .tab-main-text {
   color: ${theme.colors.black} !important;
-  font-family: ${theme.fontFamily.regular} !important;
-  font-weight: 600 !important;
+  font-family: ${theme.fontFamily.semi_bold} !important;
 }
 
 .active-tab .tab-sub-text {
@@ -344,11 +343,20 @@ body {
   padding: 0;
 }
 
+.primary_switch{
+  padding-left: 2.25rem;
+}
+
 .custom-switch .custom-control-label::before {
   height: 36px;
   width: 61px;
   border: 1px solid ${theme.colors.borderGrey};
   border-radius: 18.5px;
+}
+
+.primary_switch .custom-control-label::before {
+  height: 24px;
+  width: 42px;
 }
 
 .custom-switch .custom-control-label::after {
@@ -358,6 +366,14 @@ body {
   width: 30px;
   border-radius: 18.5px;
   background-color: ${theme.colors.yellow};
+}
+
+.primary_switch .custom-control-label::after {
+  top: 5px;
+    left: -35px;
+    height: 22px;
+    width: 22px;
+  background-color: #D2D2D2;
 }
 
 .custom-control-input:checked~.custom-control-label::before {
@@ -373,6 +389,15 @@ body {
 .custom-switch .custom-control-input:checked~.custom-control-label::after {
   background-color: ${theme.colors.yellow};
   transform: translateX(1.5rem);
+}
+
+.primary_switch .custom-control-input:checked~.custom-control-label::after {
+  transform: translateX(1.1rem);
+}
+
+.primary_switch .custom-control-label{
+  padding-left: 20px;
+  padding-top: 8px;
 }
 
 .fullscreen-modal,.search-modal {

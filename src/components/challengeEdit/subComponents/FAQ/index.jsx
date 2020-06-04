@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { CheckBox, Input, EditorInput, RemoveButton } from "../../../common";
+import { Switch, Input, EditorInput, RemoveButton } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
@@ -34,7 +34,7 @@ const FAQ = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
               titleText="FAQ"
@@ -57,14 +57,14 @@ const FAQ = () => {
         </Row>
         <Row style={{ marginBottom: 25 }}>
           <Col>
-            <CheckBox
-              id={`checkbox-1`}
-              checkBoxText="Enable FAQ tab"
+            <Switch
               checked={check}
               onChange={() => {
                 setCheck(!check);
               }}
-            />
+              variant="primary"
+              label="Enable FAQ tab"
+            ></Switch>
           </Col>
         </Row>
         <Row>

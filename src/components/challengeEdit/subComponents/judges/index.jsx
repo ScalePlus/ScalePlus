@@ -3,7 +3,9 @@ import { Row, Col, Form } from "react-bootstrap";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
-import { CheckBox, CommonTable, RemoveButton } from "../../../common";
+import { Switch, CommonTable, RemoveButton } from "../../../common";
+import InviteModal from "./inviteModal";
+
 const data = [
   {
     name: "Judge Name",
@@ -35,6 +37,8 @@ const data = [
 const Judges = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
+  const [show, setShow] = useState(false);
+
   return (
     <MainContainer>
       <Row style={{ marginBottom: 30 }}>
@@ -60,25 +64,28 @@ const Judges = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
               titleText="Judges"
               buttonText="Invite"
               buttonVariant="info"
+              buttonClick={() => {
+                setShow(true);
+              }}
             />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 25 }}>
+        <Row>
           <Col>
-            <CheckBox
-              id={`checkbox-1`}
-              checkBoxText="Enable Judges tab"
+            <Switch
               checked={check}
               onChange={() => {
                 setCheck(!check);
               }}
-            />
+              variant="primary"
+              label="Enable Judges tab"
+            ></Switch>
           </Col>
         </Row>
         <Row>
@@ -138,6 +145,7 @@ const Judges = () => {
           </Col>
         </Row>
       </Form>
+      <InviteModal show={show} setShow={setShow} />
     </MainContainer>
   );
 };

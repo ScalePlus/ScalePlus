@@ -158,6 +158,7 @@ const OrganizationDetails = () => {
                       onChange={(e) => {
                         switchToggle(!roleSwitch);
                       }}
+                      label=""
                     ></Switch>
                   </div>
                   <div className={`individual-text ${roleSwitch && "active"}`}>

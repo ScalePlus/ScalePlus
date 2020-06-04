@@ -30,6 +30,6 @@ export const MainContainer = styled.div`
     text-align: left;
     margin-left: 10px;
     margin-top: 10px;
-    font-weight: 600;
+    font-family: ${theme.fontFamily.semi_bold};
   }
 `;

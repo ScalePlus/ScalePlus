@@ -5,14 +5,15 @@ import {
   TextArea,
   RemoveButton,
   UpdateCountButton,
+  DropDown,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
-import { Constants } from "../../../../lib/constant";
 
 const JudgingCriteria = () => {
   const [validated, setValidated] = useState(false);
+  const [selectedRating, selectRating] = useState("");
   const [updates, changeUpdates] = useState([
     { title: "", description: "", score: "" },
   ]);
@@ -65,6 +66,27 @@ const JudgingCriteria = () => {
           </Col>
         </Row>
         <Row>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <DropDown
+              isSmall={true}
+              label="Rating Type"
+              placeholder=""
+              options={[
+                { value: "1", label: "Rating Types" },
+                { value: "2", label: "Starring System" },
+                { value: "3", label: "Slider" },
+                { value: "4", label: "written" },
+                { value: "5", label: "Overall Rating" },
+              ]}
+              value={selectedRating}
+              onChange={(val) => {
+                selectRating(val);
+              }}
+              isSingle={true}
+            />
+          </Col>
+        </Row>
+        <Row>
           <Col>
             {updates.map((each, index) => {
               return (
@@ -74,7 +96,7 @@ const JudgingCriteria = () => {
                       <Col lg={6} md={6} sm={12} xs={12}>
                         <Input
                           type="text"
-                          label="Title"
+                          label="Section Title"
                           value={each.title}
                           onChange={(e) => {
                             changeUpdates(
@@ -91,7 +113,7 @@ const JudgingCriteria = () => {
                       <Col lg={6} md={6} sm={12} xs={12}>
                         <Input
                           type="number"
-                          label="Max score *"
+                          label="Overall Weight"
                           value={each.score}
                           onChange={(e) => {
                             changeUpdates(
@@ -103,8 +125,6 @@ const JudgingCriteria = () => {
                               })
                             );
                           }}
-                          required
-                          errorMessage={Constants.Errors.score}
                         />
                       </Col>
                     </Row>

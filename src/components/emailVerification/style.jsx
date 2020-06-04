@@ -16,13 +16,13 @@ export const MainContainer = styled.div`
     margin-bottom: 150px;
   }
   .description-container {
-    font-weight: 600;
+    font-family: ${theme.fontFamily.semi_bold};
     font-size: ${theme.fontSize.regular};
     margin-top: 25px;
     margin-bottom: 85px;
   }
   .verified-description-container {
-    font-weight: 600;
+    font-family: ${theme.fontFamily.semi_bold};
     font-size: ${theme.fontSize.regular};
     margin-top: 10px;
     margin-bottom: 40px;

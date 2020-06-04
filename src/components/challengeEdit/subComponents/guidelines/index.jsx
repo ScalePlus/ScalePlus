@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
-import { CheckBox, EditorInput } from "../../../common";
+import { Switch, EditorInput } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
@@ -35,7 +35,7 @@ const Guidelines = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
               titleText="Guidelines"
@@ -47,14 +47,14 @@ const Guidelines = () => {
         </Row>
         <Row style={{ marginBottom: 25 }}>
           <Col>
-            <CheckBox
-              id={`checkbox-1`}
-              checkBoxText="Enable Guidelines tab"
+            <Switch
               checked={check}
               onChange={() => {
                 setCheck(!check);
               }}
-            />
+              variant="primary"
+              label="Enable Guidelines tab"
+            ></Switch>
           </Col>
         </Row>
         <Row>

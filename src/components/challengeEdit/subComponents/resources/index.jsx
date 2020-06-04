@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 
 import {
-  CheckBox,
+  Switch,
   Input,
   EditorInput,
   FileInput,
@@ -43,7 +43,7 @@ const Resources = () => {
           setValidated(true);
         }}
       >
-        <Row style={{ marginBottom: 45 }}>
+        <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
               titleText="Resources"
@@ -68,14 +68,14 @@ const Resources = () => {
         </Row>
         <Row style={{ marginBottom: 25 }}>
           <Col>
-            <CheckBox
-              id={`checkbox-1`}
-              checkBoxText="Enable Resources tab"
+            <Switch
               checked={check}
               onChange={() => {
                 setCheck(!check);
               }}
-            />
+              variant="primary"
+              label="Enable Resources tab"
+            ></Switch>
           </Col>
         </Row>
         <Row>
@@ -84,21 +84,26 @@ const Resources = () => {
               return (
                 <div className="box-container" key={index}>
                   <div className="left-container">
-                    <Input
-                      type="text"
-                      label="Title"
-                      value={each.title}
-                      onChange={(e) => {
-                        changeResources(
-                          resources.map((data, i) => {
-                            if (index === i) {
-                              data["title"] = e.target.value;
-                            }
-                            return data;
-                          })
-                        );
-                      }}
-                    />
+                    <Row>
+                      <Col>
+                        <Input
+                          type="text"
+                          label="Title"
+                          value={each.title}
+                          onChange={(e) => {
+                            changeResources(
+                              resources.map((data, i) => {
+                                if (index === i) {
+                                  data["title"] = e.target.value;
+                                }
+                                return data;
+                              })
+                            );
+                          }}
+                        />
+                      </Col>
+                    </Row>
+
                     <Row className="align-items-center fileContainer">
                       <Col lg={4} md={6} sm={12} xs={12}>
                         <FileInput
@@ -130,35 +135,43 @@ const Resources = () => {
                         </span>
                       </Col>
                     </Row>
-                    <EditorInput
-                      label="Description"
-                      value={each.description}
-                      onChange={(value) => {
-                        changeResources(
-                          resources.map((data, i) => {
-                            if (index === i) {
-                              data["description"] = value;
-                            }
-                            return data;
-                          })
-                        );
-                      }}
-                    ></EditorInput>
-                    <Input
-                      type="text"
-                      label="Link"
-                      value={each.link}
-                      onChange={(e) => {
-                        changeResources(
-                          resources.map((data, i) => {
-                            if (index === i) {
-                              data["link"] = e.target.value;
-                            }
-                            return data;
-                          })
-                        );
-                      }}
-                    />
+                    <Row>
+                      <Col>
+                        <EditorInput
+                          label="Description"
+                          value={each.description}
+                          onChange={(value) => {
+                            changeResources(
+                              resources.map((data, i) => {
+                                if (index === i) {
+                                  data["description"] = value;
+                                }
+                                return data;
+                              })
+                            );
+                          }}
+                        ></EditorInput>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Input
+                          type="text"
+                          label="Link"
+                          value={each.link}
+                          onChange={(e) => {
+                            changeResources(
+                              resources.map((data, i) => {
+                                if (index === i) {
+                                  data["link"] = e.target.value;
+                                }
+                                return data;
+                              })
+                            );
+                          }}
+                        />
+                      </Col>
+                    </Row>
                   </div>
 
                   <div className="right-container">

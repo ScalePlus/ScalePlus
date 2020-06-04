@@ -25,7 +25,7 @@ export const MainContainer = styled.div`
   }
 
   .description-container {
-    font-weight: 600;
+    font-family: ${theme.fontFamily.semi_bold};
     font-size: ${theme.fontSize.regular};
     margin-bottom: 20px;
     .bold-text {

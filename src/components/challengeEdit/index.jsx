@@ -26,15 +26,16 @@ const challengeLinks = [
   "Updates",
 ];
 
-const submissionLinks = [
-  "Submission form",
+const submissionLinks = ["Submission form", "Submissions"];
+
+const judgeLinks = [
+  "Judges",
   "Judging criteria",
   "Judging activities",
-  "Judges",
   "Judges NDA",
 ];
 
-const otherLinks = ["Legal agreement", "Settings"];
+const otherLinks = ["Team", "Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history }) => {
   const [activeKey, selectKey] = useState(challengeLinks[0]);
@@ -81,11 +82,7 @@ const ChallengeEdit = ({ history }) => {
                         <div className="title">
                           <span>Challenge page</span>
                         </div>
-                        <Nav
-                          activeKey={activeKey}
-                          // onSelect={(k) => selectKey(k)}
-                          className="flex-column"
-                        >
+                        <Nav activeKey={activeKey} className="flex-column">
                           {challengeLinks.map((each, index) => {
                             return (
                               <Nav.Item
@@ -103,14 +100,30 @@ const ChallengeEdit = ({ history }) => {
                       </div>
                       <div style={{ marginTop: 20 }}>
                         <div className="title">
-                          <span>Submissions and judging</span>
+                          <span>Submissions</span>
                         </div>
-                        <Nav
-                          activeKey={activeKey}
-                          // onSelect={(k) => selectKey(k)}
-                          className="flex-column"
-                        >
+                        <Nav activeKey={activeKey} className="flex-column">
                           {submissionLinks.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  selectKey(each);
+                                  onToggle(false);
+                                }}
+                              >
+                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                              </Nav.Item>
+                            );
+                          })}
+                        </Nav>
+                      </div>
+                      <div style={{ marginTop: 20 }}>
+                        <div className="title">
+                          <span>Judging</span>
+                        </div>
+                        <Nav activeKey={activeKey} className="flex-column">
+                          {judgeLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
@@ -129,11 +142,7 @@ const ChallengeEdit = ({ history }) => {
                         <div className="title">
                           <span>Other</span>
                         </div>
-                        <Nav
-                          activeKey={activeKey}
-                          // onSelect={(k) => selectKey(k)}
-                          className="flex-column"
-                        >
+                        <Nav activeKey={activeKey} className="flex-column">
                           {otherLinks.map((each, index) => {
                             return (
                               <Nav.Item
