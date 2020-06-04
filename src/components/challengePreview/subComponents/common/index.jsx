@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Collapse, Row, Col } from "react-bootstrap";
 
-import { SearchInput, PrimaryButton } from "../../../common";
+import { SearchInput, PrimaryButton, Input } from "../../../common";
 import {
   TitleContainer,
   TitleContainerWithSearchBox,
@@ -164,44 +164,69 @@ export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
                   {each.description && (
                     <div className="description">{each.description}</div>
                   )}
-                  {each.downloadFiles && each.downloadFiles.length && (
-                    <div className="download-files-container">
-                      <Row>
+                  {isStartUp_Individual &&
+                    each.downloadFiles &&
+                    each.downloadFiles.length && (
+                      <div className="download-files-container">
                         {each.downloadFiles.map((fileName, index) => {
                           return (
-                            <Col
-                              lg={{
-                                span: 5,
-                                offset: index % 2 === 0 ? 0 : 2,
-                              }}
-                              md={12}
-                              sm={12}
-                              xs={12}
-                              key={index}
-                            >
-                              <div className="download-block">
-                                <div className="icon-container">
-                                  <img
-                                    src="/images/attach.png"
-                                    alt=""
-                                    height="25px"
-                                    width="25px"
-                                  />
-                                </div>
-                                <div className="name">{fileName}</div>
-                                <div className="button-container">
-                                  <PrimaryButton
-                                    variant="success_light"
-                                    text={"Download attachment"}
-                                  ></PrimaryButton>
-                                </div>
+                            <div className="download-block" key={index}>
+                              <div className="icon-container">
+                                <img
+                                  src="/images/attach.png"
+                                  alt=""
+                                  height="25px"
+                                  width="25px"
+                                />
                               </div>
-                            </Col>
+                              <div className="name">{fileName}</div>
+                              <div className="button-container">
+                                <PrimaryButton
+                                  variant="success_light"
+                                  text={"Download attachment"}
+                                ></PrimaryButton>
+                              </div>
+                            </div>
                           );
                         })}
-                      </Row>
-                    </div>
-                  )}
+                      </div>
+                    )}
+                  {isStartUp_Individual &&
+                    each.uploadFiles &&
+                    each.uploadFiles.length && (
+                      <div className="upload-files-container">
+                        {each.uploadFiles.map((name, index) => {
+                          let fileUploader;
+                          return (
+                            <div className="upload-block" key={index}>
+                              <div className="name">{name}</div>
+                              <div className="file-container">
+                                <Input
+                                  type="text"
+                                  placeholder="file name……word"
+                                  onClick={() => {
+                                    fileUploader.click();
+                                  }}
+                                  readOnly
+                                ></Input>
+                                <input
+                                  type="file"
+                                  ref={(ref) => (fileUploader = ref)}
+                                  style={{ display: "none" }}
+                                  onClick={(event) => {
+                                    event.target.value = null;
+                                  }}
+                                />
+                                <PrimaryButton
+                                  variant="primary"
+                                  text={"Browse"}
+                                ></PrimaryButton>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                 </div>
               </div>
             );

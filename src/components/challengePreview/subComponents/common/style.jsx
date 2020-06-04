@@ -224,9 +224,26 @@ export const StepperVerticalContainer = styled.div`
       font-size: ${theme.fontSize.semiRegular};
     }
     .download-files-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
       border-top: 1px solid #979797;
       margin-top: 15px;
       .download-block {
+        flex: 0 100%;
+        @media (min-width: 576px) {
+          flex: 0 100%;
+        }
+
+        @media (min-width: 768px) {
+          flex: 0 48%;
+        }
+
+        @media (min-width: 992px) {
+          flex: 0 45%;
+        }
+
         display: flex;
         align-items: center;
         padding-top: 15px;
@@ -242,6 +259,62 @@ export const StepperVerticalContainer = styled.div`
           flex: 0.4;
           button {
             width: 100%;
+            .button-text {
+              font-size: ${theme.fontSize.semiRegular};
+            }
+          }
+        }
+      }
+    }
+    .upload-files-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #979797;
+      margin-top: 15px;
+      .upload-block {
+        flex: 0 100%;
+        @media (min-width: 576px) {
+          flex: 0 100%;
+        }
+
+        @media (min-width: 768px) {
+          flex: 0 48%;
+        }
+
+        @media (min-width: 992px) {
+          flex: 0 45%;
+        }
+        padding-top: 15px;
+        text-align: left;
+        .name {
+          font-size: ${theme.fontSize.regular};
+          font-family: ${theme.fontFamily.bold};
+          margin-bottom: 10px;
+        }
+        .file-container {
+          display: flex;
+          align-items: center;
+          .form-group {
+            margin-bottom: 0;
+            flex: 0.8;
+            .form-control {
+              height: 35px;
+              border-radius: 0px;
+              border-top-left-radius: 6px;
+              border-bottom-left-radius: 6px;
+              border: 1px solid rgba(0, 0, 0, 0.5);
+            }
+          }
+          button {
+            flex: 0.2;
+            width: 100%;
+            padding: 8px 0px;
+            border-radius: 0px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
             .button-text {
               font-size: ${theme.fontSize.semiRegular};
             }
