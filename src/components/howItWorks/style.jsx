@@ -7,6 +7,9 @@ export const MainContainer = styled.div`
   .expert-container,
   .expect-container {
     padding: 80px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: ${theme.colors.white};
   }
   .subscribe-container {

@@ -238,6 +238,7 @@ body {
 
 .active-tab {
   background-color: ${theme.colors.yellow} !important;
+  border-color: ${theme.colors.yellow} !important;
 }
 
 .active-tab .tab-main-text {

@@ -48,6 +48,7 @@ export const Container = styled.div`
     margin-left: 10px;
     .search-text {
       margin-left: 5px;
+      vertical-align: middle;
     }
   }
 

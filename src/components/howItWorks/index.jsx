@@ -31,7 +31,6 @@ const HowItWorks = () => {
                   ></PrimaryButton>
                 </div>
               </Col>
-              <Col lg={6} md={6} sm={12} xs={12} />
             </Row>
           </Col>
         </Row>

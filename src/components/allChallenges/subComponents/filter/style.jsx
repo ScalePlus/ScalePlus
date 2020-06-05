@@ -26,9 +26,7 @@ export const MainContainer = styled.div`
     font-family: ${theme.fontFamily.bold} !important;
     font-size: ${theme.fontSize.regular} !important;
   }
-  .active-tab {
-    border-color: ${theme.colors.yellow};
-  }
+
   .custom-tab-container {
     margin-top: 10px;
     margin-bottom: 15px;

@@ -922,20 +922,22 @@ export const CardComponent = React.memo(({ src, variant, progress, label }) => {
                   <ProgressBar variant={variant} now={progress} label={label} />
                 </div>
               </div>
-              <div className="bordered-container">
-                <div className="heading-text">
-                  <span>Participants/Matches</span>
+              <div className="count-container">
+                <div className="left-container">
+                  <div className="sub-heading-text">
+                    <span>Participants/Matches</span>
+                  </div>
+                  <div className="heading-text">
+                    <span>6</span>
+                  </div>
                 </div>
-                <div className="sub-heading-text">
-                  <span>6</span>
-                </div>
-              </div>
-              <div className="bordered-container">
-                <div className="heading-text">
-                  <span>Judges</span>
-                </div>
-                <div className="sub-heading-text">
-                  <span>6</span>
+                <div className="right-container">
+                  <div className="sub-heading-text">
+                    <span>Judges</span>
+                  </div>
+                  <div className="heading-text">
+                    <span>6</span>
+                  </div>
                 </div>
               </div>
             </>

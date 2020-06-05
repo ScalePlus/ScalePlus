@@ -457,11 +457,24 @@ export const CardContainer = styled.div`
         }
         .days-text {
           color: ${theme.colors.gray};
-          font-family: ${theme.fontFamily.bold};
+          font-family: ${theme.fontFamily.semi_bold};
           margin-left: 10px;
         }
         .prize-text {
-          font-family: ${theme.fontFamily.bold};
+          font-family: ${theme.fontFamily.semi_bold};
+        }
+      }
+      .count-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        .left-container {
+          flex: 0.5;
+          border-right: 1px solid #e9e9e9;
+        }
+        .right-container {
+          margin-left: 20px;
+          flex: 0.5;
         }
       }
       .bordered-container {

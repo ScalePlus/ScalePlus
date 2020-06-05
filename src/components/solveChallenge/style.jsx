@@ -4,11 +4,6 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   text-align: center;
 
-  .active-tab {
-    box-shadow: 0 6px 5px 0 rgba(160, 121, 0, 0.5);
-    border-color: transparent !important;
-  }
-
   .title-container {
     margin-top: 40px;
   }

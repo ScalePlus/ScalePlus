@@ -4,6 +4,9 @@ import theme from "../../theme";
 export const MainContainer = styled.div`
   .subscribe-container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-image: url("/images/subscribe-banner.png");
     background-size: cover;
     background-color: ${theme.colors.yellow};

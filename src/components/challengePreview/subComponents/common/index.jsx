@@ -192,23 +192,25 @@ export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
                         })}
                       </div>
                     )}
-                  {each.uploadFiles && each.uploadFiles.length && (
-                    <div className="upload-files-container">
-                      {each.uploadFiles.map((name, index) => {
-                        return (
-                          <div className="upload-block" key={index}>
-                            <div className="name">{name}</div>
-                            <div className="file-container">
-                              <FileInput
-                                placeholder="file name……word"
-                                prependButtonText="Browse"
-                              ></FileInput>
+                  {isStartUp_Individual &&
+                    each.uploadFiles &&
+                    each.uploadFiles.length && (
+                      <div className="upload-files-container">
+                        {each.uploadFiles.map((name, index) => {
+                          return (
+                            <div className="upload-block" key={index}>
+                              <div className="name">{name}</div>
+                              <div className="file-container">
+                                <FileInput
+                                  placeholder="file name……word"
+                                  prependButtonText="Browse"
+                                ></FileInput>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                          );
+                        })}
+                      </div>
+                    )}
                 </div>
               </div>
             );
