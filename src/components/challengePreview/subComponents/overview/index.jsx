@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { PageTitle, PrimaryButton } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
+import history from "../../../../history";
 const tags = ["Challenge Tag", "Challenge Tag", "Challenge Tag"];
 
 const OverView = ({ isOrganisation, isMentor_Judge }) => {
@@ -60,7 +61,7 @@ const OverView = ({ isOrganisation, isMentor_Judge }) => {
                           : "Solve Challenge"
                       }
                       onClick={() => {
-                        alert("clicked");
+                        history.push("/solve/challenge");
                       }}
                     ></PrimaryButton>
                   </div>
@@ -159,7 +160,7 @@ const OverView = ({ isOrganisation, isMentor_Judge }) => {
                   isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
                 }
                 onClick={() => {
-                  alert("clicked");
+                  history.push("/solve/challenge");
                 }}
               ></PrimaryButton>
             </Col>

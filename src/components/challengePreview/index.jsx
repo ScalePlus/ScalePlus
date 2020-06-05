@@ -81,7 +81,7 @@ const ChallengePreview = ({ history }) => {
                 isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
               }
               primaryButtonClick={() => {
-                alert("clicked");
+                history.push("/solve/challenge");
               }}
               shareClick={() => {
                 alert("clicked");

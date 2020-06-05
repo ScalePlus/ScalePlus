@@ -429,6 +429,13 @@ body {
   }
 }
 
+.team-agreement-modal{
+  max-width:670px;
+  .modal-header,.modal-body{
+    padding:0px;
+  }
+}
+
 .notification-modal{
   max-width:450px;
   margin-top: 19rem;
@@ -472,6 +479,9 @@ body {
   .privacy-links{
     font-family: ${theme.fontFamily.bold};
     text-decoration: underline;
+  }
+  .bold-text{
+    font-family: ${theme.fontFamily.bold};
   }
 }
 `;

@@ -225,7 +225,15 @@ const Timeline = () => {
                                     ></FileInput>
                                   </div>
                                 </Col>
-                                <Col lg={7} md={12} sm={12} xs={12}>
+                                <Col
+                                  lg={{
+                                    span: 6,
+                                    offset: 1,
+                                  }}
+                                  md={12}
+                                  sm={12}
+                                  xs={12}
+                                >
                                   <div className="title-container">
                                     <div className="title">Title</div>
                                     <Input
@@ -299,7 +307,7 @@ const Timeline = () => {
                               key={attachIndex}
                             >
                               <Row>
-                                <Col lg={7} md={12} sm={12} xs={12}>
+                                <Col lg={6} md={12} sm={12} xs={12}>
                                   <div className="title-container">
                                     <div className="field-title">
                                       Field Label
