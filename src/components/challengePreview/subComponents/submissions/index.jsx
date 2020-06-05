@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
-import { HeaderComponent } from "../../../challengePreview/subComponents/common";
+import { Row, Col, Alert } from "react-bootstrap";
 import { MainContainer } from "./style";
-import { CheckBox, CommonTable } from "../../../common";
+import { PrimaryButton, CheckBox, CommonTable } from "../../../common";
+import { HeaderComponent } from "../common";
+import EvaluateModal from "./evaluateModal";
 
-const Submissions = () => {
+const Submissions = ({ isStartUp_Individual, isMentor_Judge }) => {
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
   const [data, changeData] = useState([
     {
       id: 1,
@@ -58,21 +61,48 @@ const Submissions = () => {
     },
   ]);
 
-  return (
+  return isStartUp_Individual ? (
     <MainContainer>
-      <Row style={{ marginBottom: 25 }}>
-        <Col>
-          <HeaderComponent
-            titleText="All Submissions"
-            buttonText="Review Judging Criteria"
-            buttonVariant="info"
-            buttonClick={() => {}}
-          />
+      {error && (
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <Alert variant={"danger"} className="text-left">
+              {error}
+            </Alert>
+          </Col>
+        </Row>
+      )}
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <div className="button-container">
+            <PrimaryButton
+              variant="primary"
+              text={"Save & Preview"}
+              onClick={() => {
+                setError(` Submission form is not complete. Please fill all the required
+                fields.`);
+              }}
+            ></PrimaryButton>
+          </div>
         </Col>
       </Row>
-
-      <Row>
-        <Col>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <div className="content-container">
+            Whatever we built with the form Builder
+          </div>
+        </Col>
+      </Row>
+    </MainContainer>
+  ) : isMentor_Judge ? (
+    <MainContainer>
+      <Row className="justify-content-center center-alignment header-container">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <HeaderComponent titleText="All Submissions" />
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
           <CommonTable
             filters={true}
             columns={[
@@ -164,6 +194,30 @@ const Submissions = () => {
           />
         </Col>
       </Row>
+    </MainContainer>
+  ) : (
+    <MainContainer>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <div className="button-container">
+            <PrimaryButton
+              variant="primary"
+              text={"Evaluate Submission"}
+              onClick={() => {
+                setShow(true);
+              }}
+            ></PrimaryButton>
+          </div>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <div className="content-container">
+            Whatever we built with the form Builder
+          </div>
+        </Col>
+      </Row>
+      <EvaluateModal show={show} setShow={setShow} />
     </MainContainer>
   );
 };

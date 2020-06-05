@@ -406,7 +406,7 @@ body {
   padding-top: 8px;
 }
 
-.fullscreen-modal,.search-modal {
+.fullscreen-modal,.search-modal,.evaluate-modal {
   max-width: 100%;
   margin:0px !important;
   height: 100vh;
@@ -456,7 +456,7 @@ body {
   }
 }
 
-.search-modal {
+.search-modal,.evaluate-modal  {
   border:none;
   border-radius:0;
   .modal-header,.modal-body{
@@ -466,6 +466,17 @@ body {
     background-color: ${theme.colors.black};
     border:none;
     border-radius:0;
+  }
+}
+
+.evaluate-modal{
+  .modal-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 100px 0px;
+    background-color: #4a4a4a;
   }
 }
 

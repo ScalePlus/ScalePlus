@@ -40,6 +40,8 @@ const Header = () => {
 
     if (record && activeKey !== record.label) {
       selectKey(record ? record.label : "");
+    } else {
+      selectKey("");
     }
   });
 
