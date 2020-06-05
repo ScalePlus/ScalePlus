@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Row, Col } from "react-bootstrap";
 import { Input, TextArea, PrimaryButton } from "../../../../common";
 import { MainContainer } from "./style";

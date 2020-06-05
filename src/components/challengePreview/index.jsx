@@ -9,6 +9,7 @@ import {
 import { Constants } from "../../lib/constant";
 import { MainContainer, TabContainer } from "./style";
 import OverView from "./subComponents/overview";
+import JudgingCriteria from "./subComponents/judgingCriteria";
 import Submissions from "./subComponents/submissions";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
@@ -19,6 +20,7 @@ import Resources from "./subComponents/resources";
 import "react-circular-progressbar/dist/styles.css";
 const tabs = [
   "Overview",
+  "Judging Criteria",
   "Submissions",
   "Guidelines",
   "Updates",
@@ -135,6 +137,9 @@ const ChallengePreview = ({ history }) => {
               isOrganisation={isOrganisation}
               isMentor_Judge={isMentor_Judge}
             />
+          </Tab.Pane>
+          <Tab.Pane eventKey="Judging Criteria">
+            <JudgingCriteria />
           </Tab.Pane>
           <Tab.Pane eventKey="Submissions">
             <Submissions
