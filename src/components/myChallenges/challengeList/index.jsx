@@ -43,9 +43,6 @@ const MyChallengesList = ({ history }) => {
                       xs={12}
                       key={index}
                       className="custom-card"
-                      onClick={() => {
-                        history.push("/challenge/preview");
-                      }}
                     >
                       <CardComponent
                         src={each.src}

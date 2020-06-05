@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "./subComponents/challengesList";
-import MyChallengesList from "../myChallenges/challengeList";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 import Subscribe from "./subComponents/subscribeModal";
 
 const AllChallenges = ({ history }) => {
-  const isLoggedIn = localStorage.getItem("token");
   const [show, setShow] = useState(false);
   return (
     <MainContainer>
@@ -38,7 +36,6 @@ const AllChallenges = ({ history }) => {
           </Col>
         </Row>
       </div>
-      {isLoggedIn && <MyChallengesList history={history} />}
       <ChallengesList history={history} />
       <Subscribe show={show} setShow={setShow} />
     </MainContainer>

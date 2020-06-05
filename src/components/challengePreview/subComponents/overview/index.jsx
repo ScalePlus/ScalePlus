@@ -10,6 +10,7 @@ const OverView = ({
   isOrganisation,
   isMentor_Judge,
   isLoggedIn,
+  isProfileUpdated,
   setUserFlowModal,
 }) => {
   return (
@@ -67,7 +68,15 @@ const OverView = ({
                       }
                       onClick={() => {
                         if (isLoggedIn) {
-                          history.push("/solve/challenge");
+                          if (isProfileUpdated) {
+                            if (isMentor_Judge) {
+                              history.push("/dashboard");
+                            } else {
+                              history.push("/solve/challenge");
+                            }
+                          } else {
+                            history.push("/detail");
+                          }
                         } else {
                           setUserFlowModal(true);
                         }
@@ -170,7 +179,15 @@ const OverView = ({
                 }
                 onClick={() => {
                   if (isLoggedIn) {
-                    history.push("/solve/challenge");
+                    if (isProfileUpdated) {
+                      if (isMentor_Judge) {
+                        history.push("/dashboard");
+                      } else {
+                        history.push("/solve/challenge");
+                      }
+                    } else {
+                      history.push("/detail");
+                    }
                   } else {
                     setUserFlowModal(true);
                   }

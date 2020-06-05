@@ -44,6 +44,7 @@ const ChallengePreview = ({ history }) => {
   const [selectedTab, selectTab] = useState(tabs[0]);
   const [show, setUserFlowModal] = useState(false);
   const isLoggedIn = localStorage.getItem("token");
+  const isProfileUpdated = localStorage.getItem("profileUpdated");
 
   return (
     <MainContainer>
@@ -92,7 +93,15 @@ const ChallengePreview = ({ history }) => {
               }
               primaryButtonClick={() => {
                 if (isLoggedIn) {
-                  history.push("/solve/challenge");
+                  if (isProfileUpdated) {
+                    if (isMentor_Judge) {
+                      history.push("/dashboard");
+                    } else {
+                      history.push("/solve/challenge");
+                    }
+                  } else {
+                    history.push("/detail");
+                  }
                 } else {
                   setUserFlowModal(true);
                 }
@@ -147,6 +156,7 @@ const ChallengePreview = ({ history }) => {
               isOrganisation={isOrganisation}
               isMentor_Judge={isMentor_Judge}
               isLoggedIn={isLoggedIn}
+              isProfileUpdated={isProfileUpdated}
               setUserFlowModal={setUserFlowModal}
             />
           </Tab.Pane>
