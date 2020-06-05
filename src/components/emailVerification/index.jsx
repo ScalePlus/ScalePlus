@@ -7,11 +7,11 @@ import { MainContainer } from "./style";
 import { Title, Input, PrimaryButton, Loading } from "../common";
 import { Constants } from "../../lib/constant";
 
-const EmailVerification = ({ history, match }) => {
+const EmailVerification = ({ history, mode, setActiveModal }) => {
   const dispatch = useDispatch();
   const verifyEmailMethod = (data) => dispatch(verifyEmailAction(data));
   const resendVerificationMethod = () =>
-    dispatch(resendVerificationAction({ id: match.params.id }));
+    dispatch(resendVerificationAction({ id: localStorage.getItem("userId") }));
   const getUserMethod = useCallback((id) => dispatch(getUser(id)), [dispatch]);
 
   const emailVerificationReducer = useSelector((state) => {
@@ -36,8 +36,8 @@ const EmailVerification = ({ history, match }) => {
       signinReducer.userData.emailVerification);
 
   useEffect(() => {
-    getUserMethod(match.params.id);
-  }, [getUserMethod, match]);
+    getUserMethod(localStorage.getItem("userId"));
+  }, [getUserMethod]);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -80,11 +80,11 @@ const EmailVerification = ({ history, match }) => {
       second &&
       third &&
       forth &&
-      match.params.id &&
+      localStorage.getItem("userId") &&
       form.checkValidity()
     ) {
       verifyEmailMethod({
-        id: match.params.id,
+        id: localStorage.getItem("userId"),
         verificationCode: first + second + third + forth,
       });
     }
@@ -94,7 +94,11 @@ const EmailVerification = ({ history, match }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center">
-        <Col lg={5} md={10} sm={12}>
+        <Col
+          lg={mode === "modal" ? 12 : 5}
+          md={mode === "modal" ? 12 : 10}
+          sm={12}
+        >
           <Row className="title-container">
             <Col>
               <Title
@@ -250,7 +254,11 @@ const EmailVerification = ({ history, match }) => {
                       variant="primary"
                       text="Login"
                       onClick={() => {
-                        history.push("/login");
+                        if (mode === "modal") {
+                          setActiveModal("SignIn");
+                        } else {
+                          history.push("/login");
+                        }
                       }}
                     ></PrimaryButton>
                   </Col>
@@ -272,7 +280,11 @@ const EmailVerification = ({ history, match }) => {
                     variant="light"
                     text="Have an account? Login"
                     onClick={() => {
-                      history.push("/login");
+                      if (mode === "modal") {
+                        setActiveModal("SignIn");
+                      } else {
+                        history.push("/login");
+                      }
                     }}
                   ></PrimaryButton>
                 </Col>

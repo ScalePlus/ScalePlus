@@ -32,9 +32,10 @@ const tabs = [
   },
 ];
 
-const SignUp = ({ history }) => {
+const SignUp = ({ history, mode, setActiveModal }) => {
   const dispatch = useDispatch();
-  const signupMethod = (data) => dispatch(signupAction(data));
+  const signupMethod = (data) =>
+    dispatch(signupAction(data, mode, setActiveModal));
   const signupReducer = useSelector((state) => {
     return state.signupReducer;
   });
@@ -99,7 +100,11 @@ const SignUp = ({ history }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center">
-        <Col lg={5} md={10} sm={12}>
+        <Col
+          lg={mode === "modal" ? 12 : 5}
+          md={mode === "modal" ? 12 : 10}
+          sm={12}
+        >
           <Row className="title-container">
             <Col>
               <Title text={"Sign up"} icon={false}></Title>
@@ -287,7 +292,11 @@ const SignUp = ({ history }) => {
                   variant="light"
                   text="Have an account? Login"
                   onClick={() => {
-                    history.push("/login");
+                    if (mode === "modal") {
+                      setActiveModal("SignIn");
+                    } else {
+                      history.push("/login");
+                    }
                   }}
                 ></PrimaryButton>
               </Col>

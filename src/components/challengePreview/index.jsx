@@ -6,6 +6,7 @@ import {
   ChallengeHeader,
   ChallengeViewHeader,
 } from "../common";
+import UserFlowModal from "../userFlowModal";
 import { Constants } from "../../lib/constant";
 import { MainContainer, TabContainer } from "./style";
 import OverView from "./subComponents/overview";
@@ -32,12 +33,17 @@ const tabs = [
 
 const ChallengePreview = ({ history }) => {
   const isStartUp_Individual =
-      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
+      localStorage.getItem("token"),
     isOrganisation =
-      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      localStorage.getItem("token"),
     isMentor_Judge =
-      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
+      localStorage.getItem("token");
   const [selectedTab, selectTab] = useState(tabs[0]);
+  const [show, setUserFlowModal] = useState(false);
+  const isLoggedIn = localStorage.getItem("token");
 
   return (
     <MainContainer>
@@ -85,7 +91,11 @@ const ChallengePreview = ({ history }) => {
                 isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
               }
               primaryButtonClick={() => {
-                history.push("/solve/challenge");
+                if (isLoggedIn) {
+                  history.push("/solve/challenge");
+                } else {
+                  setUserFlowModal(true);
+                }
               }}
               shareClick={() => {
                 alert("clicked");
@@ -136,6 +146,8 @@ const ChallengePreview = ({ history }) => {
             <OverView
               isOrganisation={isOrganisation}
               isMentor_Judge={isMentor_Judge}
+              isLoggedIn={isLoggedIn}
+              setUserFlowModal={setUserFlowModal}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
@@ -167,6 +179,11 @@ const ChallengePreview = ({ history }) => {
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
+      <UserFlowModal
+        show={show}
+        setUserFlowModal={setUserFlowModal}
+        history={history}
+      />
     </MainContainer>
   );
 };

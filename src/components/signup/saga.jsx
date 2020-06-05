@@ -16,7 +16,12 @@ function* signupSaga(data) {
       yield put({ type: SIGNUP_ERROR, payload: res.message });
     } else {
       yield put({ type: SIGNUP_SUCCESS, payload: res.result });
-      history.push(`/verification/${res.result.userId}`);
+      localStorage.setItem("userId", res.result.userId);
+      if (data.mode === "modal") {
+        data.setActiveModal("EmailVerification");
+      } else {
+        history.push(`/verification/${res.result.userId}`);
+      }
     }
   } catch (error) {
     yield put({ type: SIGNUP_ERROR, payload: error.message });

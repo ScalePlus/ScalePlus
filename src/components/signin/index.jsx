@@ -16,9 +16,10 @@ import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 import theme from "../../theme";
 
-const SignIn = ({ history }) => {
+const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const dispatch = useDispatch();
-  const signinMethod = (data) => dispatch(signinAction(data));
+  const signinMethod = (data) =>
+    dispatch(signinAction(data, mode, setActiveModal, setUserFlowModal));
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
@@ -56,7 +57,11 @@ const SignIn = ({ history }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center">
-        <Col lg={5} md={10} sm={12}>
+        <Col
+          lg={mode === "modal" ? 12 : 5}
+          md={mode === "modal" ? 12 : 10}
+          sm={12}
+        >
           <Row className="title-container">
             <Col>
               <Title text={"Login"} icon={false}></Title>
@@ -178,7 +183,11 @@ const SignIn = ({ history }) => {
                   variant="light"
                   text="New User? Register"
                   onClick={() => {
-                    history.push("/register");
+                    if (mode === "modal") {
+                      setActiveModal("SignUp");
+                    } else {
+                      history.push("/register");
+                    }
                   }}
                 ></PrimaryButton>
               </Col>

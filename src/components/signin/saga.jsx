@@ -15,6 +15,7 @@ import {
 } from "./types";
 import Api from "./api";
 import history from "../../history";
+import { Constants } from "../../lib/constant";
 
 function* signinSaga(data) {
   yield put({ type: SIGNIN_LOADING });
@@ -27,15 +28,41 @@ function* signinSaga(data) {
       if (res.result.token) {
         localStorage.setItem("token", res.result.token);
         localStorage.setItem("userRole", res.result.userRole);
-        localStorage.setItem("profileUpdated", res.result.profileUpdated);
+        localStorage.setItem("userId", res.result.userId);
         if (res.result.profileUpdated) {
-          history.push("/dashboard");
+          localStorage.setItem("profileUpdated", res.result.profileUpdated);
+        }
+      }
+
+      if (data.mode === "modal") {
+        if (res.result.token) {
+          const isOrganisation =
+              localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+            isMentor_Judge =
+              localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+
+          if (res.result.profileUpdated) {
+            if (isOrganisation || isMentor_Judge) {
+              data.setUserFlowModal("/dashboard");
+            } else {
+              data.setUserFlowModal("/solve/challenge");
+            }
+          } else {
+            data.setUserFlowModal("/detail");
+          }
         } else {
-          history.push("/detail");
+          data.setActiveModal("EmailVerification");
         }
       } else {
-        localStorage.setItem("userRole", res.result.userRole);
-        history.push(`/verification/${res.result.userId}`);
+        if (res.result.token) {
+          if (res.result.profileUpdated) {
+            history.push("/dashboard");
+          } else {
+            history.push("/detail");
+          }
+        } else {
+          history.push(`/verification/${res.result.userId}`);
+        }
       }
     }
   } catch (error) {

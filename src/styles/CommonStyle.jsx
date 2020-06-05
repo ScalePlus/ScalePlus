@@ -419,6 +419,24 @@ body {
   }
 }
 
+.user-flow-modal{
+  max-width:670px;
+  .modal-content{
+    border-radius: 10px;
+  }
+  .modal-header{
+    padding:0px;
+    background-color: #f1f1f1;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }.modal-body{
+    padding:0px;
+    background-color: ${theme.colors.white};
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
 .subscribe-modal{
   max-width:670px;
   .modal-content{
@@ -469,6 +487,8 @@ body {
     border-radius:0;
   }
 }
+
+
 
 .evaluate-modal{
   .modal-body{

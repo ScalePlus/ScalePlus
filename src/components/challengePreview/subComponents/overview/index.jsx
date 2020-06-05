@@ -6,7 +6,12 @@ import { MainContainer, ContentContainer } from "./style";
 import history from "../../../../history";
 const tags = ["Challenge Tag", "Challenge Tag", "Challenge Tag"];
 
-const OverView = ({ isOrganisation, isMentor_Judge }) => {
+const OverView = ({
+  isOrganisation,
+  isMentor_Judge,
+  isLoggedIn,
+  setUserFlowModal,
+}) => {
   return (
     <MainContainer>
       <Row className="justify-content-center image-box-container">
@@ -61,7 +66,11 @@ const OverView = ({ isOrganisation, isMentor_Judge }) => {
                           : "Solve Challenge"
                       }
                       onClick={() => {
-                        history.push("/solve/challenge");
+                        if (isLoggedIn) {
+                          history.push("/solve/challenge");
+                        } else {
+                          setUserFlowModal(true);
+                        }
                       }}
                     ></PrimaryButton>
                   </div>
@@ -160,7 +169,11 @@ const OverView = ({ isOrganisation, isMentor_Judge }) => {
                   isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
                 }
                 onClick={() => {
-                  history.push("/solve/challenge");
+                  if (isLoggedIn) {
+                    history.push("/solve/challenge");
+                  } else {
+                    setUserFlowModal(true);
+                  }
                 }}
               ></PrimaryButton>
             </Col>
