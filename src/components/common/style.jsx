@@ -470,6 +470,7 @@ export const CardContainer = styled.div`
         margin-top: 10px;
         .left-container {
           flex: 0.5;
+          padding-right: 5px;
           border-right: 1px solid #e9e9e9;
         }
         .right-container {

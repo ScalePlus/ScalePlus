@@ -8,7 +8,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
-  border-radius: 6px 6px 0 0;
+  border-radius: 10px 10px 0 0;
   .left-text {
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
@@ -16,10 +16,8 @@ export const HeaderContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  border-radius: 0 0 6px 6px;
-  .notification-container:not(:last-child) {
-    border-bottom: 1px solid ${theme.colors.black};
-  }
+  background-color: ${theme.colors.white};
+  border-radius: 0 0 10px 10px;
   .notification-container {
     display: flex;
     justify-content: space-between;

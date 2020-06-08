@@ -43,6 +43,30 @@ export const Container = styled.div`
     margin-top: 7px;
   }
 
+  .notification-menu {
+    width: 390px;
+    padding: 0px;
+    right: auto;
+    left: 0;
+
+    @media (min-width: 576px),
+      @media (min-width: 768px),
+      @media (min-width: 992px) {
+      width: 450px;
+    }
+    @media (min-width: 992px) {
+      right: 0;
+      left: auto;
+    }
+
+    .dropdown-item {
+      padding: 0px;
+    }
+    .dropdown-item:not(:last-child) {
+      border-bottom: 1px solid ${theme.colors.black};
+    }
+  }
+
   .search-img {
     margin-right: 5px;
     margin-left: 10px;

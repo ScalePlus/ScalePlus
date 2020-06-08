@@ -455,25 +455,6 @@ body {
   }
 }
 
-.notification-modal{
-  max-width:450px;
-  margin-top: 19rem;
-  @media (min-width: 576px){
-    margin-top: 19rem;
-  }
-  @media (min-width: 768px) {
-    margin-top: 19rem;
-    margin-right: 30rem;
-  }
-  @media (min-width: 992px) {
-    margin-top: 4rem;
-    margin-right: 12rem;
-  }
-
-  .modal-header,.modal-body{
-    padding:0px;
-  }
-}
 
 .search-modal,.evaluate-modal  {
   border:none;

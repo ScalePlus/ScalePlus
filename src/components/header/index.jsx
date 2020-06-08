@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
-import NotificationModal from "./subComponents/notificationModal";
+import { HeaderPart, ContentPart } from "./subComponents/notifications";
 
 const Header = () => {
   const [links] = useState(
@@ -31,7 +31,6 @@ const Header = () => {
   );
   const [expanded, onToggle] = useState(false);
   const [show, setShow] = useState(false);
-  const [showNotification, setNotificationShow] = useState(false);
 
   history.listen((location, action) => {
     let record = links.find((each) => {
@@ -77,23 +76,85 @@ const Header = () => {
             })}
           </Nav>
           {localStorage.getItem("token") && (
-            <div
-              className="notification-container"
-              onClick={() => {
-                setNotificationShow(true);
-              }}
-            >
-              <div className="bell-img">
-                <Navbar.Text>
-                  <img
-                    src={"/images/bell.png"}
-                    height="30px"
-                    width="30px"
-                    alt=""
-                  ></img>
-                </Navbar.Text>
-              </div>
-              <div className="notification-circle"></div>
+            <div>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={React.forwardRef(({ onClick }, ref) => (
+                    <div
+                      className="notification-container"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onClick(e);
+                      }}
+                    >
+                      <div className="bell-img">
+                        <Navbar.Text>
+                          <img
+                            src={"/images/bell.png"}
+                            height="30px"
+                            width="30px"
+                            alt=""
+                          ></img>
+                        </Navbar.Text>
+                      </div>
+                      <div className="notification-circle"></div>
+                    </div>
+                  ))}
+                  id="notification-menu"
+                ></Dropdown.Toggle>
+
+                <Dropdown.Menu
+                  className="notification-menu"
+                  as={React.forwardRef(
+                    (
+                      {
+                        children,
+                        style,
+                        className,
+                        "aria-labelledby": labeledBy,
+                      },
+                      ref
+                    ) => {
+                      return (
+                        <div
+                          ref={ref}
+                          style={style}
+                          className={className}
+                          aria-labelledby={labeledBy}
+                        >
+                          <HeaderPart />
+
+                          {React.Children.toArray(children).filter(
+                            (child) => child.props.children
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+                >
+                  <Dropdown.Item eventKey="1">
+                    <ContentPart
+                      mainText={"New 1"}
+                      subText={"You received a new submission"}
+                      timestamp={"2 weeks"}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="2">
+                    <ContentPart
+                      mainText={"Update 2"}
+                      subText={"You received a new submission"}
+                      timestamp={"2 days"}
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="3">
+                    <ContentPart
+                      mainText={"Update 2"}
+                      subText={"You received a new submission"}
+                      timestamp={"1 day"}
+                    />
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           )}
           <div className="search-img">
@@ -155,10 +216,6 @@ const Header = () => {
         </Navbar.Collapse>
       </Navbar>
       <SearchModal show={show} setShow={setShow} />
-      <NotificationModal
-        show={showNotification}
-        setShow={setNotificationShow}
-      />
     </Container>
   );
 };
