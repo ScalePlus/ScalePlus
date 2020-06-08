@@ -471,6 +471,18 @@ body {
   }
 }
 
+.disqualify-modal{
+  max-width:720px;
+  .modal-content{
+    border-radius: 6px;
+    border: 1px solid #979797;
+  }
+  .modal-header{
+    background-color: #f18989;
+    padding:0rem 1rem;
+  }
+}
+
 .team-agreement-modal{
   max-width:670px;
   .modal-header,.modal-body{

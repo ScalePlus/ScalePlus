@@ -857,62 +857,67 @@ export const UpdateCountButton = React.memo(({ onClick }) => {
   );
 });
 
-export const CommonTable = React.memo(({ columns, data, filters }) => {
-  return (
-    <TableContainer>
-      {filters && (
-        <div className="filter-container">
-          <div className="controll-container">
-            <DropDown
-              isSmall={true}
-              isSingle={true}
-              placeholder="Filter Results"
-              options={[]}
-            />
-            <Input type="text" placeholder="Search" />
-            <div className="text">Search</div>
+export const CommonTable = React.memo(
+  ({ columns, data, filters, onRowClick }) => {
+    return (
+      <TableContainer>
+        {filters && (
+          <div className="filter-container">
+            <div className="controll-container">
+              <DropDown
+                isSmall={true}
+                isSingle={true}
+                placeholder="Filter Results"
+                options={[]}
+              />
+              <Input type="text" placeholder="Search" />
+              <div className="text">Search</div>
+            </div>
           </div>
-        </div>
-      )}
-      <Table responsive>
-        <thead>
-          <tr>
-            {columns &&
-              columns.length &&
-              columns.map((column, index) => {
+        )}
+        <Table responsive>
+          <thead>
+            <tr>
+              {columns &&
+                columns.length &&
+                columns.map((column, index) => {
+                  return (
+                    <th
+                      key={index}
+                      width={column.width ? column.width : "auto"}
+                    >
+                      {column.HeaderCell ? column.HeaderCell() : column.Header}
+                    </th>
+                  );
+                })}
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.length &&
+              data.map((each, index) => {
                 return (
-                  <th key={index} width={column.width ? column.width : "auto"}>
-                    {column.HeaderCell ? column.HeaderCell() : column.Header}
-                  </th>
+                  <tr key={index} onClick={() => onRowClick(each)}>
+                    {columns &&
+                      columns.length &&
+                      columns.map((column, index) => {
+                        return (
+                          <td key={index}>
+                            {column.Cell
+                              ? column.Cell(each[column.accessor], each)
+                              : each[column.accessor]}
+                          </td>
+                        );
+                      })}
+                  </tr>
                 );
               })}
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            data.length &&
-            data.map((each, index) => {
-              return (
-                <tr key={index}>
-                  {columns &&
-                    columns.length &&
-                    columns.map((column, index) => {
-                      return (
-                        <td key={index}>
-                          {column.Cell
-                            ? column.Cell(each[column.accessor], each)
-                            : each[column.accessor]}
-                        </td>
-                      );
-                    })}
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
-    </TableContainer>
-  );
-});
+          </tbody>
+        </Table>
+      </TableContainer>
+    );
+  }
+);
 
 export const CardComponent = React.memo(({ src, variant, progress, label }) => {
   return (

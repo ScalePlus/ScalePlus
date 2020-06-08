@@ -108,6 +108,8 @@ export const PrimaryButtonContainer = styled.button`
       ? "#66E397"
       : props.variant === "danger"
       ? "#FF3B30"
+      : props.variant === "danger_light"
+      ? "#F18989"
       : "#5AC8FA"};
   padding: 10px 15px;
   min-width: 100px;
@@ -390,6 +392,7 @@ export const TableContainer = styled.div`
     tr {
       border: none;
       border-bottom: 1px solid #e9e9e9;
+      cursor: pointer;
     }
   }
 
