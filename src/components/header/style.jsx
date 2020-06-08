@@ -44,8 +44,9 @@ export const Container = styled.div`
   }
 
   .notification-menu {
-    width: 390px;
+    width: 100%;
     padding: 0px;
+    border-radius: 6px;
     right: auto;
     left: 0;
 
@@ -61,6 +62,11 @@ export const Container = styled.div`
 
     .dropdown-item {
       padding: 0px;
+      :active {
+        color: ${theme.colors.black};
+        text-decoration: none;
+        background-color: ${theme.colors.white};
+      }
     }
     .dropdown-item:not(:last-child) {
       border-bottom: 1px solid ${theme.colors.black};
@@ -112,7 +118,9 @@ export const Container = styled.div`
         left: -70px;
       }
     }
-    .dropdown-item {
+    .dropdown-item,
+    .dropdown-item.active,
+    .dropdown-item:active {
       color: ${theme.colors.black};
       font-family: ${theme.fontFamily.regular};
       font-size: ${theme.fontSize.regular};

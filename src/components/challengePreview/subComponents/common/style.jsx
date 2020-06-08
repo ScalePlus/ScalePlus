@@ -17,6 +17,28 @@ export const TitleContainer = styled.div`
       border-bottom: 5px solid ${theme.colors.yellow};
     }
   }
+  .submission-menu-items {
+    width: 260px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    box-shadow: 0 5px 14px 0 rgba(0, 0, 0, 0.24);
+    .menu-text {
+      font-family: ${theme.fontFamily.bold};
+      font-size: ${theme.fontSize.small};
+      padding: 5px 0px;
+    }
+    .dropdown-item {
+      padding: 5px 10px;
+      :active {
+        color: ${theme.colors.black};
+        text-decoration: none;
+        background-color: ${theme.colors.white};
+      }
+      :not(:last-child) div {
+        border-bottom: 1px solid ${theme.colors.black};
+      }
+    }
+  }
 `;
 
 export const TitleContainerWithSearchBox = styled.div`

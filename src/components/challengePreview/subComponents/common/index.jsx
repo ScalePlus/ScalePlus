@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Collapse, Row, Col } from "react-bootstrap";
+import { Collapse, Row, Col, Dropdown } from "react-bootstrap";
 
 import { SearchInput, PrimaryButton, FileInput } from "../../../common";
 import {
@@ -20,6 +20,9 @@ export const HeaderComponent = React.memo(
     infoButtonVariant,
     infoButtonType,
     infoButtonClick,
+    menuButtonText,
+    menuButtonVariant,
+    menuList,
   }) => {
     return (
       <TitleContainer>
@@ -36,6 +39,43 @@ export const HeaderComponent = React.memo(
                 onClick={infoButtonClick}
               ></PrimaryButton>
             </div>
+          )}
+          {menuButtonText && (
+            <Dropdown>
+              <Dropdown.Toggle
+                as={React.forwardRef(({ children, onClick }, ref) => (
+                  <div style={{ marginRight: 10 }} ref={ref}>
+                    <PrimaryButton
+                      variant={menuButtonVariant}
+                      text={menuButtonText}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onClick(e);
+                      }}
+                    ></PrimaryButton>
+                  </div>
+                ))}
+                id="add-item-menu"
+              ></Dropdown.Toggle>
+
+              <Dropdown.Menu
+                alignRight={true}
+                className="submission-menu-items"
+              >
+                {menuList &&
+                  menuList.map((each, index) => {
+                    return (
+                      <Dropdown.Item
+                        eventKey={index}
+                        key={index}
+                        onClick={each.onClick}
+                      >
+                        <div className="menu-text"> {each.title}</div>
+                      </Dropdown.Item>
+                    );
+                  })}
+              </Dropdown.Menu>
+            </Dropdown>
           )}
           {buttonText && (
             <div>
