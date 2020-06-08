@@ -336,6 +336,29 @@ body {
     border-radius:6px;
 }
 
+.large-radio-button .custom-control-input{
+  border-radius:50%;
+  :checked~.custom-control-label::before,
+  :checked~.custom-control-label::after{ 
+    border-radius:50%;
+    background-color: ${theme.colors.yellow};
+  }
+}
+
+.large-radio-button .custom-control-label{
+  font-size: ${theme.fontSize.regular};
+  margin-left:10px;
+}
+
+.large-radio-button .custom-control-label::before, 
+.large-radio-button .custom-control-label::after {
+    width: 25px;
+    height: 25px;
+    top: -1px;
+    left: -35px;
+    border-radius:50%;
+}
+
 .textarea-count {
   position: absolute;
   margin-top: -30px;

@@ -39,6 +39,10 @@ export const TitleContainer = styled.div`
       }
     }
   }
+  .progress-oval-container {
+    height: 45px;
+    width: 45px;
+  }
 `;
 
 export const TitleContainerWithSearchBox = styled.div`

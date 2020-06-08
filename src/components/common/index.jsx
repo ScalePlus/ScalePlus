@@ -197,6 +197,34 @@ export const CheckBox = React.memo(
   }
 );
 
+export const RadioButton = React.memo(
+  ({ description, errorMessage, label, checkBoxText, ...props }) => {
+    return (
+      <Form.Group>
+        {label && <Form.Label className="text-label">{label}</Form.Label>}
+        <Form.Check
+          custom
+          className="large-radio-button"
+          type="radio"
+          label={""}
+          {...props}
+        />
+        <div className="checkbox-label">{checkBoxText}</div>
+        {errorMessage && (
+          <Form.Control.Feedback className="text-left" type="invalid">
+            {errorMessage}
+          </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
+        )}
+      </Form.Group>
+    );
+  }
+);
+
 export const SearchInput = React.memo(
   ({ placeholder, value, onChange, max, label, description }) => {
     return (
@@ -268,6 +296,7 @@ export const FileInput = React.memo(
     onChange,
     buttonText,
     prependButtonText,
+    description,
     ...props
   }) => {
     let fileUploader;
@@ -316,6 +345,11 @@ export const FileInput = React.memo(
           <Form.Control.Feedback className="text-left" type="invalid">
             {errorMessage}
           </Form.Control.Feedback>
+        )}
+        {description && (
+          <Form.Text className="text-muted-description">
+            {description}
+          </Form.Text>
         )}
       </Form.Group>
     );

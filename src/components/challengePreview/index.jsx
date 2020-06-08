@@ -167,6 +167,7 @@ const ChallengePreview = ({ history }) => {
             <Submissions
               isStartUp_Individual={isStartUp_Individual}
               isMentor_Judge={isMentor_Judge}
+              isOrganisation={isOrganisation}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Guidelines">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Collapse, Row, Col, Dropdown } from "react-bootstrap";
-
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { SearchInput, PrimaryButton, FileInput } from "../../../common";
 import {
   TitleContainer,
@@ -8,6 +8,7 @@ import {
   ExpandCollapseContainer,
   StepperVerticalContainer,
 } from "./style";
+import theme from "../../../../theme";
 
 export const HeaderComponent = React.memo(
   ({
@@ -23,13 +24,33 @@ export const HeaderComponent = React.memo(
     menuButtonText,
     menuButtonVariant,
     menuList,
+    haveProgressBar,
   }) => {
     return (
       <TitleContainer>
         <div className={"title"} style={{ marginBottom: 10 }}>
           <span>{titleText}</span>
         </div>
-        <div style={{ display: "flex", marginBottom: 10 }}>
+        <div
+          style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
+        >
+          {haveProgressBar && (
+            <div style={{ marginRight: 10 }}>
+              <CircularProgressbar
+                value={90}
+                text={`${90}%`}
+                className="progress-oval-container"
+                background={true}
+                styles={buildStyles({
+                  textSize: "30px",
+                  pathColor: "#4CD964",
+                  textColor: theme.colors.black,
+                  trailColor: "#d7d7d7",
+                  backgroundColor: theme.colors.white,
+                })}
+              />
+            </div>
+          )}
           {infoButtonText && (
             <div style={{ marginRight: 10 }}>
               <PrimaryButton
