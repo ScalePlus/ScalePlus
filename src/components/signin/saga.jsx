@@ -28,10 +28,13 @@ function* signinSaga(data) {
       if (res.result.token) {
         localStorage.setItem("token", res.result.token);
         localStorage.setItem("userRole", res.result.userRole);
-        localStorage.setItem("userId", res.result.userId);
         if (res.result.profileUpdated) {
           localStorage.setItem("profileUpdated", res.result.profileUpdated);
         }
+      }
+
+      if (res.result.userId) {
+        localStorage.setItem("userId", res.result.userId);
       }
 
       if (data.mode === "modal") {

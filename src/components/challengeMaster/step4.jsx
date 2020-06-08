@@ -45,7 +45,7 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge launch date: *"
                 description="Asia/Dubai"
-                maxDate={new Date()}
+                minDate={new Date().setDate(new Date().getDate() + 1)}
                 value={launchDate}
                 onChange={(date) => {
                   changeLaunchDate(date);
@@ -57,7 +57,7 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge submissions are due on: *"
                 description="Asia/Dubai"
-                maxDate={new Date()}
+                minDate={new Date().setDate(new Date().getDate() + 1)}
                 value={dueDate}
                 onChange={(date) => {
                   changeDueDate(date);
@@ -69,7 +69,7 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge judging begins on: *"
                 description="Asia/Dubai"
-                maxDate={new Date()}
+                minDate={new Date().setDate(new Date().getDate() + 1)}
                 value={biginDate}
                 onChange={(date) => {
                   changeBiginDate(date);
@@ -81,7 +81,7 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge judging ends on: *"
                 description="Asia/Dubai"
-                maxDate={new Date()}
+                minDate={new Date().setDate(new Date().getDate() + 1)}
                 value={endDate}
                 onChange={(date) => {
                   changeEndDate(date);
@@ -93,7 +93,7 @@ const Step4 = () => {
                 isSmall={true}
                 label="Challenge winners are announced on: *"
                 description="Asia/Dubai"
-                maxDate={new Date()}
+                minDate={new Date().setDate(new Date().getDate() + 1)}
                 value={anounceDate}
                 onChange={(date) => {
                   changeAnounceDate(date);

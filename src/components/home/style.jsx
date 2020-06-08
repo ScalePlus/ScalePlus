@@ -30,7 +30,7 @@ export const MainContainer = styled.div`
     }
   }
   .blocks {
-    margin-top: -25%;
+    margin-top: -22%;
   }
   .box-container {
     border: 1px solid #e3e3e3;

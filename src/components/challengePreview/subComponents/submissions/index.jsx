@@ -23,7 +23,6 @@ const Submissions = ({
   const [showDisqualify, setDisqualifyShow] = useState(false);
   const [
     error,
-    setError,
   ] = useState(`Submission form is not complete. Please fill all the required
   fields.`);
   const [selectedRow, selectRow] = useState(null);
@@ -189,7 +188,7 @@ const Submissions = ({
         <Col lg={11} md={11} sm={11} xs={11}>
           {selectedRow ? (
             <HeaderComponent
-              titleText="Submissions"
+              titleText="Submission"
               buttonText="Evaluate Submission"
               buttonVariant="primary"
               buttonClick={() => {
