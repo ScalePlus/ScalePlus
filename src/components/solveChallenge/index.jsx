@@ -6,6 +6,7 @@ import {
   Description,
   Input,
   PrimaryButton,
+  RemoveButton,
   Tab,
   CheckBox,
 } from "../common";
@@ -25,7 +26,7 @@ const SolveChallenge = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [show, setShow] = useState(false);
-  const [members, setMembers] = useState([{}, {}]);
+  const [members, setMembers] = useState([{}]);
 
   return (
     <MainContainer>
@@ -86,11 +87,25 @@ const SolveChallenge = () => {
                   <Col>
                     {members.map((each, index) => {
                       return (
-                        <Input
-                          key={index}
-                          type="email"
-                          placeholder="youremail@website.com"
-                        ></Input>
+                        <div key={index} className="email-container">
+                          <Input
+                            type="email"
+                            placeholder="youremail@website.com"
+                          ></Input>
+                          {members.length > 1 && (
+                            <div className="remove-button-container">
+                              <RemoveButton
+                                onClick={() => {
+                                  setMembers((data) => {
+                                    return data.filter((each, i) => {
+                                      return index !== i;
+                                    });
+                                  });
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                   </Col>

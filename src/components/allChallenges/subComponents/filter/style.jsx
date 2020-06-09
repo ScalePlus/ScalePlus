@@ -3,10 +3,32 @@ import theme from "../../../../theme";
 
 export const MainContainer = styled.div`
   .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .title-text {
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumLarge};
       line-height: 40px;
+    }
+    .close-button-container {
+      height: 50px;
+      width: 140px;
+      border: 1px solid #e3e3e3;
+      border-radius: 6px;
+      background-color: ${theme.colors.white};
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: ${theme.fontFamily.bold};
+      font-size: ${theme.fontSize.extraLarge};
+      // top: 0px;
+      // position: absolute;
+      // right: 0;
+      // @media (min-width: 768px), @media (min-width: 992px) {
+      //   top: 130px;
+      // }
     }
   }
 
@@ -41,25 +63,5 @@ export const MainContainer = styled.div`
   }
   .button-text {
     font-size: ${theme.fontSize.semiRegular};
-  }
-  .close-button-container {
-    height: 50px;
-    width: 140px;
-    border: 1px solid #e3e3e3;
-    border-radius: 6px;
-    background-color: ${theme.colors.white};
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: ${theme.fontFamily.bold};
-    font-size: ${theme.fontSize.extraLarge};
-    top: 0px;
-
-    @media (min-width: 768px), @media (min-width: 992px) {
-      top: 130px;
-    }
   }
 `;

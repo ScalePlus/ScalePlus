@@ -157,7 +157,7 @@ const SignUp = ({ history, mode, setActiveModal }) => {
                       </g>
                     </svg>
                   }
-                  text="Sign in with Google"
+                  text="Sign up with Google"
                   background={"#dd4b39"}
                   border={"#b23c2e"}
                 />
@@ -165,7 +165,7 @@ const SignUp = ({ history, mode, setActiveModal }) => {
               <div className="linkedin-button">
                 <SocialLoginButton
                   icon="/images/linkedin.svg"
-                  text="Sign in with Linkedin"
+                  text="Sign up with Linkedin"
                   background={"#007bb6"}
                   border={"#006b9f"}
                 />

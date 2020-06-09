@@ -43,11 +43,11 @@ export const MainContainer = styled.div`
         }
 
         @media (min-width: 768px) {
-          width: 50%;
+          width: 60%;
         }
 
         @media (min-width: 992px) {
-          width: 50%;
+          width: 60%;
         }
 
         display: flex;

@@ -3,15 +3,19 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponentWithSearchBox } from "../common";
 import { MainContainer, TableContainer } from "./style";
 
-const Forum = () => {
+const Forum = ({ isOrganisation }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponentWithSearchBox
-            titleText="Forum"
-            buttonText="New Topic"
-          />
+          {isOrganisation ? (
+            <HeaderComponentWithSearchBox
+              titleText="Forum"
+              buttonText="New Topic"
+            />
+          ) : (
+            <HeaderComponentWithSearchBox titleText="Forum" />
+          )}
         </Col>
       </Row>
       <Row

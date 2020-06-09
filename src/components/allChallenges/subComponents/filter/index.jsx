@@ -38,16 +38,24 @@ const Filters = ({ show, setShow }) => {
     <Modal
       show={show}
       onHide={() => setShow(false)}
-      dialogClassName="fullscreen-modal"
+      dialogClassName="filter-modal"
     >
       <Modal.Body>
         <Row className="justify-content-center">
-          <Col lg={10} md={10} sm={10} xs={10}>
+          <Col lg={12} md={12} sm={12} xs={12}>
             <MainContainer>
-              <Row style={{ marginTop: 85 }}>
+              <Row>
                 <Col>
                   <div className="header-container">
-                    <span className="title-text">Filter Challenges</span>
+                    <div className="title-text">Filter Challenges</div>
+                    <div
+                      className="close-button-container"
+                      onClick={() => {
+                        setShow(false);
+                      }}
+                    >
+                      <span>x</span>
+                    </div>
                   </div>
                 </Col>
               </Row>
@@ -136,15 +144,6 @@ const Filters = ({ show, setShow }) => {
                   ></PrimaryButton>
                 </Col>
               </Row>
-
-              <div
-                className="close-button-container"
-                onClick={() => {
-                  setShow(false);
-                }}
-              >
-                <span>x</span>
-              </div>
             </MainContainer>
           </Col>
         </Row>

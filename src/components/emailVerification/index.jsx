@@ -7,11 +7,14 @@ import { MainContainer } from "./style";
 import { Title, Input, PrimaryButton, Loading } from "../common";
 import { Constants } from "../../lib/constant";
 
-const EmailVerification = ({ history, mode, setActiveModal }) => {
+const EmailVerification = ({ history, mode, setActiveModal, match }) => {
+  const userId = localStorage.getItem("userId")
+    ? localStorage.getItem("userId")
+    : match.params.id;
   const dispatch = useDispatch();
   const verifyEmailMethod = (data) => dispatch(verifyEmailAction(data));
   const resendVerificationMethod = () =>
-    dispatch(resendVerificationAction({ id: localStorage.getItem("userId") }));
+    dispatch(resendVerificationAction({ id: userId }));
   const getUserMethod = useCallback((id) => dispatch(getUser(id)), [dispatch]);
 
   const emailVerificationReducer = useSelector((state) => {
@@ -36,7 +39,7 @@ const EmailVerification = ({ history, mode, setActiveModal }) => {
       signinReducer.userData.emailVerification);
 
   useEffect(() => {
-    getUserMethod(localStorage.getItem("userId"));
+    getUserMethod(userId);
   }, [getUserMethod]);
 
   useEffect(() => {
@@ -75,16 +78,9 @@ const EmailVerification = ({ history, mode, setActiveModal }) => {
     event.stopPropagation();
     const form = event.currentTarget;
 
-    if (
-      first &&
-      second &&
-      third &&
-      forth &&
-      localStorage.getItem("userId") &&
-      form.checkValidity()
-    ) {
+    if (first && second && third && forth && userId && form.checkValidity()) {
       verifyEmailMethod({
-        id: localStorage.getItem("userId"),
+        id: userId,
         verificationCode: first + second + third + forth,
       });
     }

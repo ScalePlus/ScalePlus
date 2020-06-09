@@ -44,6 +44,17 @@ export const MainContainer = styled.div`
   }
   .form-container {
     margin-top: 15px;
+    .email-container {
+      display: flex;
+      align-items: center;
+    }
+    .form-group {
+      flex: auto;
+    }
+    .remove-button-container {
+      margin-bottom: 1rem;
+      margin-left: 10px;
+    }
   }
 
   .checkbox-container {

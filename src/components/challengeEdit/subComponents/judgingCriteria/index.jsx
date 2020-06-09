@@ -72,11 +72,10 @@ const JudgingCriteria = () => {
               label="Rating Type"
               placeholder=""
               options={[
-                { value: "1", label: "Rating Types" },
-                { value: "2", label: "Starring System" },
-                { value: "3", label: "Slider" },
-                { value: "4", label: "written" },
-                { value: "5", label: "Overall Rating" },
+                { value: "1", label: "Starring System" },
+                { value: "2", label: "Slider" },
+                { value: "3", label: "written" },
+                { value: "4", label: "Overall Rating" },
               ]}
               value={selectedRating}
               onChange={(val) => {

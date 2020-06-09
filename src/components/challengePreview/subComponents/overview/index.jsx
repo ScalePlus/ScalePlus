@@ -92,11 +92,18 @@ const OverView = ({
       <ContentContainer>
         <Row className="justify-content-center header-container">
           <Col lg={11} md={11} sm={11} xs={11}>
-            <HeaderComponent
-              titleText="Challenge Overview"
-              buttonText="Edit Overview"
-              buttonVariant="info"
-            />
+            {isOrganisation ? (
+              <HeaderComponent
+                titleText="Challenge Overview"
+                buttonText="Edit Overview"
+                buttonVariant="info"
+                buttonClick={() => {
+                  history.push("/challenge/edit/Overview");
+                }}
+              />
+            ) : (
+              <HeaderComponent titleText="Challenge Overview" />
+            )}
           </Col>
         </Row>
         <Row className="justify-content-center">

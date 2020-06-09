@@ -430,7 +430,21 @@ body {
   padding-top: 8px;
 }
 
-.fullscreen-modal,.search-modal,.evaluate-modal {
+.large-checkbox .custom-control-input.is-valid~.custom-control-label,
+.was-validated .large-checkbox .custom-control-input:valid~.custom-control-label,
+.large-radio-button .custom-control-input.is-valid~.custom-control-label,
+.was-validated .large-radio-button .custom-control-input:valid~.custom-control-label{
+  color: ${theme.colors.black};
+}
+
+.large-checkbox .custom-control-input.is-valid~.custom-control-label::before,
+.was-validated .large-checkbox .custom-control-input:valid~.custom-control-label::before,
+.large-radio-button .custom-control-input.is-valid~.custom-control-label::before,
+.was-validated .large-radio-button .custom-control-input:valid~.custom-control-label::before{
+  border-color: ${theme.colors.borderGrey};
+}
+
+.search-modal,.evaluate-modal {
   max-width: 100%;
   margin:0px !important;
   height: 100vh;
@@ -490,6 +504,13 @@ body {
   }
 }
 
+.filter-modal{
+  max-width:90%;
+  .modal-content{
+    border-radius: 6px;
+    border: 1px solid #979797;
+  }
+}
 
 .search-modal,.evaluate-modal  {
   border:none;

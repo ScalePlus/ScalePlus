@@ -42,7 +42,7 @@ const ChallengeConfirmation = () => {
                 variant="secondary"
                 text={"Edit Challenge Details"}
                 onClick={() => {
-                  history.push("/challenge/edit");
+                  history.push("/challenge/edit/Description");
                 }}
               ></PrimaryButton>
             </Col>
@@ -51,7 +51,7 @@ const ChallengeConfirmation = () => {
                 variant="primary"
                 text={"Preview Challenge"}
                 onClick={() => {
-                  history.push("/challenge/preview");
+                  history.push("/challenge/preview/Overview");
                 }}
               ></PrimaryButton>
             </Col>

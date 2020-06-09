@@ -208,6 +208,7 @@ const Submissions = () => {
                   Header: "",
                   accessor: "active",
                   width: "2.5%",
+                  standAlone: true,
                   HeaderCell: () => {
                     return (
                       <div>
@@ -234,11 +235,12 @@ const Submissions = () => {
                           id={`checkbox-${Math.random()}`}
                           checkBoxText=""
                           checked={checked}
-                          onChange={() => {
+                          onChange={(e) => {
+                            let { checked } = e.target;
                             changeData((data) => {
                               return data.filter((each) => {
                                 if (each.id === record.id) {
-                                  each.active = true;
+                                  each.active = checked;
                                 }
                                 return each;
                               });

@@ -15,7 +15,7 @@ export const HeaderContainer = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  padding: 30px 50px;
+  padding: 30px 40px;
   .form-control {
     height: 40px;
   }
@@ -25,7 +25,6 @@ export const ContentContainer = styled.div`
     margin-bottom: 58px;
   }
   .help-text {
-    padding: 0px 10px;
     opacity: 0.4;
     color: ${theme.colors.black};
     font-size: ${theme.fontSize.semiRegular};

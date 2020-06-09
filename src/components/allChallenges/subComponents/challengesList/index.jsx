@@ -75,7 +75,7 @@ const ChallengesList = ({ history }) => {
                           paddingLeft: "15px",
                         }}
                         onClick={() => {
-                          history.push("/challenge/preview");
+                          history.push("/challenge/preview/Overview");
                         }}
                       >
                         <CardComponent src={each.src} />

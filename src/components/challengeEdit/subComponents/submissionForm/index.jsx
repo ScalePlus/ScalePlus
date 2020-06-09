@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   Input,
   TextArea,
@@ -10,6 +11,14 @@ import {
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 const SubmissionForm = () => {
   const [validated, setValidated] = useState(false);
@@ -59,14 +68,24 @@ const SubmissionForm = () => {
                 {
                   title: "Single Text Field",
                   onClick: () => {
-                    setForm((data) => data.concat({ field: "Single-Field" }));
+                    setForm((data) =>
+                      data.concat({
+                        id: `feild-${data.length + 1}`,
+                        field: "Single-Field",
+                        title: "",
+                      })
+                    );
                   },
                 },
                 {
                   title: "Rich Text Editor",
                   onClick: () => {
                     setForm((data) =>
-                      data.concat({ field: "Rich-Text-Editor" })
+                      data.concat({
+                        id: `feild-${data.length + 1}`,
+                        field: "Rich-Text-Editor",
+                        title: "",
+                      })
                     );
                   },
                 },
@@ -75,7 +94,9 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
+                        id: `feild-${data.length + 1}`,
                         field: "Multiple-Choice",
+                        title: "",
                         choices: [],
                       })
                     );
@@ -85,7 +106,12 @@ const SubmissionForm = () => {
                   title: "Single Choice",
                   onClick: () => {
                     setForm((data) =>
-                      data.concat({ field: "Single-Choice", choices: [] })
+                      data.concat({
+                        id: `feild-${data.length + 1}`,
+                        field: "Single-Choice",
+                        title: "",
+                        choices: [],
+                      })
                     );
                   },
                 },
@@ -93,7 +119,11 @@ const SubmissionForm = () => {
                   title: "Yes, No Question",
                   onClick: () => {
                     setForm((data) =>
-                      data.concat({ field: "Yes-No-Question" })
+                      data.concat({
+                        id: `feild-${data.length + 1}`,
+                        field: "Yes-No-Question",
+                        title: "",
+                      })
                     );
                   },
                 },
@@ -101,7 +131,11 @@ const SubmissionForm = () => {
                   title: "Document Upload Box",
                   onClick: () => {
                     setForm((data) =>
-                      data.concat({ field: "Document-Upload-Box" })
+                      data.concat({
+                        id: `feild-${data.length + 1}`,
+                        field: "Document-Upload-Box",
+                        title: "",
+                      })
                     );
                   },
                 },
@@ -112,204 +146,406 @@ const SubmissionForm = () => {
         <Row style={{ marginBottom: 80 }}>
           <Col>
             {submissionForm && submissionForm.length ? (
-              <div>
-                {submissionForm.map((each, index) => {
-                  return (
-                    <div className="box-container" key={index}>
-                      <div className="left-container">
-                        {each.field === "Single-Field" && (
-                          <div>
-                            <div className="title">Single Field Title</div>
-                            <div className="field-container">
-                              <Input
-                                type="text"
-                                label="Field Title"
-                                placeholder="e.g: How did you hear about us"
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {each.field === "Rich-Text-Editor" && (
-                          <div>
-                            <div className="title">Rich Text Editor</div>
-                            <div className="field-container">
-                              <Input
-                                type="text"
-                                label="Field Title"
-                                placeholder="e.g: How did you hear about us"
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {each.field === "Document-Upload-Box" && (
-                          <div>
-                            <div className="title">Document Upload Box</div>
-                            <div className="field-container">
-                              <Input
-                                type="text"
-                                label="Field Title"
-                                placeholder="e.g: How did you hear about us"
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {each.field === "Yes-No-Question" && (
-                          <div>
-                            <div className="title">Yes No Question</div>
-                            <div className="field-container">
-                              <TextArea
-                                label="Enter your question below"
-                                placeholder="e.g: How did you hear about us"
-                                rows="2"
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {each.field === "Multiple-Choice" && (
-                          <div>
-                            <div className="title">Multiple Choice</div>
-                            <div className="field-container">
-                              <TextArea
-                                label="Enter your question below"
-                                placeholder="e.g: How did you hear about us"
-                                rows="2"
-                              />
-                            </div>
-                            <div className="add-button-container">
-                              <AddButton
-                                onClick={() => {
-                                  setForm((data) =>
-                                    data.map((each, i) => {
-                                      if (index === i) {
-                                        each.choices.push({});
-                                      }
-                                      return each;
-                                    })
-                                  );
-                                }}
-                              />
-                            </div>
-                            {each.choices && each.choices.length
-                              ? each.choices.map((eachCHoice, choiceIdex) => {
-                                  return (
-                                    <div
-                                      key={choiceIdex}
-                                      className="choice-container"
-                                    >
-                                      <div className="choice-left-container">
-                                        <div className="choice-text">
-                                          Choice {choiceIdex + 1}
-                                        </div>
-                                        <div className="choice-input">
-                                          <Input type="text" />
-                                        </div>
-                                      </div>
-                                      <div className="choice-right-container">
-                                        <RemoveButton
-                                          onClick={() => {
-                                            setForm((data) =>
-                                              data.map((each, i) => {
-                                                if (index === i) {
-                                                  each.choices = each.choices.filter(
-                                                    (choiceData, i) => {
-                                                      return choiceIdex !== i;
-                                                    }
-                                                  );
-                                                }
-                                                return each;
-                                              })
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </div>
-                                  );
-                                })
-                              : null}
-                          </div>
-                        )}
-                        {each.field === "Single-Choice" && (
-                          <div>
-                            <div className="title">SINGLE Choice</div>
-                            <div className="field-container">
-                              <TextArea
-                                label="Enter your question below"
-                                placeholder="e.g: How did you hear about us"
-                                rows="2"
-                              />
-                            </div>
-                            <div className="add-button-container">
-                              <AddButton
-                                onClick={() => {
-                                  setForm((data) =>
-                                    data.map((each, i) => {
-                                      if (index === i) {
-                                        each.choices.push({});
-                                      }
-                                      return each;
-                                    })
-                                  );
-                                }}
-                              />
-                            </div>
-                            {each.choices && each.choices.length
-                              ? each.choices.map((eachCHoice, choiceIdex) => {
-                                  return (
-                                    <div
-                                      key={choiceIdex}
-                                      className="choice-container"
-                                    >
-                                      <div className="choice-left-container">
-                                        <div className="choice-text">
-                                          Choice {choiceIdex + 1}
-                                        </div>
-                                        <div className="choice-input">
-                                          <Input type="text" />
-                                        </div>
-                                      </div>
-                                      <div className="choice-right-container">
-                                        <RemoveButton
-                                          onClick={() => {
-                                            setForm((data) =>
-                                              data.map((each, i) => {
-                                                if (index === i) {
-                                                  each.choices = each.choices.filter(
-                                                    (choiceData, i) => {
-                                                      return choiceIdex !== i;
-                                                    }
-                                                  );
-                                                }
-                                                return each;
-                                              })
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </div>
-                                  );
-                                })
-                              : null}
-                          </div>
-                        )}
-                      </div>
-                      <div className="right-container">
-                        <div style={{ marginBottom: 10 }}>
-                          <RemoveButton
-                            onClick={() => {
-                              setForm((data) =>
-                                data.filter((each, i) => {
-                                  return index !== i;
-                                })
-                              );
-                            }}
-                          />
-                        </div>
-                        <UpdateCountButton onClick={() => {}} />
-                      </div>
-                    </div>
+              <DragDropContext
+                onDragEnd={(result) => {
+                  if (!result.destination) {
+                    return;
+                  }
+                  setForm((data) =>
+                    reorder(data, result.source.index, result.destination.index)
                   );
-                })}
-              </div>
+                }}
+              >
+                <Droppable droppableId="droppable">
+                  {(provided, snapshot) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                      {submissionForm.map((each, index) => {
+                        return (
+                          <Draggable
+                            key={each.id}
+                            draggableId={each.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="box-container"
+                                key={index}
+                              >
+                                <div className="left-container">
+                                  {each.field === "Single-Field" && (
+                                    <div>
+                                      <div className="title">
+                                        Single Field Title
+                                      </div>
+                                      <div className="field-container">
+                                        <Input
+                                          type="text"
+                                          label="Field Title"
+                                          placeholder="e.g: How did you hear about us"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  {each.field === "Rich-Text-Editor" && (
+                                    <div>
+                                      <div className="title">
+                                        Rich Text Editor
+                                      </div>
+                                      <div className="field-container">
+                                        <Input
+                                          type="text"
+                                          label="Field Title"
+                                          placeholder="e.g: How did you hear about us"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  {each.field === "Document-Upload-Box" && (
+                                    <div>
+                                      <div className="title">
+                                        Document Upload Box
+                                      </div>
+                                      <div className="field-container">
+                                        <Input
+                                          type="text"
+                                          label="Field Title"
+                                          placeholder="e.g: How did you hear about us"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  {each.field === "Yes-No-Question" && (
+                                    <div>
+                                      <div className="title">
+                                        Yes No Question
+                                      </div>
+                                      <div className="field-container">
+                                        <TextArea
+                                          label="Enter your question below"
+                                          placeholder="e.g: How did you hear about us"
+                                          rows="2"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                  {each.field === "Multiple-Choice" && (
+                                    <div>
+                                      <div className="title">
+                                        Multiple Choice
+                                      </div>
+                                      <div className="field-container">
+                                        <TextArea
+                                          label="Enter your question below"
+                                          placeholder="e.g: How did you hear about us"
+                                          rows="2"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="add-button-container">
+                                        <AddButton
+                                          onClick={() => {
+                                            setForm((data) =>
+                                              data.map((each, i) => {
+                                                if (index === i) {
+                                                  each.choices.push({
+                                                    title: "",
+                                                  });
+                                                }
+                                                return each;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                      {each.choices && each.choices.length
+                                        ? each.choices.map(
+                                            (eachCHoice, choiceIdex) => {
+                                              return (
+                                                <div
+                                                  key={choiceIdex}
+                                                  className="choice-container"
+                                                >
+                                                  <div className="choice-left-container">
+                                                    <div className="choice-text">
+                                                      Choice {choiceIdex + 1}
+                                                    </div>
+                                                    <div className="choice-input">
+                                                      <Input
+                                                        type="text"
+                                                        value={eachCHoice.title}
+                                                        onChange={(e) => {
+                                                          setForm((data) =>
+                                                            data.map(
+                                                              (formData, i) => {
+                                                                if (
+                                                                  index === i
+                                                                ) {
+                                                                  formData.choices = formData.choices.map(
+                                                                    (
+                                                                      choiceData,
+                                                                      j
+                                                                    ) => {
+                                                                      if (
+                                                                        choiceIdex ===
+                                                                        j
+                                                                      ) {
+                                                                        choiceData[
+                                                                          "title"
+                                                                        ] =
+                                                                          e.target.value;
+                                                                      }
+                                                                      return choiceData;
+                                                                    }
+                                                                  );
+                                                                }
+                                                                return formData;
+                                                              }
+                                                            )
+                                                          );
+                                                        }}
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                  <div className="choice-right-container">
+                                                    <RemoveButton
+                                                      onClick={() => {
+                                                        setForm((data) =>
+                                                          data.map(
+                                                            (each, i) => {
+                                                              if (index === i) {
+                                                                each.choices = each.choices.filter(
+                                                                  (
+                                                                    choiceData,
+                                                                    i
+                                                                  ) => {
+                                                                    return (
+                                                                      choiceIdex !==
+                                                                      i
+                                                                    );
+                                                                  }
+                                                                );
+                                                              }
+                                                              return each;
+                                                            }
+                                                          )
+                                                        );
+                                                      }}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              );
+                                            }
+                                          )
+                                        : null}
+                                    </div>
+                                  )}
+                                  {each.field === "Single-Choice" && (
+                                    <div>
+                                      <div className="title">SINGLE Choice</div>
+                                      <div className="field-container">
+                                        <TextArea
+                                          label="Enter your question below"
+                                          placeholder="e.g: How did you hear about us"
+                                          rows="2"
+                                          value={each.title}
+                                          onChange={(e) => {
+                                            setForm((data) =>
+                                              data.map((formData, i) => {
+                                                if (index === i) {
+                                                  formData["title"] =
+                                                    e.target.value;
+                                                }
+                                                return formData;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="add-button-container">
+                                        <AddButton
+                                          onClick={() => {
+                                            setForm((data) =>
+                                              data.map((each, i) => {
+                                                if (index === i) {
+                                                  each.choices.push({
+                                                    title: "",
+                                                  });
+                                                }
+                                                return each;
+                                              })
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                      {each.choices && each.choices.length
+                                        ? each.choices.map(
+                                            (eachCHoice, choiceIdex) => {
+                                              return (
+                                                <div
+                                                  key={choiceIdex}
+                                                  className="choice-container"
+                                                >
+                                                  <div className="choice-left-container">
+                                                    <div className="choice-text">
+                                                      Choice {choiceIdex + 1}
+                                                    </div>
+                                                    <div className="choice-input">
+                                                      <Input
+                                                        type="text"
+                                                        value={eachCHoice.title}
+                                                        onChange={(e) => {
+                                                          setForm((data) =>
+                                                            data.map(
+                                                              (formData, i) => {
+                                                                if (
+                                                                  index === i
+                                                                ) {
+                                                                  formData.choices = formData.choices.map(
+                                                                    (
+                                                                      choiceData,
+                                                                      j
+                                                                    ) => {
+                                                                      if (
+                                                                        choiceIdex ===
+                                                                        j
+                                                                      ) {
+                                                                        choiceData[
+                                                                          "title"
+                                                                        ] =
+                                                                          e.target.value;
+                                                                      }
+                                                                      return choiceData;
+                                                                    }
+                                                                  );
+                                                                }
+                                                                return formData;
+                                                              }
+                                                            )
+                                                          );
+                                                        }}
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                  <div className="choice-right-container">
+                                                    <RemoveButton
+                                                      onClick={() => {
+                                                        setForm((data) =>
+                                                          data.map(
+                                                            (each, i) => {
+                                                              if (index === i) {
+                                                                each.choices = each.choices.filter(
+                                                                  (
+                                                                    choiceData,
+                                                                    i
+                                                                  ) => {
+                                                                    return (
+                                                                      choiceIdex !==
+                                                                      i
+                                                                    );
+                                                                  }
+                                                                );
+                                                              }
+                                                              return each;
+                                                            }
+                                                          )
+                                                        );
+                                                      }}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              );
+                                            }
+                                          )
+                                        : null}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="right-container">
+                                  <div style={{ marginBottom: 10 }}>
+                                    <RemoveButton
+                                      onClick={() => {
+                                        setForm((data) =>
+                                          data.filter((each, i) => {
+                                            return index !== i;
+                                          })
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                  <UpdateCountButton onClick={() => {}} />
+                                </div>
+                              </div>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
             ) : (
               <div className="table-body-container">
                 <span>!!!Add Form Builder Here!!!</span>

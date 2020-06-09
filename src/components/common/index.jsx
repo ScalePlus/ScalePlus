@@ -897,15 +897,19 @@ export const CommonTable = React.memo(
               data.length &&
               data.map((each, index) => {
                 return (
-                  <tr
-                    key={index}
-                    onClick={() => (onRowClick ? onRowClick(each) : {})}
-                  >
+                  <tr key={index}>
                     {columns &&
                       columns.length &&
                       columns.map((column, index) => {
                         return (
-                          <td key={index}>
+                          <td
+                            key={index}
+                            onClick={() =>
+                              onRowClick && !column.standAlone
+                                ? onRowClick(each)
+                                : {}
+                            }
+                          >
                             {column.Cell
                               ? column.Cell(each[column.accessor], each)
                               : each[column.accessor]}

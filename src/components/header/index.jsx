@@ -132,21 +132,36 @@ const Header = () => {
                     }
                   )}
                 >
-                  <Dropdown.Item eventKey="1">
+                  <Dropdown.Item
+                    eventKey="1"
+                    onClick={() => {
+                      history.push("/challenge/preview/Updates");
+                    }}
+                  >
                     <ContentPart
                       mainText={"New 1"}
                       subText={"You received a new submission"}
                       timestamp={"2 weeks"}
                     />
                   </Dropdown.Item>
-                  <Dropdown.Item eventKey="2">
+                  <Dropdown.Item
+                    eventKey="2"
+                    onClick={() => {
+                      history.push("/challenge/preview/Updates");
+                    }}
+                  >
                     <ContentPart
                       mainText={"Update 2"}
                       subText={"You received a new submission"}
                       timestamp={"2 days"}
                     />
                   </Dropdown.Item>
-                  <Dropdown.Item eventKey="3">
+                  <Dropdown.Item
+                    eventKey="3"
+                    onClick={() => {
+                      history.push("/challenge/preview/Updates");
+                    }}
+                  >
                     <ContentPart
                       mainText={"Update 2"}
                       subText={"You received a new submission"}

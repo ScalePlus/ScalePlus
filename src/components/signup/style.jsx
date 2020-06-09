@@ -94,4 +94,8 @@ export const MainContainer = styled.div`
     }
     cursor: pointer;
   }
+
+  .tab-sub-container {
+    padding: 0;
+  }
 `;

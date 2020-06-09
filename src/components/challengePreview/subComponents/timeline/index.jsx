@@ -2,17 +2,25 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, VeticalStepper } from "../common";
 import { MainContainer } from "./style";
+import history from "../../../../history";
 
-const Timeline = ({ isStartUp_Individual }) => {
+const Timeline = ({ isStartUp_Individual, isOrganisation }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent
-            titleText="Timeline"
-            buttonText="Add New"
-            buttonVariant="info"
-          />
+          {isOrganisation ? (
+            <HeaderComponent
+              titleText="Timeline"
+              buttonText="Add New"
+              buttonVariant="info"
+              buttonClick={() => {
+                history.push("/challenge/edit/Timeline");
+              }}
+            />
+          ) : (
+            <HeaderComponent titleText="Timeline" />
+          )}
         </Col>
       </Row>
       <Row

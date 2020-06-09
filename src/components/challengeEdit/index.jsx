@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Nav, Navbar } from "react-bootstrap";
 import { WarningBlock, ChallengeHeader, PrimaryButton } from "../common";
 import Description from "./subComponents/description";
@@ -39,9 +39,36 @@ const judgeLinks = [
 
 const otherLinks = ["Team", "Legal agreement", "Settings"];
 
-const ChallengeEdit = ({ history }) => {
-  const [activeKey, selectKey] = useState(challengeLinks[0]);
+const ChallengeEdit = ({ history, match }) => {
+  const [activeKey, selectTab] = useState(null);
   const [expanded, onToggle] = useState(false);
+  useEffect(() => {
+    if (match && match.params && match.params.tab) {
+      let selectedChallengeTab = challengeLinks.find(
+          (each) =>
+            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+        ),
+        selectedSubmissionTab = submissionLinks.find(
+          (each) =>
+            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+        ),
+        selectedJudgeTab = judgeLinks.find(
+          (each) =>
+            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+        ),
+        selectedOtherTab = otherLinks.find(
+          (each) =>
+            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+        );
+      selectTab(
+        selectedChallengeTab ||
+          selectedSubmissionTab ||
+          selectedJudgeTab ||
+          selectedOtherTab
+      );
+    }
+  }, [match]);
+
   return (
     <MainContainer>
       <Row style={{ marginBottom: 20 }}>
@@ -56,10 +83,10 @@ const ChallengeEdit = ({ history }) => {
             primaryButtonText="Submit for review"
             secondaryButtonText="Save Draft"
             primaryButtonClick={() => {
-              history.push("/challenge/preview");
+              history.push("/challenge/preview/Overview");
             }}
             secondaryButtonClick={() => {
-              history.push("/challenge/preview");
+              history.push("/challenge/preview/Overview");
             }}
           />
         </Col>
@@ -90,9 +117,7 @@ const ChallengeEdit = ({ history }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  selectKey(each);
-                                  onToggle(false);
-                                  window.scrollTo(0, 0);
+                                  history.push(`/challenge/edit/${each}`);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -111,9 +136,7 @@ const ChallengeEdit = ({ history }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  selectKey(each);
-                                  onToggle(false);
-                                  window.scrollTo(0, 0);
+                                  history.push(`/challenge/edit/${each}`);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -132,9 +155,7 @@ const ChallengeEdit = ({ history }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  selectKey(each);
-                                  onToggle(false);
-                                  window.scrollTo(0, 0);
+                                  history.push(`/challenge/edit/${each}`);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -153,9 +174,7 @@ const ChallengeEdit = ({ history }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  selectKey(each);
-                                  onToggle(false);
-                                  window.scrollTo(0, 0);
+                                  history.push(`/challenge/edit/${each}`);
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>

@@ -126,20 +126,22 @@ export const HeaderComponentWithSearchBox = React.memo(
             <Col lg={3} md={3} sm={6} xs={6}>
               <SearchInput placeholder="Search Forum"></SearchInput>
             </Col>
-            <Col
-              lg={{ span: 4, offset: 5 }}
-              md={{ span: 4, offset: 4 }}
-              sm={6}
-              xs={6}
-            >
-              <div className="float-right">
-                <PrimaryButton
-                  variant="info"
-                  text={buttonText}
-                  onClick={() => {}}
-                ></PrimaryButton>
-              </div>
-            </Col>
+            {buttonText && (
+              <Col
+                lg={{ span: 4, offset: 5 }}
+                md={{ span: 4, offset: 4 }}
+                sm={6}
+                xs={6}
+              >
+                <div className="float-right">
+                  <PrimaryButton
+                    variant="info"
+                    text={buttonText}
+                    onClick={() => {}}
+                  ></PrimaryButton>
+                </div>
+              </Col>
+            )}
           </Row>
         </div>
       </TitleContainerWithSearchBox>

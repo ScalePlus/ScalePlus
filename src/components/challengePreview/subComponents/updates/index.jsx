@@ -2,17 +2,25 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
+import history from "../../../../history";
 
-const Updates = () => {
+const Updates = ({ isOrganisation }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent
-            titleText="Updates"
-            buttonText="Add New"
-            buttonVariant="info"
-          />
+          {isOrganisation ? (
+            <HeaderComponent
+              titleText="Updates"
+              buttonText="Add New"
+              buttonVariant="info"
+              buttonClick={() => {
+                history.push("/challenge/edit/Updates");
+              }}
+            />
+          ) : (
+            <HeaderComponent titleText="Updates" />
+          )}
         </Col>
       </Row>
       <Row

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Tab, Nav } from "react-bootstrap";
 import {
   PageTitle,
@@ -31,7 +31,7 @@ const tabs = [
   "Resources",
 ];
 
-const ChallengePreview = ({ history }) => {
+const ChallengePreview = ({ history, match }) => {
   const isStartUp_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
       localStorage.getItem("token"),
@@ -41,10 +41,21 @@ const ChallengePreview = ({ history }) => {
     isMentor_Judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
       localStorage.getItem("token");
-  const [selectedTab, selectTab] = useState(tabs[0]);
+  const [selectedTab, selectTab] = useState(null);
   const [show, setUserFlowModal] = useState(false);
   const isLoggedIn = localStorage.getItem("token");
   const isProfileUpdated = localStorage.getItem("profileUpdated");
+
+  useEffect(() => {
+    if (match && match.params && match.params.tab) {
+      selectTab(
+        tabs.find(
+          (each) =>
+            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+        )
+      );
+    }
+  }, [match]);
 
   return (
     <MainContainer>
@@ -74,7 +85,7 @@ const ChallengePreview = ({ history }) => {
               secondaryButtonText="Edit Challenge Details"
               primaryButtonClick={() => {}}
               secondaryButtonClick={() => {
-                history.push("/challenge/edit");
+                history.push("/challenge/edit/Description");
               }}
             />
           </Col>
@@ -120,17 +131,14 @@ const ChallengePreview = ({ history }) => {
             <TabContainer>
               <Row className="justify-content-center">
                 <Col md={11}>
-                  <Tab.Container
-                    activeKey={selectedTab}
-                    // onSelect={(k) => selectTab(k)}
-                  >
+                  <Tab.Container activeKey={selectedTab}>
                     <Nav>
                       {tabs.map((each, index) => {
                         return (
                           <Nav.Item
                             key={index}
                             onClick={() => {
-                              selectTab(each);
+                              history.push(`/challenge/preview/${each}`);
                             }}
                           >
                             <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -170,22 +178,25 @@ const ChallengePreview = ({ history }) => {
               isOrganisation={isOrganisation}
             />
           </Tab.Pane>
-          <Tab.Pane eventKey="Guidelines">
+          <Tab.Pane eventKey="Guidelines" isOrganisation={isOrganisation}>
             <Guidelines />
           </Tab.Pane>
-          <Tab.Pane eventKey="Updates">
+          <Tab.Pane eventKey="Updates" isOrganisation={isOrganisation}>
             <Updates />
           </Tab.Pane>
           <Tab.Pane eventKey="Timeline">
-            <Timeline isStartUp_Individual={isStartUp_Individual} />
+            <Timeline
+              isStartUp_Individual={isStartUp_Individual}
+              isOrganisation={isOrganisation}
+            />
           </Tab.Pane>
-          <Tab.Pane eventKey="Forum">
+          <Tab.Pane eventKey="Forum" isOrganisation={isOrganisation}>
             <Forum />
           </Tab.Pane>
-          <Tab.Pane eventKey="FAQ">
+          <Tab.Pane eventKey="FAQ" isOrganisation={isOrganisation}>
             <FAQ />
           </Tab.Pane>
-          <Tab.Pane eventKey="Resources">
+          <Tab.Pane eventKey="Resources" isOrganisation={isOrganisation}>
             <Resources />
           </Tab.Pane>
         </Tab.Content>
