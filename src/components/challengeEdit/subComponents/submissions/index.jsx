@@ -80,6 +80,10 @@ const Submissions = () => {
               infoButtonClick={() => {
                 setDisqualifyShow(true);
               }}
+              backButton={true}
+              onBackButtonClick={() => {
+                selectRow(null);
+              }}
             />
           ) : (
             <HeaderComponent

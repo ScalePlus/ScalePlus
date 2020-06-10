@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "../allChallenges/subComponents/challengesList";
 import { MainContainer } from "./style";
 import { PrimaryButton } from "../common";
+import { Constants } from "../../lib/constant";
 
 const Home = ({ history }) => {
+  const isOrganisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    isStartUp_Individual =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+    isLoggedIn = localStorage.getItem("token");
+  const [showOrganisationInfo, setOrganisationInfoShow] = useState(false);
+  const [showStartupInfo, setStartupInfoShow] = useState(false);
+
   return (
     <MainContainer>
       <div className="home-container">
@@ -58,9 +67,20 @@ const Home = ({ history }) => {
                       variant="primary"
                       text={"Create Challenge"}
                       onClick={() => {
-                        history.push("/create/challenge");
+                        if (!isLoggedIn) {
+                          history.push("/login");
+                        } else if (isOrganisation) {
+                          history.push("/create/challenge");
+                        } else {
+                          setOrganisationInfoShow(true);
+                        }
                       }}
                     ></PrimaryButton>
+                    {showOrganisationInfo && (
+                      <div className="information-text">
+                        <span>*Only registered organizations can do this!</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Col>
@@ -89,9 +109,18 @@ const Home = ({ history }) => {
                       variant="primary"
                       text={"Solve Challenge"}
                       onClick={() => {
-                        history.push("/all/challenges");
+                        if (!isLoggedIn || isStartUp_Individual) {
+                          history.push("/all/challenges");
+                        } else {
+                          setStartupInfoShow(true);
+                        }
                       }}
                     ></PrimaryButton>
+                    {showStartupInfo && (
+                      <div className="information-text">
+                        <span>*Only registered individuals can do this!</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Col>

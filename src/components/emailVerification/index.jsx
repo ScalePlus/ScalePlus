@@ -40,7 +40,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
 
   useEffect(() => {
     getUserMethod(userId);
-  }, [getUserMethod]);
+  }, [getUserMethod, userId]);
 
   useEffect(() => {
     const { userData } = signinReducer;

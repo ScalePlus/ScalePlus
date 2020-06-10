@@ -10,6 +10,7 @@ const Subscribe = ({ show, setShow }) => {
       show={show}
       onHide={() => setShow(false)}
       dialogClassName="subscribe-modal"
+      centered
     >
       <Modal.Header>
         <HeaderContainer>

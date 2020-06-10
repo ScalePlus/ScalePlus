@@ -56,11 +56,11 @@ const Timeline = ({ isStartUp_Individual, isOrganisation }) => {
                 title: "You are here",
                 description:
                   "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
-                uploadFiles: [
-                  "Submit Challenge entry form",
-                  "Submit Some form",
-                  "Submit Challenge entry form",
-                ],
+                // uploadFiles: [
+                //   "Submit Challenge entry form",
+                //   "Submit Some form",
+                //   "Submit Challenge entry form",
+                // ],
               },
               {
                 active: false,

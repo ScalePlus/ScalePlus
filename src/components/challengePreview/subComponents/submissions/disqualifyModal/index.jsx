@@ -9,6 +9,7 @@ const DisqualifyModal = ({ show, setShow }) => {
       show={show}
       onHide={() => setShow(false)}
       dialogClassName="disqualify-modal"
+      centered
     >
       <Modal.Header>
         <HeaderContainer>

@@ -25,10 +25,17 @@ export const HeaderComponent = React.memo(
     menuButtonVariant,
     menuList,
     haveProgressBar,
+    backButton,
+    onBackButtonClick,
   }) => {
     return (
       <TitleContainer>
         <div className={"title"} style={{ marginBottom: 10 }}>
+          {backButton && (
+            <div onClick={onBackButtonClick} className="back-arrow">
+              {"<"}
+            </div>
+          )}
           <span>{titleText}</span>
         </div>
         <div

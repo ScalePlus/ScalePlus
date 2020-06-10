@@ -19,17 +19,6 @@ import Forum from "./subComponents/forum";
 import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
 import "react-circular-progressbar/dist/styles.css";
-const tabs = [
-  "Overview",
-  "Judging Criteria",
-  "Submissions",
-  "Guidelines",
-  "Updates",
-  "Timeline",
-  "Forum",
-  "FAQ",
-  "Resources",
-];
 
 const ChallengePreview = ({ history, match }) => {
   const isStartUp_Individual =
@@ -40,11 +29,36 @@ const ChallengePreview = ({ history, match }) => {
       localStorage.getItem("token"),
     isMentor_Judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
-      localStorage.getItem("token");
+      localStorage.getItem("token"),
+    isLoggedIn = localStorage.getItem("token"),
+    isProfileUpdated = localStorage.getItem("profileUpdated");
+  const [tabs, changeTabs] = useState([
+    "Overview",
+    "Guidelines",
+    "Updates",
+    "Timeline",
+    "Forum",
+    "FAQ",
+    "Resources",
+  ]);
   const [selectedTab, selectTab] = useState(null);
   const [show, setUserFlowModal] = useState(false);
-  const isLoggedIn = localStorage.getItem("token");
-  const isProfileUpdated = localStorage.getItem("profileUpdated");
+
+  useEffect(() => {
+    if (isOrganisation || isStartUp_Individual) {
+      changeTabs((data) => {
+        data.splice(1, 0, "Submissions");
+        return data;
+      });
+    }
+    if (isMentor_Judge) {
+      changeTabs((data) => {
+        data.splice(1, 0, "Judging Criteria");
+        data.splice(2, 0, "Submissions");
+        return data;
+      });
+    }
+  }, [isOrganisation, isStartUp_Individual, isMentor_Judge]);
 
   useEffect(() => {
     if (match && match.params && match.params.tab) {
@@ -55,7 +69,7 @@ const ChallengePreview = ({ history, match }) => {
         )
       );
     }
-  }, [match]);
+  }, [match, tabs]);
 
   return (
     <MainContainer>
@@ -100,7 +114,11 @@ const ChallengePreview = ({ history, match }) => {
           <Col lg={11} md={11} sm={11} xs={11}>
             <ChallengeViewHeader
               primaryButtonText={
-                isMentor_Judge ? "Judge this Challenge" : "Solve Challenge"
+                selectedTab === tabs[0] || !isLoggedIn
+                  ? isMentor_Judge
+                    ? "Judge this Challenge"
+                    : "Solve Challenge"
+                  : null
               }
               primaryButtonClick={() => {
                 if (isLoggedIn) {
@@ -133,23 +151,25 @@ const ChallengePreview = ({ history, match }) => {
                 <Col md={11}>
                   <Tab.Container activeKey={selectedTab}>
                     <Nav>
-                      {tabs.map((each, index) => {
-                        return (
-                          <Nav.Item
-                            key={index}
-                            onClick={() => {
-                              history.push(`/challenge/preview/${each}`);
-                            }}
-                          >
-                            <Nav.Link eventKey={each}>{each}</Nav.Link>
-                            {each === "Updates" && (
-                              <div className="count-container">
-                                <span>1</span>
-                              </div>
-                            )}
-                          </Nav.Item>
-                        );
-                      })}
+                      {tabs && tabs.length
+                        ? tabs.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  history.push(`/challenge/preview/${each}`);
+                                }}
+                              >
+                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                                {each === "Updates" && (
+                                  <div className="count-container">
+                                    <span>1</span>
+                                  </div>
+                                )}
+                              </Nav.Item>
+                            );
+                          })
+                        : null}
                     </Nav>
                   </Tab.Container>
                 </Col>

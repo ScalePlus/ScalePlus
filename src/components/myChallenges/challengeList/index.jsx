@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { CardComponent } from "../../common";
 import { MainContainer } from "./style";
@@ -18,7 +18,7 @@ let cards = [
 ];
 
 const MyChallengesList = ({ history }) => {
-  const [menu, setMenu] = useState(null);
+  // const [menu, setMenu] = useState(null);
   return (
     <MainContainer>
       <div className="my-content-container">
@@ -43,6 +43,9 @@ const MyChallengesList = ({ history }) => {
                       xs={12}
                       key={index}
                       className="custom-card"
+                      onClick={() => {
+                        history.push("/challenge/preview/Overview");
+                      }}
                     >
                       <CardComponent
                         src={each.src}
@@ -50,7 +53,7 @@ const MyChallengesList = ({ history }) => {
                         progress={each.progress}
                         label={each.label}
                       />
-                      <div
+                      {/* <div
                         className={
                           menu === index
                             ? "hover-container active"
@@ -77,7 +80,7 @@ const MyChallengesList = ({ history }) => {
                             width="25px"
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </Col>
                   );
                 })}

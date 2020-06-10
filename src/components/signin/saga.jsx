@@ -27,10 +27,14 @@ function* signinSaga(data) {
       yield put({ type: SIGNIN_SUCCESS, payload: res.result });
       if (res.result.token) {
         localStorage.setItem("token", res.result.token);
+      }
+
+      if (res.result.userRole) {
         localStorage.setItem("userRole", res.result.userRole);
-        if (res.result.profileUpdated) {
-          localStorage.setItem("profileUpdated", res.result.profileUpdated);
-        }
+      }
+
+      if (res.result.profileUpdated) {
+        localStorage.setItem("profileUpdated", res.result.profileUpdated);
       }
 
       if (res.result.userId) {

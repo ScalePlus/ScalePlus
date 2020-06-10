@@ -65,6 +65,11 @@ export const MainContainer = styled.div`
           font-size: ${theme.fontSize.mediumRegular};
         }
       }
+      .information-text {
+        text-align: center;
+        margin-top: 10px;
+        font-family: ${theme.fontFamily.bold};
+      }
     }
   }
   .challenge-list {

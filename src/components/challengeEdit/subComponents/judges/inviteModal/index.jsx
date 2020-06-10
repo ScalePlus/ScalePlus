@@ -13,6 +13,7 @@ const InviteModal = ({ show, setShow }) => {
       onHide={() => setShow(false)}
       size="lg"
       dialogClassName="invite-modal"
+      centered
     >
       <Modal.Body>
         <Row>

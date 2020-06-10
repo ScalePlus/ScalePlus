@@ -42,6 +42,17 @@ export const MainContainer = styled.div`
       }
     }
   }
+
+  .subscribe-container .information-text {
+    padding: 20px 30px;
+    font-family: ${theme.fontFamily.bold};
+  }
+
+  .time-container .information-text {
+    padding: 20px 35px;
+    font-family: ${theme.fontFamily.bold};
+  }
+
   .subscribe-container .button-container button {
     padding: 20px 70px;
   }

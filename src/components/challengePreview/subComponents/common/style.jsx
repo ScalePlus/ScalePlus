@@ -8,13 +8,24 @@ export const TitleContainer = styled.div`
   flex-wrap: wrap;
   text-align: left;
   .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiLarge};
+
+    .back-arrow {
+      margin-right: 1rem;
+      cursor: pointer;
+      color: ${theme.colors.gray};
+    }
 
     span {
       padding-bottom: 5px;
       padding-right: 5px;
       border-bottom: 5px solid ${theme.colors.yellow};
+      vertical-align: middle;
     }
   }
   .submission-menu-items {

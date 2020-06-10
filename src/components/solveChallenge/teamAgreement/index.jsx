@@ -9,6 +9,7 @@ const TeamAgreement = ({ show, setShow, setCheck }) => {
       show={show}
       onHide={() => setShow(false)}
       dialogClassName="team-agreement-modal"
+      centered
     >
       <Modal.Body>
         <HeaderContainer>Team Agreement</HeaderContainer>

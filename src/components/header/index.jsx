@@ -4,16 +4,27 @@ import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
 import { HeaderPart, ContentPart } from "./subComponents/notifications";
+import { Constants } from "../../lib/constant";
 
 const Header = () => {
+  const isOrganisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    isLoggedIn = localStorage.getItem("token");
+
   const [links] = useState(
-    localStorage.getItem("token")
-      ? [
-          { label: "ALL CHALLENGES", link: "/all/challenges" },
-          { label: "HOW IT WORKS", link: "/workflow" },
-          { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
-          { label: "DASHBOARD", link: "/dashboard" },
-        ]
+    isLoggedIn
+      ? isOrganisation
+        ? [
+            { label: "ALL CHALLENGES", link: "/all/challenges" },
+            { label: "HOW IT WORKS", link: "/workflow" },
+            { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
+            { label: "DASHBOARD", link: "/dashboard" },
+          ]
+        : [
+            { label: "ALL CHALLENGES", link: "/all/challenges" },
+            { label: "HOW IT WORKS", link: "/workflow" },
+            { label: "DASHBOARD", link: "/dashboard" },
+          ]
       : [
           { label: "ALL CHALLENGES", link: "/all/challenges" },
           { label: "HOW IT WORKS", link: "/workflow" },

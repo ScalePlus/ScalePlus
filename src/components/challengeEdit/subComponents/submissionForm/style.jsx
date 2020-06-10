@@ -12,10 +12,18 @@ export const MainContainer = styled.div`
   }
   .left-container {
     flex: auto;
-    .title {
-      padding-bottom: 10px;
+    .title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       text-transform: uppercase;
       border-bottom: 1px solid #979797;
+
+      .primary_switch .custom-control-label {
+        padding-left: 15px;
+        padding-top: 5px;
+        text-transform: capitalize;
+      }
     }
     .field-container {
       margin-top: 10px;

@@ -7,6 +7,7 @@ import {
   RemoveButton,
   UpdateCountButton,
   AddButton,
+  Switch,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
@@ -73,6 +74,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Single-Field",
                         title: "",
+                        isRequired: false,
                       })
                     );
                   },
@@ -85,6 +87,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Rich-Text-Editor",
                         title: "",
+                        isRequired: false,
                       })
                     );
                   },
@@ -97,6 +100,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Multiple-Choice",
                         title: "",
+                        isRequired: false,
                         choices: [],
                       })
                     );
@@ -110,6 +114,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Single-Choice",
                         title: "",
+                        isRequired: false,
                         choices: [],
                       })
                     );
@@ -123,6 +128,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Yes-No-Question",
                         title: "",
+                        isRequired: false,
                       })
                     );
                   },
@@ -135,6 +141,7 @@ const SubmissionForm = () => {
                         id: `feild-${data.length + 1}`,
                         field: "Document-Upload-Box",
                         title: "",
+                        isRequired: false,
                       })
                     );
                   },
@@ -170,15 +177,32 @@ const SubmissionForm = () => {
                               <div
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
-                                {...provided.dragHandleProps}
                                 className="box-container"
-                                key={index}
                               >
                                 <div className="left-container">
                                   {each.field === "Single-Field" && (
                                     <div>
-                                      <div className="title">
-                                        Single Field Title
+                                      <div className="title-container">
+                                        <div>Single Field Title</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
                                       </div>
                                       <div className="field-container">
                                         <Input
@@ -203,8 +227,27 @@ const SubmissionForm = () => {
                                   )}
                                   {each.field === "Rich-Text-Editor" && (
                                     <div>
-                                      <div className="title">
-                                        Rich Text Editor
+                                      <div className="title-container">
+                                        <div>Rich Text Editor</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
                                       </div>
                                       <div className="field-container">
                                         <Input
@@ -229,8 +272,27 @@ const SubmissionForm = () => {
                                   )}
                                   {each.field === "Document-Upload-Box" && (
                                     <div>
-                                      <div className="title">
-                                        Document Upload Box
+                                      <div className="title-container">
+                                        <div>Document Upload Box</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
                                       </div>
                                       <div className="field-container">
                                         <Input
@@ -255,8 +317,27 @@ const SubmissionForm = () => {
                                   )}
                                   {each.field === "Yes-No-Question" && (
                                     <div>
-                                      <div className="title">
-                                        Yes No Question
+                                      <div className="title-container">
+                                        <div>Yes No Question</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
                                       </div>
                                       <div className="field-container">
                                         <TextArea
@@ -281,8 +362,27 @@ const SubmissionForm = () => {
                                   )}
                                   {each.field === "Multiple-Choice" && (
                                     <div>
-                                      <div className="title">
-                                        Multiple Choice
+                                      <div className="title-container">
+                                        <div>Multiple Choice</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
                                       </div>
                                       <div className="field-container">
                                         <TextArea
@@ -403,7 +503,28 @@ const SubmissionForm = () => {
                                   )}
                                   {each.field === "Single-Choice" && (
                                     <div>
-                                      <div className="title">SINGLE Choice</div>
+                                      <div className="title-container">
+                                        <div>SINGLE Choice</div>
+                                        <div>
+                                          <Switch
+                                            checked={each.isRequired}
+                                            onChange={() => {
+                                              setForm((data) =>
+                                                data.map((formData, i) => {
+                                                  if (index === i) {
+                                                    formData[
+                                                      "isRequired"
+                                                    ] = !formData["isRequired"];
+                                                  }
+                                                  return formData;
+                                                })
+                                              );
+                                            }}
+                                            variant="primary"
+                                            label="Required"
+                                          ></Switch>
+                                        </div>
+                                      </div>
                                       <div className="field-container">
                                         <TextArea
                                           label="Enter your question below"
@@ -534,7 +655,9 @@ const SubmissionForm = () => {
                                       }}
                                     />
                                   </div>
-                                  <UpdateCountButton onClick={() => {}} />
+                                  <div {...provided.dragHandleProps}>
+                                    <UpdateCountButton />
+                                  </div>
                                 </div>
                               </div>
                             )}

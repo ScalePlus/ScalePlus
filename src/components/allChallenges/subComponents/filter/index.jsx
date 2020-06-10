@@ -39,6 +39,7 @@ const Filters = ({ show, setShow }) => {
       show={show}
       onHide={() => setShow(false)}
       dialogClassName="filter-modal"
+      centered
     >
       <Modal.Body>
         <Row className="justify-content-center">

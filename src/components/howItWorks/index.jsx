@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
+import { Constants } from "../../lib/constant";
 
-const HowItWorks = () => {
+const HowItWorks = ({ history }) => {
+  const isOrganisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    isLoggedIn = localStorage.getItem("token");
+  const [showInfo, setShow] = useState(false);
   return (
     <MainContainer>
       <div className="subscribe-container">
@@ -27,8 +32,21 @@ const HowItWorks = () => {
                   <PrimaryButton
                     variant="primary"
                     text={"Evaluate My Challenge"}
-                    onClick={() => {}}
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        history.push("/login");
+                      } else if (isOrganisation) {
+                        history.push("/create/challenge");
+                      } else {
+                        setShow(true);
+                      }
+                    }}
                   ></PrimaryButton>
+                  {showInfo && (
+                    <div className="information-text">
+                      <span>*Only registered organizations can do this!</span>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -64,8 +82,21 @@ const HowItWorks = () => {
                   <PrimaryButton
                     variant="primary"
                     text={"Launch My Challenge Now"}
-                    onClick={() => {}}
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        history.push("/login");
+                      } else if (isOrganisation) {
+                        history.push("/create/challenge");
+                      } else {
+                        setShow(true);
+                      }
+                    }}
                   ></PrimaryButton>
+                  {showInfo && (
+                    <div className="information-text">
+                      <span>*Only registered organizations can do this!</span>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>

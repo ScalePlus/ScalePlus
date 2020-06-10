@@ -22,6 +22,7 @@ import SolveChallenge from "./components/solveChallenge";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
+import { Constants } from "./lib/constant";
 
 const MainRouter = () => {
   history.listen((location, action) => {
@@ -66,6 +67,26 @@ const MainRouter = () => {
           </Layout>
         ) : (
           <Redirect to="/login" />
+        )
+      }
+    />
+  );
+
+  const OrganizationRoute = ({
+    component: Component,
+    layout: Layout,
+    ...rest
+  }) => (
+    <Route
+      {...rest}
+      render={(props) =>
+        localStorage.getItem("token") &&
+        localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ? (
+          <Layout>
+            <Component {...props} />
+          </Layout>
+        ) : (
+          <Redirect to="/dashboard" />
         )
       }
     />
@@ -135,7 +156,7 @@ const MainRouter = () => {
             layout={MainLayout}
             component={EssentialDetail}
           />
-          <AuthRoute
+          <OrganizationRoute
             path="/create/challenge"
             exact
             layout={MainLayout}
@@ -153,7 +174,7 @@ const MainRouter = () => {
             layout={MainLayout}
             component={ChallengePreview}
           />
-          <AuthRoute
+          <OrganizationRoute
             path="/challenge/edit/:tab"
             exact
             layout={MainLayout}

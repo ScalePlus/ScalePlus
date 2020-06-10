@@ -12,6 +12,7 @@ const UserFlowModal = ({ show, setUserFlowModal, history }) => {
       show={show}
       onHide={() => setUserFlowModal(false)}
       dialogClassName="user-flow-modal"
+      centered
     >
       <MainContainer>
         <Modal.Header>
