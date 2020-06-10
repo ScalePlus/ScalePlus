@@ -21,7 +21,7 @@ const tabs = [
   },
 ];
 
-const SolveChallenge = () => {
+const SolveChallenge = ({ history }) => {
   const [activeTab, setActiveTab] = useState(tabs[0].text);
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
@@ -156,6 +156,9 @@ const SolveChallenge = () => {
                       variant="primary"
                       text={"Enter Challenge"}
                       type="submit"
+                      onClick={() => {
+                        history.push("/challenge/preview/Submissions");
+                      }}
                     ></PrimaryButton>
                   </Col>
                 </Row>
@@ -174,6 +177,9 @@ const SolveChallenge = () => {
                       variant="primary"
                       text={"Enter Challenge"}
                       type="submit"
+                      onClick={() => {
+                        history.push("/challenge/preview/Submissions");
+                      }}
                     ></PrimaryButton>
                   </Col>
                 </Row>

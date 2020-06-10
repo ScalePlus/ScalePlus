@@ -18,14 +18,15 @@ export const TitleContainer = styled.div`
     .back-arrow {
       margin-right: 1rem;
       cursor: pointer;
-      color: ${theme.colors.gray};
+      img {
+        margin-bottom: 15px;
+      }
     }
 
     span {
       padding-bottom: 5px;
       padding-right: 5px;
       border-bottom: 5px solid ${theme.colors.yellow};
-      vertical-align: middle;
     }
   }
   .submission-menu-items {

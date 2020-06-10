@@ -23,7 +23,7 @@ const JudgingCriteria = () => {
   const [validated, setValidated] = useState(false);
   const [selectedRating, selectRating] = useState("");
   const [updates, changeUpdates] = useState([
-    { id: "update-1", title: "", description: "", score: "" },
+    { _id: "update-1", title: "", description: "", weight: "" },
   ]);
   return (
     <MainContainer>
@@ -64,10 +64,10 @@ const JudgingCriteria = () => {
               infoButtonClick={() => {
                 changeUpdates((data) =>
                   data.concat({
-                    id: `update-${data.length + 1}`,
+                    _id: `update-${data.length + 1}`,
                     title: "",
                     description: "",
-                    score: "",
+                    weight: "",
                   })
                 );
               }}
@@ -113,8 +113,8 @@ const JudgingCriteria = () => {
                       {updates.map((each, index) => {
                         return (
                           <Draggable
-                            key={each.id}
-                            draggableId={each.id}
+                            key={each._id}
+                            draggableId={each._id}
                             index={index}
                           >
                             {(provided, snapshot) => (
@@ -146,12 +146,12 @@ const JudgingCriteria = () => {
                                       <Input
                                         type="number"
                                         label="Overall Weight"
-                                        value={each.score}
+                                        value={each.weight}
                                         onChange={(e) => {
                                           changeUpdates(
                                             updates.map((data, i) => {
                                               if (index === i) {
-                                                data["score"] = e.target.value;
+                                                data["weight"] = e.target.value;
                                               }
                                               return data;
                                             })

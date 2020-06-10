@@ -206,7 +206,7 @@ const MainRouter = () => {
                 ? "/dashboard"
                 : localStorage.getItem("token")
                 ? "/detail"
-                : "/login"
+                : "/home"
             }
           ></Redirect>
         </Switch>

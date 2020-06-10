@@ -138,6 +138,7 @@ const Timeline = () => {
                         <DropDown
                           isSmall={true}
                           inBox={true}
+                          isSingle={true}
                           placeholder=""
                           options={[
                             { value: "1", label: "Start" },
@@ -217,25 +218,9 @@ const Timeline = () => {
                               key={attachIndex}
                             >
                               <Row>
-                                <Col lg={5} md={12} sm={12} xs={12}>
-                                  <div className="file-container">
-                                    <FileInput
-                                      placeholder="file name……word"
-                                      prependButtonText="Browse"
-                                    ></FileInput>
-                                  </div>
-                                </Col>
-                                <Col
-                                  lg={{
-                                    span: 6,
-                                    offset: 1,
-                                  }}
-                                  md={12}
-                                  sm={12}
-                                  xs={12}
-                                >
+                                <Col lg={6} md={12} sm={12} xs={12}>
                                   <div className="title-container">
-                                    <div className="title">Title</div>
+                                    <div className="title">Field Label</div>
                                     <Input
                                       type="text"
                                       placeholder="*Default value: File name"
@@ -263,12 +248,28 @@ const Timeline = () => {
                                     </div>
                                   </div>
                                 </Col>
+                                <Col
+                                  lg={{
+                                    span: 5,
+                                    offset: 1,
+                                  }}
+                                  md={12}
+                                  sm={12}
+                                  xs={12}
+                                >
+                                  <div className="file-container">
+                                    <FileInput
+                                      placeholder="file name……word"
+                                      prependButtonText="Browse"
+                                    ></FileInput>
+                                  </div>
+                                </Col>
                               </Row>
                             </div>
                           );
                         })
                       : null}
-                    <Row className="file-document-container">
+                    {/* <Row className="file-document-container">
                       <Col lg={6} md={12} sm={12} xs={12}>
                         <div className="header-container">
                           <div className="icon-container">
@@ -298,7 +299,7 @@ const Timeline = () => {
                           </div>
                         </div>
                       </Col>
-                    </Row>
+                    </Row> */}
                     {each.userAttachments && each.userAttachments.length
                       ? each.userAttachments.map((attach, attachIndex) => {
                           return (

@@ -71,7 +71,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Single-Field",
                         title: "",
                         isRequired: false,
@@ -84,7 +84,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Rich-Text-Editor",
                         title: "",
                         isRequired: false,
@@ -97,7 +97,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Multiple-Choice",
                         title: "",
                         isRequired: false,
@@ -111,7 +111,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Single-Choice",
                         title: "",
                         isRequired: false,
@@ -125,7 +125,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Yes-No-Question",
                         title: "",
                         isRequired: false,
@@ -138,7 +138,7 @@ const SubmissionForm = () => {
                   onClick: () => {
                     setForm((data) =>
                       data.concat({
-                        id: `feild-${data.length + 1}`,
+                        _id: `feild-${data.length + 1}`,
                         field: "Document-Upload-Box",
                         title: "",
                         isRequired: false,
@@ -169,8 +169,8 @@ const SubmissionForm = () => {
                       {submissionForm.map((each, index) => {
                         return (
                           <Draggable
-                            key={each.id}
-                            draggableId={each.id}
+                            key={each._id}
+                            draggableId={each._id}
                             index={index}
                           >
                             {(provided, snapshot) => (

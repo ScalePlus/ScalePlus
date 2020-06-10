@@ -16,7 +16,7 @@ const Resources = () => {
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [resources, changeResources] = useState([
-    { title: "", file: "", description: "", link: "" },
+    { title: "", attachment: "", description: "", link: "" },
   ]);
   return (
     <MainContainer>
@@ -57,7 +57,7 @@ const Resources = () => {
                 changeResources(
                   resources.concat({
                     title: "",
-                    file: "",
+                    attachment: "",
                     description: "",
                     link: "",
                   })
@@ -110,12 +110,12 @@ const Resources = () => {
                           placeholder="choose file"
                           label="Attachment"
                           buttonText="Upload File"
-                          value={each.file}
+                          value={each.attachment}
                           onChange={(e) => {
                             changeResources(
                               resources.map((data, i) => {
                                 if (index === i) {
-                                  data["file"] = e.target.files[0];
+                                  data["attachment"] = e.target.files[0];
                                 }
                                 return data;
                               })

@@ -33,7 +33,7 @@ export const HeaderComponent = React.memo(
         <div className={"title"} style={{ marginBottom: 10 }}>
           {backButton && (
             <div onClick={onBackButtonClick} className="back-arrow">
-              {"<"}
+              <img src="/images/back.png" alt="" height={25} width={25} />
             </div>
           )}
           <span>{titleText}</span>
