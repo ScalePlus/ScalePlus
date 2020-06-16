@@ -20,7 +20,7 @@ const tabs = [
   },
 ];
 
-const Step1 = ({ setActiveStep }) => {
+const Step1 = ({ setActiveStep, typeOfSolution, setTypeOfSolution }) => {
   return (
     <Row className="sub-container">
       <Col>
@@ -43,9 +43,14 @@ const Step1 = ({ setActiveStep }) => {
             return (
               <Col lg={4} md={4} sm={4} xs={12} key={index}>
                 <div
-                  className="box-container"
+                  className={
+                    typeOfSolution === each.title
+                      ? "box-container active"
+                      : "box-container"
+                  }
                   onClick={() => {
                     setActiveStep(1);
+                    setTypeOfSolution(each.title);
                   }}
                 >
                   <div className="image-container">

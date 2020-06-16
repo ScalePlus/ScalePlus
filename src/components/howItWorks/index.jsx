@@ -5,9 +5,9 @@ import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
 const HowItWorks = ({ history }) => {
-  const isOrganisation =
+  const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isLoggedIn = localStorage.getItem("token");
+    is_logged_in = localStorage.getItem("token");
   const [showInfo, setShow] = useState(false);
   return (
     <MainContainer>
@@ -33,9 +33,9 @@ const HowItWorks = ({ history }) => {
                     variant="primary"
                     text={"Evaluate My Challenge"}
                     onClick={() => {
-                      if (!isLoggedIn) {
+                      if (!is_logged_in) {
                         history.push("/login");
-                      } else if (isOrganisation) {
+                      } else if (is_organisation) {
                         history.push("/create/challenge");
                       } else {
                         setShow(true);
@@ -83,9 +83,9 @@ const HowItWorks = ({ history }) => {
                     variant="primary"
                     text={"Launch My Challenge Now"}
                     onClick={() => {
-                      if (!isLoggedIn) {
+                      if (!is_logged_in) {
                         history.push("/login");
-                      } else if (isOrganisation) {
+                      } else if (is_organisation) {
                         history.push("/create/challenge");
                       } else {
                         setShow(true);

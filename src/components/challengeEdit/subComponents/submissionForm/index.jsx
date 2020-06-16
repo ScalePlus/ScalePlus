@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+// import { getChallengeAction } from "../../../challengeMaster/action";
+import { attachSubmissionformAction } from "./action";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   Input,
@@ -8,6 +11,7 @@ import {
   UpdateCountButton,
   AddButton,
   Switch,
+  Loading,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
@@ -21,11 +25,57 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const SubmissionForm = () => {
+const SubmissionForm = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const attachSubmissionformMethod = (data) =>
+    dispatch(attachSubmissionformAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeSubmissionformReducer = useSelector((state) => {
+    return state.challengeSubmissionformReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [submissionForm, setForm] = useState([]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeSubmissionformReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeSubmissionformReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { submissionFormId } = challengeData;
+      if (submissionFormId && submissionFormId.data) {
+        setForm(submissionFormId.data);
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeSubmissionformReducer.loading || challengeReducer.loading) && (
+        <Loading />
+      )}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -43,6 +93,29 @@ const SubmissionForm = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeSubmissionformReducer &&
+      challengeSubmissionformReducer.success &&
+      challengeSubmissionformReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeSubmissionformReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
@@ -51,7 +124,9 @@ const SubmissionForm = () => {
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            attachSubmissionformMethod({
+              submissionForm,
+            });
           }
           setValidated(true);
         }}
@@ -188,16 +263,11 @@ const SubmissionForm = () => {
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -211,15 +281,10 @@ const SubmissionForm = () => {
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -233,16 +298,11 @@ const SubmissionForm = () => {
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -256,15 +316,10 @@ const SubmissionForm = () => {
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -278,16 +333,11 @@ const SubmissionForm = () => {
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -301,15 +351,10 @@ const SubmissionForm = () => {
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -323,16 +368,11 @@ const SubmissionForm = () => {
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -346,15 +386,10 @@ const SubmissionForm = () => {
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -368,16 +403,11 @@ const SubmissionForm = () => {
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -391,15 +421,10 @@ const SubmissionForm = () => {
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -410,6 +435,9 @@ const SubmissionForm = () => {
                                               data.map((each, i) => {
                                                 if (index === i) {
                                                   each.choices.push({
+                                                    _id: `choice-${
+                                                      each.choices.length + 1
+                                                    }`,
                                                     title: "",
                                                   });
                                                 }
@@ -421,10 +449,10 @@ const SubmissionForm = () => {
                                       </div>
                                       {each.choices && each.choices.length
                                         ? each.choices.map(
-                                            (eachCHoice, choiceIdex) => {
+                                            (eachChoice, choiceIdex) => {
                                               return (
                                                 <div
-                                                  key={choiceIdex}
+                                                  key={eachChoice._id}
                                                   className="choice-container"
                                                 >
                                                   <div className="choice-left-container">
@@ -434,36 +462,17 @@ const SubmissionForm = () => {
                                                     <div className="choice-input">
                                                       <Input
                                                         type="text"
-                                                        value={eachCHoice.title}
+                                                        value={eachChoice.title}
                                                         onChange={(e) => {
-                                                          setForm((data) =>
-                                                            data.map(
-                                                              (formData, i) => {
-                                                                if (
-                                                                  index === i
-                                                                ) {
-                                                                  formData.choices = formData.choices.map(
-                                                                    (
-                                                                      choiceData,
-                                                                      j
-                                                                    ) => {
-                                                                      if (
-                                                                        choiceIdex ===
-                                                                        j
-                                                                      ) {
-                                                                        choiceData[
-                                                                          "title"
-                                                                        ] =
-                                                                          e.target.value;
-                                                                      }
-                                                                      return choiceData;
-                                                                    }
-                                                                  );
-                                                                }
-                                                                return formData;
-                                                              }
-                                                            )
-                                                          );
+                                                          let newArr = [
+                                                            ...submissionForm,
+                                                          ];
+                                                          newArr[index][
+                                                            "choices"
+                                                          ][choiceIdex][
+                                                            "title"
+                                                          ] = e.target.value;
+                                                          setForm(newArr);
                                                         }}
                                                       />
                                                     </div>
@@ -471,26 +480,20 @@ const SubmissionForm = () => {
                                                   <div className="choice-right-container">
                                                     <RemoveButton
                                                       onClick={() => {
-                                                        setForm((data) =>
-                                                          data.map(
-                                                            (each, i) => {
-                                                              if (index === i) {
-                                                                each.choices = each.choices.filter(
-                                                                  (
-                                                                    choiceData,
-                                                                    i
-                                                                  ) => {
-                                                                    return (
-                                                                      choiceIdex !==
-                                                                      i
-                                                                    );
-                                                                  }
-                                                                );
-                                                              }
-                                                              return each;
-                                                            }
-                                                          )
+                                                        let newArr = [
+                                                          ...submissionForm,
+                                                        ];
+                                                        newArr[index][
+                                                          "choices"
+                                                        ] = each.choices.filter(
+                                                          (choiceData) => {
+                                                            return (
+                                                              choiceData._id !==
+                                                              eachChoice._id
+                                                            );
+                                                          }
                                                         );
+                                                        setForm(newArr);
                                                       }}
                                                     />
                                                   </div>
@@ -504,21 +507,16 @@ const SubmissionForm = () => {
                                   {each.field === "Single-Choice" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>SINGLE Choice</div>
+                                        <div>Single Choice</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
                                             onChange={() => {
-                                              setForm((data) =>
-                                                data.map((formData, i) => {
-                                                  if (index === i) {
-                                                    formData[
-                                                      "isRequired"
-                                                    ] = !formData["isRequired"];
-                                                  }
-                                                  return formData;
-                                                })
-                                              );
+                                              let newArr = [...submissionForm];
+                                              newArr[index][
+                                                "isRequired"
+                                              ] = !newArr[index]["isRequired"];
+                                              setForm(newArr);
                                             }}
                                             variant="primary"
                                             label="Required"
@@ -532,15 +530,10 @@ const SubmissionForm = () => {
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
-                                            setForm((data) =>
-                                              data.map((formData, i) => {
-                                                if (index === i) {
-                                                  formData["title"] =
-                                                    e.target.value;
-                                                }
-                                                return formData;
-                                              })
-                                            );
+                                            let newArr = [...submissionForm];
+                                            newArr[index]["title"] =
+                                              e.target.value;
+                                            setForm(newArr);
                                           }}
                                         />
                                       </div>
@@ -551,6 +544,9 @@ const SubmissionForm = () => {
                                               data.map((each, i) => {
                                                 if (index === i) {
                                                   each.choices.push({
+                                                    _id: `choice-${
+                                                      each.choices.length + 1
+                                                    }`,
                                                     title: "",
                                                   });
                                                 }
@@ -562,10 +558,10 @@ const SubmissionForm = () => {
                                       </div>
                                       {each.choices && each.choices.length
                                         ? each.choices.map(
-                                            (eachCHoice, choiceIdex) => {
+                                            (eachChoice, choiceIdex) => {
                                               return (
                                                 <div
-                                                  key={choiceIdex}
+                                                  key={eachChoice._id}
                                                   className="choice-container"
                                                 >
                                                   <div className="choice-left-container">
@@ -575,36 +571,17 @@ const SubmissionForm = () => {
                                                     <div className="choice-input">
                                                       <Input
                                                         type="text"
-                                                        value={eachCHoice.title}
+                                                        value={eachChoice.title}
                                                         onChange={(e) => {
-                                                          setForm((data) =>
-                                                            data.map(
-                                                              (formData, i) => {
-                                                                if (
-                                                                  index === i
-                                                                ) {
-                                                                  formData.choices = formData.choices.map(
-                                                                    (
-                                                                      choiceData,
-                                                                      j
-                                                                    ) => {
-                                                                      if (
-                                                                        choiceIdex ===
-                                                                        j
-                                                                      ) {
-                                                                        choiceData[
-                                                                          "title"
-                                                                        ] =
-                                                                          e.target.value;
-                                                                      }
-                                                                      return choiceData;
-                                                                    }
-                                                                  );
-                                                                }
-                                                                return formData;
-                                                              }
-                                                            )
-                                                          );
+                                                          let newArr = [
+                                                            ...submissionForm,
+                                                          ];
+                                                          newArr[index][
+                                                            "choices"
+                                                          ][choiceIdex][
+                                                            "title"
+                                                          ] = e.target.value;
+                                                          setForm(newArr);
                                                         }}
                                                       />
                                                     </div>
@@ -612,26 +589,20 @@ const SubmissionForm = () => {
                                                   <div className="choice-right-container">
                                                     <RemoveButton
                                                       onClick={() => {
-                                                        setForm((data) =>
-                                                          data.map(
-                                                            (each, i) => {
-                                                              if (index === i) {
-                                                                each.choices = each.choices.filter(
-                                                                  (
-                                                                    choiceData,
-                                                                    i
-                                                                  ) => {
-                                                                    return (
-                                                                      choiceIdex !==
-                                                                      i
-                                                                    );
-                                                                  }
-                                                                );
-                                                              }
-                                                              return each;
-                                                            }
-                                                          )
+                                                        let newArr = [
+                                                          ...submissionForm,
+                                                        ];
+                                                        newArr[index][
+                                                          "choices"
+                                                        ] = each.choices.filter(
+                                                          (choiceData) => {
+                                                            return (
+                                                              choiceData._id !==
+                                                              eachChoice._id
+                                                            );
+                                                          }
                                                         );
+                                                        setForm(newArr);
                                                       }}
                                                     />
                                                   </div>
@@ -647,11 +618,11 @@ const SubmissionForm = () => {
                                   <div style={{ marginBottom: 10 }}>
                                     <RemoveButton
                                       onClick={() => {
-                                        setForm((data) =>
-                                          data.filter((each, i) => {
-                                            return index !== i;
-                                          })
-                                        );
+                                        let newArr = [...submissionForm];
+                                        newArr = newArr.filter((data) => {
+                                          return each._id !== data._id;
+                                        });
+                                        setForm(newArr);
                                       }}
                                     />
                                   </div>

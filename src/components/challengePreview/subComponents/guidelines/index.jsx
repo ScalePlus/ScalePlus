@@ -4,18 +4,18 @@ import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
 import history from "../../../../history";
 
-const Guidelines = ({ isOrganisation }) => {
+const Guidelines = ({ is_organisation, challengeData }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          {isOrganisation ? (
+          {is_organisation ? (
             <HeaderComponent
               titleText="Guidelines"
               buttonText="Add New"
               buttonVariant="info"
               buttonClick={() => {
-                history.push("/challenge/edit/Guidelines");
+                history.push(`/challenge/${challengeData._id}/edit/Guidelines`);
               }}
             />
           ) : (

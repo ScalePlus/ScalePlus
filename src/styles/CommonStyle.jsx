@@ -251,17 +251,22 @@ body {
   font-family: ${theme.fontFamily.regular} !important;
 }
 
-.upload-container{
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-  margin-top: -130px;
-  color: ${theme.colors.gray};
-  font-size: ${theme.fontSize.regular};
-  cursor: pointer;
+.banner-input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:0;
+  .selected-img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .upload-container{
+    text-align: center;
+    color: ${theme.colors.gray};
+    font-size: ${theme.fontSize.regular};
+    cursor: pointer;
+  }
 }
 
 
@@ -430,18 +435,20 @@ body {
   padding-top: 8px;
 }
 
-.large-checkbox .custom-control-input.is-valid~.custom-control-label,
-.was-validated .large-checkbox .custom-control-input:valid~.custom-control-label,
-.large-radio-button .custom-control-input.is-valid~.custom-control-label,
-.was-validated .large-radio-button .custom-control-input:valid~.custom-control-label{
+.custom-control-input.is-valid~.custom-control-label,
+.was-validated .custom-control-input:valid~.custom-control-label{
   color: ${theme.colors.black};
 }
 
-.large-checkbox .custom-control-input.is-valid~.custom-control-label::before,
-.was-validated .large-checkbox .custom-control-input:valid~.custom-control-label::before,
-.large-radio-button .custom-control-input.is-valid~.custom-control-label::before,
-.was-validated .large-radio-button .custom-control-input:valid~.custom-control-label::before{
+.custom-control-input.is-valid~.custom-control-label::before,
+.was-validated .custom-control-input:valid~.custom-control-label::before{
   border-color: ${theme.colors.borderGrey};
+}
+
+.custom-control-input.is-valid:checked~.custom-control-label::before, 
+.was-validated .custom-control-input:valid:checked~.custom-control-label::before{
+  border-color: ${theme.colors.borderGrey};
+  background-color: ${theme.colors.white};
 }
 
 .search-modal,.evaluate-modal {
@@ -552,5 +559,12 @@ body {
   .bold-text{
     font-family: ${theme.fontFamily.bold};
   }
+}
+
+.no-data-text{
+  text-align:center;
+  font-family: ${theme.fontFamily.bold};
+  font-size:${theme.fontSize.medium};
+  padding: 80px;
 }
 `;

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect, useCallback } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+// import { getChallengeAction } from "../../../challengeMaster/action";
+import { attachJudgingCriteriaAction, getRatingTypesAction } from "./action";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   Input,
@@ -7,10 +10,12 @@ import {
   RemoveButton,
   UpdateCountButton,
   DropDown,
+  Loading,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -19,14 +24,71 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const JudgingCriteria = () => {
+const JudgingCriteria = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const attachJudgingCriteriaMethod = (data) =>
+    dispatch(attachJudgingCriteriaAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+  const getRatingTypesMethod = useCallback(
+    () => dispatch(getRatingTypesAction()),
+    [dispatch]
+  );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeJudgingCriteriaReducer = useSelector((state) => {
+    return state.challengeJudgingCriteriaReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [selectedRating, selectRating] = useState("");
-  const [updates, changeUpdates] = useState([
-    { _id: "update-1", title: "", description: "", weight: "" },
-  ]);
+  const [ratingType, selectRating] = useState("");
+  const [judgingCriteria, changeJudgingCriteria] = useState([]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    getRatingTypesMethod();
+  }, [getRatingTypesMethod]);
+
+  useEffect(() => {
+    const { error } = challengeJudgingCriteriaReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeJudgingCriteriaReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { judgingCriteriaId } = challengeData;
+      if (judgingCriteriaId && judgingCriteriaId.data) {
+        changeJudgingCriteria(judgingCriteriaId.data);
+      }
+      if (judgingCriteriaId && judgingCriteriaId.ratingType) {
+        selectRating({
+          value: judgingCriteriaId.ratingType._id,
+          label: judgingCriteriaId.ratingType.name,
+        });
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeJudgingCriteriaReducer.loading ||
+        challengeReducer.loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -38,6 +100,29 @@ const JudgingCriteria = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeJudgingCriteriaReducer &&
+      challengeJudgingCriteriaReducer.success &&
+      challengeJudgingCriteriaReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeJudgingCriteriaReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
@@ -46,7 +131,10 @@ const JudgingCriteria = () => {
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            attachJudgingCriteriaMethod({
+              judgingCriteria,
+              ratingType: ratingType.value,
+            });
           }
           setValidated(true);
         }}
@@ -62,9 +150,9 @@ const JudgingCriteria = () => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeUpdates((data) =>
+                changeJudgingCriteria((data) =>
                   data.concat({
-                    _id: `update-${data.length + 1}`,
+                    _id: `judgingCriteria-${data.length + 1}`,
                     title: "",
                     description: "",
                     weight: "",
@@ -80,13 +168,17 @@ const JudgingCriteria = () => {
               isSmall={true}
               label="Rating Type"
               placeholder=""
-              options={[
-                { value: "1", label: "Starring System" },
-                { value: "2", label: "Slider" },
-                { value: "3", label: "written" },
-                { value: "4", label: "Overall Rating" },
-              ]}
-              value={selectedRating}
+              options={
+                challengeJudgingCriteriaReducer.ratingTypes.result &&
+                challengeJudgingCriteriaReducer.ratingTypes.result.length
+                  ? challengeJudgingCriteriaReducer.ratingTypes.result.map(
+                      (option) => {
+                        return { value: option._id, label: option.name };
+                      }
+                    )
+                  : []
+              }
+              value={ratingType}
               onChange={(val) => {
                 selectRating(val);
               }}
@@ -96,13 +188,13 @@ const JudgingCriteria = () => {
         </Row>
         <Row>
           <Col>
-            {updates && updates.length ? (
+            {judgingCriteria && judgingCriteria.length ? (
               <DragDropContext
                 onDragEnd={(result) => {
                   if (!result.destination) {
                     return;
                   }
-                  changeUpdates((data) =>
+                  changeJudgingCriteria((data) =>
                     reorder(data, result.source.index, result.destination.index)
                   );
                 }}
@@ -110,7 +202,7 @@ const JudgingCriteria = () => {
                 <Droppable droppableId="droppable">
                   {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {updates.map((each, index) => {
+                      {judgingCriteria.map((each, index) => {
                         return (
                           <Draggable
                             key={each._id}
@@ -131,14 +223,10 @@ const JudgingCriteria = () => {
                                         label="Section Title"
                                         value={each.title}
                                         onChange={(e) => {
-                                          changeUpdates(
-                                            updates.map((data, i) => {
-                                              if (index === i) {
-                                                data["title"] = e.target.value;
-                                              }
-                                              return data;
-                                            })
-                                          );
+                                          let newArr = [...judgingCriteria];
+                                          newArr[index]["title"] =
+                                            e.target.value;
+                                          changeJudgingCriteria(newArr);
                                         }}
                                       />
                                     </Col>
@@ -148,14 +236,10 @@ const JudgingCriteria = () => {
                                         label="Overall Weight"
                                         value={each.weight}
                                         onChange={(e) => {
-                                          changeUpdates(
-                                            updates.map((data, i) => {
-                                              if (index === i) {
-                                                data["weight"] = e.target.value;
-                                              }
-                                              return data;
-                                            })
-                                          );
+                                          let newArr = [...judgingCriteria];
+                                          newArr[index]["weight"] =
+                                            e.target.value;
+                                          changeJudgingCriteria(newArr);
                                         }}
                                       />
                                     </Col>
@@ -167,15 +251,10 @@ const JudgingCriteria = () => {
                                         rows="2"
                                         value={each.description}
                                         onChange={(e) => {
-                                          changeUpdates(
-                                            updates.map((data, i) => {
-                                              if (index === i) {
-                                                data["description"] =
-                                                  e.target.value;
-                                              }
-                                              return data;
-                                            })
-                                          );
+                                          let newArr = [...judgingCriteria];
+                                          newArr[index]["description"] =
+                                            e.target.value;
+                                          changeJudgingCriteria(newArr);
                                         }}
                                       ></TextArea>
                                     </Col>
@@ -185,13 +264,11 @@ const JudgingCriteria = () => {
                                   <div style={{ marginBottom: 10 }}>
                                     <RemoveButton
                                       onClick={() => {
-                                        if (updates.length > 1) {
-                                          changeUpdates(
-                                            updates.filter((data, i) => {
-                                              return index !== i;
-                                            })
-                                          );
-                                        }
+                                        let newArr = [...judgingCriteria];
+                                        newArr = newArr.filter((data) => {
+                                          return each._id !== data._id;
+                                        });
+                                        changeJudgingCriteria(newArr);
                                       }}
                                     />
                                   </div>
@@ -204,13 +281,14 @@ const JudgingCriteria = () => {
                           </Draggable>
                         );
                       })}
+                      {provided.placeholder}
                     </div>
                   )}
                 </Droppable>
               </DragDropContext>
             ) : (
               <div className="table-body-container">
-                <span>!!!No updates added!!!</span>
+                <span>!!!No Judging Criteria added!!!</span>
               </div>
             )}
           </Col>

@@ -5,9 +5,9 @@ export const MainContainer = styled.div`
     min-height: 100px;
   }
   .danger-button-container {
-    margin-top: -65px;
+    top: 5.5rem;
     position: absolute;
     right: 0;
-    margin-right: 30px;
+    margin-right: 20px;
   }
 `;

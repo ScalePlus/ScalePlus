@@ -127,7 +127,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                           })}
                         </Alert>
                       ) : null}
-                      {success ? (
+                      {validated && success ? (
                         <Alert variant={"success"} className="text-left">
                           <div>{success}</div>
                         </Alert>

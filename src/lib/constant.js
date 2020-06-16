@@ -6,11 +6,16 @@ export const Constants = {
   isValidPassword: new RegExp(
     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/g
   ),
+  STATUS: {
+    ACTIVE: 0,
+    DELETED: 1,
+  },
   ROLES: {
     STARTUP_INDIVIDUAL: "Startup or Individual",
     ORGANIZATION: "Organization",
     MENTOR_JUDGE: "Mentor / Judge",
   },
+  TEAM_PERMISSION: { ADMIN: "admin", VIEW: "view" },
   Errors: {
     fname: "First name is required",
     lname: "Last name is required",
@@ -26,6 +31,8 @@ export const Constants = {
     logo: "Logo is required",
     website: "Website is required",
     invalid_website: "Invalid Website",
+    linkedin_url: "Linkedin profile is required",
+    invalid_linkedin_url: "Invalid linkedin profile",
     location: "Location is required",
     incorporationDate: "Incorporation date is required",
     mobile: "Mobile is required",
@@ -52,5 +59,6 @@ export const Constants = {
     anounceDate: "Announce date is required",
     score: "Score is required",
     invalid_videoURL: "Invalid video URL",
+    cancellationReason: "Cancellation reason is required",
   },
 };

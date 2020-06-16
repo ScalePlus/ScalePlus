@@ -1,25 +1,76 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+// import { getChallengeAction } from "../../../challengeMaster/action";
+import Api from "../../../challengeMaster/api";
+import { attachResourcesAction } from "./action";
 import {
   Switch,
   Input,
   EditorInput,
   FileInput,
   RemoveButton,
+  Loading,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Resources = () => {
+const Resources = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const attachResourcesMethod = (data) =>
+    dispatch(attachResourcesAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeResourceReducer = useSelector((state) => {
+    return state.challengeResourceReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [check, setCheck] = useState(false);
-  const [resources, changeResources] = useState([
-    { title: "", attachment: "", description: "", link: "" },
-  ]);
+  const [isActive, setActivity] = useState(false);
+  const [resources, changeResources] = useState([]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeResourceReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeResourceReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { resourceId } = challengeData;
+      if (resourceId && resourceId.data) {
+        changeResources(resourceId.data);
+      }
+      if (resourceId && resourceId.isActive) {
+        setActivity(true);
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeResourceReducer.loading || challengeReducer.loading) && (
+        <Loading />
+      )}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -30,15 +81,59 @@ const Resources = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeResourceReducer &&
+      challengeResourceReducer.success &&
+      challengeResourceReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeResourceReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            let newArr = [...resources];
+
+            for (let i = 0; i < newArr.length; i++) {
+              const resource = newArr[i];
+              if (resource.attachment && resource.attachment.name) {
+                let fileResult = await Api.uploadFile({
+                  file: resource.attachment,
+                });
+                if (
+                  fileResult &&
+                  fileResult.result &&
+                  fileResult.result.imageKey
+                ) {
+                  resource.attachment = fileResult.result.imageKey;
+                }
+              }
+            }
+
+            attachResourcesMethod({
+              isActive,
+              resources: newArr,
+            });
           }
           setValidated(true);
         }}
@@ -54,8 +149,9 @@ const Resources = () => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeResources(
-                  resources.concat({
+                changeResources((data) =>
+                  data.concat({
+                    _id: `resource-${data.length + 1}`,
                     title: "",
                     attachment: "",
                     description: "",
@@ -69,9 +165,9 @@ const Resources = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <Switch
-              checked={check}
+              checked={isActive}
               onChange={() => {
-                setCheck(!check);
+                setActivity(!isActive);
               }}
               variant="primary"
               label="Enable Resources tab"
@@ -82,7 +178,7 @@ const Resources = () => {
           <Col>
             {resources.map((each, index) => {
               return (
-                <div className="box-container" key={index}>
+                <div className="box-container" key={each._id}>
                   <div className="left-container">
                     <Row>
                       <Col>
@@ -91,14 +187,9 @@ const Resources = () => {
                           label="Title"
                           value={each.title}
                           onChange={(e) => {
-                            changeResources(
-                              resources.map((data, i) => {
-                                if (index === i) {
-                                  data["title"] = e.target.value;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...resources];
+                            newArr[index]["title"] = e.target.value;
+                            changeResources(newArr);
                           }}
                         />
                       </Col>
@@ -112,14 +203,9 @@ const Resources = () => {
                           buttonText="Upload File"
                           value={each.attachment}
                           onChange={(e) => {
-                            changeResources(
-                              resources.map((data, i) => {
-                                if (index === i) {
-                                  data["attachment"] = e.target.files[0];
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...resources];
+                            newArr[index]["attachment"] = e.target.files[0];
+                            changeResources(newArr);
                           }}
                         ></FileInput>
                       </Col>
@@ -131,7 +217,7 @@ const Resources = () => {
                         style={{ marginTop: "25px" }}
                       >
                         <span className="info-text">
-                          Allowed file types are: ......
+                          Allowed file types are: ....
                         </span>
                       </Col>
                     </Row>
@@ -141,14 +227,9 @@ const Resources = () => {
                           label="Description"
                           value={each.description}
                           onChange={(value) => {
-                            changeResources(
-                              resources.map((data, i) => {
-                                if (index === i) {
-                                  data["description"] = value;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...resources];
+                            newArr[index]["description"] = value;
+                            changeResources(newArr);
                           }}
                         ></EditorInput>
                       </Col>
@@ -160,14 +241,9 @@ const Resources = () => {
                           label="Link"
                           value={each.link}
                           onChange={(e) => {
-                            changeResources(
-                              resources.map((data, i) => {
-                                if (index === i) {
-                                  data["link"] = e.target.value;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...resources];
+                            newArr[index]["link"] = e.target.value;
+                            changeResources(newArr);
                           }}
                         />
                       </Col>
@@ -177,13 +253,11 @@ const Resources = () => {
                   <div className="right-container">
                     <RemoveButton
                       onClick={() => {
-                        if (resources.length > 1) {
-                          changeResources(
-                            resources.filter((data, i) => {
-                              return index !== i;
-                            })
-                          );
-                        }
+                        let newArr = [...resources];
+                        newArr = newArr.filter((data) => {
+                          return each._id !== data._id;
+                        });
+                        changeResources(newArr);
                       }}
                     />
                   </div>

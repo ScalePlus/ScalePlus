@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextArea, PrimaryButton, PageTitle } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
 
-const Step3 = ({ setActiveStep }) => {
-  const [problemStatement, changeProblemStatement] = useState("");
-  const [currentSolution, changeCurrentSolution] = useState("");
-  const [painPoint, changePainPoint] = useState("");
+const Step3 = ({
+  setActiveStep,
+  problemStatement,
+  changeProblemStatement,
+  currentSolution,
+  changeCurrentSolution,
+  painPoint,
+  changePainPoint,
+}) => {
   return (
     <Row className="sub-container">
       <Col>

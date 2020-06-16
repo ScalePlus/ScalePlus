@@ -163,19 +163,19 @@ const MainRouter = () => {
             component={ChallengeMaster}
           />
           <AuthRoute
-            path="/challenge/confirmation"
+            path="/challenge/confirmation/:id"
             exact
             layout={MainLayout}
             component={ChallengeConfirmation}
           />
           <OpenRoute
-            path="/challenge/preview/:tab"
+            path="/challenge/:id/preview/:tab"
             exact
             layout={MainLayout}
             component={ChallengePreview}
           />
           <OrganizationRoute
-            path="/challenge/edit/:tab"
+            path="/challenge/:id/edit/:tab"
             exact
             layout={MainLayout}
             component={ChallengeEdit}

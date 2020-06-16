@@ -1,16 +1,38 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { updateChallengeAction } from "../../../challengeMaster/action";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
-import { TextArea, PrimaryButton } from "../../../common";
+import { TextArea, PrimaryButton, Loading } from "../../../common";
 import { MainContainer } from "./style";
+import { Constants } from "../../../../lib/constant";
 
-const Settings = () => {
+const Settings = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const updateChallengeMethod = (data) => dispatch(updateChallengeAction(data));
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [cancelreason, changeReason] = useState(
-    "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?"
-  );
+  const [cancellationReason, changeReason] = useState("");
+
+  useEffect(() => {
+    const { error } = challengeReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {challengeReducer.loading && <Loading />}
       <Form
         noValidate
         validated={validated}
@@ -19,7 +41,11 @@ const Settings = () => {
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            updateChallengeMethod({
+              _id: challengeId,
+              status: Constants.STATUS.DELETED,
+              cancellationReason,
+            });
           }
           setValidated(true);
         }}
@@ -28,25 +54,38 @@ const Settings = () => {
           <Col>
             <HeaderComponent
               titleText="Settings"
-              buttonText="Save"
-              buttonVariant="success"
-              buttonType="submit"
+              // buttonText="Save"
+              // buttonVariant="success"
+              // buttonType="submit"
             />
           </Col>
         </Row>
-        <Row>
+        {errors && errors.length ? (
+          <Row style={{ marginBottom: 45 }}>
+            <Col>
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            </Col>
+          </Row>
+        ) : null}
+        <Row style={{ position: "relative" }}>
           <Col>
             <TextArea
               rows="4"
               label="Cancel challenge"
-              value={cancelreason}
+              value={cancellationReason}
               onChange={(e) => changeReason(e.target.value)}
+              required
+              errorMessage={Constants.Errors.cancellationReason}
             />
             <div className="danger-button-container">
               <PrimaryButton
                 variant="danger"
                 text={"Delete challenge"}
-                onClick={() => {}}
+                type="submit"
               ></PrimaryButton>
             </div>
           </Col>

@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+// import { getChallengeAction } from "../../../challengeMaster/action";
+import Api from "../../../challengeMaster/api";
+import { attachTimelineAction } from "./action";
 import {
   DateInput,
   DropDown,
@@ -8,26 +13,72 @@ import {
   AddButton,
   Input,
   FileInput,
+  Loading,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import Stepper from "../../../stepper";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import theme from "../../../../theme";
+const stateList = [
+  { value: "1", label: "Start" },
+  { value: "2", label: "Submission Deadline" },
+  { value: "3", label: "Judging" },
+  { value: "4", label: "Judging Closed" },
+  { value: "5", label: "Won" },
+];
 
-const Timeline = () => {
+const Timeline = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const attachTimelineMethod = (data) =>
+    dispatch(attachTimelineAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeTimelineReducer = useSelector((state) => {
+    return state.challengeTimelineReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [timeline, changeTimeline] = useState([
-    {
-      date: "",
-      dropDown: "",
-      description: "",
-      adminAttachments: [],
-      userAttachments: [],
-    },
-  ]);
+  const [timeline, changeTimeline] = useState([]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeTimelineReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeTimelineReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { timelineId } = challengeData;
+      if (timelineId && timelineId.data) {
+        changeTimeline(timelineId.data);
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeTimelineReducer.loading || challengeReducer.loading) && (
+        <Loading />
+      )}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText="Click Here">
@@ -38,15 +89,66 @@ const Timeline = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeTimelineReducer &&
+      challengeTimelineReducer.success &&
+      challengeTimelineReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeTimelineReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            let newArr = [...timeline];
+            for (let i = 0; i < newArr.length; i++) {
+              const record = newArr[i];
+              if (
+                record &&
+                record.adminAttachments &&
+                record.adminAttachments.length
+              ) {
+                for (let j = 0; j < record.adminAttachments.length; j++) {
+                  const attachmentRecord = record.adminAttachments[j];
+                  if (attachmentRecord.file && attachmentRecord.file.name) {
+                    let fileResult = await Api.uploadFile({
+                      file: attachmentRecord.file,
+                    });
+                    if (
+                      fileResult &&
+                      fileResult.result &&
+                      fileResult.result.imageKey
+                    ) {
+                      attachmentRecord.file = fileResult.result.imageKey;
+                    }
+                  }
+                }
+              }
+            }
+
+            attachTimelineMethod({
+              timeline: newArr,
+            });
           }
           setValidated(true);
         }}
@@ -63,13 +165,13 @@ const Timeline = () => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeTimeline(
-                  timeline.concat({
+                changeTimeline((data) =>
+                  data.concat({
+                    _id: `timeline-${data.length + 1}`,
                     date: "",
-                    dropDown: "",
+                    state: "",
                     description: "",
                     adminAttachments: [],
-                    userAttachments: [],
                   })
                 );
               }}
@@ -77,60 +179,51 @@ const Timeline = () => {
           </Col>
         </Row>
 
-        <Row style={{ marginBottom: 45 }}>
-          <Col>
-            <div className="timeline">
-              <Stepper
-                steps={[
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                  { title: "April 9, 2020" },
-                ]}
-                activeColor={theme.colors.black}
-                defaultColor={theme.colors.black}
-                completeColor={theme.colors.black}
-                defaultBarColor={theme.colors.black}
-                completeBarColor={theme.colors.black}
-                activeTitleColor={theme.colors.black}
-                defaultTitleColor={theme.colors.black}
-                borderTopWidth={2}
-                circleTop={25}
-                size={25}
-                barStyle="dashed"
-                showNumber={false}
-                showStartEndLabel={true}
-                titleFontSize={theme.fontSize.small}
-                isLeftAligned={true}
-              />
-            </div>
-          </Col>
-        </Row>
+        {timeline && timeline.length && timeline.length > 1 ? (
+          <Row style={{ marginBottom: 45 }}>
+            <Col>
+              <div className="timeline">
+                <Stepper
+                  steps={timeline.map((each) => {
+                    return { title: moment(each.date).format("MMMM DD, YYYY") };
+                  })}
+                  activeColor={theme.colors.black}
+                  defaultColor={theme.colors.black}
+                  completeColor={theme.colors.black}
+                  defaultBarColor={theme.colors.black}
+                  completeBarColor={theme.colors.black}
+                  activeTitleColor={theme.colors.black}
+                  defaultTitleColor={theme.colors.black}
+                  borderTopWidth={2}
+                  circleTop={25}
+                  size={25}
+                  barStyle="dashed"
+                  showNumber={false}
+                  showStartEndLabel={true}
+                  titleFontSize={theme.fontSize.small}
+                  isLeftAligned={true}
+                />
+              </div>
+            </Col>
+          </Row>
+        ) : null}
 
         <Row>
           <Col>
             {timeline.map((each, index) => {
               return (
-                <div className="box-container" key={index}>
+                <div className="box-container" key={each._id}>
                   <div className="left-container">
                     <Row>
                       <Col lg={6} md={6} sm={12} xs={12}>
                         <DateInput
                           isSmall={true}
-                          maxDate={new Date()}
-                          value={each.date}
+                          minDate={new Date().setDate(new Date().getDate() + 1)}
+                          value={each.date ? new Date(each.date) : null}
                           onChange={(date) => {
-                            changeTimeline(
-                              timeline.map((data, i) => {
-                                if (index === i) {
-                                  data["date"] = date;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...timeline];
+                            newArr[index]["date"] = date;
+                            changeTimeline(newArr);
                           }}
                         />
                       </Col>
@@ -140,23 +233,14 @@ const Timeline = () => {
                           inBox={true}
                           isSingle={true}
                           placeholder=""
-                          options={[
-                            { value: "1", label: "Start" },
-                            { value: "2", label: "Submission Deadline" },
-                            { value: "3", label: "Judging" },
-                            { value: "5", label: "Judging Closed" },
-                            { value: "5", label: "Won" },
-                          ]}
-                          value={each.dropDown}
+                          options={stateList}
+                          value={stateList.find(
+                            (option) => option.value === each.state
+                          )}
                           onChange={(val) => {
-                            changeTimeline(
-                              timeline.map((data, i) => {
-                                if (index === i) {
-                                  data["dropDown"] = val;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...timeline];
+                            newArr[index]["state"] = val.value;
+                            changeTimeline(newArr);
                           }}
                         />
                       </Col>
@@ -167,14 +251,9 @@ const Timeline = () => {
                           rows="2"
                           value={each.description}
                           onChange={(e) => {
-                            changeTimeline(
-                              timeline.map((data, i) => {
-                                if (index === i) {
-                                  data["description"] = e.target.value;
-                                }
-                                return data;
-                              })
-                            );
+                            let newArr = [...timeline];
+                            newArr[index]["description"] = e.target.value;
+                            changeTimeline(newArr);
                           }}
                         />
                       </Col>
@@ -199,7 +278,13 @@ const Timeline = () => {
                                 changeTimeline(
                                   timeline.map((data, i) => {
                                     if (index === i) {
-                                      data.adminAttachments.push({});
+                                      data.adminAttachments.push({
+                                        _id: `attachment-${
+                                          data.adminAttachments.length + 1
+                                        }`,
+                                        label: "",
+                                        file: "",
+                                      });
                                     }
                                     return data;
                                   })
@@ -215,7 +300,7 @@ const Timeline = () => {
                           return (
                             <div
                               className="attachment-container"
-                              key={attachIndex}
+                              key={attach._id}
                             >
                               <Row>
                                 <Col lg={6} md={12} sm={12} xs={12}>
@@ -224,25 +309,27 @@ const Timeline = () => {
                                     <Input
                                       type="text"
                                       placeholder="*Default value: File name"
+                                      value={attach.label}
+                                      onChange={(e) => {
+                                        let newArr = [...timeline];
+                                        newArr[index]["adminAttachments"][
+                                          attachIndex
+                                        ]["label"] = e.target.value;
+                                        changeTimeline(newArr);
+                                      }}
                                     ></Input>
                                     <div className="remove-container">
                                       <RemoveButton
                                         onClick={() => {
-                                          changeTimeline(
-                                            timeline.filter((data, i) => {
-                                              if (index === i) {
-                                                data.adminAttachments = data.adminAttachments.filter(
-                                                  (record, recordIndex) => {
-                                                    return (
-                                                      recordIndex !==
-                                                      attachIndex
-                                                    );
-                                                  }
-                                                );
-                                              }
-                                              return data;
-                                            })
+                                          let newArr = [...timeline];
+                                          newArr[index][
+                                            "adminAttachments"
+                                          ] = each.adminAttachments.filter(
+                                            (data) => {
+                                              return attach._id !== data._id;
+                                            }
                                           );
+                                          changeTimeline(newArr);
                                         }}
                                       />
                                     </div>
@@ -261,6 +348,14 @@ const Timeline = () => {
                                     <FileInput
                                       placeholder="file name……word"
                                       prependButtonText="Browse"
+                                      value={attach.file}
+                                      onChange={(e) => {
+                                        let newArr = [...timeline];
+                                        newArr[index]["adminAttachments"][
+                                          attachIndex
+                                        ]["file"] = e.target.files[0];
+                                        changeTimeline(newArr);
+                                      }}
                                     ></FileInput>
                                   </div>
                                 </Col>
@@ -300,7 +395,7 @@ const Timeline = () => {
                         </div>
                       </Col>
                     </Row> */}
-                    {each.userAttachments && each.userAttachments.length
+                    {/* {each.userAttachments && each.userAttachments.length
                       ? each.userAttachments.map((attach, attachIndex) => {
                           return (
                             <div
@@ -344,18 +439,16 @@ const Timeline = () => {
                             </div>
                           );
                         })
-                      : null}
+                      : null} */}
                   </div>
                   <div className="right-container">
                     <RemoveButton
                       onClick={() => {
-                        if (timeline.length > 1) {
-                          changeTimeline(
-                            timeline.filter((data, i) => {
-                              return index !== i;
-                            })
-                          );
-                        }
+                        let newArr = [...timeline];
+                        newArr = newArr.filter((data) => {
+                          return each._id !== data._id;
+                        });
+                        changeTimeline(newArr);
                       }}
                     />
                   </div>

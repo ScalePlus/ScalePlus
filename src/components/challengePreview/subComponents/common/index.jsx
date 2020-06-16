@@ -192,10 +192,13 @@ export const ExpandCollapse = React.memo(
   }
 );
 
-export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
-  const activeIndex = steps.findIndex((each) => {
-    return each.active;
-  });
+export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
+  const activeIndex =
+    steps &&
+    steps.length &&
+    steps.findIndex((each) => {
+      return each.active;
+    });
 
   return (
     <StepperVerticalContainer>
@@ -235,7 +238,7 @@ export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
                   {each.description && (
                     <div className="description">{each.description}</div>
                   )}
-                  {isStartUp_Individual &&
+                  {is_startup_Individual &&
                     each.downloadFiles &&
                     each.downloadFiles.length && (
                       <div className="download-files-container">
@@ -262,7 +265,7 @@ export const VeticalStepper = React.memo(({ steps, isStartUp_Individual }) => {
                         })}
                       </div>
                     )}
-                  {isStartUp_Individual &&
+                  {is_startup_Individual &&
                     each.uploadFiles &&
                     each.uploadFiles.length && (
                       <div className="upload-files-container">

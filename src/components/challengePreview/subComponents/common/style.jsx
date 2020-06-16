@@ -19,7 +19,7 @@ export const TitleContainer = styled.div`
       margin-right: 1rem;
       cursor: pointer;
       img {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
     }
 

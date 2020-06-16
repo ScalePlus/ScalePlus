@@ -26,11 +26,11 @@ const OrganizationDetails = () => {
     return state.signinReducer;
   });
 
-  const isStartUp_Individual =
+  const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-    isOrganisation =
+    is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isMentor_Judge =
+    is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
   const [roleSwitch, switchToggle] = useState(false);
@@ -84,7 +84,7 @@ const OrganizationDetails = () => {
     event.stopPropagation();
     const form = event.currentTarget;
     if (
-      (isStartUp_Individual || isOrganisation) &&
+      (is_startup_Individual || is_organisation) &&
       name &&
       logo &&
       website &&
@@ -104,7 +104,7 @@ const OrganizationDetails = () => {
       });
     }
     if (
-      isMentor_Judge &&
+      is_mentor_judge &&
       name &&
       mobile &&
       website &&
@@ -132,11 +132,11 @@ const OrganizationDetails = () => {
             <Col>
               <Title
                 text={
-                  isStartUp_Individual
+                  is_startup_Individual
                     ? "Initial Details"
-                    : isOrganisation
+                    : is_organisation
                     ? "Organization Details"
-                    : isMentor_Judge
+                    : is_mentor_judge
                     ? "Initial Details"
                     : ""
                 }
@@ -145,7 +145,7 @@ const OrganizationDetails = () => {
             </Col>
           </Row>
 
-          {isStartUp_Individual && (
+          {is_startup_Individual && (
             <Row>
               <Col>
                 <div className="switch-container">
@@ -186,7 +186,7 @@ const OrganizationDetails = () => {
                 </Alert>
               ) : null}
               <Row>
-                {isStartUp_Individual || isOrganisation ? (
+                {is_startup_Individual || is_organisation ? (
                   <Col>
                     <Input
                       type="text"
@@ -240,7 +240,7 @@ const OrganizationDetails = () => {
                       errorMessage={Constants.Errors.incorporationDate}
                     />
                   </Col>
-                ) : isMentor_Judge ? (
+                ) : is_mentor_judge ? (
                   <Col>
                     <Input
                       type="text"
@@ -267,7 +267,9 @@ const OrganizationDetails = () => {
                       placeholder="Website of Linkedin"
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
-                      required
+                      isInvalid={
+                        !website || (website && !website.match(Constants.isURL))
+                      }
                       errorMessage={
                         website
                           ? Constants.Errors.invalid_website

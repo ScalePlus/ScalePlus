@@ -297,6 +297,7 @@ export const FileInput = React.memo(
     buttonText,
     prependButtonText,
     description,
+    acceptTypes,
     ...props
   }) => {
     let fileUploader;
@@ -329,7 +330,7 @@ export const FileInput = React.memo(
             event.target.value = null;
           }}
           onChange={onChange}
-          accept="image/*"
+          accept={acceptTypes ? acceptTypes : "image/*"}
         />
         {buttonText && (
           <Button
@@ -357,31 +358,39 @@ export const FileInput = React.memo(
 );
 
 export const BannerInput = React.memo(
-  ({ value, onChange, label, description }) => {
+  ({ value, onChange, label, description, acceptTypes }) => {
     let fileUploader;
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <div
           className="banner-input"
-          // value={value && value.name ? value.name : value}
-          onClick={() => {
-            fileUploader.click();
-          }}
-        />
-        <div
-          className="upload-container"
           onClick={() => {
             fileUploader.click();
           }}
         >
-          <img
-            src={"/images/image.svg"}
-            height="35px"
-            width="35px"
-            alt=""
-          ></img>
-          <div>Upload image</div>
+          <div
+            className="upload-container"
+            onClick={() => {
+              fileUploader.click();
+            }}
+          >
+            {value ? (
+              <img
+                src={value && value.name ? URL.createObjectURL(value) : value}
+                alt=""
+                className="selected-img"
+              ></img>
+            ) : (
+              <img
+                src={"/images/image.svg"}
+                height="35px"
+                width="35px"
+                alt=""
+              ></img>
+            )}
+            {!value && <div>Upload image</div>}
+          </div>
         </div>
         <input
           type="file"
@@ -391,7 +400,7 @@ export const BannerInput = React.memo(
             event.target.value = null;
           }}
           onChange={onChange}
-          accept="image/*"
+          accept={acceptTypes ? acceptTypes : "image/*"}
         />
         {description && (
           <Form.Text className="text-muted-description">
@@ -631,7 +640,7 @@ export const IconButton = React.memo(({ text, onClick, disabled, type }) => {
   return (
     <ButtonContainer onClick={onClick} disabled={disabled} type={type}>
       <span className="button-text">{text}</span>
-      <span className="icon-container">></span>
+      <span className="icon-container">&gt;</span>
     </ButtonContainer>
   );
 });
@@ -707,20 +716,43 @@ export const ChallengeHeader = React.memo(
     primaryButtonClick,
     secondaryButtonText,
     secondaryButtonClick,
+    organisationId,
   }) => {
     return (
       <ChallengeHeaderContainer>
         <div className="left-continer">
           <div className="oval-container">
             <img
-              src={"/images/image.svg"}
-              height="20px"
-              width="20px"
+              src={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? organisationId.details.logo
+                  : "/images/image.svg"
+              }
+              height={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? "100%"
+                  : "20px"
+              }
+              width={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? "100%"
+                  : "20px"
+              }
               alt=""
             ></img>
           </div>
           <div className="organization-name">
-            <span>Organization Name Here</span>
+            <span>
+              {organisationId &&
+                organisationId.details &&
+                organisationId.details.name}
+            </span>
           </div>
         </div>
         <div className="right-continer">
@@ -926,73 +958,111 @@ export const CommonTable = React.memo(
   }
 );
 
-export const CardComponent = React.memo(({ src, variant, progress, label }) => {
-  return (
-    <CardContainer>
-      <Card>
-        <Card.Img variant="top" src={src} />
-        <Card.Body>
-          <Card.Text>By Rio Tinto</Card.Text>
-          <Card.Title>Low Impact Agriculture Challenge</Card.Title>
-          <Card.Text className="description">
-            Lorem ipsum dolor sit amet, oportere prodesset at mei. Vel in tollit
-            viderer pertinacia. Mel timeam corpora vituperatoribus ei. In
-            inimicus sententiae interesset usu……everti officiis sensibus cum, an
-            theophrastus interpretaris pro. Ut eum aperiri atomorum.
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <div className="days-price-container bordered-container">
-            <div className="days-container">
-              <img
-                src={"/images/interface.svg"}
-                height="25px"
-                width="25px"
-                alt=""
-              ></img>
-              <div className="days-text">
-                <span>30 days left</span>
+export const CardComponent = React.memo(
+  ({ variant, progress, label, organisationId, descriptionId }) => {
+    return (
+      <CardContainer>
+        <Card>
+          <Card.Img
+            variant="top"
+            src={
+              descriptionId && descriptionId.bannerImage
+                ? descriptionId.bannerImage
+                : "/images/image.svg"
+            }
+          />
+          <Card.Body>
+            <Card.Text>
+              By{" "}
+              {organisationId &&
+                organisationId.details &&
+                organisationId.details.name}
+            </Card.Text>
+            <Card.Title>{descriptionId && descriptionId.title}</Card.Title>
+            <Card.Text className="description">
+              {descriptionId && descriptionId.shortDescription}
+            </Card.Text>
+          </Card.Body>
+          <Card.Footer>
+            <div className="days-price-container bordered-container">
+              <div className="days-container">
+                <img
+                  src={"/images/interface.svg"}
+                  height="25px"
+                  width="25px"
+                  alt=""
+                ></img>
+                <div className="days-text">
+                  <span>30 days left</span>
+                </div>
+              </div>
+              <div className="prize-text">
+                <span>Prize AED 50K </span>
               </div>
             </div>
-            <div className="prize-text">
-              <span>Prize AED 50K </span>
-            </div>
-          </div>
-          {variant && progress && label && (
-            <>
-              <div className="bordered-container">
-                <div className="heading-text">
-                  <span>Current Milestone</span>
-                </div>
-                <div className="sub-heading-text">
-                  <ProgressBar variant={variant} now={progress} label={label} />
-                </div>
-              </div>
-              <div className="count-container">
-                <div className="left-container">
-                  <div className="sub-heading-text">
-                    <span>Participants/Matches</span>
-                  </div>
+            {variant && progress && label && (
+              <>
+                <div className="bordered-container">
                   <div className="heading-text">
-                    <span>6</span>
+                    <span>Current Milestone</span>
                   </div>
-                </div>
-                <div className="right-container">
                   <div className="sub-heading-text">
-                    <span>Judges</span>
-                  </div>
-                  <div className="heading-text">
-                    <span>6</span>
+                    <ProgressBar
+                      variant={variant}
+                      now={progress}
+                      label={label}
+                    />
                   </div>
                 </div>
-              </div>
-            </>
-          )}
-        </Card.Footer>
-      </Card>
-      <div className="circle-container">
-        <img src={"/images/image.svg"} height="40px" width="40px" alt=""></img>
-      </div>
-    </CardContainer>
-  );
-});
+                <div className="count-container">
+                  <div className="left-container">
+                    <div className="sub-heading-text">
+                      <span>Participants/Matches</span>
+                    </div>
+                    <div className="heading-text">
+                      <span>6</span>
+                    </div>
+                  </div>
+                  <div className="right-container">
+                    <div className="sub-heading-text">
+                      <span>Judges</span>
+                    </div>
+                    <div className="heading-text">
+                      <span>6</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </Card.Footer>
+        </Card>
+        <div className="circle-container">
+          <img
+            src={
+              organisationId &&
+              organisationId.details &&
+              organisationId.details.logo
+                ? organisationId.details.logo
+                : "/images/image.svg"
+            }
+            height={
+              organisationId &&
+              organisationId.details &&
+              organisationId.details.logo
+                ? "100%"
+                : "40px"
+            }
+            width={
+              organisationId &&
+              organisationId.details &&
+              organisationId.details.logo
+                ? "100%"
+                : "40px"
+            }
+            alt=""
+          ></img>
+        </div>
+      </CardContainer>
+    );
+  }
+);

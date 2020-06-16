@@ -157,7 +157,7 @@ const SolveChallenge = ({ history }) => {
                       text={"Enter Challenge"}
                       type="submit"
                       onClick={() => {
-                        history.push("/challenge/preview/Submissions");
+                        history.push("/challenge/:id/preview/Submissions");
                       }}
                     ></PrimaryButton>
                   </Col>
@@ -178,7 +178,7 @@ const SolveChallenge = ({ history }) => {
                       text={"Enter Challenge"}
                       type="submit"
                       onClick={() => {
-                        history.push("/challenge/preview/Submissions");
+                        history.push("/challenge/:id/preview/Submissions");
                       }}
                     ></PrimaryButton>
                   </Col>

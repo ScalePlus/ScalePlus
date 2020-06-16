@@ -14,6 +14,11 @@ import {
   GET_USER_ERROR,
 } from "./types";
 import Api from "./api";
+import {
+  GET_ALL_CHALLENGES_ERROR,
+  GET_ALL_CHALLENGES_SUCCESS,
+} from "../allChallenges/types";
+import allChallengesApi from "../allChallenges/api";
 import history from "../../history";
 import { Constants } from "../../lib/constant";
 
@@ -24,6 +29,21 @@ function* signinSaga(data) {
     if (res.status) {
       yield put({ type: SIGNIN_ERROR, payload: res.message });
     } else {
+      //get challenges after login
+      let allChallengeRes = yield call(allChallengesApi.getAllChallenge, 1);
+      if (allChallengeRes.status) {
+        yield put({
+          type: GET_ALL_CHALLENGES_ERROR,
+          payload: allChallengeRes.message,
+        });
+      } else {
+        yield put({
+          type: GET_ALL_CHALLENGES_SUCCESS,
+          payload: allChallengeRes,
+          page: data.page,
+        });
+      }
+
       yield put({ type: SIGNIN_SUCCESS, payload: res.result });
       if (res.result.token) {
         localStorage.setItem("token", res.result.token);
@@ -43,13 +63,13 @@ function* signinSaga(data) {
 
       if (data.mode === "modal") {
         if (res.result.token) {
-          const isOrganisation =
+          const is_organisation =
               localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-            isMentor_Judge =
+            is_mentor_judge =
               localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
           if (res.result.profileUpdated) {
-            if (isOrganisation || isMentor_Judge) {
+            if (is_organisation || is_mentor_judge) {
               data.setUserFlowModal("/dashboard");
             } else {
               data.setUserFlowModal("/solve/challenge");

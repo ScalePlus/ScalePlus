@@ -4,18 +4,18 @@ import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
 import history from "../../../../history";
 
-const Resources = ({ isOrganisation }) => {
+const Resources = ({ is_organisation, challengeData }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          {isOrganisation ? (
+          {is_organisation ? (
             <HeaderComponent
               titleText="Resources"
               buttonText="Add New"
               buttonVariant="info"
               buttonClick={() => {
-                history.push("/challenge/edit/Resources");
+                history.push(`/challenge/${challengeData._id}/edit/Resources`);
               }}
             />
           ) : (
@@ -28,24 +28,28 @@ const Resources = ({ isOrganisation }) => {
         style={{ marginBottom: 80 }}
       >
         <Col lg={11} md={11} sm={11} xs={11}>
+          {challengeData.resourceId &&
+          challengeData.resourceId.data &&
+          challengeData.resourceId.data.length
+            ? challengeData.resourceId.data.map((each) => {
+                return (
+                  <ExpandCollapse
+                    key={each._id}
+                    title={each.title}
+                    description={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: each.description,
+                        }}
+                      />
+                    }
+                  />
+                );
+              })
+            : null}
           <ExpandCollapse
             title="Challenge NDA Document"
             timestamp="time/date stamp"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
             link="Attachment link here as hyperlink"
             description="Attachment content description here"
           />

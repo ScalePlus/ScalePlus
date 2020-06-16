@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { DateInput, PrimaryButton, PageTitle } from "../common";
-import history from "../../history";
 import { Constants } from "../../lib/constant";
 
-const Step4 = () => {
-  const [launchDate, changeLaunchDate] = useState(null);
-  const [dueDate, changeDueDate] = useState(null);
-  const [biginDate, changeBiginDate] = useState(null);
-  const [endDate, changeEndDate] = useState(null);
-  const [anounceDate, changeAnounceDate] = useState(null);
+const Step4 = ({
+  launchDate,
+  changeLaunchDate,
+  dueDate,
+  changeDueDate,
+  biginDate,
+  changeBiginDate,
+  endDate,
+  changeEndDate,
+  anounceDate,
+  changeAnounceDate,
+  createChallenge,
+}) => {
   const [validated, setValidated] = useState(false);
   return (
     <Row className="sub-container">
@@ -33,10 +39,11 @@ const Step4 = () => {
             event.stopPropagation();
             const form = event.currentTarget;
             if (form.checkValidity()) {
-              history.push("/challenge/confirmation");
+              createChallenge();
+            } else {
+              window.scrollTo(0, 0);
+              setValidated(true);
             }
-            window.scrollTo(0, 0);
-            setValidated(true);
           }}
         >
           <Row className="form-container">
@@ -57,7 +64,11 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge submissions are due on: *"
                 description="Asia/Dubai"
-                minDate={new Date().setDate(new Date().getDate() + 1)}
+                minDate={
+                  launchDate
+                    ? new Date().setDate(launchDate.getDate() + 1)
+                    : new Date().setDate(new Date().getDate() + 1)
+                }
                 value={dueDate}
                 onChange={(date) => {
                   changeDueDate(date);
@@ -69,7 +80,11 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge judging begins on: *"
                 description="Asia/Dubai"
-                minDate={new Date().setDate(new Date().getDate() + 1)}
+                minDate={
+                  dueDate
+                    ? new Date().setDate(dueDate.getDate() + 1)
+                    : new Date().setDate(new Date().getDate() + 1)
+                }
                 value={biginDate}
                 onChange={(date) => {
                   changeBiginDate(date);
@@ -81,7 +96,11 @@ const Step4 = () => {
                 isSmall={true}
                 label="My challenge judging ends on: *"
                 description="Asia/Dubai"
-                minDate={new Date().setDate(new Date().getDate() + 1)}
+                minDate={
+                  biginDate
+                    ? new Date().setDate(biginDate.getDate() + 1)
+                    : new Date().setDate(new Date().getDate() + 1)
+                }
                 value={endDate}
                 onChange={(date) => {
                   changeEndDate(date);
@@ -93,7 +112,11 @@ const Step4 = () => {
                 isSmall={true}
                 label="Challenge winners are announced on: *"
                 description="Asia/Dubai"
-                minDate={new Date().setDate(new Date().getDate() + 1)}
+                minDate={
+                  endDate
+                    ? new Date().setDate(endDate.getDate() + 1)
+                    : new Date().setDate(new Date().getDate() + 1)
+                }
                 value={anounceDate}
                 onChange={(date) => {
                   changeAnounceDate(date);

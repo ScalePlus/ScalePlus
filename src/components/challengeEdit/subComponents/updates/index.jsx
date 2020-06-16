@@ -1,16 +1,74 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import { Switch, Input, EditorInput, RemoveButton } from "../../../common";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+// import { getChallengeAction } from "../../../challengeMaster/action";
+import { attachUpdatesAction } from "./action";
+import {
+  Switch,
+  Input,
+  EditorInput,
+  RemoveButton,
+  Loading,
+} from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Updates = () => {
+const Updates = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const attachUpdatesMethod = (data) =>
+    dispatch(attachUpdatesAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeUpdatesReducer = useSelector((state) => {
+    return state.challengeUpdatesReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [check, setCheck] = useState(false);
-  const [updates, changeUpdates] = useState([{ title: "", description: "" }]);
+  const [isActive, setActivity] = useState(false);
+  const [updates, changeUpdates] = useState([]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeUpdatesReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeUpdatesReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { updateId } = challengeData;
+      if (updateId && updateId.data) {
+        changeUpdates(updateId.data);
+      }
+      if (updateId && updateId.isActive) {
+        setActivity(true);
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeUpdatesReducer.loading || challengeReducer.loading) && (
+        <Loading />
+      )}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -21,6 +79,29 @@ const Updates = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeUpdatesReducer &&
+      challengeUpdatesReducer.success &&
+      challengeUpdatesReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeUpdatesReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
@@ -29,7 +110,10 @@ const Updates = () => {
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity()) {
-            alert();
+            attachUpdatesMethod({
+              isActive,
+              updates,
+            });
           }
           setValidated(true);
         }}
@@ -45,8 +129,9 @@ const Updates = () => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeUpdates(
-                  updates.concat({
+                changeUpdates((data) =>
+                  data.concat({
+                    _id: `update-${data.length + 1}`,
                     title: "",
                     description: "",
                   })
@@ -58,9 +143,9 @@ const Updates = () => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <Switch
-              checked={check}
+              checked={isActive}
               onChange={() => {
-                setCheck(!check);
+                setActivity(!isActive);
               }}
               variant="primary"
               label="Enable Updates tab"
@@ -71,48 +156,36 @@ const Updates = () => {
           <Col>
             {updates.map((each, index) => {
               return (
-                <div className="box-container" key={index}>
+                <div className="box-container" key={each._id}>
                   <div className="left-container">
                     <Input
                       type="text"
                       label="Title"
                       value={each.title}
                       onChange={(e) => {
-                        changeUpdates(
-                          updates.map((data, i) => {
-                            if (index === i) {
-                              data["title"] = e.target.value;
-                            }
-                            return data;
-                          })
-                        );
+                        let newArr = [...updates];
+                        newArr[index]["title"] = e.target.value;
+                        changeUpdates(newArr);
                       }}
                     />
                     <EditorInput
                       label="Description"
                       value={each.description}
                       onChange={(value) => {
-                        changeUpdates(
-                          updates.map((data, i) => {
-                            if (index === i) {
-                              data["description"] = value;
-                            }
-                            return data;
-                          })
-                        );
+                        let newArr = [...updates];
+                        newArr[index]["description"] = value;
+                        changeUpdates(newArr);
                       }}
                     ></EditorInput>
                   </div>
                   <div className="right-container">
                     <RemoveButton
                       onClick={() => {
-                        if (updates.length > 1) {
-                          changeUpdates(
-                            updates.filter((data, i) => {
-                              return index !== i;
-                            })
-                          );
-                        }
+                        let newArr = [...updates];
+                        newArr = newArr.filter((data) => {
+                          return each._id !== data._id;
+                        });
+                        changeUpdates(newArr);
                       }}
                     />
                   </div>

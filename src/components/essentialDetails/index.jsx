@@ -35,11 +35,11 @@ const EssentialDetail = ({ history }) => {
     return state.signinReducer;
   });
 
-  const isStartUp_Individual =
+  const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-    isOrganisation =
+    is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isMentor_Judge =
+    is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [textAreaValue, setTextAreaValue] = useState("");
   const [coreBusiness, selectCoreBusiness] = useState("");
@@ -59,29 +59,29 @@ const EssentialDetail = ({ history }) => {
         expertise,
         funding,
       } = userData.essentialDetails;
-      if ((isStartUp_Individual || isOrganisation) && companyDesciption) {
+      if ((is_startup_Individual || is_organisation) && companyDesciption) {
         setTextAreaValue(companyDesciption);
       }
-      if (isMentor_Judge && summary) {
+      if (is_mentor_judge && summary) {
         setTextAreaValue(summary);
       }
       if (coreBusiness) {
         selectCoreBusiness(coreBusiness);
       }
 
-      if ((isStartUp_Individual || isOrganisation) && funding) {
+      if ((is_startup_Individual || is_organisation) && funding) {
         selectFunding(funding);
       }
 
-      if ((isStartUp_Individual || isOrganisation) && marketStage) {
+      if ((is_startup_Individual || is_organisation) && marketStage) {
         selectMarketStage(marketStage);
       }
 
-      if (isMentor_Judge && expertise) {
+      if (is_mentor_judge && expertise) {
         selectMarketStage(expertise);
       }
     }
-  }, [signinReducer, isStartUp_Individual, isOrganisation, isMentor_Judge]);
+  }, [signinReducer, is_startup_Individual, is_organisation, is_mentor_judge]);
 
   useEffect(() => {
     const { error } = updateEssentialDetailsReducer;
@@ -99,7 +99,7 @@ const EssentialDetail = ({ history }) => {
     event.stopPropagation();
     const form = event.currentTarget;
     if (
-      (isStartUp_Individual || isOrganisation) &&
+      (is_startup_Individual || is_organisation) &&
       form.checkValidity() &&
       textAreaValue &&
       coreBusiness &&
@@ -115,7 +115,7 @@ const EssentialDetail = ({ history }) => {
     }
 
     if (
-      isMentor_Judge &&
+      is_mentor_judge &&
       form.checkValidity() &&
       textAreaValue &&
       coreBusiness &&
@@ -159,9 +159,9 @@ const EssentialDetail = ({ history }) => {
                 <TextArea
                   rows="12"
                   placeholder={
-                    isStartUp_Individual || isOrganisation
+                    is_startup_Individual || is_organisation
                       ? "Company Description"
-                      : isMentor_Judge
+                      : is_mentor_judge
                       ? "Summary"
                       : ""
                   }
@@ -172,7 +172,7 @@ const EssentialDetail = ({ history }) => {
                   showCount={1000}
                   required
                   errorMessage={
-                    isStartUp_Individual || isOrganisation
+                    is_startup_Individual || is_organisation
                       ? Constants.Errors.companyDesciption
                       : Constants.Errors.summary
                   }
@@ -217,9 +217,9 @@ const EssentialDetail = ({ history }) => {
             <Row className="tab-title">
               <Col>
                 <span>
-                  {isStartUp_Individual || isOrganisation
+                  {is_startup_Individual || is_organisation
                     ? "Market Stage"
-                    : isMentor_Judge
+                    : is_mentor_judge
                     ? "Expertise"
                     : ""}
                 </span>
@@ -248,7 +248,7 @@ const EssentialDetail = ({ history }) => {
                     className="invalid-text"
                     style={{ marginTop: -10, marginBottom: 15 }}
                   >
-                    {isMentor_Judge
+                    {is_mentor_judge
                       ? Constants.Errors.expertise
                       : Constants.Errors.marketStage}
                   </Form.Text>
@@ -256,7 +256,7 @@ const EssentialDetail = ({ history }) => {
               </Col>
             </Row>
 
-            {isStartUp_Individual || isOrganisation ? (
+            {is_startup_Individual || is_organisation ? (
               <>
                 <Row className="tab-title">
                   <Col>
@@ -300,7 +300,7 @@ const EssentialDetail = ({ history }) => {
                   <BackButton
                     text={"Back"}
                     onClick={() => {
-                      if (isStartUp_Individual || isOrganisation) {
+                      if (is_startup_Individual || is_organisation) {
                         if (
                           textAreaValue &&
                           coreBusiness &&
@@ -316,7 +316,7 @@ const EssentialDetail = ({ history }) => {
                         }
                       }
 
-                      if (isMentor_Judge) {
+                      if (is_mentor_judge) {
                         preserveDataMethod({
                           summary: textAreaValue,
                           coreBusiness,
@@ -329,11 +329,11 @@ const EssentialDetail = ({ history }) => {
                   ></BackButton>
                   <IconButton
                     text={
-                      isStartUp_Individual
+                      is_startup_Individual
                         ? "Add Members"
-                        : isOrganisation
+                        : is_organisation
                         ? "Create My Account"
-                        : isMentor_Judge
+                        : is_mentor_judge
                         ? "Join"
                         : ""
                     }

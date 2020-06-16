@@ -1,46 +1,33 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
+
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
-import { Switch, CommonTable, RemoveButton } from "../../../common";
+import { Switch, CommonTable, RemoveButton, Loading } from "../../../common";
 import InviteModal from "./inviteModal";
 
-const data = [
-  {
-    name: "Judge Name",
-    email: "judgeemail@emailsomething.com",
-    status: "Pending",
-  },
-  {
-    name: "Judge Name",
-    email: "judgeemail@emailsomething.com",
-    status: "Accepeted",
-  },
-  {
-    name: "Judge Name",
-    email: "judgeemail@emailsomething.com",
-    status: "Declined",
-  },
-  {
-    name: "Judge Name",
-    email: "judgeemail@emailsomething.com",
-    status: "Pending",
-  },
-  {
-    name: "Judge Name",
-    email: "judgeemail@emailsomething.com",
-    status: "Pending",
-  },
-];
+const Judges = ({ challengeId }) => {
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
 
-const Judges = () => {
-  const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
   const [show, setShow] = useState(false);
+  const [tabelData, setTableData] = useState(null);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { judgesId } = challengeData;
+      setTableData(judgesId.data);
+    }
+  }, [challengeReducer]);
 
   return (
     <MainContainer>
+      {challengeReducer.loading && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -51,101 +38,96 @@ const Judges = () => {
           </InfoBlock>
         </Col>
       </Row>
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          const form = event.currentTarget;
-          if (form.checkValidity()) {
-            alert();
-          }
-          setValidated(true);
-        }}
-      >
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <HeaderComponent
-              titleText="Judges"
-              buttonText="Invite"
-              buttonVariant="info"
-              buttonClick={() => {
-                setShow(true);
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Switch
-              checked={check}
-              onChange={() => {
-                setCheck(!check);
-              }}
-              variant="primary"
-              label="Enable Judges tab"
-            ></Switch>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <CommonTable
-              columns={[
-                {
-                  Header: "",
-                  accessor: "name",
-                  width: "8%",
-                  Cell: (data) => {
-                    return <div className="avtar-container"></div>;
-                  },
+
+      <Row style={{ marginBottom: 25 }}>
+        <Col>
+          <HeaderComponent
+            titleText="Judges"
+            buttonText="Invite"
+            buttonVariant="info"
+            buttonClick={() => {
+              setShow(true);
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Switch
+            checked={check}
+            onChange={() => {
+              setCheck(!check);
+            }}
+            variant="primary"
+            label="Enable Judges tab"
+          ></Switch>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CommonTable
+            columns={[
+              {
+                Header: "",
+                accessor: "userId",
+                width: "8%",
+                Cell: (data) => {
+                  return <div className="avtar-container"></div>;
                 },
-                {
-                  Header: "Name",
-                  accessor: "name",
-                  width: "40%",
-                  Cell: (data) => {
-                    return <span className="link">{data}</span>;
-                  },
+              },
+              {
+                Header: "Name",
+                accessor: "userId",
+                width: "40%",
+                Cell: (data) => {
+                  if (data && data.details && data.details.name) {
+                    return <span className="link">{data.details.name}</span>;
+                  } else {
+                    return <span>-----</span>;
+                  }
                 },
-                {
-                  Header: "Email",
-                  accessor: "email",
-                  width: "40%",
+              },
+              {
+                Header: "Email",
+                accessor: "userId",
+                width: "40%",
+                Cell: (data) => {
+                  return <span>{data && data.email}</span>;
                 },
-                {
-                  Header: "Status",
-                  accessor: "status",
-                  width: "22%",
-                  Cell: (data) => {
-                    return (
-                      <div className="action-container">
-                        <div
-                          className="status-tab"
-                          style={{
-                            background:
-                              data === "Accepeted"
-                                ? "#4CD964"
-                                : data === "Declined"
-                                ? "#FF3B30"
-                                : "rgba(0, 0, 0, 0.11)",
-                          }}
-                        >
-                          <span>{data}</span>
-                        </div>
-                        <RemoveButton onClick={() => {}} />
+              },
+              {
+                Header: "Status",
+                accessor: "status",
+                width: "22%",
+                Cell: (data) => {
+                  return (
+                    <div className="action-container">
+                      <div
+                        className="status-tab"
+                        style={{
+                          background:
+                            data === "Accepeted"
+                              ? "#4CD964"
+                              : data === "Declined"
+                              ? "#FF3B30"
+                              : "rgba(0, 0, 0, 0.11)",
+                        }}
+                      >
+                        <span>{data}</span>
                       </div>
-                    );
-                  },
+                      <RemoveButton onClick={() => {}} />
+                    </div>
+                  );
                 },
-              ]}
-              data={data}
-              showPagination={false}
-            />
-          </Col>
-        </Row>
-      </Form>
-      <InviteModal show={show} setShow={setShow} />
+              },
+            ]}
+            data={tabelData}
+            showPagination={false}
+          />
+        </Col>
+      </Row>
+
+      <InviteModal show={show} setShow={setShow} challengeId={challengeId} />
     </MainContainer>
   );
 };

@@ -7,13 +7,13 @@ import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
 
 const Header = () => {
-  const isOrganisation =
+  const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isLoggedIn = localStorage.getItem("token");
+    is_logged_in = localStorage.getItem("token");
 
   const [links] = useState(
-    isLoggedIn
-      ? isOrganisation
+    is_logged_in
+      ? is_organisation
         ? [
             { label: "ALL CHALLENGES", link: "/all/challenges" },
             { label: "HOW IT WORKS", link: "/workflow" },
@@ -146,7 +146,7 @@ const Header = () => {
                   <Dropdown.Item
                     eventKey="1"
                     onClick={() => {
-                      history.push("/challenge/preview/Updates");
+                      history.push("/challenge/:id/preview/Updates");
                     }}
                   >
                     <ContentPart
@@ -158,7 +158,7 @@ const Header = () => {
                   <Dropdown.Item
                     eventKey="2"
                     onClick={() => {
-                      history.push("/challenge/preview/Updates");
+                      history.push("/challenge/:id/preview/Updates");
                     }}
                   >
                     <ContentPart
@@ -170,7 +170,7 @@ const Header = () => {
                   <Dropdown.Item
                     eventKey="3"
                     onClick={() => {
-                      history.push("/challenge/preview/Updates");
+                      history.push("/challenge/:id/preview/Updates");
                     }}
                   >
                     <ContentPart

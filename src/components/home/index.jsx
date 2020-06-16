@@ -7,11 +7,11 @@ import { PrimaryButton } from "../common";
 import { Constants } from "../../lib/constant";
 
 const Home = ({ history }) => {
-  const isOrganisation =
+  const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    isStartUp_Individual =
+    is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-    isLoggedIn = localStorage.getItem("token");
+    is_logged_in = localStorage.getItem("token");
   const [showOrganisationInfo, setOrganisationInfoShow] = useState(false);
   const [showStartupInfo, setStartupInfoShow] = useState(false);
 
@@ -67,9 +67,9 @@ const Home = ({ history }) => {
                       variant="primary"
                       text={"Create Challenge"}
                       onClick={() => {
-                        if (!isLoggedIn) {
+                        if (!is_logged_in) {
                           history.push("/login");
-                        } else if (isOrganisation) {
+                        } else if (is_organisation) {
                           history.push("/create/challenge");
                         } else {
                           setOrganisationInfoShow(true);
@@ -109,7 +109,7 @@ const Home = ({ history }) => {
                       variant="primary"
                       text={"Solve Challenge"}
                       onClick={() => {
-                        if (!isLoggedIn || isStartUp_Individual) {
+                        if (!is_logged_in || is_startup_Individual) {
                           history.push("/all/challenges");
                         } else {
                           setStartupInfoShow(true);

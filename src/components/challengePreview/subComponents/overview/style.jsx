@@ -11,12 +11,15 @@ export const MainContainer = styled.div`
     border-radius: 6px;
     background-color: ${theme.colors.white};
     margin-bottom: 25px;
-    background-image: url("/images/Rectangle1.png");
-    background-size: cover;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 6px;
+    }
   }
   .right-container {
     margin-bottom: 25px;
-    overflow: auto;
     h2 {
       margin-bottom: 25px;
       font-size: ${theme.fontSize.semiLarge};
@@ -33,6 +36,7 @@ export const MainContainer = styled.div`
       }
     }
     .sub-text-container {
+      overflow: auto;
       span {
         margin-right: 5px;
         font-size: ${theme.fontSize.medium};

@@ -24,8 +24,8 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
     return state.signinReducer;
   });
 
-  const [email, changeEmail] = useState("");
-  const [password, changePassword] = useState("");
+  const [email, changeEmail] = useState("test@gmail.com");
+  const [password, changePassword] = useState("Sky@1234");
   const [errors, setErrors] = useState([]);
   const [check, setCheck] = useState(false);
   const [validated, setValidated] = useState(false);

@@ -16,9 +16,10 @@ import DisqualifyModal from "./disqualifyModal";
 import history from "../../../../history";
 
 const Submissions = ({
-  isStartUp_Individual,
-  isMentor_Judge,
-  isOrganisation,
+  is_startup_Individual,
+  is_mentor_judge,
+  is_organisation,
+  challengeData,
 }) => {
   const [show, setShow] = useState(false);
   const [showDisqualify, setDisqualifyShow] = useState(false);
@@ -80,7 +81,7 @@ const Submissions = ({
     },
   ]);
 
-  return isStartUp_Individual ? (
+  return is_startup_Individual ? (
     <MainContainer>
       {error && (
         <Row className="justify-content-center">
@@ -106,68 +107,78 @@ const Submissions = ({
         style={{ marginBottom: 40 }}
       >
         <Col lg={10} md={10} sm={10} xs={10}>
-          <Form>
-            <div className="box-container">
-              <Input type="text" label="How did you hear about us" />
-            </div>
-            <div className="box-container">
-              <EditorInput label="How did you hear about us" />
-            </div>
-            <div className="box-container">
-              <FileInput
-                label="Document Upload Box Title here"
-                prependButtonText="Browse"
-                description="Allowed file types: word, pdf"
-              ></FileInput>
-            </div>
-            <div className="box-container not-valid">
-              <label className="text-label form-label">
-                Did you develop any software before?
-              </label>
-              <div className="question-button-container">
-                <PrimaryButton text="Yes" variant="primary" />
-                <PrimaryButton text="No" variant="light" />
-              </div>
-            </div>
-            <div className="box-container">
-              <label className="text-label form-label">
-                How much money is your company worth
-              </label>
-              <div className="checkbox-container">
-                <CheckBox id={`checkbox-1`} checkBoxText={"10,000"} />
-                <CheckBox id={`checkbox-2`} checkBoxText={"10,0000"} />
-                <CheckBox id={`checkbox-3`} checkBoxText={"10,00000"} />
-                <CheckBox id={`checkbox-4`} checkBoxText={"10,000000"} />
-              </div>
-            </div>
-            <div className="box-container">
-              <label className="text-label form-label">
-                How much money is your company worth
-              </label>
-              <div className="checkbox-container">
-                <RadioButton
-                  id={`radio-button-1`}
-                  checkBoxText={"Idea Stage"}
-                  name="radioButton"
-                />
-                <RadioButton
-                  id={`radio-button-2`}
-                  checkBoxText={"Per-Seed Stage"}
-                  name="radioButton"
-                />
-                <RadioButton
-                  id={`radio-button-3`}
-                  checkBoxText={"Seed Stage"}
-                  name="radioButton"
-                />
-                <RadioButton
-                  id={`radio-button-4`}
-                  checkBoxText={"Launched Product"}
-                  name="radioButton"
-                />
-              </div>
-            </div>
-          </Form>
+          {challengeData.submissionFormId &&
+          challengeData.submissionFormId.data &&
+          challengeData.submissionFormId.data.length ? (
+            <Form>
+              {challengeData.submissionFormId.data.map((each) => {
+                return each.field === "Single-Field" ? (
+                  <div className="box-container" key={each._id}>
+                    <Input type="text" label={each.title} />
+                  </div>
+                ) : each.field === "Rich-Text-Editor" ? (
+                  <div className="box-container" key={each._id}>
+                    <EditorInput label={each.title} />
+                  </div>
+                ) : each.field === "Multiple-Choice" ? (
+                  <div className="box-container" key={each._id}>
+                    <label className="text-label form-label">
+                      {each.title}
+                    </label>
+                    <div className="checkbox-container">
+                      {each.choices && each.choices.length
+                        ? each.choices.map((choice) => {
+                            return (
+                              <CheckBox
+                                id={choice._id}
+                                checkBoxText={choice.title}
+                              />
+                            );
+                          })
+                        : null}
+                    </div>
+                  </div>
+                ) : each.field === "Single-Choice" ? (
+                  <div className="box-container" key={each._id}>
+                    <label className="text-label form-label">
+                      {each.title}
+                    </label>
+                    <div className="checkbox-container">
+                      {each.choices && each.choices.length
+                        ? each.choices.map((choice) => {
+                            return (
+                              <RadioButton
+                                id={choice._id}
+                                checkBoxText={choice.title}
+                                name="radioButton"
+                              />
+                            );
+                          })
+                        : null}
+                    </div>
+                  </div>
+                ) : each.field === "Yes-No-Question" ? (
+                  <div className="box-container" key={each._id}>
+                    <label className="text-label form-label">
+                      {each.title}
+                    </label>
+                    <div className="question-button-container">
+                      <PrimaryButton text="Yes" variant="primary" />
+                      <PrimaryButton text="No" variant="light" />
+                    </div>
+                  </div>
+                ) : each.field === "Document-Upload-Box" ? (
+                  <div className="box-container" key={each._id}>
+                    <FileInput
+                      label={each.title}
+                      prependButtonText="Browse"
+                      description="Allowed file types: word, pdf"
+                    ></FileInput>
+                  </div>
+                ) : null;
+              })}
+            </Form>
+          ) : null}
         </Col>
       </Row>
       <Row
@@ -183,7 +194,7 @@ const Submissions = ({
         </Col>
       </Row>
     </MainContainer>
-  ) : isMentor_Judge ? (
+  ) : is_mentor_judge ? (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
@@ -417,7 +428,7 @@ const Submissions = ({
       <EvaluateModal show={show} setShow={setShow} />
       <DisqualifyModal show={showDisqualify} setShow={setDisqualifyShow} />
     </MainContainer>
-  ) : isOrganisation ? (
+  ) : is_organisation ? (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
@@ -426,7 +437,9 @@ const Submissions = ({
             buttonText="Edit Form"
             buttonVariant="info"
             buttonClick={() => {
-              history.push("/challenge/edit/Submission%20form");
+              history.push(
+                `/challenge/${challengeData._id}/edit/Submission%20form`
+              );
             }}
           />
         </Col>

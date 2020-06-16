@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Input,
   DropDown,
@@ -10,14 +11,26 @@ import {
 import { Form, Row, Col } from "react-bootstrap";
 import { Constants } from "../../lib/constant";
 
-const Step2 = ({ setActiveStep }) => {
-  const [title, setTitle] = useState("");
-  const [prize, setPrize] = useState("");
-  const [selectedCategories, selectCategories] = useState([]);
-  const [sortDescription, setSortDescription] = useState("");
-  const [bannerImage, setBannerImage] = useState("");
-  const [videoURL, setVideoURL] = useState("");
+const Step2 = ({
+  setActiveStep,
+  title,
+  setTitle,
+  prize,
+  setPrize,
+  categories,
+  selectCategories,
+  shortDescription,
+  setSortDescription,
+  bannerImage,
+  setBannerImage,
+  videoURL,
+  setVideoURL,
+}) => {
   const [validated, setValidated] = useState(false);
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
   return (
     <Row className="sub-container">
       <Col>
@@ -69,14 +82,20 @@ const Step2 = ({ setActiveStep }) => {
                 label="Categories *"
                 placeholder=""
                 description="The categories help people use search criteria to find your challenge. Select no more than 3."
-                options={[{ value: "1", label: "category1" }]}
-                value={selectedCategories}
+                options={
+                  challengeReducer.challengeCategories &&
+                  challengeReducer.challengeCategories.length
+                    ? challengeReducer.challengeCategories.map((option) => {
+                        return { value: option._id, label: option.name };
+                      })
+                    : []
+                }
+                value={categories}
                 onChange={(val) => {
                   selectCategories(val);
                 }}
                 isInvalid={
-                  !selectedCategories ||
-                  (selectedCategories && selectedCategories.length === 0)
+                  !categories || (categories && categories.length === 0)
                 }
                 errorMessage={Constants.Errors.Categories}
               />
@@ -95,7 +114,7 @@ const Step2 = ({ setActiveStep }) => {
                 rows="4"
                 label="Short Description"
                 description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
-                value={sortDescription}
+                value={shortDescription}
                 onChange={(e) => {
                   setSortDescription(e.target.value);
                 }}

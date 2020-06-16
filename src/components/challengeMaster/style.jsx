@@ -32,6 +32,9 @@ export const MainContainer = styled.div`
   .tabs-container {
     margin-top: 35px;
   }
+  .active {
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.14);
+  }
   .box-container {
     min-height: 300px;
     margin-bottom: 1rem;

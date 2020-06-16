@@ -6,7 +6,7 @@ export default {
     let result;
 
     if (data.logo && data.logo.name) {
-      result = coreApi.FILE_UPLOAD(url, data, data.logo);
+      result = coreApi.FILE_UPLOAD(url, data, "logo", "PUT");
     } else {
       result = coreApi.PUT(url, data);
     }

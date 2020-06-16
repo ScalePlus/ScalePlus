@@ -219,6 +219,11 @@ export const ChallengeHeaderContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+    img {
+      max-width: 35px;
+      max-height: 35px;
+      border-radius: 50%;
+    }
   }
   .organization-name {
     color: ${theme.colors.gray};
@@ -418,6 +423,11 @@ export const CardContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    img {
+      max-width: 70px;
+      max-height: 70px;
+      border-radius: 50%;
+    }
   }
   .card {
     border: 1px solid #e3e3e3;

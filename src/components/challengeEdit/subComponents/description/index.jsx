@@ -1,25 +1,142 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import { Input, DropDown, TextArea, BannerInput } from "../../../common";
+import React, { useState, useEffect, useCallback } from "react";
+import { Row, Col, Alert, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  // getChallengeAction,
+  challengeCategoriesListAction,
+} from "../../../challengeMaster/action";
+import { updateDescriptionAction } from "./action";
+import {
+  Input,
+  DropDown,
+  TextArea,
+  BannerInput,
+  Loading,
+} from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import { Constants } from "../../../../lib/constant";
+let tagsList = [
+  { value: "1", label: "tag1" },
+  { value: "2", label: "tag2" },
+  { value: "3", label: "tag3" },
+];
 
-const Description = () => {
+const Description = ({ challengeId }) => {
+  const dispatch = useDispatch();
+  const updateDescriptionMethod = (data) =>
+    dispatch(updateDescriptionAction(data, challengeId));
+  // const getChallengeMethod = useCallback(
+  //   (id) => dispatch(getChallengeAction(id)),
+  //   [dispatch]
+  // );
+  const challengeCategoriesListMethod = useCallback(
+    () => dispatch(challengeCategoriesListAction()),
+    [dispatch]
+  );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const challengeDescriptionReducer = useSelector((state) => {
+    return state.challengeDescriptionReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState("");
   const [prize, setPrize] = useState("");
-  const [selectedCategories, selectCategories] = useState([]);
-  const [sortDesc, changeSortDesc] = useState("");
-  const [problemStatment, changeProblemStatment] = useState("");
+  const [categories, selectCategories] = useState([]);
+  const [shortDescription, changeShortDesc] = useState("");
+  const [problemStatement, changeProblemStatment] = useState("");
   const [currentSolution, changeCurrentSolution] = useState("");
   const [painPoint, changePainPoint] = useState("");
   const [bannerImage, changeBannerImage] = useState("");
   const [videoURL, changeVideoUrl] = useState("");
-  const [selectedTag, selectTag] = useState([]);
+  const [tags, selectTag] = useState([]);
   const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    challengeCategoriesListMethod();
+  }, [challengeCategoriesListMethod]);
+
+  // useEffect(() => {
+  //   getChallengeMethod(challengeId);
+  // }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeDescriptionReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeDescriptionReducer]);
+
+  useEffect(() => {
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      const { descriptionId } = challengeData;
+
+      if (descriptionId) {
+        if (descriptionId.title) {
+          setTitle(descriptionId.title);
+        }
+        if (descriptionId.prize) {
+          setPrize(descriptionId.prize);
+        }
+        if (descriptionId.categories && descriptionId.categories.length) {
+          let selectedData = [];
+          descriptionId.categories.map((each) => {
+            selectedData.push({
+              value: each._id,
+              label: each.name,
+            });
+            return each;
+          });
+          selectCategories(selectedData);
+        }
+        if (descriptionId.shortDescription) {
+          changeShortDesc(descriptionId.shortDescription);
+        }
+        if (descriptionId.problemStatement) {
+          changeProblemStatment(descriptionId.problemStatement);
+        }
+        if (descriptionId.currentSolution) {
+          changeCurrentSolution(descriptionId.currentSolution);
+        }
+        if (descriptionId.painPoint) {
+          changePainPoint(descriptionId.painPoint);
+        }
+        if (descriptionId.bannerImage) {
+          changeBannerImage(descriptionId.bannerImage);
+        }
+        if (descriptionId.videoURL) {
+          changeVideoUrl(descriptionId.videoURL);
+        }
+        if (descriptionId.tags && descriptionId.tags.length) {
+          let selectedData = [];
+          descriptionId.tags.map((each) => {
+            let record = tagsList.find((category) => category.value === each);
+            if (record) {
+              selectedData.push(record);
+            }
+            return each;
+          });
+          selectTag(selectedData);
+        }
+      }
+    }
+  }, [challengeReducer]);
+
   return (
     <MainContainer>
+      {(challengeDescriptionReducer.loading || challengeReducer.loading) && (
+        <Loading />
+      )}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText="Click Here">
@@ -30,6 +147,29 @@ const Description = () => {
           </InfoBlock>
         </Col>
       </Row>
+      {validated &&
+      challengeDescriptionReducer &&
+      challengeDescriptionReducer.success &&
+      challengeDescriptionReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeDescriptionReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+      {errors && errors.length ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
       <Form
         noValidate
         validated={validated}
@@ -41,7 +181,18 @@ const Description = () => {
             form.checkValidity() &&
             (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
           ) {
-            alert();
+            updateDescriptionMethod({
+              title,
+              prize,
+              categories: categories.map((each) => each.value),
+              shortDescription,
+              problemStatement,
+              currentSolution,
+              painPoint,
+              bannerImage: bannerImage && bannerImage.name ? bannerImage : "",
+              videoURL,
+              tags: tags.map((each) => each.value),
+            });
           }
           setValidated(true);
         }}
@@ -56,76 +207,6 @@ const Description = () => {
             />
           </Col>
         </Row>
-        <div className="complete-task-dialogue">
-          <div className="step">
-            <div className="icon-container">
-              <span style={{ marginLeft: 3 }}>></span>
-            </div>
-            <div style={{ marginLeft: 3 }}>
-              <span className="title">
-                Before we can publish your challenge live, you need to complete
-                the following tasks:
-              </span>
-            </div>
-          </div>
-          <div className="step">
-            <div className="icon-container">
-              <img
-                src={"/images/check-circle-active.svg"}
-                height="15px"
-                width="15px"
-                alt=""
-              ></img>
-            </div>
-            <div>
-              <div className="title">
-                <span>Short Description</span>
-              </div>
-              <div className="description">
-                <span>Describe the challenge in 140 characters or less.</span>
-              </div>
-            </div>
-          </div>
-          <div className="step">
-            <div className="icon-container">
-              <img
-                src={"/images/check-circle-active.svg"}
-                height="15px"
-                width="15px"
-                alt=""
-              ></img>
-            </div>
-            <div>
-              <div className="title">
-                <span>Categories</span>
-              </div>
-              <div className="description">
-                <span>Choose appropriate categories for your challenge.</span>
-              </div>
-            </div>
-          </div>
-          <div className="step">
-            <div className="icon-container">
-              <img
-                src={"/images/check-circle.svg"}
-                height="15px"
-                width="15px"
-                alt=""
-              ></img>
-            </div>
-            <div>
-              <div className="title">
-                <span>Add Image</span>
-              </div>
-              <div className="description">
-                <span>
-                  The image should illustrate your challenge. Recommended size
-                  is 1280 by 720
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
         <Row>
           <Col>
             <Input
@@ -143,15 +224,19 @@ const Description = () => {
               label="Categories *"
               placeholder=""
               description="The categories help people use search criteria to find your challenge. Select no more than 3."
-              options={[{ value: "1", label: "category1" }]}
-              value={selectedCategories}
+              options={
+                challengeReducer.challengeCategories &&
+                challengeReducer.challengeCategories.length
+                  ? challengeReducer.challengeCategories.map((option) => {
+                      return { value: option._id, label: option.name };
+                    })
+                  : []
+              }
+              value={categories}
               onChange={(val) => {
                 selectCategories(val);
               }}
-              isInvalid={
-                !selectedCategories ||
-                (selectedCategories && selectedCategories.length === 0)
-              }
+              isInvalid={!categories || (categories && categories.length === 0)}
               errorMessage={Constants.Errors.Categories}
             />
             <Input
@@ -170,30 +255,28 @@ const Description = () => {
               label="Tags *"
               placeholder=""
               description="The categories help people use search criteria to find your challenge. Select no more than 3."
-              options={[{ value: "1", label: "tag1" }]}
-              value={selectedTag}
+              options={tagsList}
+              value={tags}
               onChange={(val) => {
                 selectTag(val);
               }}
-              isInvalid={
-                !selectedTag || (selectedTag && selectedTag.length === 0)
-              }
+              isInvalid={!tags || (tags && tags.length === 0)}
               errorMessage={Constants.Errors.Categories}
             />
             <TextArea
               rows="4"
               label="Short Description"
               description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
-              value={sortDesc}
+              value={shortDescription}
               onChange={(e) => {
-                changeSortDesc(e.target.value);
+                changeShortDesc(e.target.value);
               }}
             />
             <TextArea
               rows="4"
               label="Problem Statement (optional)"
               description="What problem are you tackling?"
-              value={problemStatment}
+              value={problemStatement}
               onChange={(e) => {
                 changeProblemStatment(e.target.value);
               }}

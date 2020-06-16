@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Nav, Navbar } from "react-bootstrap";
-import { WarningBlock, ChallengeHeader, PrimaryButton } from "../common";
+import React, { useState, useEffect, useCallback } from "react";
+import { Row, Col, Nav, Navbar, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getChallengeAction } from "../challengeMaster/action";
+import {
+  WarningBlock,
+  ChallengeHeader,
+  PrimaryButton,
+  Loading,
+} from "../common";
 import Description from "./subComponents/description";
 import Overview from "./subComponents/overview";
 import Timeline from "./subComponents/timeline";
@@ -40,8 +47,43 @@ const judgeLinks = [
 const otherLinks = ["Team", "Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history, match }) => {
+  const dispatch = useDispatch();
+
+  const getChallengeMethod = useCallback(
+    (challengeId) => dispatch(getChallengeAction(challengeId)),
+    [dispatch]
+  );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
+  const [challengeData, setChallenge] = useState(null);
   const [activeKey, selectTab] = useState(null);
   const [expanded, onToggle] = useState(false);
+  const challengeId = match.params.id;
+
+  useEffect(() => {
+    getChallengeMethod(challengeId);
+  }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { error } = challengeReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+
+    const { challengeData } = challengeReducer;
+    if (challengeData) {
+      setChallenge(challengeData);
+    }
+  }, [challengeReducer]);
+
   useEffect(() => {
     if (match && match.params && match.params.tab) {
       let selectedChallengeTab = challengeLinks.find(
@@ -71,6 +113,20 @@ const ChallengeEdit = ({ history, match }) => {
 
   return (
     <MainContainer>
+      {challengeReducer.loading && <Loading />}
+
+      {errors && errors.length ? (
+        <Row style={{ marginTop: 10 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+
       <Row style={{ marginBottom: 20 }}>
         <Col>
           <WarningBlock />
@@ -83,11 +139,12 @@ const ChallengeEdit = ({ history, match }) => {
             primaryButtonText="Submit for review"
             secondaryButtonText="Save Draft"
             primaryButtonClick={() => {
-              history.push("/challenge/preview/Overview");
+              history.push(`/challenge/${challengeId}/preview/Overview`);
             }}
             secondaryButtonClick={() => {
-              history.push("/challenge/preview/Overview");
+              history.push(`/challenge/${challengeId}/preview/Overview`);
             }}
+            organisationId={challengeData && challengeData.organisationId}
           />
         </Col>
       </Row>
@@ -117,7 +174,9 @@ const ChallengeEdit = ({ history, match }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  history.push(`/challenge/edit/${each}`);
+                                  history.push(
+                                    `/challenge/${challengeId}/edit/${each}`
+                                  );
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -136,7 +195,9 @@ const ChallengeEdit = ({ history, match }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  history.push(`/challenge/edit/${each}`);
+                                  history.push(
+                                    `/challenge/${challengeId}/edit/${each}`
+                                  );
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -155,7 +216,9 @@ const ChallengeEdit = ({ history, match }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  history.push(`/challenge/edit/${each}`);
+                                  history.push(
+                                    `/challenge/${challengeId}/edit/${each}`
+                                  );
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -174,7 +237,9 @@ const ChallengeEdit = ({ history, match }) => {
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
-                                  history.push(`/challenge/edit/${each}`);
+                                  history.push(
+                                    `/challenge/${challengeId}/edit/${each}`
+                                  );
                                 }}
                               >
                                 <Nav.Link eventKey={each}>{each}</Nav.Link>
@@ -197,22 +262,48 @@ const ChallengeEdit = ({ history, match }) => {
             </Col>
             <Col lg={9} md={8} sm={12} xs={12}>
               <div className="content-container">
-                {activeKey === "Description" && <Description />}
-                {activeKey === "Overview" && <Overview />}
-                {activeKey === "Timeline" && <Timeline />}
-                {activeKey === "FAQ" && <FAQ />}
-                {activeKey === "Resources" && <Resources />}
-                {activeKey === "Guidelines" && <Guidelines />}
-                {activeKey === "Updates" && <Updates />}
-                {activeKey === "Submission form" && <SubmissionForm />}
-                {activeKey === "Submissions" && <Submissions />}
-                {activeKey === "Judging criteria" && <JudgingCriteria />}
-                {activeKey === "Judging activities" && <JudgingActivities />}
-                {activeKey === "Judges" && <Judges />}
-                {activeKey === "Judges NDA" && <JudgesNDA />}
-                {activeKey === "Team" && <Team />}
-                {activeKey === "Legal agreement" && <LegalAgreement />}
-                {activeKey === "Settings" && <Settings />}
+                {activeKey === "Description" && (
+                  <Description challengeId={challengeId} />
+                )}
+                {activeKey === "Overview" && (
+                  <Overview challengeId={challengeId} />
+                )}
+                {activeKey === "Timeline" && (
+                  <Timeline challengeId={challengeId} />
+                )}
+                {activeKey === "FAQ" && <FAQ challengeId={challengeId} />}
+                {activeKey === "Resources" && (
+                  <Resources challengeId={challengeId} />
+                )}
+                {activeKey === "Guidelines" && (
+                  <Guidelines challengeId={challengeId} />
+                )}
+                {activeKey === "Updates" && (
+                  <Updates challengeId={challengeId} />
+                )}
+                {activeKey === "Submission form" && (
+                  <SubmissionForm challengeId={challengeId} />
+                )}
+                {activeKey === "Submissions" && (
+                  <Submissions challengeId={challengeId} />
+                )}
+                {activeKey === "Judging criteria" && (
+                  <JudgingCriteria challengeId={challengeId} />
+                )}
+                {activeKey === "Judging activities" && (
+                  <JudgingActivities challengeId={challengeId} />
+                )}
+                {activeKey === "Judges" && <Judges challengeId={challengeId} />}
+                {activeKey === "Judges NDA" && (
+                  <JudgesNDA challengeId={challengeId} />
+                )}
+                {activeKey === "Team" && <Team challengeId={challengeId} />}
+                {activeKey === "Legal agreement" && (
+                  <LegalAgreement challengeId={challengeId} />
+                )}
+                {activeKey === "Settings" && (
+                  <Settings challengeId={challengeId} />
+                )}
               </div>
             </Col>
           </Row>
