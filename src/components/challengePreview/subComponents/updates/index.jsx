@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
@@ -37,7 +38,11 @@ const Updates = ({ is_organisation, challengeData }) => {
                     <div className="collapse-container">
                       <div className="content-container">
                         <span className="title">{each.title}</span>
-                        <span className="timestamp">time/date stamp</span>
+                        <span className="timestamp">
+                          {each.date
+                            ? moment(each.date).format("MMMM DD, YYYY")
+                            : null}
+                        </span>
                       </div>
                       <div
                         className="description"

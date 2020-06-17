@@ -183,12 +183,14 @@ const Resources = ({ challengeId }) => {
                     <Row>
                       <Col>
                         <Input
+                          required
                           type="text"
-                          label="Title"
+                          label="Title *"
                           value={each.title}
                           onChange={(e) => {
                             let newArr = [...resources];
                             newArr[index]["title"] = e.target.value;
+                            newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
                         />
@@ -205,6 +207,7 @@ const Resources = ({ challengeId }) => {
                           onChange={(e) => {
                             let newArr = [...resources];
                             newArr[index]["attachment"] = e.target.files[0];
+                            newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
                         ></FileInput>
@@ -229,6 +232,7 @@ const Resources = ({ challengeId }) => {
                           onChange={(value) => {
                             let newArr = [...resources];
                             newArr[index]["description"] = value;
+                            newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
                         ></EditorInput>
@@ -243,6 +247,7 @@ const Resources = ({ challengeId }) => {
                           onChange={(e) => {
                             let newArr = [...resources];
                             newArr[index]["link"] = e.target.value;
+                            newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
                         />

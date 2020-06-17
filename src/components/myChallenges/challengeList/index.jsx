@@ -84,6 +84,7 @@ const MyChallengesList = ({ history }) => {
                           <CardComponent
                             organisationId={each.organisationId}
                             descriptionId={each.descriptionId}
+                            judgesId={each.judgesId}
                             progress={80}
                             variant="warning"
                             label="Judging"

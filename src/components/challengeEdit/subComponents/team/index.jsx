@@ -59,7 +59,9 @@ const Team = ({ challengeId }) => {
     const { challengeData } = challengeReducer;
     if (challengeData) {
       const { teamId } = challengeData;
-      setTableData(teamId.data);
+      if (teamId && teamId.data) {
+        setTableData(teamId.data);
+      }
     }
   }, [challengeReducer]);
 

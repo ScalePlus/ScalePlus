@@ -25,6 +25,7 @@ export const HeaderComponent = React.memo(
     menuButtonVariant,
     menuList,
     haveProgressBar,
+    progress,
     backButton,
     onBackButtonClick,
   }) => {
@@ -44,8 +45,8 @@ export const HeaderComponent = React.memo(
           {haveProgressBar && (
             <div style={{ marginRight: 10 }}>
               <CircularProgressbar
-                value={90}
-                text={`${90}%`}
+                value={progress}
+                text={`${progress}%`}
                 className="progress-oval-container"
                 background={true}
                 styles={buildStyles({
@@ -157,7 +158,7 @@ export const HeaderComponentWithSearchBox = React.memo(
 );
 
 export const ExpandCollapse = React.memo(
-  ({ title, timestamp, link, description }) => {
+  ({ title, timestamp, attachmentLink, link, description }) => {
     const [open, setOpen] = useState(false);
     return (
       <ExpandCollapseContainer>
@@ -178,9 +179,22 @@ export const ExpandCollapse = React.memo(
         <Collapse in={open}>
           <div>
             <div className="collapse-container">
+              {attachmentLink && (
+                <div className="link">
+                  <a
+                    href={attachmentLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {attachmentLink}
+                  </a>
+                </div>
+              )}
               {link && (
                 <div className="link">
-                  <a href="/">{link}</a>
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    {link}
+                  </a>
                 </div>
               )}
               {description && <div className="description">{description}</div>}

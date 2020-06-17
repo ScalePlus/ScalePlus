@@ -107,7 +107,7 @@ const FAQ = ({ challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && !FAQs.find((each) => !each.answer)) {
             attachFAQsMethod({
               isActive,
               FAQs,
@@ -158,22 +158,24 @@ const FAQ = ({ challengeId }) => {
                   <div className="left-container">
                     <Input
                       type="text"
-                      label="Question"
+                      label="Question *"
                       value={each.question}
                       onChange={(e) => {
                         let newArr = [...FAQs];
                         newArr[index]["question"] = e.target.value;
                         changeFAQS(newArr);
                       }}
+                      required
                     />
                     <EditorInput
-                      label="Answer"
+                      label="Answer *"
                       value={each.answer}
                       onChange={(value) => {
                         let newArr = [...FAQs];
                         newArr[index]["answer"] = value;
                         changeFAQS(newArr);
                       }}
+                      isInvalid={!each.answer}
                     ></EditorInput>
                   </div>
                   <div className="right-container">

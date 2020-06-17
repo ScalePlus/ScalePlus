@@ -130,7 +130,7 @@ const JudgingCriteria = ({ challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && ratingType) {
             attachJudgingCriteriaMethod({
               judgingCriteria,
               ratingType: ratingType.value,
@@ -158,6 +158,7 @@ const JudgingCriteria = ({ challengeId }) => {
                     weight: "",
                   })
                 );
+                setValidated(false);
               }}
             />
           </Col>
@@ -166,7 +167,7 @@ const JudgingCriteria = ({ challengeId }) => {
           <Col lg={6} md={6} sm={12} xs={12}>
             <DropDown
               isSmall={true}
-              label="Rating Type"
+              label="Rating Type *"
               placeholder=""
               options={
                 challengeJudgingCriteriaReducer.ratingTypes.result &&
@@ -183,6 +184,7 @@ const JudgingCriteria = ({ challengeId }) => {
                 selectRating(val);
               }}
               isSingle={true}
+              isInvalid={!ratingType}
             />
           </Col>
         </Row>
@@ -219,8 +221,9 @@ const JudgingCriteria = ({ challengeId }) => {
                                   <Row>
                                     <Col lg={6} md={6} sm={12} xs={12}>
                                       <Input
+                                        required
                                         type="text"
-                                        label="Section Title"
+                                        label="Section Title *"
                                         value={each.title}
                                         onChange={(e) => {
                                           let newArr = [...judgingCriteria];
@@ -232,8 +235,9 @@ const JudgingCriteria = ({ challengeId }) => {
                                     </Col>
                                     <Col lg={6} md={6} sm={12} xs={12}>
                                       <Input
+                                        required
                                         type="number"
-                                        label="Overall Weight"
+                                        label="Overall Weight *"
                                         value={each.weight}
                                         onChange={(e) => {
                                           let newArr = [...judgingCriteria];

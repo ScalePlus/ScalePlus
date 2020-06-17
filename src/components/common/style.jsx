@@ -84,6 +84,9 @@ export const ButtonContainer = styled.button`
     font-family: ${theme.fontFamily.bold};
     cursor: pointer;
   }
+  :disabled {
+    opacity: 0.5;
+  }
 `;
 
 export const PrimaryButtonContainer = styled.button`
@@ -120,9 +123,11 @@ export const PrimaryButtonContainer = styled.button`
   }
   .button-text {
     cursor: pointer;
-
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.small};
+  }
+  :disabled {
+    opacity: 0.5;
   }
 `;
 

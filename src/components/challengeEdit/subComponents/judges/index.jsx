@@ -21,7 +21,9 @@ const Judges = ({ challengeId }) => {
     const { challengeData } = challengeReducer;
     if (challengeData) {
       const { judgesId } = challengeData;
-      setTableData(judgesId.data);
+      if (judgesId && judgesId.data) {
+        setTableData(judgesId.data);
+      }
     }
   }, [challengeReducer]);
 

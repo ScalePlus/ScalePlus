@@ -99,11 +99,12 @@ export const Input = React.memo(
 );
 
 export const EditorInput = React.memo(
-  ({ description, errorMessage, label, ...props }) => {
+  ({ description, errorMessage, label, isInvalid, ...props }) => {
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <ReactQuill
+          className={isInvalid ? "invalid-react-quill" : ""}
           modules={{
             toolbar: [
               [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -154,7 +155,7 @@ export const EditorInput = React.memo(
           ]}
           {...props}
         />
-        {errorMessage && (
+        {isInvalid && errorMessage && (
           <Form.Control.Feedback className="text-left" type="invalid">
             {errorMessage}
           </Form.Control.Feedback>
@@ -304,53 +305,91 @@ export const FileInput = React.memo(
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
-        <InputGroup>
-          <Form.Control
-            type={"text"}
-            placeholder={placeholder}
-            value={value && value.name ? value.name : value}
-            onChange={() => {}}
-            onClick={() => {
-              fileUploader.click();
-            }}
-            // readOnly
-            {...props}
-          />
-          {prependButtonText && (
-            <InputGroup.Append>
-              <InputGroup.Text>{prependButtonText}</InputGroup.Text>
-            </InputGroup.Append>
-          )}
-        </InputGroup>
-        <input
-          type="file"
-          ref={(ref) => (fileUploader = ref)}
-          style={{ display: "none" }}
-          onClick={(event) => {
-            event.target.value = null;
-          }}
-          onChange={onChange}
-          accept={acceptTypes ? acceptTypes : "image/*"}
-        />
-        {buttonText && (
-          <Button
-            className="upload-button"
-            onClick={() => {
-              fileUploader.click();
-            }}
-          >
-            <span className="upload-button-text">{buttonText}</span>
-          </Button>
-        )}
-        {errorMessage && (
-          <Form.Control.Feedback className="text-left" type="invalid">
-            {errorMessage}
-          </Form.Control.Feedback>
-        )}
-        {description && (
-          <Form.Text className="text-muted-description">
-            {description}
-          </Form.Text>
+        {prependButtonText ? (
+          <>
+            <InputGroup>
+              <Form.Control
+                type={"text"}
+                placeholder={placeholder}
+                value={value && value.name ? value.name : value}
+                onChange={() => {}}
+                onClick={() => {
+                  fileUploader.click();
+                }}
+                // readOnly
+                {...props}
+              />
+              {prependButtonText && (
+                <InputGroup.Append>
+                  <InputGroup.Text>{prependButtonText}</InputGroup.Text>
+                </InputGroup.Append>
+              )}
+              <input
+                type="file"
+                ref={(ref) => (fileUploader = ref)}
+                style={{ display: "none" }}
+                onClick={(event) => {
+                  event.target.value = null;
+                }}
+                onChange={onChange}
+                accept={acceptTypes ? acceptTypes : "image/*"}
+              />
+              {errorMessage && (
+                <Form.Control.Feedback className="text-left" type="invalid">
+                  {errorMessage}
+                </Form.Control.Feedback>
+              )}
+            </InputGroup>
+            {description && (
+              <Form.Text className="text-muted-description">
+                {description}
+              </Form.Text>
+            )}
+          </>
+        ) : (
+          <>
+            <Form.Control
+              type={"text"}
+              placeholder={placeholder}
+              value={value && value.name ? value.name : value}
+              onChange={() => {}}
+              onClick={() => {
+                fileUploader.click();
+              }}
+              // readOnly
+              {...props}
+            />
+            <input
+              type="file"
+              ref={(ref) => (fileUploader = ref)}
+              style={{ display: "none" }}
+              onClick={(event) => {
+                event.target.value = null;
+              }}
+              onChange={onChange}
+              accept={acceptTypes ? acceptTypes : "image/*"}
+            />
+            {buttonText && (
+              <Button
+                className="upload-button"
+                onClick={() => {
+                  fileUploader.click();
+                }}
+              >
+                <span className="upload-button-text">{buttonText}</span>
+              </Button>
+            )}
+            {errorMessage && (
+              <Form.Control.Feedback className="text-left" type="invalid">
+                {errorMessage}
+              </Form.Control.Feedback>
+            )}
+            {description && (
+              <Form.Text className="text-muted-description">
+                {description}
+              </Form.Text>
+            )}
+          </>
         )}
       </Form.Group>
     );
@@ -959,7 +998,7 @@ export const CommonTable = React.memo(
 );
 
 export const CardComponent = React.memo(
-  ({ variant, progress, label, organisationId, descriptionId }) => {
+  ({ variant, progress, label, organisationId, descriptionId, judgesId }) => {
     return (
       <CardContainer>
         <Card>
@@ -1020,7 +1059,7 @@ export const CardComponent = React.memo(
                       <span>Participants/Matches</span>
                     </div>
                     <div className="heading-text">
-                      <span>6</span>
+                      <span>0</span>
                     </div>
                   </div>
                   <div className="right-container">
@@ -1028,7 +1067,11 @@ export const CardComponent = React.memo(
                       <span>Judges</span>
                     </div>
                     <div className="heading-text">
-                      <span>6</span>
+                      <span>
+                        {judgesId && judgesId.data && judgesId.data.length
+                          ? judgesId.data.length
+                          : 0}
+                      </span>
                     </div>
                   </div>
                 </div>

@@ -79,6 +79,10 @@ body {
   }
 }
 
+.was-validated .invalid-react-quill{
+  border-color: #dc3545;
+}
+
 .text-muted-description{
   color: ${theme.colors.gray};
   font-size: ${theme.fontSize.small};

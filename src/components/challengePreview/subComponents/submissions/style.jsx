@@ -33,7 +33,7 @@ export const MainContainer = styled.div`
     }
   }
   .box-container {
-    border: 1px solid #d9d9d9;
+    border: 2px solid #d9d9d9;
     border-radius: 6px;
     background-color: ${theme.colors.white};
     padding: 1rem;
@@ -70,8 +70,8 @@ export const MainContainer = styled.div`
       }
     }
   }
-  .not-valid {
-    border: 2px solid #d86e6e;
+  .was-validated .not-valid {
+    border-color: #d86e6e;
   }
 
   .selected-row-container {

@@ -29,6 +29,7 @@ export const Constants = {
     verificationCode: "Verification code is required",
     name: "Name is required",
     logo: "Logo is required",
+    personal_photo: "Personal photo is required",
     website: "Website is required",
     invalid_website: "Invalid Website",
     linkedin_url: "Linkedin profile is required",

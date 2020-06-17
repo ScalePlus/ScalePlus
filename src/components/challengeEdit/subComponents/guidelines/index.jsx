@@ -3,7 +3,13 @@ import { Row, Col, Alert, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { getChallengeAction } from "../../../challengeMaster/action";
 import { attachGuidelineAction } from "./action";
-import { Switch, EditorInput, Loading } from "../../../common";
+import {
+  Switch,
+  Input,
+  EditorInput,
+  RemoveButton,
+  Loading,
+} from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
@@ -28,7 +34,7 @@ const Guidelines = ({ challengeId }) => {
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [isActive, setActivity] = useState(false);
-  const [guideline, changeGuideline] = useState("");
+  const [guidelines, changeGuideline] = useState([]);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -107,7 +113,7 @@ const Guidelines = ({ challengeId }) => {
           if (form.checkValidity()) {
             attachGuidelineMethod({
               isActive,
-              guideline,
+              guidelines,
             });
           }
           setValidated(true);
@@ -120,6 +126,18 @@ const Guidelines = ({ challengeId }) => {
               buttonText="Save"
               buttonVariant="success"
               buttonType="submit"
+              infoButtonText="Add Item"
+              infoButtonVariant="info"
+              infoButtonType="button"
+              infoButtonClick={() => {
+                changeGuideline((data) =>
+                  data.concat({
+                    _id: `guideline-${data.length + 1}`,
+                    title: "",
+                    description: "",
+                  })
+                );
+              }}
             />
           </Col>
         </Row>
@@ -137,12 +155,47 @@ const Guidelines = ({ challengeId }) => {
         </Row>
         <Row>
           <Col>
-            <EditorInput
-              value={guideline}
-              onChange={(value) => {
-                changeGuideline(value);
-              }}
-            />
+            {guidelines.map((each, index) => {
+              return (
+                <div className="box-container" key={each._id}>
+                  <div className="left-container">
+                    <Input
+                      required
+                      type="text"
+                      label="Title *"
+                      value={each.title}
+                      onChange={(e) => {
+                        let newArr = [...guidelines];
+                        newArr[index]["title"] = e.target.value;
+                        newArr[index]["date"] = new Date();
+                        changeGuideline(newArr);
+                      }}
+                    />
+                    <EditorInput
+                      label="Description"
+                      value={each.description}
+                      onChange={(value) => {
+                        let newArr = [...guidelines];
+                        newArr[index]["description"] = value;
+                        newArr[index]["date"] = new Date();
+                        changeGuideline(newArr);
+                      }}
+                    ></EditorInput>
+                  </div>
+                  <div className="right-container">
+                    <RemoveButton
+                      onClick={() => {
+                        let newArr = [...guidelines];
+                        newArr = newArr.filter((data) => {
+                          return each._id !== data._id;
+                        });
+                        changeGuideline(newArr);
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </Col>
         </Row>
       </Form>

@@ -35,6 +35,7 @@ const OrganizationDetails = () => {
 
   const [roleSwitch, switchToggle] = useState(false);
   const [logo, changeLogo] = useState("");
+  const [personal_photo, changePersonalPhoto] = useState("");
   const [name, changeName] = useState("");
   const [mobile, changeMobile] = useState("");
   const [website, changeWebsite] = useState("");
@@ -50,6 +51,7 @@ const OrganizationDetails = () => {
       const {
         name,
         logo,
+        personal_photo,
         mobile,
         website,
         locationData,
@@ -59,6 +61,7 @@ const OrganizationDetails = () => {
       } = userData.details;
       changeName(name);
       changeLogo(logo);
+      changePersonalPhoto(personal_photo);
       changeMobile(mobile);
       changeWebsite(website);
       changeLocation(locationData);
@@ -106,6 +109,7 @@ const OrganizationDetails = () => {
     if (
       is_mentor_judge &&
       name &&
+      personal_photo &&
       mobile &&
       website &&
       website.match(Constants.isURL) &&
@@ -113,13 +117,19 @@ const OrganizationDetails = () => {
       birthDate &&
       form.checkValidity()
     ) {
-      updateDetailsMethod({
+      let formData = {
         name,
         mobile,
         website,
         locationData: location,
         birthDate,
-      });
+      };
+      if (personal_photo && personal_photo.name) {
+        formData["logo"] = personal_photo;
+      } else {
+        formData["personal_photo"] = personal_photo;
+      }
+      updateDetailsMethod(formData);
     }
     setValidated(true);
   };
@@ -252,6 +262,12 @@ const OrganizationDetails = () => {
                     ></Input>
                     <FileInput
                       placeholder="Personal Photo"
+                      value={personal_photo}
+                      onChange={(e) => {
+                        changePersonalPhoto(e.target.files[0]);
+                      }}
+                      required
+                      errorMessage={Constants.Errors.personal_photo}
                       buttonText="Upload"
                     ></FileInput>
                     <Input

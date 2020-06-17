@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Alert, Form } from "react-bootstrap";
 import { MainContainer } from "./style";
 import {
@@ -23,10 +23,7 @@ const Submissions = ({
 }) => {
   const [show, setShow] = useState(false);
   const [showDisqualify, setDisqualifyShow] = useState(false);
-  const [
-    error,
-  ] = useState(`Submission form is not complete. Please fill all the required
-  fields.`);
+  const [error, setError] = useState("");
   const [selectedRow, selectRow] = useState(null);
   const [data, changeData] = useState([
     {
@@ -80,6 +77,45 @@ const Submissions = ({
       Elegiable: "Elegiable",
     },
   ]);
+  const [submissionForm, changeSubmissionForm] = useState([]);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const { submissionFormId } = challengeData;
+    if (submissionFormId && submissionFormId.data) {
+      let newData = submissionFormId.data.map((each) => {
+        if (each.choices && each.choices.length) {
+          each["choices"] = each.choices.map((choice) => {
+            choice["checked"] = "";
+            return choice;
+          });
+        } else {
+          delete each.choices;
+          each["value"] = "";
+        }
+        return each;
+      });
+      changeSubmissionForm(newData);
+    }
+  }, [challengeData]);
+
+  useEffect(() => {
+    if (submissionForm.length) {
+      const perFieldPer = 100 / parseInt(submissionForm.length, 10);
+      const per = submissionForm.filter((each) => each.value).length
+        ? submissionForm.filter((each) => {
+            if (each.choices && each.choices.length) {
+              return each.choices.find((choice) => choice.checked)
+                ? each
+                : null;
+            } else {
+              return each.value ? each : null;
+            }
+          }).length * perFieldPer
+        : 0;
+      setProgress(Math.round(per));
+    }
+  }, [submissionForm]);
 
   return is_startup_Individual ? (
     <MainContainer>
@@ -92,107 +128,238 @@ const Submissions = ({
           </Col>
         </Row>
       )}
-      <Row className="justify-content-center center-alignment header-container">
-        <Col lg={10} md={10} sm={10} xs={10}>
-          <HeaderComponent
-            titleText="Submissions"
-            buttonText="Submit"
-            buttonVariant="primary"
-            haveProgressBar={true}
-          />
-        </Col>
-      </Row>
-      <Row
-        className="justify-content-center text-left"
-        style={{ marginBottom: 40 }}
+      <Form
+        noValidate
+        onSubmit={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (
+            submissionForm &&
+            submissionForm.length &&
+            submissionForm.find(
+              (each) =>
+                (each.isRequired && !each.choices && !each.value) ||
+                (each.isRequired &&
+                  each.choices &&
+                  each.choices.length &&
+                  !each.choices.find((choice) => choice.checked))
+            )
+          ) {
+            setError(`Submission form is not complete. Please fill all the required
+          fields.`);
+          } else {
+            setError("");
+            alert();
+          }
+        }}
       >
-        <Col lg={10} md={10} sm={10} xs={10}>
-          {challengeData.submissionFormId &&
-          challengeData.submissionFormId.data &&
-          challengeData.submissionFormId.data.length ? (
-            <Form>
-              {challengeData.submissionFormId.data.map((each) => {
-                return each.field === "Single-Field" ? (
-                  <div className="box-container" key={each._id}>
-                    <Input type="text" label={each.title} />
-                  </div>
-                ) : each.field === "Rich-Text-Editor" ? (
-                  <div className="box-container" key={each._id}>
-                    <EditorInput label={each.title} />
-                  </div>
-                ) : each.field === "Multiple-Choice" ? (
-                  <div className="box-container" key={each._id}>
-                    <label className="text-label form-label">
-                      {each.title}
-                    </label>
-                    <div className="checkbox-container">
-                      {each.choices && each.choices.length
-                        ? each.choices.map((choice) => {
-                            return (
-                              <CheckBox
-                                id={choice._id}
-                                checkBoxText={choice.title}
-                              />
-                            );
-                          })
-                        : null}
+        <Row className="justify-content-center center-alignment header-container">
+          <Col lg={10} md={10} sm={10} xs={10}>
+            <HeaderComponent
+              titleText="Submissions"
+              buttonText="Submit"
+              buttonVariant="primary"
+              buttonType="submit"
+              haveProgressBar={true}
+              progress={progress}
+            />
+          </Col>
+        </Row>
+        <Row
+          className="justify-content-center text-left"
+          style={{ marginBottom: 40 }}
+        >
+          <Col lg={10} md={10} sm={10} xs={10}>
+            {submissionForm && submissionForm.length
+              ? submissionForm.map((each, index) => {
+                  return each.field === "Single-Field" ? (
+                    <div
+                      className={
+                        each.isRequired && !each.value
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <Input
+                        type="text"
+                        label={each.title}
+                        value={each.value}
+                        onChange={(e) => {
+                          let newArr = [...submissionForm];
+                          newArr[index]["value"] = e.target.value;
+                          changeSubmissionForm(newArr);
+                        }}
+                      />
                     </div>
-                  </div>
-                ) : each.field === "Single-Choice" ? (
-                  <div className="box-container" key={each._id}>
-                    <label className="text-label form-label">
-                      {each.title}
-                    </label>
-                    <div className="checkbox-container">
-                      {each.choices && each.choices.length
-                        ? each.choices.map((choice) => {
-                            return (
-                              <RadioButton
-                                id={choice._id}
-                                checkBoxText={choice.title}
-                                name="radioButton"
-                              />
-                            );
-                          })
-                        : null}
+                  ) : each.field === "Rich-Text-Editor" ? (
+                    <div
+                      className={
+                        each.isRequired && !each.value
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <EditorInput
+                        label={each.title}
+                        value={each.value}
+                        onChange={(value) => {
+                          let newArr = [...submissionForm];
+                          newArr[index]["value"] = value;
+                          changeSubmissionForm(newArr);
+                        }}
+                      />
                     </div>
-                  </div>
-                ) : each.field === "Yes-No-Question" ? (
-                  <div className="box-container" key={each._id}>
-                    <label className="text-label form-label">
-                      {each.title}
-                    </label>
-                    <div className="question-button-container">
-                      <PrimaryButton text="Yes" variant="primary" />
-                      <PrimaryButton text="No" variant="light" />
+                  ) : each.field === "Multiple-Choice" ? (
+                    <div
+                      className={
+                        each.isRequired &&
+                        !each.choices.find((choice) => choice.checked)
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <label className="text-label form-label">
+                        {each.title}
+                      </label>
+                      <div className="checkbox-container">
+                        {each.choices && each.choices.length
+                          ? each.choices.map((choice, choiceIndex) => {
+                              return (
+                                <CheckBox
+                                  key={choice._id}
+                                  id={choice._id}
+                                  checkBoxText={choice.title}
+                                  checked={choice.checked}
+                                  onChange={(e) => {
+                                    let { checked } = e.target;
+                                    let newArr = [...submissionForm];
+                                    newArr[index]["choices"][choiceIndex][
+                                      "checked"
+                                    ] = checked;
+
+                                    changeSubmissionForm(newArr);
+                                  }}
+                                />
+                              );
+                            })
+                          : null}
+                      </div>
                     </div>
-                  </div>
-                ) : each.field === "Document-Upload-Box" ? (
-                  <div className="box-container" key={each._id}>
-                    <FileInput
-                      label={each.title}
-                      prependButtonText="Browse"
-                      description="Allowed file types: word, pdf"
-                    ></FileInput>
-                  </div>
-                ) : null;
-              })}
-            </Form>
-          ) : null}
-        </Col>
-      </Row>
-      <Row
-        className="justify-content-center center-alignment header-container"
-        style={{ marginBottom: 80 }}
-      >
-        <Col lg={10} md={10} sm={10} xs={10}>
-          <HeaderComponent
-            buttonText="Submit"
-            buttonVariant="primary"
-            haveProgressBar={true}
-          />
-        </Col>
-      </Row>
+                  ) : each.field === "Single-Choice" ? (
+                    <div
+                      className={
+                        each.isRequired &&
+                        !each.choices.find((choice) => choice.checked)
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <label className="text-label form-label">
+                        {each.title}
+                      </label>
+                      <div className="checkbox-container">
+                        {each.choices && each.choices.length
+                          ? each.choices.map((choice, choiceIndex) => {
+                              return (
+                                <RadioButton
+                                  key={choice._id}
+                                  id={choice._id}
+                                  checkBoxText={choice.title}
+                                  name="radioButton"
+                                  checked={choice.checked}
+                                  onChange={(e) => {
+                                    let { checked } = e.target;
+                                    let newArr = [...submissionForm];
+                                    newArr[index]["choices"][choiceIndex][
+                                      "checked"
+                                    ] = checked;
+
+                                    changeSubmissionForm(newArr);
+                                  }}
+                                />
+                              );
+                            })
+                          : null}
+                      </div>
+                    </div>
+                  ) : each.field === "Yes-No-Question" ? (
+                    <div
+                      className={
+                        each.isRequired && !each.value
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <label className="text-label form-label">
+                        {each.title}
+                      </label>
+                      <div className="question-button-container">
+                        <PrimaryButton
+                          text="Yes"
+                          variant={each.value === "Yes" ? "primary" : "light"}
+                          onClick={() => {
+                            let newArr = [...submissionForm];
+                            newArr[index]["value"] = "Yes";
+                            changeSubmissionForm(newArr);
+                          }}
+                        />
+                        <PrimaryButton
+                          text="No"
+                          variant={each.value === "No" ? "primary" : "light"}
+                          onClick={() => {
+                            let newArr = [...submissionForm];
+                            newArr[index]["value"] = "No";
+                            changeSubmissionForm(newArr);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ) : each.field === "Document-Upload-Box" ? (
+                    <div
+                      className={
+                        each.isRequired && !each.value
+                          ? "box-container not-valid"
+                          : "box-container"
+                      }
+                      key={each._id}
+                    >
+                      <FileInput
+                        label={each.title}
+                        prependButtonText="Browse"
+                        value={each.value}
+                        onChange={(e) => {
+                          let newArr = [...submissionForm];
+                          newArr[index]["value"] = e.target.files[0];
+                          changeSubmissionForm(newArr);
+                        }}
+                        description="Allowed file types: word, pdf"
+                      ></FileInput>
+                    </div>
+                  ) : null;
+                })
+              : null}
+          </Col>
+        </Row>
+        <Row
+          className="justify-content-center center-alignment header-container"
+          style={{ marginBottom: 80 }}
+        >
+          <Col lg={10} md={10} sm={10} xs={10}>
+            <HeaderComponent
+              buttonText="Submit"
+              buttonVariant="primary"
+              buttonType="submit"
+              haveProgressBar={true}
+              progress={progress}
+            />
+          </Col>
+        </Row>
+      </Form>
     </MainContainer>
   ) : is_mentor_judge ? (
     <MainContainer>

@@ -144,6 +144,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Single Text Field",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -157,6 +158,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Rich Text Editor",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -170,6 +172,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Multiple Choice",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -184,6 +187,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Single Choice",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -198,6 +202,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Yes, No Question",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -211,6 +216,7 @@ const SubmissionForm = ({ challengeId }) => {
                 {
                   title: "Document Upload Box",
                   onClick: () => {
+                    setValidated(false);
                     setForm((data) =>
                       data.concat({
                         _id: `feild-${data.length + 1}`,
@@ -276,8 +282,9 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <Input
+                                          required
                                           type="text"
-                                          label="Field Title"
+                                          label="Field Title *"
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
@@ -311,8 +318,9 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <Input
+                                          required
                                           type="text"
-                                          label="Field Title"
+                                          label="Field Title *"
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
@@ -346,8 +354,9 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <Input
+                                          required
                                           type="text"
-                                          label="Field Title"
+                                          label="Field Title *"
                                           placeholder="e.g: How did you hear about us"
                                           value={each.title}
                                           onChange={(e) => {
@@ -381,7 +390,8 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <TextArea
-                                          label="Enter your question below"
+                                          required
+                                          label="Enter your question below *"
                                           placeholder="e.g: How did you hear about us"
                                           rows="2"
                                           value={each.title}
@@ -416,7 +426,8 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <TextArea
-                                          label="Enter your question below"
+                                          required
+                                          label="Enter your question below *"
                                           placeholder="e.g: How did you hear about us"
                                           rows="2"
                                           value={each.title}
@@ -461,6 +472,7 @@ const SubmissionForm = ({ challengeId }) => {
                                                     </div>
                                                     <div className="choice-input">
                                                       <Input
+                                                        required
                                                         type="text"
                                                         value={eachChoice.title}
                                                         onChange={(e) => {
@@ -525,7 +537,8 @@ const SubmissionForm = ({ challengeId }) => {
                                       </div>
                                       <div className="field-container">
                                         <TextArea
-                                          label="Enter your question below"
+                                          required
+                                          label="Enter your question below *"
                                           placeholder="e.g: How did you hear about us"
                                           rows="2"
                                           value={each.title}
@@ -570,6 +583,7 @@ const SubmissionForm = ({ challengeId }) => {
                                                     </div>
                                                     <div className="choice-input">
                                                       <Input
+                                                        required
                                                         type="text"
                                                         value={eachChoice.title}
                                                         onChange={(e) => {

@@ -89,6 +89,8 @@ const SignUp = ({ history, mode, setActiveModal }) => {
       form.checkValidity()
     ) {
       signupMethod({
+        firstName: fname,
+        lastName: lname,
         email: email,
         password: password,
         role: localStorage.getItem("userRole"),
@@ -281,6 +283,7 @@ const SignUp = ({ history, mode, setActiveModal }) => {
                     variant="primary"
                     text={"Next, Email Verification>"}
                     type="submit"
+                    disabled={!check1}
                   ></PrimaryButton>
                 </Col>
               </Row>

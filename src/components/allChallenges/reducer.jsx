@@ -21,7 +21,7 @@ export const allChallengesReducer = createReducer(initialState, {
   },
   [GET_ALL_CHALLENGES_SUCCESS](state, action) {
     let { allChallenges } = state;
-    let { payload } = action;
+    let { payload, loadedPage } = action;
 
     if (
       allChallenges &&
@@ -33,9 +33,12 @@ export const allChallengesReducer = createReducer(initialState, {
       payload.result.data &&
       payload.result.data.length
     ) {
-      allChallenges.result.data = allChallenges.result.data.concat(
-        payload.result.data
-      );
+      if (action.page > loadedPage) {
+        allChallenges.result.data = allChallenges.result.data.concat(
+          payload.result.data
+        );
+      }
+
       allChallenges.result.havemore = payload.result.havemore;
 
       return Object.assign({}, state, {

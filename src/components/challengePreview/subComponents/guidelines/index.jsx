@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
@@ -28,27 +29,30 @@ const Guidelines = ({ is_organisation, challengeData }) => {
         style={{ marginBottom: 80 }}
       >
         <Col lg={11} md={11} sm={11} xs={11}>
-          <ExpandCollapse
-            title="Challenge NDA Document"
-            timestamp="time/date stamp"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
-          <ExpandCollapse
-            title="Expandable"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
+          {challengeData.guidelineId &&
+          challengeData.guidelineId.data &&
+          challengeData.guidelineId.data.length
+            ? challengeData.guidelineId.data.map((each) => {
+                return (
+                  <ExpandCollapse
+                    key={each._id}
+                    title={each.title}
+                    timestamp={
+                      each.date
+                        ? moment(each.date).format("MMMM DD, YYYY")
+                        : null
+                    }
+                    description={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: each.description,
+                        }}
+                      />
+                    }
+                  />
+                );
+              })
+            : null}
         </Col>
       </Row>
     </MainContainer>

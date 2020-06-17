@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
@@ -36,6 +37,13 @@ const Resources = ({ is_organisation, challengeData }) => {
                   <ExpandCollapse
                     key={each._id}
                     title={each.title}
+                    attachmentLink={each.attachmentURL}
+                    link={each.link}
+                    timestamp={
+                      each.date
+                        ? moment(each.date).format("MMMM DD, YYYY")
+                        : null
+                    }
                     description={
                       <div
                         dangerouslySetInnerHTML={{
@@ -47,12 +55,6 @@ const Resources = ({ is_organisation, challengeData }) => {
                 );
               })
             : null}
-          <ExpandCollapse
-            title="Challenge NDA Document"
-            timestamp="time/date stamp"
-            link="Attachment link here as hyperlink"
-            description="Attachment content description here"
-          />
         </Col>
       </Row>
     </MainContainer>

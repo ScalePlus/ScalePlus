@@ -159,12 +159,14 @@ const Updates = ({ challengeId }) => {
                 <div className="box-container" key={each._id}>
                   <div className="left-container">
                     <Input
+                      required
                       type="text"
-                      label="Title"
+                      label="Title *"
                       value={each.title}
                       onChange={(e) => {
                         let newArr = [...updates];
                         newArr[index]["title"] = e.target.value;
+                        newArr[index]["date"] = new Date();
                         changeUpdates(newArr);
                       }}
                     />
@@ -174,6 +176,7 @@ const Updates = ({ challengeId }) => {
                       onChange={(value) => {
                         let newArr = [...updates];
                         newArr[index]["description"] = value;
+                        newArr[index]["date"] = new Date();
                         changeUpdates(newArr);
                       }}
                     ></EditorInput>
