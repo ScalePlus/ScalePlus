@@ -6,4 +6,9 @@ export default {
     let result = coreApi.PUT(url, data);
     return result;
   },
+  getTimelineState: () => {
+    let url = `/challenge/timelineState/list`;
+    let result = coreApi.GET(url);
+    return result;
+  },
 };

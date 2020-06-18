@@ -1,9 +1,38 @@
-import React from "react";
-import { Modal, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, Row, Col, Form, Alert } from "react-bootstrap";
 import { Input, TextArea, PrimaryButton } from "../../../../common";
 import { MainContainer } from "./style";
 
-const EvaluateModal = ({ show, setShow }) => {
+const EvaluateModal = ({
+  show,
+  setShow,
+  selectedRow,
+  challengeData,
+  onSaveDraft,
+  errors,
+}) => {
+  const [data, changeData] = useState(null);
+  const [validated, setValidated] = useState(false);
+  useEffect(() => {
+    if (
+      selectedRow &&
+      selectedRow.judgingCriteria &&
+      selectedRow.judgingCriteria.length
+    ) {
+      changeData(selectedRow.judgingCriteria);
+    } else {
+      const { judgingCriteriaId } = challengeData;
+      if (judgingCriteriaId.data && judgingCriteriaId.data.length) {
+        let newData = judgingCriteriaId.data.map((each) => {
+          each["value"] = "";
+          each["descriptionValue"] = "";
+          return each;
+        });
+        changeData(newData);
+      }
+    }
+  }, [challengeData, selectedRow]);
+
   return (
     <Modal
       show={show}
@@ -12,203 +41,112 @@ const EvaluateModal = ({ show, setShow }) => {
     >
       <Modal.Body>
         <MainContainer>
-          <Row className="justify-content-center">
-            <Col lg={8} md={10} sm={10} xs={10}>
-              <div className="block">
-                <Row>
-                  <Col lg={7} md={7} sm={12} xs={12}>
-                    <div className="left-container">
-                      <div className="title">Proposal quality</div>
-                      <div className="description">
-                        Quality of proposal: clear, concise writing; thoughtful
-                        and complete responses; realistic projections of time
-                        needed, effort expended, and outcomes attained.
-                        High-level project plan that demonstrates a potential
-                        path for future development of proposed payload.
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={5} md={5} sm={12} xs={12}>
-                    <div className="right-container">
-                      <Input
-                        type="number"
-                        label={
-                          <span className="label-bold">
-                            Overall Weight{" "}
-                            <span className="label-regular">Out of 10</span>
-                          </span>
-                        }
-                      />
-                      <TextArea
-                        label={<span className="label-bold">Description</span>}
-                        rows="2"
-                      ></TextArea>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <div className="block">
-                <Row>
-                  <Col lg={7} md={7} sm={12} xs={12}>
-                    <div className="left-container">
-                      <div className="title">Capabilities</div>
-                      <div className="description">
-                        Technical soundness of proposed payload.
-                        <br />
-                        <br />
-                        Likelihood that it can be successfully integrated into a
-                        micro-rover and used on the lunar surface.
-                        <br />
-                        <br />
-                        Clear description of new technology/instrumentation to
-                        be demonstrated, or specific experiment to be run, or
-                        other payload capability. Likelihood that
-                        proposer/proposing team will be able to successfully
-                        develop proposed payload.
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={5} md={5} sm={12} xs={12}>
-                    <div className="right-container">
-                      <Input
-                        type="number"
-                        label={
-                          <span className="label-bold">
-                            Overall Weight{" "}
-                            <span className="label-regular">Out of 30</span>
-                          </span>
-                        }
-                      />
-                      <TextArea
-                        label={<span className="label-bold">Description</span>}
-                        rows="2"
-                      ></TextArea>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <div className="block">
-                <Row>
-                  <Col lg={7} md={7} sm={12} xs={12}>
-                    <div className="left-container">
-                      <div className="title">Technical Maturity</div>
-                      <div className="description">
-                        The likelihood that proposed payload can be developed
-                        and deployed in 1-4 years
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={5} md={5} sm={12} xs={12}>
-                    <div className="right-container">
-                      <Input
-                        type="number"
-                        label={
-                          <span className="label-bold">
-                            Overall Weight{" "}
-                            <span className="label-regular">Out of 30</span>
-                          </span>
-                        }
-                      />
-                      <TextArea
-                        label={<span className="label-bold">Description</span>}
-                        rows="2"
-                      ></TextArea>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <div className="block">
-                <Row>
-                  <Col lg={7} md={7} sm={12} xs={12}>
-                    <div className="left-container">
-                      <div className="title">Impact</div>
-                      <div className="description">
-                        The potential impact of proposed payload if it is
-                        successfully developed and deployed.
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={5} md={5} sm={12} xs={12}>
-                    <div className="right-container">
-                      <Input
-                        type="number"
-                        label={
-                          <span className="label-bold">
-                            Overall Weight{" "}
-                            <span className="label-regular">Out of 25</span>
-                          </span>
-                        }
-                      />
-                      <TextArea
-                        label={<span className="label-bold">Description</span>}
-                        rows="2"
-                      ></TextArea>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <div className="block">
-                <Row>
-                  <Col lg={7} md={7} sm={12} xs={12}>
-                    <div className="left-container">
-                      <div className="title">Innovation</div>
-                      <div className="description">
-                        Novelty or creativity of proposed approach.
-                        <br />
-                        <br />
-                        Elegance of design.
-                        <br />
-                        <br />
-                        Clever use of existing technologies or work-around of
-                        existing limitations/constraints.
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={5} md={5} sm={12} xs={12}>
-                    <div className="right-container">
-                      <Input
-                        type="number"
-                        label={
-                          <span className="label-bold">
-                            Overall Weight{" "}
-                            <span className="label-regular">Out of 5</span>
-                          </span>
-                        }
-                      />
-                      <TextArea
-                        label={<span className="label-bold">Description</span>}
-                        rows="2"
-                      ></TextArea>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <Row>
-                <Col>
-                  <div className="button-container">
-                    <div className="save-button">
-                      <PrimaryButton
-                        variant="secondary"
-                        text={"Save Draft"}
-                        onClick={() => {
-                          setShow(false);
-                        }}
-                      ></PrimaryButton>
-                    </div>
-                    <div className="submit-button">
-                      <PrimaryButton
-                        variant="primary"
-                        text={"Submit Evaluation"}
-                        onClick={() => {
-                          setShow(false);
-                        }}
-                      ></PrimaryButton>
-                    </div>
-                  </div>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={async (event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              const form = event.currentTarget;
+              if (form.checkValidity()) {
+                onSaveDraft(data);
+              }
+              setValidated(true);
+            }}
+          >
+            {errors && errors.length ? (
+              <Row className="justify-content-center">
+                <Col lg={8} md={10} sm={10} xs={10}>
+                  <Alert variant={"danger"} className="text-left">
+                    {errors.map((each, index) => {
+                      return <div key={index}>{each}</div>;
+                    })}
+                  </Alert>
                 </Col>
               </Row>
-            </Col>
-          </Row>
+            ) : null}
+            <Row className="justify-content-center">
+              <Col lg={8} md={10} sm={10} xs={10}>
+                {data && data.length
+                  ? data.map((each, index) => {
+                      return (
+                        <div className="block" key={each._id}>
+                          <Row>
+                            <Col lg={7} md={7} sm={12} xs={12}>
+                              <div className="left-container">
+                                <div className="title">{each.title}</div>
+                                <div className="description">
+                                  {each.description}
+                                </div>
+                              </div>
+                            </Col>
+                            <Col lg={5} md={5} sm={12} xs={12}>
+                              <div className="right-container">
+                                <Input
+                                  type="number"
+                                  label={
+                                    <span className="label-bold">
+                                      Overall Weight{" "}
+                                      <span className="label-regular">
+                                        Out of {each.weight}
+                                      </span>
+                                    </span>
+                                  }
+                                  value={each.value}
+                                  onChange={(e) => {
+                                    let newArr = [...data];
+                                    newArr[index]["value"] = e.target.value;
+                                    changeData(newArr);
+                                  }}
+                                  minNumber={1}
+                                  maxNumber={each.weight}
+                                  required
+                                />
+                                <TextArea
+                                  label={
+                                    <span className="label-bold">
+                                      Description
+                                    </span>
+                                  }
+                                  rows="2"
+                                  value={each.descriptionValue}
+                                  onChange={(e) => {
+                                    let newArr = [...data];
+                                    newArr[index]["descriptionValue"] =
+                                      e.target.value;
+                                    changeData(newArr);
+                                  }}
+                                ></TextArea>
+                              </div>
+                            </Col>
+                          </Row>
+                        </div>
+                      );
+                    })
+                  : null}
+                <Row>
+                  <Col>
+                    <div className="button-container">
+                      <div className="save-button">
+                        <PrimaryButton
+                          variant="secondary"
+                          text={"Save Draft"}
+                          type="submit"
+                        ></PrimaryButton>
+                      </div>
+                      <div className="submit-button">
+                        <PrimaryButton
+                          variant="primary"
+                          text={"Submit Evaluation"}
+                          type="submit"
+                        ></PrimaryButton>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Form>
         </MainContainer>
       </Modal.Body>
     </Modal>

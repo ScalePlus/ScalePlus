@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 // import { getChallengeAction } from "../../../challengeMaster/action";
 import Api from "../../../challengeMaster/api";
-import { attachTimelineAction } from "./action";
+import { attachTimelineAction, getTimelineStateAction } from "./action";
 import {
   DateInput,
   DropDown,
@@ -20,18 +20,15 @@ import Stepper from "../../../stepper";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import theme from "../../../../theme";
-const stateList = [
-  { value: "1", label: "Start" },
-  { value: "2", label: "Submission Deadline" },
-  { value: "3", label: "Judging" },
-  { value: "4", label: "Judging Closed" },
-  { value: "5", label: "Won" },
-];
 
 const Timeline = ({ challengeId }) => {
   const dispatch = useDispatch();
   const attachTimelineMethod = (data) =>
     dispatch(attachTimelineAction(data, challengeId));
+  const getTimelineStateMethod = useCallback(
+    () => dispatch(getTimelineStateAction()),
+    [dispatch]
+  );
   // const getChallengeMethod = useCallback(
   //   (id) => dispatch(getChallengeAction(id)),
   //   [dispatch]
@@ -48,13 +45,33 @@ const Timeline = ({ challengeId }) => {
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [timeline, changeTimeline] = useState([]);
+  const [stateList, changeStateList] = useState([]);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
   // }, [getChallengeMethod, challengeId]);
 
   useEffect(() => {
-    const { error } = challengeTimelineReducer;
+    getTimelineStateMethod();
+  }, [getTimelineStateMethod]);
+
+  useEffect(() => {
+    const { error, timelineStatesSuccess } = challengeTimelineReducer;
+    if (
+      timelineStatesSuccess &&
+      timelineStatesSuccess.result &&
+      timelineStatesSuccess.result.length
+    ) {
+      changeStateList(
+        timelineStatesSuccess.result.map((each) => {
+          return {
+            value: each._id,
+            label: each.name,
+          };
+        })
+      );
+    }
+
     let errors = [];
     if (Array.isArray(error)) {
       errors = error;
@@ -165,15 +182,20 @@ const Timeline = ({ challengeId }) => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeTimeline((data) =>
-                  data.concat({
-                    _id: `timeline-${data.length + 1}`,
-                    date: "",
-                    state: "",
-                    description: "",
-                    adminAttachments: [],
-                  })
-                );
+                if (
+                  timeline &&
+                  (!timeline.length || (timeline.length && timeline.length < 5))
+                ) {
+                  changeTimeline((data) =>
+                    data.concat({
+                      _id: `timeline-${data.length + 1}`,
+                      date: "",
+                      state: "",
+                      description: "",
+                      adminAttachments: [],
+                    })
+                  );
+                }
               }}
             />
           </Col>
@@ -240,6 +262,9 @@ const Timeline = ({ challengeId }) => {
                           onChange={(val) => {
                             let newArr = [...timeline];
                             newArr[index]["state"] = val.value;
+                            changeStateList((data) =>
+                              data.filter((each) => each.value !== val.value)
+                            );
                             changeTimeline(newArr);
                           }}
                         />

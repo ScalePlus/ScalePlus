@@ -78,11 +78,24 @@ export const Description = React.memo(({ children }) => {
 });
 
 export const Input = React.memo(
-  ({ max, description, errorMessage, label, ...props }) => {
+  ({
+    max,
+    minNumber,
+    maxNumber,
+    description,
+    errorMessage,
+    label,
+    ...props
+  }) => {
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
-        <Form.Control {...props} maxLength={max} />
+        <Form.Control
+          {...props}
+          maxLength={max}
+          min={minNumber}
+          max={maxNumber}
+        />
         {errorMessage && (
           <Form.Control.Feedback className="text-left" type="invalid">
             {errorMessage}
@@ -408,28 +421,28 @@ export const BannerInput = React.memo(
             fileUploader.click();
           }}
         >
-          <div
-            className="upload-container"
-            onClick={() => {
-              fileUploader.click();
-            }}
-          >
-            {value ? (
-              <img
-                src={value && value.name ? URL.createObjectURL(value) : value}
-                alt=""
-                className="selected-img"
-              ></img>
-            ) : (
+          {value ? (
+            <img
+              src={value && value.name ? URL.createObjectURL(value) : value}
+              alt=""
+              className="selected-img"
+            ></img>
+          ) : (
+            <div
+              className="upload-container"
+              onClick={() => {
+                fileUploader.click();
+              }}
+            >
               <img
                 src={"/images/image.svg"}
                 height="35px"
                 width="35px"
                 alt=""
               ></img>
-            )}
-            {!value && <div>Upload image</div>}
-          </div>
+              {!value && <div>Upload image</div>}
+            </div>
+          )}
         </div>
         <input
           type="file"
@@ -831,20 +844,42 @@ export const ChallengeHeader = React.memo(
 );
 
 export const ChallengeViewHeader = React.memo(
-  ({ primaryButtonText, primaryButtonClick, shareClick }) => {
+  ({ primaryButtonText, primaryButtonClick, shareClick, organisationId }) => {
     return (
       <ChallengeViewHeaderContainer>
         <div className="left-continer">
           <div className="oval-container">
             <img
-              src={"/images/image.svg"}
-              height="20px"
-              width="20px"
+              src={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? organisationId.details.logo
+                  : "/images/image.svg"
+              }
+              height={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? "100%"
+                  : "20px"
+              }
+              width={
+                organisationId &&
+                organisationId.details &&
+                organisationId.details.logo
+                  ? "100%"
+                  : "20px"
+              }
               alt=""
             ></img>
           </div>
           <div className="organization-name">
-            <span>Rio Tinto</span>
+            <span>
+              {organisationId &&
+                organisationId.details &&
+                organisationId.details.name}
+            </span>
           </div>
         </div>
         <div className="right-continer">

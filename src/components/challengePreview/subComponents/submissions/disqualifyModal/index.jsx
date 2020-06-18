@@ -1,9 +1,9 @@
 import React from "react";
-import { Modal, Row, Col } from "react-bootstrap";
+import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { PrimaryButton } from "../../../../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
-const DisqualifyModal = ({ show, setShow }) => {
+const DisqualifyModal = ({ show, setShow, errors, onDisqualify }) => {
   return (
     <Modal
       show={show}
@@ -17,6 +17,17 @@ const DisqualifyModal = ({ show, setShow }) => {
         </HeaderContainer>
       </Modal.Header>
       <Modal.Body>
+        {errors && errors.length ? (
+          <Row className="justify-content-center">
+            <Col lg={12} md={12} sm={12} xs={12}>
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            </Col>
+          </Row>
+        ) : null}
         <Row className="justify-content-center">
           <Col>
             <ContentContainer>
@@ -35,7 +46,7 @@ const DisqualifyModal = ({ show, setShow }) => {
                   variant="danger_light"
                   text={"Yes, Disqualify"}
                   onClick={() => {
-                    setShow(false);
+                    onDisqualify();
                   }}
                 ></PrimaryButton>
                 <PrimaryButton

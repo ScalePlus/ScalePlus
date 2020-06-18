@@ -266,6 +266,11 @@ export const ChallengeViewHeaderContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 10px;
+    img {
+      max-width: 35px;
+      max-height: 35px;
+      border-radius: 50%;
+    }
   }
   .organization-name {
     color: ${theme.colors.gray};

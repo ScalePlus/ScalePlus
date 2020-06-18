@@ -4,6 +4,10 @@ import {
   ATTACH_TIMELINE_LOADING,
   ATTACH_TIMELINE_SUCCESS,
   ATTACH_TIMELINE_ERROR,
+  TIMELINE_STATES_ACTION,
+  TIMELINE_STATES_LOADING,
+  TIMELINE_STATES_SUCCESS,
+  TIMELINE_STATES_ERROR,
 } from "./types";
 import Api from "./api";
 
@@ -21,8 +25,23 @@ function* attachTimelineSaga(data) {
   }
 }
 
+function* getTimelineStateSaga() {
+  yield put({ type: TIMELINE_STATES_LOADING });
+  try {
+    let res = yield call(Api.getTimelineState);
+    if (res.status) {
+      yield put({ type: TIMELINE_STATES_ERROR, payload: res.message });
+    } else {
+      yield put({ type: TIMELINE_STATES_SUCCESS, payload: res });
+    }
+  } catch (error) {
+    yield put({ type: TIMELINE_STATES_ERROR, payload: error.message });
+  }
+}
+
 function* watchAttachTimelineAsync() {
   yield takeLatest(ATTACH_TIMELINE_ACTION, attachTimelineSaga);
+  yield takeLatest(TIMELINE_STATES_ACTION, getTimelineStateSaga);
 }
 
 export default watchAttachTimelineAsync;

@@ -4,13 +4,6 @@ import { HeaderComponent, VeticalStepper } from "../common";
 import moment from "moment";
 import { MainContainer } from "./style";
 import history from "../../../../history";
-const stateList = [
-  { value: "1", label: "Start" },
-  { value: "2", label: "Submission Deadline" },
-  { value: "3", label: "Judging" },
-  { value: "4", label: "Judging Closed" },
-  { value: "5", label: "Won" },
-];
 
 const Timeline = ({
   is_startup_Individual,
@@ -50,9 +43,7 @@ const Timeline = ({
                     return {
                       active: false,
                       timestamp: moment(each.date).format("MMMM DD, YYYY"),
-                      title: stateList.find(
-                        (option) => option.value === each.state
-                      ).label,
+                      title: each.state && each.state.name,
                       description: each.description,
                     };
                   })

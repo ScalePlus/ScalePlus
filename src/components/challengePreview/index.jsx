@@ -204,6 +204,7 @@ const ChallengePreview = ({ history, match }) => {
         >
           <Col lg={11} md={11} sm={11} xs={11}>
             <ChallengeViewHeader
+              organisationId={challengeData.organisationId}
               primaryButtonText={
                 selectedTab === tabs[0] || !is_logged_in
                   ? is_mentor_judge

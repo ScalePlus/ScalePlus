@@ -6,7 +6,15 @@ export const MainContainer = styled.div`
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
   }
-
+  .thankyou-text {
+    text-align: left;
+    font-size: ${theme.fontSize.extraMedium};
+    a {
+      font-family: ${theme.fontFamily.bold};
+      color: ${theme.colors.black};
+      text-decoration: underline;
+    }
+  }
   .content-container {
     min-height: 500px;
     font-family: ${theme.fontFamily.bold};

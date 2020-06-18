@@ -59,14 +59,30 @@ const OrganizationDetails = () => {
         incorporationDate,
         isIndividual,
       } = userData.details;
-      changeName(name);
-      changeLogo(logo);
-      changePersonalPhoto(personal_photo);
-      changeMobile(mobile);
-      changeWebsite(website);
-      changeLocation(locationData);
-      changeBirthDate(new Date(birthDate));
-      changeIncorporationDate(new Date(incorporationDate));
+      if (name) {
+        changeName(name);
+      }
+      if (logo) {
+        changeLogo(logo);
+      }
+      if (personal_photo) {
+        changePersonalPhoto(personal_photo);
+      }
+      if (mobile) {
+        changeMobile(mobile);
+      }
+      if (website) {
+        changeWebsite(website);
+      }
+      if (locationData) {
+        changeLocation(locationData);
+      }
+      if (birthDate) {
+        changeBirthDate(new Date(birthDate));
+      }
+      if (incorporationDate) {
+        changeIncorporationDate(new Date(incorporationDate));
+      }
       switchToggle(isIndividual);
     }
   }, [signinReducer]);

@@ -154,6 +154,7 @@ const SolveChallenge = ({ history }) => {
                   <Col>
                     <PrimaryButton
                       variant="primary"
+                      disabled={!check}
                       text={"Enter Challenge"}
                       type="submit"
                       onClick={() => {
