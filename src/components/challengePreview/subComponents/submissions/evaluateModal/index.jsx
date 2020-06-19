@@ -21,14 +21,16 @@ const EvaluateModal = ({
     ) {
       changeData(selectedRow.judgingCriteria);
     } else {
-      const { judgingCriteriaId } = challengeData;
-      if (judgingCriteriaId.data && judgingCriteriaId.data.length) {
-        let newData = judgingCriteriaId.data.map((each) => {
-          each["value"] = "";
-          each["descriptionValue"] = "";
-          return each;
-        });
-        changeData(newData);
+      if (challengeData) {
+        const { judgingCriteriaId } = challengeData;
+        if (judgingCriteriaId.data && judgingCriteriaId.data.length) {
+          let newData = judgingCriteriaId.data.map((each) => {
+            each["value"] = "";
+            each["descriptionValue"] = "";
+            return each;
+          });
+          changeData(newData);
+        }
       }
     }
   }, [challengeData, selectedRow]);

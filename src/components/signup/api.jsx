@@ -6,4 +6,9 @@ export default {
     let result = coreApi.POST(url, data);
     return result;
   },
+  googleRegister: (data) => {
+    let url = `/user/register/google`;
+    let result = coreApi.POST(url, data);
+    return result;
+  },
 };

@@ -29,6 +29,7 @@ const Submissions = ({
   is_mentor_judge,
   is_organisation,
   challengeData,
+  fromPreview,
 }) => {
   const dispatch = useDispatch();
   const fillSubmissionformMethod = (data) =>
@@ -38,8 +39,8 @@ const Submissions = ({
   const judgeSubmissionformMethod = (id, submissionId, data) =>
     dispatch(judgeSubmissionformAction(id, submissionId, data));
   const getSubmissionsListMethod = useCallback(
-    () => dispatch(getSubmissionsListAction(challengeData._id)),
-    [dispatch, challengeData]
+    (id) => dispatch(getSubmissionsListAction(id)),
+    [dispatch]
   );
 
   const submissionListReducer = useSelector((state) => {
@@ -51,66 +52,16 @@ const Submissions = ({
   const [show, setShow] = useState(false);
   const [showDisqualify, setDisqualifyShow] = useState(false);
   const [selectedRow, selectRow] = useState(null);
-  const [data, changeData] = useState([
-    {
-      id: 1,
-      active: false,
-      Startup_Name: "Startup Name",
-      Owner_Name: "Owner Name",
-      Location: "Location",
-      Industry: "Industry",
-      Technology: "Technology",
-      Elegiable: "Elegiable",
-    },
-    {
-      id: 2,
-      active: false,
-      Startup_Name: "Startup Name",
-      Owner_Name: "Owner Name",
-      Location: "Location",
-      Industry: "Industry",
-      Technology: "Technology",
-      Elegiable: "Elegiable",
-    },
-    {
-      id: 3,
-      active: false,
-      Startup_Name: "Startup Name",
-      Owner_Name: "Owner Name",
-      Location: "Location",
-      Industry: "Industry",
-      Technology: "Technology",
-      Elegiable: "Elegiable",
-    },
-    {
-      id: 4,
-      active: false,
-      Startup_Name: "Startup Name",
-      Owner_Name: "Owner Name",
-      Location: "Location",
-      Industry: "Industry",
-      Technology: "Technology",
-      Elegiable: "Elegiable",
-    },
-    {
-      id: 5,
-      active: false,
-      Startup_Name: "Startup Name",
-      Owner_Name: "Owner Name",
-      Location: "Location",
-      Industry: "Industry",
-      Technology: "Technology",
-      Elegiable: "Elegiable",
-    },
-  ]);
   const [submissionForm, changeSubmissionForm] = useState([]);
   const [progress, setProgress] = useState(0);
   const [formFilled, setFormFilled] = useState(false);
   const [submissions, changeSubmissions] = useState(null);
 
   useEffect(() => {
-    getSubmissionsListMethod();
-  }, [getSubmissionsListMethod]);
+    if (challengeData && challengeData._id) {
+      getSubmissionsListMethod(challengeData._id);
+    }
+  }, [getSubmissionsListMethod, challengeData]);
 
   useEffect(() => {
     const {
@@ -153,21 +104,23 @@ const Submissions = ({
   }, [submissionListReducer]);
 
   useEffect(() => {
-    const { submissionFormId } = challengeData;
-    if (submissionFormId && submissionFormId.data) {
-      let newData = submissionFormId.data.map((each) => {
-        if (each.choices && each.choices.length) {
-          each["choices"] = each.choices.map((choice) => {
-            choice["checked"] = false;
-            return choice;
-          });
-        } else {
-          delete each.choices;
-          each["value"] = "";
-        }
-        return each;
-      });
-      changeSubmissionForm(newData);
+    if (challengeData && challengeData.submissionFormId) {
+      const { submissionFormId } = challengeData;
+      if (submissionFormId && submissionFormId.data) {
+        let newData = submissionFormId.data.map((each) => {
+          if (each.choices && each.choices.length) {
+            each["choices"] = each.choices.map((choice) => {
+              choice["checked"] = false;
+              return choice;
+            });
+          } else {
+            delete each.choices;
+            each["value"] = "";
+          }
+          return each;
+        });
+        changeSubmissionForm(newData);
+      }
     }
   }, [challengeData]);
 
@@ -499,10 +452,15 @@ const Submissions = ({
         </Form>
       )}
     </MainContainer>
-  ) : is_mentor_judge ? (
+  ) : is_mentor_judge || is_organisation ? (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
-        <Col lg={11} md={11} sm={11} xs={11}>
+        <Col
+          lg={fromPreview ? 11 : 12}
+          md={fromPreview ? 11 : 12}
+          sm={fromPreview ? 11 : 12}
+          xs={fromPreview ? 11 : 12}
+        >
           {selectedRow ? (
             selectedRow.isDisqualified ? (
               <HeaderComponent titleText="Submissions (DISQUALIFIED)" />
@@ -525,13 +483,38 @@ const Submissions = ({
                 }}
               />
             )
-          ) : (
+          ) : is_mentor_judge ? (
             <HeaderComponent titleText="Submissions" />
+          ) : fromPreview ? (
+            <HeaderComponent
+              titleText="Submissions"
+              buttonText="Edit Form"
+              buttonVariant="info"
+              buttonClick={() => {
+                history.push(
+                  `/challenge/${challengeData._id}/edit/Submission%20form`
+                );
+              }}
+            />
+          ) : (
+            <HeaderComponent
+              titleText="All Submissions"
+              buttonText="Review Judging Criteria"
+              buttonVariant="info"
+              buttonClick={() => {
+                alert();
+              }}
+            />
           )}
         </Col>
       </Row>
       <Row className="justify-content-center" style={{ marginBottom: 80 }}>
-        <Col lg={11} md={11} sm={11} xs={11}>
+        <Col
+          lg={fromPreview ? 11 : 12}
+          md={fromPreview ? 11 : 12}
+          sm={fromPreview ? 11 : 12}
+          xs={fromPreview ? 11 : 12}
+        >
           {selectedRow ? (
             <div className="selected-row-container text-left">
               <div className="inline-block">
@@ -654,7 +637,7 @@ const Submissions = ({
                           checkBoxText=""
                           onChange={(e) => {
                             let { checked } = e.target;
-                            changeData((data) => {
+                            changeSubmissions((data) => {
                               return data.filter((each) => {
                                 each.active = checked;
                                 return each;
@@ -674,7 +657,7 @@ const Submissions = ({
                           checked={checked}
                           onChange={(e) => {
                             let { checked } = e.target;
-                            changeData((data) => {
+                            changeSubmissions((data) => {
                               return data.filter((each) => {
                                 if (each.id === record.id) {
                                   each.active = checked;
@@ -797,143 +780,7 @@ const Submissions = ({
         onDisqualify={onDisqualify}
       />
     </MainContainer>
-  ) : is_organisation ? (
-    <MainContainer>
-      <Row className="justify-content-center center-alignment header-container">
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent
-            titleText="Submissions"
-            buttonText="Edit Form"
-            buttonVariant="info"
-            buttonClick={() => {
-              history.push(
-                `/challenge/${challengeData._id}/edit/Submission%20form`
-              );
-            }}
-          />
-        </Col>
-      </Row>
-      <Row className="justify-content-center" style={{ marginBottom: 80 }}>
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <CommonTable
-            filters={true}
-            columns={[
-              {
-                Header: "",
-                accessor: "active",
-                width: "2.5%",
-                standAlone: true,
-                HeaderCell: () => {
-                  return (
-                    <div>
-                      <CheckBox
-                        id={`checkbox-${Math.random()}`}
-                        checkBoxText=""
-                        onChange={(e) => {
-                          let { checked } = e.target;
-                          changeData((data) => {
-                            return data.filter((each) => {
-                              each.active = checked;
-                              return each;
-                            });
-                          });
-                        }}
-                      />
-                    </div>
-                  );
-                },
-                Cell: (checked, record) => {
-                  return (
-                    <div>
-                      <CheckBox
-                        id={`checkbox-${Math.random()}`}
-                        checkBoxText=""
-                        checked={checked}
-                        onChange={(e) => {
-                          let { checked } = e.target;
-                          changeData((data) => {
-                            return data.filter((each) => {
-                              if (each.id === record.id) {
-                                each.active = checked;
-                              }
-                              return each;
-                            });
-                          });
-                        }}
-                      />
-                    </div>
-                  );
-                },
-              },
-              {
-                Header: "Startup Name",
-                accessor: "Startup_Name",
-                width: "19%",
-              },
-              {
-                Header: "Owner Name",
-                accessor: "Owner_Name",
-                width: "19%",
-              },
-              {
-                Header: "Location",
-                accessor: "Location",
-                width: "19%",
-              },
-              {
-                Header: "Industry",
-                accessor: "Industry",
-                width: "19%",
-              },
-              {
-                Header: "Technology",
-                accessor: "Technology",
-                width: "19%",
-              },
-              {
-                Header: "Elegiable",
-                accessor: "Elegiable",
-                width: "2.5%",
-                Cell: (data) => {
-                  return (
-                    <div className="circle-container">
-                      <div className="elegiable-circle"></div>
-                    </div>
-                  );
-                },
-              },
-            ]}
-            data={data}
-            showPagination={false}
-          />
-        </Col>
-      </Row>
-    </MainContainer>
-  ) : (
-    <MainContainer>
-      <Row className="justify-content-center">
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <div className="button-container">
-            <PrimaryButton
-              variant="primary"
-              text={"Evaluate Submission"}
-              onClick={() => {
-                setShow(true);
-              }}
-            ></PrimaryButton>
-          </div>
-        </Col>
-      </Row>
-      <Row className="justify-content-center" style={{ marginBottom: 80 }}>
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <div className="content-container">
-            Whatever we built with the form Builder
-          </div>
-        </Col>
-      </Row>
-      <EvaluateModal show={show} setShow={setShow} />
-    </MainContainer>
-  );
+  ) : null;
 };
 
 export default Submissions;

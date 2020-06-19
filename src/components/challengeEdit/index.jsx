@@ -8,6 +8,7 @@ import {
   PrimaryButton,
   Loading,
 } from "../common";
+import { Constants } from "../../lib/constant";
 import Description from "./subComponents/description";
 import Overview from "./subComponents/overview";
 import Timeline from "./subComponents/timeline";
@@ -16,7 +17,7 @@ import Resources from "./subComponents/resources";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
 import SubmissionForm from "./subComponents/submissionForm";
-import Submissions from "./subComponents/submissions";
+import Submissions from "../challengePreview/subComponents/submissions";
 import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
 import Judges from "./subComponents/judges";
@@ -47,6 +48,15 @@ const judgeLinks = [
 const otherLinks = ["Team", "Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history, match }) => {
+  const is_startup_Individual =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
+      localStorage.getItem("token"),
+    is_organisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      localStorage.getItem("token"),
+    is_mentor_judge =
+      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
+      localStorage.getItem("token");
   const dispatch = useDispatch();
 
   const getChallengeMethod = useCallback(
@@ -284,8 +294,14 @@ const ChallengeEdit = ({ history, match }) => {
                 {activeKey === "Submission form" && (
                   <SubmissionForm challengeId={challengeId} />
                 )}
-                {activeKey === "Submissions" && (
-                  <Submissions challengeId={challengeId} />
+                {activeKey === "Submissions" && challengeData && (
+                  <Submissions
+                    challengeData={challengeData}
+                    is_startup_Individual={is_startup_Individual}
+                    is_mentor_judge={is_mentor_judge}
+                    is_organisation={is_organisation}
+                    fromPreview={false}
+                  />
                 )}
                 {activeKey === "Judging criteria" && (
                   <JudgingCriteria challengeId={challengeId} />

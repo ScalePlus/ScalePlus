@@ -37,9 +37,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
 
 export const SocialLoginButton = React.memo(
-  ({ text, icon, svgIcon, background, border }) => {
+  ({ text, icon, svgIcon, background, border, onClick, disabled }) => {
     return (
-      <SocialLoginContainer background={background} border={border}>
+      <SocialLoginContainer
+        background={background}
+        border={border}
+        onClick={onClick}
+        disabled={disabled}
+      >
         {icon && (
           <div className="icon-container">
             <img src={icon} alt="" height={25} width={25} />{" "}

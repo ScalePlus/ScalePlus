@@ -10,6 +10,10 @@ export const Constants = {
     ACTIVE: 0,
     DELETED: 1,
   },
+  LINKEDIN: {
+    clientId: "78m7ndhgdx1vyt",
+    redirectUri: "http://localhost:3001/api/user/linkedin/callback",
+  },
   ROLES: {
     STARTUP_INDIVIDUAL: "Startup or Individual",
     ORGANIZATION: "Organization",

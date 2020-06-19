@@ -287,12 +287,15 @@ const ChallengePreview = ({ history, match }) => {
             <JudgingCriteria challengeData={challengeData} />
           </Tab.Pane>
           <Tab.Pane eventKey="Submissions">
-            <Submissions
-              challengeData={challengeData}
-              is_startup_Individual={is_startup_Individual}
-              is_mentor_judge={is_mentor_judge}
-              is_organisation={is_organisation}
-            />
+            {challengeData && (
+              <Submissions
+                challengeData={challengeData}
+                is_startup_Individual={is_startup_Individual}
+                is_mentor_judge={is_mentor_judge}
+                is_organisation={is_organisation}
+                fromPreview={true}
+              />
+            )}
           </Tab.Pane>
           <Tab.Pane eventKey="Guidelines">
             <Guidelines

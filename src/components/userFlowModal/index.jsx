@@ -41,7 +41,15 @@ const UserFlowModal = ({ show, setUserFlowModal, history }) => {
               />
             )}
             {activeModal === "SignUp" && (
-              <SignUp mode="modal" setActiveModal={setActiveModal} />
+              <SignUp
+                mode="modal"
+                setActiveModal={setActiveModal}
+                setUserFlowModal={(routePath) => {
+                  setUserFlowModal(false);
+
+                  history.push(routePath);
+                }}
+              />
             )}
             {activeModal === "EmailVerification" && (
               <EmailVerification mode="modal" setActiveModal={setActiveModal} />

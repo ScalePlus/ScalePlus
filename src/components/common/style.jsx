@@ -31,6 +31,9 @@ export const SocialLoginContainer = styled.div`
     margin-left: 35px;
     z-index: 1;
   }
+  :disabled {
+    opacity: 0.5;
+  }
 `;
 
 export const ORDeviderContainer = styled.div`

@@ -123,14 +123,14 @@ export const MainContainer = styled.div`
         padding-top: 15px;
         text-align: left;
         .icon-container {
-          flex: 0.1;
+          flex: auto;
         }
         .name {
-          flex: 0.5;
+          flex: auto;
           font-size: ${theme.fontSize.semiRegular};
         }
         .button-container {
-          flex: 0.4;
+          flex: auto;
           button {
             width: 100%;
             .button-text {
