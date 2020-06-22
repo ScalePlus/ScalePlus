@@ -50,6 +50,9 @@ const ChallengePreview = ({ history, match }) => {
   const [errors, setErrors] = useState([]);
   const [selectedTab, selectTab] = useState(null);
   const [show, setUserFlowModal] = useState(false);
+  const [memberAsParticipant, setParticipation] = useState(false);
+  const [memberAsJudge, setJudge] = useState(false);
+  const [progress, setProgress] = useState(0);
   const challengeId = match.params.id;
 
   useEffect(() => {
@@ -67,6 +70,77 @@ const ChallengePreview = ({ history, match }) => {
     setErrors(errors);
 
     if (challengeData) {
+      const perFieldPer = 100 / 13;
+      let filledTabs = 0;
+
+      if (challengeData && challengeData.descriptionId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.overviewId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.timelineId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.FAQId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.resourceId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.guidelineId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.updateId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.submissionFormId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgesId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgingCriteriaId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgesNDAID) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.teamId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.legalAgreementId) {
+        filledTabs = filledTabs + 1;
+      }
+
+      const per = filledTabs * perFieldPer;
+      setProgress(Math.round(per));
+
+      const memberAsParticipant =
+        challengeData &&
+        challengeData.participantsId &&
+        challengeData.participantsId.data &&
+        challengeData.participantsId.data.length &&
+        challengeData.participantsId.data.find((each) => {
+          return each.team.find(
+            (member) => member.userId._id === localStorage.getItem("userId")
+          );
+        })
+          ? true
+          : false;
+      setParticipation(memberAsParticipant);
+
+      const memberAsJudge =
+        challengeData &&
+        challengeData.judgesId &&
+        challengeData.judgesId.data.length &&
+        challengeData.judgesId.data.find(
+          (each) => each.userId._id === localStorage.getItem("userId")
+        )
+          ? true
+          : false;
+      setJudge(memberAsJudge);
+
       changeTabs((data) => {
         if (challengeData.resourceId && challengeData.resourceId.isActive) {
           if (!data.find((each) => each === "Resources")) {
@@ -116,30 +190,40 @@ const ChallengePreview = ({ history, match }) => {
       });
 
       setChallenge(challengeData);
-    }
-  }, [challengeReducer]);
 
-  useEffect(() => {
-    if (is_organisation || is_startup_Individual) {
-      changeTabs((data) => {
-        if (!data.find((each) => each === "Submissions")) {
-          data.splice(1, 0, "Submissions");
-        }
-        return data;
-      });
+      if (is_startup_Individual && memberAsParticipant) {
+        changeTabs((data) => {
+          if (!data.find((each) => each === "Submissions")) {
+            data.splice(1, 0, "Submissions");
+          }
+          return data;
+        });
+      }
+
+      if (
+        (is_organisation &&
+          challengeData &&
+          challengeData.organisationId._id ===
+            localStorage.getItem("userId")) ||
+        (is_mentor_judge && memberAsJudge)
+      ) {
+        changeTabs((data) => {
+          if (!data.find((each) => each === "Judging Criteria")) {
+            data.splice(1, 0, "Judging Criteria");
+          }
+          if (!data.find((each) => each === "Submissions")) {
+            data.splice(2, 0, "Submissions");
+          }
+          return data;
+        });
+      }
     }
-    if (is_mentor_judge) {
-      changeTabs((data) => {
-        if (!data.find((each) => each === "Judging Criteria")) {
-          data.splice(1, 0, "Judging Criteria");
-        }
-        if (!data.find((each) => each === "Submissions")) {
-          data.splice(2, 0, "Submissions");
-        }
-        return data;
-      });
-    }
-  }, [is_organisation, is_startup_Individual, is_mentor_judge]);
+  }, [
+    is_organisation,
+    is_startup_Individual,
+    is_mentor_judge,
+    challengeReducer,
+  ]);
 
   useEffect(() => {
     if (match && match.params && match.params.tab) {
@@ -163,7 +247,7 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
       ) : null}
 
-      {is_organisation && (
+      {challengeData && !challengeData.isPublished && is_organisation && (
         <Row>
           <Col>
             <WarningBlock />
@@ -171,7 +255,7 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
       )}
 
-      {is_organisation && (
+      {challengeData && !challengeData.isPublished && is_organisation && (
         <Row className="justify-content-center">
           <Col lg={11} md={11} sm={11} xs={11}>
             <div className="preview-container">
@@ -181,21 +265,37 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
       )}
 
-      {is_organisation && (
-        <Row className="justify-content-center" style={{ marginBottom: 10 }}>
-          <Col lg={11} md={11} sm={11} xs={11}>
-            <ChallengeHeader
-              primaryButtonText="Submit for review"
-              secondaryButtonText="Edit Challenge Details"
-              primaryButtonClick={() => {}}
-              secondaryButtonClick={() => {
-                history.push(`/challenge/${challengeId}/edit/Description`);
-              }}
-              organisationId={challengeData.organisationId}
-            />
-          </Col>
-        </Row>
-      )}
+      {is_organisation &&
+        (challengeData && !challengeData.isPublished ? (
+          <Row className="justify-content-center" style={{ marginBottom: 10 }}>
+            <Col lg={11} md={11} sm={11} xs={11}>
+              <ChallengeHeader
+                primaryButtonText="Submit for review"
+                secondaryButtonText="Edit Challenge Details"
+                primaryButtonClick={() => {}}
+                secondaryButtonClick={() => {
+                  history.push(`/challenge/${challengeId}/edit/Description`);
+                }}
+                organisationId={challengeData.organisationId}
+                progress={progress}
+              />
+            </Col>
+          </Row>
+        ) : (
+          <Row
+            className="justify-content-center"
+            style={{ marginBottom: 10, marginTop: 20 }}
+          >
+            <Col lg={11} md={11} sm={11} xs={11}>
+              <ChallengeViewHeader
+                organisationId={challengeData.organisationId}
+                shareClick={() => {
+                  alert("clicked");
+                }}
+              />
+            </Col>
+          </Row>
+        ))}
 
       {!is_organisation && (
         <Row
@@ -207,9 +307,12 @@ const ChallengePreview = ({ history, match }) => {
               organisationId={challengeData.organisationId}
               primaryButtonText={
                 selectedTab === tabs[0] || !is_logged_in
-                  ? is_mentor_judge
+                  ? is_mentor_judge && !memberAsJudge
                     ? "Judge this Challenge"
-                    : "Solve Challenge"
+                    : (is_startup_Individual && !memberAsParticipant) ||
+                      !is_logged_in
+                    ? "Solve Challenge"
+                    : null
                   : null
               }
               primaryButtonClick={() => {
@@ -218,7 +321,7 @@ const ChallengePreview = ({ history, match }) => {
                     if (is_mentor_judge) {
                       history.push("/dashboard");
                     } else {
-                      history.push("/solve/challenge");
+                      history.push(`/solve/challenge/${challengeData._id}`);
                     }
                   } else {
                     history.push("/detail");
@@ -278,13 +381,17 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               is_organisation={is_organisation}
               is_mentor_judge={is_mentor_judge}
+              is_startup_Individual={is_startup_Individual}
               is_logged_in={is_logged_in}
               is_profile_updated={is_profile_updated}
               setUserFlowModal={setUserFlowModal}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
-            <JudgingCriteria challengeData={challengeData} />
+            <JudgingCriteria
+              is_organisation={is_organisation}
+              challengeData={challengeData}
+            />
           </Tab.Pane>
           <Tab.Pane eventKey="Submissions">
             {challengeData && (
@@ -339,6 +446,7 @@ const ChallengePreview = ({ history, match }) => {
       <UserFlowModal
         show={show}
         setUserFlowModal={setUserFlowModal}
+        challengeData={challengeData}
         history={history}
       />
     </MainContainer>

@@ -138,18 +138,20 @@ const FAQ = ({ challengeId }) => {
             />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <Switch
-              checked={isActive}
-              onChange={() => {
-                setActivity(!isActive);
-              }}
-              variant="primary"
-              label="Enable FAQ tab"
-            ></Switch>
-          </Col>
-        </Row>
+        {FAQs && FAQs.length ? (
+          <Row style={{ marginBottom: 25 }}>
+            <Col>
+              <Switch
+                checked={isActive}
+                onChange={() => {
+                  setActivity(!isActive);
+                }}
+                variant="primary"
+                label="Enable FAQ tab"
+              ></Switch>
+            </Col>
+          </Row>
+        ) : null}
         <Row>
           <Col>
             {FAQs.map((each, index) => {

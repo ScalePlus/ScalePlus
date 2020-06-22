@@ -256,8 +256,10 @@ const Timeline = ({ challengeId }) => {
                           isSingle={true}
                           placeholder=""
                           options={stateList}
-                          value={stateList.find(
-                            (option) => option.value === each.state
+                          value={stateList.find((option) =>
+                            each.state._id
+                              ? option.value === each.state._id
+                              : option.value === each.state
                           )}
                           onChange={(val) => {
                             let newArr = [...timeline];

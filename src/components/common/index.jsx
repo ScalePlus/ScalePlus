@@ -705,14 +705,16 @@ export const IconButton = React.memo(({ text, onClick, disabled, type }) => {
 export const PrimaryButton = React.memo(
   ({ text, onClick, disabled, variant, type }) => {
     return (
-      <PrimaryButtonContainer
-        onClick={onClick}
-        disabled={disabled}
-        variant={variant}
-        type={type ? type : "button"}
-      >
-        <span className="button-text">{text}</span>
-      </PrimaryButtonContainer>
+      text && (
+        <PrimaryButtonContainer
+          onClick={onClick}
+          disabled={disabled}
+          variant={variant}
+          type={type ? type : "button"}
+        >
+          <span className="button-text">{text}</span>
+        </PrimaryButtonContainer>
+      )
     );
   }
 );
@@ -774,6 +776,7 @@ export const ChallengeHeader = React.memo(
     secondaryButtonText,
     secondaryButtonClick,
     organisationId,
+    progress,
   }) => {
     return (
       <ChallengeHeaderContainer>
@@ -814,8 +817,8 @@ export const ChallengeHeader = React.memo(
         </div>
         <div className="right-continer">
           <CircularProgressbar
-            value={20}
-            text={`${20}%`}
+            value={progress}
+            text={`${progress}%`}
             className="progress-oval-container"
             background={true}
             styles={buildStyles({
@@ -901,7 +904,14 @@ export const ChallengeViewHeader = React.memo(
               <span>2000</span>
             </div>
           </div>
-          <div className="share-container">
+          <div
+            className="share-container"
+            style={
+              primaryButtonText
+                ? { marginRight: "30px" }
+                : { marginRight: "0px" }
+            }
+          >
             <button onClick={shareClick}>
               <div className="icon-container">
                 <img

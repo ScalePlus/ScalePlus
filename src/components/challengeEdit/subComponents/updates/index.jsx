@@ -140,18 +140,20 @@ const Updates = ({ challengeId }) => {
             />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <Switch
-              checked={isActive}
-              onChange={() => {
-                setActivity(!isActive);
-              }}
-              variant="primary"
-              label="Enable Updates tab"
-            ></Switch>
-          </Col>
-        </Row>
+        {updates && updates.length ? (
+          <Row style={{ marginBottom: 25 }}>
+            <Col>
+              <Switch
+                checked={isActive}
+                onChange={() => {
+                  setActivity(!isActive);
+                }}
+                variant="primary"
+                label="Enable Updates tab"
+              ></Switch>
+            </Col>
+          </Row>
+        ) : null}
         <Row>
           <Col>
             {updates.map((each, index) => {

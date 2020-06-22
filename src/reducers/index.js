@@ -23,6 +23,7 @@ import * as challengeJudgesReducer from "../components/challengeEdit/subComponen
 import * as allChallengesReducer from "../components/allChallenges/reducer";
 import * as myChallengesReducer from "../components/myChallenges/reducer";
 import * as submissionListReducer from "../components/challengePreview/subComponents/submissions/reducer";
+import * as SolveChallengeReducer from "../components/solveChallenge/reducer";
 
 export default combineReducers(
   Object.assign(
@@ -49,6 +50,7 @@ export default combineReducers(
     myChallengesReducer,
     challengeTeamReducer,
     challengeJudgesReducer,
-    submissionListReducer
+    submissionListReducer,
+    SolveChallengeReducer
   )
 );

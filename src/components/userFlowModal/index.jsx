@@ -5,7 +5,7 @@ import SignIn from "../signin";
 import SignUp from "../signup";
 import EmailVerification from "../emailVerification";
 
-const UserFlowModal = ({ show, setUserFlowModal, history }) => {
+const UserFlowModal = ({ show, setUserFlowModal, history, challengeData }) => {
   const [activeModal, setActiveModal] = useState("SignIn");
   return (
     <Modal
@@ -35,8 +35,11 @@ const UserFlowModal = ({ show, setUserFlowModal, history }) => {
                 setActiveModal={setActiveModal}
                 setUserFlowModal={(routePath) => {
                   setUserFlowModal(false);
-
-                  history.push(routePath);
+                  if (routePath === "/solve/challenge") {
+                    history.push(`/solve/challenge/${challengeData._id}`);
+                  } else {
+                    history.push(routePath);
+                  }
                 }}
               />
             )}
@@ -46,7 +49,6 @@ const UserFlowModal = ({ show, setUserFlowModal, history }) => {
                 setActiveModal={setActiveModal}
                 setUserFlowModal={(routePath) => {
                   setUserFlowModal(false);
-
                   history.push(routePath);
                 }}
               />

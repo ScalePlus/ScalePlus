@@ -219,6 +219,25 @@ const Description = ({ challengeId }) => {
                 setTitle(e.target.value);
               }}
             />
+            <BannerInput
+              label="Challenge Banner Image"
+              description="The image should illustrate your challenge. Recommended size is 1280 by 720"
+              value={bannerImage}
+              onChange={(e) => {
+                changeBannerImage(e.target.files[0]);
+              }}
+            />
+            <Input
+              type="text"
+              label="Video URL"
+              description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
+              value={videoURL}
+              onChange={(e) => {
+                changeVideoUrl(e.target.value);
+              }}
+              isInvalid={videoURL && !videoURL.match(Constants.isURL)}
+              errorMessage={Constants.Errors.invalid_videoURL}
+            />
             <DropDown
               isSmall={true}
               label="Categories *"
@@ -298,25 +317,6 @@ const Description = ({ challengeId }) => {
               onChange={(e) => {
                 changePainPoint(e.target.value);
               }}
-            />
-            <BannerInput
-              label="Challenge Banner Image"
-              description="The image should illustrate your challenge. Recommended size is 1280 by 720"
-              value={bannerImage}
-              onChange={(e) => {
-                changeBannerImage(e.target.files[0]);
-              }}
-            />
-            <Input
-              type="text"
-              label="Video URL"
-              description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
-              value={videoURL}
-              onChange={(e) => {
-                changeVideoUrl(e.target.value);
-              }}
-              isInvalid={videoURL && !videoURL.match(Constants.isURL)}
-              errorMessage={Constants.Errors.invalid_videoURL}
             />
           </Col>
         </Row>

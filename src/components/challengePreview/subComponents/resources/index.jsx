@@ -10,7 +10,7 @@ const Resources = ({ is_organisation, challengeData }) => {
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          {is_organisation ? (
+          {is_organisation && challengeData && !challengeData.isPublished ? (
             <HeaderComponent
               titleText="Resources"
               buttonText="Add New"

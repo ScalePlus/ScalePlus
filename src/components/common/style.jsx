@@ -296,7 +296,6 @@ export const ChallengeViewHeaderContainer = styled.div`
       }
     }
     .share-container {
-      margin-right: 30px;
       button {
         display: flex;
         align-items: center;

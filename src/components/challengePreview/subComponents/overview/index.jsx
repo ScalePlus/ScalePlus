@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
+import ReactPlayer from "react-player";
 import { PageTitle, PrimaryButton } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
@@ -14,10 +15,41 @@ const OverView = ({
   challengeData,
   is_organisation,
   is_mentor_judge,
+  is_startup_Individual,
   is_logged_in,
   is_profile_updated,
   setUserFlowModal,
 }) => {
+  const [memberAsParticipant, setParticipation] = useState(false);
+  const [memberAsJudge, setJudge] = useState(false);
+
+  useEffect(() => {
+    if (challengeData) {
+      setParticipation(
+        challengeData.participantsId &&
+          challengeData.participantsId.data &&
+          challengeData.participantsId.data.length &&
+          challengeData.participantsId.data.find((each) => {
+            return each.team.find(
+              (member) => member.userId._id === localStorage.getItem("userId")
+            );
+          })
+          ? true
+          : false
+      );
+
+      setJudge(
+        challengeData.judgesId &&
+          challengeData.judgesId.data.length &&
+          challengeData.judgesId.data.find(
+            (each) => each.userId._id === localStorage.getItem("userId")
+          )
+          ? true
+          : false
+      );
+    }
+  }, [challengeData]);
+
   return (
     <MainContainer>
       <Row className="justify-content-center image-box-container">
@@ -98,9 +130,12 @@ const OverView = ({
                     <PrimaryButton
                       variant="primary"
                       text={
-                        is_mentor_judge
+                        is_mentor_judge && !memberAsJudge
                           ? "Judge this Challenge"
-                          : "Solve Challenge"
+                          : (is_startup_Individual && !memberAsParticipant) ||
+                            !is_logged_in
+                          ? "Solve Challenge"
+                          : null
                       }
                       onClick={() => {
                         if (is_logged_in) {
@@ -108,7 +143,9 @@ const OverView = ({
                             if (is_mentor_judge) {
                               history.push("/dashboard");
                             } else {
-                              history.push("/solve/challenge");
+                              history.push(
+                                `/solve/challenge/${challengeData._id}`
+                              );
                             }
                           } else {
                             history.push("/detail");
@@ -128,7 +165,7 @@ const OverView = ({
       <ContentContainer>
         <Row className="justify-content-center header-container">
           <Col lg={11} md={11} sm={11} xs={11}>
-            {is_organisation ? (
+            {is_organisation && challengeData && !challengeData.isPublished ? (
               <HeaderComponent
                 titleText="Challenge Overview"
                 buttonText="Edit Overview"
@@ -151,36 +188,17 @@ const OverView = ({
                   challengeData.overviewId && challengeData.overviewId.data,
               }}
             ></div>
-            <div className="image-container">
-              <img
-                src={"/images/image.svg"}
-                height="225px"
-                width="225px"
-                alt=""
-              ></img>
-            </div>
-            <div
-              className="description"
-              dangerouslySetInnerHTML={{
-                __html:
-                  challengeData.overviewId && challengeData.overviewId.data,
-              }}
-            ></div>
-            <div className="image-container">
-              <img
-                src={"/images/image.svg"}
-                height="225px"
-                width="225px"
-                alt=""
-              ></img>
-            </div>
-            <div
-              className="description"
-              dangerouslySetInnerHTML={{
-                __html:
-                  challengeData.overviewId && challengeData.overviewId.data,
-              }}
-            ></div>
+            {challengeData.descriptionId &&
+              challengeData.descriptionId.videoURL && (
+                <div className="image-container">
+                  <ReactPlayer
+                    url={challengeData.descriptionId.videoURL}
+                    width={"100%"}
+                    height={"100%"}
+                    style={{ borderRadius: "6px" }}
+                  />
+                </div>
+              )}
           </Col>
         </Row>
         {!is_organisation && (
@@ -189,7 +207,12 @@ const OverView = ({
               <PrimaryButton
                 variant="primary"
                 text={
-                  is_mentor_judge ? "Judge this Challenge" : "Solve Challenge"
+                  is_mentor_judge && !memberAsJudge
+                    ? "Judge this Challenge"
+                    : (is_startup_Individual && !memberAsParticipant) ||
+                      !is_logged_in
+                    ? "Solve Challenge"
+                    : null
                 }
                 onClick={() => {
                   if (is_logged_in) {
@@ -197,7 +220,7 @@ const OverView = ({
                       if (is_mentor_judge) {
                         history.push("/dashboard");
                       } else {
-                        history.push("/solve/challenge");
+                        history.push(`/solve/challenge/${challengeData._id}`);
                       }
                     } else {
                       history.push("/detail");

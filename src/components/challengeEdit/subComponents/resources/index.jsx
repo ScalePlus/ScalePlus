@@ -162,18 +162,20 @@ const Resources = ({ challengeId }) => {
             />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <Switch
-              checked={isActive}
-              onChange={() => {
-                setActivity(!isActive);
-              }}
-              variant="primary"
-              label="Enable Resources tab"
-            ></Switch>
-          </Col>
-        </Row>
+        {resources && resources.length ? (
+          <Row style={{ marginBottom: 25 }}>
+            <Col>
+              <Switch
+                checked={isActive}
+                onChange={() => {
+                  setActivity(!isActive);
+                }}
+                variant="primary"
+                label="Enable Resources tab"
+              ></Switch>
+            </Col>
+          </Row>
+        ) : null}
         <Row>
           <Col>
             {resources.map((each, index) => {

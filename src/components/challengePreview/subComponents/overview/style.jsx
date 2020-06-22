@@ -84,9 +84,6 @@ export const ContentContainer = styled.div`
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
     background-color: ${theme.colors.white};
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .button-container {

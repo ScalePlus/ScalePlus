@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Redirect } from "react-router-dom";
 import { Row, Col, Nav, Navbar, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getChallengeAction } from "../challengeMaster/action";
@@ -72,6 +73,7 @@ const ChallengeEdit = ({ history, match }) => {
   const [challengeData, setChallenge] = useState(null);
   const [activeKey, selectTab] = useState(null);
   const [expanded, onToggle] = useState(false);
+  const [progress, setProgress] = useState(0);
   const challengeId = match.params.id;
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const ChallengeEdit = ({ history, match }) => {
   }, [getChallengeMethod, challengeId]);
 
   useEffect(() => {
-    const { error } = challengeReducer;
+    const { error, challengeData } = challengeReducer;
     let errors = [];
     if (Array.isArray(error)) {
       errors = error;
@@ -88,8 +90,53 @@ const ChallengeEdit = ({ history, match }) => {
     }
     setErrors(errors);
 
-    const { challengeData } = challengeReducer;
     if (challengeData) {
+      const perFieldPer = 100 / 13;
+      let filledTabs = 0;
+
+      if (challengeData && challengeData.descriptionId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.overviewId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.timelineId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.FAQId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.resourceId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.guidelineId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.updateId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.submissionFormId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgesId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgingCriteriaId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.judgesNDAID) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.teamId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData && challengeData.legalAgreementId) {
+        filledTabs = filledTabs + 1;
+      }
+
+      const per = filledTabs * perFieldPer;
+      setProgress(Math.round(per));
+
       setChallenge(challengeData);
     }
   }, [challengeReducer]);
@@ -121,7 +168,11 @@ const ChallengeEdit = ({ history, match }) => {
     }
   }, [match]);
 
-  return (
+  return challengeData &&
+    (challengeData.isPublished ||
+      challengeData.organisationId._id !== localStorage.getItem("userId")) ? (
+    <Redirect to={`/challenge/${challengeData._id}/preview/Overview`} />
+  ) : (
     <MainContainer>
       {challengeReducer.loading && <Loading />}
 
@@ -137,11 +188,13 @@ const ChallengeEdit = ({ history, match }) => {
         </Row>
       ) : null}
 
-      <Row style={{ marginBottom: 20 }}>
-        <Col>
-          <WarningBlock />
-        </Col>
-      </Row>
+      {challengeData && !challengeData.isPublished && (
+        <Row style={{ marginBottom: 20 }}>
+          <Col>
+            <WarningBlock />
+          </Col>
+        </Row>
+      )}
 
       <Row className="justify-content-center" style={{ marginBottom: 35 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
@@ -155,6 +208,7 @@ const ChallengeEdit = ({ history, match }) => {
               history.push(`/challenge/${challengeId}/preview/Overview`);
             }}
             organisationId={challengeData && challengeData.organisationId}
+            progress={progress}
           />
         </Col>
       </Row>

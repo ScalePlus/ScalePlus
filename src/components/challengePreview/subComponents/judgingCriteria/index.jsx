@@ -2,13 +2,27 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
+import history from "../../../../history";
 
-const JudgingCriteria = ({ challengeData }) => {
+const JudgingCriteria = ({ is_organisation, challengeData }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <HeaderComponent titleText="Judging Criteria" />
+          {is_organisation && challengeData && !challengeData.isPublished ? (
+            <HeaderComponent
+              titleText="Judging Criteria"
+              buttonText="Edit"
+              buttonVariant="info"
+              buttonClick={() => {
+                history.push(
+                  `/challenge/${challengeData._id}/edit/Judging Criteria`
+                );
+              }}
+            />
+          ) : (
+            <HeaderComponent titleText="Judging Criteria" />
+          )}
         </Col>
       </Row>
       <Row

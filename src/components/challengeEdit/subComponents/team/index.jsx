@@ -75,7 +75,8 @@ const Team = ({ challengeId }) => {
           <HeaderComponent titleText="Team" />
         </Col>
       </Row>
-      {challengeTeamReducer &&
+      {validated &&
+      challengeTeamReducer &&
       challengeTeamReducer.success &&
       challengeTeamReducer.success.message ? (
         <Row style={{ marginBottom: 25 }}>

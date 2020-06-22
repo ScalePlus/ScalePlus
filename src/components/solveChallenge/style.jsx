@@ -92,4 +92,18 @@ export const MainContainer = styled.div`
     }
     cursor: pointer;
   }
+
+  .switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    .form-group {
+      margin-bottom: 0;
+    }
+  }
+  .left-text {
+    margin-right: 10px;
+  }
 `;

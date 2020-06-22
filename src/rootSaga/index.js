@@ -24,6 +24,7 @@ import watchAttachJudgesAsync from "../components/challengeEdit/subComponents/ju
 import watchGetAllChallengeAsync from "../components/allChallenges/saga";
 import watchGetMyChallengeAsync from "../components/myChallenges/saga";
 import watchSubmissionListAsync from "../components/challengePreview/subComponents/submissions/saga";
+import watchSolveChallengeAsync from "../components/solveChallenge/saga";
 
 export function* rootSaga() {
   yield fork(watchSignupAsync);
@@ -50,4 +51,5 @@ export function* rootSaga() {
   yield fork(watchAttachTeamAsync);
   yield fork(watchAttachJudgesAsync);
   yield fork(watchSubmissionListAsync);
+  yield fork(watchSolveChallengeAsync);
 }

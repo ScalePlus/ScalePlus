@@ -64,16 +64,26 @@ const Submissions = ({
   }, [getSubmissionsListMethod, challengeData]);
 
   useEffect(() => {
+    const { disqualifySuccess } = submissionListReducer;
+    if (disqualifySuccess) {
+      setDisqualifyShow(false);
+      changeSubmissions((data) => {
+        let filterData = data.filter(
+          (each) => selectedRow && each._id.toString() !== selectedRow._id
+        );
+        return filterData && filterData.length ? filterData : null;
+      });
+      selectRow(null);
+    }
+  }, [submissionListReducer, selectedRow]);
+
+  useEffect(() => {
     const {
       error,
       success,
       submissionsListSuccess,
-      disqualifySuccess,
       judgeSuccess,
     } = submissionListReducer;
-    if (disqualifySuccess) {
-      setDisqualifyShow(false);
-    }
     if (judgeSuccess) {
       setShow(false);
     }
@@ -485,7 +495,7 @@ const Submissions = ({
             )
           ) : is_mentor_judge ? (
             <HeaderComponent titleText="Submissions" />
-          ) : fromPreview ? (
+          ) : fromPreview && challengeData && !challengeData.isPublished ? (
             <HeaderComponent
               titleText="Submissions"
               buttonText="Edit Form"
@@ -496,16 +506,7 @@ const Submissions = ({
                 );
               }}
             />
-          ) : (
-            <HeaderComponent
-              titleText="All Submissions"
-              buttonText="Review Judging Criteria"
-              buttonVariant="info"
-              buttonClick={() => {
-                alert();
-              }}
-            />
-          )}
+          ) : null}
         </Col>
       </Row>
       <Row className="justify-content-center" style={{ marginBottom: 80 }}>

@@ -194,7 +194,7 @@ const MainRouter = () => {
           />
           <OpenRoute path="/home" exact layout={MainLayout} component={Home} />
           <OpenRoute
-            path="/solve/challenge"
+            path="/solve/challenge/:id"
             exact
             layout={MainLayout}
             component={SolveChallenge}
