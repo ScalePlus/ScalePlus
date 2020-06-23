@@ -256,7 +256,7 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                     each.downloadFiles &&
                     each.downloadFiles.length && (
                       <div className="download-files-container">
-                        {each.downloadFiles.map((fileName, index) => {
+                        {each.downloadFiles.map((fileData, index) => {
                           return (
                             <div className="download-block" key={index}>
                               <div className="icon-container">
@@ -267,11 +267,18 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                                   width="25px"
                                 />
                               </div>
-                              <div className="name">{fileName}</div>
+                              <div className="name">{fileData.label}</div>
                               <div className="button-container">
                                 <PrimaryButton
                                   variant="success_light"
                                   text={"Download attachment"}
+                                  onClick={() => {
+                                    if (fileData && fileData.fileURL) {
+                                      window.open(fileData.fileURL);
+                                    } else {
+                                      alert("No file found.");
+                                    }
+                                  }}
                                 ></PrimaryButton>
                               </div>
                             </div>

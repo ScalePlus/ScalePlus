@@ -41,10 +41,16 @@ const Timeline = ({
               challengeData.timelineId.data.length
                 ? challengeData.timelineId.data.map((each) => {
                     return {
-                      active: false,
+                      active:
+                        new Date(each.date).setHours(0, 0, 0, 0) ===
+                        new Date().setHours(0, 0, 0, 0),
                       timestamp: moment(each.date).format("MMMM DD, YYYY"),
                       title: each.state && each.state.name,
                       description: each.description,
+                      downloadFiles:
+                        each.adminAttachments && each.adminAttachments.length
+                          ? each.adminAttachments
+                          : [],
                     };
                   })
                 : null

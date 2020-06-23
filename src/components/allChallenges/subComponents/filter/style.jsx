@@ -64,4 +64,11 @@ export const MainContainer = styled.div`
   .button-text {
     font-size: ${theme.fontSize.semiRegular};
   }
+
+  .bottom-button-container {
+    display: flex;
+    button:nth-child(1) {
+      margin-right: 10px;
+    }
+  }
 `;

@@ -146,7 +146,7 @@ export const StepperVerticalContainer = styled.div`
 
   .start-label {
     position: absolute;
-    top: 25px;
+    top: 15px;
     left: calc(20px / 2);
     transform: translateX(-45%);
     z-index: 2;

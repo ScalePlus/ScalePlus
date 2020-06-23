@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Button,
@@ -773,6 +773,7 @@ export const ChallengeHeader = React.memo(
   ({
     primaryButtonText,
     primaryButtonClick,
+    primaryButtonDisable,
     secondaryButtonText,
     secondaryButtonClick,
     organisationId,
@@ -843,6 +844,7 @@ export const ChallengeHeader = React.memo(
               variant="primary"
               text={primaryButtonText}
               onClick={primaryButtonClick}
+              disabled={primaryButtonDisable}
             ></PrimaryButton>
           )}
         </div>
@@ -1048,7 +1050,64 @@ export const CommonTable = React.memo(
 );
 
 export const CardComponent = React.memo(
-  ({ variant, progress, label, organisationId, descriptionId, judgesId }) => {
+  ({
+    showProgress,
+    organisationId,
+    descriptionId,
+    judgesId,
+    participantsId,
+    timelineId,
+  }) => {
+    const [participantCount, setCount] = useState(0);
+    const [progressPer, setProgressPer] = useState(0);
+    const [currentMilestone, setCurrentMilestone] = useState("");
+
+    useEffect(() => {
+      let selectedData = null,
+        perByPart;
+      if (timelineId && timelineId.data && timelineId.data.length) {
+        const { data } = timelineId;
+        perByPart = 100 / data.length;
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          if (selectedData) {
+            selectedData =
+              new Date(each.date).setHours(0, 0, 0, 0) <=
+                new Date().setHours(0, 0, 0, 0) &&
+              new Date(each.date).setHours(0, 0, 0, 0) >=
+                new Date(selectedData.date).setHours(0, 0, 0, 0)
+                ? each
+                : selectedData;
+          } else {
+            selectedData =
+              new Date(each.date).setHours(0, 0, 0, 0) ===
+              new Date().setHours(0, 0, 0, 0)
+                ? each
+                : selectedData;
+          }
+        }
+        if (selectedData && selectedData.state && selectedData.state.name) {
+          const index = data.findIndex((each) => each._id === selectedData._id);
+          if (index >= 0) {
+            setProgressPer((index + 1) * perByPart);
+          }
+          setCurrentMilestone(selectedData.state.name);
+        }
+      }
+    }, [timelineId]);
+
+    useEffect(() => {
+      let count = 0;
+      if (participantsId && participantsId.data) {
+        const { data } = participantsId;
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          count += each.team.length;
+        }
+      }
+      setCount(count);
+    }, [participantsId]);
+
     return (
       <CardContainer>
         <Card>
@@ -1086,10 +1145,11 @@ export const CardComponent = React.memo(
                 </div>
               </div>
               <div className="prize-text">
-                <span>Prize AED 50K </span>
+                <span>Prize {descriptionId && descriptionId.prize} </span>
+                {/* <span>Prize AED 50K </span> */}
               </div>
             </div>
-            {variant && progress && label && (
+            {showProgress && (
               <>
                 <div className="bordered-container">
                   <div className="heading-text">
@@ -1097,9 +1157,9 @@ export const CardComponent = React.memo(
                   </div>
                   <div className="sub-heading-text">
                     <ProgressBar
-                      variant={variant}
-                      now={progress}
-                      label={label}
+                      variant={"warning"}
+                      now={progressPer}
+                      label={currentMilestone}
                     />
                   </div>
                 </div>
@@ -1109,7 +1169,7 @@ export const CardComponent = React.memo(
                       <span>Participants/Matches</span>
                     </div>
                     <div className="heading-text">
-                      <span>0</span>
+                      <span>{participantCount}</span>
                     </div>
                   </div>
                   <div className="right-container">

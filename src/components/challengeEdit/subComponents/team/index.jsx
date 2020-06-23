@@ -56,6 +56,15 @@ const Team = ({ challengeId }) => {
   }, [challengeTeamReducer, getChallengeMethod, challengeId, validated]);
 
   useEffect(() => {
+    const { success } = challengeTeamReducer;
+    if (success) {
+      setEmail("");
+      setLinkedin("");
+      setPermission(false);
+    }
+  }, [challengeTeamReducer]);
+
+  useEffect(() => {
     const { challengeData } = challengeReducer;
     if (challengeData) {
       const { teamId } = challengeData;
@@ -113,6 +122,7 @@ const Team = ({ challengeId }) => {
               permission: check
                 ? Constants.TEAM_PERMISSION.VIEW
                 : Constants.TEAM_PERMISSION.ADMIN,
+              mode: "update",
             });
           }
           setValidated(true);
@@ -252,13 +262,42 @@ const Team = ({ challengeId }) => {
                       >
                         Edit/
                       </div>
-                      <div> Delete-</div>
+                      <div
+                        onClick={() => {
+                          const record = tabelData.find(
+                            (each) => each._id === data
+                          );
+                          attachTeamMethod({
+                            email:
+                              record && record.userId && record.userId.email
+                                ? record.userId.email
+                                : "",
+                            linkedin:
+                              record &&
+                              record.userId &&
+                              record.userId.details &&
+                              record.userId.details.website
+                                ? record.userId.details.website
+                                : "dummyText",
+                            permission:
+                              record &&
+                              record.permission ===
+                                Constants.TEAM_PERMISSION.VIEW
+                                ? true
+                                : false,
+                            mode: "delete",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Delete-
+                      </div>
                     </div>
                   );
                 },
               },
             ]}
-            data={tabelData}
+            data={tabelData && tabelData.length ? tabelData : null}
             showPagination={false}
           />
         </Col>

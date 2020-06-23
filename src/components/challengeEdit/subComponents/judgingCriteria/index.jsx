@@ -49,6 +49,7 @@ const JudgingCriteria = ({ challengeId }) => {
   const [validated, setValidated] = useState(false);
   const [ratingType, selectRating] = useState("");
   const [judgingCriteria, changeJudgingCriteria] = useState([]);
+  const [totalWeight, setTotalWeight] = useState(0);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -84,6 +85,17 @@ const JudgingCriteria = ({ challengeId }) => {
       }
     }
   }, [challengeReducer]);
+
+  useEffect(() => {
+    let totalWeight = 0;
+    if (judgingCriteria && judgingCriteria.length) {
+      for (let i = 0; i < judgingCriteria.length; i++) {
+        const element = judgingCriteria[i];
+        totalWeight += parseInt(element.weight, 10);
+      }
+      setTotalWeight(totalWeight);
+    }
+  }, [judgingCriteria]);
 
   return (
     <MainContainer>
@@ -131,10 +143,14 @@ const JudgingCriteria = ({ challengeId }) => {
           event.stopPropagation();
           const form = event.currentTarget;
           if (form.checkValidity() && ratingType) {
-            attachJudgingCriteriaMethod({
-              judgingCriteria,
-              ratingType: ratingType.value,
-            });
+            if (totalWeight !== 100) {
+              alert("Total weight should be 100.");
+            } else {
+              attachJudgingCriteriaMethod({
+                judgingCriteria,
+                ratingType: ratingType.value,
+              });
+            }
           }
           setValidated(true);
         }}
@@ -185,6 +201,14 @@ const JudgingCriteria = ({ challengeId }) => {
               }}
               isSingle={true}
               isInvalid={!ratingType}
+            />
+          </Col>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <Input
+              type="number"
+              label="Total Weight"
+              value={totalWeight}
+              readOnly
             />
           </Col>
         </Row>

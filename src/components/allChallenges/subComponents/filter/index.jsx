@@ -1,39 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Modal, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { Input, Tab, PrimaryButton } from "../../../common";
+import { getTimelineStateAction } from "../../../challengeEdit/subComponents/timeline/action";
+import { challengeCategoriesListAction } from "../../../challengeMaster/action";
 import { MainContainer } from "./style";
-const stageTabs = [
-    "All",
-    "Open for Submission",
-    "Judging",
-    "Voting",
-    "Finished",
-    "Coming Soon",
-  ],
-  categoryTabs = [
-    "All",
-    "Technology",
-    "Non-Profit & Social Impact",
-    "Education",
-    "Healthcare",
-    "Engineering",
-    "Science",
-    "Space",
-    "Energy, Environment & Resources",
-    "Government",
-    "Arts & Design",
-    "Data Science",
-    "Infrastructure",
-    "Finance",
-    "Drones",
-    "Covid 19",
-  ],
-  orderByTabs = ["Newest", "Popular"];
+const orderByTabs = ["Newest", "Popular"];
 
-const Filters = ({ show, setShow }) => {
+const Filters = ({ show, setShow, onApply, onReset }) => {
+  const dispatch = useDispatch();
+
+  const getTimelineStateMethod = useCallback(
+    () => dispatch(getTimelineStateAction()),
+    [dispatch]
+  );
+  const challengeCategoriesListMethod = useCallback(
+    () => dispatch(challengeCategoriesListAction()),
+    [dispatch]
+  );
+
+  const challengeTimelineReducer = useSelector((state) => {
+    return state.challengeTimelineReducer;
+  });
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const [searchText, setSearchText] = useState("");
   const [stage, selectStage] = useState("");
   const [category, selectCategory] = useState("");
   const [orderby, selectOrder] = useState("");
+  const [stageTabs, setStageTabs] = useState(null);
+  const [categoryTabs, setCategoryTabs] = useState(null);
+
+  useEffect(() => {
+    getTimelineStateMethod();
+  }, [getTimelineStateMethod]);
+
+  useEffect(() => {
+    challengeCategoriesListMethod();
+  }, [challengeCategoriesListMethod]);
+
+  useEffect(() => {
+    const { timelineStatesSuccess } = challengeTimelineReducer;
+    if (
+      timelineStatesSuccess &&
+      timelineStatesSuccess.result &&
+      timelineStatesSuccess.result.length
+    ) {
+      setStageTabs(timelineStatesSuccess.result);
+    }
+  }, [challengeTimelineReducer]);
+
+  useEffect(() => {
+    const { challengeCategories } = challengeReducer;
+    if (challengeCategories && challengeCategories.length) {
+      setCategoryTabs(challengeCategories);
+    }
+  }, [challengeReducer]);
+
   return (
     <Modal
       show={show}
@@ -65,6 +90,10 @@ const Filters = ({ show, setShow }) => {
                   <Input
                     type="text"
                     placeholder="Search by keyword or title"
+                    value={searchText}
+                    onChange={(e) => {
+                      setSearchText(e.target.value);
+                    }}
                   ></Input>
                 </Col>
               </Row>
@@ -74,19 +103,24 @@ const Filters = ({ show, setShow }) => {
                     <span>Stage</span>
                   </div>
                   <div className="custom-tab-container">
-                    {stageTabs.map((each, index) => {
-                      return (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            selectStage(each);
-                          }}
-                          className="custom-tab"
-                        >
-                          <Tab text={each} isActive={each === stage} />
-                        </div>
-                      );
-                    })}
+                    {stageTabs &&
+                      stageTabs.length &&
+                      stageTabs.map((each, index) => {
+                        return (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              selectStage(each._id);
+                            }}
+                            className="custom-tab"
+                          >
+                            <Tab
+                              text={each.name}
+                              isActive={each._id === stage}
+                            />
+                          </div>
+                        );
+                      })}
                   </div>
                 </Col>
               </Row>
@@ -96,19 +130,24 @@ const Filters = ({ show, setShow }) => {
                     <span>Category</span>
                   </div>
                   <div className="custom-tab-container">
-                    {categoryTabs.map((each, index) => {
-                      return (
-                        <div
-                          key={index}
-                          onClick={() => {
-                            selectCategory(each);
-                          }}
-                          className="custom-tab"
-                        >
-                          <Tab text={each} isActive={each === category} />
-                        </div>
-                      );
-                    })}
+                    {categoryTabs &&
+                      categoryTabs.length &&
+                      categoryTabs.map((each, index) => {
+                        return (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              selectCategory(each._id);
+                            }}
+                            className="custom-tab"
+                          >
+                            <Tab
+                              text={each.name}
+                              isActive={each._id === category}
+                            />
+                          </div>
+                        );
+                      })}
                   </div>
                 </Col>
               </Row>
@@ -136,13 +175,27 @@ const Filters = ({ show, setShow }) => {
               </Row>
               <Row style={{ marginTop: 30 }}>
                 <Col>
-                  <PrimaryButton
-                    variant="primary"
-                    text={"Apply Filter"}
-                    onClick={() => {
-                      setShow(false);
-                    }}
-                  ></PrimaryButton>
+                  <div className="bottom-button-container">
+                    <PrimaryButton
+                      variant="primary"
+                      text={"Apply Filter"}
+                      onClick={() => {
+                        onApply({ searchText, stage, category, orderby });
+                      }}
+                    ></PrimaryButton>
+
+                    <PrimaryButton
+                      variant="secondary"
+                      text={"Reset Filter"}
+                      onClick={() => {
+                        setSearchText("");
+                        selectStage("");
+                        selectCategory("");
+                        selectOrder("");
+                        onReset();
+                      }}
+                    ></PrimaryButton>
+                  </div>
                 </Col>
               </Row>
             </MainContainer>

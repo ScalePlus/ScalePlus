@@ -33,7 +33,9 @@ export const allChallengesReducer = createReducer(initialState, {
       payload.result.data &&
       payload.result.data.length
     ) {
-      if (action.page > loadedPage) {
+      if (!loadedPage) {
+        allChallenges.result.data = payload.result.data;
+      } else if (loadedPage && action.page > loadedPage) {
         allChallenges.result.data = allChallenges.result.data.concat(
           payload.result.data
         );

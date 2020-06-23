@@ -608,10 +608,11 @@ const Submissions = ({
                               variant="success_light"
                               text={"Download attachment"}
                               onClick={() => {
-                                const response = {
-                                  file: each.URL,
-                                };
-                                window.open(response.file);
+                                if (each && each.URL) {
+                                  window.open(each.URL);
+                                } else {
+                                  alert("No file found.");
+                                }
                               }}
                             ></PrimaryButton>
                           </div>

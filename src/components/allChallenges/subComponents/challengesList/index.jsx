@@ -9,7 +9,7 @@ import { PrimaryButton, CardComponent, Loading } from "../../../common";
 const ChallengesList = ({ history }) => {
   const dispatch = useDispatch();
   const getAllChallengeMethod = useCallback(
-    (page) => dispatch(getAllChallengeAction(page)),
+    (page, filters) => dispatch(getAllChallengeAction(page, filters)),
     [dispatch]
   );
 
@@ -18,6 +18,8 @@ const ChallengesList = ({ history }) => {
   });
 
   const [show, setShow] = useState(false);
+  const [filterCount, setFilterCount] = useState(null);
+  const [filters, setFilters] = useState({});
   const [allChallenges, setAllChallenges] = useState([]);
   const [page, setPage] = useState(1);
   const [loadedPage, setLoadedPage] = useState(
@@ -39,53 +41,87 @@ const ChallengesList = ({ history }) => {
 
   useEffect(() => {
     if (page > loadedPage) {
-      getAllChallengeMethod(page);
+      getAllChallengeMethod(page, filters);
     }
-  }, [getAllChallengeMethod, page, loadedPage]);
+  }, [getAllChallengeMethod, page, loadedPage, filters]);
+
+  const onApply = ({ searchText, stage, category, orderby }) => {
+    let count = 0,
+      filters = {};
+    if (searchText) {
+      count++;
+      filters["searchText"] = searchText;
+    }
+    if (stage) {
+      count++;
+      filters["stage"] = stage;
+    }
+    if (category) {
+      count++;
+      filters["category"] = category;
+    }
+    if (orderby) {
+      count++;
+      filters["orderby"] = orderby;
+    }
+    setLoadedPage(0);
+    setFilters(filters);
+    setFilterCount(count);
+    setShow(false);
+    getAllChallengeMethod(1, filters);
+  };
+
+  const onReset = () => {
+    setLoadedPage(0);
+    setFilters({});
+    setFilterCount(null);
+    setShow(false);
+    getAllChallengeMethod(1, filters);
+  };
 
   return (
     <ChallengesListContainer>
       {allChallengesReducer.loading && <Loading />}
-      {allChallenges && allChallenges.length ? (
-        <Row className="justify-content-center">
-          <Col lg={11} md={11} sm={11} xs={11}>
-            <Row style={{ marginTop: 45 }}>
-              <Col>
-                <div className="header-container">
-                  <span className="title-text">Explore Challenges</span>
-                </div>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col>
-                <div className="sub-header-container">
-                  <div className="text">
-                    <span>Find a challenge, solve it, make a difference</span>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <Row style={{ marginTop: 45 }}>
+            <Col>
+              <div className="header-container">
+                <span className="title-text">Explore Challenges</span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="sub-header-container">
+                <div className="text">
+                  <span>Find a challenge, solve it, make a difference</span>
+                </div>
+                <div className="filter-container" onClick={() => setShow(true)}>
+                  <div>
+                    <img
+                      src={"/images/filter-icon.png"}
+                      height="20px"
+                      width="20px"
+                      alt=""
+                    ></img>
                   </div>
-                  <div
-                    className="filter-container"
-                    onClick={() => setShow(true)}
-                  >
-                    <div>
-                      <img
-                        src={"/images/filter-icon.png"}
-                        height="20px"
-                        width="20px"
-                        alt=""
-                      ></img>
-                    </div>
-                    <div className="filter-text">
-                      <span>Filters</span>
-                    </div>
+                  <div className="filter-text">
+                    <span>Filters</span>
+                  </div>
+                  {filterCount ? (
                     <div className="filter-count">
-                      <span className="count-text">2</span>
+                      <span className="count-text">{filterCount}</span>
                     </div>
-                  </div>
+                  ) : null}
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </Col>
+          </Row>
 
+          {allChallenges && allChallenges.length ? (
             <Row style={{ marginTop: 25 }}>
               <Col>
                 <div className="card-list">
@@ -119,34 +155,40 @@ const ChallengesList = ({ history }) => {
                 </div>
               </Col>
             </Row>
-            {allChallengesReducer &&
-              allChallengesReducer.allChallenges &&
-              allChallengesReducer.allChallenges.result &&
-              allChallengesReducer.allChallenges.result.havemore && (
-                <Row style={{ marginTop: 30 }}>
-                  <Col>
-                    <div className="bottom-button-container">
-                      <PrimaryButton
-                        variant="primary"
-                        text={"Load More Challenges"}
-                        onClick={() => {
-                          setPage((data) => parseInt(data, 10) + 1);
-                        }}
-                      ></PrimaryButton>
-                    </div>
-                  </Col>
-                </Row>
-              )}
-          </Col>
-        </Row>
-      ) : (
-        <Row className="justify-content-center">
-          <Col lg={11} md={11} sm={11} xs={11}>
-            <div className="no-data-text">No challenges to explore</div>
-          </Col>
-        </Row>
-      )}
-      <Filters show={show} setShow={setShow} />
+          ) : (
+            <Row className="justify-content-center">
+              <Col lg={11} md={11} sm={11} xs={11}>
+                <div className="no-data-text">No challenges to explore</div>
+              </Col>
+            </Row>
+          )}
+
+          {allChallengesReducer &&
+            allChallengesReducer.allChallenges &&
+            allChallengesReducer.allChallenges.result &&
+            allChallengesReducer.allChallenges.result.havemore && (
+              <Row style={{ marginTop: 30 }}>
+                <Col>
+                  <div className="bottom-button-container">
+                    <PrimaryButton
+                      variant="primary"
+                      text={"Load More Challenges"}
+                      onClick={() => {
+                        setPage((data) => parseInt(data, 10) + 1);
+                      }}
+                    ></PrimaryButton>
+                  </div>
+                </Col>
+              </Row>
+            )}
+        </Col>
+      </Row>
+      <Filters
+        show={show}
+        setShow={setShow}
+        onApply={onApply}
+        onReset={onReset}
+      />
     </ChallengesListContainer>
   );
 };

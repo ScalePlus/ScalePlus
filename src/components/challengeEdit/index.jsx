@@ -2,7 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Redirect } from "react-router-dom";
 import { Row, Col, Nav, Navbar, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getChallengeAction } from "../challengeMaster/action";
+import {
+  getChallengeAction,
+  updateChallengeAction,
+} from "../challengeMaster/action";
 import {
   WarningBlock,
   ChallengeHeader,
@@ -64,6 +67,7 @@ const ChallengeEdit = ({ history, match }) => {
     (challengeId) => dispatch(getChallengeAction(challengeId)),
     [dispatch]
   );
+  const updateChallengeMethod = (data) => dispatch(updateChallengeAction(data));
 
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
@@ -94,43 +98,91 @@ const ChallengeEdit = ({ history, match }) => {
       const perFieldPer = 100 / 13;
       let filledTabs = 0;
 
-      if (challengeData && challengeData.descriptionId) {
+      if (challengeData.descriptionId) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.overviewId) {
+      if (
+        challengeData.overviewId &&
+        challengeData.overviewId.data &&
+        challengeData.overviewId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.timelineId) {
+      if (
+        challengeData.timelineId &&
+        challengeData.timelineId.data &&
+        challengeData.timelineId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.FAQId) {
+      if (
+        challengeData.FAQId &&
+        challengeData.FAQId.data &&
+        challengeData.FAQId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.resourceId) {
+      if (
+        challengeData.resourceId &&
+        challengeData.resourceId.data &&
+        challengeData.resourceId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.guidelineId) {
+      if (
+        challengeData.guidelineId &&
+        challengeData.guidelineId.data &&
+        challengeData.guidelineId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.updateId) {
+      if (
+        challengeData.updateId &&
+        challengeData.updateId.data &&
+        challengeData.updateId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.submissionFormId) {
+      if (
+        challengeData.submissionFormId &&
+        challengeData.submissionFormId.data &&
+        challengeData.submissionFormId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.judgesId) {
+      if (
+        challengeData.judgesId &&
+        challengeData.judgesId.data &&
+        challengeData.judgesId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.judgingCriteriaId) {
+      if (
+        challengeData.judgingCriteriaId &&
+        challengeData.judgingCriteriaId.data &&
+        challengeData.judgingCriteriaId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.judgesNDAID) {
+      if (
+        challengeData.judgesNDAID &&
+        challengeData.judgesNDAID.data &&
+        challengeData.judgesNDAID.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.teamId) {
+      if (
+        challengeData.teamId &&
+        challengeData.teamId.data &&
+        challengeData.teamId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
-      if (challengeData && challengeData.legalAgreementId) {
+      if (
+        challengeData.legalAgreementId &&
+        challengeData.legalAgreementId.data &&
+        challengeData.legalAgreementId.data.length
+      ) {
         filledTabs = filledTabs + 1;
       }
 
@@ -202,8 +254,12 @@ const ChallengeEdit = ({ history, match }) => {
             primaryButtonText="Submit for review"
             secondaryButtonText="Save Draft"
             primaryButtonClick={() => {
-              history.push(`/challenge/${challengeId}/preview/Overview`);
+              updateChallengeMethod({
+                _id: challengeId,
+                isPublished: true,
+              });
             }}
+            primaryButtonDisable={progress !== 100}
             secondaryButtonClick={() => {
               history.push(`/challenge/${challengeId}/preview/Overview`);
             }}

@@ -10,7 +10,7 @@ import Api from "./api";
 function* getAllChallengeSaga(data) {
   yield put({ type: GET_ALL_CHALLENGES_LOADING });
   try {
-    let res = yield call(Api.getAllChallenge, data.page);
+    let res = yield call(Api.getAllChallenge, data.page, data.filters);
     if (res.status) {
       yield put({ type: GET_ALL_CHALLENGES_ERROR, payload: res.message });
     } else {

@@ -5,20 +5,6 @@ import { getMyChallengeAction } from "../action";
 import { CardComponent, Loading } from "../../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../../lib/constant";
-// let cards = [
-//   {
-//     src: "/images/Rectangle1.png",
-//     progress: 80,
-//     variant: "warning",
-//     label: "Judging",
-//   },
-//   {
-//     src: "/images/Rectangle2.png",
-//     progress: 10,
-//     variant: "success",
-//     label: "Start",
-//   },
-// ];
 
 const MyChallengesList = ({ history }) => {
   const dispatch = useDispatch();
@@ -85,9 +71,9 @@ const MyChallengesList = ({ history }) => {
                             organisationId={each.organisationId}
                             descriptionId={each.descriptionId}
                             judgesId={each.judgesId}
-                            progress={80}
-                            variant="warning"
-                            label="Judging"
+                            participantsId={each.participantsId}
+                            timelineId={each.timelineId}
+                            showProgress={true}
                           />
                           {/* <div
                         className={

@@ -526,8 +526,8 @@ export const CardContainer = styled.div`
         .progress-bar {
           color: ${theme.colors.black};
           font-size: ${theme.fontSize.regular};
-          text-align: left;
-          padding-left: 5px;
+          // text-align: left;
+          // padding-left: 5px;
         }
       }
     }
