@@ -1,10 +1,41 @@
-import React, { useState } from "react";
-import { Modal, Row, Col } from "react-bootstrap";
+import React, { useState, useCallback, useEffect } from "react";
+import { Modal, Row, Col, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { doSubscriptionAction } from "../../action";
 import { Input, PrimaryButton } from "../../../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
 const Subscribe = ({ show, setShow }) => {
+  const dispatch = useDispatch();
+  const doSubscriptionMethod = useCallback(
+    (data) => dispatch(doSubscriptionAction(data)),
+    [dispatch]
+  );
+
+  const allChallengesReducer = useSelector((state) => {
+    return state.allChallengesReducer;
+  });
+
   const [subscribed, changeSubscribed] = useState(false);
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    const { error, subscriptionSuccess } = allChallengesReducer;
+    if (subscriptionSuccess && email && !subscribed) {
+      changeSubscribed(true);
+      setEmail("");
+    }
+
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [allChallengesReducer, email, subscribed]);
+
   return (
     <Modal
       show={show}
@@ -21,6 +52,17 @@ const Subscribe = ({ show, setShow }) => {
         <Row>
           <Col>
             <ContentContainer>
+              {errors && errors.length ? (
+                <Row>
+                  <Col>
+                    <Alert variant={"danger"} className="text-left">
+                      {errors.map((each, index) => {
+                        return <div key={index}>{each}</div>;
+                      })}
+                    </Alert>
+                  </Col>
+                </Row>
+              ) : null}
               {subscribed ? (
                 <>
                   <Row>
@@ -38,6 +80,10 @@ const Subscribe = ({ show, setShow }) => {
                       <Input
                         type="email"
                         placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                       ></Input>
                     </Col>
                   </Row>
@@ -56,12 +102,13 @@ const Subscribe = ({ show, setShow }) => {
                   <PrimaryButton
                     variant="primary"
                     text={subscribed ? "close" : "Subscribe"}
+                    disabled={!email && !subscribed}
                     onClick={() => {
                       if (subscribed) {
                         setShow(false);
                         changeSubscribed(false);
                       } else {
-                        changeSubscribed(true);
+                        doSubscriptionMethod({ email });
                       }
                     }}
                   ></PrimaryButton>

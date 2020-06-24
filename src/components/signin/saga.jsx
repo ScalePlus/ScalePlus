@@ -12,6 +12,14 @@ import {
   GET_USER_LOADING,
   GET_USER_SUCCESS,
   GET_USER_ERROR,
+  GOOGLE_LOGIN_ACTION,
+  GOOGLE_LOGIN_LOADING,
+  GOOGLE_LOGIN_SUCCESS,
+  GOOGLE_LOGIN_ERROR,
+  LINKEDIN_LOGIN_ACTION,
+  LINKEDIN_LOGIN_LOADING,
+  LINKEDIN_LOGIN_SUCCESS,
+  LINKEDIN_LOGIN_ERROR,
 } from "./types";
 import Api from "./api";
 import {
@@ -127,10 +135,118 @@ function* getUserSaga(data) {
   }
 }
 
+function* googleLoginSaga(data) {
+  yield put({ type: GOOGLE_LOGIN_LOADING });
+  try {
+    let res = yield call(Api.googleLogin, data.payload);
+    if (res.status) {
+      yield put({ type: GOOGLE_LOGIN_ERROR, payload: res.message });
+    } else {
+      yield put({ type: GOOGLE_LOGIN_SUCCESS, payload: res.result });
+
+      if (res.result.token) {
+        localStorage.setItem("token", res.result.token);
+      }
+
+      if (res.result.userRole) {
+        localStorage.setItem("userRole", res.result.userRole);
+      }
+
+      if (res.result.profileUpdated) {
+        localStorage.setItem("profileUpdated", res.result.profileUpdated);
+      }
+
+      if (res.result.userId) {
+        localStorage.setItem("userId", res.result.userId);
+      }
+
+      if (data.mode === "modal") {
+        const is_organisation =
+            localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+          is_mentor_judge =
+            localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+
+        if (res.result.profileUpdated) {
+          if (is_organisation || is_mentor_judge) {
+            data.setUserFlowModal("/dashboard");
+          } else {
+            data.setUserFlowModal("/solve/challenge");
+          }
+        } else {
+          data.setUserFlowModal("/detail");
+        }
+      } else {
+        if (res.result.profileUpdated) {
+          history.push("/dashboard");
+        } else {
+          history.push("/detail");
+        }
+      }
+    }
+  } catch (error) {
+    yield put({ type: GOOGLE_LOGIN_ERROR, payload: error.message });
+  }
+}
+
+function* linkedinLoginSaga(data) {
+  yield put({ type: LINKEDIN_LOGIN_LOADING });
+  try {
+    let res = yield call(Api.linkedinLogin, data.payload);
+    if (res.status) {
+      yield put({ type: LINKEDIN_LOGIN_ERROR, payload: res.message });
+    } else {
+      yield put({ type: LINKEDIN_LOGIN_SUCCESS, payload: res.result });
+
+      if (res.result.token) {
+        localStorage.setItem("token", res.result.token);
+      }
+
+      if (res.result.userRole) {
+        localStorage.setItem("userRole", res.result.userRole);
+      }
+
+      if (res.result.profileUpdated) {
+        localStorage.setItem("profileUpdated", res.result.profileUpdated);
+      }
+
+      if (res.result.userId) {
+        localStorage.setItem("userId", res.result.userId);
+      }
+
+      if (data.mode === "modal") {
+        const is_organisation =
+            localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+          is_mentor_judge =
+            localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+
+        if (res.result.profileUpdated) {
+          if (is_organisation || is_mentor_judge) {
+            data.setUserFlowModal("/dashboard");
+          } else {
+            data.setUserFlowModal("/solve/challenge");
+          }
+        } else {
+          data.setUserFlowModal("/detail");
+        }
+      } else {
+        if (res.result.profileUpdated) {
+          history.push("/dashboard");
+        } else {
+          history.push("/detail");
+        }
+      }
+    }
+  } catch (error) {
+    yield put({ type: LINKEDIN_LOGIN_ERROR, payload: error.message });
+  }
+}
+
 function* watchSigninAsync() {
   yield takeLatest(SIGNIN_ACTION, signinSaga);
   yield takeLatest(LOGGEDIN_USER_ACTION, loggedInUserSaga);
   yield takeLatest(GET_USER_ACTION, getUserSaga);
+  yield takeLatest(GOOGLE_LOGIN_ACTION, googleLoginSaga);
+  yield takeLatest(LINKEDIN_LOGIN_ACTION, linkedinLoginSaga);
 }
 
 export default watchSigninAsync;

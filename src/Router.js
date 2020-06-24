@@ -3,6 +3,7 @@ import React from "react";
 import MainLayout from "./components/mainLayout";
 import SignIn from "./components/signin";
 import SignUp from "./components/signup";
+import Linkedinpopup from "./components/linkedinPopup";
 import EmailVerification from "./components/emailVerification";
 import OrganizationDetails from "./components/details";
 import BusinessTags from "./components/businessTags";
@@ -108,6 +109,7 @@ const MainRouter = () => {
             layout={MainLayout}
             component={SignUp}
           />
+          <Route path="/linkedin" exact component={Linkedinpopup} />
           <NotAuthRoute
             path="/verification/:id"
             exact

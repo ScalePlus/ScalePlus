@@ -3,13 +3,19 @@ import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, ExpandCollapse } from "../common";
 import { MainContainer } from "./style";
 import history from "../../../../history";
+import { Constants } from "../../../../lib/constant";
 
-const FAQ = ({ is_organisation, challengeData }) => {
+const FAQ = ({ is_organisation, organisationTeamMember, challengeData }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          {is_organisation && challengeData && !challengeData.isPublished ? (
+          {(is_organisation ||
+            (organisationTeamMember &&
+              organisationTeamMember.permission ===
+                Constants.TEAM_PERMISSION.ADMIN)) &&
+          challengeData &&
+          !challengeData.isPublished ? (
             <HeaderComponent
               titleText="Frequently Asked Questions"
               buttonText="Add New"

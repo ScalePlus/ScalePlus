@@ -82,7 +82,8 @@ const SolveChallenge = ({ match }) => {
 
       let dataFound = data.find((each) => {
         return each.team.find(
-          (member) => member.userId._id === localStorage.getItem("userId")
+          (member) =>
+            member.userId._id.toString() === localStorage.getItem("userId")
         );
       });
 

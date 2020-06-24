@@ -54,6 +54,7 @@ const ChallengePreview = ({ history, match }) => {
   const [errors, setErrors] = useState([]);
   const [selectedTab, selectTab] = useState(null);
   const [show, setUserFlowModal] = useState(false);
+  const [organisationTeamMember, setTeamMember] = useState(null);
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -168,26 +169,51 @@ const ChallengePreview = ({ history, match }) => {
       const per = filledTabs * perFieldPer;
       setProgress(Math.round(per));
 
-      const memberAsParticipant =
+      const organisationTeamMember =
+        challengeData &&
+        challengeData.teamId &&
+        challengeData.teamId.data &&
+        challengeData.teamId.data.length &&
+        challengeData.teamId.data.find(
+          (each) =>
+            each.userId._id.toString() === localStorage.getItem("userId")
+        );
+
+      setTeamMember(organisationTeamMember);
+
+      let memberAsParticipant;
+      if (
         challengeData &&
         challengeData.participantsId &&
         challengeData.participantsId.data &&
-        challengeData.participantsId.data.length &&
-        challengeData.participantsId.data.find((each) => {
-          return each.team.find(
-            (member) => member.userId._id === localStorage.getItem("userId")
-          );
-        })
-          ? true
-          : false;
-      setParticipation(memberAsParticipant);
+        challengeData.participantsId.data.length
+      ) {
+        const { data } = challengeData.participantsId;
+
+        for (let i = 0; i < data.length; i++) {
+          const element = data[i];
+          if (element && element.team && element.team.length) {
+            const { team } = element;
+            for (let j = 0; j < team.length; j++) {
+              const member = team[j];
+              if (
+                member.userId._id.toString() === localStorage.getItem("userId")
+              ) {
+                memberAsParticipant = member;
+                setParticipation(memberAsParticipant);
+              }
+            }
+          }
+        }
+      }
 
       const memberAsJudge =
         challengeData &&
         challengeData.judgesId &&
         challengeData.judgesId.data.length &&
         challengeData.judgesId.data.find(
-          (each) => each.userId._id === localStorage.getItem("userId")
+          (each) =>
+            each.userId._id.toString() === localStorage.getItem("userId")
         )
           ? true
           : false;
@@ -243,7 +269,14 @@ const ChallengePreview = ({ history, match }) => {
 
       setChallenge(challengeData);
 
-      if (is_startup_Individual && memberAsParticipant) {
+      if (
+        is_startup_Individual &&
+        ((organisationTeamMember &&
+          organisationTeamMember.permission ===
+            Constants.TEAM_PERMISSION.ADMIN) ||
+          (memberAsParticipant &&
+            memberAsParticipant.permission === Constants.TEAM_PERMISSION.ADMIN))
+      ) {
         changeTabs((data) => {
           if (!data.find((each) => each === "Submissions")) {
             data.splice(1, 0, "Submissions");
@@ -255,7 +288,7 @@ const ChallengePreview = ({ history, match }) => {
       if (
         (is_organisation &&
           challengeData &&
-          challengeData.organisationId._id ===
+          challengeData.organisationId._id.toString() ===
             localStorage.getItem("userId")) ||
         (is_mentor_judge && memberAsJudge)
       ) {
@@ -367,7 +400,9 @@ const ChallengePreview = ({ history, match }) => {
                 selectedTab === tabs[0] || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
                     ? "Judge this Challenge"
-                    : (is_startup_Individual && !memberAsParticipant) ||
+                    : (is_startup_Individual &&
+                        !memberAsParticipant &&
+                        !organisationTeamMember) ||
                       !is_logged_in
                     ? "Solve Challenge"
                     : null
@@ -437,6 +472,7 @@ const ChallengePreview = ({ history, match }) => {
           <Tab.Pane eventKey="Overview">
             <OverView
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               is_mentor_judge={is_mentor_judge}
               is_startup_Individual={is_startup_Individual}
@@ -447,6 +483,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
             <JudgingCriteria
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               challengeData={challengeData}
             />
@@ -457,6 +494,7 @@ const ChallengePreview = ({ history, match }) => {
                 challengeData={challengeData}
                 is_startup_Individual={is_startup_Individual}
                 is_mentor_judge={is_mentor_judge}
+                organisationTeamMember={organisationTeamMember}
                 is_organisation={is_organisation}
                 fromPreview={true}
               />
@@ -465,12 +503,14 @@ const ChallengePreview = ({ history, match }) => {
           <Tab.Pane eventKey="Guidelines">
             <Guidelines
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Updates">
             <Updates
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>
@@ -478,24 +518,28 @@ const ChallengePreview = ({ history, match }) => {
             <Timeline
               challengeData={challengeData}
               is_startup_Individual={is_startup_Individual}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Forum">
             <Forum
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="FAQ">
             <FAQ
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Resources">
             <Resources
               challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
             />
           </Tab.Pane>

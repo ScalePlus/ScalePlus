@@ -9,6 +9,12 @@ import {
   GET_USER_LOADING,
   GET_USER_SUCCESS,
   GET_USER_ERROR,
+  GOOGLE_LOGIN_LOADING,
+  GOOGLE_LOGIN_SUCCESS,
+  GOOGLE_LOGIN_ERROR,
+  LINKEDIN_LOGIN_LOADING,
+  LINKEDIN_LOGIN_SUCCESS,
+  LINKEDIN_LOGIN_ERROR,
 } from "./types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
 import {
@@ -133,6 +139,48 @@ export const signinReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       userData: null,
+      error: action.payload,
+    });
+  },
+  [GOOGLE_LOGIN_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [GOOGLE_LOGIN_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [GOOGLE_LOGIN_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
+      error: action.payload,
+    });
+  },
+  [LINKEDIN_LOGIN_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [LINKEDIN_LOGIN_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [LINKEDIN_LOGIN_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
       error: action.payload,
     });
   },

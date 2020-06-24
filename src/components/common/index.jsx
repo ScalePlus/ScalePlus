@@ -984,64 +984,53 @@ export const CommonTable = React.memo(
   ({ columns, data, filters, onRowClick }) => {
     return (
       <TableContainer>
-        {filters && (
-          <div className="filter-container">
-            <div className="controll-container">
-              <DropDown
-                isSmall={true}
-                isSingle={true}
-                placeholder="Filter Results"
-                options={[]}
-              />
-              <Input type="text" placeholder="Search" />
-              <div className="text">Search</div>
-            </div>
-          </div>
-        )}
+        {filters}
         <Table responsive>
           <thead>
             <tr>
-              {columns &&
-                columns.length &&
-                columns.map((column, index) => {
-                  return (
-                    <th
-                      key={index}
-                      width={column.width ? column.width : "auto"}
-                    >
-                      {column.HeaderCell ? column.HeaderCell() : column.Header}
-                    </th>
-                  );
-                })}
+              {columns && columns.length
+                ? columns.map((column, index) => {
+                    return (
+                      <th
+                        key={index}
+                        width={column.width ? column.width : "auto"}
+                      >
+                        {column.HeaderCell
+                          ? column.HeaderCell()
+                          : column.Header}
+                      </th>
+                    );
+                  })
+                : null}
             </tr>
           </thead>
           <tbody>
-            {data &&
-              data.length &&
-              data.map((each, index) => {
-                return (
-                  <tr key={index}>
-                    {columns &&
-                      columns.length &&
-                      columns.map((column, index) => {
-                        return (
-                          <td
-                            key={index}
-                            onClick={() =>
-                              onRowClick && !column.standAlone
-                                ? onRowClick(each)
-                                : {}
-                            }
-                          >
-                            {column.Cell
-                              ? column.Cell(each[column.accessor], each)
-                              : each[column.accessor]}
-                          </td>
-                        );
-                      })}
-                  </tr>
-                );
-              })}
+            {data && data.length
+              ? data.map((each, index) => {
+                  return (
+                    <tr key={index}>
+                      {columns && columns.length
+                        ? columns.map((column, index) => {
+                            return (
+                              <td
+                                key={index}
+                                onClick={() =>
+                                  onRowClick && !column.standAlone
+                                    ? onRowClick(each)
+                                    : {}
+                                }
+                              >
+                                {column.Cell
+                                  ? column.Cell(each[column.accessor], each)
+                                  : each[column.accessor]}
+                              </td>
+                            );
+                          })
+                        : null}
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </Table>
       </TableContainer>
@@ -1087,7 +1076,9 @@ export const CardComponent = React.memo(
           }
         }
         if (selectedData && selectedData.state && selectedData.state.name) {
-          const index = data.findIndex((each) => each._id === selectedData._id);
+          const index = data.findIndex(
+            (each) => each._id.toString() === selectedData._id.toString()
+          );
           if (index >= 0) {
             setProgressPer((index + 1) * perByPart);
           }

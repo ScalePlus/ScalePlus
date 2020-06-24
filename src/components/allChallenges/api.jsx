@@ -6,4 +6,9 @@ export default {
     let result = coreApi.PUT(url, filters);
     return result;
   },
+  doSubscription: (data) => {
+    let url = `/subscriptions`;
+    let result = coreApi.POST(url, data);
+    return result;
+  },
 };

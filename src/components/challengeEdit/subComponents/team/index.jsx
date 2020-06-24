@@ -236,7 +236,7 @@ const Team = ({ challengeId }) => {
                       <div
                         onClick={() => {
                           const record = tabelData.find(
-                            (each) => each._id === data
+                            (each) => each._id.toString() === data.toString()
                           );
                           setEmail(
                             record && record.userId && record.userId.email
@@ -265,7 +265,7 @@ const Team = ({ challengeId }) => {
                       <div
                         onClick={() => {
                           const record = tabelData.find(
-                            (each) => each._id === data
+                            (each) => each._id.toString() === data.toString()
                           );
                           attachTeamMethod({
                             email:

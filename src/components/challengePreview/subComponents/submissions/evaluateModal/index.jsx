@@ -145,6 +145,7 @@ const EvaluateModal = ({
                           variant="primary"
                           text={"Submit Evaluation"}
                           type="submit"
+                          disabled={true}
                         ></PrimaryButton>
                       </div>
                     </div>

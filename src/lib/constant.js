@@ -12,7 +12,8 @@ export const Constants = {
   },
   LINKEDIN: {
     clientId: "78m7ndhgdx1vyt",
-    redirectUri: "http://localhost:3001/api/user/linkedin/callback",
+    client_secret: "Sm9Iun2kdyNZjiDT",
+    redirectUri: "http://localhost:3000/linkedin",
   },
   ROLES: {
     STARTUP_INDIVIDUAL: "Startup or Individual",

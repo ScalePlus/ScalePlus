@@ -78,6 +78,7 @@ const ChallengeEdit = ({ history, match }) => {
   const [activeKey, selectTab] = useState(null);
   const [expanded, onToggle] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [organisationTeamMember, setTeamMember] = useState(null);
   const challengeId = match.params.id;
 
   useEffect(() => {
@@ -189,6 +190,18 @@ const ChallengeEdit = ({ history, match }) => {
       const per = filledTabs * perFieldPer;
       setProgress(Math.round(per));
 
+      const memberOfTeam =
+        challengeData &&
+        challengeData.teamId &&
+        challengeData.teamId.data &&
+        challengeData.teamId.data.length &&
+        challengeData.teamId.data.find(
+          (each) =>
+            each.userId._id.toString() === localStorage.getItem("userId")
+        );
+
+      setTeamMember(memberOfTeam);
+
       setChallenge(challengeData);
     }
   }, [challengeReducer]);
@@ -222,7 +235,10 @@ const ChallengeEdit = ({ history, match }) => {
 
   return challengeData &&
     (challengeData.isPublished ||
-      challengeData.organisationId._id !== localStorage.getItem("userId")) ? (
+      challengeData.organisationId._id !== localStorage.getItem("userId") ||
+      (organisationTeamMember &&
+        organisationTeamMember.permission ===
+          Constants.TEAM_PERMISSION.VIEW)) ? (
     <Redirect to={`/challenge/${challengeData._id}/preview/Overview`} />
   ) : (
     <MainContainer>

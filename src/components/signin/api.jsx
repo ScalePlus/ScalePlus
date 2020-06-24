@@ -16,4 +16,14 @@ export default {
     let result = coreApi.GET(url);
     return result;
   },
+  googleLogin: (data) => {
+    let url = `/user/login/google`;
+    let result = coreApi.POST(url, data);
+    return result;
+  },
+  linkedinLogin: (data) => {
+    let url = `/user/login/linkedin`;
+    let result = coreApi.POST(url, data);
+    return result;
+  },
 };

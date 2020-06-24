@@ -207,7 +207,9 @@ const Timeline = ({ challengeId }) => {
               <div className="timeline">
                 <Stepper
                   steps={timeline.map((each) => {
-                    return { title: moment(each.date).format("MMMM DD, YYYY") };
+                    return {
+                      title: moment(each.date).format("MMMM DD, YYYY"),
+                    };
                   })}
                   activeColor={theme.colors.black}
                   defaultColor={theme.colors.black}

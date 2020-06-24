@@ -26,6 +26,7 @@ import watchGetMyChallengeAsync from "../components/myChallenges/saga";
 import watchSubmissionListAsync from "../components/challengePreview/subComponents/submissions/saga";
 import watchSolveChallengeAsync from "../components/solveChallenge/saga";
 import watchSearchAllAsync from "../components/header/subComponents/searchModal/saga";
+import watchLinkedinDataAsync from "../components/linkedinPopup/saga";
 
 export function* rootSaga() {
   yield fork(watchSignupAsync);
@@ -54,4 +55,5 @@ export function* rootSaga() {
   yield fork(watchSubmissionListAsync);
   yield fork(watchSolveChallengeAsync);
   yield fork(watchSearchAllAsync);
+  yield fork(watchLinkedinDataAsync);
 }

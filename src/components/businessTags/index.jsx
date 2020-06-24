@@ -235,11 +235,11 @@ const BusinessTags = ({ history }) => {
                     isSmall={false}
                     placeholder={"Industry"}
                     options={
-                      industriesOptions &&
-                      industriesOptions.length &&
-                      industriesOptions.map((each) => {
-                        return { value: each._id, label: each.name };
-                      })
+                      industriesOptions && industriesOptions.length
+                        ? industriesOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
                     }
                     value={selectedIndustries}
                     onChange={(val) => {
@@ -255,11 +255,11 @@ const BusinessTags = ({ history }) => {
                     isSmall={false}
                     placeholder={"Sevices / products you offer"}
                     options={
-                      servicesOptions &&
-                      servicesOptions.length &&
-                      servicesOptions.map((each) => {
-                        return { value: each._id, label: each.name };
-                      })
+                      servicesOptions && servicesOptions.length
+                        ? servicesOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
                     }
                     value={selectedServices}
                     onChange={(val) => {
@@ -275,11 +275,11 @@ const BusinessTags = ({ history }) => {
                     isSmall={false}
                     placeholder={"Technology"}
                     options={
-                      technologiesOptions &&
-                      technologiesOptions.length &&
-                      technologiesOptions.map((each) => {
-                        return { value: each._id, label: each.name };
-                      })
+                      technologiesOptions && technologiesOptions.length
+                        ? technologiesOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
                     }
                     value={selectedTechnologies}
                     onChange={(val) => {
@@ -296,11 +296,11 @@ const BusinessTags = ({ history }) => {
                     isSmall={false}
                     placeholder={"Business Model"}
                     options={
-                      businessModelsOptions &&
-                      businessModelsOptions.length &&
-                      businessModelsOptions.map((each) => {
-                        return { value: each._id, label: each.name };
-                      })
+                      businessModelsOptions && businessModelsOptions.length
+                        ? businessModelsOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
                     }
                     value={selectedBusinessModels}
                     onChange={(val) => {
@@ -328,11 +328,11 @@ const BusinessTags = ({ history }) => {
                   isSmall={false}
                   placeholder={"Target Market"}
                   options={
-                    targetMarketsOptions &&
-                    targetMarketsOptions.length &&
-                    targetMarketsOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
+                    targetMarketsOptions && targetMarketsOptions.length
+                      ? targetMarketsOptions.map((each) => {
+                          return { value: each._id, label: each.name };
+                        })
+                      : {}
                   }
                   value={selectedTargetMarkets}
                   onChange={(val) => {
@@ -350,10 +350,11 @@ const BusinessTags = ({ history }) => {
                   placeholder={"Geographical Market"}
                   options={
                     geographicalMarketsOptions &&
-                    geographicalMarketsOptions.length &&
-                    geographicalMarketsOptions.map((each) => {
-                      return { value: each._id, label: each.name };
-                    })
+                    geographicalMarketsOptions.length
+                      ? geographicalMarketsOptions.map((each) => {
+                          return { value: each._id, label: each.name };
+                        })
+                      : []
                   }
                   value={selectedGeographicalMarket}
                   onChange={(val) => {

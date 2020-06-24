@@ -4,17 +4,24 @@ import { HeaderComponent, VeticalStepper } from "../common";
 import moment from "moment";
 import { MainContainer } from "./style";
 import history from "../../../../history";
+import { Constants } from "../../../../lib/constant";
 
 const Timeline = ({
   is_startup_Individual,
   is_organisation,
+  organisationTeamMember,
   challengeData,
 }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col lg={11} md={11} sm={11} xs={11}>
-          {is_organisation && challengeData && !challengeData.isPublished ? (
+          {(is_organisation ||
+            (organisationTeamMember &&
+              organisationTeamMember.permission ===
+                Constants.TEAM_PERMISSION.ADMIN)) &&
+          challengeData &&
+          !challengeData.isPublished ? (
             <HeaderComponent
               titleText="Timeline"
               buttonText="Add New"

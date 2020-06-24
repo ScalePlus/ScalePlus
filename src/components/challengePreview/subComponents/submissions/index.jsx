@@ -18,16 +18,19 @@ import {
   EditorInput,
   FileInput,
   RadioButton,
+  DropDown,
 } from "../../../common";
 import { HeaderComponent } from "../common";
 import EvaluateModal from "./evaluateModal";
 import DisqualifyModal from "./disqualifyModal";
 import history from "../../../../history";
+import { Constants } from "../../../../lib/constant";
 
 const Submissions = ({
   is_startup_Individual,
   is_mentor_judge,
   is_organisation,
+  organisationTeamMember,
   challengeData,
   fromPreview,
 }) => {
@@ -58,7 +61,7 @@ const Submissions = ({
   const [submissions, changeSubmissions] = useState(null);
 
   useEffect(() => {
-    if (challengeData && challengeData._id) {
+    if (challengeData && challengeData._id && localStorage.getItem("token")) {
       getSubmissionsListMethod(challengeData._id);
     }
   }, [getSubmissionsListMethod, challengeData]);
@@ -84,20 +87,26 @@ const Submissions = ({
       submissionsListSuccess,
       judgeSuccess,
     } = submissionListReducer;
+
     if (judgeSuccess) {
       setShow(false);
     }
-    if (
-      submissionsListSuccess &&
-      submissionsListSuccess.result &&
-      submissionsListSuccess.result.length &&
-      localStorage.getItem("userId")
-    ) {
-      let record = submissionsListSuccess.result.find(
-        (each) => each.userId._id === localStorage.getItem("userId")
-      );
-      setFormFilled(record ? true : false);
-      changeSubmissions(submissionsListSuccess.result);
+
+    if (submissionsListSuccess) {
+      if (
+        submissionsListSuccess.result &&
+        submissionsListSuccess.result.length &&
+        localStorage.getItem("userId")
+      ) {
+        let record = submissionsListSuccess.result.find(
+          (each) =>
+            each.userId._id.toString() === localStorage.getItem("userId")
+        );
+        setFormFilled(record ? true : false);
+        changeSubmissions(submissionsListSuccess.result);
+      } else {
+        changeSubmissions(null);
+      }
     }
 
     if (success) {
@@ -162,7 +171,7 @@ const Submissions = ({
 
   const onSubmit = () => {};
 
-  return is_startup_Individual ? (
+  return is_startup_Individual && !organisationTeamMember ? (
     <MainContainer>
       {errors && errors.length ? (
         <Row className="justify-content-center">
@@ -462,7 +471,10 @@ const Submissions = ({
         </Form>
       )}
     </MainContainer>
-  ) : is_mentor_judge || is_organisation ? (
+  ) : is_mentor_judge ||
+    is_organisation ||
+    (organisationTeamMember &&
+      organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
         <Col
@@ -624,7 +636,20 @@ const Submissions = ({
             </div>
           ) : (
             <CommonTable
-              filters={true}
+              filters={
+                <div className="filter-container">
+                  <div className="controll-container">
+                    <DropDown
+                      isSmall={true}
+                      isSingle={true}
+                      placeholder="Filter Results"
+                      options={[]}
+                    />
+                    <Input type="text" placeholder="Search" />
+                    <div className="text">Search</div>
+                  </div>
+                </div>
+              }
               columns={[
                 {
                   Header: "",

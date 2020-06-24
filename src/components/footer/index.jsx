@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import { Input, PrimaryButton } from "../common";
+import { useDispatch, useSelector } from "react-redux";
+import { doSubscriptionAction } from "../allChallenges/action";
 import { MainContainer } from "./style";
 import history from "../../history";
 const groups = [
@@ -14,6 +16,34 @@ const groups = [
 ];
 
 const Footer = () => {
+  const dispatch = useDispatch();
+  const doSubscriptionMethod = useCallback(
+    (data) => dispatch(doSubscriptionAction(data)),
+    [dispatch]
+  );
+
+  const allChallengesReducer = useSelector((state) => {
+    return state.allChallengesReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const { error, subscriptionSuccess } = allChallengesReducer;
+    if (subscriptionSuccess && email) {
+      setEmail("");
+    }
+
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [allChallengesReducer, email]);
+
   return (
     <MainContainer>
       <div className="group-container">
@@ -34,6 +64,13 @@ const Footer = () => {
 
       <Row className="subscribe-container">
         <Col lg={9} md={9} sm={9} xs={9}>
+          {errors && errors.length ? (
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          ) : null}
           <div className="content-container">
             <div className="text">
               <span>
@@ -42,11 +79,20 @@ const Footer = () => {
               </span>
             </div>
             <div className="form-container">
-              <Input type="email" placeholder="Your email address" />
+              <Input
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
               <PrimaryButton
                 variant="light"
                 text={"Subscribe"}
-                onClick={() => {}}
+                onClick={() => {
+                  doSubscriptionMethod({ email });
+                }}
               ></PrimaryButton>
             </div>
           </div>

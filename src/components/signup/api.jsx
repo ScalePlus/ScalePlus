@@ -11,4 +11,9 @@ export default {
     let result = coreApi.POST(url, data);
     return result;
   },
+  linkedinRegister: (data) => {
+    let url = `/user/register/linkedin`;
+    let result = coreApi.POST(url, data);
+    return result;
+  },
 };

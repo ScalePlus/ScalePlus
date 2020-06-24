@@ -208,53 +208,52 @@ export const ExpandCollapse = React.memo(
 
 export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
   const activeIndex =
-    steps &&
-    steps.length &&
-    steps.findIndex((each) => {
-      return each.active;
-    });
+    steps && steps.length
+      ? steps.findIndex((each) => {
+          return each.active;
+        })
+      : 0;
 
   return (
     <StepperVerticalContainer>
       <div className="steps">
-        {steps &&
-          steps.length &&
-          steps.map((each, index) => {
-            return (
-              <div
-                className={
-                  each.active
-                    ? "step active"
-                    : index < activeIndex
-                    ? "step selected"
-                    : "step"
-                }
-                key={index}
-              >
-                {index === 0 && (
-                  <div className="start-label">
-                    <span>Start</span>
-                  </div>
-                )}
-                {index === steps.length - 1 && (
-                  <div className="end-label">
-                    <span>Finish</span>
-                  </div>
-                )}
-                <div className="outer-oval">
-                  <div className="inner-oval" />
-                </div>
-                <div className={each.active ? "content active" : "content"}>
-                  {each.timestamp && (
-                    <div className="timestamp"> {each.timestamp}</div>
+        {steps && steps.length
+          ? steps.map((each, index) => {
+              return (
+                <div
+                  className={
+                    each.active
+                      ? "step active"
+                      : index < activeIndex
+                      ? "step selected"
+                      : "step"
+                  }
+                  key={index}
+                >
+                  {index === 0 && (
+                    <div className="start-label">
+                      <span>Start</span>
+                    </div>
                   )}
-                  {each.title && <div className="title">{each.title}</div>}
-                  {each.description && (
-                    <div className="description">{each.description}</div>
+                  {index === steps.length - 1 && (
+                    <div className="end-label">
+                      <span>Finish</span>
+                    </div>
                   )}
-                  {is_startup_Individual &&
+                  <div className="outer-oval">
+                    <div className="inner-oval" />
+                  </div>
+                  <div className={each.active ? "content active" : "content"}>
+                    {each.timestamp && (
+                      <div className="timestamp"> {each.timestamp}</div>
+                    )}
+                    {each.title && <div className="title">{each.title}</div>}
+                    {each.description && (
+                      <div className="description">{each.description}</div>
+                    )}
+                    {is_startup_Individual &&
                     each.downloadFiles &&
-                    each.downloadFiles.length && (
+                    each.downloadFiles.length ? (
                       <div className="download-files-container">
                         {each.downloadFiles.map((fileData, index) => {
                           return (
@@ -285,10 +284,10 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                           );
                         })}
                       </div>
-                    )}
-                  {is_startup_Individual &&
+                    ) : null}
+                    {is_startup_Individual &&
                     each.uploadFiles &&
-                    each.uploadFiles.length && (
+                    each.uploadFiles.length ? (
                       <div className="upload-files-container">
                         {each.uploadFiles.map((name, index) => {
                           return (
@@ -304,11 +303,12 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                           );
                         })}
                       </div>
-                    )}
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          : null}
       </div>
     </StepperVerticalContainer>
   );

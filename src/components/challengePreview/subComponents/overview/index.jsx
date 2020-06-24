@@ -5,6 +5,7 @@ import { PageTitle, PrimaryButton } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 import history from "../../../../history";
+import { Constants } from "../../../../lib/constant";
 let tagsList = [
   { value: "1", label: "tag1" },
   { value: "2", label: "tag2" },
@@ -14,6 +15,7 @@ let tagsList = [
 const OverView = ({
   challengeData,
   is_organisation,
+  organisationTeamMember,
   is_mentor_judge,
   is_startup_Individual,
   is_logged_in,
@@ -31,7 +33,8 @@ const OverView = ({
           challengeData.participantsId.data.length &&
           challengeData.participantsId.data.find((each) => {
             return each.team.find(
-              (member) => member.userId._id === localStorage.getItem("userId")
+              (member) =>
+                member.userId._id.toString() === localStorage.getItem("userId")
             );
           })
           ? true
@@ -42,7 +45,8 @@ const OverView = ({
         challengeData.judgesId &&
           challengeData.judgesId.data.length &&
           challengeData.judgesId.data.find(
-            (each) => each.userId._id === localStorage.getItem("userId")
+            (each) =>
+              each.userId._id.toString() === localStorage.getItem("userId")
           )
           ? true
           : false
@@ -95,7 +99,10 @@ const OverView = ({
                   className="sub-text-container"
                   style={{
                     marginBottom: 25,
-                    maxHeight: !is_organisation ? "8rem" : "215px",
+                    // maxHeight:
+                    //   is_organisation || organisationTeamMember
+                    //     ? "215px"
+                    //     : "8rem",
                   }}
                 >
                   <span>
@@ -125,14 +132,16 @@ const OverView = ({
                     </div>
                   </div>
                 </div>
-                {!is_organisation && (
+                {is_organisation || organisationTeamMember ? null : (
                   <div className="button-container">
                     <PrimaryButton
                       variant="primary"
                       text={
                         is_mentor_judge && !memberAsJudge
                           ? "Judge this Challenge"
-                          : (is_startup_Individual && !memberAsParticipant) ||
+                          : (is_startup_Individual &&
+                              !memberAsParticipant &&
+                              !organisationTeamMember) ||
                             !is_logged_in
                           ? "Solve Challenge"
                           : null
@@ -165,7 +174,12 @@ const OverView = ({
       <ContentContainer>
         <Row className="justify-content-center header-container">
           <Col lg={11} md={11} sm={11} xs={11}>
-            {is_organisation && challengeData && !challengeData.isPublished ? (
+            {(is_organisation ||
+              (organisationTeamMember &&
+                organisationTeamMember.permission ===
+                  Constants.TEAM_PERMISSION.ADMIN)) &&
+            challengeData &&
+            !challengeData.isPublished ? (
               <HeaderComponent
                 titleText="Challenge Overview"
                 buttonText="Edit Overview"
@@ -201,7 +215,7 @@ const OverView = ({
               )}
           </Col>
         </Row>
-        {!is_organisation && (
+        {is_organisation || organisationTeamMember ? null : (
           <Row className="justify-content-center">
             <Col lg={3} md={3} sm={3} xs={3} className="button-container">
               <PrimaryButton
@@ -209,7 +223,9 @@ const OverView = ({
                 text={
                   is_mentor_judge && !memberAsJudge
                     ? "Judge this Challenge"
-                    : (is_startup_Individual && !memberAsParticipant) ||
+                    : (is_startup_Individual &&
+                        !memberAsParticipant &&
+                        !organisationTeamMember) ||
                       !is_logged_in
                     ? "Solve Challenge"
                     : null

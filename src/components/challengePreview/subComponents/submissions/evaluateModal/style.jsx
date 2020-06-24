@@ -9,6 +9,7 @@ export const MainContainer = styled.div`
     margin-bottom: 20px;
     background-color: ${theme.colors.white};
     .left-container {
+      min-width: 30rem;
       .title {
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.title};

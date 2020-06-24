@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import GoogleLogin from "react-google-login";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { signupAction, googleRegisterAction } from "./action";
+import {
+  signupAction,
+  googleRegisterAction,
+  linkedinRegisterAction,
+} from "./action";
 import { MainContainer } from "./style";
 import {
   SocialLoginButton,
@@ -32,6 +36,7 @@ const tabs = [
     subText: "Bring Experience",
   },
 ];
+let popup;
 
 const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const dispatch = useDispatch();
@@ -40,6 +45,10 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const googleRegisterMethod = (data) =>
     dispatch(
       googleRegisterAction(data, mode, setActiveModal, setUserFlowModal)
+    );
+  const linkedinRegisterMethod = (data) =>
+    dispatch(
+      linkedinRegisterAction(data, mode, setActiveModal, setUserFlowModal)
     );
   const signupReducer = useSelector((state) => {
     return state.signupReducer;
@@ -104,6 +113,32 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
     setValidated(true);
   };
 
+  const receiveMessage = (event) => {
+    if (event.origin === window.location.origin) {
+      if (event.data.errorMessage && event.data.from === "Linked In") {
+        let errors = [];
+        if (Array.isArray(event.data.errorMessage)) {
+          errors = event.data.errorMessage;
+        } else if (typeof event.data.errorMessage === "string") {
+          errors.push(event.data.errorMessage);
+        }
+        setErrors(errors);
+        popup && popup.close();
+      }
+      if (event.data.success && event.data.from === "Linked In") {
+        const { success } = event.data;
+        linkedinRegisterMethod({
+          firstName: success.localizedFirstName,
+          lastName: success.localizedLastName,
+          email: success.emailAddress,
+          linkedinId: success.id,
+          role: localStorage.getItem("userRole"),
+        });
+        popup && popup.close();
+      }
+    }
+  };
+
   return (
     <MainContainer>
       <Row className="justify-content-center">
@@ -155,8 +190,8 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   buttonText="Login"
                   render={(renderProps) => (
                     <SocialLoginButton
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
+                      // onClick={renderProps.onClick}
+                      // disabled={renderProps.disabled}
                       svgIcon={
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -198,14 +233,20 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   text="Sign up with Linkedin"
                   background={"#007bb6"}
                   border={"#006b9f"}
-                  onClick={() => {
-                    const state = `state-${Math.random()}`;
-                    window.open(
-                      `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Constants.LINKEDIN.clientId}&redirect_uri=${Constants.LINKEDIN.redirectUri}&state=${state}&scope=r_liteprofile%20r_emailaddress%20w_member_social`,
-                      "_blank",
-                      "width=600,height=600"
-                    );
-                  }}
+                  // onClick={() => {
+                  //   const state = `state-${Math.random()}`;
+                  //   popup = window.open(
+                  //     `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Constants.LINKEDIN.clientId}&redirect_uri=${Constants.LINKEDIN.redirectUri}&state=${state}&scope=r_liteprofile%20r_emailaddress%20w_member_social`,
+                  //     "_blank",
+                  //     "width=600,height=600"
+                  //   );
+                  //   window.removeEventListener(
+                  //     "message",
+                  //     receiveMessage,
+                  //     false
+                  //   );
+                  //   window.addEventListener("message", receiveMessage, false);
+                  // }}
                 />
               </div>
             </div>

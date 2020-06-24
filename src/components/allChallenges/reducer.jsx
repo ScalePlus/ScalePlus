@@ -3,6 +3,9 @@ import {
   GET_ALL_CHALLENGES_LOADING,
   GET_ALL_CHALLENGES_SUCCESS,
   GET_ALL_CHALLENGES_ERROR,
+  DO_SUBSCRIPTION_LOADING,
+  DO_SUBSCRIPTION_SUCCESS,
+  DO_SUBSCRIPTION_ERROR,
 } from "./types";
 
 let initialState = {
@@ -10,6 +13,7 @@ let initialState = {
   error: null,
   allChallenges: null,
   loadedPage: null,
+  subscriptionSuccess: null,
 };
 
 export const allChallengesReducer = createReducer(initialState, {
@@ -62,6 +66,27 @@ export const allChallengesReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       allChallenges: null,
+      error: action.payload,
+    });
+  },
+  [DO_SUBSCRIPTION_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      subscriptionSuccess: null,
+      error: null,
+    });
+  },
+  [DO_SUBSCRIPTION_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      subscriptionSuccess: action.payload,
+      error: null,
+    });
+  },
+  [DO_SUBSCRIPTION_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      subscriptionSuccess: null,
       error: action.payload,
     });
   },

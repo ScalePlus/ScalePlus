@@ -103,24 +103,26 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
                     <span>Stage</span>
                   </div>
                   <div className="custom-tab-container">
-                    {stageTabs &&
-                      stageTabs.length &&
-                      stageTabs.map((each, index) => {
-                        return (
-                          <div
-                            key={index}
-                            onClick={() => {
-                              selectStage(each._id);
-                            }}
-                            className="custom-tab"
-                          >
-                            <Tab
-                              text={each.name}
-                              isActive={each._id === stage}
-                            />
-                          </div>
-                        );
-                      })}
+                    {stageTabs && stageTabs.length
+                      ? stageTabs.map((each, index) => {
+                          return (
+                            <div
+                              key={index}
+                              onClick={() => {
+                                selectStage(each._id);
+                              }}
+                              className="custom-tab"
+                            >
+                              <Tab
+                                text={each.name}
+                                isActive={
+                                  each._id.toString() === stage.toString()
+                                }
+                              />
+                            </div>
+                          );
+                        })
+                      : null}
                   </div>
                 </Col>
               </Row>
@@ -130,24 +132,26 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
                     <span>Category</span>
                   </div>
                   <div className="custom-tab-container">
-                    {categoryTabs &&
-                      categoryTabs.length &&
-                      categoryTabs.map((each, index) => {
-                        return (
-                          <div
-                            key={index}
-                            onClick={() => {
-                              selectCategory(each._id);
-                            }}
-                            className="custom-tab"
-                          >
-                            <Tab
-                              text={each.name}
-                              isActive={each._id === category}
-                            />
-                          </div>
-                        );
-                      })}
+                    {categoryTabs && categoryTabs.length
+                      ? categoryTabs.map((each, index) => {
+                          return (
+                            <div
+                              key={index}
+                              onClick={() => {
+                                selectCategory(each._id);
+                              }}
+                              className="custom-tab"
+                            >
+                              <Tab
+                                text={each.name}
+                                isActive={
+                                  each._id.toString() === category.toString()
+                                }
+                              />
+                            </div>
+                          );
+                        })
+                      : null}
                   </div>
                 </Col>
               </Row>

@@ -3,7 +3,7 @@ import GoogleLogin from "react-google-login";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { signinAction } from "./action";
-import { googleRegisterAction } from "../signup/action";
+import { googleLoginAction, linkedinLoginAction } from "./action";
 import {
   SocialLoginButton,
   OrDevider,
@@ -17,21 +17,22 @@ import {
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 import theme from "../../theme";
+let popup;
 
 const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const dispatch = useDispatch();
   const signinMethod = (data) =>
     dispatch(signinAction(data, mode, setActiveModal, setUserFlowModal));
-  const googleRegisterMethod = (data) =>
-    dispatch(
-      googleRegisterAction(data, mode, setActiveModal, setUserFlowModal)
-    );
+  const googleLoginMethod = (data) =>
+    dispatch(googleLoginAction(data, mode, setActiveModal, setUserFlowModal));
+  const linkedinLoginMethod = (data) =>
+    dispatch(linkedinLoginAction(data, mode, setActiveModal, setUserFlowModal));
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
 
-  const [email, changeEmail] = useState("test@gmail.com");
-  const [password, changePassword] = useState("Sky@1234");
+  const [email, changeEmail] = useState("");
+  const [password, changePassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [check, setCheck] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -60,6 +61,29 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
     setValidated(true);
   };
 
+  const receiveMessage = (event) => {
+    if (event.origin === window.location.origin) {
+      if (event.data.errorMessage && event.data.from === "Linked In") {
+        let errors = [];
+        if (Array.isArray(event.data.errorMessage)) {
+          errors = event.data.errorMessage;
+        } else if (typeof event.data.errorMessage === "string") {
+          errors.push(event.data.errorMessage);
+        }
+        setErrors(errors);
+        popup && popup.close();
+      }
+      if (event.data.success && event.data.from === "Linked In") {
+        const { success } = event.data;
+
+        linkedinLoginMethod({
+          linkedinId: success.id,
+        });
+        popup && popup.close();
+      }
+    }
+  };
+
   return (
     <MainContainer>
       <Row className="justify-content-center">
@@ -81,8 +105,8 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   buttonText="Login"
                   render={(renderProps) => (
                     <SocialLoginButton
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
+                      // onClick={renderProps.onClick}
+                      // disabled={renderProps.disabled}
                       svgIcon={
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -103,12 +127,8 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   )}
                   onSuccess={(response) => {
                     if (response && response.profileObj) {
-                      googleRegisterMethod({
-                        firstName: response.profileObj.familyName,
-                        lastName: response.profileObj.givenName,
-                        email: response.profileObj.email,
+                      googleLoginMethod({
                         googleId: response.profileObj.googleId,
-                        role: Constants.ROLES.MENTOR_JUDGE,
                       });
                     }
                   }}
@@ -124,6 +144,20 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   text="Sign in with Linkedin"
                   background={"#007bb6"}
                   border={"#006b9f"}
+                  // onClick={() => {
+                  //   const state = `state-${Math.random()}`;
+                  //   popup = window.open(
+                  //     `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Constants.LINKEDIN.clientId}&redirect_uri=${Constants.LINKEDIN.redirectUri}&state=${state}&scope=r_liteprofile%20r_emailaddress%20w_member_social`,
+                  //     "_blank",
+                  //     "width=600,height=600"
+                  //   );
+                  //   window.removeEventListener(
+                  //     "message",
+                  //     receiveMessage,
+                  //     false
+                  //   );
+                  //   window.addEventListener("message", receiveMessage, false);
+                  // }}
                 />
               </div>
             </div>
