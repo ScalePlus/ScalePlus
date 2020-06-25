@@ -36,7 +36,7 @@ function* fillSubmissionformSaga(data) {
 function* getSubmissionsListSaga(data) {
   yield put({ type: SUBMISSION_FORM_LIST_LOADING });
   try {
-    let res = yield call(Api.getSubmissionsList, data.id);
+    let res = yield call(Api.getSubmissionsList, data.id, data.searchCriteria);
     if (res.status) {
       yield put({ type: SUBMISSION_FORM_LIST_ERROR, payload: res.message });
     } else {
@@ -77,7 +77,8 @@ function* judgeSubmissionformSaga(data) {
       Api.judgeSubmissionform,
       data.id,
       data.submissionId,
-      data.payload
+      data.payload,
+      data.isEvaluation
     );
     if (res.status) {
       yield put({

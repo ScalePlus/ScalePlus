@@ -13,6 +13,7 @@ let initialState = {
   error: null,
   allChallenges: null,
   loadedPage: null,
+  subscriptionError: null,
   subscriptionSuccess: null,
 };
 
@@ -73,21 +74,21 @@ export const allChallengesReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: true,
       subscriptionSuccess: null,
-      error: null,
+      subscriptionError: null,
     });
   },
   [DO_SUBSCRIPTION_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
       subscriptionSuccess: action.payload,
-      error: null,
+      subscriptionError: null,
     });
   },
   [DO_SUBSCRIPTION_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
       subscriptionSuccess: null,
-      error: action.payload,
+      subscriptionError: action.payload,
     });
   },
 });

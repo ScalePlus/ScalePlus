@@ -23,6 +23,11 @@ export default {
     let result = coreApi.PUT(url, data);
     return result;
   },
+  updateViews: (data) => {
+    let url = `/challenge/views/${data._id}`;
+    let result = coreApi.PUT(url, data);
+    return result;
+  },
   uploadFile: (data) => {
     let url = `/uploadFile`;
     let result = coreApi.FILE_UPLOAD(url, data, "file", "POST");

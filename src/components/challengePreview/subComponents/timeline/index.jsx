@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, VeticalStepper } from "../common";
 import moment from "moment";
@@ -12,6 +12,40 @@ const Timeline = ({
   organisationTeamMember,
   challengeData,
 }) => {
+  const [currentMilestone, setCurrentMilestone] = useState(null);
+  useEffect(() => {
+    if (challengeData) {
+      const { timelineId } = challengeData;
+      let selectedData = null;
+
+      if (timelineId && timelineId.data && timelineId.data.length) {
+        const { data } = timelineId;
+
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          if (selectedData) {
+            selectedData =
+              new Date(each.date).setHours(0, 0, 0, 0) <=
+                new Date().setHours(0, 0, 0, 0) &&
+              new Date(each.date).setHours(0, 0, 0, 0) >=
+                new Date(selectedData.date).setHours(0, 0, 0, 0)
+                ? each
+                : selectedData;
+          } else {
+            selectedData =
+              new Date(each.date).setHours(0, 0, 0, 0) ===
+              new Date().setHours(0, 0, 0, 0)
+                ? each
+                : selectedData;
+          }
+        }
+        if (selectedData) {
+          setCurrentMilestone(selectedData);
+        }
+      }
+    }
+  }, [challengeData]);
+
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -48,9 +82,10 @@ const Timeline = ({
               challengeData.timelineId.data.length
                 ? challengeData.timelineId.data.map((each) => {
                     return {
-                      active:
-                        new Date(each.date).setHours(0, 0, 0, 0) ===
-                        new Date().setHours(0, 0, 0, 0),
+                      active: currentMilestone
+                        ? currentMilestone._id.toString() ===
+                          each._id.toString()
+                        : false,
                       timestamp: moment(each.date).format("MMMM DD, YYYY"),
                       title: each.state && each.state.name,
                       description: each.description,
@@ -62,64 +97,6 @@ const Timeline = ({
                   })
                 : null
             }
-            // steps={[
-            //   {
-            //     active: false,
-            //     timestamp: "April 9, 2020, 9 a.m. +04",
-            //     title: "Date Launched",
-            //     description:
-            //       "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
-            //   },
-            //   {
-            //     active: false,
-            //     timestamp: "April 9, 2020, 5 p.m. +04",
-            //     title: "Enter",
-            //     description:
-            //       "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective. Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
-            //     downloadFiles: [
-            //       "Download Challenge entry form",
-            //       "Download Some form",
-            //       "Download Some form",
-            //     ],
-            //   },
-            //   {
-            //     active: true,
-            //     timestamp: "April 30, 2020, 8:07 a.m. +04",
-            //     title: "You are here",
-            //     description:
-            //       "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
-            //     // uploadFiles: [
-            //     //   "Submit Challenge entry form",
-            //     //   "Submit Some form",
-            //     //   "Submit Challenge entry form",
-            //     // ],
-            //   },
-            //   {
-            //     active: false,
-            //     timestamp: "June 9, 2020, 1 a.m. +04",
-            //     title: "Submission Deadline",
-            //     description:
-            //       "Give a tiny bot a new set of tools to explore the moon. Share your ideas for a mini payload to make lunar exploration more effective.",
-            //   },
-            //   {
-            //     active: false,
-            //     timestamp: "June 9, 2020, 3 a.m. +04",
-            //     title: "Judging",
-            //     description: "",
-            //   },
-            //   {
-            //     active: false,
-            //     timestamp: "July 11, 2020, 3 a.m. +04",
-            //     title: "Judging Closed",
-            //     description: "Winners announced on July 14, 2020",
-            //   },
-            //   {
-            //     active: false,
-            //     timestamp: "July 14, 2020, 8 p.m. +04",
-            //     title: "Won",
-            //     description: "",
-            //   },
-            // ]}
           ></VeticalStepper>
         </Col>
       </Row>

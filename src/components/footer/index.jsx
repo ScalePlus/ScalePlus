@@ -30,16 +30,16 @@ const Footer = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const { error, subscriptionSuccess } = allChallengesReducer;
+    const { subscriptionError, subscriptionSuccess } = allChallengesReducer;
     if (subscriptionSuccess && email) {
       setEmail("");
     }
 
     let errors = [];
-    if (Array.isArray(error)) {
-      errors = error;
-    } else if (typeof error === "string") {
-      errors.push(error);
+    if (Array.isArray(subscriptionError)) {
+      errors = subscriptionError;
+    } else if (typeof subscriptionError === "string") {
+      errors.push(subscriptionError);
     }
     setErrors(errors);
   }, [allChallengesReducer, email]);

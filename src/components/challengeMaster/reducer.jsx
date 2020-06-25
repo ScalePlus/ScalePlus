@@ -15,6 +15,9 @@ import {
   UPDATE_CHALLENGE_LOADING,
   UPDATE_CHALLENGE_SUCCESS,
   UPDATE_CHALLENGE_ERROR,
+  UPDATE_CHALLENGE_VIEWS_LOADING,
+  UPDATE_CHALLENGE_VIEWS_SUCCESS,
+  UPDATE_CHALLENGE_VIEWS_ERROR,
 } from "./types";
 import { UPDATE_DESC_SUCCESS } from "../challengeEdit/subComponents/description/types";
 import { ATTACH_OVERVIEW_SUCCESS } from "../challengeEdit/subComponents/overview/types";
@@ -282,6 +285,27 @@ export const challengeReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       challengeCategories: null,
+      error: action.payload,
+    });
+  },
+  [UPDATE_CHALLENGE_VIEWS_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [UPDATE_CHALLENGE_VIEWS_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [UPDATE_CHALLENGE_VIEWS_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
       error: action.payload,
     });
   },

@@ -52,7 +52,9 @@ const Step4 = ({
                 isSmall={true}
                 label="My challenge launch date: *"
                 description="Asia/Dubai"
-                minDate={new Date().setDate(new Date().getDate() + 1)}
+                minDate={new Date().setTime(
+                  new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                )}
                 value={launchDate}
                 onChange={(date) => {
                   changeLaunchDate(date);
@@ -66,8 +68,12 @@ const Step4 = ({
                 description="Asia/Dubai"
                 minDate={
                   launchDate
-                    ? new Date().setDate(launchDate.getDate() + 1)
-                    : new Date().setDate(new Date().getDate() + 1)
+                    ? new Date().setTime(
+                        launchDate.getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
+                    : new Date().setTime(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
                 }
                 value={dueDate}
                 onChange={(date) => {
@@ -82,8 +88,12 @@ const Step4 = ({
                 description="Asia/Dubai"
                 minDate={
                   dueDate
-                    ? new Date().setDate(dueDate.getDate() + 1)
-                    : new Date().setDate(new Date().getDate() + 1)
+                    ? new Date().setTime(
+                        dueDate.getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
+                    : new Date().setTime(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
                 }
                 value={biginDate}
                 onChange={(date) => {
@@ -98,8 +108,12 @@ const Step4 = ({
                 description="Asia/Dubai"
                 minDate={
                   biginDate
-                    ? new Date().setDate(biginDate.getDate() + 1)
-                    : new Date().setDate(new Date().getDate() + 1)
+                    ? new Date().setTime(
+                        biginDate.getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
+                    : new Date().setTime(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
                 }
                 value={endDate}
                 onChange={(date) => {
@@ -114,8 +128,12 @@ const Step4 = ({
                 description="Asia/Dubai"
                 minDate={
                   endDate
-                    ? new Date().setDate(endDate.getDate() + 1)
-                    : new Date().setDate(new Date().getDate() + 1)
+                    ? new Date().setTime(
+                        endDate.getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
+                    : new Date().setTime(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                      )
                 }
                 value={anounceDate}
                 onChange={(date) => {

@@ -6,9 +6,9 @@ export default {
     let result = coreApi.POST(url, data);
     return result;
   },
-  getSubmissionsList: (id) => {
+  getSubmissionsList: (id, searchCriteria) => {
     let url = `/challenge/${id}/submissionform/list`;
-    let result = coreApi.GET(url);
+    let result = coreApi.PUT(url, searchCriteria);
     return result;
   },
   disqualifySubmission: (id, submissionId) => {
@@ -16,9 +16,9 @@ export default {
     let result = coreApi.PUT(url);
     return result;
   },
-  judgeSubmissionform: (id, submissionId, data) => {
+  judgeSubmissionform: (id, submissionId, data, isEvaluation) => {
     let url = `/challenge/${id}/submissionform/${submissionId}/judge`;
-    let result = coreApi.PUT(url, data);
+    let result = coreApi.PUT(url, { data, isEvaluation });
     return result;
   },
 };

@@ -21,19 +21,35 @@ const Subscribe = ({ show, setShow }) => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    const { error, subscriptionSuccess } = allChallengesReducer;
+    const {
+      error,
+      subscriptionError,
+      subscriptionSuccess,
+    } = allChallengesReducer;
     if (subscriptionSuccess && email && !subscribed) {
       changeSubscribed(true);
       setEmail("");
     }
 
-    let errors = [];
-    if (Array.isArray(error)) {
-      errors = error;
-    } else if (typeof error === "string") {
-      errors.push(error);
+    if (subscriptionError) {
+      let errors = [];
+      if (Array.isArray(subscriptionError)) {
+        errors = subscriptionError;
+      } else if (typeof subscriptionError === "string") {
+        errors.push(subscriptionError);
+      }
+      setErrors(errors);
     }
-    setErrors(errors);
+
+    if (error) {
+      let errors = [];
+      if (Array.isArray(error)) {
+        errors = error;
+      } else if (typeof error === "string") {
+        errors.push(error);
+      }
+      setErrors(errors);
+    }
   }, [allChallengesReducer, email, subscribed]);
 
   return (

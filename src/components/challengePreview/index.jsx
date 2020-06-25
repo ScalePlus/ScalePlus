@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { v4 as uuidv4 } from "uuid";
+import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getChallengeAction,
   updateChallengeAction,
+  updateChallengeViewsAction,
 } from "../challengeMaster/action";
 import {
   PageTitle,
@@ -26,6 +29,8 @@ import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
 import "react-circular-progressbar/dist/styles.css";
 
+const cookies = new Cookies();
+
 const ChallengePreview = ({ history, match }) => {
   const dispatch = useDispatch();
   const getChallengeMethod = useCallback(
@@ -33,6 +38,10 @@ const ChallengePreview = ({ history, match }) => {
     [dispatch]
   );
   const updateChallengeMethod = (data) => dispatch(updateChallengeAction(data));
+  const updateChallengeViewsMethod = useCallback(
+    (data) => dispatch(updateChallengeViewsAction(data)),
+    [dispatch]
+  );
 
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
@@ -57,8 +66,23 @@ const ChallengePreview = ({ history, match }) => {
   const [organisationTeamMember, setTeamMember] = useState(null);
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
+  const [submissionVisibility, setSubmissionVisibility] = useState(false);
+  const [judgingVisibility, setJudgingVisibility] = useState(false);
   const [progress, setProgress] = useState(0);
   const challengeId = match.params.id;
+
+  useEffect(() => {
+    if (challengeId) {
+      if (!cookies.get("unique_id")) {
+        cookies.set("unique_id", uuidv4(), { path: "/" });
+      }
+
+      updateChallengeViewsMethod({
+        _id: challengeId,
+        unique_id: cookies.get("unique_id"),
+      });
+    }
+  }, [updateChallengeViewsMethod, challengeId]);
 
   useEffect(() => {
     getChallengeMethod(challengeId);
@@ -66,6 +90,7 @@ const ChallengePreview = ({ history, match }) => {
 
   useEffect(() => {
     const { error, challengeData } = challengeReducer;
+
     let errors = [];
     if (Array.isArray(error)) {
       errors = error;
@@ -219,6 +244,62 @@ const ChallengePreview = ({ history, match }) => {
           : false;
       setJudge(memberAsJudge);
 
+      const submissionStart =
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (each) => each.state.name === "Start"
+        );
+
+      const submissionDeadline =
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (each) => each.state.name === "Submission Deadline"
+        );
+
+      let submissionVisibility;
+
+      if (submissionStart && submissionDeadline) {
+        submissionVisibility =
+          new Date(submissionStart.date).setHours(0, 0, 0, 0) <=
+            new Date().setHours(0, 0, 0, 0) &&
+          new Date().setHours(0, 0, 0, 0) <=
+            new Date(submissionDeadline.date).setHours(0, 0, 0, 0);
+      }
+
+      setSubmissionVisibility(submissionVisibility);
+
+      const judgingStart =
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (each) => each.state.name === "Judging"
+        );
+
+      const judgingClosed =
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (each) => each.state.name === "Judging Closed"
+        );
+
+      let judgingVisibility;
+
+      if (judgingStart && judgingClosed) {
+        judgingVisibility =
+          new Date(judgingStart.date).setHours(0, 0, 0, 0) <=
+            new Date().setHours(0, 0, 0, 0) &&
+          new Date().setHours(0, 0, 0, 0) <=
+            new Date(judgingClosed.date).setHours(0, 0, 0, 0);
+      }
+
+      setJudgingVisibility(judgingVisibility);
+
       changeTabs((data) => {
         if (challengeData.resourceId && challengeData.resourceId.isActive) {
           if (!data.find((each) => each === "Resources")) {
@@ -269,38 +350,66 @@ const ChallengePreview = ({ history, match }) => {
 
       setChallenge(challengeData);
 
-      if (
-        is_startup_Individual &&
-        ((organisationTeamMember &&
-          organisationTeamMember.permission ===
-            Constants.TEAM_PERMISSION.ADMIN) ||
+      if (is_startup_Individual) {
+        if (
+          (organisationTeamMember &&
+            organisationTeamMember.permission ===
+              Constants.TEAM_PERMISSION.ADMIN) ||
           (memberAsParticipant &&
-            memberAsParticipant.permission === Constants.TEAM_PERMISSION.ADMIN))
-      ) {
-        changeTabs((data) => {
-          if (!data.find((each) => each === "Submissions")) {
-            data.splice(1, 0, "Submissions");
-          }
-          return data;
-        });
+            memberAsParticipant.permission === Constants.TEAM_PERMISSION.ADMIN)
+        ) {
+          changeTabs((data) => {
+            if (!data.find((each) => each === "Submissions")) {
+              data.splice(1, 0, "Submissions");
+            }
+            return data;
+          });
+        } else {
+          changeTabs((data) => {
+            let index = data.findIndex((each) => each === "Submissions");
+            if (index >= 0) {
+              data.splice(index, 1);
+            }
+            return data;
+          });
+        }
       }
 
-      if (
-        (is_organisation &&
-          challengeData &&
-          challengeData.organisationId._id.toString() ===
-            localStorage.getItem("userId")) ||
-        (is_mentor_judge && memberAsJudge)
-      ) {
-        changeTabs((data) => {
-          if (!data.find((each) => each === "Judging Criteria")) {
-            data.splice(1, 0, "Judging Criteria");
-          }
-          if (!data.find((each) => each === "Submissions")) {
-            data.splice(2, 0, "Submissions");
-          }
-          return data;
-        });
+      if (is_organisation || is_mentor_judge) {
+        if (
+          (challengeData &&
+            challengeData.organisationId._id.toString() ===
+              localStorage.getItem("userId")) ||
+          memberAsJudge
+        ) {
+          changeTabs((data) => {
+            if (!data.find((each) => each === "Judging Criteria")) {
+              data.splice(1, 0, "Judging Criteria");
+            }
+            if (!data.find((each) => each === "Submissions")) {
+              data.splice(2, 0, "Submissions");
+            }
+            return data;
+          });
+        } else {
+          changeTabs((data) => {
+            let submissionIndex = data.findIndex(
+              (each) => each === "Submissions"
+            );
+            if (submissionIndex >= 0) {
+              data.splice(submissionIndex, 1);
+            }
+
+            let judginfCriteriaIndex = data.findIndex(
+              (each) => each === "Judging Criteria"
+            );
+            if (judginfCriteriaIndex >= 0) {
+              data.splice(judginfCriteriaIndex, 1);
+            }
+
+            return data;
+          });
+        }
       }
     }
   }, [
@@ -380,6 +489,11 @@ const ChallengePreview = ({ history, match }) => {
             <Col lg={11} md={11} sm={11} xs={11}>
               <ChallengeViewHeader
                 organisationId={challengeData.organisationId}
+                viewCount={
+                  challengeData &&
+                  challengeData.views &&
+                  challengeData.views.length
+                }
                 shareClick={() => {
                   alert("clicked");
                 }}
@@ -396,6 +510,11 @@ const ChallengePreview = ({ history, match }) => {
           <Col lg={11} md={11} sm={11} xs={11}>
             <ChallengeViewHeader
               organisationId={challengeData.organisationId}
+              viewCount={
+                challengeData &&
+                challengeData.views &&
+                challengeData.views.length
+              }
               primaryButtonText={
                 selectedTab === tabs[0] || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
@@ -497,6 +616,8 @@ const ChallengePreview = ({ history, match }) => {
                 organisationTeamMember={organisationTeamMember}
                 is_organisation={is_organisation}
                 fromPreview={true}
+                submissionVisibility={submissionVisibility}
+                judgingVisibility={judgingVisibility}
               />
             )}
           </Tab.Pane>

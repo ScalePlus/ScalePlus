@@ -4,6 +4,7 @@ import {
   UPLOAD_FILE_ACTION,
   CHALLENGE_CATEGORIES_ACTION,
   UPDATE_CHALLENGE_ACTION,
+  UPDATE_CHALLENGE_VIEWS_ACTION,
 } from "./types";
 
 export const createChallengeAction = (data) => ({
@@ -18,6 +19,11 @@ export const getChallengeAction = (id) => ({
 
 export const updateChallengeAction = (data) => ({
   type: UPDATE_CHALLENGE_ACTION,
+  payload: data,
+});
+
+export const updateChallengeViewsAction = (data) => ({
+  type: UPDATE_CHALLENGE_VIEWS_ACTION,
   payload: data,
 });
 

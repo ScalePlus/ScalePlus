@@ -11,9 +11,10 @@ export const fillSubmissionformAction = (data, id) => ({
   id,
 });
 
-export const getSubmissionsListAction = (id) => ({
+export const getSubmissionsListAction = (id, searchCriteria) => ({
   type: SUBMISSION_FORM_LIST_ACTION,
   id,
+  searchCriteria,
 });
 
 export const disqualifySubmissionAction = (id, submissionId) => ({
@@ -22,9 +23,15 @@ export const disqualifySubmissionAction = (id, submissionId) => ({
   submissionId,
 });
 
-export const judgeSubmissionformAction = (id, submissionId, data) => ({
+export const judgeSubmissionformAction = (
+  id,
+  submissionId,
+  data,
+  isEvaluation
+) => ({
   type: JUDGE_SUBMISSION_FORM_ACTION,
   id,
   submissionId,
   payload: data,
+  isEvaluation,
 });

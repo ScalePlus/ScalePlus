@@ -9,6 +9,7 @@ const EvaluateModal = ({
   selectedRow,
   challengeData,
   onSaveDraft,
+  onSubmitEvaluation,
   errors,
 }) => {
   const [data, changeData] = useState(null);
@@ -54,10 +55,9 @@ const EvaluateModal = ({
               event.preventDefault();
               event.stopPropagation();
               const form = event.currentTarget;
-              if (form.checkValidity()) {
-                onSaveDraft(data);
+              if (!form.checkValidity()) {
+                setValidated(true);
               }
-              setValidated(true);
             }}
           >
             {errors && errors.length ? (
@@ -138,6 +138,12 @@ const EvaluateModal = ({
                           variant="secondary"
                           text={"Save Draft"}
                           type="submit"
+                          onClick={() => {
+                            const record = data.find((each) => !each.value);
+                            if (!record) {
+                              onSaveDraft(data);
+                            }
+                          }}
                         ></PrimaryButton>
                       </div>
                       <div className="submit-button">
@@ -145,7 +151,12 @@ const EvaluateModal = ({
                           variant="primary"
                           text={"Submit Evaluation"}
                           type="submit"
-                          disabled={true}
+                          onClick={() => {
+                            const record = data.find((each) => !each.value);
+                            if (!record) {
+                              onSubmitEvaluation(data);
+                            }
+                          }}
                         ></PrimaryButton>
                       </div>
                     </div>

@@ -854,7 +854,13 @@ export const ChallengeHeader = React.memo(
 );
 
 export const ChallengeViewHeader = React.memo(
-  ({ primaryButtonText, primaryButtonClick, shareClick, organisationId }) => {
+  ({
+    primaryButtonText,
+    primaryButtonClick,
+    shareClick,
+    organisationId,
+    viewCount,
+  }) => {
     return (
       <ChallengeViewHeaderContainer>
         <div className="left-continer">
@@ -903,7 +909,7 @@ export const ChallengeViewHeader = React.memo(
               ></img>
             </div>
             <div className="view-count">
-              <span>2000</span>
+              <span>{viewCount}</span>
             </div>
           </div>
           <div
@@ -1050,6 +1056,7 @@ export const CardComponent = React.memo(
     const [participantCount, setCount] = useState(0);
     const [progressPer, setProgressPer] = useState(0);
     const [currentMilestone, setCurrentMilestone] = useState("");
+    const [leftDays, setLeftDays] = useState(0);
 
     useEffect(() => {
       let selectedData = null,
@@ -1083,6 +1090,23 @@ export const CardComponent = React.memo(
             setProgressPer((index + 1) * perByPart);
           }
           setCurrentMilestone(selectedData.state.name);
+        }
+      }
+    }, [timelineId]);
+
+    useEffect(() => {
+      if (timelineId && timelineId.data && timelineId.data.length) {
+        const { data } = timelineId;
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          if (each.state.name === "Won") {
+            const currentDate = new Date().getTime();
+            const recordDate = new Date(each.date).getTime();
+            const diffTime = Math.abs(recordDate - currentDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            setLeftDays(diffDays);
+          }
         }
       }
     }, [timelineId]);
@@ -1132,7 +1156,7 @@ export const CardComponent = React.memo(
                   alt=""
                 ></img>
                 <div className="days-text">
-                  <span>30 days left</span>
+                  <span>{leftDays} days left</span>
                 </div>
               </div>
               <div className="prize-text">

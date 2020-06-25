@@ -242,7 +242,16 @@ const Timeline = ({ challengeId }) => {
                       <Col lg={6} md={6} sm={12} xs={12}>
                         <DateInput
                           isSmall={true}
-                          minDate={new Date().setDate(new Date().getDate() + 1)}
+                          minDate={
+                            index > 0
+                              ? new Date().setTime(
+                                  new Date(timeline[index - 1].date).getTime() +
+                                    1000 * 60 * 60 * 24 * 1
+                                )
+                              : new Date().setTime(
+                                  new Date().getTime() + 1000 * 60 * 60 * 24 * 1
+                                )
+                          }
                           value={each.date ? new Date(each.date) : null}
                           onChange={(date) => {
                             let newArr = [...timeline];
