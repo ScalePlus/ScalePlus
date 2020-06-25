@@ -1156,7 +1156,11 @@ export const CardComponent = React.memo(
                   alt=""
                 ></img>
                 <div className="days-text">
-                  <span>{leftDays} days left</span>
+                  {leftDays ? (
+                    <span>{leftDays} days left</span>
+                  ) : (
+                    <span>Completed</span>
+                  )}
                 </div>
               </div>
               <div className="prize-text">

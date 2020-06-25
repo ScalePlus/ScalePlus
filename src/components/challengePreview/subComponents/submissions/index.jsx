@@ -35,6 +35,8 @@ const Submissions = ({
   fromPreview,
   submissionVisibility,
   judgingVisibility,
+  judgingClosed,
+  submissionClosed,
 }) => {
   const dispatch = useDispatch();
   const fillSubmissionformMethod = (data) =>
@@ -231,7 +233,9 @@ const Submissions = ({
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
-                Submission is not started yet, You can explore{" "}
+                {`Submission is ${
+                  submissionClosed ? "closed" : "not started yet"
+                }, You can explore`}{" "}
                 <Link to="/all/challenges">Other Challenges</Link>
               </div>
             </Col>
@@ -521,7 +525,9 @@ const Submissions = ({
         <Row className="justify-content-center">
           <Col lg={10} md={10} sm={10} xs={10}>
             <div className="thankyou-text">
-              Judging is not started yet, You can explore{" "}
+              {`Judging is ${
+                judgingClosed ? "closed" : "not started yet"
+              }, You can explore`}{" "}
               <Link to="/all/challenges">Other Challenges</Link>
             </div>
           </Col>

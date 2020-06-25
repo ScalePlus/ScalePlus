@@ -147,6 +147,9 @@ const ChallengesList = ({ history }) => {
                           <CardComponent
                             organisationId={each.organisationId}
                             descriptionId={each.descriptionId}
+                            judgesId={each.judgesId}
+                            participantsId={each.participantsId}
+                            timelineId={each.timelineId}
                           />
                         </Col>
                       );

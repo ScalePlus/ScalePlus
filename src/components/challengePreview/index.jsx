@@ -68,6 +68,8 @@ const ChallengePreview = ({ history, match }) => {
   const [memberAsJudge, setJudge] = useState(false);
   const [submissionVisibility, setSubmissionVisibility] = useState(false);
   const [judgingVisibility, setJudgingVisibility] = useState(false);
+  const [judgingClosed, setJudgingClosed] = useState(false);
+  const [submissionClosed, setSubmissionClosed] = useState(false);
   const [progress, setProgress] = useState(0);
   const challengeId = match.params.id;
 
@@ -270,6 +272,10 @@ const ChallengePreview = ({ history, match }) => {
             new Date(submissionDeadline.date).setHours(0, 0, 0, 0);
       }
 
+      setSubmissionClosed(
+        new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
+          new Date().setHours(0, 0, 0, 0)
+      );
       setSubmissionVisibility(submissionVisibility);
 
       const judgingStart =
@@ -298,6 +304,10 @@ const ChallengePreview = ({ history, match }) => {
             new Date(judgingClosed.date).setHours(0, 0, 0, 0);
       }
 
+      setJudgingClosed(
+        new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
+          new Date().setHours(0, 0, 0, 0)
+      );
       setJudgingVisibility(judgingVisibility);
 
       changeTabs((data) => {
@@ -374,7 +384,6 @@ const ChallengePreview = ({ history, match }) => {
           });
         }
       }
-
       if (is_organisation || is_mentor_judge) {
         if (
           (challengeData &&
@@ -383,11 +392,8 @@ const ChallengePreview = ({ history, match }) => {
           memberAsJudge
         ) {
           changeTabs((data) => {
-            if (!data.find((each) => each === "Judging Criteria")) {
-              data.splice(1, 0, "Judging Criteria");
-            }
             if (!data.find((each) => each === "Submissions")) {
-              data.splice(2, 0, "Submissions");
+              data.splice(1, 0, "Submissions");
             }
             return data;
           });
@@ -399,7 +405,30 @@ const ChallengePreview = ({ history, match }) => {
             if (submissionIndex >= 0) {
               data.splice(submissionIndex, 1);
             }
+            return data;
+          });
+        }
+      }
 
+      if (is_organisation || is_mentor_judge) {
+        if (
+          challengeData &&
+          (challengeData.organisationId._id.toString() ===
+            localStorage.getItem("userId") ||
+            memberAsJudge) &&
+          challengeData.judgingCriteriaId &&
+          challengeData.judgingCriteriaId.data &&
+          challengeData.judgingCriteriaId.data.length
+        ) {
+          changeTabs((data) => {
+            if (!data.find((each) => each === "Judging Criteria")) {
+              data.splice(1, 0, "Judging Criteria");
+            }
+
+            return data;
+          });
+        } else {
+          changeTabs((data) => {
             let judginfCriteriaIndex = data.findIndex(
               (each) => each === "Judging Criteria"
             );
@@ -618,6 +647,8 @@ const ChallengePreview = ({ history, match }) => {
                 fromPreview={true}
                 submissionVisibility={submissionVisibility}
                 judgingVisibility={judgingVisibility}
+                judgingClosed={judgingClosed}
+                submissionClosed={submissionClosed}
               />
             )}
           </Tab.Pane>
