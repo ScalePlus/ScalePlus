@@ -654,11 +654,7 @@ const SubmissionForm = ({ challengeId }) => {
                   )}
                 </Droppable>
               </DragDropContext>
-            ) : (
-              <div className="table-body-container">
-                <span>!!!Add Form Builder Here!!!</span>
-              </div>
-            )}
+            ) : null}
           </Col>
         </Row>
       </Form>

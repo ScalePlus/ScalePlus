@@ -3,13 +3,7 @@ import coreApi from "../../lib/coreApi";
 export default {
   createChallenge: (data) => {
     let url = `/challenge`;
-    let result;
-
-    if (data.bannerImage && data.bannerImage.name) {
-      result = coreApi.FILE_UPLOAD(url, data, "bannerImage", "POST");
-    } else {
-      result = coreApi.POST(url, data);
-    }
+    let result = coreApi.POST(url, data);
 
     return result;
   },
@@ -35,6 +29,11 @@ export default {
   },
   challengeCategoriesList: () => {
     let url = `/challenge/categories/list`;
+    let result = coreApi.GET(url);
+    return result;
+  },
+  challengeTagsList: () => {
+    let url = `/challenge/tags/list`;
     let result = coreApi.GET(url);
     return result;
   },

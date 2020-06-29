@@ -37,7 +37,7 @@ export const MainContainer = styled.div`
   .button-container {
     text-align: right;
     margin-top: 35px;
-    margin-bottom: 80px;
+    // margin-bottom: 80px;
     button {
       padding: 0px;
     }

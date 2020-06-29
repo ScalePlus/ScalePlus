@@ -69,7 +69,7 @@ export const MainContainer = styled.div`
       }
     }
 
-    .title-container {
+    .label-title-container {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -83,10 +83,6 @@ export const MainContainer = styled.div`
         margin-bottom: 0;
         flex: 1;
         padding: 0 10px;
-        .form-control {
-          border-radius: 6px;
-          border: 1px solid rgba(0, 0, 0, 0.5);
-        }
       }
       .remove-container {
         display: flex;

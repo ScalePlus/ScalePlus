@@ -37,6 +37,7 @@ const Resources = ({ challengeId }) => {
   const [validated, setValidated] = useState(false);
   const [isActive, setActivity] = useState(false);
   const [resources, changeResources] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -68,9 +69,9 @@ const Resources = ({ challengeId }) => {
 
   return (
     <MainContainer>
-      {(challengeResourceReducer.loading || challengeReducer.loading) && (
-        <Loading />
-      )}
+      {(challengeResourceReducer.loading ||
+        challengeReducer.loading ||
+        loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -117,6 +118,7 @@ const Resources = ({ challengeId }) => {
             for (let i = 0; i < newArr.length; i++) {
               const resource = newArr[i];
               if (resource.attachment && resource.attachment.name) {
+                setLoading(true);
                 let fileResult = await Api.uploadFile({
                   file: resource.attachment,
                 });
@@ -127,6 +129,7 @@ const Resources = ({ challengeId }) => {
                 ) {
                   resource.attachment = fileResult.result.imageKey;
                 }
+                setLoading(false);
               }
             }
 

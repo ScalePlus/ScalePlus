@@ -24,6 +24,10 @@ import {
   UPDATE_CHALLENGE_VIEWS_LOADING,
   UPDATE_CHALLENGE_VIEWS_SUCCESS,
   UPDATE_CHALLENGE_VIEWS_ERROR,
+  CHALLENGE_TAGS_ACTION,
+  CHALLENGE_TAGS_LOADING,
+  CHALLENGE_TAGS_SUCCESS,
+  CHALLENGE_TAGS_ERROR,
 } from "./types";
 import Api from "./api";
 import history from "../../history";
@@ -114,6 +118,20 @@ function* challengeCategoriesListSaga() {
   }
 }
 
+function* challengeTagsListSaga() {
+  yield put({ type: CHALLENGE_TAGS_LOADING });
+  try {
+    let res = yield call(Api.challengeTagsList);
+    if (res.status) {
+      yield put({ type: CHALLENGE_TAGS_ERROR, payload: res.message });
+    } else {
+      yield put({ type: CHALLENGE_TAGS_SUCCESS, payload: res.result });
+    }
+  } catch (error) {
+    yield put({ type: CHALLENGE_TAGS_ERROR, payload: error.message });
+  }
+}
+
 function* watchChallengeAsync() {
   yield takeLatest(CREATE_CHALLENGE_ACTION, createChallengeSaga);
   yield takeLatest(GET_CHALLENGE_ACTION, getChallengeSaga);
@@ -121,6 +139,7 @@ function* watchChallengeAsync() {
   yield takeLatest(UPDATE_CHALLENGE_VIEWS_ACTION, updateChallengeViewsSaga);
   yield takeLatest(UPLOAD_FILE_ACTION, uploadFileSaga);
   yield takeLatest(CHALLENGE_CATEGORIES_ACTION, challengeCategoriesListSaga);
+  yield takeLatest(CHALLENGE_TAGS_ACTION, challengeTagsListSaga);
 }
 
 export default watchChallengeAsync;

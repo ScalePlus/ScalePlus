@@ -3,6 +3,7 @@ import Stepper from "../stepper";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { createChallengeAction, challengeCategoriesListAction } from "./action";
+import Api from "../challengeMaster/api";
 import theme from "../../theme";
 import Step1 from "./step1";
 import Step2 from "./step2";
@@ -39,7 +40,18 @@ const ChallengeMaster = () => {
   const [biginDate, changeBiginDate] = useState(null);
   const [endDate, changeEndDate] = useState(null);
   const [anounceDate, changeAnounceDate] = useState(null);
+  const [timeline, changeTimeline] = useState([
+    {
+      _id: `timeline-1`,
+      startDate: "",
+      endDate: "",
+      state: "",
+      description: "",
+      adminAttachments: [],
+    },
+  ]);
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     challengeCategoriesListMethod();
@@ -60,29 +72,38 @@ const ChallengeMaster = () => {
     window.scrollTo(0, 0);
   }, [activeStep]);
 
-  const createChallenge = () => {
+  const createChallenge = async () => {
+    let file = bannerImage;
+    setLoading(true);
+
+    if (file && file.name) {
+      let fileResult = await Api.uploadFile({
+        file: file,
+      });
+      if (fileResult && fileResult.result && fileResult.result.imageKey) {
+        file = fileResult.result.imageKey;
+      }
+    }
+
+    setLoading(false);
     createChallengeMethod({
       typeOfSolution,
       title,
       prize,
-      categories: categories.map((each) => each.value),
+      categories,
       shortDescription,
-      bannerImage,
+      bannerImage: file,
       videoURL,
       problemStatement,
       currentSolution,
       painPoint,
-      launchDate,
-      dueDate,
-      biginDate,
-      endDate,
-      anounceDate,
+      timeline,
     });
   };
 
   return (
     <MainContainer>
-      {challengeReducer.loading && <Loading />}
+      {(challengeReducer.loading || loading) && <Loading />}
       <Row className="justify-content-center">
         <Col lg={7} md={10} sm={12} className="container">
           <Stepper
@@ -185,6 +206,8 @@ const ChallengeMaster = () => {
               anounceDate={anounceDate}
               changeAnounceDate={changeAnounceDate}
               createChallenge={createChallenge}
+              timeline={timeline}
+              changeTimeline={changeTimeline}
             ></Step4>
           ) : null}
         </Col>

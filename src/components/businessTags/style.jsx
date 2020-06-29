@@ -18,7 +18,7 @@ export const MainContainer = styled.div`
   }
   .button-container {
     margin-top: 35px;
-    margin-bottom: 80px;
+    // margin-bottom: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;

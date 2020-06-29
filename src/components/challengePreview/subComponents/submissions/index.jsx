@@ -34,7 +34,7 @@ const Submissions = ({
   challengeData,
   fromPreview,
   submissionVisibility,
-  judgingVisibility,
+  judgingStarted,
   judgingClosed,
   submissionClosed,
 }) => {
@@ -515,7 +515,7 @@ const Submissions = ({
     is_organisation ||
     (organisationTeamMember &&
       organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
-    !judgingVisibility ? (
+    !judgingStarted ? (
       <MainContainer>
         <Row className="justify-content-center center-alignment header-container">
           <Col lg={10} md={10} sm={10} xs={10}>
@@ -525,9 +525,7 @@ const Submissions = ({
         <Row className="justify-content-center">
           <Col lg={10} md={10} sm={10} xs={10}>
             <div className="thankyou-text">
-              {`Judging is ${
-                judgingClosed ? "closed" : "not started yet"
-              }, You can explore`}{" "}
+              {`Judging is not started yet, You can explore`}{" "}
               <Link to="/all/challenges">Other Challenges</Link>
             </div>
           </Col>
@@ -546,6 +544,8 @@ const Submissions = ({
               selectedRow.isDisqualified ? (
                 <HeaderComponent titleText="Submissions (DISQUALIFIED)" />
               ) : selectedRow.isEvaluated ? (
+                <HeaderComponent titleText="Submissions" />
+              ) : judgingClosed ? (
                 <HeaderComponent titleText="Submissions" />
               ) : (
                 <HeaderComponent
@@ -714,6 +714,7 @@ const Submissions = ({
                       <DropDown
                         isSmall={true}
                         isSingle={true}
+                        isSelectOnly={true}
                         placeholder="Filter Results"
                         options={[
                           { label: "All", value: "all" },

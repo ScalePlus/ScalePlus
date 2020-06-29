@@ -53,81 +53,85 @@ const Judges = ({ challengeId }) => {
           />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Switch
-            checked={check}
-            onChange={() => {
-              setCheck(!check);
-            }}
-            variant="primary"
-            label="Enable Judges tab"
-          ></Switch>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <CommonTable
-            columns={[
-              {
-                Header: "",
-                accessor: "userId",
-                width: "8%",
-                Cell: (data) => {
-                  return <div className="avtar-container"></div>;
+      {tabelData && tabelData.length ? (
+        <Row>
+          <Col>
+            <Switch
+              checked={check}
+              onChange={() => {
+                setCheck(!check);
+              }}
+              variant="primary"
+              label="Enable Judges tab"
+            ></Switch>
+          </Col>
+        </Row>
+      ) : null}
+      {tabelData && tabelData.length ? (
+        <Row>
+          <Col>
+            <CommonTable
+              columns={[
+                {
+                  Header: "",
+                  accessor: "userId",
+                  width: "8%",
+                  Cell: (data) => {
+                    return <div className="avtar-container"></div>;
+                  },
                 },
-              },
-              {
-                Header: "Name",
-                accessor: "userId",
-                width: "40%",
-                Cell: (data) => {
-                  if (data && data.details && data.details.name) {
-                    return <span className="link">{data.details.name}</span>;
-                  } else {
-                    return <span>-----</span>;
-                  }
+                {
+                  Header: "Name",
+                  accessor: "userId",
+                  width: "40%",
+                  Cell: (data) => {
+                    if (data && data.details && data.details.name) {
+                      return <span className="link">{data.details.name}</span>;
+                    } else {
+                      return <span>-----</span>;
+                    }
+                  },
                 },
-              },
-              {
-                Header: "Email",
-                accessor: "userId",
-                width: "40%",
-                Cell: (data) => {
-                  return <span>{data && data.email}</span>;
+                {
+                  Header: "Email",
+                  accessor: "userId",
+                  width: "40%",
+                  Cell: (data) => {
+                    return <span>{data && data.email}</span>;
+                  },
                 },
-              },
-              {
-                Header: "Status",
-                accessor: "status",
-                width: "22%",
-                Cell: (data) => {
-                  return (
-                    <div className="action-container">
-                      <div
-                        className="status-tab"
-                        style={{
-                          background:
-                            data === "Accepeted"
-                              ? "#4CD964"
-                              : data === "Declined"
-                              ? "#FF3B30"
-                              : "rgba(0, 0, 0, 0.11)",
-                        }}
-                      >
-                        <span>{data}</span>
+                {
+                  Header: "Status",
+                  accessor: "status",
+                  width: "22%",
+                  Cell: (data) => {
+                    return (
+                      <div className="action-container">
+                        <div
+                          className="status-tab"
+                          style={{
+                            background:
+                              data === "Accepeted"
+                                ? "#4CD964"
+                                : data === "Declined"
+                                ? "#FF3B30"
+                                : "rgba(0, 0, 0, 0.11)",
+                          }}
+                        >
+                          <span>{data}</span>
+                        </div>
+                        <RemoveButton onClick={() => {}} />
                       </div>
-                      <RemoveButton onClick={() => {}} />
-                    </div>
-                  );
+                    );
+                  },
                 },
-              },
-            ]}
-            data={tabelData}
-            showPagination={false}
-          />
-        </Col>
-      </Row>
+              ]}
+              data={tabelData}
+              showPagination={false}
+            />
+          </Col>
+        </Row>
+      ) : null}
 
       <InviteModal show={show} setShow={setShow} challengeId={challengeId} />
     </MainContainer>

@@ -45,8 +45,8 @@ const Step1 = ({ setActiveStep, typeOfSolution, setTypeOfSolution }) => {
                 <div
                   className={
                     typeOfSolution === each.title
-                      ? "box-container active"
-                      : "box-container"
+                      ? "step-box-container active"
+                      : "step-box-container"
                   }
                   onClick={() => {
                     setActiveStep(1);

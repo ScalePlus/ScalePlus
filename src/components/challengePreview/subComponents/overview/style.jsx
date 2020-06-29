@@ -69,7 +69,6 @@ export const MainContainer = styled.div`
 
 export const ContentContainer = styled.div`
   .description {
-    margin-bottom: 45px;
     font-size: ${theme.fontSize.medium};
   }
 
@@ -78,8 +77,8 @@ export const ContentContainer = styled.div`
     margin-bottom: 45px;
   }
 
-  .image-container {
-    margin-bottom: 45px;
+  .video-container {
+    margin-top: 45px;
     height: 500px;
     border: 1px solid ${theme.colors.borderGrey};
     border-radius: 6px;
@@ -87,8 +86,7 @@ export const ContentContainer = styled.div`
   }
 
   .button-container {
-    margin-top: 15px;
-    margin-bottom: 80px;
+    margin-top: 45px;
     button {
       width: 100%;
       padding: 15px;

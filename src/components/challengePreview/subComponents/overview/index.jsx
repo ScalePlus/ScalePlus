@@ -6,11 +6,6 @@ import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
-let tagsList = [
-  { value: "1", label: "tag1" },
-  { value: "2", label: "tag2" },
-  { value: "3", label: "tag3" },
-];
 
 const OverView = ({
   challengeData,
@@ -21,6 +16,7 @@ const OverView = ({
   is_logged_in,
   is_profile_updated,
   setUserFlowModal,
+  submissionClosed,
 }) => {
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
@@ -85,13 +81,7 @@ const OverView = ({
                   challengeData.descriptionId.tags &&
                   challengeData.descriptionId.tags.length
                     ? challengeData.descriptionId.tags.map((each, index) => {
-                        let record = tagsList.find(
-                          (option) => option.value === each
-                        );
-                        if (record && record.label) {
-                          return <span key={index}>{record.label}</span>;
-                        }
-                        return null;
+                        return <span key={index}>{each.name}</span>;
                       })
                     : null}
                 </div>
@@ -135,7 +125,7 @@ const OverView = ({
                 {is_organisation || organisationTeamMember ? null : (
                   <div className="button-container">
                     <PrimaryButton
-                      variant="primary"
+                      variant={submissionClosed ? "secondary" : "primary"}
                       text={
                         is_mentor_judge && !memberAsJudge
                           ? "Judge this Challenge"
@@ -143,7 +133,9 @@ const OverView = ({
                               !memberAsParticipant &&
                               !organisationTeamMember) ||
                             !is_logged_in
-                          ? "Solve Challenge"
+                          ? submissionClosed
+                            ? "Submission Closed"
+                            : "Solve Challenge"
                           : null
                       }
                       onClick={() => {
@@ -151,16 +143,20 @@ const OverView = ({
                           if (is_profile_updated) {
                             if (is_mentor_judge) {
                               history.push("/dashboard");
-                            } else {
+                            } else if (!submissionClosed) {
                               history.push(
                                 `/solve/challenge/${challengeData._id}`
                               );
                             }
                           } else {
-                            history.push("/detail");
+                            if (!submissionClosed) {
+                              history.push("/detail");
+                            }
                           }
                         } else {
-                          setUserFlowModal(true);
+                          if (!submissionClosed) {
+                            setUserFlowModal(true);
+                          }
                         }
                       }}
                     ></PrimaryButton>
@@ -204,7 +200,7 @@ const OverView = ({
             ></div>
             {challengeData.descriptionId &&
               challengeData.descriptionId.videoURL && (
-                <div className="image-container">
+                <div className="video-container">
                   <ReactPlayer
                     url={challengeData.descriptionId.videoURL}
                     width={"100%"}
@@ -219,7 +215,7 @@ const OverView = ({
           <Row className="justify-content-center">
             <Col lg={3} md={3} sm={3} xs={3} className="button-container">
               <PrimaryButton
-                variant="primary"
+                variant={submissionClosed ? "secondary" : "primary"}
                 text={
                   is_mentor_judge && !memberAsJudge
                     ? "Judge this Challenge"
@@ -227,7 +223,9 @@ const OverView = ({
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
                       !is_logged_in
-                    ? "Solve Challenge"
+                    ? submissionClosed
+                      ? "Submission Closed"
+                      : "Solve Challenge"
                     : null
                 }
                 onClick={() => {
@@ -235,14 +233,18 @@ const OverView = ({
                     if (is_profile_updated) {
                       if (is_mentor_judge) {
                         history.push("/dashboard");
-                      } else {
+                      } else if (!submissionClosed) {
                         history.push(`/solve/challenge/${challengeData._id}`);
                       }
                     } else {
-                      history.push("/detail");
+                      if (!submissionClosed) {
+                        history.push("/detail");
+                      }
                     }
                   } else {
-                    setUserFlowModal(true);
+                    if (!submissionClosed) {
+                      setUserFlowModal(true);
+                    }
                   }
                 }}
               ></PrimaryButton>

@@ -3,6 +3,7 @@ import {
   GET_CHALLENGE_ACTION,
   UPLOAD_FILE_ACTION,
   CHALLENGE_CATEGORIES_ACTION,
+  CHALLENGE_TAGS_ACTION,
   UPDATE_CHALLENGE_ACTION,
   UPDATE_CHALLENGE_VIEWS_ACTION,
 } from "./types";
@@ -34,4 +35,8 @@ export const uploadFileAction = (data) => ({
 
 export const challengeCategoriesListAction = () => ({
   type: CHALLENGE_CATEGORIES_ACTION,
+});
+
+export const challengeTagsListAction = () => ({
+  type: CHALLENGE_TAGS_ACTION,
 });

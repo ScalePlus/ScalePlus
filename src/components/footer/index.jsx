@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { doSubscriptionAction } from "../allChallenges/action";
 import { MainContainer } from "./style";
 import history from "../../history";
-const groups = [
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-  "/images/Al-Futtaim_Group_DL_logo.svg",
-];
+// const groups = [
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+//   "/images/Al-Futtaim_Group_DL_logo.svg",
+// ];
 
 const Footer = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const Footer = () => {
 
   return (
     <MainContainer>
-      <div className="group-container">
+      {/* <div className="group-container">
         <Row>
           <Col>
             <div className="groups">
@@ -60,7 +60,7 @@ const Footer = () => {
             </div>
           </Col>
         </Row>
-      </div>
+      </div> */}
 
       <Row className="subscribe-container">
         <Col lg={9} md={9} sm={9} xs={9}>

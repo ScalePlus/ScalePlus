@@ -67,7 +67,7 @@ const ChallengePreview = ({ history, match }) => {
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
   const [submissionVisibility, setSubmissionVisibility] = useState(false);
-  const [judgingVisibility, setJudgingVisibility] = useState(false);
+  const [judgingStarted, setJudgingVisibility] = useState(false);
   const [judgingClosed, setJudgingClosed] = useState(false);
   const [submissionClosed, setSubmissionClosed] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -262,21 +262,21 @@ const ChallengePreview = ({ history, match }) => {
           (each) => each.state.name === "Submission Deadline"
         );
 
-      let submissionVisibility;
-
       if (submissionStart && submissionDeadline) {
-        submissionVisibility =
+        setSubmissionVisibility(
           new Date(submissionStart.date).setHours(0, 0, 0, 0) <=
             new Date().setHours(0, 0, 0, 0) &&
-          new Date().setHours(0, 0, 0, 0) <=
-            new Date(submissionDeadline.date).setHours(0, 0, 0, 0);
+            new Date().setHours(0, 0, 0, 0) <=
+              new Date(submissionDeadline.date).setHours(0, 0, 0, 0)
+        );
       }
 
-      setSubmissionClosed(
-        new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
-          new Date().setHours(0, 0, 0, 0)
-      );
-      setSubmissionVisibility(submissionVisibility);
+      if (submissionDeadline) {
+        setSubmissionClosed(
+          new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
+            new Date().setHours(0, 0, 0, 0)
+        );
+      }
 
       const judgingStart =
         challengeData &&
@@ -294,21 +294,19 @@ const ChallengePreview = ({ history, match }) => {
           (each) => each.state.name === "Judging Closed"
         );
 
-      let judgingVisibility;
-
-      if (judgingStart && judgingClosed) {
-        judgingVisibility =
+      if (judgingStart) {
+        setJudgingVisibility(
           new Date(judgingStart.date).setHours(0, 0, 0, 0) <=
-            new Date().setHours(0, 0, 0, 0) &&
-          new Date().setHours(0, 0, 0, 0) <=
-            new Date(judgingClosed.date).setHours(0, 0, 0, 0);
+            new Date().setHours(0, 0, 0, 0)
+        );
       }
 
-      setJudgingClosed(
-        new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
-          new Date().setHours(0, 0, 0, 0)
-      );
-      setJudgingVisibility(judgingVisibility);
+      if (judgingClosed) {
+        setJudgingClosed(
+          new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
+            new Date().setHours(0, 0, 0, 0)
+        );
+      }
 
       changeTabs((data) => {
         if (challengeData.resourceId && challengeData.resourceId.isActive) {
@@ -523,9 +521,6 @@ const ChallengePreview = ({ history, match }) => {
                   challengeData.views &&
                   challengeData.views.length
                 }
-                shareClick={() => {
-                  alert("clicked");
-                }}
               />
             </Col>
           </Row>
@@ -544,7 +539,7 @@ const ChallengePreview = ({ history, match }) => {
                 challengeData.views &&
                 challengeData.views.length
               }
-              primaryButtonText={
+              buttonText={
                 selectedTab === tabs[0] || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
                     ? "Judge this Challenge"
@@ -552,28 +547,40 @@ const ChallengePreview = ({ history, match }) => {
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
                       !is_logged_in
-                    ? "Solve Challenge"
+                    ? submissionClosed
+                      ? "Submission Closed"
+                      : "Solve Challenge"
                     : null
                   : null
               }
-              primaryButtonClick={() => {
+              buttonClick={() => {
                 if (is_logged_in) {
                   if (is_profile_updated) {
                     if (is_mentor_judge) {
                       history.push("/dashboard");
-                    } else {
+                    } else if (!submissionClosed) {
                       history.push(`/solve/challenge/${challengeData._id}`);
                     }
                   } else {
-                    history.push("/detail");
+                    if (!submissionClosed) {
+                      history.push("/detail");
+                    }
                   }
                 } else {
-                  setUserFlowModal(true);
+                  if (!submissionClosed) {
+                    setUserFlowModal(true);
+                  }
                 }
               }}
-              shareClick={() => {
-                alert("clicked");
-              }}
+              buttonVariant={
+                ((is_startup_Individual &&
+                  !memberAsParticipant &&
+                  !organisationTeamMember) ||
+                  !is_logged_in) &&
+                submissionClosed
+                  ? "secondary"
+                  : "primary"
+              }
             />
           </Col>
         </Row>
@@ -627,6 +634,7 @@ const ChallengePreview = ({ history, match }) => {
               is_logged_in={is_logged_in}
               is_profile_updated={is_profile_updated}
               setUserFlowModal={setUserFlowModal}
+              submissionClosed={submissionClosed}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
@@ -645,10 +653,10 @@ const ChallengePreview = ({ history, match }) => {
                 organisationTeamMember={organisationTeamMember}
                 is_organisation={is_organisation}
                 fromPreview={true}
-                submissionVisibility={submissionVisibility}
-                judgingVisibility={judgingVisibility}
-                judgingClosed={judgingClosed}
-                submissionClosed={submissionClosed}
+                submissionVisibility={true}
+                judgingStarted={true}
+                judgingClosed={false}
+                submissionClosed={false}
               />
             )}
           </Tab.Pane>

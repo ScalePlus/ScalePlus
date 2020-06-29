@@ -1,22 +1,70 @@
-import React, { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import { DateInput, PrimaryButton, PageTitle } from "../common";
-import { Constants } from "../../lib/constant";
+import React, { useState, useEffect, useCallback } from "react";
+import { addDays, setHours, setMinutes, getHours, getMinutes } from "date-fns";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import Api from "../challengeMaster/api";
+import { getTimelineStateAction } from "../challengeEdit/subComponents/timeline/action";
+import {
+  DateInput,
+  DropDown,
+  TextArea,
+  RemoveButton,
+  AddButton,
+  Input,
+  FileInput,
+  PageTitle,
+  PrimaryButton,
+} from "../common";
+import Stepper from "../stepper";
+import { MainContainer } from "../challengeEdit/subComponents/timeline/style";
+import theme from "../../theme";
 
-const Step4 = ({
-  launchDate,
-  changeLaunchDate,
-  dueDate,
-  changeDueDate,
-  biginDate,
-  changeBiginDate,
-  endDate,
-  changeEndDate,
-  anounceDate,
-  changeAnounceDate,
-  createChallenge,
-}) => {
+const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
+  const dispatch = useDispatch();
+  const getTimelineStateMethod = useCallback(
+    () => dispatch(getTimelineStateAction()),
+    [dispatch]
+  );
+
+  const challengeTimelineReducer = useSelector((state) => {
+    return state.challengeTimelineReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [stateList, changeStateList] = useState([]);
+
+  useEffect(() => {
+    getTimelineStateMethod();
+  }, [getTimelineStateMethod]);
+
+  useEffect(() => {
+    const { error, timelineStatesSuccess } = challengeTimelineReducer;
+    if (
+      timelineStatesSuccess &&
+      timelineStatesSuccess.result &&
+      timelineStatesSuccess.result.length
+    ) {
+      changeStateList(
+        timelineStatesSuccess.result.map((each) => {
+          return {
+            value: each._id,
+            label: each.name,
+          };
+        })
+      );
+    }
+
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeTimelineReducer]);
+
   return (
     <Row className="sub-container">
       <Col>
@@ -25,125 +73,373 @@ const Step4 = ({
         </Row>
         <Row className="title-container">
           <Col>
-            <PageTitle text="Challenge Timeline" />
+            <div className="flex-container">
+              <PageTitle text="Challenge Timeline" />
+
+              <PrimaryButton
+                text="Add"
+                variant="info"
+                type="button"
+                onClick={() => {
+                  changeTimeline((data) =>
+                    data.concat({
+                      _id: `timeline-${data.length + 1}`,
+                      startDate: "",
+                      endDate: "",
+                      state: "",
+                      description: "",
+                      adminAttachments: [],
+                    })
+                  );
+                }}
+              ></PrimaryButton>
+            </div>
           </Col>
         </Row>
         <Row className="sub-title">
           <Col>When would you like to launch your challenge?</Col>
         </Row>
+
+        {errors && errors.length ? (
+          <Row style={{ marginBottom: 30 }}>
+            <Col>
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            </Col>
+          </Row>
+        ) : null}
+
         <Form
           noValidate
           validated={validated}
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
             event.stopPropagation();
             const form = event.currentTarget;
-            if (form.checkValidity()) {
+            if (form.checkValidity() && !timeline.find((each) => !each.state)) {
+              let newArr = [...timeline];
+              for (let i = 0; i < newArr.length; i++) {
+                const record = newArr[i];
+                if (
+                  record &&
+                  record.adminAttachments &&
+                  record.adminAttachments.length
+                ) {
+                  for (let j = 0; j < record.adminAttachments.length; j++) {
+                    const attachmentRecord = record.adminAttachments[j];
+                    if (attachmentRecord.file && attachmentRecord.file.name) {
+                      let fileResult = await Api.uploadFile({
+                        file: attachmentRecord.file,
+                      });
+                      if (
+                        fileResult &&
+                        fileResult.result &&
+                        fileResult.result.imageKey
+                      ) {
+                        attachmentRecord.file = fileResult.result.imageKey;
+                      }
+                    }
+                  }
+                }
+              }
+
+              changeTimeline(newArr);
               createChallenge();
             } else {
               window.scrollTo(0, 0);
               setValidated(true);
             }
           }}
+          style={{ marginBottom: 30 }}
         >
-          <Row className="form-container">
-            <Col>
-              <DateInput
-                isSmall={true}
-                label="My challenge launch date: *"
-                description="Asia/Dubai"
-                minDate={new Date().setTime(
-                  new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                )}
-                value={launchDate}
-                onChange={(date) => {
-                  changeLaunchDate(date);
-                }}
-                required
-                errorMessage={Constants.Errors.launchDate}
-              />
-              <DateInput
-                isSmall={true}
-                label="My challenge submissions are due on: *"
-                description="Asia/Dubai"
-                minDate={
-                  launchDate
-                    ? new Date().setTime(
-                        launchDate.getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                    : new Date().setTime(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                }
-                value={dueDate}
-                onChange={(date) => {
-                  changeDueDate(date);
-                }}
-                required
-                errorMessage={Constants.Errors.dueDate}
-              />
-              <DateInput
-                isSmall={true}
-                label="My challenge judging begins on: *"
-                description="Asia/Dubai"
-                minDate={
-                  dueDate
-                    ? new Date().setTime(
-                        dueDate.getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                    : new Date().setTime(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                }
-                value={biginDate}
-                onChange={(date) => {
-                  changeBiginDate(date);
-                }}
-                required
-                errorMessage={Constants.Errors.biginDate}
-              />
-              <DateInput
-                isSmall={true}
-                label="My challenge judging ends on: *"
-                description="Asia/Dubai"
-                minDate={
-                  biginDate
-                    ? new Date().setTime(
-                        biginDate.getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                    : new Date().setTime(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                }
-                value={endDate}
-                onChange={(date) => {
-                  changeEndDate(date);
-                }}
-                required
-                errorMessage={Constants.Errors.endDate}
-              />
-              <DateInput
-                isSmall={true}
-                label="Challenge winners are announced on: *"
-                description="Asia/Dubai"
-                minDate={
-                  endDate
-                    ? new Date().setTime(
-                        endDate.getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                    : new Date().setTime(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                      )
-                }
-                value={anounceDate}
-                onChange={(date) => {
-                  changeAnounceDate(date);
-                }}
-                required
-                errorMessage={Constants.Errors.anounceDate}
-              />
-            </Col>
-          </Row>
+          <MainContainer style={{ marginTop: 35 }}>
+            {timeline && timeline.length && timeline.length > 1 ? (
+              <Row style={{ marginBottom: 45 }}>
+                <Col>
+                  <div className="timeline">
+                    <Stepper
+                      steps={timeline.map((each) => {
+                        return {
+                          title: moment(each.startDate).format("MMMM DD, YYYY"),
+                        };
+                      })}
+                      activeColor={theme.colors.black}
+                      defaultColor={theme.colors.black}
+                      completeColor={theme.colors.black}
+                      defaultBarColor={theme.colors.black}
+                      completeBarColor={theme.colors.black}
+                      activeTitleColor={theme.colors.black}
+                      defaultTitleColor={theme.colors.black}
+                      borderTopWidth={2}
+                      circleTop={25}
+                      size={25}
+                      barStyle="dashed"
+                      showNumber={false}
+                      showStartEndLabel={true}
+                      titleFontSize={theme.fontSize.small}
+                      isLeftAligned={true}
+                    />
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+
+            <Row>
+              <Col>
+                {timeline && timeline.length
+                  ? timeline.map((each, index) => {
+                      return (
+                        <div className="box-container" key={each._id}>
+                          <div className="left-container">
+                            <Row>
+                              <Col lg={4} md={4} sm={12} xs={12}>
+                                <DateInput
+                                  isSmall={true}
+                                  showTime={true}
+                                  minDate={addDays(new Date(), 1)}
+                                  minTime={setHours(
+                                    setMinutes(new Date(), 0),
+                                    0
+                                  )}
+                                  maxTime={setHours(
+                                    setMinutes(new Date(), 45),
+                                    23
+                                  )}
+                                  value={
+                                    each.startDate
+                                      ? new Date(each.startDate)
+                                      : null
+                                  }
+                                  onChange={(startDate) => {
+                                    let newArr = [...timeline];
+                                    newArr[index]["startDate"] = startDate;
+                                    changeTimeline(newArr);
+                                  }}
+                                  required
+                                />
+                              </Col>
+                              <Col lg={4} md={4} sm={12} xs={12}>
+                                <DateInput
+                                  isSmall={true}
+                                  showTime={true}
+                                  minDate={
+                                    each.startDate
+                                      ? new Date(each.startDate)
+                                      : addDays(new Date(), 1)
+                                  }
+                                  minTime={
+                                    each.startDate
+                                      ? setHours(
+                                          setMinutes(
+                                            new Date(),
+                                            getMinutes(new Date(each.startDate))
+                                          ),
+                                          getHours(new Date(each.startDate)) + 1
+                                        )
+                                      : setHours(
+                                          setMinutes(
+                                            new Date(),
+                                            getMinutes(new Date())
+                                          ),
+                                          getHours(new Date()) + 1
+                                        )
+                                  }
+                                  maxTime={setHours(
+                                    setMinutes(new Date(), 45),
+                                    23
+                                  )}
+                                  value={
+                                    each.endDate ? new Date(each.endDate) : null
+                                  }
+                                  onChange={(endDate) => {
+                                    let newArr = [...timeline];
+                                    newArr[index]["endDate"] = endDate;
+                                    changeTimeline(newArr);
+                                  }}
+                                  required
+                                />
+                              </Col>
+                              <Col lg={4} md={4} sm={12} xs={12}>
+                                <DropDown
+                                  isSmall={true}
+                                  inBox={true}
+                                  isSingle={true}
+                                  isSelectOnly={true}
+                                  placeholder=""
+                                  options={stateList}
+                                  value={stateList.find((option) =>
+                                    each.state._id
+                                      ? option.value === each.state._id
+                                      : option.value === each.state
+                                  )}
+                                  onChange={(val) => {
+                                    let newArr = [...timeline];
+                                    newArr[index]["state"] = val.value;
+                                    changeTimeline(newArr);
+                                  }}
+                                  isInvalid={!each.state}
+                                />
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <TextArea
+                                  rows="2"
+                                  value={each.description}
+                                  onChange={(e) => {
+                                    let newArr = [...timeline];
+                                    newArr[index]["description"] =
+                                      e.target.value;
+                                    changeTimeline(newArr);
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="file-document-container">
+                              <Col lg={7} md={12} sm={12} xs={12}>
+                                <div className="header-container">
+                                  <div className="icon-container">
+                                    <img
+                                      src="/images/attach.png"
+                                      alt=""
+                                      height="25px"
+                                      width="25px"
+                                    />
+                                  </div>
+                                  <div className="name">
+                                    ADMIN | Attach required Forms/documents
+                                  </div>
+                                  <div className="button-container">
+                                    <AddButton
+                                      onClick={() => {
+                                        changeTimeline(
+                                          timeline.map((data, i) => {
+                                            if (index === i) {
+                                              data.adminAttachments.push({
+                                                _id: `attachment-${
+                                                  data.adminAttachments.length +
+                                                  1
+                                                }`,
+                                                label: "",
+                                                file: "",
+                                              });
+                                            }
+                                            return data;
+                                          })
+                                        );
+                                      }}
+                                    ></AddButton>
+                                  </div>
+                                </div>
+                              </Col>
+                            </Row>
+                            {each.adminAttachments &&
+                            each.adminAttachments.length
+                              ? each.adminAttachments.map(
+                                  (attach, attachIndex) => {
+                                    return (
+                                      <div
+                                        className="attachment-container"
+                                        key={attach._id}
+                                      >
+                                        <Row>
+                                          <Col lg={6} md={12} sm={12} xs={12}>
+                                            <div className="label-title-container">
+                                              <div className="title">
+                                                Field Label
+                                              </div>
+                                              <Input
+                                                type="text"
+                                                placeholder="*Default value: File name"
+                                                value={attach.label}
+                                                onChange={(e) => {
+                                                  let newArr = [...timeline];
+                                                  newArr[index][
+                                                    "adminAttachments"
+                                                  ][attachIndex]["label"] =
+                                                    e.target.value;
+                                                  changeTimeline(newArr);
+                                                }}
+                                                required
+                                              ></Input>
+                                              <div className="remove-container">
+                                                <RemoveButton
+                                                  onClick={() => {
+                                                    let newArr = [...timeline];
+                                                    newArr[index][
+                                                      "adminAttachments"
+                                                    ] = each.adminAttachments.filter(
+                                                      (data) => {
+                                                        return (
+                                                          attach._id !==
+                                                          data._id
+                                                        );
+                                                      }
+                                                    );
+                                                    changeTimeline(newArr);
+                                                  }}
+                                                />
+                                              </div>
+                                            </div>
+                                          </Col>
+                                          <Col
+                                            lg={{
+                                              span: 5,
+                                              offset: 1,
+                                            }}
+                                            md={12}
+                                            sm={12}
+                                            xs={12}
+                                          >
+                                            <div className="file-container">
+                                              <FileInput
+                                                placeholder="file name……word"
+                                                prependButtonText="Browse"
+                                                value={attach.file}
+                                                onChange={(e) => {
+                                                  let newArr = [...timeline];
+                                                  newArr[index][
+                                                    "adminAttachments"
+                                                  ][attachIndex]["file"] =
+                                                    e.target.files[0];
+                                                  changeTimeline(newArr);
+                                                }}
+                                                required
+                                              ></FileInput>
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                      </div>
+                                    );
+                                  }
+                                )
+                              : null}
+                          </div>
+                          {timeline &&
+                          timeline.length &&
+                          timeline.length > 1 ? (
+                            <div className="right-container">
+                              <RemoveButton
+                                onClick={() => {
+                                  let newArr = [...timeline];
+                                  newArr = newArr.filter((data) => {
+                                    return each._id !== data._id;
+                                  });
+                                  changeTimeline(newArr);
+                                }}
+                              />
+                            </div>
+                          ) : null}
+                        </div>
+                      );
+                    })
+                  : null}
+              </Col>
+            </Row>
+          </MainContainer>
           <Row className="right-content-container">
             <Col>You can always edit this information later</Col>
           </Row>
@@ -162,4 +458,4 @@ const Step4 = ({
   );
 };
 
-export default React.memo(Step4);
+export default Step4;

@@ -183,6 +183,7 @@ const JudgingCriteria = ({ challengeId }) => {
           <Col lg={6} md={6} sm={12} xs={12}>
             <DropDown
               isSmall={true}
+              isSelectOnly={true}
               label="Rating Type *"
               placeholder=""
               options={
@@ -314,11 +315,7 @@ const JudgingCriteria = ({ challengeId }) => {
                   )}
                 </Droppable>
               </DragDropContext>
-            ) : (
-              <div className="table-body-container">
-                <span>!!!No Judging Criteria added!!!</span>
-              </div>
-            )}
+            ) : null}
           </Col>
         </Row>
       </Form>

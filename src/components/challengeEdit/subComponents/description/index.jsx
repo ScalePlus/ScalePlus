@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   // getChallengeAction,
   challengeCategoriesListAction,
+  challengeTagsListAction,
 } from "../../../challengeMaster/action";
+import Api from "../../../challengeMaster/api";
 import { updateDescriptionAction } from "./action";
 import {
   Input,
@@ -17,11 +19,6 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import { Constants } from "../../../../lib/constant";
-let tagsList = [
-  { value: "1", label: "tag1" },
-  { value: "2", label: "tag2" },
-  { value: "3", label: "tag3" },
-];
 
 const Description = ({ challengeId }) => {
   const dispatch = useDispatch();
@@ -33,6 +30,10 @@ const Description = ({ challengeId }) => {
   // );
   const challengeCategoriesListMethod = useCallback(
     () => dispatch(challengeCategoriesListAction()),
+    [dispatch]
+  );
+  const challengeTagsListMethod = useCallback(
+    () => dispatch(challengeTagsListAction()),
     [dispatch]
   );
 
@@ -56,10 +57,15 @@ const Description = ({ challengeId }) => {
   const [videoURL, changeVideoUrl] = useState("");
   const [tags, selectTag] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     challengeCategoriesListMethod();
   }, [challengeCategoriesListMethod]);
+
+  useEffect(() => {
+    challengeTagsListMethod();
+  }, [challengeTagsListMethod]);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -120,10 +126,10 @@ const Description = ({ challengeId }) => {
         if (descriptionId.tags && descriptionId.tags.length) {
           let selectedData = [];
           descriptionId.tags.map((each) => {
-            let record = tagsList.find((category) => category.value === each);
-            if (record) {
-              selectedData.push(record);
-            }
+            selectedData.push({
+              value: each._id,
+              label: each.name,
+            });
             return each;
           });
           selectTag(selectedData);
@@ -134,9 +140,9 @@ const Description = ({ challengeId }) => {
 
   return (
     <MainContainer>
-      {(challengeDescriptionReducer.loading || challengeReducer.loading) && (
-        <Loading />
-      )}
+      {(challengeDescriptionReducer.loading ||
+        challengeReducer.loading ||
+        loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText="Click Here">
@@ -173,7 +179,7 @@ const Description = ({ challengeId }) => {
       <Form
         noValidate
         validated={validated}
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
@@ -181,17 +187,34 @@ const Description = ({ challengeId }) => {
             form.checkValidity() &&
             (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
           ) {
+            let file = bannerImage;
+
+            if (file && file.name) {
+              setLoading(true);
+              let fileResult = await Api.uploadFile({
+                file: file,
+              });
+              if (
+                fileResult &&
+                fileResult.result &&
+                fileResult.result.imageKey
+              ) {
+                file = fileResult.result.imageKey;
+              }
+              setLoading(false);
+            }
+
             updateDescriptionMethod({
               title,
               prize,
-              categories: categories.map((each) => each.value),
+              categories,
               shortDescription,
               problemStatement,
               currentSolution,
               painPoint,
-              bannerImage: bannerImage && bannerImage.name ? bannerImage : "",
+              bannerImage: file,
               videoURL,
-              tags: tags.map((each) => each.value),
+              tags,
             });
           }
           setValidated(true);
@@ -274,7 +297,14 @@ const Description = ({ challengeId }) => {
               label="Tags *"
               placeholder=""
               description="The categories help people use search criteria to find your challenge. Select no more than 3."
-              options={tagsList}
+              options={
+                challengeReducer.challengeTags &&
+                challengeReducer.challengeTags.length
+                  ? challengeReducer.challengeTags.map((option) => {
+                      return { value: option._id, label: option.name };
+                    })
+                  : []
+              }
               value={tags}
               onChange={(val) => {
                 selectTag(val);

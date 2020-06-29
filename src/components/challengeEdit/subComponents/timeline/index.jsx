@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { addDays, setHours, setMinutes, getHours, getMinutes } from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -46,6 +47,7 @@ const Timeline = ({ challengeId }) => {
   const [validated, setValidated] = useState(false);
   const [timeline, changeTimeline] = useState([]);
   const [stateList, changeStateList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -93,9 +95,9 @@ const Timeline = ({ challengeId }) => {
 
   return (
     <MainContainer>
-      {(challengeTimelineReducer.loading || challengeReducer.loading) && (
-        <Loading />
-      )}
+      {(challengeTimelineReducer.loading ||
+        challengeReducer.loading ||
+        loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText="Click Here">
@@ -138,6 +140,8 @@ const Timeline = ({ challengeId }) => {
           const form = event.currentTarget;
           if (form.checkValidity()) {
             let newArr = [...timeline];
+            setLoading(true);
+
             for (let i = 0; i < newArr.length; i++) {
               const record = newArr[i];
               if (
@@ -163,6 +167,7 @@ const Timeline = ({ challengeId }) => {
               }
             }
 
+            setLoading(false);
             attachTimelineMethod({
               timeline: newArr,
             });
@@ -182,20 +187,16 @@ const Timeline = ({ challengeId }) => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                if (
-                  timeline &&
-                  (!timeline.length || (timeline.length && timeline.length < 5))
-                ) {
-                  changeTimeline((data) =>
-                    data.concat({
-                      _id: `timeline-${data.length + 1}`,
-                      date: "",
-                      state: "",
-                      description: "",
-                      adminAttachments: [],
-                    })
-                  );
-                }
+                changeTimeline((data) =>
+                  data.concat({
+                    _id: `timeline-${data.length + 1}`,
+                    startDate: "",
+                    endDate: "",
+                    state: "",
+                    description: "",
+                    adminAttachments: [],
+                  })
+                );
               }}
             />
           </Col>
@@ -208,7 +209,7 @@ const Timeline = ({ challengeId }) => {
                 <Stepper
                   steps={timeline.map((each) => {
                     return {
-                      title: moment(each.date).format("MMMM DD, YYYY"),
+                      title: moment(each.startDate).format("MMMM DD, YYYY"),
                     };
                   })}
                   activeColor={theme.colors.black}
@@ -239,32 +240,66 @@ const Timeline = ({ challengeId }) => {
                 <div className="box-container" key={each._id}>
                   <div className="left-container">
                     <Row>
-                      <Col lg={6} md={6} sm={12} xs={12}>
+                      <Col lg={4} md={4} sm={12} xs={12}>
                         <DateInput
                           isSmall={true}
-                          minDate={
-                            index > 0
-                              ? new Date().setTime(
-                                  new Date(timeline[index - 1].date).getTime() +
-                                    1000 * 60 * 60 * 24 * 1
-                                )
-                              : new Date().setTime(
-                                  new Date().getTime() + 1000 * 60 * 60 * 24 * 1
-                                )
+                          showTime={true}
+                          minDate={addDays(new Date(), 1)}
+                          minTime={setHours(setMinutes(new Date(), 0), 0)}
+                          maxTime={setHours(setMinutes(new Date(), 45), 23)}
+                          value={
+                            each.startDate ? new Date(each.startDate) : null
                           }
-                          value={each.date ? new Date(each.date) : null}
-                          onChange={(date) => {
+                          onChange={(startDate) => {
                             let newArr = [...timeline];
-                            newArr[index]["date"] = date;
+                            newArr[index]["startDate"] = startDate;
                             changeTimeline(newArr);
                           }}
+                          required
                         />
                       </Col>
-                      <Col lg={6} md={6} sm={12} xs={12}>
+                      <Col lg={4} md={4} sm={12} xs={12}>
+                        <DateInput
+                          isSmall={true}
+                          showTime={true}
+                          minDate={
+                            each.startDate
+                              ? new Date(each.startDate)
+                              : addDays(new Date(), 1)
+                          }
+                          minTime={
+                            each.startDate
+                              ? setHours(
+                                  setMinutes(
+                                    new Date(),
+                                    getMinutes(new Date(each.startDate))
+                                  ),
+                                  getHours(new Date(each.startDate)) + 1
+                                )
+                              : setHours(
+                                  setMinutes(
+                                    new Date(),
+                                    getMinutes(new Date())
+                                  ),
+                                  getHours(new Date()) + 1
+                                )
+                          }
+                          maxTime={setHours(setMinutes(new Date(), 45), 23)}
+                          value={each.endDate ? new Date(each.endDate) : null}
+                          onChange={(endDate) => {
+                            let newArr = [...timeline];
+                            newArr[index]["endDate"] = endDate;
+                            changeTimeline(newArr);
+                          }}
+                          required
+                        />
+                      </Col>
+                      <Col lg={4} md={4} sm={12} xs={12}>
                         <DropDown
                           isSmall={true}
                           inBox={true}
                           isSingle={true}
+                          isSelectOnly={true}
                           placeholder=""
                           options={stateList}
                           value={stateList.find((option) =>
@@ -275,9 +310,6 @@ const Timeline = ({ challengeId }) => {
                           onChange={(val) => {
                             let newArr = [...timeline];
                             newArr[index]["state"] = val.value;
-                            changeStateList((data) =>
-                              data.filter((each) => each.value !== val.value)
-                            );
                             changeTimeline(newArr);
                           }}
                         />
@@ -342,7 +374,7 @@ const Timeline = ({ challengeId }) => {
                             >
                               <Row>
                                 <Col lg={6} md={12} sm={12} xs={12}>
-                                  <div className="title-container">
+                                  <div className="label-title-container">
                                     <div className="title">Field Label</div>
                                     <Input
                                       type="text"
@@ -355,6 +387,7 @@ const Timeline = ({ challengeId }) => {
                                         ]["label"] = e.target.value;
                                         changeTimeline(newArr);
                                       }}
+                                      required
                                     ></Input>
                                     <div className="remove-container">
                                       <RemoveButton
@@ -394,6 +427,7 @@ const Timeline = ({ challengeId }) => {
                                         ]["file"] = e.target.files[0];
                                         changeTimeline(newArr);
                                       }}
+                                      required
                                     ></FileInput>
                                   </div>
                                 </Col>
@@ -442,7 +476,7 @@ const Timeline = ({ challengeId }) => {
                             >
                               <Row>
                                 <Col lg={6} md={12} sm={12} xs={12}>
-                                  <div className="title-container">
+                                  <div className="label-title-container">
                                     <div className="field-title">
                                       Field Label
                                     </div>

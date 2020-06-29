@@ -320,6 +320,28 @@ export const ChallengeViewHeaderContainer = styled.div`
       font-size: ${theme.fontSize.semiRegular};
     }
   }
+
+  .menu-items {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    box-shadow: 0 5px 14px 0 rgba(0, 0, 0, 0.24);
+    .menu-text {
+      font-family: ${theme.fontFamily.bold};
+      font-size: ${theme.fontSize.small};
+      padding: 5px 0px;
+    }
+    .dropdown-item {
+      padding: 0px 10px;
+      :active {
+        color: ${theme.colors.black};
+        text-decoration: none;
+        background-color: ${theme.colors.white};
+      }
+      :not(:last-child) div {
+        border-bottom: 1px solid ${theme.colors.black};
+      }
+    }
+  }
 `;
 
 export const RemoveButtonContainer = styled.div`

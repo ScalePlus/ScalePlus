@@ -25,6 +25,11 @@ export const MainContainer = styled.div`
   }
   .title-container {
     margin: 10px -15px;
+    .flex-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   .sub-title {
     font-size: ${theme.fontSize.mediumRegular};
@@ -35,7 +40,7 @@ export const MainContainer = styled.div`
   .active {
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.14);
   }
-  .box-container {
+  .step-box-container {
     min-height: 300px;
     margin-bottom: 1rem;
     background-color: ${theme.colors.white};

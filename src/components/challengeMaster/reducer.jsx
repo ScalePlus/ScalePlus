@@ -12,6 +12,9 @@ import {
   CHALLENGE_CATEGORIES_LOADING,
   CHALLENGE_CATEGORIES_SUCCESS,
   CHALLENGE_CATEGORIES_ERROR,
+  CHALLENGE_TAGS_LOADING,
+  CHALLENGE_TAGS_SUCCESS,
+  CHALLENGE_TAGS_ERROR,
   UPDATE_CHALLENGE_LOADING,
   UPDATE_CHALLENGE_SUCCESS,
   UPDATE_CHALLENGE_ERROR,
@@ -38,6 +41,7 @@ let initialState = {
   challengeData: null,
   uploadedFile: null,
   challengeCategories: null,
+  challengeTags: null,
 };
 
 export const challengeReducer = createReducer(initialState, {
@@ -285,6 +289,27 @@ export const challengeReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       challengeCategories: null,
+      error: action.payload,
+    });
+  },
+  [CHALLENGE_TAGS_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      challengeTags: null,
+      error: null,
+    });
+  },
+  [CHALLENGE_TAGS_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      challengeTags: action.payload,
+      error: null,
+    });
+  },
+  [CHALLENGE_TAGS_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      challengeTags: null,
       error: action.payload,
     });
   },

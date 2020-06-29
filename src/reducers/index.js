@@ -26,6 +26,7 @@ import * as submissionListReducer from "../components/challengePreview/subCompon
 import * as SolveChallengeReducer from "../components/solveChallenge/reducer";
 import * as searchAllReducer from "../components/header/subComponents/searchModal/reducer";
 import * as linkedinDataReducer from "../components/linkedinPopup/reducer";
+import * as challengeJudgingActivitiesReducer from "../components/challengeEdit/subComponents/judgingActivities/reducer";
 
 export default combineReducers(
   Object.assign(
@@ -55,6 +56,7 @@ export default combineReducers(
     submissionListReducer,
     SolveChallengeReducer,
     searchAllReducer,
-    linkedinDataReducer
+    linkedinDataReducer,
+    challengeJudgingActivitiesReducer
   )
 );

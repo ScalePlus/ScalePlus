@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   Form,
   Button,
@@ -7,8 +8,10 @@ import {
   Card,
   ProgressBar,
   InputGroup,
+  Dropdown,
 } from "react-bootstrap";
-import Select, { components } from "react-select";
+import { components } from "react-select";
+import Creatable from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import ReactQuill from "react-quill";
@@ -501,18 +504,25 @@ export const DateInput = React.memo(
     placeholder,
     minDate,
     maxDate,
+    minTime,
+    maxTime,
     openToDate,
     label,
     description,
     required,
     errorMessage,
     isSmall,
+    showTime,
   }) => {
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <DatePicker
-          dateFormat="dd/MM/yyyy"
+          dateFormat={showTime ? "dd/MM/yyyy h:mm aa" : "dd/MM/yyyy"}
+          showTimeSelect={showTime}
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          // timeCaption="time"
           showPopperArrow={false}
           selected={value}
           onChange={onChange}
@@ -522,6 +532,8 @@ export const DateInput = React.memo(
           className="form-control"
           minDate={minDate}
           maxDate={maxDate}
+          minTime={minTime}
+          maxTime={maxTime}
           openToDate={openToDate}
           withPortal
           required={required}
@@ -563,6 +575,7 @@ export const DropDown = React.memo(
     isInvalid,
     errorMessage,
     isSingle,
+    isSelectOnly,
   }) => {
     const customStyle = {
       indicatorSeparator: () => ({
@@ -644,12 +657,14 @@ export const DropDown = React.memo(
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
-        <Select
+        <Creatable
           isMulti={isSingle ? false : true}
           placeholder={placeholder}
-          // isValidNewOption={(inputValue, selectValue) => {
-          //   return inputValue.length > 0 && selectValue.length < 3;
-          // }}
+          isValidNewOption={(inputValue, selectValue) => {
+            return (
+              inputValue.length > 0 && selectValue.length < 3 && !isSelectOnly
+            );
+          }}
           value={value}
           onChange={
             isSingle
@@ -854,13 +869,7 @@ export const ChallengeHeader = React.memo(
 );
 
 export const ChallengeViewHeader = React.memo(
-  ({
-    primaryButtonText,
-    primaryButtonClick,
-    shareClick,
-    organisationId,
-    viewCount,
-  }) => {
+  ({ buttonText, buttonClick, buttonVariant, organisationId, viewCount }) => {
     return (
       <ChallengeViewHeaderContainer>
         <div className="left-continer">
@@ -915,30 +924,58 @@ export const ChallengeViewHeader = React.memo(
           <div
             className="share-container"
             style={
-              primaryButtonText
-                ? { marginRight: "30px" }
-                : { marginRight: "0px" }
+              buttonText ? { marginRight: "30px" } : { marginRight: "0px" }
             }
           >
-            <button onClick={shareClick}>
-              <div className="icon-container">
-                <img
-                  src={"/images/share-yellow.svg"}
-                  height="20px"
-                  width="25px"
-                  alt=""
-                ></img>
-              </div>
-              <div className="text">
-                <span>Share</span>
-              </div>
-            </button>
+            <Dropdown>
+              <Dropdown.Toggle
+                as={React.forwardRef(({ children, onClick }, ref) => (
+                  <div style={{ marginRight: 10 }} ref={ref}>
+                    <button onClick={onClick}>
+                      <div className="icon-container">
+                        <img
+                          src={"/images/share-yellow.svg"}
+                          height="20px"
+                          width="25px"
+                          alt=""
+                        ></img>
+                      </div>
+                      <div className="text">
+                        <span>Share</span>
+                      </div>
+                    </button>
+                  </div>
+                ))}
+                id="add-item-menu"
+              ></Dropdown.Toggle>
+
+              <Dropdown.Menu alignRight={true} className="menu-items">
+                <Dropdown.Item
+                  key={1}
+                  onClick={() => {
+                    alert(1);
+                  }}
+                >
+                  <div className="menu-text">Share as Email</div>
+                </Dropdown.Item>
+                <CopyToClipboard
+                  text={window.location.href}
+                  onCopy={() => {
+                    alert("Copied");
+                  }}
+                >
+                  <Dropdown.Item key={2}>
+                    <div className="menu-text">Copy Link</div>
+                  </Dropdown.Item>
+                </CopyToClipboard>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
-          {primaryButtonText && (
+          {buttonText && (
             <PrimaryButton
-              variant="primary"
-              text={primaryButtonText}
-              onClick={primaryButtonClick}
+              variant={buttonVariant}
+              text={buttonText}
+              onClick={buttonClick}
             ></PrimaryButton>
           )}
         </div>
