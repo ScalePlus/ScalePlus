@@ -207,12 +207,12 @@ export const ExpandCollapse = React.memo(
 );
 
 export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
-  const activeIndex =
-    steps && steps.length
-      ? steps.findIndex((each) => {
-          return each.active;
-        })
-      : 0;
+  // const activeIndex =
+  //   steps && steps.length
+  //     ? steps.findIndex((each) => {
+  //         return each.active;
+  //       })
+  //     : 0;
 
   return (
     <StepperVerticalContainer>
@@ -222,11 +222,15 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
               return (
                 <div
                   className={
-                    each.active
-                      ? "step active"
-                      : index < activeIndex
-                      ? "step selected"
-                      : "step"
+                    // each.active
+                    //   ? "step active"
+                    //   : each.completed
+                    //   ? "step selected"
+                    //   : index < activeIndex
+                    // ? "step selected"
+                    `step ${each.active ? "active" : ""} ${
+                      each.completed ? "selected" : ""
+                    } ${steps.length === 1 ? "single-child" : ""}`
                   }
                   key={index}
                 >

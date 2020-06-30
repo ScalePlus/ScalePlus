@@ -66,10 +66,13 @@ const ChallengePreview = ({ history, match }) => {
   const [organisationTeamMember, setTeamMember] = useState(null);
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
-  const [submissionVisibility, setSubmissionVisibility] = useState(false);
-  const [judgingStarted, setJudgingVisibility] = useState(false);
-  const [judgingClosed, setJudgingClosed] = useState(false);
-  const [submissionClosed, setSubmissionClosed] = useState(false);
+  // const [submissionVisibility, setSubmissionVisibility] = useState(false);
+  // const [judgingStarted, setJudgingVisibility] = useState(false);
+  // const [judgingClosed, setJudgingClosed] = useState(false);
+  const [
+    submissionClosed,
+    // setSubmissionClosed
+  ] = useState(false);
   const [progress, setProgress] = useState(0);
   const challengeId = match.params.id;
 
@@ -246,67 +249,67 @@ const ChallengePreview = ({ history, match }) => {
           : false;
       setJudge(memberAsJudge);
 
-      const submissionStart =
-        challengeData &&
-        challengeData.timelineId &&
-        challengeData.timelineId.data.length &&
-        challengeData.timelineId.data.find(
-          (each) => each.state.name === "Start"
-        );
+      // const submissionStart =
+      //   challengeData &&
+      //   challengeData.timelineId &&
+      //   challengeData.timelineId.data.length &&
+      //   challengeData.timelineId.data.find(
+      //     (each) => each.state.name === "Start"
+      //   );
 
-      const submissionDeadline =
-        challengeData &&
-        challengeData.timelineId &&
-        challengeData.timelineId.data.length &&
-        challengeData.timelineId.data.find(
-          (each) => each.state.name === "Submission Deadline"
-        );
+      // const submissionDeadline =
+      //   challengeData &&
+      //   challengeData.timelineId &&
+      //   challengeData.timelineId.data.length &&
+      //   challengeData.timelineId.data.find(
+      //     (each) => each.state.name === "Submission Deadline"
+      //   );
 
-      if (submissionStart && submissionDeadline) {
-        setSubmissionVisibility(
-          new Date(submissionStart.date).setHours(0, 0, 0, 0) <=
-            new Date().setHours(0, 0, 0, 0) &&
-            new Date().setHours(0, 0, 0, 0) <=
-              new Date(submissionDeadline.date).setHours(0, 0, 0, 0)
-        );
-      }
+      // if (submissionStart && submissionDeadline) {
+      //   setSubmissionVisibility(
+      //     new Date(submissionStart.date).setHours(0, 0, 0, 0) <=
+      //       new Date().setHours(0, 0, 0, 0) &&
+      //       new Date().setHours(0, 0, 0, 0) <=
+      //         new Date(submissionDeadline.date).setHours(0, 0, 0, 0)
+      //   );
+      // }
 
-      if (submissionDeadline) {
-        setSubmissionClosed(
-          new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
-            new Date().setHours(0, 0, 0, 0)
-        );
-      }
+      // if (submissionDeadline) {
+      //   setSubmissionClosed(
+      //     new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
+      //       new Date().setHours(0, 0, 0, 0)
+      //   );
+      // }
 
-      const judgingStart =
-        challengeData &&
-        challengeData.timelineId &&
-        challengeData.timelineId.data.length &&
-        challengeData.timelineId.data.find(
-          (each) => each.state.name === "Judging"
-        );
+      // const judgingStart =
+      //   challengeData &&
+      //   challengeData.timelineId &&
+      //   challengeData.timelineId.data.length &&
+      //   challengeData.timelineId.data.find(
+      //     (each) => each.state.name === "Judging"
+      //   );
 
-      const judgingClosed =
-        challengeData &&
-        challengeData.timelineId &&
-        challengeData.timelineId.data.length &&
-        challengeData.timelineId.data.find(
-          (each) => each.state.name === "Judging Closed"
-        );
+      // const judgingClosed =
+      //   challengeData &&
+      //   challengeData.timelineId &&
+      //   challengeData.timelineId.data.length &&
+      //   challengeData.timelineId.data.find(
+      //     (each) => each.state.name === "Judging Closed"
+      //   );
 
-      if (judgingStart) {
-        setJudgingVisibility(
-          new Date(judgingStart.date).setHours(0, 0, 0, 0) <=
-            new Date().setHours(0, 0, 0, 0)
-        );
-      }
+      // if (judgingStart) {
+      //   setJudgingVisibility(
+      //     new Date(judgingStart.date).setHours(0, 0, 0, 0) <=
+      //       new Date().setHours(0, 0, 0, 0)
+      //   );
+      // }
 
-      if (judgingClosed) {
-        setJudgingClosed(
-          new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
-            new Date().setHours(0, 0, 0, 0)
-        );
-      }
+      // if (judgingClosed) {
+      //   setJudgingClosed(
+      //     new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
+      //       new Date().setHours(0, 0, 0, 0)
+      //   );
+      // }
 
       changeTabs((data) => {
         if (challengeData.resourceId && challengeData.resourceId.isActive) {

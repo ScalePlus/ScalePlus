@@ -35,6 +35,7 @@ import {
   TableContainer,
   CardContainer,
 } from "./style";
+import ShareAsEmail from "../shareLinkModal";
 import theme from "../../theme";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
@@ -870,6 +871,7 @@ export const ChallengeHeader = React.memo(
 
 export const ChallengeViewHeader = React.memo(
   ({ buttonText, buttonClick, buttonVariant, organisationId, viewCount }) => {
+    const [show, setShow] = useState(false);
     return (
       <ChallengeViewHeaderContainer>
         <div className="left-continer">
@@ -953,7 +955,7 @@ export const ChallengeViewHeader = React.memo(
                 <Dropdown.Item
                   key={1}
                   onClick={() => {
-                    alert(1);
+                    setShow(true);
                   }}
                 >
                   <div className="menu-text">Share as Email</div>
@@ -979,6 +981,7 @@ export const ChallengeViewHeader = React.memo(
             ></PrimaryButton>
           )}
         </div>
+        <ShareAsEmail show={show} setShow={setShow} />
       </ChallengeViewHeaderContainer>
     );
   }
@@ -1091,62 +1094,71 @@ export const CardComponent = React.memo(
     timelineId,
   }) => {
     const [participantCount, setCount] = useState(0);
-    const [progressPer, setProgressPer] = useState(0);
-    const [currentMilestone, setCurrentMilestone] = useState("");
-    const [leftDays, setLeftDays] = useState(0);
+    const [
+      progressPer,
+      // setProgressPer
+    ] = useState(0);
+    const [
+      currentMilestone,
+      //  setCurrentMilestone
+    ] = useState("");
+    const [
+      leftDays,
+      // setLeftDays
+    ] = useState(0);
 
-    useEffect(() => {
-      let selectedData = null,
-        perByPart;
-      if (timelineId && timelineId.data && timelineId.data.length) {
-        const { data } = timelineId;
-        perByPart = 100 / data.length;
-        for (let i = 0; i < data.length; i++) {
-          const each = data[i];
-          if (selectedData) {
-            selectedData =
-              new Date(each.date).setHours(0, 0, 0, 0) <=
-                new Date().setHours(0, 0, 0, 0) &&
-              new Date(each.date).setHours(0, 0, 0, 0) >=
-                new Date(selectedData.date).setHours(0, 0, 0, 0)
-                ? each
-                : selectedData;
-          } else {
-            selectedData =
-              new Date(each.date).setHours(0, 0, 0, 0) ===
-              new Date().setHours(0, 0, 0, 0)
-                ? each
-                : selectedData;
-          }
-        }
-        if (selectedData && selectedData.state && selectedData.state.name) {
-          const index = data.findIndex(
-            (each) => each._id.toString() === selectedData._id.toString()
-          );
-          if (index >= 0) {
-            setProgressPer((index + 1) * perByPart);
-          }
-          setCurrentMilestone(selectedData.state.name);
-        }
-      }
-    }, [timelineId]);
+    // useEffect(() => {
+    //   let selectedData = null,
+    //     perByPart;
+    //   if (timelineId && timelineId.data && timelineId.data.length) {
+    //     const { data } = timelineId;
+    //     perByPart = 100 / data.length;
+    //     for (let i = 0; i < data.length; i++) {
+    //       const each = data[i];
+    //       if (selectedData) {
+    //         selectedData =
+    //           new Date(each.date).setHours(0, 0, 0, 0) <=
+    //             new Date().setHours(0, 0, 0, 0) &&
+    //           new Date(each.date).setHours(0, 0, 0, 0) >=
+    //             new Date(selectedData.date).setHours(0, 0, 0, 0)
+    //             ? each
+    //             : selectedData;
+    //       } else {
+    //         selectedData =
+    //           new Date(each.date).setHours(0, 0, 0, 0) ===
+    //           new Date().setHours(0, 0, 0, 0)
+    //             ? each
+    //             : selectedData;
+    //       }
+    //     }
+    //     if (selectedData && selectedData.state && selectedData.state.name) {
+    //       const index = data.findIndex(
+    //         (each) => each._id.toString() === selectedData._id.toString()
+    //       );
+    //       if (index >= 0) {
+    //         setProgressPer((index + 1) * perByPart);
+    //       }
+    //       setCurrentMilestone(selectedData.state.name);
+    //     }
+    //   }
+    // }, [timelineId]);
 
-    useEffect(() => {
-      if (timelineId && timelineId.data && timelineId.data.length) {
-        const { data } = timelineId;
-        for (let i = 0; i < data.length; i++) {
-          const each = data[i];
-          if (each.state.name === "Won") {
-            const currentDate = new Date().getTime();
-            const recordDate = new Date(each.date).getTime();
-            const diffTime = Math.abs(recordDate - currentDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // useEffect(() => {
+    //   if (timelineId && timelineId.data && timelineId.data.length) {
+    //     const { data } = timelineId;
+    //     for (let i = 0; i < data.length; i++) {
+    //       const each = data[i];
+    //       if (each.state.name === "Won") {
+    //         const currentDate = new Date().getTime();
+    //         const recordDate = new Date(each.date).getTime();
+    //         const diffTime = Math.abs(recordDate - currentDate);
+    //         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            setLeftDays(diffDays);
-          }
-        }
-      }
-    }, [timelineId]);
+    //         setLeftDays(diffDays);
+    //       }
+    //     }
+    //   }
+    // }, [timelineId]);
 
     useEffect(() => {
       let count = 0;

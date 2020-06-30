@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { HeaderComponent, VeticalStepper } from "../common";
 import moment from "moment";
@@ -12,40 +12,6 @@ const Timeline = ({
   organisationTeamMember,
   challengeData,
 }) => {
-  const [currentMilestone, setCurrentMilestone] = useState(null);
-  useEffect(() => {
-    if (challengeData) {
-      const { timelineId } = challengeData;
-      let selectedData = null;
-
-      if (timelineId && timelineId.data && timelineId.data.length) {
-        const { data } = timelineId;
-
-        for (let i = 0; i < data.length; i++) {
-          const each = data[i];
-          if (selectedData) {
-            selectedData =
-              new Date(each.date).setHours(0, 0, 0, 0) <=
-                new Date().setHours(0, 0, 0, 0) &&
-              new Date(each.date).setHours(0, 0, 0, 0) >=
-                new Date(selectedData.date).setHours(0, 0, 0, 0)
-                ? each
-                : selectedData;
-          } else {
-            selectedData =
-              new Date(each.date).setHours(0, 0, 0, 0) ===
-              new Date().setHours(0, 0, 0, 0)
-                ? each
-                : selectedData;
-          }
-        }
-        if (selectedData) {
-          setCurrentMilestone(selectedData);
-        }
-      }
-    }
-  }, [challengeData]);
-
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -82,11 +48,20 @@ const Timeline = ({
               challengeData.timelineId.data.length
                 ? challengeData.timelineId.data.map((each) => {
                     return {
-                      active: currentMilestone
-                        ? currentMilestone._id.toString() ===
-                          each._id.toString()
-                        : false,
-                      timestamp: moment(each.date).format("MMMM DD, YYYY"),
+                      completed:
+                        each && each.startDate && each.endDate
+                          ? new Date(each.startDate) <= new Date() &&
+                            new Date(each.endDate) <= new Date()
+                          : false,
+                      active:
+                        each && each.startDate && each.endDate
+                          ? new Date(each.startDate) <= new Date() &&
+                            new Date() <= new Date(each.endDate)
+                          : false,
+                      timestamp:
+                        moment(each.startDate).format("MMMM DD, YYYY, h:mm a") +
+                        " - " +
+                        moment(each.endDate).format("MMMM DD, YYYY, h:mm a"),
                       title: each.state && each.state.name,
                       description: each.description,
                       downloadFiles:

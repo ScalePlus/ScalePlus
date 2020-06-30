@@ -48,7 +48,7 @@ const Guidelines = ({
                     key={each._id}
                     title={each.title}
                     timestamp={
-                      each.date
+                      each && each.date
                         ? moment(each.date).format("MMMM DD, YYYY")
                         : null
                     }

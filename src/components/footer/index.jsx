@@ -18,7 +18,8 @@ import history from "../../history";
 const Footer = () => {
   const dispatch = useDispatch();
   const doSubscriptionMethod = useCallback(
-    (data) => dispatch(doSubscriptionAction(data)),
+    (data, changeSubscribed, setEmail) =>
+      dispatch(doSubscriptionAction(data, changeSubscribed, setEmail)),
     [dispatch]
   );
 
@@ -30,10 +31,7 @@ const Footer = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const { subscriptionError, subscriptionSuccess } = allChallengesReducer;
-    if (subscriptionSuccess && email) {
-      setEmail("");
-    }
+    const { subscriptionError } = allChallengesReducer;
 
     let errors = [];
     if (Array.isArray(subscriptionError)) {
@@ -91,7 +89,7 @@ const Footer = () => {
                 variant="light"
                 text={"Subscribe"}
                 onClick={() => {
-                  doSubscriptionMethod({ email });
+                  doSubscriptionMethod({ email }, null, setEmail);
                 }}
               ></PrimaryButton>
             </div>

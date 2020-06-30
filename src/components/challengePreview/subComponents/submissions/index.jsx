@@ -77,30 +77,41 @@ const Submissions = ({
   }, [getSubmissionsListMethod, challengeData, selectedFilter, searchText]);
 
   useEffect(() => {
-    const { disqualifySuccess } = submissionListReducer;
-    if (disqualifySuccess) {
+    const { disqualifySuccess, judgeSuccess } = submissionListReducer;
+    if (disqualifySuccess && showDisqualify) {
       setDisqualifyShow(false);
-      changeSubmissions((data) => {
-        let filterData = data.filter(
-          (each) => selectedRow && each._id.toString() !== selectedRow._id
-        );
-        return filterData && filterData.length ? filterData : null;
-      });
+      if (challengeData && challengeData._id && localStorage.getItem("token")) {
+        getSubmissionsListMethod(challengeData._id, {
+          selectedFilter: selectedFilter ? selectedFilter.value : "",
+          searchText,
+        });
+      }
       selectRow(null);
     }
-  }, [submissionListReducer, selectedRow]);
+
+    if (judgeSuccess && show) {
+      setShow(false);
+      if (challengeData && challengeData._id && localStorage.getItem("token")) {
+        getSubmissionsListMethod(challengeData._id, {
+          selectedFilter: selectedFilter ? selectedFilter.value : "",
+          searchText,
+        });
+      }
+      selectRow(null);
+    }
+  }, [
+    submissionListReducer,
+    selectedRow,
+    showDisqualify,
+    show,
+    getSubmissionsListMethod,
+    challengeData,
+    selectedFilter,
+    searchText,
+  ]);
 
   useEffect(() => {
-    const {
-      error,
-      success,
-      submissionsListSuccess,
-      judgeSuccess,
-    } = submissionListReducer;
-
-    if (judgeSuccess) {
-      setShow(false);
-    }
+    const { error, success, submissionsListSuccess } = submissionListReducer;
 
     if (submissionsListSuccess) {
       if (
@@ -542,11 +553,29 @@ const Submissions = ({
           >
             {selectedRow ? (
               selectedRow.isDisqualified ? (
-                <HeaderComponent titleText="Submissions (DISQUALIFIED)" />
+                <HeaderComponent
+                  titleText="Submissions (DISQUALIFIED)"
+                  backButton={true}
+                  onBackButtonClick={() => {
+                    selectRow(null);
+                  }}
+                />
               ) : selectedRow.isEvaluated ? (
-                <HeaderComponent titleText="Submissions" />
+                <HeaderComponent
+                  titleText="Submissions"
+                  backButton={true}
+                  onBackButtonClick={() => {
+                    selectRow(null);
+                  }}
+                />
               ) : judgingClosed ? (
-                <HeaderComponent titleText="Submissions" />
+                <HeaderComponent
+                  titleText="Submissions"
+                  backButton={true}
+                  onBackButtonClick={() => {
+                    selectRow(null);
+                  }}
+                />
               ) : (
                 <HeaderComponent
                   titleText="Submission"

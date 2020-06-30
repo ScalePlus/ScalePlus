@@ -41,6 +41,12 @@ function* doSubscriptionSaga(data) {
         payload: res,
         page: data.page,
       });
+      if (data && data.changeSubscribed) {
+        data.changeSubscribed(true);
+      }
+      if (data && data.setEmail) {
+        data.setEmail("");
+      }
     }
   } catch (error) {
     yield put({ type: DO_SUBSCRIPTION_ERROR, payload: error.message });

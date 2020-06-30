@@ -144,7 +144,7 @@ const JudgingActivities = ({ challengeId }) => {
                         <DateInput
                           isSmall={true}
                           showTime={true}
-                          value={each.date ? new Date(each.date) : null}
+                          value={each && each.date ? new Date(each.date) : null}
                           onChange={(date) => {
                             let newArr = [...judgingActivities];
                             newArr[index]["date"] = date;

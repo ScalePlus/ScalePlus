@@ -21,7 +21,9 @@ function* updateEssentialDetailsSaga(data) {
         type: UPDATE_ESSENTIAL_DETAILS_SUCCESS,
         payload: res.result,
       });
-      // alert("All information saved successfully");
+      if (res && res.result && res.result._id) {
+        localStorage.setItem("profileUpdated", res.result._id);
+      }
       history.push("/dashboard");
     }
   } catch (error) {

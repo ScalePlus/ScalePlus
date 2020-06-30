@@ -1,37 +1,31 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { doSubscriptionAction } from "../../action";
-import { Input, PrimaryButton } from "../../../common";
+import { sharelinkAction } from "./action";
+import { Input, PrimaryButton, Loading } from "../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
-const Subscribe = ({ show, setShow }) => {
+const ShareAsEmail = ({ show, setShow }) => {
   const dispatch = useDispatch();
-  const doSubscriptionMethod = useCallback(
-    (data, changeSubscribed, setEmail) =>
-      dispatch(doSubscriptionAction(data, changeSubscribed, setEmail)),
+  const sharelinkMethod = useCallback(
+    (data, changeMailRes, setEmail) =>
+      dispatch(sharelinkAction(data, changeMailRes, setEmail)),
     [dispatch]
   );
 
-  const allChallengesReducer = useSelector((state) => {
-    return state.allChallengesReducer;
+  const sharelinkReducer = useSelector((state) => {
+    return state.sharelinkReducer;
   });
 
-  const [subscribed, changeSubscribed] = useState(false);
+  const [mailSent, changeMailRes] = useState(false);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    const { error, subscriptionError } = allChallengesReducer;
+    const { error, success } = sharelinkReducer;
 
-    if (subscriptionError) {
-      let errors = [];
-      if (Array.isArray(subscriptionError)) {
-        errors = subscriptionError;
-      } else if (typeof subscriptionError === "string") {
-        errors.push(subscriptionError);
-      }
-      setErrors(errors);
+    if (success && email && !mailSent) {
+      setErrors([]);
     }
 
     if (error) {
@@ -43,7 +37,7 @@ const Subscribe = ({ show, setShow }) => {
       }
       setErrors(errors);
     }
-  }, [allChallengesReducer, email, subscribed]);
+  }, [sharelinkReducer, email, mailSent]);
 
   return (
     <Modal
@@ -54,10 +48,11 @@ const Subscribe = ({ show, setShow }) => {
     >
       <Modal.Header>
         <HeaderContainer>
-          <span>Subscribe to Newsletter</span>
+          <span>Share as Email</span>
         </HeaderContainer>
       </Modal.Header>
       <Modal.Body>
+        {sharelinkReducer.loading && <Loading />}
         <Row>
           <Col>
             <ContentContainer>
@@ -72,12 +67,12 @@ const Subscribe = ({ show, setShow }) => {
                   </Col>
                 </Row>
               ) : null}
-              {subscribed ? (
+              {mailSent ? (
                 <>
                   <Row>
                     <Col>
                       <div className="subscribed-text">
-                        <span>Successfully Subscribed</span>
+                        <span>Mail sent Successfully</span>
                       </div>
                     </Col>
                   </Row>
@@ -110,16 +105,19 @@ const Subscribe = ({ show, setShow }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={subscribed ? "close" : "Subscribe"}
-                    disabled={!email && !subscribed}
+                    text={mailSent ? "close" : "Send"}
+                    disabled={!email && !mailSent}
                     onClick={() => {
-                      if (subscribed) {
+                      if (mailSent) {
                         setShow(false);
-                        changeSubscribed(false);
+                        changeMailRes(false);
                       } else {
-                        doSubscriptionMethod(
-                          { email },
-                          changeSubscribed,
+                        sharelinkMethod(
+                          {
+                            email,
+                            pathname: window.location.pathname,
+                          },
+                          changeMailRes,
                           setEmail
                         );
                       }
@@ -134,4 +132,4 @@ const Subscribe = ({ show, setShow }) => {
     </Modal>
   );
 };
-export default React.memo(Subscribe);
+export default React.memo(ShareAsEmail);

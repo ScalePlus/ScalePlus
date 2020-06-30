@@ -48,6 +48,8 @@ export const submissionListReducer = createReducer(initialState, {
   [SUBMISSION_FORM_LIST_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
+      disqualifySuccess: null,
+      judgeSuccess: null,
       submissionsListSuccess: null,
       error: null,
     });
@@ -55,6 +57,8 @@ export const submissionListReducer = createReducer(initialState, {
   [SUBMISSION_FORM_LIST_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
+      disqualifySuccess: null,
+      judgeSuccess: null,
       submissionsListSuccess: action.payload,
       error: null,
     });
@@ -62,6 +66,8 @@ export const submissionListReducer = createReducer(initialState, {
   [SUBMISSION_FORM_LIST_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
+      disqualifySuccess: null,
+      judgeSuccess: null,
       submissionsListSuccess: null,
       error: action.payload,
     });

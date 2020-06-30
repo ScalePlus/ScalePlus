@@ -139,7 +139,10 @@ const EvaluateModal = ({
                           text={"Save Draft"}
                           type="submit"
                           onClick={() => {
-                            const record = data.find((each) => !each.value);
+                            const record = data.find(
+                              (each) =>
+                                !each.value || (each.value && each.value > 100)
+                            );
                             if (!record) {
                               onSaveDraft(data);
                             }
@@ -152,7 +155,10 @@ const EvaluateModal = ({
                           text={"Submit Evaluation"}
                           type="submit"
                           onClick={() => {
-                            const record = data.find((each) => !each.value);
+                            const record = data.find(
+                              (each) =>
+                                !each.value || (each.value && each.value > 100)
+                            );
                             if (!record) {
                               onSubmitEvaluation(data);
                             }

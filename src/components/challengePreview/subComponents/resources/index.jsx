@@ -50,7 +50,7 @@ const Resources = ({
                     attachmentLink={each.attachmentURL}
                     link={each.link}
                     timestamp={
-                      each.date
+                      each && each.date
                         ? moment(each.date).format("MMMM DD, YYYY")
                         : null
                     }

@@ -6,7 +6,9 @@ export const getAllChallengeAction = (page, filters) => ({
   filters,
 });
 
-export const doSubscriptionAction = (data) => ({
+export const doSubscriptionAction = (data, changeSubscribed, setEmail) => ({
   type: DO_SUBSCRIPTION_ACTION,
   payload: data,
+  changeSubscribed,
+  setEmail,
 });

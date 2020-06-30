@@ -49,7 +49,7 @@ const Updates = ({
                       <div className="content-container">
                         <span className="title">{each.title}</span>
                         <span className="timestamp">
-                          {each.date
+                          {each && each.date
                             ? moment(each.date).format("MMMM DD, YYYY")
                             : null}
                         </span>

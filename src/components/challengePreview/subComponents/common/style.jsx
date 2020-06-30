@@ -203,15 +203,19 @@ export const StepperVerticalContainer = styled.div`
     height: 50%;
   }
 
+  .single-child::after{
+    display:none;
+  }
+
   .selected {
     .inner-oval {
       background-color: ${theme.colors.yellow};
     }
   }
 
-  .selected::after {
-    background-color: ${theme.colors.yellow};
-  }
+  // .selected::after {
+  //   background-color: ${theme.colors.yellow};
+  // }
 
   .active {
     .outer-oval {
@@ -223,28 +227,28 @@ export const StepperVerticalContainer = styled.div`
     }
   }
 
-  .step:not(:first-child).active::before {
-    content: "";
-    position: absolute;
-    height: 50%;
-    width: 2px;
-    background-color: ${theme.colors.yellow};
-    left: calc(20px / 2);
-    top: 0;
-    z-index: 1;
-  }
+  // .step:not(:first-child).active::before {
+  //   content: "";
+  //   position: absolute;
+  //   height: 50%;
+  //   width: 2px;
+  //   background-color: ${theme.colors.yellow};
+  //   left: calc(20px / 2);
+  //   top: 0;
+  //   z-index: 1;
+  // }
 
-  .active::after {
-    top: 50%;
-    height: 50%;
-  }
+  // .active::after {
+  //   top: 50%;
+  //   height: 50%;
+  // }
 
-  .step:last-child.active::after {
-    top: 0;
-    bottom: 50%;
-    height: 50%;
-    background-color: ${theme.colors.yellow};
-  }
+  // .step:last-child.active::after {
+  //   top: 0;
+  //   bottom: 50%;
+  //   height: 50%;
+  //   background-color: ${theme.colors.yellow};
+  // }
 
   .content {
     text-align: left;
