@@ -102,7 +102,7 @@ const BusinessTags = ({ history }) => {
   useEffect(() => {
     const { userData } = signinReducer;
     if (userData && userData.businessTags) {
-      const {
+      let {
         industry,
         services,
         technology,
@@ -111,6 +111,7 @@ const BusinessTags = ({ history }) => {
         targetMarket,
       } = userData.businessTags;
       if (industry && industry.length) {
+        industry = industry.filter((each) => each._id && each.name);
         selectIndustry(
           industry.map((each) => {
             return { value: each._id, label: each.name };
@@ -118,6 +119,7 @@ const BusinessTags = ({ history }) => {
         );
       }
       if (services && services.length) {
+        services = services.filter((each) => each._id && each.name);
         selectService(
           services.map((each) => {
             return { value: each._id, label: each.name };
@@ -125,6 +127,7 @@ const BusinessTags = ({ history }) => {
         );
       }
       if (technology && technology.length) {
+        technology = technology.filter((each) => each._id && each.name);
         selectTechnology(
           technology.map((each) => {
             return { value: each._id, label: each.name };
@@ -132,6 +135,7 @@ const BusinessTags = ({ history }) => {
         );
       }
       if (businessModel && businessModel.length) {
+        businessModel = businessModel.filter((each) => each._id && each.name);
         selectBusinessModels(
           businessModel.map((each) => {
             return { value: each._id, label: each.name };
@@ -139,6 +143,9 @@ const BusinessTags = ({ history }) => {
         );
       }
       if (georgraphicalMarket && georgraphicalMarket.length) {
+        georgraphicalMarket = georgraphicalMarket.filter(
+          (each) => each._id && each.name
+        );
         selectGeographicalMarket(
           georgraphicalMarket.map((each) => {
             return { value: each._id, label: each.name };
@@ -146,6 +153,7 @@ const BusinessTags = ({ history }) => {
         );
       }
       if (targetMarket && targetMarket.length) {
+        targetMarket = targetMarket.filter((each) => each._id && each.name);
         selectTargetMarket(
           targetMarket.map((each) => {
             return { value: each._id, label: each.name };

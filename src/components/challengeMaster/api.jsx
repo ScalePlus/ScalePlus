@@ -29,12 +29,12 @@ export default {
   },
   challengeCategoriesList: () => {
     let url = `/challenge/categories/list`;
-    let result = coreApi.GET(url);
+    let result = coreApi.PUT(url, { searchText: "" });
     return result;
   },
   challengeTagsList: () => {
     let url = `/challenge/tags/list`;
-    let result = coreApi.GET(url);
+    let result = coreApi.PUT(url, { searchText: "" });
     return result;
   },
 };

@@ -95,8 +95,11 @@ const Description = ({ challengeId }) => {
           setPrize(descriptionId.prize);
         }
         if (descriptionId.categories && descriptionId.categories.length) {
-          let selectedData = [];
-          descriptionId.categories.map((each) => {
+          let selectedData = [],
+            records = descriptionId.categories.filter(
+              (each) => each._id && each.name
+            );
+          records.map((each) => {
             selectedData.push({
               value: each._id,
               label: each.name,
@@ -124,8 +127,11 @@ const Description = ({ challengeId }) => {
           changeVideoUrl(descriptionId.videoURL);
         }
         if (descriptionId.tags && descriptionId.tags.length) {
-          let selectedData = [];
-          descriptionId.tags.map((each) => {
+          let selectedData = [],
+            records = descriptionId.tags.filter(
+              (each) => each._id && each.name
+            );
+          records.map((each) => {
             selectedData.push({
               value: each._id,
               label: each.name,
