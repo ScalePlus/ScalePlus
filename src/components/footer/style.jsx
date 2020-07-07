@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
+
 export const MainContainer = styled.div`
   .group-container {
     min-height: 130px;
@@ -40,7 +41,8 @@ export const MainContainer = styled.div`
       font-family: ${theme.fontFamily.bold};
       text-align: center;
       @media (min-width: 992px) {
-        margin-right: 40px;
+        margin-right: ${theme.isLTR && "40px"};
+        margin-left: ${theme.isRTL && "40px"};
       }
     }
     .form-container {
@@ -50,7 +52,8 @@ export const MainContainer = styled.div`
       flex: 1;
       .form-group {
         flex: 0.7;
-        margin-right: 10px;
+        margin-right: ${theme.isLTR && "10px"};
+        margin-left: ${theme.isRTL && "10px"};
         .form-control {
           height: 40px;
         }
@@ -121,14 +124,16 @@ export const MainContainer = styled.div`
         width: 40px;
         border-radius: 50%;
         background-color: ${theme.colors.black};
-        margin-left: 5px;
+        margin-left: ${theme.isLTR && "5px"};
+        margin-right: ${theme.isRTL && "5px"};
         display: flex;
         align-items: center;
         justify-content: center;
       }
     }
     .link {
-      margin-right: 30px;
+      margin-right: ${theme.isLTR && "30px"};
+      margin-left: ${theme.isRTL && "30px"};
     }
   }
 `;

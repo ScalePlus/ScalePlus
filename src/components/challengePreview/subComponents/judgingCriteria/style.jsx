@@ -13,7 +13,7 @@ export const MainContainer = styled.div`
 export const ContentContainer = styled.div`
   margin-bottom: 15px;
   .collapse-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     padding: 15px 10px;
     min-height: 90px;
     border: 1px solid #d9d9d9;
@@ -24,11 +24,11 @@ export const ContentContainer = styled.div`
     margin-bottom: 10px;
     .title {
       font-family: ${theme.fontFamily.bold};
-      margin-right: 30px;
     }
     .timestamp {
       color: ${theme.colors.gray};
       font-size: ${theme.fontSize.small};
+      margin-left: 30px;
     }
     span {
       vertical-align: middle;

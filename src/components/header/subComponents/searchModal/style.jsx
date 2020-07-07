@@ -16,7 +16,7 @@ export const HeaderContainer = styled.div`
     align-items: center;
     .left-container {
       flex: 0.8;
-      text-align: left;
+      text-align: ${theme.isLTR ? "left" : "right"};
       .form-group {
         margin-bottom: 0px;
       }
@@ -34,7 +34,7 @@ export const HeaderContainer = styled.div`
     }
     .right-container {
       flex: 0.2;
-      text-align: right;
+      text-align: ${theme.isLTR ? "right" : "left"};
       font-size: ${theme.fontSize.large};
       font-family: ${theme.fontFamily.bold};
       cursor: pointer;
@@ -61,7 +61,8 @@ export const ContentContainer = styled.div`
       height: 70px;
       width: 120px;
       border-radius: 6px;
-      margin-right: 20px;
+      margin-right: ${theme.isLTR && "20px"};
+      margin-left: ${theme.isRTL && "20px"};
       img {
         width: 100%;
         height: 100%;
@@ -86,7 +87,8 @@ export const ContentContainer = styled.div`
       align-items: center;
       justify-content: center;
       background-color: ${theme.colors.white};
-      margin-right: 20px;
+      margin-right: ${theme.isLTR && "20px"};
+      margin-left: ${theme.isRTL && "20px"};
     }
   }
   .sub-title-container {

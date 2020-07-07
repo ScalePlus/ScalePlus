@@ -54,9 +54,10 @@ export const MainContainer = styled.div`
     margin-bottom: 15px;
   }
   .custom-tab {
-    margin-right: 15px;
+    margin-right: ${theme.isLTR && "15px"};
+    margin-left: ${theme.isRTL && "15px"};
     margin-bottom: 15px;
-    float: left;
+    float: ${theme.isLTR ? "left" : "right"};
   }
   button {
     padding: 10px 20px;
@@ -68,7 +69,8 @@ export const MainContainer = styled.div`
   .bottom-button-container {
     display: flex;
     button:nth-child(1) {
-      margin-right: 10px;
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
     }
   }
 `;

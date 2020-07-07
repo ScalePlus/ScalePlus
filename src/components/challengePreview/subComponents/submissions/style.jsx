@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
     font-family: ${theme.fontFamily.bold};
   }
   .thankyou-text {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     font-size: ${theme.fontSize.extraMedium};
     a {
       font-family: ${theme.fontFamily.bold};
@@ -64,7 +64,8 @@ export const MainContainer = styled.div`
       display: flex;
       button {
         :first-child {
-          margin-right: 10px;
+          margin-right: ${theme.isLTR && "10px"};
+          margin-left: ${theme.isRTL && "10px"};
         }
         padding: 10px 15px;
       }
@@ -121,7 +122,7 @@ export const MainContainer = styled.div`
         display: flex;
         align-items: center;
         padding-top: 15px;
-        text-align: left;
+        text-align: ${theme.isLTR ? "left" : "right"};
         .icon-container {
           flex: auto;
         }
@@ -165,12 +166,14 @@ export const MainContainer = styled.div`
 
       .form-group:first-child {
         flex: 0.3;
-        margin-right: 20px;
+        margin-right: ${theme.isLTR && "20px"};
+        margin-left: ${theme.isRTL && "20px"};
         margin-bottom: 0px;
       }
       .form-group:nth-child(2) {
         flex: 0.5;
-        margin-right: 20px;
+        margin-right: ${theme.isLTR && "20px"};
+        margin-left: ${theme.isRTL && "20px"};
         margin-bottom: 0px;
         .form-control {
           height: 40px;

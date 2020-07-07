@@ -20,7 +20,8 @@ export const MainContainer = styled.div`
       border-bottom: 1px solid #979797;
 
       .primary_switch .custom-control-label {
-        padding-left: 15px;
+        padding-left: ${theme.isLTR && "15px"};
+        padding-right: ${theme.isRTL && "15px"};
         padding-top: 5px;
         text-transform: capitalize;
       }
@@ -33,7 +34,8 @@ export const MainContainer = styled.div`
     }
   }
   .right-container {
-    margin-left: 1rem;
+    margin-left: ${theme.isLTR && "1rem"};
+    margin-right: ${theme.isRTL && "1rem"};
   }
   .choice-container {
     display: flex;
@@ -46,11 +48,13 @@ export const MainContainer = styled.div`
       }
       .choice-input {
         flex: auto;
-        margin-left: 1rem;
+        margin-left: ${theme.isLTR && "1rem"};
+        margin-right: ${theme.isRTL && "1rem"};
       }
     }
     .choice-right-container {
-      margin-left: 1rem;
+      margin-left: ${theme.isLTR && "1rem"};
+      margin-right: ${theme.isRTL && "1rem"};
       margin-bottom: 1rem;
     }
   }

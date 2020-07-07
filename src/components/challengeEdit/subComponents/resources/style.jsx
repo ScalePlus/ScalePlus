@@ -14,13 +14,16 @@ export const MainContainer = styled.div`
     flex: auto;
   }
   .right-container {
-    margin-left: 1rem;
+    margin-left: ${theme.isLTR && "1rem"};
+    margin-right: ${theme.isRTL && "1rem"};
   }
   .upload-button {
     position: absolute;
     margin-top: -36px;
-    right: 0;
-    margin-right: 13px;
+    right: ${theme.isLTR && "0"};
+    left: ${theme.isRTL && "0"};
+    margin-right: ${theme.isLTR && "13px"};
+    margin-left: ${theme.isRTL && "13px"};
     border-radius: 6px;
     padding: 3px 30px;
     border-color: rgba(0, 0, 0, 0.5);

@@ -14,6 +14,7 @@ export const MainContainer = styled.div`
     flex: auto;
   }
   .right-container {
-    margin-left: 1rem;
+    margin-left: ${theme.isLTR && "1rem"};
+    margin-right: ${theme.isRTL && "1rem"};
   }
 `;

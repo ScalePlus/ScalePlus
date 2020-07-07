@@ -15,9 +15,10 @@ export const ContentContainer = styled.div`
 
   .bottom-button-container {
     display: flex;
-    float: right;
+    float: ${theme.isLTR ? "right" : "left"};
     button:first-child {
-      margin-right: 10px;
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
     }
   }
 `;

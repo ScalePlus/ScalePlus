@@ -27,7 +27,7 @@ export const MainContainer = styled.div`
 
   .sub-description-container,
   .add-member {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     font-family: ${theme.fontFamily.bold};
   }
 
@@ -53,18 +53,19 @@ export const MainContainer = styled.div`
     }
     .remove-button-container {
       margin-bottom: 1rem;
-      margin-left: 10px;
+      margin-left: ${theme.isLTR && "10px"};
+      margin-right: ${theme.isRTL && "10px"};
     }
   }
 
   .checkbox-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     margin-top: 20px;
     margin-bottom: 30px;
   }
 
   .right-container {
-    text-align: right;
+    text-align: ${theme.isLTR ? "right" : "left"};
     color: ${theme.colors.gray};
     margin-bottom: 50px;
   }
@@ -98,12 +99,14 @@ export const MainContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
-    margin-left: 1rem;
+    margin-left: ${theme.isLTR && "1rem"};
+    margin-right: ${theme.isRTL && "1rem"};
     .form-group {
       margin-bottom: 0;
     }
   }
   .left-text {
-    margin-right: 10px;
+    margin-right: ${theme.isLTR && "10px"};
+    margin-left: ${theme.isRTL && "10px"};
   }
 `;

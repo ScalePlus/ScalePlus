@@ -34,7 +34,8 @@ export const MainContainer = styled.div`
   .count {
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiRegular};
-    margin-left: 5px;
+    margin-left: ${theme.isLTR && "5px"};
+    margin-right: ${theme.isRTL && "5px"};
   }
   .content-container {
     padding-top: 25px;

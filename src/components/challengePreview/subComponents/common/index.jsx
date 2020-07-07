@@ -43,7 +43,7 @@ export const HeaderComponent = React.memo(
           style={{ display: "flex", alignItems: "center", marginBottom: 10 }}
         >
           {haveProgressBar && (
-            <div style={{ marginRight: 10 }}>
+            <div style={theme.isLTR ? { marginRight: 10 } : { marginLeft: 10 }}>
               <CircularProgressbar
                 value={progress}
                 text={`${progress}%`}
@@ -60,7 +60,7 @@ export const HeaderComponent = React.memo(
             </div>
           )}
           {infoButtonText && (
-            <div style={{ marginRight: 10 }}>
+            <div style={theme.isLTR ? { marginRight: 10 } : { marginLeft: 10 }}>
               <PrimaryButton
                 variant={infoButtonVariant}
                 type={infoButtonType}
@@ -73,7 +73,12 @@ export const HeaderComponent = React.memo(
             <Dropdown>
               <Dropdown.Toggle
                 as={React.forwardRef(({ children, onClick }, ref) => (
-                  <div style={{ marginRight: 10 }} ref={ref}>
+                  <div
+                    style={
+                      theme.isLTR ? { marginRight: 10 } : { marginLeft: 10 }
+                    }
+                    ref={ref}
+                  >
                     <PrimaryButton
                       variant={menuButtonVariant}
                       text={menuButtonText}

@@ -27,8 +27,9 @@ export const MainContainer = styled.div`
     }
   }
   .market-label {
-    text-align: left;
-    margin-left: 10px;
+    text-align: ${theme.isLTR ? "left" : "right"};
+    margin-left: ${theme.isLTR && "10px"};
+    margin-right: ${theme.isRTL && "10px"};
     margin-top: 10px;
     font-family: ${theme.fontFamily.semi_bold};
   }

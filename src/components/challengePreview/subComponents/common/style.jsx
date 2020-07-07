@@ -6,7 +6,7 @@ export const TitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   .title {
     display: flex;
     justify-content: center;
@@ -16,7 +16,8 @@ export const TitleContainer = styled.div`
     font-size: ${theme.fontSize.semiLarge};
 
     .back-arrow {
-      margin-right: 1rem;
+      margin-right: ${theme.isLTR && "1rem"};
+      margin-left: ${theme.isRTL && "1rem"};
       cursor: pointer;
       img {
         margin-bottom: 12px;
@@ -25,7 +26,8 @@ export const TitleContainer = styled.div`
 
     span {
       padding-bottom: 5px;
-      padding-right: 5px;
+      padding-right: ${theme.isLTR && "5px"};
+      padding-left: ${theme.isRTL && "5px"};
       border-bottom: 5px solid ${theme.colors.yellow};
     }
   }
@@ -58,7 +60,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const TitleContainerWithSearchBox = styled.div`
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   .title {
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.semiLarge};
@@ -66,7 +68,8 @@ export const TitleContainerWithSearchBox = styled.div`
     margin-bottom: 35px;
     span {
       padding-bottom: 5px;
-      padding-right: 5px;
+      padding-right: ${theme.isLTR && "5px"};
+      padding-left: ${theme.isRTL && "5px"};
       border-bottom: 5px solid ${theme.colors.yellow};
     }
   }
@@ -84,7 +87,7 @@ export const TitleContainerWithSearchBox = styled.div`
 
 export const ExpandCollapseContainer = styled.div`
   margin-bottom: 15px;
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   cursor: pointer;
   .main-container {
     display: flex;
@@ -99,11 +102,11 @@ export const ExpandCollapseContainer = styled.div`
   .content-container {
     .title {
       font-family: ${theme.fontFamily.bold};
-      margin-right: 30px;
     }
     .timestamp {
       color: ${theme.colors.gray};
       font-size: ${theme.fontSize.small};
+      margin-left: 30px;
     }
     span {
       vertical-align: middle;
@@ -113,7 +116,7 @@ export const ExpandCollapseContainer = styled.div`
     cursor: pointer;
   }
   .collapse-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     padding: 10px;
     min-height: 90px;
     border: 1px solid #d9d9d9;
@@ -134,11 +137,11 @@ export const ExpandCollapseContainer = styled.div`
 export const StepperVerticalContainer = styled.div`
   .steps {
     position: relative;
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
   }
 
   .step {
-    padding: 0px 0px 15px 45px;
+    padding: ${theme.isLTR ? "0px 0px 15px 45px" : "0px 45px 15px 0px"};
     position: relative;
     display: flex;
     align-items: center;
@@ -147,8 +150,9 @@ export const StepperVerticalContainer = styled.div`
   .start-label {
     position: absolute;
     top: 15px;
-    left: calc(20px / 2);
-    transform: translateX(-45%);
+    left: ${theme.isLTR && "calc(20px / 2)"};
+    right: ${theme.isRTL && "calc(20px / 2)"};
+    transform: ${theme.isLTR ? "translateX(-45%)" : "translateX(45%)"};
     z-index: 2;
     font-size: ${theme.fontSize.small};
   }
@@ -156,8 +160,9 @@ export const StepperVerticalContainer = styled.div`
   .end-label {
     position: absolute;
     bottom: 30px;
-    left: calc(20px / 2);
-    transform: translateX(-45%);
+    left: ${theme.isLTR && "calc(20px / 2)"};
+    right: ${theme.isRTL && "calc(20px / 2)"};
+    transform: ${theme.isLTR ? "translateX(-45%)" : "translateX(45%)"};
     z-index: 2;
     font-size: ${theme.fontSize.small};
   }
@@ -170,8 +175,9 @@ export const StepperVerticalContainer = styled.div`
     height: 30px;
     width: 30px;
     border-radius: 50%;
-    left: calc(20px / 2);
-    transform: translateX(-45%);
+    left: ${theme.isLTR && "calc(20px / 2)"};
+    right: ${theme.isRTL && "calc(20px / 2)"};
+    transform: ${theme.isLTR ? "translateX(-45%)" : "translateX(45%)"};
     z-index: 2;
   }
 
@@ -188,7 +194,8 @@ export const StepperVerticalContainer = styled.div`
     height: 100%;
     width: 2px;
     background-color: ${theme.colors.lightSilver};
-    left: calc(20px / 2);
+    left: ${theme.isLTR && "calc(20px / 2)"};
+    right: ${theme.isRTL && "calc(20px / 2)"};
     top: 0;
     z-index: 1;
   }
@@ -251,7 +258,7 @@ export const StepperVerticalContainer = styled.div`
   // }
 
   .content {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     width: 100%;
     padding: 20px;
     border: 1px solid #d9d9d9;
@@ -289,7 +296,7 @@ export const StepperVerticalContainer = styled.div`
         display: flex;
         align-items: center;
         padding-top: 15px;
-        text-align: left;
+        text-align: ${theme.isLTR ? "left" : "right"};
         .icon-container {
           flex: 0.1;
         }
@@ -329,7 +336,7 @@ export const StepperVerticalContainer = styled.div`
           flex: 0 45%;
         }
         padding-top: 15px;
-        text-align: left;
+        text-align: ${theme.isLTR ? "left" : "right"};
         .name {
           font-size: ${theme.fontSize.regular};
           font-family: ${theme.fontFamily.bold};

@@ -25,7 +25,7 @@ export const MainContainer = styled.div`
   }
 
   .custom-sidebar {
-    text-alignt: left;
+    text-alignt: ${theme.isLTR ? "left" : "right"};
     .title {
       padding: 15px;
       font-family: ${theme.fontFamily.bold};

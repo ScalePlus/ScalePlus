@@ -11,7 +11,7 @@ export const MainContainer = styled.div`
     margin-bottom: 25px;
   }
   .tab-title {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     color: ${theme.colors.gray};
     margin-bottom: 5px;
   }

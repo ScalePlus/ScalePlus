@@ -14,13 +14,15 @@ export const SocialLoginContainer = styled.div`
   cursor: pointer;
   position: relative;
   .text-container {
-    margin-left: 10px !important;
+    margin-left: ${theme.isLTR && "10px"} !important;
+    margin-right: ${theme.isRTL && "10px"} !important;
     span {
       vertical-align: middle;
     }
   }
   .icon-container {
-    margin-right: 10px !important;
+    margin-right: ${theme.isLTR && "10px"} !important;
+    margin-left: ${theme.isRTL && "10px"} !important;
   }
   ::after {
     content: "";
@@ -28,7 +30,8 @@ export const SocialLoginContainer = styled.div`
     height: 100%;
     width: 2px;
     background-color: ${(props) => props.border};
-    margin-left: 35px;
+    margin-left: ${theme.isLTR && "35px"};
+    margin-right: ${theme.isRTL && "35px"};
     z-index: 1;
   }
   :disabled {
@@ -135,7 +138,7 @@ export const PrimaryButtonContainer = styled.button`
 `;
 
 export const BackButtonContainer = styled.div`
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   .back-button-text {
     cursor: pointer;
     color: ${theme.colors.gray};
@@ -226,7 +229,8 @@ export const ChallengeHeaderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-right: ${theme.isLTR && "10px"};
+    margin-left: ${theme.isRTL && "10px"};
     img {
       max-width: 35px;
       max-height: 35px;
@@ -268,7 +272,8 @@ export const ChallengeViewHeaderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-right: ${theme.isLTR && "10px"};
+    margin-left: ${theme.isRTL && "10px"};
     img {
       max-width: 35px;
       max-height: 35px;
@@ -285,11 +290,13 @@ export const ChallengeViewHeaderContainer = styled.div`
     align-items: center;
     margin-bottom: 15px;
     .view-container {
-      margin-right: 30px;
+      margin-right: ${theme.isLTR && "30px"};
+      margin-left: ${theme.isRTL && "30px"};
       display: flex;
       align-items: center;
       .view-icon-container {
-        margin-right: 10px;
+        margin-right: ${theme.isLTR && "10px"};
+        margin-left: ${theme.isRTL && "10px"};
       }
       .view-count {
         font-size: ${theme.fontSize.semiRegular};
@@ -306,7 +313,8 @@ export const ChallengeViewHeaderContainer = styled.div`
         border: 1px solid #e3e3e3;
         background-color: ${theme.colors.white};
         .icon-container {
-          margin-right: 10px;
+          margin-right: ${theme.isLTR && "10px"};
+          margin-left: ${theme.isRTL && "10px"};
         }
         .text span {
           vertical-align: middle;
@@ -411,7 +419,8 @@ export const CardContainer = styled.div`
     border-radius: 50%;
     position: absolute;
     top: 142px;
-    left: 25px;
+    left: ${theme.isLTR && "25px"};
+    right: ${theme.isRTL && "25px"};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -463,7 +472,8 @@ export const CardContainer = styled.div`
         .days-text {
           color: ${theme.colors.gray};
           font-family: ${theme.fontFamily.semi_bold};
-          margin-left: 10px;
+          margin-left: ${theme.isLTR && "10px"};
+          margin-right: ${theme.isRTL && "10px"};
         }
         .prize-text {
           font-family: ${theme.fontFamily.semi_bold};
@@ -475,11 +485,14 @@ export const CardContainer = styled.div`
         margin-top: 10px;
         .left-container {
           flex: 0.5;
-          padding-right: 5px;
-          border-right: 1px solid #e9e9e9;
+          padding-right: ${theme.isLTR && "5px"};
+          padding-left: ${theme.isRTL && "5px"};
+          border-right: ${theme.isLTR && "1px solid #e9e9e9"};
+          border-left: ${theme.isRTL && "1px solid #e9e9e9"};
         }
         .right-container {
-          margin-left: 20px;
+          margin-left: ${theme.isLTR && "20px"};
+          margin-right: ${theme.isRTL && "20px"};
           flex: 0.5;
         }
       }

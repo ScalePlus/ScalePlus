@@ -544,7 +544,8 @@ export const DateInput = React.memo(
           className="calendar-icon"
           style={{
             marginTop: isSmall ? "-32px" : "-42px",
-            marginRight: isSmall ? "15px" : "20px",
+            marginRight: theme.isLTR && (isSmall ? "15px" : "20px"),
+            marginLeft: theme.isRTL && (isSmall ? "15px" : "20px"),
           }}
           height="25px"
           width="25px"
@@ -584,7 +585,11 @@ export const DropDown = React.memo(
       }),
       control: (provided, state) => ({
         ...provided,
-        padding: isSmall ? "0px 10px 0px 0px" : "10px 20px",
+        padding: isSmall
+          ? theme.isLTR
+            ? "0px 10px 0px 0px"
+            : "0px 0px 0px 10px"
+          : "10px 20px",
         minHeight: isSmall ? "40px" : "60px",
         border: `1px solid ${theme.colors.borderGrey}`,
         borderColor: theme.colors.borderGrey,
@@ -601,14 +606,15 @@ export const DropDown = React.memo(
       }),
       menu: (provided, state) => ({
         ...provided,
-        textAlign: "left",
+        textAlign: theme.isLTR ? "left" : "right",
         backgroundColor: theme.colors.gray98,
       }),
       option: (provided, state) => ({
         ...provided,
         fontFamily: theme.fontFamily.regular,
         fontSize: theme.fontSize.regular,
-        paddingLeft: "35px",
+        paddingLeft: theme.isLTR && "35px",
+        paddingRight: theme.isRTL && "35px",
         color: theme.colors.black,
       }),
       multiValueLabel: (provided, state) => ({
@@ -926,13 +932,24 @@ export const ChallengeViewHeader = React.memo(
           <div
             className="share-container"
             style={
-              buttonText ? { marginRight: "30px" } : { marginRight: "0px" }
+              theme.isLTR
+                ? buttonText
+                  ? { marginRight: "30px" }
+                  : { marginRight: "0px" }
+                : buttonText
+                ? { marginLeft: "30px" }
+                : { marginLeft: "0px" }
             }
           >
             <Dropdown>
               <Dropdown.Toggle
                 as={React.forwardRef(({ children, onClick }, ref) => (
-                  <div style={{ marginRight: 10 }} ref={ref}>
+                  <div
+                    style={
+                      theme.isLTR ? { marginRight: 10 } : { marginLeft: 10 }
+                    }
+                    ref={ref}
+                  >
                     <button onClick={onClick}>
                       <div className="icon-container">
                         <img

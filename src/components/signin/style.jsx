@@ -29,11 +29,13 @@ export const MainContainer = styled.div`
     flex-wrap: wrap;
     margin-bottom: 30px;
     .google-button {
-      margin-right: 5px;
+      margin-right: ${theme.isLTR && "5px"};
+      margin-left: ${theme.isRTL && "5px"};
       flex: 0.5;
     }
     .linkedin-button {
-      margin-left: 5px;
+      margin-left: ${theme.isLTR && "5px"};
+      margin-right: ${theme.isRTL && "5px"};
       flex: 0.5;
     }
   }
@@ -46,7 +48,7 @@ export const MainContainer = styled.div`
   }
 
   .remember-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     padding: 0px 10px;
     margin-top: -18px;
     margin-bottom: 30px;
@@ -78,7 +80,7 @@ export const MainContainer = styled.div`
 
   .reset-link {
     cursor: pointer;
-    text-align: right;
+    text-align: ${theme.isLTR ? "right" : "left"};
     color: ${theme.colors.gray};
     margin-top: -10px;
     margin-bottom: 30px;

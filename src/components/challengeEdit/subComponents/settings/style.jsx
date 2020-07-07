@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../../../../theme";
 
 export const MainContainer = styled.div`
   textarea.form-control {
@@ -7,7 +8,9 @@ export const MainContainer = styled.div`
   .danger-button-container {
     top: 5.5rem;
     position: absolute;
-    right: 0;
-    margin-right: 20px;
+    right: ${theme.isLTR && "0"};
+    left: ${theme.isRTL && "0"};
+    margin-right: ${theme.isLTR && "20px"};
+    margin-left: ${theme.isRTL && "20px"};
   }
 `;

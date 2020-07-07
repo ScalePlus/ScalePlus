@@ -38,7 +38,8 @@ export const MainContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     .save-button {
-      margin-right: 10px;
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
       button {
         background-color: #cfcfcf;
         padding: 10px 40px;

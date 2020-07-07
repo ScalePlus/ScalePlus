@@ -1,4 +1,6 @@
 export default {
+  isRTL: localStorage.getItem("language") === "ar",
+  isLTR: localStorage.getItem("language") !== "ar",
   colors: {
     white: "#ffffff",
     black: "#000000",

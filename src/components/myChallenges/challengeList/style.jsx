@@ -12,7 +12,8 @@ export const MainContainer = styled.div`
     .title {
       font-family: ${theme.fontFamily.bold};
       font-size: ${theme.fontSize.mediumLarge};
-      margin-right: 20px;
+      margin-right: ${theme.isLTR && "20px"};
+      margin-left: ${theme.isRTL && "20px"};
     }
     .circle-container {
       height: 45px;
@@ -47,8 +48,10 @@ export const MainContainer = styled.div`
         display: none;
         position: absolute;
         top: 0;
-        right: 0;
-        margin-right: 25px;
+        right: ${theme.isLTR && 0};
+        left: ${theme.isRTL && 0};
+        margin-right: ${theme.isLTR && "25px"};
+        margin-left: ${theme.isRTL && "25px"};
         margin-top: 10px;
         cursor: pointer;
         .content-container {
@@ -86,7 +89,8 @@ export const MainContainer = styled.div`
           font-size: ${theme.fontSize.semiRegular};
         }
         .border-container {
-          border-right: 1px solid #dfdfdf;
+          border-right: ${theme.isLTR && "1px solid #dfdfdf"};
+          border-left: ${theme.isRTL && "1px solid #dfdfdf"};
           height: 70%;
         }
         .manage-tab {

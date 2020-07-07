@@ -28,7 +28,7 @@ body {
 }
 
 .form-control,.banner-input{
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   padding: 20px;
   height: 60px;
   border: 1px solid ${theme.colors.borderGrey};
@@ -54,6 +54,13 @@ body {
 }
 .ql-editor {
   min-height: 500px;
+  text-align: ${theme.isLTR ? "left" : "right"};
+}
+.ql-snow .ql-picker-label{
+  padding-right:${theme.isRTL && "20px"}
+}
+.ql-toolbar.ql-snow .ql-formats{
+  margin:0px;
 }
 .ql-container {
   border: 1px solid ${theme.colors.borderGrey} !important;
@@ -149,7 +156,7 @@ body {
 }
 
 .custom-date-picker .react-date-picker__wrapper{
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   padding: 20px;
   border: 1px solid ${theme.colors.borderGrey};
   border-radius: 6px;
@@ -215,7 +222,7 @@ body {
 
 .was-validated .invalid-text{
   display:block;
-  text-align:left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   width: 100%;
   margin-top: .25rem;
   font-size: 90%;
@@ -277,8 +284,10 @@ body {
 .upload-button {
   position: absolute;
   margin-top: -55px;
-  right: 0;
-  margin-right: 13px;
+  right: ${theme.isLTR && "0"};
+  left: ${theme.isRTL && "0"};
+  margin-right: ${theme.isLTR && "13px"};
+  margin-left: ${theme.isRTL && "13px"};
   border-radius: 6px;
   padding: 12px 60px;  
   border-color: ${theme.colors.mediumgray};
@@ -301,8 +310,10 @@ body {
 .password-icon {
   position: absolute;
   margin-top: -45px;
-  right: 0;
-  margin-right: 25px;
+  right: ${theme.isLTR && "0"};
+  left: ${theme.isRTL && "0"};
+  margin-right: ${theme.isLTR && "25px"};
+  margin-left: ${theme.isRTL && "25px"};
   font-size: ${theme.fontSize.title};
   cursor: pointer;
 }
@@ -310,14 +321,17 @@ body {
 .search-icon{
   position: absolute;
   margin-top: -25px;
-  right: 0;
-  margin-right: 25px;
+  right: ${theme.isLTR && "0"};
+  left: ${theme.isRTL && "0"};
+  margin-right: ${theme.isLTR && "25px"};
+  margin-left: ${theme.isRTL && "25px"};
   cursor: pointer;
 }
 
 .calendar-icon {
   position: absolute;
-  right: 0;
+  right: ${theme.isLTR && "0"};
+  left: ${theme.isRTL && "0"};
   font-size: ${theme.fontSize.title};
   cursor: pointer;
 }
@@ -333,7 +347,8 @@ body {
 
 .large-checkbox .custom-control-label{
   font-size: ${theme.fontSize.regular};
-  margin-left:10px;
+  margin-left:${theme.isLTR && "10px"};
+  margin-right:${theme.isRTL && "10px"};
 }
 
 .large-checkbox .custom-control-label::before, 
@@ -341,7 +356,8 @@ body {
     width: 25px;
     height: 25px;
     top: -1px;
-    left: -35px;
+    left: ${theme.isLTR && "-35px"};
+    right: ${theme.isRTL && "-35px"};
     border-radius:6px;
 }
 
@@ -356,7 +372,8 @@ body {
 
 .large-radio-button .custom-control-label{
   font-size: ${theme.fontSize.regular};
-  margin-left:10px;
+  margin-left:${theme.isLTR && "10px"};
+  margin-right:${theme.isRTL && "10px"};
 }
 
 .large-radio-button .custom-control-label::before, 
@@ -364,15 +381,18 @@ body {
     width: 25px;
     height: 25px;
     top: -1px;
-    left: -35px;
+    left: ${theme.isLTR && "-35px"};
+    right: ${theme.isRTL && "-35px"};
     border-radius:50%;
 }
 
 .textarea-count {
   position: absolute;
   margin-top: -30px;
-  right: 0;
-  margin-right: 35px;
+  right: ${theme.isLTR && "0"};
+  left: ${theme.isRTL && "0"};
+  margin-right: ${theme.isLTR && "35px"};
+  margin-left: ${theme.isRTL && "35px"};
   cursor: pointer;
   background-color: ${theme.colors.white};
   font-size: ${theme.fontSize.regular};
@@ -383,7 +403,8 @@ body {
 }
 
 .primary_switch{
-  padding-left: 2.25rem;
+  padding-left: ${theme.isLTR && "2.25rem"};
+  padding-right: ${theme.isRTL && "2.25rem"};
 }
 
 .custom-switch .custom-control-label::before {
@@ -400,7 +421,8 @@ body {
 
 .custom-switch .custom-control-label::after {
   top: 7px;
-  left:  -33px;
+  left:  ${theme.isLTR && "-33px"};
+  right:  ${theme.isRTL && "-33px"};
   height: 30px;
   width: 30px;
   border-radius: 18.5px;
@@ -409,9 +431,10 @@ body {
 
 .primary_switch .custom-control-label::after {
   top: 5px;
-    left: -35px;
-    height: 22px;
-    width: 22px;
+  left:  ${theme.isLTR && "-35px"};
+  right:  ${theme.isRTL && "-35px"};
+  height: 22px;
+  width: 22px;
   background-color: #D2D2D2;
 }
 
@@ -427,15 +450,16 @@ body {
 
 .custom-switch .custom-control-input:checked~.custom-control-label::after {
   background-color: ${theme.colors.yellow};
-  transform: translateX(1.5rem);
+  transform: ${theme.isLTR ? "translateX(1.5rem)" : "translateX(-1.5rem)"};
 }
 
 .primary_switch .custom-control-input:checked~.custom-control-label::after {
-  transform: translateX(1.1rem);
+  transform: ${theme.isLTR ? "translateX(1.1rem)" : "translateX(-1.1rem)"};
 }
 
 .primary_switch .custom-control-label{
-  padding-left: 20px;
+  padding-left: ${theme.isLTR && "20px"};
+  padding-right: ${theme.isRTL && "20px"};
   padding-top: 8px;
 }
 
@@ -554,7 +578,8 @@ body {
 }
 
 .checkbox-label{
-  margin-left:35px;
+  margin-left:${theme.isLTR && "35px"};
+  margin-right:${theme.isRTL && "35px"};
   margin-top:-24px;
   .privacy-links{
     font-family: ${theme.fontFamily.bold};

@@ -25,13 +25,14 @@ export const MainContainer = styled.div`
 export const TabContainer = styled.div`
   border: none;
   .nav {
-    float: right;
+    float: ${theme.isLTR ? "right" : "left"};
   }
   .nav-tabs {
     border: none;
   }
   .nav-item {
-    margin-left: 25px;
+    margin-left: ${theme.isLTR && "25px"};
+    margin-right: ${theme.isRTL && "25px"};
   }
   .nav-link {
     border-bottom: 8px solid transparent;
@@ -60,10 +61,10 @@ export const TabContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    margin-right: ${theme.isLTR ? "10px" : "95px"};
     position: absolute;
     margin-top: -50px;
-    margin-left: 95px;
+    margin-left: ${theme.isLTR ? "95px" : "10px"};
     span {
       color: ${theme.colors.white};
       font-size: ${theme.fontSize.small};

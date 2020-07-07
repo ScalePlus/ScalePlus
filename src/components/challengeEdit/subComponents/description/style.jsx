@@ -11,14 +11,17 @@ export const MainContainer = styled.div`
     padding: 10px;
     position: absolute;
     z-index: 1;
-    right: 0;
+    right: ${theme.isLTR && "0"};
+    left: ${theme.isRTL && "0"};
     margin-top: -30px;
-    margin-right: -5%;
+    margin-right: ${theme.isLTR && "-5%"};
+    margin-right: ${theme.isRTL && "-5%"};
     .step {
       display: flex;
       margin-bottom: 10px;
       .icon-container {
-        margin-right: 5px;
+        margin-right: ${theme.isLTR && "5px"};
+        margin-left: ${theme.isRTL && "5px"};
         img {
           margin-top: -8px;
         }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
+import theme from "../../theme";
 
 export default class Step extends Component {
   constructor() {
@@ -57,7 +58,7 @@ export default class Step extends Component {
         margin: isLeftAligned ? 0 : "0 auto",
         backgroundColor: defaultColor,
         borderRadius: "50%",
-        textAlign: isLeftAligned ? "left" : "center",
+        textAlign: isLeftAligned ? (theme.isLTR ? "left" : "right") : "center",
         padding: 1,
         fontSize: circleFontSize,
         color: circleFontColor,
@@ -89,7 +90,7 @@ export default class Step extends Component {
       },
       label: {
         fontSize: titleFontSize,
-        textAlign: isLeftAligned ? "left" : "center",
+        textAlign: isLeftAligned ? (theme.isLTR ? "left" : "right") : "center",
         marginTop: `-${circleTop + size}px`,
         marginBottom: `${size + 14}px`,
       },
@@ -97,7 +98,7 @@ export default class Step extends Component {
         marginTop: titleTop,
         fontSize: titleFontSize,
         fontWeight: "300",
-        textAlign: isLeftAligned ? "left" : "center",
+        textAlign: isLeftAligned ? (theme.isLTR ? "left" : "right") : "center",
         display: "block",
         color: defaultTitleColor,
         opacity: defaultTitleOpacity,
@@ -117,9 +118,10 @@ export default class Step extends Component {
         borderTopStyle: barStyle,
         borderTopWidth: borderTopWidth ? borderTopWidth : 1,
         borderTopColor: defaultBarColor,
-        left: 0,
-        right: isLeftAligned ? "100%" : "50%",
-        marginRight: size / 2,
+        left: theme.isLTR ? 0 : isLeftAligned ? "100%" : "50%",
+        right: theme.isLTR ? (isLeftAligned ? "100%" : "50%") : 0,
+        marginRight: theme.isLTR && size / 2,
+        marginLeft: theme.isRTL && size / 2,
         opacity: defaultOpacity,
       },
       rightBar: {
@@ -129,9 +131,10 @@ export default class Step extends Component {
         borderTopStyle: barStyle,
         borderTopWidth: borderTopWidth ? borderTopWidth : 1,
         borderTopColor: defaultBarColor,
-        right: 0,
-        left: isLeftAligned ? 0 : "50%",
-        marginLeft: size / 2,
+        right: theme.isLTR ? 0 : isLeftAligned ? 0 : "50%",
+        left: theme.isLTR ? (isLeftAligned ? 0 : "50%") : 0,
+        marginLeft: theme.isLTR && size / 2,
+        marginRight: theme.isRTL && size / 2,
         opacity: defaultOpacity,
       },
       completedBar: {

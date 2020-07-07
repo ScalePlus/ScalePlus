@@ -28,7 +28,8 @@ export const ContentContainer = styled.div`
       border: 1px solid #979797;
       background-color: ${theme.colors.white};
       border-radius: 50%;
-      margin-right: 10px;
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
       display: flex;
       align-items: center;
       justify-content: center;

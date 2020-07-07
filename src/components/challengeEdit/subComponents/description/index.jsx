@@ -193,24 +193,7 @@ const Description = ({ challengeId }) => {
             form.checkValidity() &&
             (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
           ) {
-            let file = bannerImage;
-
-            if (file && file.name) {
-              setLoading(true);
-              let fileResult = await Api.uploadFile({
-                file: file,
-              });
-              if (
-                fileResult &&
-                fileResult.result &&
-                fileResult.result.imageKey
-              ) {
-                file = fileResult.result.imageKey;
-              }
-              setLoading(false);
-            }
-
-            updateDescriptionMethod({
+            let updateObj = {
               title,
               prize,
               categories,
@@ -218,10 +201,26 @@ const Description = ({ challengeId }) => {
               problemStatement,
               currentSolution,
               painPoint,
-              bannerImage: file,
               videoURL,
               tags,
-            });
+            };
+
+            if (bannerImage && bannerImage.name) {
+              setLoading(true);
+              let fileResult = await Api.uploadFile({
+                file: bannerImage,
+              });
+              if (
+                fileResult &&
+                fileResult.result &&
+                fileResult.result.imageKey
+              ) {
+                updateObj["bannerImage"] = fileResult.result.imageKey;
+              }
+              setLoading(false);
+            }
+
+            updateDescriptionMethod(updateObj);
           }
           setValidated(true);
         }}

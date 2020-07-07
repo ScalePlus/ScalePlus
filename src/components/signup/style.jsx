@@ -30,11 +30,13 @@ export const MainContainer = styled.div`
     margin-top: 10px;
     margin-bottom: 30px;
     .google-button {
-      margin-right: 5px;
+      margin-right: ${theme.isLTR && "5px"};
+      margin-left: ${theme.isRTL && "5px"};
       flex: 0.5;
     }
     .linkedin-button {
-      margin-left: 5px;
+      margin-left: ${theme.isLTR && "5px"};
+      margin-right: ${theme.isRTL && "5px"};
       flex: 0.5;
     }
   }
@@ -44,7 +46,7 @@ export const MainContainer = styled.div`
   }
 
   .description-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
   }
   .tab-container {
     margin-top: 10px;
@@ -59,13 +61,13 @@ export const MainContainer = styled.div`
 
   .password-feedback {
     color: ${theme.colors.gray};
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     margin-top: -10px;
     padding: 0px 10px;
   }
 
   .checkbox-container {
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     padding: 0px 10px;
     margin-top: 20px;
     margin-bottom: 30px;

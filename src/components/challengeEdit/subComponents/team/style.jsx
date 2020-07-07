@@ -16,7 +16,8 @@ export const MainContainer = styled.div`
     padding: 10px 0px;
     .form-group:nth-child(1) {
       flex: 0.5;
-      margin-right: 20px;
+      margin-right: ${theme.isLTR && "20px"};
+      margin-left: ${theme.isRTL && "20px"};
       margin-bottom: 0;
     }
     .form-group:nth-child(2) {
@@ -44,7 +45,8 @@ export const MainContainer = styled.div`
       justify-content: center;
     }
     .left-text {
-      margin-right: 10px;
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
     }
   }
 `;

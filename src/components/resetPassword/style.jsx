@@ -51,7 +51,7 @@ export const MainContainer = styled.div`
 
   .password-feedback {
     color: ${theme.colors.gray};
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     margin-top: -10px;
     margin-bottom: 1rem;
     padding: 0px 10px;

@@ -22,7 +22,8 @@ export const MainContainer = styled.div`
     .status-tab {
       padding: 2px;
       border-radius: 6px;
-      margin-right: 20px;
+      margin-right: ${theme.isLTR && "20px"};
+      margin-left: ${theme.isRTL && "20px"};
       min-width: 70px;
       text-align: center;
       span {

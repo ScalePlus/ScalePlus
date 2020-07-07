@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
+
 export const Container = styled.div`
   align-items: center;
   .navbar {
@@ -9,7 +10,8 @@ export const Container = styled.div`
   }
 
   .navbar-brand {
-    margin-right: 45px;
+    margin-right: ${theme.isLTR && "45px"};
+    margin-left: ${theme.isRTL && "45px"};
   }
 
   .nav-link,
@@ -30,7 +32,8 @@ export const Container = styled.div`
   }
 
   .bell-img {
-    margin-left: 10px;
+    margin-left: ${theme.isLTR && "10px"};
+    margin-right: ${theme.isRTL && "10px"};
   }
 
   .notification-circle {
@@ -38,8 +41,8 @@ export const Container = styled.div`
     width: 10px;
     background: ${theme.colors.yellow};
     border-radius: 50%;
-    margin-right: 20px;
-    margin-left: -9px;
+    margin-right: ${theme.isLTR ? "20px" : "-9px"};
+    margin-left: ${theme.isLTR ? "-9px" : "20px"};
     margin-top: 7px;
   }
 
@@ -47,8 +50,8 @@ export const Container = styled.div`
     width: 100%;
     padding: 0px;
     border-radius: 6px;
-    right: auto;
-    left: 0;
+    right: ${theme.isLTR ? "auto" : 0};
+    left: ${theme.isLTR ? 0 : "auto"};
 
     @media (min-width: 576px),
       @media (min-width: 768px),
@@ -56,8 +59,8 @@ export const Container = styled.div`
       width: 450px;
     }
     @media (min-width: 992px) {
-      right: 0;
-      left: auto;
+      right: ${theme.isLTR ? 0 : "auto"};
+      left: ${theme.isLTR ? "auto" : 0};
     }
 
     .dropdown-item {
@@ -74,10 +77,11 @@ export const Container = styled.div`
   }
 
   .search-img {
-    margin-right: 5px;
-    margin-left: 10px;
+    margin-right: ${theme.isLTR ? "5px" : "10px"};
+    margin-left: ${theme.isLTR ? "10px" : "5px"};
     .search-text {
-      margin-left: 5px;
+      margin-left: ${theme.isLTR && "5px"};
+      margin-right: ${theme.isRTL && "5px"};
       vertical-align: middle;
     }
   }
@@ -107,15 +111,16 @@ export const Container = styled.div`
     cursor: pointer;
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
-    padding-left: 15px !important;
-    padding-right: 0px !important;
+    padding-left: ${theme.isLTR ? "15px" : "0px"} !important;
+    padding-right: ${theme.isLTR ? "0px" : "15px"} !important;
     .nav-link {
       padding-left: 0px !important;
       padding-right: 0px !important;
     }
     .dropdown-menu {
       @media (min-width: 992px) {
-        left: -70px;
+        left: ${theme.isLTR && "-75px"};
+        right: ${theme.isRTL && "-75px"};
       }
     }
     .dropdown-item,

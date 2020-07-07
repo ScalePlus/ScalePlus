@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "../../../../theme";
 
 export const MainContainer = styled.div`
-  text-align: left;
+  text-align: ${theme.isLTR ? "left" : "right"};
   .image-box-container {
     margin-bottom: 20px;
   }
@@ -28,7 +28,8 @@ export const MainContainer = styled.div`
       margin-bottom: 25px;
       span {
         padding: 5px 10px;
-        margin-right: 5px;
+        margin-right: ${theme.isLTR && "5px"};
+        margin-left: ${theme.isRTL && "5px"};
         border-radius: 12px;
         color: ${theme.colors.white};
         font-size: ${theme.fontSize.extraSmall};
@@ -38,7 +39,8 @@ export const MainContainer = styled.div`
     .sub-text-container {
       overflow: auto;
       span {
-        margin-right: 5px;
+        margin-right: ${theme.isLTR && "5px"};
+        margin-left: ${theme.isRTL && "5px"};
         font-size: ${theme.fontSize.medium};
       }
     }
@@ -48,7 +50,8 @@ export const MainContainer = styled.div`
       font-size: ${theme.fontSize.mediumRegular};
 
       .stage-container {
-        margin-right: 120px;
+        margin-right: ${theme.isLTR && "120px"};
+        margin-left: ${theme.isRTL && "120px"};
       }
       .title-text {
         color: ${theme.colors.gray};

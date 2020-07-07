@@ -32,7 +32,8 @@ export const ContentContainer = styled.div`
 
     button {
       :first-child {
-        margin-right: 10px;
+        margin-right: ${theme.isLTR && "10px"};
+        margin-left: ${theme.isRTL && "10px"};
       }
       min-width: 170px;
     }

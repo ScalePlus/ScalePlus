@@ -23,19 +23,21 @@ export const MainContainer = styled.div`
     margin-top: 15px;
   }
   .startup-text {
-    margin-right: 50px;
+    margin-right: ${theme.isLTR && "50px"};
+    margin-left: ${theme.isRTL && "50px"};
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
   }
   .individual-text {
-    margin-left: 40px;
+    margin-left: ${theme.isLTR && "40px"};
+    margin-right: ${theme.isRTL && "40px"};
     color: ${theme.colors.gray};
     font-family: ${theme.fontFamily.regular};
     font-size: ${theme.fontSize.regular};
   }
   .button-container {
-    text-align: right;
+    text-align: ${theme.isLTR ? "right" : "left"};
     margin-top: 35px;
     // margin-bottom: 80px;
     button {

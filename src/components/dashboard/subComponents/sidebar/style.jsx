@@ -30,7 +30,8 @@ export const MainContainer = styled.div`
   }
   .nav-link.active:after {
     content: ">";
-    margin-left: 5px;
+    margin-left: ${theme.isLTR && "5px"};
+    margin-right: ${theme.isRTL && "5px"};
     color: ${theme.colors.yellow};
   }
   .nav-link:focus,

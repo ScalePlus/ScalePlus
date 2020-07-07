@@ -21,7 +21,7 @@ export const MainContainer = styled.div`
   }
   .sub-container {
     margin-top: 50px;
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
   }
   .title-container {
     margin: 10px -15px;
@@ -71,7 +71,7 @@ export const MainContainer = styled.div`
   .right-content-container {
     color: ${theme.colors.gray};
     font-size: ${theme.fontSize.extraSmall};
-    text-align: right;
+    text-align: ${theme.isLTR ? "right" : "left"};
     margin: 35px -15px;
   }
   .button-container {
@@ -80,7 +80,7 @@ export const MainContainer = styled.div`
   }
   .bottom-container {
     font-size: ${theme.fontSize.small};
-    text-align: left;
+    text-align: ${theme.isLTR ? "left" : "right"};
     margin: 45px -15px;
     .contact-link {
       font-family: ${theme.fontFamily.semi_bold};
