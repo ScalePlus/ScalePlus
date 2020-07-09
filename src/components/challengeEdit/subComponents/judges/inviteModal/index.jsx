@@ -7,7 +7,7 @@ import { Input, TextArea, PrimaryButton, Loading } from "../../../../common";
 import { Constants } from "../../../../../lib/constant";
 import { ContentContainer } from "./style";
 
-const InviteModal = ({ show, setShow, challengeId }) => {
+const InviteModal = ({ t, show, setShow, challengeId }) => {
   const dispatch = useDispatch();
   const getChallengeMethod = useCallback(
     (id) => dispatch(getChallengeAction(id)),
@@ -101,23 +101,21 @@ const InviteModal = ({ show, setShow, challengeId }) => {
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Input
                       type="email"
-                      label="Email Address"
+                      label={t("Email Address")}
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value);
                       }}
                       required
                       errorMessage={
-                        email
-                          ? Constants.Errors.invalid_email
-                          : Constants.Errors.email
+                        email ? t("invalid_email_error") : t("email_error")
                       }
                     ></Input>
                   </Col>
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Input
                       type="text"
-                      label="Linkedin"
+                      label={t("Linkedin")}
                       value={linkedin}
                       onChange={(e) => {
                         setLinkedin(e.target.value);
@@ -128,8 +126,8 @@ const InviteModal = ({ show, setShow, challengeId }) => {
                       }
                       errorMessage={
                         linkedin
-                          ? Constants.Errors.invalid_linkedin_url
-                          : Constants.Errors.linkedin_url
+                          ? t("invalid_linkedin_url_error")
+                          : t("linkedin_url_error")
                       }
                     ></Input>
                   </Col>
@@ -138,7 +136,7 @@ const InviteModal = ({ show, setShow, challengeId }) => {
                   <Col>
                     <TextArea
                       rows="4"
-                      label="Additional Message (Optional)"
+                      label={t("Additional Message (Optional)")}
                       value={additionalMessage}
                       onChange={(e) => {
                         setAdditionalMessage(e.target.value);
@@ -151,7 +149,7 @@ const InviteModal = ({ show, setShow, challengeId }) => {
                     <div className="bottom-button-container">
                       <PrimaryButton
                         variant="secondary"
-                        text={"Cancel"}
+                        text={t("Cancel")}
                         onClick={() => {
                           setEmail("");
                           setLinkedin("");
@@ -161,7 +159,7 @@ const InviteModal = ({ show, setShow, challengeId }) => {
                       ></PrimaryButton>
                       <PrimaryButton
                         variant="success"
-                        text={"Send"}
+                        text={t("Send")}
                         type="submit"
                       ></PrimaryButton>
                     </div>

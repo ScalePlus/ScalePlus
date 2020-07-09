@@ -1,42 +1,39 @@
 import React from "react";
 import { PageTitle } from "../common";
 import { Row, Col } from "react-bootstrap";
-const tabs = [
-  {
-    src: "/images/idea.svg",
-    title: "IDEAS",
-    description: `Out-Of-Box Thinking, Market Research, Testimonials, Surveys,
-    Novel Ideas, Insights`,
-  },
-  {
-    src: "/images/product.svg",
-    title: "PRODUCTS",
-    description: "Final Product, Robust, Ready to-go Live",
-  },
-  {
-    src: "/images/prototype.svg",
-    title: "PROTOTYPES",
-    description: "Full-Scale, Single Production, Hardware or Software",
-  },
-];
 
-const Step1 = ({ setActiveStep, typeOfSolution, setTypeOfSolution }) => {
+const Step1 = ({ t, setActiveStep, typeOfSolution, setTypeOfSolution }) => {
+  const tabs = [
+    {
+      src: "/images/idea.svg",
+      title: t("IDEAS"),
+      description: t("IDEAS_description"),
+    },
+    {
+      src: "/images/product.svg",
+      title: t("PRODUCTS"),
+      description: t("PRODUCTS_description"),
+    },
+    {
+      src: "/images/prototype.svg",
+      title: t("PROTOTYPES"),
+      description: t("PROTOTYPES_description"),
+    },
+  ];
+
   return (
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
-          <Col>WHAT ARE YOU LOOKING FOR?</Col>
+          <Col>{t("STEP1_title")}</Col>
         </Row>
         <Row className="title-container">
           <Col>
-            <PageTitle
-              text="Have A Business Problem? Launch a Challenge to Get Innovative
-            Solutions"
-            />
+            <PageTitle text={t("STEP1_pagetitle")} />
           </Col>
         </Row>
         <Row className="sub-title">
-          <Col>First, Select What Type Of Solution You Are Looking For.</Col>
+          <Col>{t("STEP1_subtitle")}</Col>
         </Row>
         <Row className="tabs-container">
           {tabs.map((each, index) => {
@@ -69,12 +66,12 @@ const Step1 = ({ setActiveStep, typeOfSolution, setTypeOfSolution }) => {
           })}
         </Row>
         <Row className="right-content-container">
-          <Col>You can always edit this information later</Col>
+          <Col>{t("You can always edit this information later")}</Col>
         </Row>
         <Row className="bottom-container">
           <Col>
-            Need Help? or Looking for custom solution?{" "}
-            <span className="contact-link">Contact Us</span>
+            {t("Need_Help_Text")}{" "}
+            <span className="contact-link">{t("Contact Us")}</span>
           </Col>
         </Row>
       </Col>

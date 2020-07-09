@@ -3,7 +3,7 @@ import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { PrimaryButton } from "../../../../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
-const DisqualifyModal = ({ show, setShow, errors, onDisqualify }) => {
+const DisqualifyModal = ({ t, show, setShow, errors, onDisqualify }) => {
   return (
     <Modal
       show={show}
@@ -13,7 +13,7 @@ const DisqualifyModal = ({ show, setShow, errors, onDisqualify }) => {
     >
       <Modal.Header>
         <HeaderContainer>
-          <span>Disqualify Submission</span>
+          <span>{t("Disqualify Submission")}</span>
         </HeaderContainer>
       </Modal.Header>
       <Modal.Body>
@@ -31,10 +31,7 @@ const DisqualifyModal = ({ show, setShow, errors, onDisqualify }) => {
         <Row className="justify-content-center">
           <Col>
             <ContentContainer>
-              <div className="bold-text">
-                You are about to Disqualify this submission! you canont undo
-                this!
-              </div>
+              <div className="bold-text">{t("disqualify_modal_title")}</div>
               {/* <div className="small-text">
                 Derived from Latin dolorem ipsum (“pain itself”), Lorem Ipsum is
                 filler text used by publishers and graphic designers used to
@@ -44,14 +41,14 @@ const DisqualifyModal = ({ show, setShow, errors, onDisqualify }) => {
               <div className="button-container">
                 <PrimaryButton
                   variant="danger_light"
-                  text={"Yes, Disqualify"}
+                  text={t("disqualify_modal_yes")}
                   onClick={() => {
                     onDisqualify();
                   }}
                 ></PrimaryButton>
                 <PrimaryButton
                   variant="secondary"
-                  text={"Cancel"}
+                  text={t("Cancel")}
                   onClick={() => {
                     setShow(false);
                   }}

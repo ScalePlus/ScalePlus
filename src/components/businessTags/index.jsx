@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,9 +22,9 @@ import {
   BackButton,
   Loading,
 } from "../common";
-import { Constants } from "../../lib/constant";
 
 const BusinessTags = ({ history }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const updateBusinessTagsActionMethod = (data) =>
     dispatch(updateBusinessTagsAction(data));
@@ -212,7 +213,7 @@ const BusinessTags = ({ history }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Business Tags"} icon={true}></Title>
+              <Title text={t("Business Tags")} icon={true}></Title>
             </Col>
           </Row>
           <Form
@@ -222,9 +223,7 @@ const BusinessTags = ({ history }) => {
           >
             <Row className="description-container">
               <Col>
-                <Description>
-                  Select from the list below what fits your business
-                </Description>
+                <Description>{t("Select_tag_text")}</Description>
               </Col>
             </Row>
 
@@ -241,7 +240,7 @@ const BusinessTags = ({ history }) => {
                 <Col>
                   <DropDown
                     isSmall={false}
-                    placeholder={"Industry"}
+                    placeholder={t("Industry")}
                     options={
                       industriesOptions && industriesOptions.length
                         ? industriesOptions.map((each) => {
@@ -257,11 +256,11 @@ const BusinessTags = ({ history }) => {
                       !selectedIndustries ||
                       (selectedIndustries && selectedIndustries.length === 0)
                     }
-                    errorMessage={Constants.Errors.industry}
+                    errorMessage={t("industry_error")}
                   />
                   <DropDown
                     isSmall={false}
-                    placeholder={"Sevices / products you offer"}
+                    placeholder={t("Sevices / products you offer")}
                     options={
                       servicesOptions && servicesOptions.length
                         ? servicesOptions.map((each) => {
@@ -277,11 +276,11 @@ const BusinessTags = ({ history }) => {
                       !selectedServices ||
                       (selectedServices && selectedServices.length === 0)
                     }
-                    errorMessage={Constants.Errors.service}
+                    errorMessage={t("service_error")}
                   />
                   <DropDown
                     isSmall={false}
-                    placeholder={"Technology"}
+                    placeholder={t("Technology")}
                     options={
                       technologiesOptions && technologiesOptions.length
                         ? technologiesOptions.map((each) => {
@@ -298,11 +297,11 @@ const BusinessTags = ({ history }) => {
                       (selectedTechnologies &&
                         selectedTechnologies.length === 0)
                     }
-                    errorMessage={Constants.Errors.technology}
+                    errorMessage={t("technology_error")}
                   />
                   <DropDown
                     isSmall={false}
-                    placeholder={"Business Model"}
+                    placeholder={t("Business Model")}
                     options={
                       businessModelsOptions && businessModelsOptions.length
                         ? businessModelsOptions.map((each) => {
@@ -319,14 +318,14 @@ const BusinessTags = ({ history }) => {
                       (selectedBusinessModels &&
                         selectedBusinessModels.length === 0)
                     }
-                    errorMessage={Constants.Errors.businessModel}
+                    errorMessage={t("businessModel_error")}
                   />
                 </Col>
               </Row>
             </div>
             <Row>
               <Col className="market-label">
-                <span>Market Details</span>
+                <span>{t("Market Details")}</span>
               </Col>
             </Row>
 
@@ -334,7 +333,7 @@ const BusinessTags = ({ history }) => {
               <Col>
                 <DropDown
                   isSmall={false}
-                  placeholder={"Target Market"}
+                  placeholder={t("Target Market")}
                   options={
                     targetMarketsOptions && targetMarketsOptions.length
                       ? targetMarketsOptions.map((each) => {
@@ -351,11 +350,11 @@ const BusinessTags = ({ history }) => {
                     (selectedTargetMarkets &&
                       selectedTargetMarkets.length === 0)
                   }
-                  errorMessage={Constants.Errors.targetMarket}
+                  errorMessage={t("targetMarket_error")}
                 />
                 <DropDown
                   isSmall={false}
-                  placeholder={"Geographical Market"}
+                  placeholder={t("Geographical Market")}
                   options={
                     geographicalMarketsOptions &&
                     geographicalMarketsOptions.length
@@ -373,7 +372,7 @@ const BusinessTags = ({ history }) => {
                     (selectedGeographicalMarket &&
                       selectedGeographicalMarket.length === 0)
                   }
-                  errorMessage={Constants.Errors.georgraphicalMarket}
+                  errorMessage={t("georgraphicalMarket_error")}
                 />
               </Col>
             </Row>
@@ -382,45 +381,63 @@ const BusinessTags = ({ history }) => {
               <Col>
                 <div className="button-container">
                   <BackButton
-                    text={"Back"}
+                    text={t("Back")}
                     onClick={() => {
                       preserveDataMethod({
                         industry:
                           selectedIndustries && selectedIndustries.length
                             ? selectedIndustries.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : [],
                         services:
                           selectedServices && selectedServices.length
                             ? selectedServices.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : null,
                         technology:
                           selectedTechnologies && selectedTechnologies.length
                             ? selectedTechnologies.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : [],
                         businessModel:
                           selectedBusinessModels &&
                           selectedBusinessModels.length
                             ? selectedBusinessModels.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : [],
                         targetMarket:
                           selectedTargetMarkets && selectedTargetMarkets.length
                             ? selectedTargetMarkets.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : [],
                         georgraphicalMarket:
                           selectedGeographicalMarket &&
                           selectedGeographicalMarket.length
                             ? selectedGeographicalMarket.map((each) => {
-                                return { _id: each.value, name: each.label };
+                                return {
+                                  _id: each.value,
+                                  name: each.label,
+                                };
                               })
                             : [],
                       });
@@ -428,7 +445,7 @@ const BusinessTags = ({ history }) => {
                     }}
                   ></BackButton>
                   <IconButton
-                    text={"Next: Essential Details"}
+                    text={t("Next_Essential_Details")}
                     type="submit"
                   ></IconButton>
                 </div>

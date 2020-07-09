@@ -14,7 +14,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Guidelines = ({ challengeId }) => {
+const Guidelines = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachGuidelineMethod = (data) =>
     dispatch(attachGuidelineAction(data, challengeId));
@@ -72,11 +72,7 @@ const Guidelines = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Use this section to describe what your challenge is about, why it
-              is important, and what breakthrough you want to achieve. You may
-              include images and videos
-            </span>
+            <span>{t("Guidelines_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -122,11 +118,11 @@ const Guidelines = ({ challengeId }) => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
-              titleText="Guidelines"
-              buttonText="Save"
+              titleText={t("Guidelines")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -150,7 +146,7 @@ const Guidelines = ({ challengeId }) => {
                   setActivity(!isActive);
                 }}
                 variant="primary"
-                label="Enable Guidelines tab"
+                label={t("Enable Guidelines tab")}
               ></Switch>
             </Col>
           </Row>
@@ -164,7 +160,7 @@ const Guidelines = ({ challengeId }) => {
                     <Input
                       required
                       type="text"
-                      label="Title *"
+                      label={t("Title") + " *"}
                       value={each.title}
                       onChange={(e) => {
                         let newArr = [...guidelines];
@@ -174,7 +170,7 @@ const Guidelines = ({ challengeId }) => {
                       }}
                     />
                     <EditorInput
-                      label="Description"
+                      label={t("Description")}
                       value={each.description}
                       onChange={(value) => {
                         let newArr = [...guidelines];

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPasswordAction, clearAll } from "./action";
 import { Title, Input, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
-import { Constants } from "../../lib/constant";
 
 const ResetPassword = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const forgotPasswordMethod = (data) => dispatch(forgotPasswordAction(data));
   const clearAllMethod = useCallback((data) => dispatch(clearAll(data)), [
@@ -54,7 +55,7 @@ const ResetPassword = () => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Reset Password"} icon={false}></Title>
+              <Title text={t("Reset Password")} icon={false}></Title>
             </Col>
           </Row>
           <div className="content-container">
@@ -71,16 +72,14 @@ const ResetPassword = () => {
                   <Col>
                     <Input
                       type="email"
-                      placeholder="Enter email"
+                      placeholder={t("Enter email")}
                       value={email}
                       onChange={(e) => {
                         changeEmail(e.target.value);
                       }}
                       required
                       errorMessage={
-                        email
-                          ? Constants.Errors.invalid_email
-                          : Constants.Errors.email
+                        email ? t("invalid_email_error") : t("email_error")
                       }
                     />
                   </Col>
@@ -91,7 +90,7 @@ const ResetPassword = () => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={"Reset Password"}
+                    text={t("Reset Password")}
                     type="submit"
                   ></PrimaryButton>
                 </Col>

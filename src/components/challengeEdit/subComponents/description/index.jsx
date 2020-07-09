@@ -20,7 +20,7 @@ import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import { Constants } from "../../../../lib/constant";
 
-const Description = ({ challengeId }) => {
+const Description = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const updateDescriptionMethod = (data) =>
     dispatch(updateDescriptionAction(data, challengeId));
@@ -151,11 +151,8 @@ const Description = ({ challengeId }) => {
         loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
-          <InfoBlock buttonText="Click Here">
-            <span>
-              Want to see some successful strategies from past crowdsourcing
-              challenges on Scale+? See our template
-            </span>
+          <InfoBlock buttonText={t("Click Here")}>
+            <span>{t("Description_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -228,8 +225,8 @@ const Description = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Description"
-              buttonText="Save"
+              titleText={t("Description")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
             />
@@ -239,17 +236,18 @@ const Description = ({ challengeId }) => {
           <Col>
             <Input
               type="text"
-              label="Title *"
+              label={t("Title") + " *"}
               required
-              errorMessage={Constants.Errors.title}
+              errorMessage={t("title_error")}
               value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
             />
             <BannerInput
-              label="Challenge Banner Image"
-              description="The image should illustrate your challenge. Recommended size is 1280 by 720"
+              t={t}
+              label={t("Challenge Banner Image")}
+              description={t("Banner_Image_desscription")}
               value={bannerImage}
               onChange={(e) => {
                 changeBannerImage(e.target.files[0]);
@@ -257,20 +255,20 @@ const Description = ({ challengeId }) => {
             />
             <Input
               type="text"
-              label="Video URL"
-              description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
+              label={t("Video URL")}
+              description={t("video_url_description")}
               value={videoURL}
               onChange={(e) => {
                 changeVideoUrl(e.target.value);
               }}
               isInvalid={videoURL && !videoURL.match(Constants.isURL)}
-              errorMessage={Constants.Errors.invalid_videoURL}
+              errorMessage={t("invalid_videoURL_error")}
             />
             <DropDown
               isSmall={true}
-              label="Categories *"
+              label={t("Categories") + " *"}
               placeholder=""
-              description="The categories help people use search criteria to find your challenge. Select no more than 3."
+              description={t("Categories_description")}
               options={
                 challengeReducer.challengeCategories &&
                 challengeReducer.challengeCategories.length
@@ -284,14 +282,14 @@ const Description = ({ challengeId }) => {
                 selectCategories(val);
               }}
               isInvalid={!categories || (categories && categories.length === 0)}
-              errorMessage={Constants.Errors.Categories}
+              errorMessage={t("Categories_error")}
             />
             <Input
               type="number"
-              label="Prize"
-              description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
+              label={t("Prize")}
+              description={t("Prize_desscription")}
               required
-              errorMessage={Constants.Errors.prize}
+              errorMessage={t("prize_error")}
               value={prize}
               onChange={(e) => {
                 setPrize(e.target.value);
@@ -299,9 +297,9 @@ const Description = ({ challengeId }) => {
             />
             <DropDown
               isSmall={true}
-              label="Tags *"
+              label={t("Tags") + " *"}
               placeholder=""
-              description="The categories help people use search criteria to find your challenge. Select no more than 3."
+              description={t("Categories_description")}
               options={
                 challengeReducer.challengeTags &&
                 challengeReducer.challengeTags.length
@@ -315,12 +313,12 @@ const Description = ({ challengeId }) => {
                 selectTag(val);
               }}
               isInvalid={!tags || (tags && tags.length === 0)}
-              errorMessage={Constants.Errors.Categories}
+              errorMessage={t("Categories_error")}
             />
             <TextArea
               rows="4"
-              label="Short Description"
-              description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
+              label={t("Short Description")}
+              description={t("Short_desscription")}
               value={shortDescription}
               onChange={(e) => {
                 changeShortDesc(e.target.value);
@@ -328,8 +326,8 @@ const Description = ({ challengeId }) => {
             />
             <TextArea
               rows="4"
-              label="Problem Statement (optional)"
-              description="What problem are you tackling?"
+              label={t("Problem Statement (optional)")}
+              description={t("problem_statement_description")}
               value={problemStatement}
               onChange={(e) => {
                 changeProblemStatment(e.target.value);
@@ -337,8 +335,8 @@ const Description = ({ challengeId }) => {
             />
             <TextArea
               rows="4"
-              label="Current Solutions (optional)"
-              description="What are the current solutions to this problem?"
+              label={t("Current Solutions (optional)")}
+              description={t("current_solution_description")}
               value={currentSolution}
               onChange={(e) => {
                 changeCurrentSolution(e.target.value);
@@ -346,8 +344,8 @@ const Description = ({ challengeId }) => {
             />
             <TextArea
               rows="4"
-              label="Pain Point (optional)"
-              description="What are the current solutions missing?"
+              label={t("Pain Point (optional)")}
+              description={t("pain_point_description")}
               value={painPoint}
               onChange={(e) => {
                 changePainPoint(e.target.value);

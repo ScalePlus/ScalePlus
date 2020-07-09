@@ -14,7 +14,7 @@ import {
 } from "../../../common";
 import { Constants } from "../../../../lib/constant";
 
-const Team = ({ challengeId }) => {
+const Team = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachTeamMethod = (data) =>
     dispatch(attachTeamAction(data, challengeId));
@@ -81,7 +81,7 @@ const Team = ({ challengeId }) => {
       )}
       <Row style={{ marginBottom: 25 }}>
         <Col>
-          <HeaderComponent titleText="Team" />
+          <HeaderComponent titleText={t("Team")} />
         </Col>
       </Row>
       {validated &&
@@ -133,21 +133,19 @@ const Team = ({ challengeId }) => {
             <div className="controll-container">
               <Input
                 type="text"
-                placeholder="Type an email"
+                placeholder={t("Type an email")}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 required
                 errorMessage={
-                  email
-                    ? Constants.Errors.invalid_email
-                    : Constants.Errors.email
+                  email ? t("invalid_email_error") : t("email_error")
                 }
               />
               <Input
                 type="text"
-                placeholder="Linkedin Profile"
+                placeholder={t("Linkedin Profile")}
                 value={linkedin}
                 onChange={(e) => {
                   setLinkedin(e.target.value);
@@ -157,18 +155,18 @@ const Team = ({ challengeId }) => {
                 }
                 errorMessage={
                   linkedin
-                    ? Constants.Errors.invalid_linkedin_url
-                    : Constants.Errors.linkedin_url
+                    ? t("invalid_linkedin_url_error")
+                    : t("linkedin_url_error")
                 }
               />
             </div>
           </Col>
           <Col lg={5} md={12} sm={12}>
             <div className="form-container">
-              <div>User Role:</div>
+              <div>{t("User Role")}:</div>
               <div className="switch-container">
                 <div className={"left-text"}>
-                  <span>Admin</span>
+                  <span>{t("Admin")}</span>
                 </div>
                 <div>
                   <Switch
@@ -181,13 +179,13 @@ const Team = ({ challengeId }) => {
                   ></Switch>
                 </div>
                 <div className={"right-text"}>
-                  <span>View Only</span>
+                  <span>{t("View Only")}</span>
                 </div>
               </div>
               <div>
                 <PrimaryButton
                   variant="success"
-                  text={"Add"}
+                  text={t("Add")}
                   type="submit"
                 ></PrimaryButton>
               </div>
@@ -260,7 +258,7 @@ const Team = ({ challengeId }) => {
                           );
                         }}
                       >
-                        Edit/
+                        {t("Edit")}/
                       </div>
                       <div
                         onClick={() => {
@@ -289,8 +287,7 @@ const Team = ({ challengeId }) => {
                           });
                         }}
                       >
-                        {" "}
-                        Delete-
+                        {t("Delete")}-
                       </div>
                     </div>
                   );

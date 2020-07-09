@@ -6,7 +6,7 @@ import SearchModal from "./subComponents/searchModal";
 import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
 
-const Header = () => {
+const Header = ({ t }) => {
   const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     is_logged_in = localStorage.getItem("token");
@@ -15,20 +15,20 @@ const Header = () => {
     is_logged_in
       ? is_organisation
         ? [
-            { label: "ALL CHALLENGES", link: "/all/challenges" },
-            { label: "HOW IT WORKS", link: "/workflow" },
-            { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
-            { label: "DASHBOARD", link: "/dashboard" },
+            { label: t("ALL CHALLENGES"), link: "/all/challenges" },
+            { label: t("HOW IT WORKS"), link: "/workflow" },
+            { label: t("LAUNCH CHALLENGE"), link: "/create/challenge" },
+            { label: t("DASHBOARD"), link: "/dashboard" },
           ]
         : [
-            { label: "ALL CHALLENGES", link: "/all/challenges" },
-            { label: "HOW IT WORKS", link: "/workflow" },
-            { label: "DASHBOARD", link: "/dashboard" },
+            { label: t("ALL CHALLENGES"), link: "/all/challenges" },
+            { label: t("HOW IT WORKS"), link: "/workflow" },
+            { label: t("DASHBOARD"), link: "/dashboard" },
           ]
       : [
-          { label: "ALL CHALLENGES", link: "/all/challenges" },
-          { label: "HOW IT WORKS", link: "/workflow" },
-          { label: "LAUNCH CHALLENGE", link: "/create/challenge" },
+          { label: t("ALL CHALLENGES"), link: "/all/challenges" },
+          { label: t("HOW IT WORKS"), link: "/workflow" },
+          { label: t("LAUNCH CHALLENGE"), link: "/create/challenge" },
         ]
   );
   const [activeKey, selectKey] = useState(
@@ -195,19 +195,19 @@ const Header = () => {
                 width="25px"
                 alt=""
               ></img>
-              <span className="search-text">Search</span>
+              <span className="search-text">{t("Search")}</span>
             </Navbar.Text>
           </div>
           <div className="action-container">
             {localStorage.getItem("token") ? (
-              <NavDropdown title="Account">
+              <NavDropdown title={t("Account")}>
                 <NavDropdown.Item
                   onClick={() => {
                     history.push("/detail");
                     onToggle(false);
                   }}
                 >
-                  Update Profile
+                  {t("Update Profile")}
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   href="/"
@@ -216,7 +216,7 @@ const Header = () => {
                     onToggle(false);
                   }}
                 >
-                  Logout
+                  {t("Logout")}
                 </NavDropdown.Item>
               </NavDropdown>
             ) : history.location.pathname.includes("login") ? (
@@ -226,7 +226,7 @@ const Header = () => {
                   onToggle(false);
                 }}
               >
-                Sign up
+                {t("Sign up")}
               </span>
             ) : (
               <span
@@ -235,7 +235,7 @@ const Header = () => {
                   onToggle(false);
                 }}
               >
-                Sign in
+                {t("Sign in")}
               </span>
             )}
           </div>

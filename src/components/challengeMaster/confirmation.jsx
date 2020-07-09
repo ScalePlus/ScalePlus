@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getChallengeAction } from "./action";
@@ -7,6 +8,7 @@ import { MainContainer } from "./style";
 import history from "../../history";
 
 const ChallengeConfirmation = ({ match }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const getChallengeMethod = useCallback(
@@ -66,7 +68,7 @@ const ChallengeConfirmation = ({ match }) => {
             ) : null}
             <Row className="title-container" style={{ marginBottom: "15px" }}>
               <Col>
-                <PageTitle text="Challenge Created!" />
+                <PageTitle text={t("Challenge Created!")} />
               </Col>
             </Row>
             <Row className="sub-title" style={{ marginBottom: "35px" }}>
@@ -80,7 +82,7 @@ const ChallengeConfirmation = ({ match }) => {
               <Col lg={4} md={4} sm={4} xs={4} className="center-component">
                 <PrimaryButton
                   variant="secondary"
-                  text={"Edit Challenge Details"}
+                  text={t("Edit Challenge Details")}
                   onClick={() => {
                     history.push(
                       `/challenge/${challengeData._id}/edit/Description`
@@ -91,7 +93,7 @@ const ChallengeConfirmation = ({ match }) => {
               <Col lg={4} md={4} sm={4} xs={4} className="center-component">
                 <PrimaryButton
                   variant="primary"
-                  text={"Preview Challenge"}
+                  text={t("Preview Challenge")}
                   onClick={() => {
                     history.push(
                       `/challenge/${challengeData._id}/preview/Overview`

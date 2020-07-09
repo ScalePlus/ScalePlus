@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyChallengeAction } from "../action";
@@ -7,6 +8,7 @@ import { MainContainer } from "./style";
 import { Constants } from "../../../lib/constant";
 
 const MyChallengesList = ({ history }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const getMyChallengeMethod = useCallback(
     () => dispatch(getMyChallengeAction()),
@@ -43,7 +45,7 @@ const MyChallengesList = ({ history }) => {
           <Col lg={11} md={11} sm={11} xs={11}>
             <div className="header">
               <div className="title">
-                <span>My Challenges</span>
+                <span>{t("My Challenges")}</span>
               </div>
               <div className="circle-container">
                 <span className="count">{myChallenges.length}</span>
@@ -68,6 +70,7 @@ const MyChallengesList = ({ history }) => {
                           }}
                         >
                           <CardComponent
+                            t={t}
                             organisationId={each.organisationId}
                             descriptionId={each.descriptionId}
                             judgesId={each.judgesId}

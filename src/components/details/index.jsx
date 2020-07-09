@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDetailsAction } from "./action";
@@ -17,6 +18,7 @@ import {
 import { Constants } from "../../lib/constant";
 
 const OrganizationDetails = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const updateDetailsMethod = (data) => dispatch(updateDetailsAction(data));
   const updateDetailsReducer = useSelector((state) => {
@@ -159,11 +161,11 @@ const OrganizationDetails = () => {
               <Title
                 text={
                   is_startup_Individual
-                    ? "Initial Details"
+                    ? t("Initial Details")
                     : is_organisation
-                    ? "Organization Details"
+                    ? t("Organization Details")
                     : is_mentor_judge
-                    ? "Initial Details"
+                    ? t("Initial Details")
                     : ""
                 }
                 icon={true}
@@ -176,7 +178,7 @@ const OrganizationDetails = () => {
               <Col>
                 <div className="switch-container">
                   <div className={`startup-text ${!roleSwitch && "active"}`}>
-                    <span>Startup</span>
+                    <span>{t("Startup")}</span>
                   </div>
                   <div>
                     <Switch
@@ -188,7 +190,7 @@ const OrganizationDetails = () => {
                     ></Switch>
                   </div>
                   <div className={`individual-text ${roleSwitch && "active"}`}>
-                    <span>Individual</span>
+                    <span>{t("Individual")}</span>
                   </div>
                 </div>
               </Col>
@@ -197,9 +199,7 @@ const OrganizationDetails = () => {
 
           <Row className="description-container">
             <Col>
-              <Description>
-                You can always change these details later
-              </Description>
+              <Description>{t("detail_text")}</Description>
             </Col>
           </Row>
           <Form noValidate validated={validated} onSubmit={onUpdateDetails}>
@@ -216,25 +216,25 @@ const OrganizationDetails = () => {
                   <Col>
                     <Input
                       type="text"
-                      placeholder="Organization Name"
+                      placeholder={t("Organization Name")}
                       value={name}
                       onChange={(e) => changeName(e.target.value)}
                       required
-                      errorMessage={Constants.Errors.name}
+                      errorMessage={t("name_error")}
                     ></Input>
                     <FileInput
-                      placeholder="Logo"
+                      placeholder={t("Logo")}
                       value={logo}
                       onChange={(e) => {
                         changeLogo(e.target.files[0]);
                       }}
                       required
-                      errorMessage={Constants.Errors.logo}
+                      errorMessage={t("logo_error")}
                       buttonText="Upload"
                     ></FileInput>
                     <Input
                       type="text"
-                      placeholder="Website"
+                      placeholder={t("Website")}
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
                       isInvalid={
@@ -242,61 +242,61 @@ const OrganizationDetails = () => {
                       }
                       errorMessage={
                         website
-                          ? Constants.Errors.invalid_website
-                          : Constants.Errors.website
+                          ? t("invalid_website_error")
+                          : t("website_error")
                       }
                     ></Input>
                     <Input
                       type="text"
-                      placeholder="Location"
+                      placeholder={t("Location")}
                       value={location}
                       onChange={(e) => changeLocation(e.target.value)}
                       required
-                      errorMessage={Constants.Errors.location}
+                      errorMessage={t("location_error")}
                     ></Input>
                     <DateInput
                       isSmall={false}
-                      placeholder="Incorporation Date"
+                      placeholder={t("Incorporation Date")}
                       value={incorporationDate}
                       maxDate={new Date()}
                       onChange={(date) => {
                         changeIncorporationDate(date);
                       }}
                       required
-                      errorMessage={Constants.Errors.incorporationDate}
+                      errorMessage={t("incorporationDate_error")}
                     />
                   </Col>
                 ) : is_mentor_judge ? (
                   <Col>
                     <Input
                       type="text"
-                      placeholder="Full Name as Per Passport"
+                      placeholder={t("Full Name as Per Passport")}
                       value={name}
                       onChange={(e) => changeName(e.target.value)}
                       required
-                      errorMessage={Constants.Errors.name}
+                      errorMessage={t("name_error")}
                     ></Input>
                     <FileInput
-                      placeholder="Personal Photo"
+                      placeholder={t("Personal Photo")}
                       value={personal_photo}
                       onChange={(e) => {
                         changePersonalPhoto(e.target.files[0]);
                       }}
                       required
-                      errorMessage={Constants.Errors.personal_photo}
+                      errorMessage={t("personal_photo_error")}
                       buttonText="Upload"
                     ></FileInput>
                     <Input
                       type="number"
-                      placeholder="Mobile Number"
+                      placeholder={t("Mobile Number")}
                       value={mobile}
                       onChange={(e) => changeMobile(e.target.value)}
                       required
-                      errorMessage={Constants.Errors.mobile}
+                      errorMessage={t("mobile_error")}
                     ></Input>
                     <Input
                       type="text"
-                      placeholder="Website of Linkedin"
+                      placeholder={t("Website of Linkedin")}
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
                       isInvalid={
@@ -304,21 +304,21 @@ const OrganizationDetails = () => {
                       }
                       errorMessage={
                         website
-                          ? Constants.Errors.invalid_website
-                          : Constants.Errors.website
+                          ? t("invalid_website_error")
+                          : t("website_error")
                       }
                     ></Input>
                     <Input
                       type="text"
-                      placeholder="Location"
+                      placeholder={t("Location")}
                       value={location}
                       onChange={(e) => changeLocation(e.target.value)}
                       required
-                      errorMessage={Constants.Errors.location}
+                      errorMessage={t("location_error")}
                     ></Input>
                     <DateInput
                       isSmall={false}
-                      placeholder="Birth Date"
+                      placeholder={t("Birth Date")}
                       value={birthDate}
                       openToDate={
                         birthDate
@@ -337,7 +337,7 @@ const OrganizationDetails = () => {
                         changeBirthDate(date);
                       }}
                       required
-                      errorMessage={Constants.Errors.birthDate}
+                      errorMessage={t("birthDate_error")}
                     />
                   </Col>
                 ) : null}
@@ -346,7 +346,7 @@ const OrganizationDetails = () => {
             <Row className="button-container">
               <Col>
                 <IconButton
-                  text={"Next: Business Tags"}
+                  text={t("Next_Business_Tags")}
                   type="submit"
                 ></IconButton>
               </Col>

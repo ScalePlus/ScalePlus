@@ -14,7 +14,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Updates = ({ challengeId }) => {
+const Updates = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachUpdatesMethod = (data) =>
     dispatch(attachUpdatesAction(data, challengeId));
@@ -72,10 +72,7 @@ const Updates = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Create updates that will be posted to the Updates tab of your
-              challenge page.
-            </span>
+            <span>{t("Updates_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -121,11 +118,11 @@ const Updates = ({ challengeId }) => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
-              titleText="Updates"
-              buttonText="Save"
+              titleText={t("Updates")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -149,7 +146,7 @@ const Updates = ({ challengeId }) => {
                   setActivity(!isActive);
                 }}
                 variant="primary"
-                label="Enable Updates tab"
+                label={t("Enable Updates tab")}
               ></Switch>
             </Col>
           </Row>
@@ -163,7 +160,7 @@ const Updates = ({ challengeId }) => {
                     <Input
                       required
                       type="text"
-                      label="Title *"
+                      label={t("Title") + " *"}
                       value={each.title}
                       onChange={(e) => {
                         let newArr = [...updates];
@@ -173,7 +170,7 @@ const Updates = ({ challengeId }) => {
                       }}
                     />
                     <EditorInput
-                      label="Description"
+                      label={t("Description")}
                       value={each.description}
                       onChange={(value) => {
                         let newArr = [...updates];

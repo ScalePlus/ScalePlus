@@ -8,7 +8,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const JudgesNDA = ({ challengeId }) => {
+const JudgesNDA = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachJudgesNDAMethod = (data) =>
     dispatch(attachJudgesNDAAction(data, challengeId));
@@ -66,11 +66,7 @@ const JudgesNDA = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Review and customize the Non-Disclosure Agreement (NDA) for your
-              judges here. All judges must agree to the NDA before they can be
-              confirmed.
-            </span>
+            <span>{t("Judges_NDA_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -116,8 +112,8 @@ const JudgesNDA = ({ challengeId }) => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
-              titleText="Judges NDA"
-              buttonText="Save"
+              titleText={t("Judges NDA")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
             />
@@ -131,7 +127,7 @@ const JudgesNDA = ({ challengeId }) => {
                 setActivity(!isActive);
               }}
               variant="primary"
-              label="Enable Judges NDA"
+              label={t("Enable Judges NDA")}
             ></Switch>
           </Col>
         </Row>
@@ -142,7 +138,7 @@ const JudgesNDA = ({ challengeId }) => {
               onChange={(value) => {
                 changeJudgesNDA(value);
               }}
-              description="The judges NDA agreement that applies to this challenge."
+              description={t("Judging_activities_description_text")}
             />
           </Col>
         </Row>

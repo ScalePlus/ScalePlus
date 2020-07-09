@@ -20,7 +20,7 @@ import Stepper from "../stepper";
 import { MainContainer } from "../challengeEdit/subComponents/timeline/style";
 import theme from "../../theme";
 
-const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
+const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
   const dispatch = useDispatch();
   const getTimelineStateMethod = useCallback(
     () => dispatch(getTimelineStateAction()),
@@ -69,15 +69,15 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
-          <Col>HOW LONG WILL YOUR CHALLENGE TAKE?</Col>
+          <Col>{t("STEP4_title")}</Col>
         </Row>
         <Row className="title-container">
           <Col>
             <div className="flex-container">
-              <PageTitle text="Challenge Timeline" />
+              <PageTitle text={t("STEP4_pagetitle")} />
 
               <PrimaryButton
-                text="Add"
+                text={t("Add")}
                 variant="info"
                 type="button"
                 onClick={() => {
@@ -97,7 +97,7 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
           </Col>
         </Row>
         <Row className="sub-title">
-          <Col>When would you like to launch your challenge?</Col>
+          <Col>{t("STEP4_subtitle")}</Col>
         </Row>
 
         {errors && errors.length ? (
@@ -310,7 +310,9 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
                                     />
                                   </div>
                                   <div className="name">
-                                    ADMIN | Attach required Forms/documents
+                                    {t(
+                                      "ADMIN | Attach required Forms/documents"
+                                    )}
                                   </div>
                                   <div className="button-container">
                                     <AddButton
@@ -349,11 +351,13 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
                                           <Col lg={6} md={12} sm={12} xs={12}>
                                             <div className="label-title-container">
                                               <div className="title">
-                                                Field Label
+                                                {t("Field Label")}
                                               </div>
                                               <Input
                                                 type="text"
-                                                placeholder="*Default value: File name"
+                                                placeholder={t(
+                                                  "Default_value_File_name"
+                                                )}
                                                 value={attach.label}
                                                 onChange={(e) => {
                                                   let newArr = [...timeline];
@@ -396,7 +400,9 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
                                           >
                                             <div className="file-container">
                                               <FileInput
-                                                placeholder="file name……word"
+                                                placeholder={t(
+                                                  "file name……word"
+                                                )}
                                                 prependButtonText="Browse"
                                                 value={attach.file}
                                                 onChange={(e) => {
@@ -441,13 +447,13 @@ const Step4 = ({ timeline, changeTimeline, createChallenge }) => {
             </Row>
           </MainContainer>
           <Row className="right-content-container">
-            <Col>You can always edit this information later</Col>
+            <Col>{t("You can always edit this information later")}</Col>
           </Row>
           <Row className="button-container">
             <Col className="center-component">
               <PrimaryButton
                 variant="primary"
-                text={"Continue"}
+                text={t("Continue")}
                 type="submit"
               ></PrimaryButton>
             </Col>

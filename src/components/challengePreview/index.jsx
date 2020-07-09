@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
 import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
@@ -32,6 +33,7 @@ import "react-circular-progressbar/dist/styles.css";
 const cookies = new Cookies();
 
 const ChallengePreview = ({ history, match }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const getChallengeMethod = useCallback(
     (challengeId) => dispatch(getChallengeAction(challengeId)),
@@ -59,7 +61,11 @@ const ChallengePreview = ({ history, match }) => {
       localStorage.getItem("token"),
     is_logged_in = localStorage.getItem("token"),
     is_profile_updated = localStorage.getItem("profileUpdated");
-  const [tabs, changeTabs] = useState(["Overview", "Timeline", "Forum"]);
+  const [tabs, changeTabs] = useState([
+    { label: t("Overview"), value: "Overview" },
+    { label: t("Timeline"), value: "Timeline" },
+    { label: t("Forum"), value: "Forum" },
+  ]);
   const [errors, setErrors] = useState([]);
   const [selectedTab, selectTab] = useState(null);
   const [show, setUserFlowModal] = useState(false);
@@ -313,44 +319,44 @@ const ChallengePreview = ({ history, match }) => {
 
       changeTabs((data) => {
         if (challengeData.resourceId && challengeData.resourceId.isActive) {
-          if (!data.find((each) => each === "Resources")) {
-            data.splice(3, 0, "Resources");
+          if (!data.find((each) => each.value === "Resources")) {
+            data.splice(3, 0, { label: t("Resources"), value: "Resources" });
           }
         } else {
-          let index = data.findIndex((each) => each === "Resources");
+          let index = data.findIndex((each) => each.value === "Resources");
           if (index >= 0) {
             data.splice(index, 1);
           }
         }
 
         if (challengeData.FAQId && challengeData.FAQId.isActive) {
-          if (!data.find((each) => each === "FAQ")) {
-            data.splice(3, 0, "FAQ");
+          if (!data.find((each) => each.value === "FAQ")) {
+            data.splice(3, 0, { label: t("FAQ"), value: "FAQ" });
           }
         } else {
-          let index = data.findIndex((each) => each === "FAQ");
+          let index = data.findIndex((each) => each.value === "FAQ");
           if (index >= 0) {
             data.splice(index, 1);
           }
         }
 
         if (challengeData.updateId && challengeData.updateId.isActive) {
-          if (!data.find((each) => each === "Updates")) {
-            data.splice(1, 0, "Updates");
+          if (!data.find((each) => each.value === "Updates")) {
+            data.splice(1, 0, { label: t("Updates"), value: "Updates" });
           }
         } else {
-          let index = data.findIndex((each) => each === "Updates");
+          let index = data.findIndex((each) => each.value === "Updates");
           if (index >= 0) {
             data.splice(index, 1);
           }
         }
 
         if (challengeData.guidelineId && challengeData.guidelineId.isActive) {
-          if (!data.find((each) => each === "Guidelines")) {
-            data.splice(1, 0, "Guidelines");
+          if (!data.find((each) => each.value === "Guidelines")) {
+            data.splice(1, 0, { label: t("Guidelines"), value: "Guidelines" });
           }
         } else {
-          let index = data.findIndex((each) => each === "Guidelines");
+          let index = data.findIndex((each) => each.value === "Guidelines");
           if (index >= 0) {
             data.splice(index, 1);
           }
@@ -370,14 +376,17 @@ const ChallengePreview = ({ history, match }) => {
             memberAsParticipant.permission === Constants.TEAM_PERMISSION.ADMIN)
         ) {
           changeTabs((data) => {
-            if (!data.find((each) => each === "Submissions")) {
-              data.splice(1, 0, "Submissions");
+            if (!data.find((each) => each.value === "Submissions")) {
+              data.splice(1, 0, {
+                label: t("Submissions"),
+                value: "Submissions",
+              });
             }
             return data;
           });
         } else {
           changeTabs((data) => {
-            let index = data.findIndex((each) => each === "Submissions");
+            let index = data.findIndex((each) => each.value === "Submissions");
             if (index >= 0) {
               data.splice(index, 1);
             }
@@ -393,15 +402,18 @@ const ChallengePreview = ({ history, match }) => {
           memberAsJudge
         ) {
           changeTabs((data) => {
-            if (!data.find((each) => each === "Submissions")) {
-              data.splice(1, 0, "Submissions");
+            if (!data.find((each) => each.value === "Submissions")) {
+              data.splice(1, 0, {
+                label: t("Submissions"),
+                value: "Submissions",
+              });
             }
             return data;
           });
         } else {
           changeTabs((data) => {
             let submissionIndex = data.findIndex(
-              (each) => each === "Submissions"
+              (each) => each.value === "Submissions"
             );
             if (submissionIndex >= 0) {
               data.splice(submissionIndex, 1);
@@ -422,8 +434,11 @@ const ChallengePreview = ({ history, match }) => {
           challengeData.judgingCriteriaId.data.length
         ) {
           changeTabs((data) => {
-            if (!data.find((each) => each === "Judging Criteria")) {
-              data.splice(1, 0, "Judging Criteria");
+            if (!data.find((each) => each.value === "Judging Criteria")) {
+              data.splice(1, 0, {
+                label: t("Judging criteria"),
+                value: "Judging Criteria",
+              });
             }
 
             return data;
@@ -431,7 +446,7 @@ const ChallengePreview = ({ history, match }) => {
         } else {
           changeTabs((data) => {
             let judginfCriteriaIndex = data.findIndex(
-              (each) => each === "Judging Criteria"
+              (each) => each.value === "Judging Criteria"
             );
             if (judginfCriteriaIndex >= 0) {
               data.splice(judginfCriteriaIndex, 1);
@@ -447,6 +462,7 @@ const ChallengePreview = ({ history, match }) => {
     is_startup_Individual,
     is_mentor_judge,
     challengeReducer,
+    t,
   ]);
 
   useEffect(() => {
@@ -474,7 +490,7 @@ const ChallengePreview = ({ history, match }) => {
       {challengeData && !challengeData.isPublished && is_organisation && (
         <Row>
           <Col>
-            <WarningBlock />
+            <WarningBlock t={t} />
           </Col>
         </Row>
       )}
@@ -483,7 +499,7 @@ const ChallengePreview = ({ history, match }) => {
         <Row className="justify-content-center">
           <Col lg={11} md={11} sm={11} xs={11}>
             <div className="preview-container">
-              <PageTitle text="Preview" />
+              <PageTitle text={t("Preview")} />
             </div>
           </Col>
         </Row>
@@ -494,8 +510,8 @@ const ChallengePreview = ({ history, match }) => {
           <Row className="justify-content-center" style={{ marginBottom: 10 }}>
             <Col lg={11} md={11} sm={11} xs={11}>
               <ChallengeHeader
-                primaryButtonText="Submit for review"
-                secondaryButtonText="Edit Challenge Details"
+                primaryButtonText={t("Submit for review")}
+                secondaryButtonText={t("Edit Challenge Details")}
                 primaryButtonClick={() => {
                   updateChallengeMethod({
                     _id: challengeId,
@@ -545,14 +561,14 @@ const ChallengePreview = ({ history, match }) => {
               buttonText={
                 selectedTab === tabs[0] || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
-                    ? "Judge this Challenge"
+                    ? t("Judge this Challenge")
                     : (is_startup_Individual &&
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
                       !is_logged_in
                     ? submissionClosed
-                      ? "Submission Closed"
-                      : "Solve Challenge"
+                      ? t("Submission Closed")
+                      : t("Solve Challenge")
                     : null
                   : null
               }
@@ -604,12 +620,14 @@ const ChallengePreview = ({ history, match }) => {
                                 key={index}
                                 onClick={() => {
                                   history.push(
-                                    `/challenge/${challengeId}/preview/${each}`
+                                    `/challenge/${challengeId}/preview/${each.value}`
                                   );
                                 }}
                               >
-                                <Nav.Link eventKey={each}>{each}</Nav.Link>
-                                {each === "Updates" && (
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
+                                {each.value === "Updates" && (
                                   <div className="count-container">
                                     <span>1</span>
                                   </div>
@@ -629,6 +647,7 @@ const ChallengePreview = ({ history, match }) => {
         <Tab.Content>
           <Tab.Pane eventKey="Overview">
             <OverView
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
@@ -642,6 +661,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
             <JudgingCriteria
+              t={t}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               challengeData={challengeData}
@@ -650,6 +670,7 @@ const ChallengePreview = ({ history, match }) => {
           <Tab.Pane eventKey="Submissions">
             {challengeData && (
               <Submissions
+                t={t}
                 challengeData={challengeData}
                 is_startup_Individual={is_startup_Individual}
                 is_mentor_judge={is_mentor_judge}
@@ -665,6 +686,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Guidelines">
             <Guidelines
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
@@ -672,6 +694,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Updates">
             <Updates
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
@@ -679,6 +702,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Timeline">
             <Timeline
+              t={t}
               challengeData={challengeData}
               is_startup_Individual={is_startup_Individual}
               organisationTeamMember={organisationTeamMember}
@@ -687,6 +711,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Forum">
             <Forum
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
@@ -694,6 +719,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="FAQ">
             <FAQ
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
@@ -701,6 +727,7 @@ const ChallengePreview = ({ history, match }) => {
           </Tab.Pane>
           <Tab.Pane eventKey="Resources">
             <Resources
+              t={t}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}

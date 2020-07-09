@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal } from "react-bootstrap";
 import { MainContainer } from "./style";
 import SignIn from "../signin";
@@ -6,6 +7,7 @@ import SignUp from "../signup";
 import EmailVerification from "../emailVerification";
 
 const UserFlowModal = ({ show, setUserFlowModal, history, challengeData }) => {
+  const { t } = useTranslation();
   const [activeModal, setActiveModal] = useState("SignIn");
   return (
     <Modal
@@ -18,11 +20,13 @@ const UserFlowModal = ({ show, setUserFlowModal, history, challengeData }) => {
         <Modal.Header>
           <div className="header-container">
             <div>
-              <span className="challenge-title">Sign up to compete in</span>
+              <span className="challenge-title">
+                {t("Sign up to compete in")}
+              </span>
             </div>
             <div>
               <span className="challenge-name">
-                Low Impact Agriculture Challenge
+                {t("Low Impact Agriculture Challenge")}
               </span>
             </div>
           </div>

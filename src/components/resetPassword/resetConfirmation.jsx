@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import { Title, PrimaryButton, Loading } from "../common";
 import { MainContainer } from "./style";
 
 const ResetConfirmation = ({ history }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const forgotPasswordMethod = (data) => dispatch(forgotPasswordAction(data));
   const resetPasswordReducer = useSelector((state) => {
@@ -38,7 +40,7 @@ const ResetConfirmation = ({ history }) => {
           <Col lg={5} md={10} sm={12}>
             <Row className="title-container">
               <Col>
-                <Title text={"Reset Password"} icon={false}></Title>
+                <Title text={t("Reset Password")} icon={false}></Title>
               </Col>
             </Row>
 
@@ -55,14 +57,11 @@ const ResetConfirmation = ({ history }) => {
                 <Row>
                   <Col>
                     <div className="bold-text">
-                      We sent a reset password email to{" "}
+                      {t("We sent a reset password email to")}{" "}
                       {resetPasswordReducer.restPasswordSuccess.result.email}.
                     </div>
                     <div>
-                      <span>
-                        Please click the link to set your new password. Didn't
-                        receive the email yet? Please check your spam folder, or{" "}
-                      </span>
+                      <span>{t("check_mail_text")} </span>
                       <span
                         className="resend-link"
                         onClick={() => {
@@ -73,7 +72,7 @@ const ResetConfirmation = ({ history }) => {
                           });
                         }}
                       >
-                        try again.
+                        {t("try_again")}
                       </span>
                     </div>
                   </Col>
@@ -84,7 +83,7 @@ const ResetConfirmation = ({ history }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={"Login"}
+                    text={t("Login")}
                     onClick={() => {
                       history.push("/login");
                     }}

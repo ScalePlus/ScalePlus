@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import ChallengesList from "./subComponents/challengesList";
 import { PrimaryButton } from "../common";
 import { MainContainer } from "./style";
 import Subscribe from "./subComponents/subscribeModal";
 
 const AllChallenges = ({ history }) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   return (
     <MainContainer>
@@ -14,10 +16,7 @@ const AllChallenges = ({ history }) => {
           <Col lg={4} md={8} sm={12} xs={12}>
             <Row>
               <Col>
-                <span className="text">
-                  Be the first to know when crowdsourcing projects like this are
-                  posted.
-                </span>
+                <span className="text">{t("footer_subscription_title")}</span>
               </Col>
             </Row>
             <Row style={{ marginTop: 20 }}>
@@ -25,7 +24,7 @@ const AllChallenges = ({ history }) => {
                 <div className="button-container">
                   <PrimaryButton
                     variant="light"
-                    text={"Subscribe"}
+                    text={t("Subscribe")}
                     onClick={() => {
                       setShow(true);
                     }}

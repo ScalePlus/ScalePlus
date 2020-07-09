@@ -27,6 +27,7 @@ import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
 const Submissions = ({
+  t,
   is_startup_Individual,
   is_mentor_judge,
   is_organisation,
@@ -221,15 +222,14 @@ const Submissions = ({
         <div>
           <Row className="justify-content-center center-alignment header-container">
             <Col lg={10} md={10} sm={10} xs={10}>
-              <HeaderComponent titleText="Submissions" />
+              <HeaderComponent titleText={t("Submissions")} />
             </Col>
           </Row>
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
-                Thank you, your successuflly submission, you will hear from us
-                soon, You can explore{" "}
-                <Link to="/all/challenges">Other Challenges</Link>
+                {t("thank_submission_text")}{" "}
+                <Link to="/all/challenges">{t("Other Challenges")}</Link>
               </div>
             </Col>
           </Row>
@@ -238,16 +238,16 @@ const Submissions = ({
         <div>
           <Row className="justify-content-center center-alignment header-container">
             <Col lg={10} md={10} sm={10} xs={10}>
-              <HeaderComponent titleText="Submissions" />
+              <HeaderComponent titleText={t("Submissions")} />
             </Col>
           </Row>
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
-                {`Submission is ${
-                  submissionClosed ? "closed" : "not started yet"
-                }, You can explore`}{" "}
-                <Link to="/all/challenges">Other Challenges</Link>
+                {submissionClosed
+                  ? t("submission_closed")
+                  : t("submission_not_started")}{" "}
+                <Link to="/all/challenges">{t("Other Challenges")}</Link>
               </div>
             </Col>
           </Row>
@@ -272,10 +272,7 @@ const Submissions = ({
               )
             ) {
               setValidated(true);
-              setErrors([
-                `Submission form is not complete. Please fill all the required
-          fields.`,
-              ]);
+              setErrors([t("submission_validation_error")]);
             } else {
               setErrors([]);
               let newArr = [...submissionForm];
@@ -307,8 +304,8 @@ const Submissions = ({
           <Row className="justify-content-center center-alignment header-container">
             <Col lg={10} md={10} sm={10} xs={10}>
               <HeaderComponent
-                titleText="Submissions"
-                buttonText="Submit"
+                titleText={t("Submissions")}
+                buttonText={t("Submit")}
                 buttonVariant="primary"
                 buttonType="submit"
                 haveProgressBar={true}
@@ -460,7 +457,7 @@ const Submissions = ({
                         </label>
                         <div className="question-button-container">
                           <PrimaryButton
-                            text="Yes"
+                            text={t("Yes")}
                             variant={each.value === "Yes" ? "primary" : "light"}
                             onClick={() => {
                               let newArr = [...submissionForm];
@@ -469,7 +466,7 @@ const Submissions = ({
                             }}
                           />
                           <PrimaryButton
-                            text="No"
+                            text={t("No")}
                             variant={each.value === "No" ? "primary" : "light"}
                             onClick={() => {
                               let newArr = [...submissionForm];
@@ -490,14 +487,16 @@ const Submissions = ({
                       >
                         <FileInput
                           label={each.title}
-                          prependButtonText="Browse"
+                          prependButtonText={t("Browse")}
                           value={each.value}
                           onChange={(e) => {
                             let newArr = [...submissionForm];
                             newArr[index]["value"] = e.target.files[0];
                             changeSubmissionForm(newArr);
                           }}
-                          description="Allowed file types: word, pdf"
+                          description={`${t(
+                            "Allowed file types are"
+                          )}: word, pdf`}
                         ></FileInput>
                       </div>
                     ) : null;
@@ -511,7 +510,7 @@ const Submissions = ({
           >
             <Col lg={10} md={10} sm={10} xs={10}>
               <HeaderComponent
-                buttonText="Submit"
+                buttonText={t("Submit")}
                 buttonVariant="primary"
                 buttonType="submit"
                 haveProgressBar={true}
@@ -530,14 +529,14 @@ const Submissions = ({
       <MainContainer>
         <Row className="justify-content-center center-alignment header-container">
           <Col lg={10} md={10} sm={10} xs={10}>
-            <HeaderComponent titleText="Submissions" />
+            <HeaderComponent titleText={t("Submissions")} />
           </Col>
         </Row>
         <Row className="justify-content-center">
           <Col lg={10} md={10} sm={10} xs={10}>
             <div className="thankyou-text">
-              {`Judging is not started yet, You can explore`}{" "}
-              <Link to="/all/challenges">Other Challenges</Link>
+              {t("judgement_not_started")}{" "}
+              <Link to="/all/challenges">{t("Other Challenges")}</Link>
             </div>
           </Col>
         </Row>
@@ -554,7 +553,7 @@ const Submissions = ({
             {selectedRow ? (
               selectedRow.isDisqualified ? (
                 <HeaderComponent
-                  titleText="Submissions (DISQUALIFIED)"
+                  titleText={t("Submissions (DISQUALIFIED)")}
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
@@ -562,7 +561,7 @@ const Submissions = ({
                 />
               ) : selectedRow.isEvaluated ? (
                 <HeaderComponent
-                  titleText="Submissions"
+                  titleText={t("Submissions")}
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
@@ -570,7 +569,7 @@ const Submissions = ({
                 />
               ) : judgingClosed ? (
                 <HeaderComponent
-                  titleText="Submissions"
+                  titleText={t("Submissions")}
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
@@ -578,13 +577,13 @@ const Submissions = ({
                 />
               ) : (
                 <HeaderComponent
-                  titleText="Submission"
-                  buttonText="Evaluate Submission"
+                  titleText={t("Submission")}
+                  buttonText={t("Evaluate Submission")}
                   buttonVariant="primary"
                   buttonClick={() => {
                     setShow(true);
                   }}
-                  infoButtonText="Disqualify"
+                  infoButtonText={t("Disqualify")}
                   infoButtonVariant="danger_light"
                   infoButtonClick={() => {
                     setDisqualifyShow(true);
@@ -596,11 +595,11 @@ const Submissions = ({
                 />
               )
             ) : is_mentor_judge ? (
-              <HeaderComponent titleText="Submissions" />
+              <HeaderComponent titleText={t("Submissions")} />
             ) : fromPreview && challengeData && !challengeData.isPublished ? (
               <HeaderComponent
-                titleText="Submissions"
-                buttonText="Edit Form"
+                titleText={t("Submissions")}
+                buttonText={t("Edit Form")}
                 buttonVariant="info"
                 buttonClick={() => {
                   history.push(
@@ -622,7 +621,7 @@ const Submissions = ({
               <div className="selected-row-container text-left">
                 <div className="inline-block">
                   <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">Startup Name</div>
+                    <div className="regular-text">{t("Startup Name")}</div>
                     <div className="bold-semi-large-text">
                       {selectedRow.userId &&
                         selectedRow.userId.details &&
@@ -630,14 +629,14 @@ const Submissions = ({
                     </div>
                   </div>
                   <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">Owner Name</div>
+                    <div className="regular-text">{t("Owner Name")}</div>
                     <div className="bold-semi-large-text">
                       {selectedRow.userId && selectedRow.userId.firstName}{" "}
                       {selectedRow.userId && selectedRow.userId.lastName}
                     </div>
                   </div>
                   <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">Location</div>
+                    <div className="regular-text">{t("Location")}</div>
                     <div className="bold-semi-large-text">
                       {selectedRow.userId &&
                         selectedRow.userId.details &&
@@ -646,7 +645,9 @@ const Submissions = ({
                   </div>
                   {selectedRow.judgingPer && (
                     <div style={{ flex: 0.2 }}>
-                      <div className="regular-text">Judging Criteria</div>
+                      <div className="regular-text">
+                        {t("Judging criteria")}
+                      </div>
                       <div className="bold-semi-large-text">
                         {selectedRow.judgingPer}
                       </div>
@@ -719,12 +720,12 @@ const Submissions = ({
                             <div className="button-container">
                               <PrimaryButton
                                 variant="success_light"
-                                text={"Download attachment"}
+                                text={t("Download attachment")}
                                 onClick={() => {
                                   if (each && each.URL) {
                                     window.open(each.URL);
                                   } else {
-                                    alert("No file found.");
+                                    alert("No_file_found");
                                   }
                                 }}
                               ></PrimaryButton>
@@ -744,27 +745,27 @@ const Submissions = ({
                         isSmall={true}
                         isSingle={true}
                         isSelectOnly={true}
-                        placeholder="Filter Results"
+                        placeholder={t("Filter Results")}
                         options={[
-                          { label: "All", value: "all" },
+                          { label: t("All"), value: "all" },
                           {
-                            label: "Startup Name",
+                            label: t("Startup Name"),
                             value: "startup_name",
                           },
                           {
-                            label: "Owner Name",
+                            label: t("Owner Name"),
                             value: "owner_name",
                           },
                           {
-                            label: "Location",
+                            label: t("Location"),
                             value: "location",
                           },
                           {
-                            label: "Industry",
+                            label: t("Industry"),
                             value: "industry",
                           },
                           {
-                            label: "Technology",
+                            label: t("Technology"),
                             value: "technology",
                           },
                         ]}
@@ -775,7 +776,7 @@ const Submissions = ({
                       />
                       <Input
                         type="text"
-                        placeholder="Search"
+                        placeholder={t("Search")}
                         value={searchText}
                         onChange={(e) => {
                           setSearchText(e.target.value);
@@ -834,7 +835,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Startup Name",
+                    Header: t("Startup Name"),
                     accessor: "userId",
                     width: "19%",
                     Cell: (data) => {
@@ -844,7 +845,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Owner Name",
+                    Header: t("Owner Name"),
                     accessor: "userId",
                     width: "19%",
                     Cell: (data) => {
@@ -856,7 +857,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Location",
+                    Header: t("Location"),
                     accessor: "userId",
                     width: "19%",
                     Cell: (data) => {
@@ -868,7 +869,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Industry",
+                    Header: t("Industry"),
                     accessor: "userId",
                     width: "19%",
                     Cell: (data) => {
@@ -887,7 +888,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Technology",
+                    Header: t("Technology"),
                     accessor: "userId",
                     width: "19%",
                     Cell: (data) => {
@@ -906,7 +907,7 @@ const Submissions = ({
                     },
                   },
                   {
-                    Header: "Elegiable",
+                    Header: t("Elegiable"),
                     accessor: "Elegiable",
                     width: "2.5%",
                     Cell: (data) => {
@@ -928,6 +929,7 @@ const Submissions = ({
           </Col>
         </Row>
         <EvaluateModal
+          t={t}
           show={show}
           setShow={setShow}
           selectedRow={selectedRow}
@@ -936,6 +938,7 @@ const Submissions = ({
           onSubmitEvaluation={onSubmitEvaluation}
         />
         <DisqualifyModal
+          t={t}
           show={showDisqualify}
           setShow={setDisqualifyShow}
           errors={errors}

@@ -3,6 +3,7 @@ import { TextArea, PrimaryButton, PageTitle } from "../common";
 import { Form, Row, Col } from "react-bootstrap";
 
 const Step3 = ({
+  t,
   setActiveStep,
   problemStatement,
   changeProblemStatement,
@@ -15,26 +16,23 @@ const Step3 = ({
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
-          <Col>WHAT SOLUTION ARE YOU LOOKING FOR?</Col>
+          <Col>{t("STEP3_title")}</Col>
         </Row>
         <Row className="title-container">
           <Col>
-            <PageTitle text="Challenge Problem Statement" />
+            <PageTitle text={t("STEP3_pagetitle")} />
           </Col>
         </Row>
         <Row className="sub-title">
-          <Col>
-            Tell us about the problem, the current solutions, and what solution
-            you are looking for.
-          </Col>
+          <Col>{t("STEP3_subtitle")}</Col>
         </Row>
         <Form>
           <Row className="form-container">
             <Col>
               <TextArea
                 rows="4"
-                label="Problem Statement (optional)"
-                description="What problem are you tackling?"
+                label={t("Problem Statement (optional)")}
+                description={t("problem_statement_description")}
                 value={problemStatement}
                 onChange={(e) => {
                   changeProblemStatement(e.target.value);
@@ -42,8 +40,8 @@ const Step3 = ({
               />
               <TextArea
                 rows="4"
-                label="Current Solutions (optional)"
-                description="What are the current solutions to this problem?"
+                label={t("Current Solutions (optional)")}
+                description={t("current_solution_description")}
                 value={currentSolution}
                 onChange={(e) => {
                   changeCurrentSolution(e.target.value);
@@ -51,8 +49,8 @@ const Step3 = ({
               />
               <TextArea
                 rows="4"
-                label="Pain Point (optional)"
-                description="What are the current solutions missing?"
+                label={t("Pain Point (optional)")}
+                description={t("pain_point_description")}
                 value={painPoint}
                 onChange={(e) => {
                   changePainPoint(e.target.value);
@@ -61,13 +59,13 @@ const Step3 = ({
             </Col>
           </Row>
           <Row className="right-content-container">
-            <Col>You can always edit this information later</Col>
+            <Col>{t("You can always edit this information later")}</Col>
           </Row>
           <Row className="button-container">
             <Col className="center-component">
               <PrimaryButton
                 variant="primary"
-                text={"Continue"}
+                text={t("Continue")}
                 onClick={() => {
                   setActiveStep(3);
                 }}
@@ -76,8 +74,8 @@ const Step3 = ({
           </Row>
           <Row className="bottom-container">
             <Col>
-              Need Help? or Looking for custom solution?{" "}
-              <span className="contact-link">Contact Us</span>
+              {t("Need_Help_Text")}{" "}
+              <span className="contact-link">{t("Contact Us")}</span>
             </Col>
           </Row>
         </Form>

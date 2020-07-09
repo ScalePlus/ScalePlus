@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Collapse, Row, Col, Dropdown } from "react-bootstrap";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { SearchInput, PrimaryButton, FileInput } from "../../../common";
@@ -128,7 +129,7 @@ export const HeaderComponent = React.memo(
 );
 
 export const HeaderComponentWithSearchBox = React.memo(
-  ({ titleText, buttonText }) => {
+  ({ t, titleText, buttonText }) => {
     return (
       <TitleContainerWithSearchBox>
         <div className={"title"}>
@@ -137,7 +138,7 @@ export const HeaderComponentWithSearchBox = React.memo(
         <div className="search-container">
           <Row>
             <Col lg={3} md={3} sm={6} xs={6}>
-              <SearchInput placeholder="Search Forum"></SearchInput>
+              <SearchInput placeholder={t("Search Forum")}></SearchInput>
             </Col>
             {buttonText && (
               <Col
@@ -212,6 +213,7 @@ export const ExpandCollapse = React.memo(
 );
 
 export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
+  const { t } = useTranslation();
   // const activeIndex =
   //   steps && steps.length
   //     ? steps.findIndex((each) => {
@@ -241,12 +243,12 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                 >
                   {index === 0 && (
                     <div className="start-label">
-                      <span>Start</span>
+                      <span>{t("Start")}</span>
                     </div>
                   )}
                   {index === steps.length - 1 && (
                     <div className="end-label">
-                      <span>Finish</span>
+                      <span>{t("Finish")}</span>
                     </div>
                   )}
                   <div className="outer-oval">

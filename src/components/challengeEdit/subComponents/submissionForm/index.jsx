@@ -25,7 +25,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const SubmissionForm = ({ challengeId }) => {
+const SubmissionForm = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachSubmissionformMethod = (data) =>
     dispatch(attachSubmissionformAction(data, challengeId));
@@ -79,17 +79,7 @@ const SubmissionForm = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Competitors will fill out this form and judges will use the
-              responses to select the winners of the challenge. Add as many
-              fields as are necessary. Be clear and concise and be sure to ask
-              for all the relevant information. In addition to the fields you
-              add, there are three fields that will be automatically included in
-              your form: The Submission Title, a Short Description of the
-              submission (140 characters), and an Image that illustrates the
-              submission. Be as clear as possible with your questions. This will
-              be the information that you will use to select the winners.
-            </span>
+            <span>{t("Submission_form_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -134,15 +124,15 @@ const SubmissionForm = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Submission Form"
-              buttonText="Save"
+              titleText={t("Submission form")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              menuButtonText="Add Item"
+              menuButtonText={t("Add Item")}
               menuButtonVariant="info"
               menuList={[
                 {
-                  title: "Single Text Field",
+                  title: t("Single Text Field"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -156,7 +146,7 @@ const SubmissionForm = ({ challengeId }) => {
                   },
                 },
                 {
-                  title: "Rich Text Editor",
+                  title: t("Rich Text Editor"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -170,7 +160,7 @@ const SubmissionForm = ({ challengeId }) => {
                   },
                 },
                 {
-                  title: "Multiple Choice",
+                  title: t("Multiple Choice"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -185,7 +175,7 @@ const SubmissionForm = ({ challengeId }) => {
                   },
                 },
                 {
-                  title: "Single Choice",
+                  title: t("Single Choice"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -200,7 +190,7 @@ const SubmissionForm = ({ challengeId }) => {
                   },
                 },
                 {
-                  title: "Yes, No Question",
+                  title: t("Yes, No Question"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -214,7 +204,7 @@ const SubmissionForm = ({ challengeId }) => {
                   },
                 },
                 {
-                  title: "Document Upload Box",
+                  title: t("Document Upload Box"),
                   onClick: () => {
                     setValidated(false);
                     setForm((data) =>
@@ -264,7 +254,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Single-Field" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Single Field Title</div>
+                                        <div>{t("Single Field Title")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -276,7 +266,7 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
@@ -284,8 +274,10 @@ const SubmissionForm = ({ challengeId }) => {
                                         <Input
                                           required
                                           type="text"
-                                          label="Field Title *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={t("Field Title") + " *"}
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           value={each.title}
                                           onChange={(e) => {
                                             let newArr = [...submissionForm];
@@ -300,7 +292,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Rich-Text-Editor" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Rich Text Editor</div>
+                                        <div>{t("Rich Text Editor")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -312,7 +304,7 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
@@ -320,8 +312,10 @@ const SubmissionForm = ({ challengeId }) => {
                                         <Input
                                           required
                                           type="text"
-                                          label="Field Title *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={t("Field Title") + " *"}
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           value={each.title}
                                           onChange={(e) => {
                                             let newArr = [...submissionForm];
@@ -336,7 +330,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Document-Upload-Box" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Document Upload Box</div>
+                                        <div>{t("Document Upload Box")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -348,7 +342,7 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
@@ -356,8 +350,10 @@ const SubmissionForm = ({ challengeId }) => {
                                         <Input
                                           required
                                           type="text"
-                                          label="Field Title *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={t("Field Title") + " *"}
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           value={each.title}
                                           onChange={(e) => {
                                             let newArr = [...submissionForm];
@@ -372,7 +368,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Yes-No-Question" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Yes No Question</div>
+                                        <div>{t("Yes, No Question")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -384,15 +380,20 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
                                       <div className="field-container">
                                         <TextArea
                                           required
-                                          label="Enter your question below *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={
+                                            t("Enter your question below") +
+                                            " *"
+                                          }
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
@@ -408,7 +409,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Multiple-Choice" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Multiple Choice</div>
+                                        <div>{t("Multiple Choice")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -420,15 +421,20 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
                                       <div className="field-container">
                                         <TextArea
                                           required
-                                          label="Enter your question below *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={
+                                            t("Enter your question below") +
+                                            " *"
+                                          }
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
@@ -468,7 +474,8 @@ const SubmissionForm = ({ challengeId }) => {
                                                 >
                                                   <div className="choice-left-container">
                                                     <div className="choice-text">
-                                                      Choice {choiceIdex + 1}
+                                                      {t("Choice")}{" "}
+                                                      {choiceIdex + 1}
                                                     </div>
                                                     <div className="choice-input">
                                                       <Input
@@ -519,7 +526,7 @@ const SubmissionForm = ({ challengeId }) => {
                                   {each.field === "Single-Choice" && (
                                     <div>
                                       <div className="title-container">
-                                        <div>Single Choice</div>
+                                        <div>{t("Single Choice")}</div>
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
@@ -531,15 +538,20 @@ const SubmissionForm = ({ challengeId }) => {
                                               setForm(newArr);
                                             }}
                                             variant="primary"
-                                            label="Required"
+                                            label={t("Required")}
                                           ></Switch>
                                         </div>
                                       </div>
                                       <div className="field-container">
                                         <TextArea
                                           required
-                                          label="Enter your question below *"
-                                          placeholder="e.g: How did you hear about us"
+                                          label={
+                                            t("Enter your question below") +
+                                            " *"
+                                          }
+                                          placeholder={t(
+                                            "hear_about_placeholder"
+                                          )}
                                           rows="2"
                                           value={each.title}
                                           onChange={(e) => {
@@ -579,7 +591,8 @@ const SubmissionForm = ({ challengeId }) => {
                                                 >
                                                   <div className="choice-left-container">
                                                     <div className="choice-text">
-                                                      Choice {choiceIdex + 1}
+                                                      {t("Choice")}{" "}
+                                                      {choiceIdex + 1}
                                                     </div>
                                                     <div className="choice-input">
                                                       <Input

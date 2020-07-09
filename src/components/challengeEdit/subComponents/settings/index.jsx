@@ -7,7 +7,7 @@ import { TextArea, PrimaryButton, Loading } from "../../../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../../../lib/constant";
 
-const Settings = ({ challengeId }) => {
+const Settings = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const updateChallengeMethod = (data) => dispatch(updateChallengeAction(data));
 
@@ -53,8 +53,8 @@ const Settings = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Settings"
-              // buttonText="Save"
+              titleText={t("Settings")}
+              // buttonText={t("Save")}
               // buttonVariant="success"
               // buttonType="submit"
             />
@@ -75,16 +75,16 @@ const Settings = ({ challengeId }) => {
           <Col>
             <TextArea
               rows="4"
-              label="Cancel challenge"
+              label={t("Cancel challenge")}
               value={cancellationReason}
               onChange={(e) => changeReason(e.target.value)}
               required
-              errorMessage={Constants.Errors.cancellationReason}
+              errorMessage={t("cancellationReason_error")}
             />
             <div className="danger-button-container">
               <PrimaryButton
                 variant="danger"
-                text={"Delete challenge"}
+                text={t("Delete challenge")}
                 type="submit"
               ></PrimaryButton>
             </div>

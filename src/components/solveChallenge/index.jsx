@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +29,7 @@ const tabs = [
 ];
 
 const SolveChallenge = ({ match }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const solveChallengeMethod = (data) =>
     dispatch(solveChallengeAction(match.params.id, data));
@@ -110,7 +112,7 @@ const SolveChallenge = ({ match }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Solve Challenge"} icon={true}></Title>
+              <Title text={t("Solve Challenge")} icon={true}></Title>
             </Col>
           </Row>
           <Row>
@@ -128,7 +130,7 @@ const SolveChallenge = ({ match }) => {
             <Row className="description-container">
               <Col>
                 <Description>
-                  Would you like to compete as a team? *
+                  {t("Would you like to compete as a team? *")}
                 </Description>
               </Col>
             </Row>
@@ -146,23 +148,28 @@ const SolveChallenge = ({ match }) => {
                       setActiveTab(each.text);
                     }}
                   >
-                    <Tab text={each.text} isActive={activeTab === each.text} />
+                    <Tab
+                      text={t(each.text)}
+                      isActive={activeTab === t(each.text)}
+                    />
                   </Col>
                 );
               })}
             </Row>
 
-            {activeTab === tabs[0].text && (
+            {activeTab === t(tabs[0].text) && (
               <Row>
                 <Col>
                   <div className="sub-description-container">
-                    Type in their email addresses to invite people to your team:
+                    {t(
+                      "Type in their email addresses to invite people to your team:"
+                    )}
                   </div>
                 </Col>
               </Row>
             )}
 
-            {activeTab === tabs[0].text ? (
+            {activeTab === t(tabs[0].text) ? (
               <Form
                 noValidate
                 validated={validated}
@@ -185,7 +192,7 @@ const SolveChallenge = ({ match }) => {
                         <div key={index} className="email-container">
                           <Input
                             type="email"
-                            placeholder="youremail@website.com"
+                            placeholder={t("email_placeholder")}
                             value={each.email}
                             onChange={(e) => {
                               let newArr = [...members];
@@ -197,7 +204,7 @@ const SolveChallenge = ({ match }) => {
 
                           <div className="switch-container">
                             <div className={"left-text"}>
-                              <span>Admin</span>
+                              <span>{t("Admin")}</span>
                             </div>
                             <div>
                               <Switch
@@ -220,7 +227,7 @@ const SolveChallenge = ({ match }) => {
                               ></Switch>
                             </div>
                             <div className={"right-text"}>
-                              <span>View Only</span>
+                              <span>{t("View Only")}</span>
                             </div>
                           </div>
 
@@ -255,7 +262,7 @@ const SolveChallenge = ({ match }) => {
                         );
                       }}
                     >
-                      + Add Another Member
+                      {t("+ Add Another Member")}
                     </div>
                   </Col>
                 </Row>
@@ -265,7 +272,9 @@ const SolveChallenge = ({ match }) => {
                       <CheckBox
                         id={`checkbox-1`}
                         checkBoxText={
-                          <span className="bold-text">Team Agreement</span>
+                          <span className="bold-text">
+                            {t("Team Agreement")}
+                          </span>
                         }
                         checked={check}
                         onChange={() => {
@@ -282,8 +291,9 @@ const SolveChallenge = ({ match }) => {
                 <Row>
                   <Col>
                     <div className="right-container">
-                      Leave fields blank if you don't want to invite anyone
-                      right now.
+                      {t(
+                        "Leave fields blank if you don't want to invite anyone right now."
+                      )}
                     </div>
                   </Col>
                 </Row>
@@ -292,7 +302,7 @@ const SolveChallenge = ({ match }) => {
                     <PrimaryButton
                       variant="primary"
                       disabled={!check}
-                      text={"Enter Challenge"}
+                      text={t("Enter Challenge")}
                       type="submit"
                     ></PrimaryButton>
                   </Col>
@@ -315,7 +325,7 @@ const SolveChallenge = ({ match }) => {
                   <Col>
                     <PrimaryButton
                       variant="primary"
-                      text={"Enter Challenge"}
+                      text={t("Enter Challenge")}
                       type="submit"
                     ></PrimaryButton>
                   </Col>
@@ -325,7 +335,7 @@ const SolveChallenge = ({ match }) => {
           </div>
         </Col>
       </Row>
-      <TeamAgreement show={show} setShow={setShow} setCheck={setCheck} />
+      <TeamAgreement t={t} show={show} setShow={setShow} setCheck={setCheck} />
     </MainContainer>
   );
 };

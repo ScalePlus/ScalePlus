@@ -6,6 +6,7 @@ import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
 const JudgingCriteria = ({
+  t,
   is_organisation,
   organisationTeamMember,
   challengeData,
@@ -21,8 +22,8 @@ const JudgingCriteria = ({
           challengeData &&
           !challengeData.isPublished ? (
             <HeaderComponent
-              titleText="Judging Criteria"
-              buttonText="Edit"
+              titleText={t("Judging criteria")}
+              buttonText={t("Edit")}
               buttonVariant="info"
               buttonClick={() => {
                 history.push(
@@ -31,7 +32,7 @@ const JudgingCriteria = ({
               }}
             />
           ) : (
-            <HeaderComponent titleText="Judging Criteria" />
+            <HeaderComponent titleText={t("Judging criteria")} />
           )}
         </Col>
       </Row>
@@ -50,7 +51,7 @@ const JudgingCriteria = ({
                       <div className="content-container">
                         <span className="title">{each.title}</span>
                         <span className="timestamp">
-                          Overall Weight {each.weight}
+                          {t("Overall Weight")} {each.weight}
                         </span>
                       </div>
                       <div className="description">{each.description}</div>

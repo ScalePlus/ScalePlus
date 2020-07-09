@@ -16,7 +16,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Resources = ({ challengeId }) => {
+const Resources = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachResourcesMethod = (data) =>
     dispatch(attachResourcesAction(data, challengeId));
@@ -75,10 +75,7 @@ const Resources = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Create an Resources section that will be displayed on the
-              Resources tab of your challenge page.
-            </span>
+            <span>{t("Resources_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -144,11 +141,11 @@ const Resources = ({ challengeId }) => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
-              titleText="Resources"
-              buttonText="Save"
+              titleText={t("Resources")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -174,7 +171,7 @@ const Resources = ({ challengeId }) => {
                   setActivity(!isActive);
                 }}
                 variant="primary"
-                label="Enable Resources tab"
+                label={t("Enable Resources tab")}
               ></Switch>
             </Col>
           </Row>
@@ -190,7 +187,7 @@ const Resources = ({ challengeId }) => {
                         <Input
                           required
                           type="text"
-                          label="Title *"
+                          label={t("Title") + " *"}
                           value={each.title}
                           onChange={(e) => {
                             let newArr = [...resources];
@@ -205,9 +202,9 @@ const Resources = ({ challengeId }) => {
                     <Row className="align-items-center fileContainer">
                       <Col lg={4} md={6} sm={12} xs={12}>
                         <FileInput
-                          placeholder="choose file"
-                          label="Attachment"
-                          buttonText="Upload File"
+                          placeholder={t("choose file")}
+                          label={t("Attachment")}
+                          buttonText={t("Upload File")}
                           value={each.attachment}
                           onChange={(e) => {
                             let newArr = [...resources];
@@ -225,14 +222,14 @@ const Resources = ({ challengeId }) => {
                         style={{ marginTop: "25px" }}
                       >
                         <span className="info-text">
-                          Allowed file types are: ....
+                          {t("Allowed file types are")}: ....
                         </span>
                       </Col>
                     </Row>
                     <Row>
                       <Col>
                         <EditorInput
-                          label="Description"
+                          label={t("Description")}
                           value={each.description}
                           onChange={(value) => {
                             let newArr = [...resources];
@@ -247,7 +244,7 @@ const Resources = ({ challengeId }) => {
                       <Col>
                         <Input
                           type="text"
-                          label="Link"
+                          label={t("Link")}
                           value={each.link}
                           onChange={(e) => {
                             let newArr = [...resources];

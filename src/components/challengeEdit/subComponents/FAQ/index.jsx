@@ -14,7 +14,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const FAQ = ({ challengeId }) => {
+const FAQ = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachFAQsMethod = (data) =>
     dispatch(attachFAQsAction(data, challengeId));
@@ -70,10 +70,7 @@ const FAQ = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Create an FAQ section that will be displayed on the FAQ tab of
-              your challenge page.
-            </span>
+            <span>{t("FAQ_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -119,11 +116,11 @@ const FAQ = ({ challengeId }) => {
         <Row style={{ marginBottom: 25 }}>
           <Col>
             <HeaderComponent
-              titleText="FAQ"
-              buttonText="Save"
+              titleText={t("FAQ")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -147,7 +144,7 @@ const FAQ = ({ challengeId }) => {
                   setActivity(!isActive);
                 }}
                 variant="primary"
-                label="Enable FAQ tab"
+                label={t("Enable FAQ tab")}
               ></Switch>
             </Col>
           </Row>
@@ -160,7 +157,7 @@ const FAQ = ({ challengeId }) => {
                   <div className="left-container">
                     <Input
                       type="text"
-                      label="Question *"
+                      label={t("Question") + " *"}
                       value={each.question}
                       onChange={(e) => {
                         let newArr = [...FAQs];
@@ -170,7 +167,7 @@ const FAQ = ({ challengeId }) => {
                       required
                     />
                     <EditorInput
-                      label="Answer *"
+                      label={t("Answer") + " *"}
                       value={each.answer}
                       onChange={(value) => {
                         let newArr = [...FAQs];

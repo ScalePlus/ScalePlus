@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import Stepper from "../stepper";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,7 @@ import { MainContainer } from "./style";
 import { Loading } from "../common";
 
 const ChallengeMaster = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const createChallengeMethod = (data) => dispatch(createChallengeAction(data));
   const challengeCategoriesListMethod = useCallback(
@@ -163,12 +165,14 @@ const ChallengeMaster = () => {
 
           {activeStep === 0 ? (
             <Step1
+              t={t}
               setActiveStep={setActiveStep}
               typeOfSolution={typeOfSolution}
               setTypeOfSolution={setTypeOfSolution}
             ></Step1>
           ) : activeStep === 1 ? (
             <Step2
+              t={t}
               setActiveStep={setActiveStep}
               title={title}
               setTitle={setTitle}
@@ -185,6 +189,7 @@ const ChallengeMaster = () => {
             ></Step2>
           ) : activeStep === 2 ? (
             <Step3
+              t={t}
               setActiveStep={setActiveStep}
               problemStatement={problemStatement}
               changeProblemStatement={changeProblemStatement}
@@ -195,6 +200,7 @@ const ChallengeMaster = () => {
             ></Step3>
           ) : activeStep === 3 ? (
             <Step4
+              t={t}
               launchDate={launchDate}
               changeLaunchDate={changeLaunchDate}
               dueDate={dueDate}

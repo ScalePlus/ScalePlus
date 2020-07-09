@@ -60,7 +60,7 @@ const Step4 = ({
                   changeLaunchDate(date);
                 }}
                 required
-                errorMessage={Constants.Errors.launchDate}
+                errorMessage={t("launchDate_error")}
               />
               <DateInput
                 isSmall={true}
@@ -80,7 +80,7 @@ const Step4 = ({
                   changeDueDate(date);
                 }}
                 required
-                errorMessage={Constants.Errors.dueDate}
+                errorMessage={t("dueDate_error")}
               />
               <DateInput
                 isSmall={true}
@@ -100,7 +100,7 @@ const Step4 = ({
                   changeBiginDate(date);
                 }}
                 required
-                errorMessage={Constants.Errors.biginDate}
+                errorMessage={t("biginDate_error")}
               />
               <DateInput
                 isSmall={true}
@@ -120,7 +120,7 @@ const Step4 = ({
                   changeEndDate(date);
                 }}
                 required
-                errorMessage={Constants.Errors.endDate}
+                errorMessage={t("endDate_error")}
               />
               <DateInput
                 isSmall={true}
@@ -140,7 +140,7 @@ const Step4 = ({
                   changeAnounceDate(date);
                 }}
                 required
-                errorMessage={Constants.Errors.anounceDate}
+                errorMessage={t("anounceDate_error")}
               />
             </Col>
           </Row>

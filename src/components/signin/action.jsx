@@ -4,6 +4,7 @@ import {
   GET_USER_ACTION,
   GOOGLE_LOGIN_ACTION,
   LINKEDIN_LOGIN_ACTION,
+  FILE_LIST_ACTION,
 } from "./types";
 
 export const signinAction = (data, mode, setActiveModal, setUserFlowModal) => ({
@@ -47,4 +48,8 @@ export const linkedinLoginAction = (
   mode,
   setActiveModal,
   setUserFlowModal,
+});
+
+export const getFileListAction = () => ({
+  type: FILE_LIST_ACTION,
 });

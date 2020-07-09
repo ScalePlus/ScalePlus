@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import ChallengesList from "../allChallenges/subComponents/challengesList";
@@ -7,6 +8,7 @@ import { PrimaryButton } from "../common";
 import { Constants } from "../../lib/constant";
 
 const Home = ({ history }) => {
+  const { t } = useTranslation();
   const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     is_startup_Individual =
@@ -23,15 +25,12 @@ const Home = ({ history }) => {
             <Row>
               <Col lg={6} md={6} sm={12} xs={12}>
                 <div className="title">
-                  <span>Everyday Challenges Solved the right way!</span>
+                  <span>{t("home_title")}</span>
                 </div>
                 <div className="description">
-                  <span>
-                    We connect everyday problem solvers like you to bring
-                    innovative thinking to the world.
-                  </span>
+                  <span>{t("home_description")}</span>
                   <br />
-                  <Link to="/">Learn More→</Link>
+                  <Link to="/">{t("home_link")}</Link>
                 </div>
               </Col>
             </Row>
@@ -54,18 +53,19 @@ const Home = ({ history }) => {
                     <img alt="" src="/images/idea1.png" />
                   </div>
                   <div className="box-title">
-                    <span>Challenge The World</span>
+                    <span>{t("Challenge The World")}</span>
                   </div>
                   <div className="description">
                     <span>
-                      Organizations with a challenge seeking innovative
-                      solutions
+                      {t(
+                        "Organizations with a challenge seeking innovative solutions"
+                      )}
                     </span>
                   </div>
                   <div className="button-container">
                     <PrimaryButton
                       variant="primary"
-                      text={"Create Challenge"}
+                      text={t("Create Challenge")}
                       onClick={() => {
                         if (!is_logged_in) {
                           history.push("/login");
@@ -78,7 +78,9 @@ const Home = ({ history }) => {
                     ></PrimaryButton>
                     {showOrganisationInfo && (
                       <div className="information-text">
-                        <span>*Only registered organizations can do this!</span>
+                        <span>
+                          {t("*Only registered organizations can do this!")}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -96,18 +98,19 @@ const Home = ({ history }) => {
                     <img alt="" src="/images/solver.png" />
                   </div>
                   <div className="box-title">
-                    <span>Challenge Yourself</span>
+                    <span>{t("Challenge Yourself")}</span>
                   </div>
                   <div className="description">
                     <span>
-                      Individuals or groups looking to solve innovative
-                      challenges
+                      {t(
+                        "Individuals or groups looking to solve innovative challenges"
+                      )}
                     </span>
                   </div>
                   <div className="button-container">
                     <PrimaryButton
                       variant="primary"
-                      text={"Solve Challenge"}
+                      text={t("Solve Challenge")}
                       onClick={() => {
                         if (!is_logged_in || is_startup_Individual) {
                           history.push("/all/challenges");
@@ -118,7 +121,9 @@ const Home = ({ history }) => {
                     ></PrimaryButton>
                     {showStartupInfo && (
                       <div className="information-text">
-                        <span>*Only registered individuals can do this!</span>
+                        <span>
+                          {t("*Only registered individuals can do this!")}
+                        </span>
                       </div>
                     )}
                   </div>

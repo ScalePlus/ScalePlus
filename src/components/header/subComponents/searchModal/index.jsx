@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { searchAllAction } from "./action";
@@ -9,6 +10,7 @@ import history from "../../../../history";
 // let users = ["User 1", "User 2", "User 3"];
 
 const SearchModal = ({ show, setShow }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const searchAllMethod = (searchText) => dispatch(searchAllAction(searchText));
 
@@ -54,7 +56,7 @@ const SearchModal = ({ show, setShow }) => {
                 <div className="left-container">
                   <Input
                     type="text"
-                    placeholder="Type here to search..."
+                    placeholder={t("Type here to search")}
                     value={searchText}
                     onChange={(e) => {
                       setSearchText(e.target.value);
@@ -97,7 +99,7 @@ const SearchModal = ({ show, setShow }) => {
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={12} xs={12}>
               <div className="title-container">
-                <span>Challenges</span>
+                <span>{t("Challenges")}</span>
               </div>
               {challenges && challenges.length ? (
                 challenges.map((each, index) => {
@@ -123,7 +125,7 @@ const SearchModal = ({ show, setShow }) => {
                       </div>
                       <div>
                         <div className="name">
-                          By{" "}
+                          {t("By")}{" "}
                           {each.organisationId &&
                             each.organisationId.details &&
                             each.organisationId.details.name}
@@ -137,7 +139,7 @@ const SearchModal = ({ show, setShow }) => {
                 })
               ) : (
                 <div className="name">
-                  <span>No Challenges</span>
+                  <span>{t("No Challenges")}</span>
                 </div>
               )}
               {/* <div className="sub-title-container">

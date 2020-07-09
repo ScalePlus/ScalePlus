@@ -15,6 +15,9 @@ import {
   LINKEDIN_LOGIN_LOADING,
   LINKEDIN_LOGIN_SUCCESS,
   LINKEDIN_LOGIN_ERROR,
+  FILE_LIST_LOADING,
+  FILE_LIST_SUCCESS,
+  FILE_LIST_ERROR,
 } from "./types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
 import {
@@ -31,6 +34,7 @@ let initialState = {
   error: null,
   success: null,
   userData: null,
+  fileList: null,
 };
 
 export const signinReducer = createReducer(initialState, {
@@ -180,6 +184,30 @@ export const signinReducer = createReducer(initialState, {
   [LINKEDIN_LOGIN_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
+      success: null,
+      error: action.payload,
+    });
+  },
+  [FILE_LIST_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      fileList: null,
+      success: null,
+      error: null,
+    });
+  },
+  [FILE_LIST_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      fileList: action.payload,
+      success: null,
+      error: null,
+    });
+  },
+  [FILE_LIST_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      fileList: null,
       success: null,
       error: action.payload,
     });

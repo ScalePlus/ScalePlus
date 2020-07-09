@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   Form,
@@ -63,11 +64,11 @@ export const SocialLoginButton = React.memo(
   }
 );
 
-export const OrDevider = React.memo(() => {
+export const OrDevider = React.memo(({ t }) => {
   return (
     <ORDeviderContainer>
       <div className="left-border"></div>
-      <span>or</span>
+      <span>{t("or")}</span>
       <div className="right-border"></div>
     </ORDeviderContainer>
   );
@@ -280,6 +281,7 @@ export const SearchInput = React.memo(
 
 export const TextArea = React.memo(
   ({ rows, value, label, description, showCount, errorMessage, ...props }) => {
+    const { t } = useTranslation();
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
@@ -292,7 +294,8 @@ export const TextArea = React.memo(
         />
         {showCount && (
           <span className="textarea-count">
-            {value && value.length ? value.length : 0}|{showCount} letters
+            {value && value.length ? value.length : 0}|{showCount}{" "}
+            {t("letters")}
           </span>
         )}
         {errorMessage && (
@@ -312,6 +315,7 @@ export const TextArea = React.memo(
 
 export const FileInput = React.memo(
   ({
+    t,
     placeholder,
     label,
     value,
@@ -419,7 +423,7 @@ export const FileInput = React.memo(
 );
 
 export const BannerInput = React.memo(
-  ({ value, onChange, label, description, acceptTypes }) => {
+  ({ t, value, onChange, label, description, acceptTypes }) => {
     let fileUploader;
     return (
       <Form.Group>
@@ -449,7 +453,7 @@ export const BannerInput = React.memo(
                 width="35px"
                 alt=""
               ></img>
-              {!value && <div>Upload image</div>}
+              {!value && <div>{t("Upload image")}</div>}
             </div>
           )}
         </div>
@@ -776,15 +780,14 @@ export const PageTitle = React.memo(({ text }) => {
   return <PageTitleContainer>{text}</PageTitleContainer>;
 });
 
-export const WarningBlock = () => {
+export const WarningBlock = ({ t }) => {
   return (
     <WarningContainer>
       <span>
-        The challenge is not published yet. Before you can publish, you will
-        need to request an invoice to pay the platform fee and have Scale+ team
-        review the content of your page.{" "}
-        <b className="read-more-text bold-text">Read more.</b> <br /> If you
-        have any questions, please contact us by emailing{" "}
+        {t("warning_block_part1")}
+        <b className="read-more-text bold-text">
+          {t("Read more")}.
+        </b> <br /> {t("warning_block_part2")}{" "}
         <b className="bold-text">help@scaleplus.co</b>
       </span>
     </WarningContainer>
@@ -1103,6 +1106,7 @@ export const CommonTable = React.memo(
 
 export const CardComponent = React.memo(
   ({
+    t,
     showProgress,
     organisationId,
     descriptionId,
@@ -1202,7 +1206,7 @@ export const CardComponent = React.memo(
           />
           <Card.Body>
             <Card.Text>
-              By{" "}
+              {t("By")}{" "}
               {organisationId &&
                 organisationId.details &&
                 organisationId.details.name}
@@ -1223,14 +1227,18 @@ export const CardComponent = React.memo(
                 ></img>
                 <div className="days-text">
                   {leftDays ? (
-                    <span>{leftDays} days left</span>
+                    <span>
+                      {leftDays} {t("days left")}
+                    </span>
                   ) : (
-                    <span>Completed</span>
+                    <span>{t("Completed")}</span>
                   )}
                 </div>
               </div>
               <div className="prize-text">
-                <span>Prize {descriptionId && descriptionId.prize} </span>
+                <span>
+                  {t("Prize")} {descriptionId && descriptionId.prize}{" "}
+                </span>
                 {/* <span>Prize AED 50K </span> */}
               </div>
             </div>
@@ -1238,7 +1246,7 @@ export const CardComponent = React.memo(
               <>
                 <div className="bordered-container">
                   <div className="heading-text">
-                    <span>Current Milestone</span>
+                    <span>{t("Current Milestone")}</span>
                   </div>
                   <div className="sub-heading-text">
                     <ProgressBar
@@ -1251,7 +1259,7 @@ export const CardComponent = React.memo(
                 <div className="count-container">
                   <div className="left-container">
                     <div className="sub-heading-text">
-                      <span>Participants/Matches</span>
+                      <span>{t("Participants/Matches")}</span>
                     </div>
                     <div className="heading-text">
                       <span>{participantCount}</span>
@@ -1259,7 +1267,7 @@ export const CardComponent = React.memo(
                   </div>
                   <div className="right-container">
                     <div className="sub-heading-text">
-                      <span>Judges</span>
+                      <span>{t("Judges")}</span>
                     </div>
                     <div className="heading-text">
                       <span>

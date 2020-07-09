@@ -26,4 +26,9 @@ export default {
     let result = coreApi.POST(url, data);
     return result;
   },
+  getFileList: () => {
+    let url = `/i18n`;
+    let result = coreApi.GET(url);
+    return result;
+  },
 };

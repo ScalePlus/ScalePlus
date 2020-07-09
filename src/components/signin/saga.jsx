@@ -20,6 +20,10 @@ import {
   LINKEDIN_LOGIN_LOADING,
   LINKEDIN_LOGIN_SUCCESS,
   LINKEDIN_LOGIN_ERROR,
+  FILE_LIST_ACTION,
+  FILE_LIST_LOADING,
+  FILE_LIST_SUCCESS,
+  FILE_LIST_ERROR,
 } from "./types";
 import Api from "./api";
 import {
@@ -241,12 +245,27 @@ function* linkedinLoginSaga(data) {
   }
 }
 
+function* getFileListSaga() {
+  yield put({ type: FILE_LIST_LOADING });
+  try {
+    let res = yield call(Api.getFileList);
+    if (res.status) {
+      yield put({ type: FILE_LIST_ERROR, payload: res.message });
+    } else {
+      yield put({ type: FILE_LIST_SUCCESS, payload: res.result });
+    }
+  } catch (error) {
+    yield put({ type: FILE_LIST_ERROR, payload: error.message });
+  }
+}
+
 function* watchSigninAsync() {
   yield takeLatest(SIGNIN_ACTION, signinSaga);
   yield takeLatest(LOGGEDIN_USER_ACTION, loggedInUserSaga);
   yield takeLatest(GET_USER_ACTION, getUserSaga);
   yield takeLatest(GOOGLE_LOGIN_ACTION, googleLoginSaga);
   yield takeLatest(LINKEDIN_LOGIN_ACTION, linkedinLoginSaga);
+  yield takeLatest(FILE_LIST_ACTION, getFileListSaga);
 }
 
 export default watchSigninAsync;

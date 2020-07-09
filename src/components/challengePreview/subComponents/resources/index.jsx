@@ -7,6 +7,7 @@ import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
 const Resources = ({
+  t,
   is_organisation,
   organisationTeamMember,
   challengeData,
@@ -22,15 +23,15 @@ const Resources = ({
           challengeData &&
           !challengeData.isPublished ? (
             <HeaderComponent
-              titleText="Resources"
-              buttonText="Add New"
+              titleText={t("Resources")}
+              buttonText={t("Add New")}
               buttonVariant="info"
               buttonClick={() => {
                 history.push(`/challenge/${challengeData._id}/edit/Resources`);
               }}
             />
           ) : (
-            <HeaderComponent titleText="Resources" />
+            <HeaderComponent titleText={t("Resources")} />
           )}
         </Col>
       </Row>

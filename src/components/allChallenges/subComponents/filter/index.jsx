@@ -7,7 +7,7 @@ import { challengeCategoriesListAction } from "../../../challengeMaster/action";
 import { MainContainer } from "./style";
 const orderByTabs = ["Newest", "Popular"];
 
-const Filters = ({ show, setShow, onApply, onReset }) => {
+const Filters = ({ t, show, setShow, onApply, onReset }) => {
   const dispatch = useDispatch();
 
   const getTimelineStateMethod = useCallback(
@@ -73,7 +73,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
               <Row>
                 <Col>
                   <div className="header-container">
-                    <div className="title-text">Filter Challenges</div>
+                    <div className="title-text">{t("Filter Challenges")}</div>
                     <div
                       className="close-button-container"
                       onClick={() => {
@@ -89,7 +89,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
                 <Col ld={6} md={6} sm={12} xs={12}>
                   <Input
                     type="text"
-                    placeholder="Search by keyword or title"
+                    placeholder={t("Search by keyword or title")}
                     value={searchText}
                     onChange={(e) => {
                       setSearchText(e.target.value);
@@ -100,7 +100,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
               <Row style={{ marginTop: 3 }}>
                 <Col ld={12} md={12} sm={12} xs={12}>
                   <div className="tab-title-text">
-                    <span>Stage</span>
+                    <span>{t("Stage")}</span>
                   </div>
                   <div className="custom-tab-container">
                     {stageTabs && stageTabs.length
@@ -129,7 +129,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
               <Row style={{ marginTop: 3 }}>
                 <Col ld={12} md={12} sm={12} xs={12}>
                   <div className="tab-title-text">
-                    <span>Category</span>
+                    <span>{t("Category")}</span>
                   </div>
                   <div className="custom-tab-container">
                     {categoryTabs && categoryTabs.length
@@ -158,7 +158,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
               <Row style={{ marginTop: 3 }}>
                 <Col ld={12} md={12} sm={12} xs={12}>
                   <div className="tab-title-text">
-                    <span>Order by</span>
+                    <span>{t("Order by")}</span>
                   </div>
                   <div className="custom-tab-container">
                     {orderByTabs.map((each, index) => {
@@ -182,7 +182,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
                   <div className="bottom-button-container">
                     <PrimaryButton
                       variant="primary"
-                      text={"Apply Filter"}
+                      text={t("Apply Filter")}
                       onClick={() => {
                         onApply({ searchText, stage, category, orderby });
                       }}
@@ -190,7 +190,7 @@ const Filters = ({ show, setShow, onApply, onReset }) => {
 
                     <PrimaryButton
                       variant="secondary"
-                      text={"Reset Filter"}
+                      text={t("Reset Filter")}
                       onClick={() => {
                         setSearchText("");
                         selectStage("");

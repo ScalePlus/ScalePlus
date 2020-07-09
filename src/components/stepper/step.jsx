@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { PropTypes } from "prop-types";
+
 import theme from "../../theme";
 
-export default class Step extends Component {
-  constructor() {
-    super();
-    this.getStyles = this.getStyles.bind(this);
-  }
-
-  getStyles() {
+const Step = (props) => {
+  const { t } = useTranslation();
+  const getStyles = () => {
     const {
       activeColor,
       completeColor,
@@ -42,7 +40,7 @@ export default class Step extends Component {
       defaultBorderWidth,
       borderTopWidth,
       isLeftAligned,
-    } = this.props;
+    } = props;
 
     return {
       step: {
@@ -144,74 +142,74 @@ export default class Step extends Component {
         opacity: completeOpacity,
       },
     };
-  }
+  };
 
-  render() {
-    const {
-      icon,
-      index,
-      active,
-      completed,
-      first,
-      isLast,
-      onClick,
-      showNumber,
-      showStartEndLabel,
-      title,
-    } = this.props;
+  const {
+    icon,
+    index,
+    active,
+    completed,
+    first,
+    isLast,
+    onClick,
+    showNumber,
+    showStartEndLabel,
+    title,
+  } = props;
 
-    const styles = this.getStyles();
-    const circleStyle = Object.assign(
-      styles.circle,
-      completed ? styles.completedCircle : {},
-      active ? styles.activeCircle : {}
-    );
-    const labelStyle = Object.assign(styles.label);
-    const titleStyle = Object.assign(
-      styles.title,
-      completed ? styles.completedTitle : {},
-      active ? styles.activeTitle : {}
-    );
-    const leftStyle = Object.assign(
-      styles.leftBar,
-      active || completed ? styles.completedBar : {}
-    );
-    const rightStyle = Object.assign(
-      styles.rightBar,
-      completed ? styles.completedBar : {}
-    );
+  const styles = getStyles();
+  const circleStyle = Object.assign(
+    styles.circle,
+    completed ? styles.completedCircle : {},
+    active ? styles.activeCircle : {}
+  );
+  const labelStyle = Object.assign(styles.label);
+  const titleStyle = Object.assign(
+    styles.title,
+    completed ? styles.completedTitle : {},
+    active ? styles.activeTitle : {}
+  );
+  const leftStyle = Object.assign(
+    styles.leftBar,
+    active || completed ? styles.completedBar : {}
+  );
+  const rightStyle = Object.assign(
+    styles.rightBar,
+    completed ? styles.completedBar : {}
+  );
 
-    const stepContent = icon ? (
-      <img src={icon} alt={index + 1} />
-    ) : showNumber ? (
-      index + 1
-    ) : null;
+  const stepContent = icon ? (
+    <img src={icon} alt={index + 1} />
+  ) : showNumber ? (
+    index + 1
+  ) : null;
 
-    return (
-      <div style={styles.step}>
-        <div
-          style={circleStyle}
+  return (
+    <div style={styles.step}>
+      <div
+        style={circleStyle}
+        onClick={active || completed ? (e) => onClick(e) : () => {}}
+      >
+        <span
           onClick={active || completed ? (e) => onClick(e) : () => {}}
+          style={styles.index}
         >
-          <span
-            onClick={active || completed ? (e) => onClick(e) : () => {}}
-            style={styles.index}
-          >
-            {stepContent}
-          </span>
-        </div>
-
-        {first && showStartEndLabel && <div style={labelStyle}>Start</div>}
-        {isLast && showStartEndLabel && <div style={labelStyle}>Finish</div>}
-
-        {title && <div style={titleStyle}>{title}</div>}
-
-        {!first && <div style={leftStyle}></div>}
-        {!isLast && <div style={rightStyle}></div>}
+          {stepContent}
+        </span>
       </div>
-    );
-  }
-}
+
+      {first && showStartEndLabel && <div style={labelStyle}>{t("Start")}</div>}
+      {isLast && showStartEndLabel && (
+        <div style={labelStyle}>{t("Finish")}</div>
+      )}
+
+      {title && <div style={titleStyle}>{title}</div>}
+
+      {!first && <div style={leftStyle}></div>}
+      {!isLast && <div style={rightStyle}></div>}
+    </div>
+  );
+};
 
 Step.defaultProps = {
   activeColor: "#5096FF",
@@ -270,3 +268,5 @@ Step.propTypes = {
   // lineMarginOffset: PropTypes.number,
   defaultBorderWidth: PropTypes.number,
 };
+
+export default Step;

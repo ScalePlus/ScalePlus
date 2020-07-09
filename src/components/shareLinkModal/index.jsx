@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { sharelinkAction } from "./action";
@@ -6,6 +7,7 @@ import { Input, PrimaryButton, Loading } from "../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
 const ShareAsEmail = ({ show, setShow }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const sharelinkMethod = useCallback(
     (data, changeMailRes, setEmail) =>
@@ -48,7 +50,7 @@ const ShareAsEmail = ({ show, setShow }) => {
     >
       <Modal.Header>
         <HeaderContainer>
-          <span>Share as Email</span>
+          <span>{t("Share as Email")}</span>
         </HeaderContainer>
       </Modal.Header>
       <Modal.Body>
@@ -72,7 +74,7 @@ const ShareAsEmail = ({ show, setShow }) => {
                   <Row>
                     <Col>
                       <div className="subscribed-text">
-                        <span>Mail sent Successfully</span>
+                        <span>{t("Mail sent Successfully")}</span>
                       </div>
                     </Col>
                   </Row>
@@ -83,7 +85,7 @@ const ShareAsEmail = ({ show, setShow }) => {
                     <Col>
                       <Input
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={t("Enter your email")}
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -94,8 +96,9 @@ const ShareAsEmail = ({ show, setShow }) => {
                   <Row>
                     <Col>
                       <span className="help-text">
-                        Scale+ respect your privacy, we will never share your
-                        details with anyone
+                        {t(
+                          "Scale+ respect your privacy, we will never share your details with anyone"
+                        )}
                       </span>
                     </Col>
                   </Row>
@@ -105,7 +108,7 @@ const ShareAsEmail = ({ show, setShow }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={mailSent ? "close" : "Send"}
+                    text={mailSent ? t("Close") : t("Send")}
                     disabled={!email && !mailSent}
                     onClick={() => {
                       if (mailSent) {

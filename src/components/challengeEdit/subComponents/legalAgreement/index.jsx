@@ -8,7 +8,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const LegalAgreement = ({ challengeId }) => {
+const LegalAgreement = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachLegalAggreementMethod = (data) =>
     dispatch(attachLegalAggreementAction(data, challengeId));
@@ -62,13 +62,10 @@ const LegalAgreement = ({ challengeId }) => {
         <Col>
           <InfoBlock>
             <span>
-              Review and customize your legal agreement here. Every user who
-              registers to compete in your challenge will need to accept this
-              agreement. The Legal Agreement cannot be revised once the
-              challenge goes into the Enter stage. <br /> Not sure which legal
-              agreement to use?
+              {t("legal_agreement_info_part1")}
+              <br /> {t("legal_agreement_info_part2")}
               <span className="bold-text">
-                You can view our breakdown of each one here.
+                {t("legal_agreement_info_part3")}
               </span>
             </span>
           </InfoBlock>
@@ -115,8 +112,8 @@ const LegalAgreement = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Legal agreement"
-              buttonText="Save"
+              titleText={t("Legal agreement")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
             />
@@ -129,7 +126,7 @@ const LegalAgreement = ({ challengeId }) => {
               onChange={(value) => {
                 changeLegalAgreement(value);
               }}
-              description="The legal agreement that applies to this challenge."
+              description={t("legal_agreement__description")}
             />
           </Col>
         </Row>

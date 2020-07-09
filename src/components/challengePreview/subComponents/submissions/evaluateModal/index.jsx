@@ -4,6 +4,7 @@ import { Input, TextArea, PrimaryButton } from "../../../../common";
 import { MainContainer } from "./style";
 
 const EvaluateModal = ({
+  t,
   show,
   setShow,
   selectedRow,
@@ -92,9 +93,9 @@ const EvaluateModal = ({
                                   type="number"
                                   label={
                                     <span className="label-bold">
-                                      Overall Weight{" "}
+                                      {t("Overall Weight")}{" "}
                                       <span className="label-regular">
-                                        Out of {each.weight}
+                                        {t("Out of")} {each.weight}
                                       </span>
                                     </span>
                                   }
@@ -111,7 +112,7 @@ const EvaluateModal = ({
                                 <TextArea
                                   label={
                                     <span className="label-bold">
-                                      Description
+                                      {t("Description")}
                                     </span>
                                   }
                                   rows="2"
@@ -136,7 +137,7 @@ const EvaluateModal = ({
                       <div className="save-button">
                         <PrimaryButton
                           variant="secondary"
-                          text={"Save Draft"}
+                          text={t("Save Draft")}
                           type="submit"
                           onClick={() => {
                             const record = data.find(
@@ -152,7 +153,7 @@ const EvaluateModal = ({
                       <div className="submit-button">
                         <PrimaryButton
                           variant="primary"
-                          text={"Submit Evaluation"}
+                          text={t("Submit Evaluation")}
                           type="submit"
                           onClick={() => {
                             const record = data.find(

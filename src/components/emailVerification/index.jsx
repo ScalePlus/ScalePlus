@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmailAction, resendVerificationAction } from "./action";
 import { getUser } from "../signin/action";
 import { MainContainer } from "./style";
 import { Title, Input, PrimaryButton, Loading } from "../common";
-import { Constants } from "../../lib/constant";
 
 const EmailVerification = ({ history, mode, setActiveModal, match }) => {
+  const { t } = useTranslation();
   const userId = localStorage.getItem("userId")
     ? localStorage.getItem("userId")
     : match.params.id;
@@ -102,8 +103,8 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                   isVerified
                     ? // localStorage.getItem("userRole") +
                       //   " " +
-                      `Account Verified`
-                    : "Verification"
+                      t("Account Verified")
+                    : t("Verification")
                 }
                 icon={false}
               />
@@ -185,7 +186,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                         <Col>
                           {!first || !second || !third || !forth ? (
                             <Form.Text className="invalid-text text-center">
-                              {Constants.Errors.verificationCode}
+                              {t("verificationCode_error")}
                             </Form.Text>
                           ) : null}
                         </Col>
@@ -205,22 +206,16 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                 {isVerified ? (
                   <Col>
                     <div className="thanks-text">
-                      <span>Thank you for verifying your email,</span>
+                      <span>{t("Thank_you_text")}</span>
                     </div>
                     <div>
-                      <span>
-                        you can login to manage your account in order to be able
-                        to create challenges
-                      </span>
+                      <span>{t("login_text")}</span>
                     </div>
                   </Col>
                 ) : (
                   <Col>
                     <div>
-                      <span>
-                        Please enter the verification code that was sent to your
-                        email address.
-                      </span>
+                      <span>{t("verification_text")}</span>
                     </div>
                     <div>
                       <span>
@@ -233,7 +228,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                         className="resend-link"
                         onClick={resendVerificationMethod}
                       >
-                        Resend Email
+                        {t("Resend Email")}
                       </span>
                     </div>
                   </Col>
@@ -248,7 +243,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                   <Col>
                     <PrimaryButton
                       variant="primary"
-                      text="Login"
+                      text={t("Login")}
                       onClick={() => {
                         if (mode === "modal") {
                           setActiveModal("SignIn");
@@ -262,7 +257,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                   <Col>
                     <PrimaryButton
                       variant="primary"
-                      text="Verify"
+                      text={t("Verify")}
                       type="submit"
                     ></PrimaryButton>
                   </Col>
@@ -274,7 +269,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                 <Col>
                   <PrimaryButton
                     variant="light"
-                    text="Have an account? Login"
+                    text={t("Have an account? Login")}
                     onClick={() => {
                       if (mode === "modal") {
                         setActiveModal("SignIn");

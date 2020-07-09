@@ -8,6 +8,7 @@ import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
 const OverView = ({
+  t,
   challengeData,
   is_organisation,
   organisationTeamMember,
@@ -103,7 +104,7 @@ const OverView = ({
                 <div className="bottom-container">
                   <div className="stage-container">
                     <div className="title-text">
-                      <span>Stage:</span>
+                      <span>{t("Stage")}:</span>
                     </div>
                     <div className="sub-text">
                       <span>Pre registration</span>
@@ -111,7 +112,7 @@ const OverView = ({
                   </div>
                   <div className="prize-container">
                     <div className="title-text">
-                      <span>Prize:</span>
+                      <span>{t("Prize")}:</span>
                     </div>
                     <div className="sub-text">
                       <span>
@@ -128,14 +129,14 @@ const OverView = ({
                       variant={submissionClosed ? "secondary" : "primary"}
                       text={
                         is_mentor_judge && !memberAsJudge
-                          ? "Judge this Challenge"
+                          ? t("Judge this Challenge")
                           : (is_startup_Individual &&
                               !memberAsParticipant &&
                               !organisationTeamMember) ||
                             !is_logged_in
                           ? submissionClosed
-                            ? "Submission Closed"
-                            : "Solve Challenge"
+                            ? t("Submission Closed")
+                            : t("Solve Challenge")
                           : null
                       }
                       onClick={() => {
@@ -177,15 +178,15 @@ const OverView = ({
             challengeData &&
             !challengeData.isPublished ? (
               <HeaderComponent
-                titleText="Challenge Overview"
-                buttonText="Edit Overview"
+                titleText={t("Challenge Overview")}
+                buttonText={t("Edit Overview")}
                 buttonVariant="info"
                 buttonClick={() => {
                   history.push(`/challenge/${challengeData._id}/edit/Overview`);
                 }}
               />
             ) : (
-              <HeaderComponent titleText="Challenge Overview" />
+              <HeaderComponent titleText={t("Challenge Overview")} />
             )}
           </Col>
         </Row>
@@ -218,14 +219,14 @@ const OverView = ({
                 variant={submissionClosed ? "secondary" : "primary"}
                 text={
                   is_mentor_judge && !memberAsJudge
-                    ? "Judge this Challenge"
+                    ? t("Judge this Challenge")
                     : (is_startup_Individual &&
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
                       !is_logged_in
                     ? submissionClosed
-                      ? "Submission Closed"
-                      : "Solve Challenge"
+                      ? t("Submission Closed")
+                      : t("Solve Challenge")
                     : null
                 }
                 onClick={() => {

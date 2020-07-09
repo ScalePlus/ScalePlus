@@ -8,7 +8,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 
-const Overview = ({ challengeId }) => {
+const Overview = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachOverviewMethod = (data) =>
     dispatch(attachOverviewAction(data, challengeId));
@@ -62,11 +62,7 @@ const Overview = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Use this section to describe what your challenge is about, why it
-              is important, and what breakthrough you want to achieve. You may
-              include images and videos
-            </span>
+            <span>{t("Overview_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -111,8 +107,8 @@ const Overview = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Overview"
-              buttonText="Save"
+              titleText={t("Overview")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
             />
@@ -121,7 +117,7 @@ const Overview = ({ challengeId }) => {
         <Row>
           <Col>
             <EditorInput
-              description="The overview provides the full description of the challenge."
+              description={t("Overview_editor_description")}
               value={overview}
               onChange={(value) => {
                 changeOverview(value);

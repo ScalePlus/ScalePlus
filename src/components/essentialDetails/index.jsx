@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEssentialDetailsAction, preserveDataAction } from "./action";
@@ -13,16 +14,9 @@ import {
   Loading,
 } from "../common";
 import { Constants } from "../../lib/constant";
-const coreBusinessTabs = ["Software", "Physical Products", "Consulting"],
-  marketStageTabs = [
-    "Idea",
-    "Prototype",
-    "Ready For Market",
-    "Product Released",
-  ],
-  fundingTabs = ["Consulting", "Ext. Investment", "Revenue"];
 
 const EssentialDetail = ({ history }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const updateEssentialDetailsMethod = (data) =>
     dispatch(updateEssentialDetailsAction(data));
@@ -35,6 +29,22 @@ const EssentialDetail = ({ history }) => {
     return state.signinReducer;
   });
 
+  const coreBusinessTabs = [
+      { label: t("Software"), value: "Software" },
+      { label: t("Physical Products"), value: "Physical Products" },
+      { label: t("Consulting"), value: "Consulting" },
+    ],
+    marketStageTabs = [
+      { label: t("Idea"), value: "Idea" },
+      { label: t("Prototype"), value: "Prototype" },
+      { label: t("Ready For Market"), value: "Ready For Market" },
+      { label: t("Product Released"), value: "Product Released" },
+    ],
+    fundingTabs = [
+      { label: t("Consulting"), value: "Consulting" },
+      { label: t("Ext_Investment"), value: "Ext. Investment" },
+      { label: t("Revenue"), value: "Revenue" },
+    ];
   const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
     is_organisation =
@@ -137,7 +147,7 @@ const EssentialDetail = ({ history }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Essential Detail"} icon={true}></Title>
+              <Title text={t("Essential Detail")} icon={true}></Title>
             </Col>
           </Row>
 
@@ -160,9 +170,9 @@ const EssentialDetail = ({ history }) => {
                   rows="12"
                   placeholder={
                     is_startup_Individual || is_organisation
-                      ? "Company Description"
+                      ? t("Company Description")
                       : is_mentor_judge
-                      ? "Summary"
+                      ? t("Summary")
                       : ""
                   }
                   value={textAreaValue}
@@ -173,8 +183,8 @@ const EssentialDetail = ({ history }) => {
                   required
                   errorMessage={
                     is_startup_Individual || is_organisation
-                      ? Constants.Errors.companyDesciption
-                      : Constants.Errors.summary
+                      ? t("companyDesciption_error")
+                      : t("summary_error")
                   }
                 />
               </Col>
@@ -182,7 +192,7 @@ const EssentialDetail = ({ history }) => {
 
             <Row className="tab-title">
               <Col>
-                <span>Core Business</span>
+                <span>{t("Core Business")}</span>
               </Col>
             </Row>
             <Row className="tab-container">
@@ -195,10 +205,13 @@ const EssentialDetail = ({ history }) => {
                     sm={6}
                     xs={12}
                     onClick={() => {
-                      selectCoreBusiness(each);
+                      selectCoreBusiness(each.value);
                     }}
                   >
-                    <Tab text={each} isActive={each === coreBusiness} />
+                    <Tab
+                      text={each.label}
+                      isActive={each.value === coreBusiness}
+                    />
                   </Col>
                 );
               })}
@@ -208,7 +221,7 @@ const EssentialDetail = ({ history }) => {
                     className="invalid-text"
                     style={{ marginTop: -10, marginBottom: 15 }}
                   >
-                    {Constants.Errors.coreBusiness}
+                    {t("coreBusiness_error")}
                   </Form.Text>
                 )}
               </Col>
@@ -218,9 +231,9 @@ const EssentialDetail = ({ history }) => {
               <Col>
                 <span>
                   {is_startup_Individual || is_organisation
-                    ? "Market Stage"
+                    ? t("Market Stage")
                     : is_mentor_judge
-                    ? "Expertise"
+                    ? t("Expertise")
                     : ""}
                 </span>
               </Col>
@@ -235,10 +248,13 @@ const EssentialDetail = ({ history }) => {
                     sm={6}
                     xs={12}
                     onClick={() => {
-                      selectMarketStage(each);
+                      selectMarketStage(each.value);
                     }}
                   >
-                    <Tab text={each} isActive={each === marketStage} />
+                    <Tab
+                      text={each.label}
+                      isActive={each.value === marketStage}
+                    />
                   </Col>
                 );
               })}
@@ -249,8 +265,8 @@ const EssentialDetail = ({ history }) => {
                     style={{ marginTop: -10, marginBottom: 15 }}
                   >
                     {is_mentor_judge
-                      ? Constants.Errors.expertise
-                      : Constants.Errors.marketStage}
+                      ? t("expertise_error")
+                      : t("marketStage_error")}
                   </Form.Text>
                 )}
               </Col>
@@ -260,7 +276,7 @@ const EssentialDetail = ({ history }) => {
               <>
                 <Row className="tab-title">
                   <Col>
-                    <span>Funding</span>
+                    <span>{t("Funding")}</span>
                   </Col>
                 </Row>
                 <Row className="tab-container">
@@ -273,10 +289,13 @@ const EssentialDetail = ({ history }) => {
                         sm={6}
                         xs={12}
                         onClick={() => {
-                          selectFunding(each);
+                          selectFunding(each.value);
                         }}
                       >
-                        <Tab text={each} isActive={each === funding} />
+                        <Tab
+                          text={each.label}
+                          isActive={each.value === funding}
+                        />
                       </Col>
                     );
                   })}
@@ -286,7 +305,7 @@ const EssentialDetail = ({ history }) => {
                         className="invalid-text"
                         style={{ marginTop: -10, marginBottom: 15 }}
                       >
-                        {Constants.Errors.funding}
+                        {t("funding_error")}
                       </Form.Text>
                     )}
                   </Col>
@@ -298,7 +317,7 @@ const EssentialDetail = ({ history }) => {
               <Col>
                 <div className="button-container">
                   <BackButton
-                    text={"Back"}
+                    text={t("Back")}
                     onClick={() => {
                       if (is_startup_Individual || is_organisation) {
                         if (
@@ -330,11 +349,11 @@ const EssentialDetail = ({ history }) => {
                   <IconButton
                     text={
                       is_startup_Individual
-                        ? "Add Members"
+                        ? t("Add Members")
                         : is_organisation
-                        ? "Create My Account"
+                        ? t("Create My Account")
                         : is_mentor_judge
-                        ? "Join"
+                        ? t("Join")
                         : ""
                     }
                     type="submit"

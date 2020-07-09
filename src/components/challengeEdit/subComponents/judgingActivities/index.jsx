@@ -8,7 +8,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { InfoBlock } from "../common";
 import { MainContainer } from "./style";
 
-const JudgingActivities = ({ challengeId }) => {
+const JudgingActivities = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachJudgingActivitiesMethod = (data) =>
     dispatch(attachJudgingActivitiesAction(data, challengeId));
@@ -61,6 +61,14 @@ const JudgingActivities = ({ challengeId }) => {
     <MainContainer>
       {(challengeJudgingActivitiesReducer.loading ||
         challengeReducer.loading) && <Loading />}
+      <Row style={{ marginBottom: 30 }}>
+        <Col>
+          <InfoBlock>
+            <span>{t("Judging_activities_info_text")}</span>
+          </InfoBlock>
+        </Col>
+      </Row>
+
       {validated &&
       challengeJudgingActivitiesReducer &&
       challengeJudgingActivitiesReducer.success &&
@@ -84,16 +92,7 @@ const JudgingActivities = ({ challengeId }) => {
           </Col>
         </Row>
       ) : null}
-      <Row style={{ marginBottom: 30 }}>
-        <Col>
-          <InfoBlock>
-            <span>
-              Here is a list of all the Judging Activities and Projected Dates
-              when they take place.
-            </span>
-          </InfoBlock>
-        </Col>
-      </Row>
+
       <Form
         noValidate
         validated={validated}
@@ -113,11 +112,11 @@ const JudgingActivities = ({ challengeId }) => {
         <Row style={{ marginBottom: 30 }}>
           <Col>
             <HeaderComponent
-              titleText="Judging activities"
-              buttonText="Save"
+              titleText={t("Judging activities")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {

@@ -24,7 +24,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const JudgingCriteria = ({ challengeId }) => {
+const JudgingCriteria = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachJudgingCriteriaMethod = (data) =>
     dispatch(attachJudgingCriteriaAction(data, challengeId));
@@ -104,11 +104,7 @@ const JudgingCriteria = ({ challengeId }) => {
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
-            <span>
-              Enter each criteria for judging, its maximum score and its
-              description here. Your judges will use these criteria to score the
-              submissions.
-            </span>
+            <span>{t("Judging_criteria_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -144,7 +140,7 @@ const JudgingCriteria = ({ challengeId }) => {
           const form = event.currentTarget;
           if (form.checkValidity() && ratingType) {
             if (totalWeight !== 100) {
-              alert("Total weight should be 100.");
+              alert(t("over_weight_info"));
             } else {
               attachJudgingCriteriaMethod({
                 judgingCriteria,
@@ -158,11 +154,11 @@ const JudgingCriteria = ({ challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
-              titleText="Judging criteria"
-              buttonText="Save"
+              titleText={t("Judging criteria")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -184,7 +180,7 @@ const JudgingCriteria = ({ challengeId }) => {
             <DropDown
               isSmall={true}
               isSelectOnly={true}
-              label="Rating Type *"
+              label={t("Rating Type") + " *"}
               placeholder=""
               options={
                 challengeJudgingCriteriaReducer.ratingTypes.result &&
@@ -207,7 +203,7 @@ const JudgingCriteria = ({ challengeId }) => {
           <Col lg={6} md={6} sm={12} xs={12}>
             <Input
               type="number"
-              label="Total Weight"
+              label={t("Total Weight")}
               value={totalWeight}
               readOnly
             />
@@ -248,7 +244,7 @@ const JudgingCriteria = ({ challengeId }) => {
                                       <Input
                                         required
                                         type="text"
-                                        label="Section Title *"
+                                        label={t("Section Title") + " *"}
                                         value={each.title}
                                         onChange={(e) => {
                                           let newArr = [...judgingCriteria];
@@ -262,7 +258,7 @@ const JudgingCriteria = ({ challengeId }) => {
                                       <Input
                                         required
                                         type="number"
-                                        label="Overall Weight *"
+                                        label={t("Overall Weight") + " *"}
                                         value={each.weight}
                                         onChange={(e) => {
                                           let newArr = [...judgingCriteria];
@@ -276,7 +272,7 @@ const JudgingCriteria = ({ challengeId }) => {
                                   <Row>
                                     <Col>
                                       <TextArea
-                                        label="Description"
+                                        label={t("Description")}
                                         rows="2"
                                         value={each.description}
                                         onChange={(e) => {

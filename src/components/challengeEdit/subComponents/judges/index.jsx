@@ -8,7 +8,7 @@ import { InfoBlock } from "../common";
 import { Switch, CommonTable, RemoveButton, Loading } from "../../../common";
 import InviteModal from "./inviteModal";
 
-const Judges = ({ challengeId }) => {
+const Judges = ({ t, challengeId }) => {
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
   });
@@ -34,8 +34,8 @@ const Judges = ({ challengeId }) => {
         <Col>
           <InfoBlock>
             <span>
-              View our <span className="bold-text">screen-cast here</span> on
-              the purpose of the Judges section and how to use it.
+              {/* <span className="bold-text">screen-cast here</span> */}
+              {t("Judges_info_text")}
             </span>
           </InfoBlock>
         </Col>
@@ -44,8 +44,8 @@ const Judges = ({ challengeId }) => {
       <Row style={{ marginBottom: 25 }}>
         <Col>
           <HeaderComponent
-            titleText="Judges"
-            buttonText="Invite"
+            titleText={t("Judges")}
+            buttonText={t("Invite")}
             buttonVariant="info"
             buttonClick={() => {
               setShow(true);
@@ -62,7 +62,7 @@ const Judges = ({ challengeId }) => {
                 setCheck(!check);
               }}
               variant="primary"
-              label="Enable Judges tab"
+              label={t("Enable Judges tab")}
             ></Switch>
           </Col>
         </Row>
@@ -81,7 +81,7 @@ const Judges = ({ challengeId }) => {
                   },
                 },
                 {
-                  Header: "Name",
+                  Header: t("Name"),
                   accessor: "userId",
                   width: "40%",
                   Cell: (data) => {
@@ -93,7 +93,7 @@ const Judges = ({ challengeId }) => {
                   },
                 },
                 {
-                  Header: "Email",
+                  Header: t("Email"),
                   accessor: "userId",
                   width: "40%",
                   Cell: (data) => {
@@ -101,7 +101,7 @@ const Judges = ({ challengeId }) => {
                   },
                 },
                 {
-                  Header: "Status",
+                  Header: t("Status"),
                   accessor: "status",
                   width: "22%",
                   Cell: (data) => {
@@ -133,7 +133,12 @@ const Judges = ({ challengeId }) => {
         </Row>
       ) : null}
 
-      <InviteModal show={show} setShow={setShow} challengeId={challengeId} />
+      <InviteModal
+        t={t}
+        show={show}
+        setShow={setShow}
+        challengeId={challengeId}
+      />
     </MainContainer>
   );
 };

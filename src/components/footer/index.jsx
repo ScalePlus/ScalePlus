@@ -15,7 +15,7 @@ import history from "../../history";
 //   "/images/Al-Futtaim_Group_DL_logo.svg",
 // ];
 
-const Footer = () => {
+const Footer = ({ t }) => {
   const dispatch = useDispatch();
   const doSubscriptionMethod = useCallback(
     (data, changeSubscribed, setEmail) =>
@@ -71,15 +71,12 @@ const Footer = () => {
           ) : null}
           <div className="content-container">
             <div className="text">
-              <span>
-                Be the first to know when crowdsourcing projects like this are
-                posted.
-              </span>
+              <span>{t("footer_subscription_title")}</span>
             </div>
             <div className="form-container">
               <Input
                 type="email"
-                placeholder="Your email address"
+                placeholder={t("Your email address")}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -87,7 +84,7 @@ const Footer = () => {
               />
               <PrimaryButton
                 variant="light"
-                text={"Subscribe"}
+                text={t("Subscribe")}
                 onClick={() => {
                   doSubscriptionMethod({ email }, null, setEmail);
                 }}
@@ -129,32 +126,32 @@ const Footer = () => {
               <div className="links-container">
                 <div>
                   <div className="link">
-                    <Link to="/workflow">How It Works</Link>
+                    <Link to="/workflow">{t("How It Works")}</Link>
                   </div>
                   <div className="link">
-                    <Link to="/">Careers</Link>
+                    <Link to="/">{t("Careers")}</Link>
                   </div>
                   <div className="link">
-                    <Link to="/">Contact Us</Link>
-                  </div>
-                </div>
-                <div>
-                  <div className="link">
-                    <Link to="/">Organizations Involved</Link>
-                  </div>
-                  <div className="link">
-                    <Link to="/">Challenge Ideas</Link>
-                  </div>
-                  <div className="link">
-                    <Link to="/">Events & Webinars</Link>
+                    <Link to="/">{t("Contact Us")}</Link>
                   </div>
                 </div>
                 <div>
                   <div className="link">
-                    <Link to="/">Pricing</Link>
+                    <Link to="/">{t("Organizations Involved")}</Link>
                   </div>
                   <div className="link">
-                    <Link to="/">Partnerships</Link>
+                    <Link to="/">{t("Challenge Ideas")}</Link>
+                  </div>
+                  <div className="link">
+                    <Link to="/">{t("Events & Webinars")}</Link>
+                  </div>
+                </div>
+                <div>
+                  <div className="link">
+                    <Link to="/">{t("Pricing")}</Link>
+                  </div>
+                  <div className="link">
+                    <Link to="/">{t("Partnerships")}</Link>
                   </div>
                 </div>
               </div>
@@ -166,10 +163,10 @@ const Footer = () => {
         <Col>
           <div className="sub-links-container">
             <div className="link">
-              <Link to="/">Privacy Policy</Link>
+              <Link to="/">{t("Privacy Policy")}</Link>
             </div>
             <div className="link">
-              <Link to="/">Cookies Policy</Link>
+              <Link to="/">{t("Cookies Policy")}</Link>
             </div>
           </div>
         </Col>
@@ -178,7 +175,7 @@ const Footer = () => {
         <Col>
           <div className="social-links-container">
             <div className="link">
-              <Link to="/">@Scaleplus</Link>
+              <Link to="/">{t("@Scaleplus")}</Link>
             </div>
             <div className="links">
               <div className="circle-container">

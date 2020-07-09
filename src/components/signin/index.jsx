@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Cookies from "universal-cookie";
 // import GoogleLogin from "react-google-login";
 import { Form, Row, Col, Alert } from "react-bootstrap";
@@ -16,12 +17,13 @@ import {
   CheckBox,
 } from "../common";
 import { MainContainer } from "./style";
-import { Constants } from "../../lib/constant";
+// import { Constants } from "../../lib/constant";
 import theme from "../../theme";
 // let popup;
 const cookies = new Cookies();
 
 const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const signinMethod = (data) =>
     dispatch(signinAction(data, mode, setActiveModal, setUserFlowModal));
@@ -104,7 +106,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
         >
           <Row className="title-container">
             <Col>
-              <Title text={"Login"} icon={false}></Title>
+              <Title text={t("Login")} icon={false}></Title>
             </Col>
           </Row>
           <div className="content-container">
@@ -130,7 +132,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                       </g>
                     </svg>
                   }
-                  text="Sign in with Google"
+                  text={t("Sign in with Google")}
                   background={"#dd4b39"}
                   border={"#b23c2e"}
                 />
@@ -151,7 +153,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               <div className="linkedin-button">
                 <SocialLoginButton
                   icon="/images/linkedin.svg"
-                  text="Sign in with Linkedin"
+                  text={t("Sign in with Linkedin")}
                   background={"#007bb6"}
                   border={"#006b9f"}
                   // onClick={() => {
@@ -172,7 +174,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               </div>
             </div>
             <div className="devided-container">
-              <OrDevider />
+              <OrDevider t={t} />
             </div>
             <Form
               noValidate
@@ -192,26 +194,24 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                 <Col>
                   <Input
                     type="email"
-                    placeholder="Enter email"
+                    placeholder={t("Enter email")}
                     value={email}
                     onChange={(e) => {
                       changeEmail(e.target.value);
                     }}
                     required
                     errorMessage={
-                      email
-                        ? Constants.Errors.invalid_email
-                        : Constants.Errors.email
+                      email ? t("invalid_email_error") : t("email_error")
                     }
                   />
                   <PassInput
-                    placeholder="Password"
+                    placeholder={t("Password")}
                     value={password}
                     onChange={(e) => {
                       changePassword(e.target.value);
                     }}
                     required
-                    errorMessage={Constants.Errors.password}
+                    errorMessage={t("password_error")}
                   />
 
                   <div
@@ -220,7 +220,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                       history.push("/reset/password");
                     }}
                   >
-                    Reset Password
+                    {t("Reset Password")}
                   </div>
                 </Col>
               </Row>
@@ -230,7 +230,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                   <div className="remember-container">
                     <CheckBox
                       id={`checkbox-1`}
-                      checkBoxText="Remember me"
+                      checkBoxText={t("Remember me")}
                       checked={check}
                       onChange={() => {
                         if (!check) {
@@ -251,7 +251,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text="Login"
+                    text={t("Login")}
                     type="submit"
                   ></PrimaryButton>
                 </Col>
@@ -261,7 +261,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               <Col>
                 <PrimaryButton
                   variant="light"
-                  text="New User? Register"
+                  text={t("New User? Register")}
                   onClick={() => {
                     if (mode === "modal") {
                       setActiveModal("SignUp");

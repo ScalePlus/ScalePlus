@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { doSubscriptionAction } from "../../action";
@@ -6,6 +7,7 @@ import { Input, PrimaryButton } from "../../../common";
 import { HeaderContainer, ContentContainer } from "./style";
 
 const Subscribe = ({ show, setShow }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const doSubscriptionMethod = useCallback(
     (data, changeSubscribed, setEmail) =>
@@ -54,7 +56,7 @@ const Subscribe = ({ show, setShow }) => {
     >
       <Modal.Header>
         <HeaderContainer>
-          <span>Subscribe to Newsletter</span>
+          <span>{t("Subscribe to Newsletter")}</span>
         </HeaderContainer>
       </Modal.Header>
       <Modal.Body>
@@ -77,7 +79,7 @@ const Subscribe = ({ show, setShow }) => {
                   <Row>
                     <Col>
                       <div className="subscribed-text">
-                        <span>Successfully Subscribed</span>
+                        <span>{t("Successfully Subscribed")}</span>
                       </div>
                     </Col>
                   </Row>
@@ -88,7 +90,7 @@ const Subscribe = ({ show, setShow }) => {
                     <Col>
                       <Input
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={t("Enter your email")}
                         value={email}
                         onChange={(e) => {
                           setEmail(e.target.value);
@@ -99,8 +101,9 @@ const Subscribe = ({ show, setShow }) => {
                   <Row>
                     <Col>
                       <span className="help-text">
-                        Scale+ respect your privacy, we will never share your
-                        details with anyone
+                        {t(
+                          "Scale+ respect your privacy, we will never share your details with anyone"
+                        )}
                       </span>
                     </Col>
                   </Row>
@@ -110,7 +113,7 @@ const Subscribe = ({ show, setShow }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={subscribed ? "close" : "Subscribe"}
+                    text={subscribed ? t("Close") : t("Subscribe")}
                     disabled={!email && !subscribed}
                     onClick={() => {
                       if (subscribed) {

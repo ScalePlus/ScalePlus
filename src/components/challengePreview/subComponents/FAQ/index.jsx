@@ -5,7 +5,7 @@ import { MainContainer } from "./style";
 import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
-const FAQ = ({ is_organisation, organisationTeamMember, challengeData }) => {
+const FAQ = ({ t, is_organisation, organisationTeamMember, challengeData }) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -17,15 +17,15 @@ const FAQ = ({ is_organisation, organisationTeamMember, challengeData }) => {
           challengeData &&
           !challengeData.isPublished ? (
             <HeaderComponent
-              titleText="Frequently Asked Questions"
-              buttonText="Add New"
+              titleText={t("Frequently Asked Questions")}
+              buttonText={t("Add New")}
               buttonVariant="info"
               buttonClick={() => {
                 history.push(`/challenge/${challengeData._id}/edit/FAQ`);
               }}
             />
           ) : (
-            <HeaderComponent titleText="Frequently Asked Questions" />
+            <HeaderComponent titleText={t("Frequently Asked Questions")} />
           )}
         </Col>
       </Row>

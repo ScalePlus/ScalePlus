@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 // import GoogleLogin from "react-google-login";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,23 +23,10 @@ import {
 } from "../common";
 import { Constants } from "../../lib/constant";
 import theme from "../../theme";
-const tabs = [
-  {
-    text: Constants.ROLES.STARTUP_INDIVIDUAL,
-    subText: "Create Solutions",
-  },
-  {
-    text: Constants.ROLES.ORGANIZATION,
-    subText: "Face Challenges",
-  },
-  {
-    text: Constants.ROLES.MENTOR_JUDGE,
-    subText: "Bring Experience",
-  },
-];
 // let popup;
 
 const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const signupMethod = (data) =>
     dispatch(signupAction(data, mode, setActiveModal, setUserFlowModal));
@@ -54,6 +42,23 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
     return state.signupReducer;
   });
 
+  const tabs = [
+    {
+      role: Constants.ROLES.STARTUP_INDIVIDUAL,
+      mainText: t("STARTUP_INDIVIDUAL_MAIN_TEXT"),
+      subText: t("STARTUP_INDIVIDUAL_SUB_TEXT"),
+    },
+    {
+      role: Constants.ROLES.ORGANIZATION,
+      mainText: t("ORGANIZATION_MAIN_TEXT"),
+      subText: t("ORGANIZATION_SUB_TEXT"),
+    },
+    {
+      role: Constants.ROLES.MENTOR_JUDGE,
+      mainText: t("MENTOR_JUDGE_MAIN_TEXT"),
+      subText: t("MENTOR_JUDGE_SUB_TEXT"),
+    },
+  ];
   const [activeTab, setActiveTab] = useState(
     localStorage.getItem("userRole")
       ? localStorage.getItem("userRole")
@@ -91,7 +96,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
     const form = event.currentTarget;
 
     if (!localStorage.getItem("userRole")) {
-      setErrors([Constants.Errors.role]);
+      setErrors([t("role_error")]);
       setValidated(true);
     }
 
@@ -149,13 +154,13 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
         >
           <Row className="title-container">
             <Col>
-              <Title text={"Sign up"} icon={false}></Title>
+              <Title text={t("Sign up")} icon={false}></Title>
             </Col>
           </Row>
           <div className="content-container">
             <Row className="description-container">
               <Col>
-                <Description>Choose what describe you best</Description>
+                <Description>{t("Choose what describe you best")}</Description>
               </Col>
             </Row>
 
@@ -169,14 +174,14 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                     sm={6}
                     xs={12}
                     onClick={() => {
-                      localStorage.setItem("userRole", each.text);
-                      setActiveTab(each.text);
+                      localStorage.setItem("userRole", each.role);
+                      setActiveTab(each.role);
                     }}
                   >
                     <Tab
-                      text={each.text}
+                      text={each.mainText}
                       subText={each.subText}
-                      isActive={activeTab === each.text}
+                      isActive={activeTab === each.role}
                     />
                   </Col>
                 );
@@ -205,7 +210,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                       </g>
                     </svg>
                   }
-                  text="Sign up with Google"
+                  text={t("Sign up with Google")}
                   background={"#dd4b39"}
                   border={"#b23c2e"}
                 />
@@ -230,7 +235,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               <div className="linkedin-button">
                 <SocialLoginButton
                   icon="/images/linkedin.svg"
-                  text="Sign up with Linkedin"
+                  text={t("Sign up with Linkedin")}
                   background={"#007bb6"}
                   border={"#006b9f"}
                   // onClick={() => {
@@ -251,7 +256,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               </div>
             </div>
             <div className="devided-container">
-              <OrDevider />
+              <OrDevider t={t} />
             </div>
 
             <Form noValidate validated={validated} onSubmit={onSignup}>
@@ -266,40 +271,38 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                 <Col>
                   <Input
                     type="text"
-                    placeholder="First Name"
+                    placeholder={t("First Name")}
                     value={fname}
                     onChange={(e) => {
                       setFname(e.target.value);
                     }}
                     required
-                    errorMessage={Constants.Errors.fname}
+                    errorMessage={t("fname_error")}
                   />
                   <Input
                     type="text"
-                    placeholder="Last Name"
+                    placeholder={t("Last Name")}
                     value={lname}
                     onChange={(e) => {
                       setLname(e.target.value);
                     }}
                     required
-                    errorMessage={Constants.Errors.lname}
+                    errorMessage={t("lname_error")}
                   />
                   <Input
                     type="email"
-                    placeholder="youremail@website.com"
+                    placeholder={t("email_placeholder")}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
                     required
                     errorMessage={
-                      email
-                        ? Constants.Errors.invalid_email
-                        : Constants.Errors.email
+                      email ? t("invalid_email_error") : t("email_error")
                     }
                   ></Input>
                   <PassInput
-                    placeholder="Password"
+                    placeholder={t("Password")}
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -310,16 +313,12 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                     }
                     errorMessage={
                       password
-                        ? Constants.Errors.invalid_password
-                        : Constants.Errors.password
+                        ? t("invalid_password_error")
+                        : t("password_error")
                     }
                   ></PassInput>
                   <div className="password-feedback">
-                    <span>
-                      Your password must be at least 8 characters long and must
-                      contain a minimum of 1 letter, 1 number, and 1 special
-                      character.
-                    </span>
+                    <span>{t("Password_Message")}</span>
                   </div>
                 </Col>
               </Row>
@@ -331,9 +330,9 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                       id={`checkbox-1`}
                       checkBoxText={
                         <span>
-                          By signing up you agree to the{" "}
+                          {t("By signing up you agree to the")}{" "}
                           <span className="privacy-links">
-                            Terms of Use, Privacy Policy, Cookie Policy
+                            {t("Terms of Use, Privacy Policy, Cookie Policy")}
                           </span>
                         </span>
                       }
@@ -344,7 +343,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                     />
                     <CheckBox
                       id={`checkbox-2`}
-                      checkBoxText="Receive updates and news"
+                      checkBoxText={t("Receive updates and news")}
                       checked={check2}
                       onChange={() => {
                         setCheck2(!check2);
@@ -358,7 +357,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={"Next, Email Verification>"}
+                    text={t("Next, Email Verification>")}
                     type="submit"
                     disabled={!check1}
                   ></PrimaryButton>
@@ -370,7 +369,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
               <Col>
                 <PrimaryButton
                   variant="light"
-                  text="Have an account? Login"
+                  text={t("Have an account? Login")}
                   onClick={() => {
                     if (mode === "modal") {
                       setActiveModal("SignIn");

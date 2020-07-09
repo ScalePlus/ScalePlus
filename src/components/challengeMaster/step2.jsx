@@ -12,6 +12,7 @@ import { Form, Row, Col } from "react-bootstrap";
 import { Constants } from "../../lib/constant";
 
 const Step2 = ({
+  t,
   setActiveStep,
   title,
   setTitle,
@@ -35,18 +36,15 @@ const Step2 = ({
     <Row className="sub-container">
       <Col>
         <Row className="sub-title">
-          <Col>WHAT’S YOUR ELEVATOR PITCH?</Col>
+          <Col>{t("STEP2_title")}</Col>
         </Row>
         <Row className="title-container">
           <Col>
-            <PageTitle text="Challenge Overview" />
+            <PageTitle text={t("STEP2_pagetitle")} />
           </Col>
         </Row>
         <Row className="sub-title">
-          <Col>
-            Tell us your challenge name, category, description, and upload your
-            challenge visual.
-          </Col>
+          <Col>{t("STEP2_subtitle")}</Col>
         </Row>
         <Form
           noValidate
@@ -69,9 +67,9 @@ const Step2 = ({
             <Col>
               <Input
                 type="text"
-                label="Title *"
+                label={t("Title") + " *"}
                 required
-                errorMessage={Constants.Errors.title}
+                errorMessage={t("title_error")}
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
@@ -79,9 +77,9 @@ const Step2 = ({
               />
               <DropDown
                 isSmall={true}
-                label="Categories *"
+                label={t("Categories") + " *"}
                 placeholder=""
-                description="The categories help people use search criteria to find your challenge. Select no more than 3."
+                description={t("Categories_description")}
                 options={
                   challengeReducer.challengeCategories &&
                   challengeReducer.challengeCategories.length
@@ -97,14 +95,14 @@ const Step2 = ({
                 isInvalid={
                   !categories || (categories && categories.length === 0)
                 }
-                errorMessage={Constants.Errors.Categories}
+                errorMessage={t("Categories_error")}
               />
               <Input
                 type="number"
-                label="Prize *"
-                description="NOTE: The payment of the prize value is the responsibility of you, the sponsor, to pay out at time of winners announcement"
+                label={t("Prize") + " *"}
+                description={t("Prize_desscription")}
                 required
-                errorMessage={Constants.Errors.prize}
+                errorMessage={t("prize_error")}
                 value={prize}
                 onChange={(e) => {
                   setPrize(e.target.value);
@@ -112,16 +110,17 @@ const Step2 = ({
               />
               <TextArea
                 rows="4"
-                label="Short Description"
-                description="Describe the challenge in 140 characters or less. This will be displayed with the description on the Explore Page."
+                label={t("Short Description")}
+                description={t("Short_desscription")}
                 value={shortDescription}
                 onChange={(e) => {
                   setSortDescription(e.target.value);
                 }}
               />
               <BannerInput
-                label="Challenge Banner Image"
-                description="The image should illustrate your challenge. Recommended size is 1280 by 720"
+                t={t}
+                label={t("Challenge Banner Image")}
+                description={t("Banner_Image_desscription")}
                 value={bannerImage}
                 onChange={(e) => {
                   setBannerImage(e.target.files[0]);
@@ -129,33 +128,33 @@ const Step2 = ({
               />
               <Input
                 type="text"
-                label="Video URL"
-                description="You can include a video describing your challenge. You must have the rights to display the video. You can link from YouTube or Vimeo."
+                label={t("Video URL")}
+                description={t("video_url_description")}
                 value={videoURL}
                 onChange={(e) => {
                   setVideoURL(e.target.value);
                 }}
                 isInvalid={videoURL && !videoURL.match(Constants.isURL)}
-                errorMessage={Constants.Errors.invalid_videoURL}
+                errorMessage={t("invalid_videoURL_error")}
               />
             </Col>
           </Row>
           <Row className="right-content-container">
-            <Col>You can always edit this information later</Col>
+            <Col>{t("You can always edit this information later")}</Col>
           </Row>
           <Row className="button-container">
             <Col className="center-component">
               <PrimaryButton
                 variant="primary"
-                text={"Continue"}
+                text={t("Continue")}
                 type="submit"
               ></PrimaryButton>
             </Col>
           </Row>
           <Row className="bottom-container">
             <Col>
-              Need Help? or Looking for custom solution?{" "}
-              <span className="contact-link">Contact Us</span>
+              {t("Need_Help_Text")}{" "}
+              <span className="contact-link">{t("Contact Us")}</span>
             </Col>
           </Row>
         </Form>

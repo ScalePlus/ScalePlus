@@ -22,7 +22,7 @@ import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import theme from "../../../../theme";
 
-const Timeline = ({ challengeId }) => {
+const Timeline = ({ t, challengeId }) => {
   const dispatch = useDispatch();
   const attachTimelineMethod = (data) =>
     dispatch(attachTimelineAction(data, challengeId));
@@ -100,11 +100,8 @@ const Timeline = ({ challengeId }) => {
         loading) && <Loading />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
-          <InfoBlock buttonText="Click Here">
-            <span>
-              Thinking about extending your submission deadline? Check out our
-              guide and recommended next steps here.
-            </span>
+          <InfoBlock buttonText={t("Click Here")}>
+            <span>{t("Timeline_info_text")}</span>
           </InfoBlock>
         </Col>
       </Row>
@@ -179,11 +176,11 @@ const Timeline = ({ challengeId }) => {
         <Row style={{ marginBottom: 65 }}>
           <Col>
             <HeaderComponent
-              titleText="Timeline"
-              buttonText="Save"
+              titleText={t("Timeline")}
+              buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText="Add Item"
+              infoButtonText={t("Add Item")}
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
@@ -340,7 +337,7 @@ const Timeline = ({ challengeId }) => {
                             />
                           </div>
                           <div className="name">
-                            ADMIN | Attach required Forms/documents
+                            {t("ADMIN | Attach required Forms/documents")}
                           </div>
                           <div className="button-container">
                             <AddButton
@@ -375,10 +372,12 @@ const Timeline = ({ challengeId }) => {
                               <Row>
                                 <Col lg={6} md={12} sm={12} xs={12}>
                                   <div className="label-title-container">
-                                    <div className="title">Field Label</div>
+                                    <div className="title">
+                                      {t("Field Label")}
+                                    </div>
                                     <Input
                                       type="text"
-                                      placeholder="*Default value: File name"
+                                      placeholder={t("Default_value_File_name")}
                                       value={attach.label}
                                       onChange={(e) => {
                                         let newArr = [...timeline];
@@ -417,8 +416,8 @@ const Timeline = ({ challengeId }) => {
                                 >
                                   <div className="file-container">
                                     <FileInput
-                                      placeholder="file name……word"
-                                      prependButtonText="Browse"
+                                      placeholder={t("file name……word")}
+                                      prependButtonText={t("Browse")}
                                       value={attach.file}
                                       onChange={(e) => {
                                         let newArr = [...timeline];
@@ -534,15 +533,7 @@ const Timeline = ({ challengeId }) => {
       <Row>
         <Col className="bottom-block">
           <InfoBlock>
-            <span>
-              Adding a timeline to your challenge page not only allows visitors
-              to see your important dates, it enables your challenge to move
-              seamlessly from one stage to the next. For example, when you add
-              the Enter stage to your timeline, the Scale+ platform will
-              automatically change the buttons on your challenge page to begin
-              accepting registrations at the date and time you set. Start
-              building your timeline now by clicking the Add Event button.
-            </span>
+            <span>{t("Timeline_info_bottom_text")}</span>
           </InfoBlock>
         </Col>
       </Row>

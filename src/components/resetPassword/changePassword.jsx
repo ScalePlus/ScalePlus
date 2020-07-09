@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changePasswordAction } from "./action";
@@ -7,6 +8,7 @@ import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
 const ChangePassword = ({ match }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const changePasswordMethod = (data) => dispatch(changePasswordAction(data));
 
@@ -62,7 +64,7 @@ const ChangePassword = ({ match }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={"Change Password"} icon={false}></Title>
+              <Title text={t("Change Password")} icon={false}></Title>
             </Col>
           </Row>
           <div className="content-container">
@@ -78,7 +80,7 @@ const ChangePassword = ({ match }) => {
                 <Row>
                   <Col>
                     <PassInput
-                      placeholder="Password"
+                      placeholder={t("Password")}
                       value={password}
                       onChange={(e) => {
                         changePassword(e.target.value);
@@ -89,19 +91,15 @@ const ChangePassword = ({ match }) => {
                       }
                       errorMessage={
                         password
-                          ? Constants.Errors.invalid_password
-                          : Constants.Errors.password
+                          ? t("invalid_password_error")
+                          : t("password_error")
                       }
                     />
                     <div className="password-feedback">
-                      <span>
-                        Your password must be at least 8 characters long and
-                        must contain a minimum of 1 letter, 1 number, and 1
-                        special character.
-                      </span>
+                      <span>{t("Password_Message")}</span>
                     </div>
                     <PassInput
-                      placeholder="Confirm Password"
+                      placeholder={t("Confirm Password")}
                       value={confirmPassword}
                       onChange={(e) => {
                         changeConfirmPassword(e.target.value);
@@ -114,8 +112,8 @@ const ChangePassword = ({ match }) => {
                       }
                       errorMessage={
                         confirmPassword
-                          ? Constants.Errors.passwordMismatch
-                          : Constants.Errors.confirmPassword
+                          ? t("passwordMismatch_error")
+                          : t("confirmPassword_error")
                       }
                     />
                   </Col>
@@ -125,7 +123,7 @@ const ChangePassword = ({ match }) => {
                 <Col>
                   <PrimaryButton
                     variant="primary"
-                    text={"Change Password"}
+                    text={t("Change Password")}
                     type="submit"
                   ></PrimaryButton>
                 </Col>

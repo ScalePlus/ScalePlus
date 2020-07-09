@@ -1,6 +1,9 @@
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 export default {
-  isRTL: localStorage.getItem("language") === "ar",
-  isLTR: localStorage.getItem("language") !== "ar",
+  isRTL: cookies.get("language") === "ar",
+  isLTR: cookies.get("language") !== "ar",
   colors: {
     white: "#ffffff",
     black: "#000000",

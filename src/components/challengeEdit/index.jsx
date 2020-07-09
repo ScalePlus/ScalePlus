@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { Row, Col, Nav, Navbar, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,28 +31,37 @@ import Team from "./subComponents/team";
 import LegalAgreement from "./subComponents/legalAgreement";
 import Settings from "./subComponents/settings";
 import { MainContainer } from "./style";
-const challengeLinks = [
-  "Description",
-  "Overview",
-  "Timeline",
-  "FAQ",
-  "Resources",
-  "Guidelines",
-  "Updates",
-];
-
-const submissionLinks = ["Submission form", "Submissions"];
-
-const judgeLinks = [
-  "Judges",
-  "Judging criteria",
-  "Judging activities",
-  "Judges NDA",
-];
-
-const otherLinks = ["Team", "Legal agreement", "Settings"];
 
 const ChallengeEdit = ({ history, match }) => {
+  const { t } = useTranslation();
+  const challengeLinks = [
+    { label: t("Description"), value: "Description" },
+    { label: t("Overview"), value: "Overview" },
+    { label: t("Timeline"), value: "Timeline" },
+    { label: t("FAQ"), value: "FAQ" },
+    { label: t("Resources"), value: "Resources" },
+    { label: t("Guidelines"), value: "Guidelines" },
+    { label: t("Updates"), value: "Updates" },
+  ];
+
+  const submissionLinks = [
+    { label: t("Submission form"), value: "Submission form" },
+    { label: t("Submissions"), value: "Submissions" },
+  ];
+
+  const judgeLinks = [
+    { label: t("Judges"), value: "Judges" },
+    { label: t("Judging criteria"), value: "Judging criteria" },
+    { label: t("Judging activities"), value: "Judging activities" },
+    { label: t("Judges NDA"), value: "Judges NDA" },
+  ];
+
+  const otherLinks = [
+    { label: t("Team"), value: "Team" },
+    { label: t("Legal agreement"), value: "Legal agreement" },
+    { label: t("Settings"), value: "Settings" },
+  ];
+
   const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
       localStorage.getItem("token"),
@@ -207,22 +217,31 @@ const ChallengeEdit = ({ history, match }) => {
   }, [challengeReducer]);
 
   useEffect(() => {
-    if (match && match.params && match.params.tab) {
+    if (
+      match &&
+      match.params &&
+      match.params.tab &&
+      ((activeKey && activeKey.value !== match.params.tab) || !activeKey)
+    ) {
       let selectedChallengeTab = challengeLinks.find(
           (each) =>
-            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+            each.value.toLocaleLowerCase() ===
+            match.params.tab.toLocaleLowerCase()
         ),
         selectedSubmissionTab = submissionLinks.find(
           (each) =>
-            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+            each.value.toLocaleLowerCase() ===
+            match.params.tab.toLocaleLowerCase()
         ),
         selectedJudgeTab = judgeLinks.find(
           (each) =>
-            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+            each.value.toLocaleLowerCase() ===
+            match.params.tab.toLocaleLowerCase()
         ),
         selectedOtherTab = otherLinks.find(
           (each) =>
-            each.toLocaleLowerCase() === match.params.tab.toLocaleLowerCase()
+            each.value.toLocaleLowerCase() ===
+            match.params.tab.toLocaleLowerCase()
         );
       selectTab(
         selectedChallengeTab ||
@@ -231,7 +250,14 @@ const ChallengeEdit = ({ history, match }) => {
           selectedOtherTab
       );
     }
-  }, [match]);
+  }, [
+    match,
+    challengeLinks,
+    submissionLinks,
+    judgeLinks,
+    otherLinks,
+    activeKey,
+  ]);
 
   return challengeData &&
     (challengeData.isPublished ||
@@ -259,7 +285,7 @@ const ChallengeEdit = ({ history, match }) => {
       {challengeData && !challengeData.isPublished && (
         <Row style={{ marginBottom: 20 }}>
           <Col>
-            <WarningBlock />
+            <WarningBlock t={t} />
           </Col>
         </Row>
       )}
@@ -267,8 +293,8 @@ const ChallengeEdit = ({ history, match }) => {
       <Row className="justify-content-center" style={{ marginBottom: 35 }}>
         <Col lg={11} md={11} sm={11} xs={11}>
           <ChallengeHeader
-            primaryButtonText="Submit for review"
-            secondaryButtonText="Save Draft"
+            primaryButtonText={t("Submit for review")}
+            secondaryButtonText={t("Preview")}
             primaryButtonClick={() => {
               updateChallengeMethod({
                 _id: challengeId,
@@ -302,20 +328,25 @@ const ChallengeEdit = ({ history, match }) => {
                     <div className="custom-sidebar">
                       <div>
                         <div className="title">
-                          <span>Challenge page</span>
+                          <span>{t("Challenge page")}</span>
                         </div>
-                        <Nav activeKey={activeKey} className="flex-column">
+                        <Nav
+                          activeKey={activeKey && activeKey.value}
+                          className="flex-column"
+                        >
                           {challengeLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
                                   history.push(
-                                    `/challenge/${challengeId}/edit/${each}`
+                                    `/challenge/${challengeId}/edit/${each.value}`
                                   );
                                 }}
                               >
-                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
                               </Nav.Item>
                             );
                           })}
@@ -323,20 +354,25 @@ const ChallengeEdit = ({ history, match }) => {
                       </div>
                       <div style={{ marginTop: 20 }}>
                         <div className="title">
-                          <span>Submissions</span>
+                          <span>{t("Submissions")}</span>
                         </div>
-                        <Nav activeKey={activeKey} className="flex-column">
+                        <Nav
+                          activeKey={activeKey && activeKey.value}
+                          className="flex-column"
+                        >
                           {submissionLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
                                   history.push(
-                                    `/challenge/${challengeId}/edit/${each}`
+                                    `/challenge/${challengeId}/edit/${each.value}`
                                   );
                                 }}
                               >
-                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
                               </Nav.Item>
                             );
                           })}
@@ -344,20 +380,25 @@ const ChallengeEdit = ({ history, match }) => {
                       </div>
                       <div style={{ marginTop: 20 }}>
                         <div className="title">
-                          <span>Judging</span>
+                          <span>{t("Judging")}</span>
                         </div>
-                        <Nav activeKey={activeKey} className="flex-column">
+                        <Nav
+                          activeKey={activeKey && activeKey.value}
+                          className="flex-column"
+                        >
                           {judgeLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
                                   history.push(
-                                    `/challenge/${challengeId}/edit/${each}`
+                                    `/challenge/${challengeId}/edit/${each.value}`
                                   );
                                 }}
                               >
-                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
                               </Nav.Item>
                             );
                           })}
@@ -365,20 +406,25 @@ const ChallengeEdit = ({ history, match }) => {
                       </div>
                       <div style={{ margin: "20px 0px" }}>
                         <div className="title">
-                          <span>Other</span>
+                          <span>{t("Other")}</span>
                         </div>
-                        <Nav activeKey={activeKey} className="flex-column">
+                        <Nav
+                          activeKey={activeKey && activeKey.value}
+                          className="flex-column"
+                        >
                           {otherLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
                                 onClick={() => {
                                   history.push(
-                                    `/challenge/${challengeId}/edit/${each}`
+                                    `/challenge/${challengeId}/edit/${each.value}`
                                   );
                                 }}
                               >
-                                <Nav.Link eventKey={each}>{each}</Nav.Link>
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
                               </Nav.Item>
                             );
                           })}
@@ -391,60 +437,69 @@ const ChallengeEdit = ({ history, match }) => {
               <div className="button-container">
                 <PrimaryButton
                   variant="primary"
-                  text={"Need Help?"}
+                  text={t("Need_Help")}
                   onClick={() => {}}
                 ></PrimaryButton>
               </div>
             </Col>
             <Col lg={9} md={8} sm={12} xs={12}>
               <div className="content-container">
-                {activeKey === "Description" && (
-                  <Description challengeId={challengeId} />
+                {activeKey && activeKey.value === "Description" && (
+                  <Description t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Overview" && (
-                  <Overview challengeId={challengeId} />
+                {activeKey && activeKey.value === "Overview" && (
+                  <Overview t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Timeline" && (
-                  <Timeline challengeId={challengeId} />
+                {activeKey && activeKey.value === "Timeline" && (
+                  <Timeline t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "FAQ" && <FAQ challengeId={challengeId} />}
-                {activeKey === "Resources" && (
-                  <Resources challengeId={challengeId} />
+                {activeKey && activeKey.value === "FAQ" && (
+                  <FAQ t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Guidelines" && (
-                  <Guidelines challengeId={challengeId} />
+                {activeKey && activeKey.value === "Resources" && (
+                  <Resources t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Updates" && (
-                  <Updates challengeId={challengeId} />
+                {activeKey && activeKey.value === "Guidelines" && (
+                  <Guidelines t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Submission form" && (
-                  <SubmissionForm challengeId={challengeId} />
+                {activeKey && activeKey.value === "Updates" && (
+                  <Updates t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Submissions" && challengeData && (
-                  <Submissions
-                    challengeData={challengeData}
-                    is_startup_Individual={is_startup_Individual}
-                    is_mentor_judge={is_mentor_judge}
-                    is_organisation={is_organisation}
-                    fromPreview={false}
-                  />
+                {activeKey && activeKey.value === "Submission form" && (
+                  <SubmissionForm t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Judging criteria" && (
-                  <JudgingCriteria challengeId={challengeId} />
+                {activeKey &&
+                  activeKey.value === "Submissions" &&
+                  challengeData && (
+                    <Submissions
+                      t={t}
+                      challengeData={challengeData}
+                      is_startup_Individual={is_startup_Individual}
+                      is_mentor_judge={is_mentor_judge}
+                      is_organisation={is_organisation}
+                      fromPreview={false}
+                    />
+                  )}
+                {activeKey && activeKey.value === "Judging criteria" && (
+                  <JudgingCriteria t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Judging activities" && (
-                  <JudgingActivities challengeId={challengeId} />
+                {activeKey && activeKey.value === "Judging activities" && (
+                  <JudgingActivities t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Judges" && <Judges challengeId={challengeId} />}
-                {activeKey === "Judges NDA" && (
-                  <JudgesNDA challengeId={challengeId} />
+                {activeKey && activeKey.value === "Judges" && (
+                  <Judges t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Team" && <Team challengeId={challengeId} />}
-                {activeKey === "Legal agreement" && (
-                  <LegalAgreement challengeId={challengeId} />
+                {activeKey && activeKey.value === "Judges NDA" && (
+                  <JudgesNDA t={t} challengeId={challengeId} />
                 )}
-                {activeKey === "Settings" && (
-                  <Settings challengeId={challengeId} />
+                {activeKey && activeKey.value === "Team" && (
+                  <Team t={t} challengeId={challengeId} />
+                )}
+                {activeKey && activeKey.value === "Legal agreement" && (
+                  <LegalAgreement t={t} challengeId={challengeId} />
+                )}
+                {activeKey && activeKey.value === "Settings" && (
+                  <Settings t={t} challengeId={challengeId} />
                 )}
               </div>
             </Col>

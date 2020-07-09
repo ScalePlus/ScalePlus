@@ -4,7 +4,12 @@ import { HeaderComponentWithSearchBox } from "../common";
 import { MainContainer, TableContainer } from "./style";
 import { Constants } from "../../../../lib/constant";
 
-const Forum = ({ is_organisation, organisationTeamMember, challengeData }) => {
+const Forum = ({
+  t,
+  is_organisation,
+  organisationTeamMember,
+  challengeData,
+}) => {
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">
@@ -16,11 +21,12 @@ const Forum = ({ is_organisation, organisationTeamMember, challengeData }) => {
           challengeData &&
           !challengeData.isPublished ? (
             <HeaderComponentWithSearchBox
-              titleText="Forum"
-              buttonText="New Topic"
+              titleText={t("Forum")}
+              buttonText={t("New Topic")}
+              t={t}
             />
           ) : (
-            <HeaderComponentWithSearchBox titleText="Forum" />
+            <HeaderComponentWithSearchBox titleText={t("Forum")} t={t} />
           )}
         </Col>
       </Row>
@@ -33,18 +39,18 @@ const Forum = ({ is_organisation, organisationTeamMember, challengeData }) => {
             <div className="table-header-container">
               <Row>
                 <Col lg={8} md={8} sm={8} xs={4}>
-                  <span>Forum Sections</span>
+                  <span>{t("Forum Sections")}</span>
                 </Col>
                 <Col lg={2} md={2} sm={2} xs={4}>
-                  <span>Threads</span>
+                  <span>{t("Threads")}</span>
                 </Col>
                 <Col lg={2} md={2} sm={2} xs={4} className="text-center">
-                  <span>Total Posts</span>
+                  <span>{t("Total Posts")}</span>
                 </Col>
               </Row>
             </div>
             <div className="table-body-container">
-              <span>!!!Add Forum Plugin Here!!!</span>
+              <span>{t("!!!Add Forum Plugin Here!!!")}</span>
             </div>
           </TableContainer>
         </Col>

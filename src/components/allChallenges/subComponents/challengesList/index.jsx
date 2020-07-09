@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllChallengeAction } from "../../action";
@@ -7,6 +8,7 @@ import { ChallengesListContainer } from "./style";
 import { PrimaryButton, CardComponent, Loading } from "../../../common";
 
 const ChallengesList = ({ history }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const getAllChallengeMethod = useCallback(
     (page, filters) => dispatch(getAllChallengeAction(page, filters)),
@@ -88,7 +90,7 @@ const ChallengesList = ({ history }) => {
           <Row style={{ marginTop: 45 }}>
             <Col>
               <div className="header-container">
-                <span className="title-text">Explore Challenges</span>
+                <span className="title-text">{t("Explore Challenges")}</span>
               </div>
             </Col>
           </Row>
@@ -97,7 +99,7 @@ const ChallengesList = ({ history }) => {
             <Col>
               <div className="sub-header-container">
                 <div className="text">
-                  <span>Find a challenge, solve it, make a difference</span>
+                  <span>{t("Explore_challenges_sub_text")}</span>
                 </div>
                 <div className="filter-container" onClick={() => setShow(true)}>
                   <div>
@@ -109,7 +111,7 @@ const ChallengesList = ({ history }) => {
                     ></img>
                   </div>
                   <div className="filter-text">
-                    <span>Filters</span>
+                    <span>{t("Filters")}</span>
                   </div>
                   {filterCount ? (
                     <div className="filter-count">
@@ -145,6 +147,7 @@ const ChallengesList = ({ history }) => {
                           }}
                         >
                           <CardComponent
+                            t={t}
                             organisationId={each.organisationId}
                             descriptionId={each.descriptionId}
                             judgesId={each.judgesId}
@@ -161,7 +164,9 @@ const ChallengesList = ({ history }) => {
           ) : (
             <Row className="justify-content-center">
               <Col lg={11} md={11} sm={11} xs={11}>
-                <div className="no-data-text">No challenges to explore</div>
+                <div className="no-data-text">
+                  {t("No challenges to explore")}
+                </div>
               </Col>
             </Row>
           )}
@@ -175,7 +180,7 @@ const ChallengesList = ({ history }) => {
                   <div className="bottom-button-container">
                     <PrimaryButton
                       variant="primary"
-                      text={"Load More Challenges"}
+                      text={t("Load More Challenges")}
                       onClick={() => {
                         setPage((data) => parseInt(data, 10) + 1);
                       }}
@@ -187,6 +192,7 @@ const ChallengesList = ({ history }) => {
         </Col>
       </Row>
       <Filters
+        t={t}
         show={show}
         setShow={setShow}
         onApply={onApply}

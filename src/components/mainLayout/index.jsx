@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import Header from "../header";
 import Footer from "../footer";
 import { Route } from "react-router-dom";
@@ -6,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getLoggedInUserAction } from "../signin/action";
 
 const MainLayout = ({ children }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const getLoggedInUserMethod = useCallback(
     () => dispatch(getLoggedInUserAction()),
@@ -21,9 +23,9 @@ const MainLayout = ({ children }) => {
 
   return (
     <div className="main-layout">
-      <Header />
+      <Header t={t} />
       <Route render={() => children} />
-      <Footer />
+      <Footer t={t} />
     </div>
   );
 };
