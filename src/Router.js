@@ -20,6 +20,7 @@ import HowItWorks from "./components/howItWorks";
 import MyChallenges from "./components/myChallenges";
 import Home from "./components/home";
 import SolveChallenge from "./components/solveChallenge";
+import UserProfile from "./components/profile";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -200,6 +201,12 @@ const MainRouter = () => {
             exact
             layout={MainLayout}
             component={SolveChallenge}
+          />
+          <OpenRoute
+            path="/profile/:id"
+            exact
+            layout={MainLayout}
+            component={UserProfile}
           />
           <Redirect
             from="/"
