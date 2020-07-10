@@ -151,7 +151,8 @@ const Team = ({ t, challengeId }) => {
                   setLinkedin(e.target.value);
                 }}
                 isInvalid={
-                  !linkedin || (linkedin && !linkedin.match(Constants.isURL))
+                  validated &&
+                  (!linkedin || (linkedin && !linkedin.match(Constants.isURL)))
                 }
                 errorMessage={
                   linkedin

@@ -261,7 +261,9 @@ const Description = ({ t, challengeId }) => {
               onChange={(e) => {
                 changeVideoUrl(e.target.value);
               }}
-              isInvalid={videoURL && !videoURL.match(Constants.isURL)}
+              isInvalid={
+                validated && videoURL && !videoURL.match(Constants.isURL)
+              }
               errorMessage={t("invalid_videoURL_error")}
             />
             <DropDown
@@ -281,7 +283,10 @@ const Description = ({ t, challengeId }) => {
               onChange={(val) => {
                 selectCategories(val);
               }}
-              isInvalid={!categories || (categories && categories.length === 0)}
+              isInvalid={
+                validated &&
+                (!categories || (categories && categories.length === 0))
+              }
               errorMessage={t("Categories_error")}
             />
             <Input
@@ -312,7 +317,7 @@ const Description = ({ t, challengeId }) => {
               onChange={(val) => {
                 selectTag(val);
               }}
-              isInvalid={!tags || (tags && tags.length === 0)}
+              isInvalid={validated && (!tags || (tags && tags.length === 0))}
               errorMessage={t("Categories_error")}
             />
             <TextArea

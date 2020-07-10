@@ -197,7 +197,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
                 selectRating(val);
               }}
               isSingle={true}
-              isInvalid={!ratingType}
+              isInvalid={validated && !ratingType}
             />
           </Col>
           <Col lg={6} md={6} sm={12} xs={12}>

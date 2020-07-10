@@ -86,8 +86,10 @@ const ChangePassword = ({ match }) => {
                         changePassword(e.target.value);
                       }}
                       isInvalid={
-                        !password ||
-                        (password && !password.match(Constants.isValidPassword))
+                        validated &&
+                        (!password ||
+                          (password &&
+                            !password.match(Constants.isValidPassword)))
                       }
                       errorMessage={
                         password
@@ -105,10 +107,11 @@ const ChangePassword = ({ match }) => {
                         changeConfirmPassword(e.target.value);
                       }}
                       isInvalid={
-                        !confirmPassword ||
-                        (password &&
-                          confirmPassword &&
-                          password !== confirmPassword)
+                        validated &&
+                        (!confirmPassword ||
+                          (password &&
+                            confirmPassword &&
+                            password !== confirmPassword))
                       }
                       errorMessage={
                         confirmPassword

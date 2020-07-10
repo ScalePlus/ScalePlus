@@ -280,7 +280,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                     newArr[index]["state"] = val.value;
                                     changeTimeline(newArr);
                                   }}
-                                  isInvalid={!each.state}
+                                  isInvalid={validated && !each.state}
                                 />
                               </Col>
                             </Row>

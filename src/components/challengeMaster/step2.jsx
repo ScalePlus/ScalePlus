@@ -93,7 +93,8 @@ const Step2 = ({
                   selectCategories(val);
                 }}
                 isInvalid={
-                  !categories || (categories && categories.length === 0)
+                  validated &&
+                  (!categories || (categories && categories.length === 0))
                 }
                 errorMessage={t("Categories_error")}
               />
@@ -134,7 +135,9 @@ const Step2 = ({
                 onChange={(e) => {
                   setVideoURL(e.target.value);
                 }}
-                isInvalid={videoURL && !videoURL.match(Constants.isURL)}
+                isInvalid={
+                  validated && videoURL && !videoURL.match(Constants.isURL)
+                }
                 errorMessage={t("invalid_videoURL_error")}
               />
             </Col>

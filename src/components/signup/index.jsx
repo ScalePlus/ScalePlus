@@ -308,8 +308,10 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                       setPassword(e.target.value);
                     }}
                     isInvalid={
-                      !password ||
-                      (password && !password.match(Constants.isValidPassword))
+                      validated &&
+                      (!password ||
+                        (password &&
+                          !password.match(Constants.isValidPassword)))
                     }
                     errorMessage={
                       password

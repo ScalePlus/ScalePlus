@@ -253,8 +253,9 @@ const BusinessTags = ({ history }) => {
                       selectIndustry(val);
                     }}
                     isInvalid={
-                      !selectedIndustries ||
-                      (selectedIndustries && selectedIndustries.length === 0)
+                      validated &&
+                      (!selectedIndustries ||
+                        (selectedIndustries && selectedIndustries.length === 0))
                     }
                     errorMessage={t("industry_error")}
                   />
@@ -273,8 +274,9 @@ const BusinessTags = ({ history }) => {
                       selectService(val);
                     }}
                     isInvalid={
-                      !selectedServices ||
-                      (selectedServices && selectedServices.length === 0)
+                      validated &&
+                      (!selectedServices ||
+                        (selectedServices && selectedServices.length === 0))
                     }
                     errorMessage={t("service_error")}
                   />
@@ -293,9 +295,10 @@ const BusinessTags = ({ history }) => {
                       selectTechnology(val);
                     }}
                     isInvalid={
-                      !selectedTechnologies ||
-                      (selectedTechnologies &&
-                        selectedTechnologies.length === 0)
+                      validated &&
+                      (!selectedTechnologies ||
+                        (selectedTechnologies &&
+                          selectedTechnologies.length === 0))
                     }
                     errorMessage={t("technology_error")}
                   />
@@ -314,9 +317,10 @@ const BusinessTags = ({ history }) => {
                       selectBusinessModels(val);
                     }}
                     isInvalid={
-                      !selectedBusinessModels ||
-                      (selectedBusinessModels &&
-                        selectedBusinessModels.length === 0)
+                      validated &&
+                      (!selectedBusinessModels ||
+                        (selectedBusinessModels &&
+                          selectedBusinessModels.length === 0))
                     }
                     errorMessage={t("businessModel_error")}
                   />
@@ -346,9 +350,10 @@ const BusinessTags = ({ history }) => {
                     selectTargetMarket(val);
                   }}
                   isInvalid={
-                    !selectedTargetMarkets ||
-                    (selectedTargetMarkets &&
-                      selectedTargetMarkets.length === 0)
+                    validated &&
+                    (!selectedTargetMarkets ||
+                      (selectedTargetMarkets &&
+                        selectedTargetMarkets.length === 0))
                   }
                   errorMessage={t("targetMarket_error")}
                 />
@@ -368,9 +373,10 @@ const BusinessTags = ({ history }) => {
                     selectGeographicalMarket(val);
                   }}
                   isInvalid={
-                    !selectedGeographicalMarket ||
-                    (selectedGeographicalMarket &&
-                      selectedGeographicalMarket.length === 0)
+                    validated &&
+                    (!selectedGeographicalMarket ||
+                      (selectedGeographicalMarket &&
+                        selectedGeographicalMarket.length === 0))
                   }
                   errorMessage={t("georgraphicalMarket_error")}
                 />

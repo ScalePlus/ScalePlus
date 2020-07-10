@@ -238,7 +238,9 @@ const OrganizationDetails = () => {
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
                       isInvalid={
-                        !website || (website && !website.match(Constants.isURL))
+                        validated &&
+                        (!website ||
+                          (website && !website.match(Constants.isURL)))
                       }
                       errorMessage={
                         website
@@ -300,7 +302,9 @@ const OrganizationDetails = () => {
                       value={website}
                       onChange={(e) => changeWebsite(e.target.value)}
                       isInvalid={
-                        !website || (website && !website.match(Constants.isURL))
+                        validated &&
+                        (!website ||
+                          (website && !website.match(Constants.isURL)))
                       }
                       errorMessage={
                         website

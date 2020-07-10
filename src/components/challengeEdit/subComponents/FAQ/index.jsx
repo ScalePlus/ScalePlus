@@ -174,7 +174,7 @@ const FAQ = ({ t, challengeId }) => {
                         newArr[index]["answer"] = value;
                         changeFAQS(newArr);
                       }}
-                      isInvalid={!each.answer}
+                      isInvalid={validated && !each.answer}
                     ></EditorInput>
                   </div>
                   <div className="right-container">
