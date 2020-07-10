@@ -3,8 +3,7 @@ import Cookies from "universal-cookie";
 import MainRouter from "./Router";
 import { GlobalStyle } from "./styles/CommonStyle";
 import theme from "./theme";
-import { Row, Col, Button } from "react-bootstrap";
-import { Translation, initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import i18next from "i18next";
 import Api from "./components/signin/api";
 
@@ -81,27 +80,6 @@ const App = () => {
 
   return (
     <div className="App">
-      <Translation>
-        {(t) => (
-          <Row>
-            <Col style={{ textAlign: "center", padding: 10 }}>
-              <Button
-                onClick={() => {
-                  if (theme.isRTL) {
-                    cookies.set("language", "en", { path: "/" });
-                    document.location.reload();
-                  } else {
-                    cookies.set("language", "ar", { path: "/" });
-                    document.location.reload();
-                  }
-                }}
-              >
-                {t("Change View")}
-              </Button>
-            </Col>
-          </Row>
-        )}
-      </Translation>
       <GlobalStyle></GlobalStyle>
       <MainRouter />
     </div>
