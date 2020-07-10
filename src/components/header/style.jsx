@@ -138,4 +138,22 @@ export const Container = styled.div`
       display: none;
     }
   }
+
+  .switch-container {
+    width: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: ${theme.isLTR && "1rem"};
+    margin-right: ${theme.isRTL && "1rem"};
+    .form-group {
+      margin-bottom: 5px;
+    }
+    font-size: ${theme.fontSize.mediumRegular};
+    font-family: ${theme.fontFamily.bold};
+  }
+  .left-text {
+    margin-right: ${theme.isLTR && "10px"};
+    margin-left: ${theme.isRTL && "10px"};
+  }
 `;

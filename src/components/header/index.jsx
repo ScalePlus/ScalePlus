@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import Cookies from "universal-cookie";
 import { Navbar, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
 import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
+import { Switch } from "../common";
+import theme from "../../theme";
+
+const cookies = new Cookies();
 
 const Header = ({ t }) => {
   const is_organisation =
@@ -86,6 +91,32 @@ const Header = ({ t }) => {
               );
             })}
           </Nav>
+
+          <div className="switch-container">
+            <div className={"left-text"}>
+              <span>{t(theme.isRTL ? "EN" : "AR")}</span>
+            </div>
+            <div>
+              <Switch
+                variant="primary"
+                label=""
+                checked={true}
+                onChange={() => {
+                  if (theme.isRTL) {
+                    cookies.set("language", "en", { path: "/" });
+                    document.location.reload();
+                  } else {
+                    cookies.set("language", "ar", { path: "/" });
+                    document.location.reload();
+                  }
+                }}
+              ></Switch>
+            </div>
+            <div className={"right-text"}>
+              <span>{t(theme.isRTL ? "AR" : "EN")}</span>
+            </div>
+          </div>
+
           {localStorage.getItem("token") && (
             <div>
               <Dropdown>
