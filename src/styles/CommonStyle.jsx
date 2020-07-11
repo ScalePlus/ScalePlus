@@ -460,7 +460,7 @@ body {
 .primary_switch .custom-control-label{
   padding-left: ${theme.isLTR && "20px"};
   padding-right: ${theme.isRTL && "20px"};
-  padding-top: 8px;
+  padding-top: 5px;
 }
 
 .custom-control-input.is-valid~.custom-control-label,
@@ -595,5 +595,97 @@ body {
   font-family: ${theme.fontFamily.bold};
   font-size:${theme.fontSize.medium};
   padding: 80px;
+}
+
+.filter-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 140px;
+  border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  background-color: ${theme.colors.white};
+  padding: 0px 15px;
+  cursor: pointer;
+  .filter-text {
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.semiRegular};
+  }
+  .filter-count {
+    height: 22px;
+    width: 22px;
+    background-color: ${theme.colors.lightSilver};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .count-text {
+      font-family: ${theme.fontFamily.bold};
+      font-size: ${theme.fontSize.small};
+    }
+  }
+}
+
+.list-single-block{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom:1rem;
+  border: 1px solid #E3E3E3;
+  border-radius: 6px;
+  background-color: ${theme.colors.white};
+  padding:0.5rem;
+  .avtar-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    border: 1px solid #979797;
+    background-color: ${theme.colors.white};
+    border-radius:50%;
+    margin-right: ${theme.isLTR && "10px"};
+    margin-left: ${theme.isRTL && "10px"}
+  }
+  .user-info-container{
+    flex:auto;
+    .basic-information{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .user-name{
+        font-family: ${theme.fontFamily.bold};
+        font-size: ${theme.fontSize.semiRegular};
+        margin-right: ${theme.isLTR && "1rem"};
+        margin-left: ${theme.isRTL && "1rem"}
+        margin-bottom: 5px;
+      }
+      .challenge-name{
+        font-family: ${theme.fontFamily.bold};
+        font-size: ${theme.fontSize.regular};
+        margin-bottom: 5px;
+      }
+      .user-role{
+        font-size: ${theme.fontSize.semiRegular};
+        margin-right: ${theme.isLTR && "3.3rem"};
+        margin-left: ${theme.isRTL && "3.3rem"}
+      }
+      .status-container{
+        background-color: #fdf1ce;
+        color:#f4ba09;
+        padding:2px 8px;
+        border: 1px solid #f4ba09;
+        border-radius: 6px;
+        font-size: ${theme.fontSize.extraSmall};
+        font-family: ${theme.fontFamily.bold};
+      }
+      .timestamp{
+        margin-top: 1.5rem;
+        font-size: ${theme.fontSize.semiRegular};
+      }
+    }
+  }
 }
 `;

@@ -11,7 +11,7 @@ import {
 } from "../common";
 import { MainContainer } from "./style";
 
-function UserProfile() {
+function UserProfileEdit() {
   const { t } = useTranslation();
 
   return (
@@ -393,4 +393,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserProfileEdit;

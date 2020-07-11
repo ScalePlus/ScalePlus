@@ -485,6 +485,17 @@
         "M&A_Q5": "Would you change anything?",
         "M&A_Q6": "Who is the perfect aquiring company?",
         "Some text here": "Some text here",
-        "Consulting_description": "Are you interested in using your experience to help others through workshops, interviews or creating consulting reports"
+        "Consulting_description": "Are you interested in using your experience to help others through workshops, interviews or creating consulting reports",
+        "users_info_text": "View our screen-cast here on the purpose of the Judges section and how to use it.",
+        "Admins": "Admins",
+        "Startups": "Startups",
+        "Individuals": "Individuals",
+        "Users": "Users",
+        "Enable users tab": "Enable users tab",
+        "Invite User": "Invite User",
+        "< User Profile": "< User Profile",
+        "Accept": "Accept",
+        "Reject": "Reject",
+        "< All Users": "< All Users"
     }
 }

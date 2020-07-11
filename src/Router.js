@@ -20,7 +20,9 @@ import HowItWorks from "./components/howItWorks";
 import MyChallenges from "./components/myChallenges";
 import Home from "./components/home";
 import SolveChallenge from "./components/solveChallenge";
-import UserProfile from "./components/profile";
+import UserProfileEdit from "./components/profile";
+import UserProfileView from "./components/profileView";
+import AllUsers from "./components/allUsers";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -203,10 +205,22 @@ const MainRouter = () => {
             component={SolveChallenge}
           />
           <OpenRoute
-            path="/profile/:id"
+            path="/profile/edit/:id"
             exact
             layout={MainLayout}
-            component={UserProfile}
+            component={UserProfileEdit}
+          />
+          <OpenRoute
+            path="/profile/view/:id"
+            exact
+            layout={MainLayout}
+            component={UserProfileView}
+          />
+          <OpenRoute
+            path="/users"
+            exact
+            layout={MainLayout}
+            component={AllUsers}
           />
           <Redirect
             from="/"

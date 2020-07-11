@@ -101,7 +101,10 @@ const ChallengesList = ({ history }) => {
                 <div className="text">
                   <span>{t("Explore_challenges_sub_text")}</span>
                 </div>
-                <div className="filter-container" onClick={() => setShow(true)}>
+                <div
+                  className="filter-button-container"
+                  onClick={() => setShow(true)}
+                >
                   <div>
                     <img
                       src={"/images/filter-icon.png"}

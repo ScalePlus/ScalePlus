@@ -28,6 +28,7 @@ import Timeline from "./subComponents/timeline";
 import Forum from "./subComponents/forum";
 import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
+import AllUsers from "../allUsers";
 import "react-circular-progressbar/dist/styles.css";
 
 const cookies = new Cookies();
@@ -65,6 +66,7 @@ const ChallengePreview = ({ history, match }) => {
     { label: t("Overview"), value: "Overview" },
     { label: t("Timeline"), value: "Timeline" },
     { label: t("Forum"), value: "Forum" },
+    { label: t("Users"), value: "Users" },
   ]);
   const [errors, setErrors] = useState([]);
   const [selectedTab, selectTab] = useState(null);
@@ -715,6 +717,15 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+            />
+          </Tab.Pane>
+          <Tab.Pane eventKey="Users">
+            <AllUsers
+              t={t}
+              challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
+              is_organisation={is_organisation}
+              from_preview={true}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="FAQ">

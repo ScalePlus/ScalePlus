@@ -25,11 +25,12 @@ import SubmissionForm from "./subComponents/submissionForm";
 import Submissions from "../challengePreview/subComponents/submissions";
 import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
-import Judges from "./subComponents/judges";
+// import Judges from "./subComponents/judges";
 import JudgesNDA from "./subComponents/judgesNDA";
 import Team from "./subComponents/team";
 import LegalAgreement from "./subComponents/legalAgreement";
 import Settings from "./subComponents/settings";
+import UserList from "./subComponents/userList";
 import { MainContainer } from "./style";
 
 const ChallengeEdit = ({ history, match }) => {
@@ -49,8 +50,14 @@ const ChallengeEdit = ({ history, match }) => {
     { label: t("Submissions"), value: "Submissions" },
   ];
 
-  const judgeLinks = [
+  const usersLinks = [
+    { label: t("Admins"), value: "Admins" },
+    { label: t("Startups"), value: "Startups" },
+    { label: t("Individuals"), value: "Individuals" },
     { label: t("Judges"), value: "Judges" },
+  ];
+
+  const judgeLinks = [
     { label: t("Judging criteria"), value: "Judging criteria" },
     { label: t("Judging activities"), value: "Judging activities" },
     { label: t("Judges NDA"), value: "Judges NDA" },
@@ -233,6 +240,11 @@ const ChallengeEdit = ({ history, match }) => {
             each.value.toLocaleLowerCase() ===
             match.params.tab.toLocaleLowerCase()
         ),
+        selectedUserTab = usersLinks.find(
+          (each) =>
+            each.value.toLocaleLowerCase() ===
+            match.params.tab.toLocaleLowerCase()
+        ),
         selectedJudgeTab = judgeLinks.find(
           (each) =>
             each.value.toLocaleLowerCase() ===
@@ -246,6 +258,7 @@ const ChallengeEdit = ({ history, match }) => {
       selectTab(
         selectedChallengeTab ||
           selectedSubmissionTab ||
+          selectedUserTab ||
           selectedJudgeTab ||
           selectedOtherTab
       );
@@ -254,6 +267,7 @@ const ChallengeEdit = ({ history, match }) => {
     match,
     challengeLinks,
     submissionLinks,
+    usersLinks,
     judgeLinks,
     otherLinks,
     activeKey,
@@ -335,6 +349,32 @@ const ChallengeEdit = ({ history, match }) => {
                           className="flex-column"
                         >
                           {challengeLinks.map((each, index) => {
+                            return (
+                              <Nav.Item
+                                key={index}
+                                onClick={() => {
+                                  history.push(
+                                    `/challenge/${challengeId}/edit/${each.value}`
+                                  );
+                                }}
+                              >
+                                <Nav.Link eventKey={each.value}>
+                                  {each.label}
+                                </Nav.Link>
+                              </Nav.Item>
+                            );
+                          })}
+                        </Nav>
+                      </div>
+                      <div style={{ marginTop: 20 }}>
+                        <div className="title">
+                          <span>{t("Users")}</span>
+                        </div>
+                        <Nav
+                          activeKey={activeKey && activeKey.value}
+                          className="flex-column"
+                        >
+                          {usersLinks.map((each, index) => {
                             return (
                               <Nav.Item
                                 key={index}
@@ -478,17 +518,53 @@ const ChallengeEdit = ({ history, match }) => {
                       is_mentor_judge={is_mentor_judge}
                       is_organisation={is_organisation}
                       fromPreview={false}
+                      submissionVisibility={true}
+                      judgingStarted={true}
+                      judgingClosed={false}
+                      submissionClosed={false}
                     />
                   )}
+                {activeKey && activeKey.value === "Admins" && (
+                  <UserList
+                    t={t}
+                    history={history}
+                    activeKey={activeKey}
+                    challengeId={challengeId}
+                  />
+                )}
+                {activeKey && activeKey.value === "Startups" && (
+                  <UserList
+                    t={t}
+                    history={history}
+                    activeKey={activeKey}
+                    challengeId={challengeId}
+                  />
+                )}
+                {activeKey && activeKey.value === "Individuals" && (
+                  <UserList
+                    t={t}
+                    history={history}
+                    activeKey={activeKey}
+                    challengeId={challengeId}
+                  />
+                )}
+                {activeKey && activeKey.value === "Judges" && (
+                  <UserList
+                    t={t}
+                    history={history}
+                    activeKey={activeKey}
+                    challengeId={challengeId}
+                  />
+                )}
                 {activeKey && activeKey.value === "Judging criteria" && (
                   <JudgingCriteria t={t} challengeId={challengeId} />
                 )}
                 {activeKey && activeKey.value === "Judging activities" && (
                   <JudgingActivities t={t} challengeId={challengeId} />
                 )}
-                {activeKey && activeKey.value === "Judges" && (
+                {/* {activeKey && activeKey.value === "Judges" && (
                   <Judges t={t} challengeId={challengeId} />
-                )}
+                )} */}
                 {activeKey && activeKey.value === "Judges NDA" && (
                   <JudgesNDA t={t} challengeId={challengeId} />
                 )}
