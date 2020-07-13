@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Dropdown } from "react-bootstrap";
 import { MainContainer } from "./style";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { InfoBlock } from "../common";
 import { Switch } from "../../../common";
 import UserInviteModal from "./inviteModal";
 
-function UserList({ t, history, activeKey }) {
+const UserList = ({ t, history, activeKey }) => {
   const [show, setShow] = useState(false);
   return (
     <MainContainer>
@@ -33,22 +33,70 @@ function UserList({ t, history, activeKey }) {
       <Row style={{ marginBottom: 25 }}>
         <Col className="switch-filter-container">
           <Switch variant="primary" label={t("Enable users tab")}></Switch>
-          <div className="filter-button-container" onClick={() => {}}>
-            <div>
-              <img
-                src={"/images/filter-icon.png"}
-                height="20px"
-                width="20px"
-                alt=""
-              ></img>
-            </div>
-            <div className="filter-text">
-              <span>{t("Filters")}</span>
-            </div>
-            <div className="filter-count">
-              <span className="count-text">2</span>
-            </div>
-          </div>
+          <Dropdown>
+            <Dropdown.Toggle
+              as={React.forwardRef(({ children, onClick }, ref) => (
+                <div
+                  className="filter-button-container"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClick(e);
+                  }}
+                  ref={ref}
+                >
+                  <div>
+                    <img
+                      src={"/images/filter-icon.png"}
+                      height="20px"
+                      width="20px"
+                      alt=""
+                    ></img>
+                  </div>
+                  <div className="filter-text">
+                    <span>{t("Filters")}</span>
+                  </div>
+                  <div className="filter-count">
+                    <span className="count-text">{2}</span>
+                  </div>
+                </div>
+              ))}
+            ></Dropdown.Toggle>
+            <Dropdown.Menu alignRight={true} className="user-filter-menu">
+              <Dropdown.Item eventKey={1} onClick={() => {}}>
+                {t("All Users")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item eventKey={2} onClick={() => {}}>
+                {t("All Admins")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={3} onClick={() => {}}>
+                {t("Admin Invites")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={4} onClick={() => {}}>
+                {t("Submitted Application")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item eventKey={5} onClick={() => {}}>
+                {t("Startup/Individual Only")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={6} onClick={() => {}}>
+                {t("Invited")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={7} onClick={() => {}}>
+                {t("Submitted Application")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item eventKey={5} onClick={() => {}}>
+                {t("Judge Only")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={6} onClick={() => {}}>
+                {t("Invited")}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey={7} onClick={() => {}}>
+                {t("Submitted Application")}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Col>
       </Row>
       <Row>
@@ -326,6 +374,6 @@ function UserList({ t, history, activeKey }) {
       <UserInviteModal t={t} show={show} setShow={setShow} />
     </MainContainer>
   );
-}
+};
 
 export default UserList;

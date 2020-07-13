@@ -4,7 +4,7 @@ import { Form, Row, Col } from "react-bootstrap";
 import { PrimaryButton, Switch } from "../common";
 import { MainContainer } from "./style";
 
-function UserProfileView({ history }) {
+const UserProfileView = ({ history }) => {
   const { t } = useTranslation();
 
   return (
@@ -481,6 +481,6 @@ function UserProfileView({ history }) {
       </Row>
     </MainContainer>
   );
-}
+};
 
 export default UserProfileView;

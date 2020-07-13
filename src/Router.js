@@ -23,6 +23,8 @@ import SolveChallenge from "./components/solveChallenge";
 import UserProfileEdit from "./components/profile";
 import UserProfileView from "./components/profileView";
 import AllUsers from "./components/allUsers";
+import ChallengeAgreement from "./components/challengeAgreement";
+import AllActivities from "./components/allActivities";
 import store from "./store";
 import { Provider } from "react-redux";
 import history from "./history";
@@ -205,7 +207,7 @@ const MainRouter = () => {
             component={SolveChallenge}
           />
           <OpenRoute
-            path="/profile/edit/:id"
+            path="/profile/edit"
             exact
             layout={MainLayout}
             component={UserProfileEdit}
@@ -221,6 +223,18 @@ const MainRouter = () => {
             exact
             layout={MainLayout}
             component={AllUsers}
+          />
+          <OpenRoute
+            path="/challenge/agreement"
+            exact
+            layout={MainLayout}
+            component={ChallengeAgreement}
+          />
+          <OpenRoute
+            path="/activities"
+            exact
+            layout={MainLayout}
+            component={AllActivities}
           />
           <Redirect
             from="/"

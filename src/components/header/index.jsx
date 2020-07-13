@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import Cookies from "universal-cookie";
-import { Navbar, Nav, NavDropdown, Dropdown } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  //  NavDropdown,
+  Dropdown,
+} from "react-bootstrap";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
+import UserSidebar from "../userSidebar";
 import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
 import { Switch } from "../common";
@@ -47,6 +53,7 @@ const Header = ({ t }) => {
   );
   const [expanded, onToggle] = useState(false);
   const [show, setShow] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   history.listen((location, action) => {
     let record = links.find((each) => {
@@ -231,26 +238,34 @@ const Header = ({ t }) => {
           </div>
           <div className="action-container">
             {localStorage.getItem("token") ? (
-              <NavDropdown title={t("Account")}>
-                <NavDropdown.Item
-                  onClick={() => {
-                    history.push("/detail");
-                    onToggle(false);
-                  }}
-                >
-                  {t("Update Profile")}
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  href="/"
-                  onClick={() => {
-                    localStorage.clear();
-                    onToggle(false);
-                  }}
-                >
-                  {t("Logout")}
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : history.location.pathname.includes("login") ? (
+              <span
+                onClick={() => {
+                  setShowSidebar(true);
+                  onToggle(false);
+                }}
+              >
+                {t("Account")}
+              </span>
+            ) : // <NavDropdown title={t("Account")}>
+            //   <NavDropdown.Item
+            //     onClick={() => {
+            //       history.push("/detail");
+            //       onToggle(false);
+            //     }}
+            //   >
+            //     {t("Update Profile")}
+            //   </NavDropdown.Item>
+            //   <NavDropdown.Item
+            //     href="/"
+            //     onClick={() => {
+            //       localStorage.clear();
+            //       onToggle(false);
+            //     }}
+            //   >
+            //     {t("Logout")}
+            //   </NavDropdown.Item>
+            // </NavDropdown>
+            history.location.pathname.includes("login") ? (
               <span
                 onClick={() => {
                   history.push("/register");
@@ -273,6 +288,19 @@ const Header = ({ t }) => {
         </Navbar.Collapse>
       </Navbar>
       <SearchModal show={show} setShow={setShow} />
+      <UserSidebar
+        show={showSidebar}
+        setShow={setShowSidebar}
+        profileClick={() => {
+          setShowSidebar(false);
+          history.push("/profile/edit");
+        }}
+        onLogout={() => {
+          setShowSidebar(false);
+          localStorage.clear();
+          history.push("/");
+        }}
+      />
     </Container>
   );
 };

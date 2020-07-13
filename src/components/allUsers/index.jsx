@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { MainContainer } from "./style";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Dropdown } from "react-bootstrap";
 import { Input } from "../common";
 
-function AllUsers({ history, from_preview }) {
+const AllUsers = ({ history, from_preview }) => {
   const { t } = useTranslation();
 
   return (
@@ -32,22 +32,73 @@ function AllUsers({ history, from_preview }) {
                       <Input placeholder="Search" type="text" />
                     </div>
                   )}
-                  <div className="filter-button-container" onClick={() => {}}>
-                    <div>
-                      <img
-                        src={"/images/filter-icon.png"}
-                        height="20px"
-                        width="20px"
-                        alt=""
-                      ></img>
-                    </div>
-                    <div className="filter-text">
-                      <span>{t("Filters")}</span>
-                    </div>
-                    <div className="filter-count">
-                      <span className="count-text">{2}</span>
-                    </div>
-                  </div>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      as={React.forwardRef(({ children, onClick }, ref) => (
+                        <div
+                          className="filter-button-container"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onClick(e);
+                          }}
+                          ref={ref}
+                        >
+                          <div>
+                            <img
+                              src={"/images/filter-icon.png"}
+                              height="20px"
+                              width="20px"
+                              alt=""
+                            ></img>
+                          </div>
+                          <div className="filter-text">
+                            <span>{t("Filters")}</span>
+                          </div>
+                          <div className="filter-count">
+                            <span className="count-text">{2}</span>
+                          </div>
+                        </div>
+                      ))}
+                    ></Dropdown.Toggle>
+                    <Dropdown.Menu
+                      alignRight={true}
+                      className="user-filter-menu"
+                    >
+                      <Dropdown.Item eventKey={1} onClick={() => {}}>
+                        {t("All Users")}
+                      </Dropdown.Item>
+                      <div className="border-container"></div>
+                      <Dropdown.Item eventKey={2} onClick={() => {}}>
+                        {t("All Admins")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={3} onClick={() => {}}>
+                        {t("Admin Invites")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={4} onClick={() => {}}>
+                        {t("Submitted Application")}
+                      </Dropdown.Item>
+                      <div className="border-container"></div>
+                      <Dropdown.Item eventKey={5} onClick={() => {}}>
+                        {t("Startup/Individual Only")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={6} onClick={() => {}}>
+                        {t("Invited")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={7} onClick={() => {}}>
+                        {t("Submitted Application")}
+                      </Dropdown.Item>
+                      <div className="border-container"></div>
+                      <Dropdown.Item eventKey={5} onClick={() => {}}>
+                        {t("Judge Only")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={6} onClick={() => {}}>
+                        {t("Invited")}
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey={7} onClick={() => {}}>
+                        {t("Submitted Application")}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
             </Col>
@@ -328,6 +379,6 @@ function AllUsers({ history, from_preview }) {
       </Row>
     </MainContainer>
   );
-}
+};
 
 export default AllUsers;

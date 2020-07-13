@@ -1278,6 +1278,24 @@ export const CardComponent = React.memo(
                     </div>
                   </div>
                 </div>
+                <div className="count-container">
+                  <div className="left-container">
+                    <div className="sub-heading-text">
+                      <span>{t("Applications")}</span>
+                    </div>
+                    <div className="heading-text">
+                      <span>{0}</span>
+                    </div>
+                  </div>
+                  <div className="right-container">
+                    <div className="sub-heading-text">
+                      <span>{t("Qualified")}</span>
+                    </div>
+                    <div className="heading-text">
+                      <span>{0}</span>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </Card.Footer>

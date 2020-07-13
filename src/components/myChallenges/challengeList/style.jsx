@@ -32,8 +32,8 @@ export const MainContainer = styled.div`
   .card-list {
     margin-top: 40px;
     .custom-card {
-      padding-right: 15px;
-      padding-left: 15px;
+      // padding-right: 15px;
+      // padding-left: 15px;
       position: relative;
 
       :hover {

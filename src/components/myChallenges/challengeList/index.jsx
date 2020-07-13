@@ -43,14 +43,18 @@ const MyChallengesList = ({ history }) => {
       <div className="my-content-container">
         <Row className="justify-content-center">
           <Col lg={11} md={11} sm={11} xs={11}>
-            <div className="header">
-              <div className="title">
-                <span>{t("My Challenges")}</span>
-              </div>
-              <div className="circle-container">
-                <span className="count">{myChallenges.length}</span>
-              </div>
-            </div>
+            <Row>
+              <Col>
+                <div className="header">
+                  <div className="title">
+                    <span>{t("My Challenges")}</span>
+                  </div>
+                  <div className="circle-container">
+                    <span className="count">{myChallenges.length}</span>
+                  </div>
+                </div>
+              </Col>
+            </Row>
             <div className="card-list">
               <Row style={{ paddingRight: 0, paddingLeft: 0 }}>
                 {myChallenges && myChallenges.length

@@ -11,7 +11,7 @@ import {
 } from "../common";
 import { MainContainer } from "./style";
 
-function UserProfileEdit() {
+const UserProfileEdit = () => {
   const { t } = useTranslation();
 
   return (
@@ -391,6 +391,6 @@ function UserProfileEdit() {
       </Row>
     </MainContainer>
   );
-}
+};
 
 export default UserProfileEdit;

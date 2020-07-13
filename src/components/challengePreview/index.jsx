@@ -722,6 +722,7 @@ const ChallengePreview = ({ history, match }) => {
           <Tab.Pane eventKey="Users">
             <AllUsers
               t={t}
+              history={history}
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
