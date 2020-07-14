@@ -21,6 +21,7 @@ import watchAttachLegalAggreementAsync from "../components/challengeEdit/subComp
 import watchAttachJudgingCriteriaAsync from "../components/challengeEdit/subComponents/judgingCriteria/saga";
 import watchAttachTeamAsync from "../components/challengeEdit/subComponents/team/saga";
 import watchAttachJudgesAsync from "../components/challengeEdit/subComponents/judges/saga";
+import inviteParticipantsSaga from "../components/challengeEdit/subComponents/userList/inviteModal/saga";
 import watchGetAllChallengeAsync from "../components/allChallenges/saga";
 import watchGetMyChallengeAsync from "../components/myChallenges/saga";
 import watchSubmissionListAsync from "../components/challengePreview/subComponents/submissions/saga";
@@ -28,6 +29,7 @@ import watchSolveChallengeAsync from "../components/solveChallenge/saga";
 import watchSearchAllAsync from "../components/header/subComponents/searchModal/saga";
 import watchLinkedinDataAsync from "../components/linkedinPopup/saga";
 import sharelinkSaga from "../components/shareLinkModal/saga";
+import getAttachedUsersSaga from "../components/allUsers/saga";
 import watchAttachJudgingActivitiesAsync from "../components/challengeEdit/subComponents/judgingActivities/saga";
 
 export function* rootSaga() {
@@ -54,10 +56,12 @@ export function* rootSaga() {
   yield fork(watchGetMyChallengeAsync);
   yield fork(watchAttachTeamAsync);
   yield fork(watchAttachJudgesAsync);
+  yield fork(inviteParticipantsSaga);
   yield fork(watchSubmissionListAsync);
   yield fork(watchSolveChallengeAsync);
   yield fork(watchSearchAllAsync);
   yield fork(watchLinkedinDataAsync);
   yield fork(watchAttachJudgingActivitiesAsync);
   yield fork(sharelinkSaga);
+  yield fork(getAttachedUsersSaga);
 }

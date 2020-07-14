@@ -1113,6 +1113,8 @@ export const CardComponent = React.memo(
     judgesId,
     participantsId,
     timelineId,
+    applications,
+    qualified,
   }) => {
     const [participantCount, setCount] = useState(0);
     const [
@@ -1284,7 +1286,7 @@ export const CardComponent = React.memo(
                       <span>{t("Applications")}</span>
                     </div>
                     <div className="heading-text">
-                      <span>{0}</span>
+                      <span>{applications}</span>
                     </div>
                   </div>
                   <div className="right-container">
@@ -1292,7 +1294,7 @@ export const CardComponent = React.memo(
                       <span>{t("Qualified")}</span>
                     </div>
                     <div className="heading-text">
-                      <span>{0}</span>
+                      <span>{qualified}</span>
                     </div>
                   </div>
                 </div>

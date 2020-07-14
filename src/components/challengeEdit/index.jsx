@@ -27,7 +27,7 @@ import JudgingCriteria from "./subComponents/judgingCriteria";
 import JudgingActivities from "./subComponents/judgingActivities";
 // import Judges from "./subComponents/judges";
 import JudgesNDA from "./subComponents/judgesNDA";
-import Team from "./subComponents/team";
+// import Team from "./subComponents/team";
 import LegalAgreement from "./subComponents/legalAgreement";
 import Settings from "./subComponents/settings";
 import UserList from "./subComponents/userList";
@@ -64,7 +64,7 @@ const ChallengeEdit = ({ history, match }) => {
   ];
 
   const otherLinks = [
-    { label: t("Team"), value: "Team" },
+    // { label: t("Team"), value: "Team" },
     { label: t("Legal agreement"), value: "Legal agreement" },
     { label: t("Settings"), value: "Settings" },
   ];
@@ -568,9 +568,9 @@ const ChallengeEdit = ({ history, match }) => {
                 {activeKey && activeKey.value === "Judges NDA" && (
                   <JudgesNDA t={t} challengeId={challengeId} />
                 )}
-                {activeKey && activeKey.value === "Team" && (
+                {/* {activeKey && activeKey.value === "Team" && (
                   <Team t={t} challengeId={challengeId} />
-                )}
+                )} */}
                 {activeKey && activeKey.value === "Legal agreement" && (
                   <LegalAgreement t={t} challengeId={challengeId} />
                 )}

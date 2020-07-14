@@ -20,6 +20,7 @@ import * as challengeLegalAggreementReducer from "../components/challengeEdit/su
 import * as challengeJudgingCriteriaReducer from "../components/challengeEdit/subComponents/judgingCriteria/reducer";
 import * as challengeTeamReducer from "../components/challengeEdit/subComponents/team/reducer";
 import * as challengeJudgesReducer from "../components/challengeEdit/subComponents/judges/reducer";
+import * as challengeInviteParticipantsReducer from "../components/challengeEdit/subComponents/userList/inviteModal/reducer";
 import * as allChallengesReducer from "../components/allChallenges/reducer";
 import * as myChallengesReducer from "../components/myChallenges/reducer";
 import * as submissionListReducer from "../components/challengePreview/subComponents/submissions/reducer";
@@ -28,6 +29,7 @@ import * as searchAllReducer from "../components/header/subComponents/searchModa
 import * as linkedinDataReducer from "../components/linkedinPopup/reducer";
 import * as challengeJudgingActivitiesReducer from "../components/challengeEdit/subComponents/judgingActivities/reducer";
 import * as sharelinkReducer from "../components/shareLinkModal/reducer";
+import * as attachedUsersReducer from "../components/allUsers/reducer";
 
 export default combineReducers(
   Object.assign(
@@ -59,6 +61,8 @@ export default combineReducers(
     searchAllReducer,
     linkedinDataReducer,
     challengeJudgingActivitiesReducer,
-    sharelinkReducer
+    sharelinkReducer,
+    challengeInviteParticipantsReducer,
+    attachedUsersReducer
   )
 );

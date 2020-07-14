@@ -25,7 +25,6 @@ const SplineChart = ({ t }) => {
             data: [
               {
                 type: "spline",
-                visible: false,
                 showInLegend: true,
                 name: "Challenge 1",
                 dataPoints: [
@@ -39,7 +38,6 @@ const SplineChart = ({ t }) => {
               {
                 type: "spline",
                 showInLegend: true,
-                visible: false,
                 name: "Challenge 2",
                 dataPoints: [
                   { label: "Start", y: 3 },
@@ -51,7 +49,6 @@ const SplineChart = ({ t }) => {
               },
               {
                 type: "spline",
-                visible: false,
                 showInLegend: true,
                 name: "Challenge 3",
                 dataPoints: [

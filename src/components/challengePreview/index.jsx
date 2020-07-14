@@ -561,7 +561,7 @@ const ChallengePreview = ({ history, match }) => {
                 challengeData.views.length
               }
               buttonText={
-                selectedTab === tabs[0] || !is_logged_in
+                selectedTab === tabs[0].value || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
                     ? t("Judge this Challenge")
                     : (is_startup_Individual &&

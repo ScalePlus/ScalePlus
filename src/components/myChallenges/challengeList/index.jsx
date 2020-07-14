@@ -81,6 +81,8 @@ const MyChallengesList = ({ history }) => {
                             participantsId={each.participantsId}
                             timelineId={each.timelineId}
                             showProgress={true}
+                            applications={each.applications}
+                            qualified={each.qualified}
                           />
                           {/* <div
                         className={
