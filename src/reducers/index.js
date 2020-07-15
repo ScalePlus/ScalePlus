@@ -30,6 +30,7 @@ import * as linkedinDataReducer from "../components/linkedinPopup/reducer";
 import * as challengeJudgingActivitiesReducer from "../components/challengeEdit/subComponents/judgingActivities/reducer";
 import * as sharelinkReducer from "../components/shareLinkModal/reducer";
 import * as attachedUsersReducer from "../components/allUsers/reducer";
+import * as updateProfileReducer from "../components/profile/reducer";
 
 export default combineReducers(
   Object.assign(
@@ -63,6 +64,7 @@ export default combineReducers(
     challengeJudgingActivitiesReducer,
     sharelinkReducer,
     challengeInviteParticipantsReducer,
-    attachedUsersReducer
+    attachedUsersReducer,
+    updateProfileReducer
   )
 );

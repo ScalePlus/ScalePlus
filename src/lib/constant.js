@@ -8,7 +8,7 @@ export const Constants = {
   ),
   STATUS: {
     ACTIVE: 0,
-    DELETED: 1,
+    INACTIVE: 1,
   },
   LINKEDIN: {
     clientId: "78m7ndhgdx1vyt",

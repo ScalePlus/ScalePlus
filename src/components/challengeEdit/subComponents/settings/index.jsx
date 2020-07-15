@@ -43,7 +43,7 @@ const Settings = ({ t, challengeId }) => {
           if (form.checkValidity()) {
             updateChallengeMethod({
               _id: challengeId,
-              status: Constants.STATUS.DELETED,
+              status: Constants.STATUS.INACTIVE,
               cancellationReason,
             });
           }

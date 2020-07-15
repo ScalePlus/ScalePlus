@@ -40,6 +40,7 @@ export const MainContainer = styled.div`
       width: 110px;
       background-color: #d4d4d4;
       border-radius: 50%;
+      border: 1px solid #d4d4d4;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -49,6 +50,7 @@ export const MainContainer = styled.div`
     .replace-link {
       text-decoration: underline;
       font-size: ${theme.fontSize.mediumRegular};
+      cursor: pointer;
     }
   }
 `;
