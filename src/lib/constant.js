@@ -10,6 +10,13 @@ export const Constants = {
     ACTIVE: 0,
     INACTIVE: 1,
   },
+  USER_STATUS: {
+    Invited: "Invited",
+    Joined: "Joined",
+    Submitted: "Submitted",
+    Accepeted: "Accepeted",
+    Declined: "Declined",
+  },
   LINKEDIN: {
     clientId: "78m7ndhgdx1vyt",
     client_secret: "Sm9Iun2kdyNZjiDT",

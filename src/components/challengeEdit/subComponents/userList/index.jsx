@@ -8,11 +8,13 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { InfoBlock } from "../common";
 import { Switch } from "../../../common";
 import UserInviteModal from "./inviteModal";
+import { Constants } from "../../../../lib/constant";
 
 const UserList = ({ t, history, activeKey, challengeId }) => {
   const dispatch = useDispatch();
   const getAttachedUsers = useCallback(
-    (filters) => dispatch(getAttachedUsersAction(filters)),
+    (filters, searchText) =>
+      dispatch(getAttachedUsersAction(filters, searchText)),
     [dispatch]
   );
 
@@ -33,33 +35,47 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
   const [show, setShow] = useState(false);
   const [filters, setFilters] = useState({ challengeId: challengeId });
   const [attachedUsers, setAttachedUsers] = useState(null);
+  const searchText = "";
+
+  useEffect(() => {
+    if (activeKey.value === "Team") {
+      setFilters({ filter: "all_admin" });
+    }
+    if (activeKey.value === "Participants") {
+      setFilters({ filter: "all_startup_individual" });
+    }
+    if (activeKey.value === "Judges") {
+      setFilters({ filter: "all_judge" });
+    }
+  }, [activeKey]);
 
   useEffect(() => {
     if (challengeJudgesReducer && challengeJudgesReducer.success) {
-      getAttachedUsers(filters);
+      getAttachedUsers(filters, searchText);
     }
 
     if (challengeTeamReducer && challengeTeamReducer.success) {
-      getAttachedUsers(filters);
+      getAttachedUsers(filters, searchText);
     }
 
     if (
       challengeInviteParticipantsReducer &&
       challengeInviteParticipantsReducer.success
     ) {
-      getAttachedUsers(filters);
+      getAttachedUsers(filters, searchText);
     }
   }, [
     challengeJudgesReducer,
     challengeTeamReducer,
     challengeInviteParticipantsReducer,
     getAttachedUsers,
+    searchText,
     filters,
   ]);
 
   useEffect(() => {
-    getAttachedUsers(filters);
-  }, [getAttachedUsers, filters]);
+    getAttachedUsers(filters, searchText);
+  }, [getAttachedUsers, filters, searchText]);
 
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
@@ -119,14 +135,11 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                   <div className="filter-text">
                     <span>{t("Filters")}</span>
                   </div>
-                  <div className="filter-count">
-                    <span className="count-text">{2}</span>
-                  </div>
                 </div>
               ))}
             ></Dropdown.Toggle>
             <Dropdown.Menu alignRight={true} className="user-filter-menu">
-              {activeKey.value === "Admins" && (
+              {activeKey.value === "Team" && (
                 <Dropdown.Item
                   eventKey={1}
                   onClick={() => {
@@ -140,8 +153,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                 </Dropdown.Item>
               )}
 
-              {(activeKey.value === "Startups" ||
-                activeKey.value === "Individuals" ||
+              {(activeKey.value === "Participants" ||
                 activeKey.value === "Judges") && (
                 <Dropdown.Item
                   eventKey={2}
@@ -152,16 +164,10 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                         filter: "judge_invited",
                       });
                     }
-                    if (activeKey.value === "Startups") {
+                    if (activeKey.value === "Participants") {
                       setFilters({
                         challengeId: challengeId,
-                        filter: "startups_invited",
-                      });
-                    }
-                    if (activeKey.value === "Individuals") {
-                      setFilters({
-                        challengeId: challengeId,
-                        filter: "individuals_invited",
+                        filter: "startup_individual_invited",
                       });
                     }
                   }}
@@ -170,12 +176,11 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                 </Dropdown.Item>
               )}
 
-              {(activeKey.value === "Admins" ||
-                activeKey.value === "Judges") && (
+              {(activeKey.value === "Team" || activeKey.value === "Judges") && (
                 <Dropdown.Item
                   eventKey={3}
                   onClick={() => {
-                    if (activeKey.value === "Admins") {
+                    if (activeKey.value === "Team") {
                       setFilters({
                         challengeId: challengeId,
                         filter: "admin_joined",
@@ -193,23 +198,14 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                 </Dropdown.Item>
               )}
 
-              {(activeKey.value === "Startups" ||
-                activeKey.value === "Individuals") && (
+              {activeKey.value === "Participants" && (
                 <Dropdown.Item
                   eventKey={4}
                   onClick={() => {
-                    if (activeKey.value === "Startups") {
-                      setFilters({
-                        challengeId: challengeId,
-                        filter: "startups_submitted",
-                      });
-                    }
-                    if (activeKey.value === "Individuals") {
-                      setFilters({
-                        challengeId: challengeId,
-                        filter: "individuals_submitted",
-                      });
-                    }
+                    setFilters({
+                      challengeId: challengeId,
+                      filter: "startup_individual_submitted",
+                    });
                   }}
                 >
                   {t("Submitted Application")}
@@ -259,14 +255,61 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                               : each.data.userId.email}
                           </div>
                           <div className="user-role">
-                            {each.data.userId.roles[0]}
+                            {each.data.permission
+                              ? each.data.permission
+                              : each.data.userId.roles[0] ===
+                                Constants.ROLES.MENTOR_JUDGE
+                              ? "Judge"
+                              : each.data.userId.roles[0] ===
+                                Constants.ROLES.ORGANIZATION
+                              ? "Organisation"
+                              : each.data.userId.roles[0] ===
+                                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                                each.data.userId.details &&
+                                each.data.userId.details.isIndividual
+                              ? "Individual"
+                              : each.data.userId.roles[0] ===
+                                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                                each.data.userId.details &&
+                                each.data.userId.details.isStartUp
+                              ? "StartUp"
+                              : ""}
                           </div>
                         </div>
                         <div>
                           <div className="challenge-name">
                             {each.challengeTitle}
                           </div>
-                          <span className="status-container">
+                          <span
+                            className="status-container"
+                            style={
+                              each.data.status === Constants.USER_STATUS.Invited
+                                ? {
+                                    backgroundColor: "#fdf1ce",
+                                    color: "#f4ba09",
+                                    borderColor: "#f4ba09",
+                                  }
+                                : each.data.status ===
+                                    Constants.USER_STATUS.Joined ||
+                                  each.data.status ===
+                                    Constants.USER_STATUS.Submitted ||
+                                  each.data.status ===
+                                    Constants.USER_STATUS.Accepeted
+                                ? {
+                                    backgroundColor: "#e0f9ea",
+                                    color: "#66e397",
+                                    borderColor: "#66e397",
+                                  }
+                                : each.data.status ===
+                                  Constants.USER_STATUS.Declined
+                                ? {
+                                    backgroundColor: "#fce7e7",
+                                    color: "#f18989",
+                                    borderColor: "#f18989",
+                                  }
+                                : {}
+                            }
+                          >
                             {each.data.status}
                           </span>
                         </div>

@@ -667,11 +667,12 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      text-align: ${theme.isLTR ? "left" : "right"};
       .user-name{
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.semiRegular};
         margin-right: ${theme.isLTR && "1rem"};
-        margin-left: ${theme.isRTL && "1rem"}
+        margin-left: ${theme.isRTL && "1rem"};
         margin-bottom: 5px;
       }
       .challenge-name{
@@ -682,13 +683,12 @@ body {
       .user-role{
         font-size: ${theme.fontSize.semiRegular};
         margin-right: ${theme.isLTR && "3.3rem"};
-        margin-left: ${theme.isRTL && "3.3rem"}
+        margin-left: ${theme.isRTL && "3.3rem"};
+        text-transform: capitalize;
       }
       .status-container{
-        background-color: #fdf1ce;
-        color:#f4ba09;
         padding:2px 8px;
-        border: 1px solid #f4ba09;
+        border: 1px solid;
         border-radius: 6px;
         font-size: ${theme.fontSize.extraSmall};
         font-family: ${theme.fontFamily.bold};

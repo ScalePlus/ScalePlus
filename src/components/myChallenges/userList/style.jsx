@@ -45,13 +45,12 @@ export const MainContainer = styled.div`
           font-family: ${theme.fontFamily.bold};
           margin-left: ${theme.isLTR && "1rem"};
           margin-right: ${theme.isRTL && "1rem"};
+          text-transform: capitalize;
         }
       }
       .status-container {
-        background-color: #fdf1ce;
-        color: #f4ba09;
         padding: 2px 8px;
-        border: 1px solid #f4ba09;
+        border: 1px solid;
         border-radius: 6px;
         font-size: ${theme.fontSize.extraSmall};
         font-family: ${theme.fontFamily.bold};

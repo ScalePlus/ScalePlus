@@ -10,7 +10,7 @@ import Api from "./api";
 function* getAttachedUsersSaga(data) {
   yield put({ type: GET_ATTACHED_USERS_LOADING });
   try {
-    let res = yield call(Api.getAttachedUsers, data.filters);
+    let res = yield call(Api.getAttachedUsers, data.filters, data.searchText);
     if (res.status) {
       yield put({ type: GET_ATTACHED_USERS_ERROR, payload: res.message });
     } else {

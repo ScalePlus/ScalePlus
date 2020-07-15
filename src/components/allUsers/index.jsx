@@ -5,13 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAttachedUsersAction } from "./action";
 import { MainContainer } from "./style";
 import { Row, Col, Dropdown } from "react-bootstrap";
-import { Input, Loading } from "../common";
+import {
+  Input,
+  // Loading
+} from "../common";
+import { Constants } from "../../lib/constant";
 
-const AllUsers = ({ history, from_preview }) => {
+const AllUsers = ({ history, from_preview, challengeId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const getAttachedUsers = useCallback(
-    (filters) => dispatch(getAttachedUsersAction(filters)),
+    (filters, searchText) =>
+      dispatch(getAttachedUsersAction(filters, searchText)),
     [dispatch]
   );
 
@@ -19,12 +24,13 @@ const AllUsers = ({ history, from_preview }) => {
     return state.attachedUsersReducer;
   });
 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ challengeId: challengeId });
+  const [searchText, setSearchText] = useState("");
   const [attachedUsers, setAttachedUsers] = useState(null);
 
   useEffect(() => {
-    getAttachedUsers(filters);
-  }, [getAttachedUsers, filters]);
+    getAttachedUsers(filters, searchText);
+  }, [getAttachedUsers, filters, searchText]);
 
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
@@ -39,7 +45,7 @@ const AllUsers = ({ history, from_preview }) => {
 
   return (
     <MainContainer>
-      {attachedUsersReducer.loading && <Loading />}
+      {/* {attachedUsersReducer.loading && <Loading />} */}
       <Row className="justify-content-center">
         <Col
           lg={from_preview ? 11 : 9}
@@ -58,11 +64,15 @@ const AllUsers = ({ history, from_preview }) => {
                   {from_preview ? t("Users") : t("< All Users")}
                 </div>
                 <div className="right-container">
-                  {!from_preview && (
-                    <div className="input-container">
-                      <Input placeholder="Search" type="text" />
-                    </div>
-                  )}
+                  <div className="input-container">
+                    <Input
+                      placeholder="Search"
+                      type="text"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
+                  </div>
+
                   <Dropdown>
                     <Dropdown.Toggle
                       as={React.forwardRef(({ children, onClick }, ref) => (
@@ -85,9 +95,6 @@ const AllUsers = ({ history, from_preview }) => {
                           <div className="filter-text">
                             <span>{t("Filters")}</span>
                           </div>
-                          <div className="filter-count">
-                            <span className="count-text">{2}</span>
-                          </div>
                         </div>
                       ))}
                     ></Dropdown.Toggle>
@@ -98,7 +105,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={1}
                         onClick={() => {
-                          setFilters({ filter: "all" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "all",
+                          });
                         }}
                       >
                         {t("All Users")}
@@ -107,7 +117,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={2}
                         onClick={() => {
-                          setFilters({ filter: "all_admin" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "all_admin",
+                          });
                         }}
                       >
                         {t("All Admins")}
@@ -115,7 +128,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={3}
                         onClick={() => {
-                          setFilters({ filter: "admin_invited" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "admin_invited",
+                          });
                         }}
                       >
                         {t("Admin Invites")}
@@ -123,7 +139,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={4}
                         onClick={() => {
-                          setFilters({ filter: "admin_joined" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "admin_joined",
+                          });
                         }}
                       >
                         {t("Joined")}
@@ -132,7 +151,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={5}
                         onClick={() => {
-                          setFilters({ filter: "all_startup_individual" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "all_startup_individual",
+                          });
                         }}
                       >
                         {t("Startup/Individual Only")}
@@ -140,7 +162,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={6}
                         onClick={() => {
-                          setFilters({ filter: "startup_individual_invited" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "startup_individual_invited",
+                          });
                         }}
                       >
                         {t("Invited")}
@@ -149,6 +174,7 @@ const AllUsers = ({ history, from_preview }) => {
                         eventKey={7}
                         onClick={() => {
                           setFilters({
+                            challengeId: challengeId,
                             filter: "startup_individual_submitted",
                           });
                         }}
@@ -159,7 +185,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={8}
                         onClick={() => {
-                          setFilters({ filter: "all_judge" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "all_judge",
+                          });
                         }}
                       >
                         {t("Judge Only")}
@@ -167,7 +196,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={9}
                         onClick={() => {
-                          setFilters({ filter: "judge_invited" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "judge_invited",
+                          });
                         }}
                       >
                         {t("Invited")}
@@ -175,7 +207,10 @@ const AllUsers = ({ history, from_preview }) => {
                       <Dropdown.Item
                         eventKey={10}
                         onClick={() => {
-                          setFilters({ filter: "judge_joined" });
+                          setFilters({
+                            challengeId: challengeId,
+                            filter: "judge_joined",
+                          });
                         }}
                       >
                         {t("Joined")}
@@ -226,14 +261,62 @@ const AllUsers = ({ history, from_preview }) => {
                                   : each.data.userId.email}
                               </div>
                               <div className="user-role">
-                                {each.data.userId.roles[0]}
+                                {each.data.permission
+                                  ? each.data.permission
+                                  : each.data.userId.roles[0] ===
+                                    Constants.ROLES.MENTOR_JUDGE
+                                  ? "Judge"
+                                  : each.data.userId.roles[0] ===
+                                    Constants.ROLES.ORGANIZATION
+                                  ? "Organisation"
+                                  : each.data.userId.roles[0] ===
+                                      Constants.ROLES.STARTUP_INDIVIDUAL &&
+                                    each.data.userId.details &&
+                                    each.data.userId.details.isIndividual
+                                  ? "Individual"
+                                  : each.data.userId.roles[0] ===
+                                      Constants.ROLES.STARTUP_INDIVIDUAL &&
+                                    each.data.userId.details &&
+                                    each.data.userId.details.isStartUp
+                                  ? "StartUp"
+                                  : ""}
                               </div>
                             </div>
                             <div>
                               <div className="challenge-name">
                                 {each.challengeTitle}
                               </div>
-                              <span className="status-container">
+                              <span
+                                className="status-container"
+                                style={
+                                  each.data.status ===
+                                  Constants.USER_STATUS.Invited
+                                    ? {
+                                        backgroundColor: "#fdf1ce",
+                                        color: "#f4ba09",
+                                        borderColor: "#f4ba09",
+                                      }
+                                    : each.data.status ===
+                                        Constants.USER_STATUS.Joined ||
+                                      each.data.status ===
+                                        Constants.USER_STATUS.Submitted ||
+                                      each.data.status ===
+                                        Constants.USER_STATUS.Accepeted
+                                    ? {
+                                        backgroundColor: "#e0f9ea",
+                                        color: "#66e397",
+                                        borderColor: "#66e397",
+                                      }
+                                    : each.data.status ===
+                                      Constants.USER_STATUS.Declined
+                                    ? {
+                                        backgroundColor: "#fce7e7",
+                                        color: "#f18989",
+                                        borderColor: "#f18989",
+                                      }
+                                    : {}
+                                }
+                              >
                                 {each.data.status}
                               </span>
                             </div>

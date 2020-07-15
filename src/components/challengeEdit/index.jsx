@@ -51,9 +51,9 @@ const ChallengeEdit = ({ history, match }) => {
   ];
 
   const usersLinks = [
-    { label: t("Admins"), value: "Admins" },
-    { label: t("Startups"), value: "Startups" },
-    { label: t("Individuals"), value: "Individuals" },
+    { label: t("Team"), value: "Team" },
+    { label: t("Participants"), value: "Participants" },
+
     { label: t("Judges"), value: "Judges" },
   ];
 
@@ -524,7 +524,7 @@ const ChallengeEdit = ({ history, match }) => {
                       submissionClosed={false}
                     />
                   )}
-                {activeKey && activeKey.value === "Admins" && (
+                {activeKey && activeKey.value === "Team" && (
                   <UserList
                     t={t}
                     history={history}
@@ -532,7 +532,7 @@ const ChallengeEdit = ({ history, match }) => {
                     challengeId={challengeId}
                   />
                 )}
-                {activeKey && activeKey.value === "Startups" && (
+                {activeKey && activeKey.value === "Participants" && (
                   <UserList
                     t={t}
                     history={history}
@@ -540,14 +540,7 @@ const ChallengeEdit = ({ history, match }) => {
                     challengeId={challengeId}
                   />
                 )}
-                {activeKey && activeKey.value === "Individuals" && (
-                  <UserList
-                    t={t}
-                    history={history}
-                    activeKey={activeKey}
-                    challengeId={challengeId}
-                  />
-                )}
+
                 {activeKey && activeKey.value === "Judges" && (
                   <UserList
                     t={t}

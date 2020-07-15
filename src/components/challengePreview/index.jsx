@@ -723,7 +723,7 @@ const ChallengePreview = ({ history, match }) => {
             <AllUsers
               t={t}
               history={history}
-              challengeData={challengeData}
+              challengeId={challengeId}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               from_preview={true}

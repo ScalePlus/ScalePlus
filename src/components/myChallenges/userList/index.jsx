@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAttachedUsersAction } from "../../allUsers/action";
 import { Dropdown } from "react-bootstrap";
 import { MainContainer } from "./style";
+import { Constants } from "../../../lib/constant";
 
 function Users({ t, history }) {
   const dispatch = useDispatch();
   const getAttachedUsers = useCallback(
-    (filters) => dispatch(getAttachedUsersAction(filters)),
+    (filters, searchText) =>
+      dispatch(getAttachedUsersAction(filters, searchText)),
     [dispatch]
   );
 
@@ -18,10 +20,11 @@ function Users({ t, history }) {
 
   const [filters, setFilters] = useState({});
   const [attachedUsers, setAttachedUsers] = useState(null);
+  const searchText = "";
 
   useEffect(() => {
-    getAttachedUsers(filters);
-  }, [getAttachedUsers, filters]);
+    getAttachedUsers(filters, searchText);
+  }, [getAttachedUsers, filters, searchText]);
 
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
@@ -74,9 +77,6 @@ function Users({ t, history }) {
                 <div className="filter-text">
                   <span>{t("Filters")}</span>
                 </div>
-                {/* <div className="filter-count">
-                  <span className="count-text">{2}</span>
-                </div> */}
               </div>
             ))}
           ></Dropdown.Toggle>
@@ -186,12 +186,61 @@ function Users({ t, history }) {
                         ? each.data.userId.details.name
                         : each.data.userId.email}
                     </div>
-                    <div className="user-role">{each.data.userId.roles[0]}</div>
+                    <div className="user-role">
+                      {each.data.permission
+                        ? each.data.permission
+                        : each.data.userId.roles[0] ===
+                          Constants.ROLES.MENTOR_JUDGE
+                        ? "Judge"
+                        : each.data.userId.roles[0] ===
+                          Constants.ROLES.ORGANIZATION
+                        ? "Organisation"
+                        : each.data.userId.roles[0] ===
+                            Constants.ROLES.STARTUP_INDIVIDUAL &&
+                          each.data.userId.details &&
+                          each.data.userId.details.isIndividual
+                        ? "Individual"
+                        : each.data.userId.roles[0] ===
+                            Constants.ROLES.STARTUP_INDIVIDUAL &&
+                          each.data.userId.details &&
+                          each.data.userId.details.isStartUp
+                        ? "StartUp"
+                        : ""}
+                    </div>
                   </div>
                   <div className="challenge-name">{each.challengeTitle}</div>
                 </div>
                 <div>
-                  <div className="status-container"> {each.data.status}</div>
+                  <div
+                    className="status-container"
+                    style={
+                      each.data.status === Constants.USER_STATUS.Invited
+                        ? {
+                            backgroundColor: "#fdf1ce",
+                            color: "#f4ba09",
+                            borderColor: "#f4ba09",
+                          }
+                        : each.data.status === Constants.USER_STATUS.Joined ||
+                          each.data.status ===
+                            Constants.USER_STATUS.Submitted ||
+                          each.data.status === Constants.USER_STATUS.Accepeted
+                        ? {
+                            backgroundColor: "#e0f9ea",
+                            color: "#66e397",
+                            borderColor: "#66e397",
+                          }
+                        : each.data.status === Constants.USER_STATUS.Declined
+                        ? {
+                            backgroundColor: "#fce7e7",
+                            color: "#f18989",
+                            borderColor: "#f18989",
+                          }
+                        : {}
+                    }
+                  >
+                    {" "}
+                    {each.data.status}
+                  </div>
                   <div> {moment(each.data.date).format("DD.MM.YYYY")}</div>
                 </div>
               </div>

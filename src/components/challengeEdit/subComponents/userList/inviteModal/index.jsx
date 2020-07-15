@@ -36,8 +36,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
 
   const tabs = [
     { label: t("Admins"), value: "Admins" },
-    { label: t("Startups"), value: "Startups" },
-    { label: t("Individuals"), value: "Individuals" },
+    { label: t("Participants"), value: "Participants" },
     { label: t("Judges"), value: "Judges" },
   ];
   const [selectedTab, selectTab] = useState(tabs[0]);
@@ -46,7 +45,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
   const [email, setEmail] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [additionalMessage, setAdditionalMessage] = useState("");
-  const [check, setPermission] = useState(false);
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     const { error, success } = challengeJudgesReducer;
@@ -55,7 +54,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
       setEmail("");
       setLinkedin("");
       setAdditionalMessage("");
-      setPermission(false);
+      setCheck(false);
       setShow(false);
       setValidated(false);
     }
@@ -84,7 +83,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
       setEmail("");
       setLinkedin("");
       setAdditionalMessage("");
-      setPermission(false);
+      setCheck(false);
       setShow(false);
       setValidated(false);
     }
@@ -113,7 +112,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
       setEmail("");
       setLinkedin("");
       setAdditionalMessage("");
-      setPermission(false);
+      setCheck(false);
       setShow(false);
       setValidated(false);
     }
@@ -171,21 +170,11 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
                 email,
                 linkedin,
                 additionalMessage,
-                isIndividual: false,
+                isIndividual: !check,
               });
             } else if (
               form.checkValidity() &&
               selectedTab.value === tabs[2].value
-            ) {
-              inviteParticipantsMethod({
-                email,
-                linkedin,
-                additionalMessage,
-                isIndividual: true,
-              });
-            } else if (
-              form.checkValidity() &&
-              selectedTab.value === tabs[3].value
             ) {
               attachJudgesMethod({
                 email,
@@ -244,12 +233,36 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
                             label=""
                             checked={check}
                             onChange={() => {
-                              setPermission(!check);
+                              setCheck(!check);
                             }}
                           ></Switch>
                         </div>
                         <div className={"right-text"}>
                           <span>{t("View Only")}</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                )}
+                {selectedTab.value === tabs[1].value && (
+                  <Row>
+                    <Col>
+                      <div className="switch-container">
+                        <div className={"left-text"}>
+                          <span>{t("Startup")}</span>
+                        </div>
+                        <div>
+                          <Switch
+                            variant="primary"
+                            label=""
+                            checked={check}
+                            onChange={() => {
+                              setCheck(!check);
+                            }}
+                          ></Switch>
+                        </div>
+                        <div className={"right-text"}>
+                          <span>{t("Individual")}</span>
                         </div>
                       </div>
                     </Col>

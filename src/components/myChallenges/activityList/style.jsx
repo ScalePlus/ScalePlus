@@ -47,10 +47,8 @@ export const MainContainer = styled.div`
         font-family: ${theme.fontFamily.bold};
       }
       .status-container {
-        background-color: #fdf1ce;
-        color: #f4ba09;
         padding: 2px 8px;
-        border: 1px solid #f4ba09;
+        border: 1px solid;
         border-radius: 6px;
         font-size: ${theme.fontSize.extraSmall};
         font-family: ${theme.fontFamily.bold};
