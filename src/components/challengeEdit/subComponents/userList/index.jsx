@@ -20,9 +20,42 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
     return state.attachedUsersReducer;
   });
 
+  const challengeJudgesReducer = useSelector((state) => {
+    return state.challengeJudgesReducer;
+  });
+  const challengeTeamReducer = useSelector((state) => {
+    return state.challengeTeamReducer;
+  });
+  const challengeInviteParticipantsReducer = useSelector((state) => {
+    return state.challengeInviteParticipantsReducer;
+  });
+
   const [show, setShow] = useState(false);
   const [filters, setFilters] = useState({ challengeId: challengeId });
   const [attachedUsers, setAttachedUsers] = useState(null);
+
+  useEffect(() => {
+    if (challengeJudgesReducer && challengeJudgesReducer.success) {
+      getAttachedUsers(filters);
+    }
+
+    if (challengeTeamReducer && challengeTeamReducer.success) {
+      getAttachedUsers(filters);
+    }
+
+    if (
+      challengeInviteParticipantsReducer &&
+      challengeInviteParticipantsReducer.success
+    ) {
+      getAttachedUsers(filters);
+    }
+  }, [
+    challengeJudgesReducer,
+    challengeTeamReducer,
+    challengeInviteParticipantsReducer,
+    getAttachedUsers,
+    filters,
+  ]);
 
   useEffect(() => {
     getAttachedUsers(filters);

@@ -51,13 +51,14 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
   useEffect(() => {
     const { error, success } = challengeJudgesReducer;
 
-    // if (success && validated) {
-    //   setEmail("");
-    //   setLinkedin("");
-    //   setAdditionalMessage("");
-    //   setShow(false);
-    //   setValidated(false);
-    // }
+    if (success && validated) {
+      setEmail("");
+      setLinkedin("");
+      setAdditionalMessage("");
+      setPermission(false);
+      setShow(false);
+      setValidated(false);
+    }
 
     let errors = [];
     if (Array.isArray(error)) {
@@ -79,13 +80,14 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
   useEffect(() => {
     const { error, success } = challengeTeamReducer;
 
-    // if (success && validated) {
-    //   setEmail("");
-    //   setLinkedin("");
-    //   setAdditionalMessage("");
-    //   setShow(false);
-    //   setValidated(false);
-    // }
+    if (success && validated) {
+      setEmail("");
+      setLinkedin("");
+      setAdditionalMessage("");
+      setPermission(false);
+      setShow(false);
+      setValidated(false);
+    }
 
     let errors = [];
     if (Array.isArray(error)) {
@@ -107,13 +109,14 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
   useEffect(() => {
     const { error, success } = challengeInviteParticipantsReducer;
 
-    // if (success && validated) {
-    //   setEmail("");
-    //   setLinkedin("");
-    //   setAdditionalMessage("");
-    //   setShow(false);
-    //   setValidated(false);
-    // }
+    if (success && validated) {
+      setEmail("");
+      setLinkedin("");
+      setAdditionalMessage("");
+      setPermission(false);
+      setShow(false);
+      setValidated(false);
+    }
 
     let errors = [];
     if (Array.isArray(error)) {

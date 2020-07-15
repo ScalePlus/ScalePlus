@@ -4,6 +4,7 @@ import {
   ATTACH_JUDGES_SUCCESS,
   ATTACH_JUDGES_ERROR,
 } from "./types";
+import { GET_ATTACHED_USERS_LOADING } from "../../../allUsers/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,13 @@ let initialState = {
 };
 
 export const challengeJudgesReducer = createReducer(initialState, {
+  [GET_ATTACHED_USERS_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
+      error: null,
+    });
+  },
   [ATTACH_JUDGES_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

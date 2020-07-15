@@ -4,6 +4,7 @@ import {
   INVITE_PARTICIPANTS_SUCCESS,
   INVITE_PARTICIPANTS_ERROR,
 } from "./types";
+import { GET_ATTACHED_USERS_LOADING } from "../../../../allUsers/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,13 @@ let initialState = {
 };
 
 export const challengeInviteParticipantsReducer = createReducer(initialState, {
+  [GET_ATTACHED_USERS_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
+      error: null,
+    });
+  },
   [INVITE_PARTICIPANTS_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
