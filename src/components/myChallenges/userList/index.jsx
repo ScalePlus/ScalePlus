@@ -20,19 +20,35 @@ function Users({ t, history }) {
 
   const [filters, setFilters] = useState({});
   const [attachedUsers, setAttachedUsers] = useState(null);
-  const searchText = "";
+  const [visibleData, setVisibleData] = useState(null);
+  const [totalPage, setTotalPage] = useState(null);
+  const [renderPage, setRenderPage] = useState(null);
+  const searchText = "",
+    limit = 10;
 
   useEffect(() => {
     getAttachedUsers(filters, searchText);
   }, [getAttachedUsers, filters, searchText]);
 
   useEffect(() => {
+    if (attachedUsers && attachedUsers.length) {
+      setVisibleData(
+        attachedUsers.slice((renderPage - 1) * limit, renderPage * limit)
+      );
+    }
+  }, [renderPage, totalPage, attachedUsers]);
+
+  useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
     if (attachedUsers && attachedUsers.result) {
       if (attachedUsers.result.length) {
+        let length = attachedUsers.result.length;
+        setTotalPage(Math.ceil(length / limit));
+        setRenderPage(1);
         setAttachedUsers(attachedUsers.result);
       } else {
         setAttachedUsers([]);
+        setVisibleData([]);
       }
     }
   }, [attachedUsersReducer]);
@@ -168,9 +184,9 @@ function Users({ t, history }) {
         </Dropdown>
       </div>
 
-      {attachedUsers && attachedUsers.length ? (
+      {visibleData && visibleData.length ? (
         <div className="list-container">
-          {attachedUsers.map((each, index) => {
+          {visibleData.map((each, index) => {
             return (
               <div
                 className="block"
@@ -238,7 +254,6 @@ function Users({ t, history }) {
                         : {}
                     }
                   >
-                    {" "}
                     {each.data.status}
                   </div>
                   <div> {moment(each.data.date).format("DD.MM.YYYY")}</div>
@@ -246,12 +261,54 @@ function Users({ t, history }) {
               </div>
             );
           })}
-          {attachedUsers.length > 10 ? (
-            <div className="pagination">
-              1 of 2 <span className="next-page">{">"}</span>{" "}
-              <span>{">>"}</span>
-            </div>
-          ) : null}
+
+          <div className="pagination">
+            {renderPage > 1 && (
+              <span
+                className="first-page"
+                onClick={() => {
+                  setRenderPage(1);
+                }}
+              >
+                {"<<"}
+              </span>
+            )}
+            {renderPage > 1 && (
+              <span
+                className="previous-page"
+                onClick={() => {
+                  const previousPage = renderPage - 1;
+                  if (previousPage >= 1) {
+                    setRenderPage(previousPage);
+                  }
+                }}
+              >
+                {"<"}
+              </span>
+            )}
+            {renderPage} of {totalPage}
+            {renderPage !== totalPage && (
+              <span
+                className="next-page"
+                onClick={() => {
+                  const nextpage = renderPage + 1;
+                  if (nextpage <= totalPage) {
+                    setRenderPage(nextpage);
+                  }
+                }}
+              >
+                {">"}
+              </span>
+            )}
+            {renderPage !== totalPage && (
+              <span
+                className="last-page"
+                onClick={() => setRenderPage(totalPage)}
+              >
+                {">>"}
+              </span>
+            )}
+          </div>
         </div>
       ) : null}
     </MainContainer>
