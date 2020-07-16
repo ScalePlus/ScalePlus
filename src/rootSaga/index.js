@@ -32,6 +32,7 @@ import sharelinkSaga from "../components/shareLinkModal/saga";
 import getAttachedUsersSaga from "../components/allUsers/saga";
 import watchAttachJudgingActivitiesAsync from "../components/challengeEdit/subComponents/judgingActivities/saga";
 import watchUpdateProfileAsync from "../components/profile/saga";
+import watchUpdateProfileViewAsync from "../components/profileView/saga";
 
 export function* rootSaga() {
   yield fork(watchSignupAsync);
@@ -66,4 +67,5 @@ export function* rootSaga() {
   yield fork(sharelinkSaga);
   yield fork(getAttachedUsersSaga);
   yield fork(watchUpdateProfileAsync);
+  yield fork(watchUpdateProfileViewAsync);
 }

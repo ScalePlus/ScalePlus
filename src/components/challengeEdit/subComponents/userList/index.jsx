@@ -223,7 +223,14 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                   <div
                     className="list-single-block"
                     onClick={() => {
-                      history.push("/profile/view/123");
+                      if (
+                        each &&
+                        each.data &&
+                        each.data.userId &&
+                        each.data.userId._id
+                      ) {
+                        history.push(`/profile/view/${each.data.userId._id}`);
+                      }
                     }}
                   >
                     <div className="avtar-container">

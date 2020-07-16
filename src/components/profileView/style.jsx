@@ -59,6 +59,7 @@ export const MainContainer = styled.div`
       height: 110px;
       width: 110px;
       background-color: #d4d4d4;
+      border: 1px solid #d4d4d4;
       border-radius: 50%;
       display: flex;
       justify-content: center;

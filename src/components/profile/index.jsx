@@ -591,6 +591,18 @@ const UserProfileEdit = ({ history }) => {
                           width="100%"
                           style={{ borderRadius: "50%" }}
                         ></img>
+                      ) : personal_photo ? (
+                        <img
+                          src={
+                            personal_photo && personal_photo.name
+                              ? URL.createObjectURL(personal_photo)
+                              : personal_photo
+                          }
+                          alt=""
+                          height="100%"
+                          width="100%"
+                          style={{ borderRadius: "50%" }}
+                        ></img>
                       ) : (
                         <img
                           src={"/images/image.svg"}
@@ -616,7 +628,11 @@ const UserProfileEdit = ({ history }) => {
                         event.target.value = null;
                       }}
                       onChange={(e) => {
-                        changeLogo(e.target.files[0]);
+                        if (is_mentor_judge) {
+                          changePersonalPhoto(e.target.files[0]);
+                        } else {
+                          changeLogo(e.target.files[0]);
+                        }
                       }}
                       accept={"image/*"}
                     />

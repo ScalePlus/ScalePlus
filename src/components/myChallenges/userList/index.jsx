@@ -192,7 +192,14 @@ function Users({ t, history }) {
                 className="block"
                 key={index}
                 onClick={() => {
-                  history.push("/profile/view/123");
+                  if (
+                    each &&
+                    each.data &&
+                    each.data.userId &&
+                    each.data.userId._id
+                  ) {
+                    history.push(`/profile/view/${each.data.userId._id}`);
+                  }
                 }}
               >
                 <div>

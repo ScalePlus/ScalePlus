@@ -31,8 +31,12 @@ const MyChallengesList = ({ history }) => {
 
   useEffect(() => {
     const { myChallenges } = myChallengesReducer;
-    if (myChallenges && myChallenges.result && myChallenges.result.length) {
-      setMyChallenges(myChallenges.result);
+    if (myChallenges && myChallenges.result) {
+      if (myChallenges.result.length) {
+        setMyChallenges(myChallenges.result);
+      } else {
+        setMyChallenges([]);
+      }
     }
   }, [myChallengesReducer, is_organisation, userId]);
 

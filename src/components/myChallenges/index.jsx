@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import ChallengesList from "../allChallenges/subComponents/challengesList";
+// import ChallengesList from "../allChallenges/subComponents/challengesList";
 import MyChallengesList from "./challengeList";
 import ListBlock from "./listBlock";
 import Charts from "./charts";
@@ -24,11 +24,11 @@ const MyChallenges = ({ history }) => {
           <Charts history={history} />
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col>
           <ChallengesList history={history} />
         </Col>
-      </Row>
+      </Row> */}
     </MainContainer>
   );
 };
