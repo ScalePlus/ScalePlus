@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
 import Cookies from "universal-cookie";
 import {
   Navbar,
@@ -6,6 +7,8 @@ import {
   //  NavDropdown,
   Dropdown,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getActivitiesAction } from "../allActivities/action";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
@@ -18,6 +21,35 @@ import theme from "../../theme";
 const cookies = new Cookies();
 
 const Header = ({ t }) => {
+  const dispatch = useDispatch();
+  const getActivities = useCallback(
+    () => dispatch(getActivitiesAction("", "")),
+    [dispatch]
+  );
+
+  const activitiesReducer = useSelector((state) => {
+    return state.activitiesReducer;
+  });
+
+  const [activities, setActivities] = useState(null);
+
+  useEffect(() => {
+    getActivities();
+  }, [getActivities]);
+
+  useEffect(() => {
+    const { activities } = activitiesReducer;
+    if (activities && activities.result) {
+      if (activities.result.length && activities.result.length <= 5) {
+        setActivities(activities.result);
+      } else if (activities.result.length && activities.result.length > 5) {
+        setActivities(activities.result.slice(0, 5));
+      } else {
+        setActivities([]);
+      }
+    }
+  }, [activitiesReducer]);
+
   const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     is_logged_in = localStorage.getItem("token");
@@ -181,42 +213,37 @@ const Header = ({ t }) => {
                     }
                   )}
                 >
-                  <Dropdown.Item
-                    eventKey="1"
-                    onClick={() => {
-                      history.push("/challenge/:id/preview/Updates");
-                    }}
-                  >
-                    <ContentPart
-                      mainText={"New 1"}
-                      subText={"You received a new submission"}
-                      timestamp={"2 weeks"}
-                    />
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="2"
-                    onClick={() => {
-                      history.push("/challenge/:id/preview/Updates");
-                    }}
-                  >
-                    <ContentPart
-                      mainText={"Update 2"}
-                      subText={"You received a new submission"}
-                      timestamp={"2 days"}
-                    />
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="3"
-                    onClick={() => {
-                      history.push("/challenge/:id/preview/Updates");
-                    }}
-                  >
-                    <ContentPart
-                      mainText={"Update 2"}
-                      subText={"You received a new submission"}
-                      timestamp={"1 day"}
-                    />
-                  </Dropdown.Item>
+                  {activities && activities.length
+                    ? activities.map((each, index) => {
+                        return (
+                          <Dropdown.Item key={index} eventKey={index}>
+                            <ContentPart
+                              mainText={
+                                each.challengeId &&
+                                each.challengeId.descriptionId &&
+                                each.challengeId.descriptionId.title
+                              }
+                              userName={
+                                each.userId.details && each.userId.details.name
+                                  ? each.userId.details.name
+                                  : each.userId.email
+                              }
+                              imageURL={
+                                each.userId.details
+                                  ? each.userId.details.logo
+                                    ? each.userId.details.logo
+                                    : each.userId.details.personal_photo
+                                    ? each.userId.details.personal_photo
+                                    : ""
+                                  : ""
+                              }
+                              subText={each.type}
+                              timestamp={moment(each.createdDate).fromNow()}
+                            />
+                          </Dropdown.Item>
+                        );
+                      })
+                    : null}
                 </Dropdown.Menu>
               </Dropdown>
             </div>

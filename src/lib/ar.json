@@ -525,6 +525,11 @@
         "USER PROFILE": "USER PROFILE",
         "Applications": "Applications",
         "Qualified": "Qualified",
-        "Joined": "Joined"
+        "Joined": "Joined",
+        "< All Activities": "< All Activities",
+        "Notifications": "Notifications",
+        "Mark All As Read": "Mark All As Read",
+        "Judged Application": "Judged Application",
+        "of": "of"
     }
 }

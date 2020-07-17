@@ -39,13 +39,16 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
 
   useEffect(() => {
     if (activeKey.value === "Team") {
-      setFilters({ filter: "all_admin" });
+      setFilters({ challengeId: challengeId, filter: "all_admin" });
     }
     if (activeKey.value === "Participants") {
-      setFilters({ filter: "all_startup_individual" });
+      setFilters({
+        challengeId: challengeId,
+        filter: "all_startup_individual",
+      });
     }
     if (activeKey.value === "Judges") {
-      setFilters({ filter: "all_judge" });
+      setFilters({ challengeId: challengeId, filter: "all_judge" });
     }
   }, [activeKey]);
 

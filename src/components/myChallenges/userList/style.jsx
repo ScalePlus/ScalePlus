@@ -58,6 +58,9 @@ export const MainContainer = styled.div`
     }
     .pagination {
       margin-top: 1rem;
+      .of-text {
+        padding: 0px 5px;
+      }
       justify-content: center;
       .next-page,
       .previous-page {

@@ -57,8 +57,17 @@ export const MainContainer = styled.div`
     .pagination {
       margin-top: 1rem;
       justify-content: center;
-      .next-page {
+      .of-text {
+        padding: 0px 5px;
+      }
+      .next-page,
+      .previous-page {
         padding: 0rem 0.5rem;
+        cursor: pointer;
+      }
+      .last-page,
+      .first-page {
+        cursor: pointer;
       }
     }
   }

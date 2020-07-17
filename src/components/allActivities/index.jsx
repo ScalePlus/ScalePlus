@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { getActivitiesAction } from "./action";
 import { MainContainer } from "./style";
 import { Row, Col, Dropdown } from "react-bootstrap";
 import { Input } from "../common";
+import { Constants } from "../../lib/constant";
 
 const AllActivities = ({ history }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const getActivities = useCallback(
+    (filters, searchText) => dispatch(getActivitiesAction(filters, searchText)),
+    [dispatch]
+  );
+
+  const activitiesReducer = useSelector((state) => {
+    return state.activitiesReducer;
+  });
+
+  const [filters, setFilters] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [activities, setActivities] = useState(null);
+
+  const is_organisation =
+    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+    localStorage.getItem("token");
+
+  useEffect(() => {
+    getActivities(filters, searchText);
+  }, [getActivities, filters, searchText]);
+
+  useEffect(() => {
+    const { activities } = activitiesReducer;
+    if (activities && activities.result) {
+      if (activities.result.length) {
+        setActivities(activities.result);
+      } else {
+        setActivities([]);
+      }
+    }
+  }, [activitiesReducer]);
 
   return (
     <MainContainer>
@@ -24,7 +60,12 @@ const AllActivities = ({ history }) => {
                 </div>
                 <div className="right-container">
                   <div className="input-container">
-                    <Input placeholder="Search" type="text" />
+                    <Input
+                      placeholder="Search"
+                      type="text"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                    />
                   </div>
 
                   <Dropdown>
@@ -49,59 +90,133 @@ const AllActivities = ({ history }) => {
                           <div className="filter-text">
                             <span>{t("Filters")}</span>
                           </div>
-                          <div className="filter-count">
-                            <span className="count-text">{2}</span>
-                          </div>
                         </div>
                       ))}
                     ></Dropdown.Toggle>
-                    <Dropdown.Menu
-                      alignRight={true}
-                      className="activities-filter-menu"
-                    >
-                      <Dropdown.Item eventKey={1}>
-                        {t("All Activities")}
-                      </Dropdown.Item>
-                      <div className="title-block">
-                        <span>{t("By Admin")}</span>
-                      </div>
-                      <Dropdown.Item eventKey={2}>
-                        {t("Application Approvals")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={3}>
-                        {t("Application declines")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={4}>
-                        {t("All Reviews")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={5}>
-                        {t("All Submissions")}
-                      </Dropdown.Item>
-                      <div className="title-block">
-                        <span>{t("By Startup/Individual")}</span>
-                      </div>
-                      <Dropdown.Item eventKey={6}>
-                        {t("Submitted Application")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={7}>
-                        {t("Participants")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={82}>
-                        {t("Submissions")}
-                      </Dropdown.Item>
-                      <div className="title-block">
-                        <span>{t("By Judge")}</span>
-                      </div>
-                      <Dropdown.Item eventKey={9}>
-                        {t("Submitted Application")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={10}>
-                        {t("Participants")}
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={11}>
-                        {t("All Reviews")}
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
+                    {is_organisation ? (
+                      <Dropdown.Menu
+                        alignRight={true}
+                        className="activities-filter-menu"
+                      >
+                        <Dropdown.Item
+                          eventKey={1}
+                          onClick={() => {
+                            setFilters("all");
+                          }}
+                        >
+                          {t("All Activities")}
+                        </Dropdown.Item>
+                        <div className="title-block">
+                          <span>{t("By Admin")}</span>
+                        </div>
+                        <Dropdown.Item
+                          eventKey={2}
+                          onClick={() => {
+                            setFilters("application_approvals");
+                          }}
+                        >
+                          {t("Application Approvals")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={3}
+                          onClick={() => {
+                            setFilters("application_declines");
+                          }}
+                        >
+                          {t("Application declines")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={4}
+                          onClick={() => {
+                            setFilters("application_reviews");
+                          }}
+                        >
+                          {t("All Reviews")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={5}
+                          onClick={() => {
+                            setFilters("all_submissions");
+                          }}
+                        >
+                          {t("All Submissions")}
+                        </Dropdown.Item>
+                        <div className="title-block">
+                          <span>{t("By Startup/Individual")}</span>
+                        </div>
+                        <Dropdown.Item
+                          eventKey={6}
+                          onClick={() => {
+                            setFilters("submitted_application");
+                          }}
+                        >
+                          {t("Submitted Application")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={7}
+                          onClick={() => {
+                            setFilters("startup_individual_participants");
+                          }}
+                        >
+                          {t("Participants")}
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={8}>
+                          {t("Submissions")}
+                        </Dropdown.Item>
+                        <div className="title-block">
+                          <span>{t("By Judge")}</span>
+                        </div>
+                        <Dropdown.Item
+                          eventKey={9}
+                          onClick={() => {
+                            setFilters("judged_application");
+                          }}
+                        >
+                          {t("Judged Application")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={10}
+                          onClick={() => {
+                            setFilters("judge_participants");
+                          }}
+                        >
+                          {t("Participants")}
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey={11}>
+                          {t("All Reviews")}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    ) : (
+                      <Dropdown.Menu
+                        alignRight={true}
+                        className="activities-filter-menu"
+                      >
+                        <Dropdown.Item
+                          eventKey={1}
+                          onClick={() => {
+                            setFilters("all");
+                          }}
+                        >
+                          {t("All Activities")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={1}
+                          onClick={() => {
+                            setFilters("my");
+                          }}
+                        >
+                          {t("My Activities")}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey={1}
+                          onClick={() => {
+                            setFilters("other");
+                          }}
+                        >
+                          {t("Other Activities")}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    )}
                   </Dropdown>
                 </div>
               </div>
@@ -109,176 +224,78 @@ const AllActivities = ({ history }) => {
           </Row>
           <div className="list-container">
             <Row>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12}>
-                <div className="block">
-                  <div>
-                    <div className="challenge-name">
-                      Low Impact Agriculture Challenge
-                    </div>
-                    <div className="basic-information">
-                      <div className="user-name">Ali Jaradeh</div>
-                      <div>Submitted Application</div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="status-container">Invited</div>
-                    <div>01.07.2020</div>
-                  </div>
-                </div>
-              </Col>
+              {activities && activities.length
+                ? activities.map((each, index) => {
+                    return (
+                      <Col lg={6} md={6} sm={12} key={index}>
+                        <div className="block">
+                          <div>
+                            {each.challengeId &&
+                              each.challengeId.descriptionId &&
+                              each.challengeId.descriptionId.title && (
+                                <div className="challenge-name">
+                                  {each.challengeId.descriptionId.title}
+                                </div>
+                              )}
+                            <div className="basic-information">
+                              <div className="user-name">
+                                {each.userId.details && each.userId.details.name
+                                  ? each.userId.details.name
+                                  : each.userId.email}
+                              </div>
+                              <div>{each.type}</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div
+                              className="status-container"
+                              style={
+                                each.status === Constants.USER_STATUS.Invited
+                                  ? {
+                                      backgroundColor: "#fdf1ce",
+                                      color: "#f4ba09",
+                                      borderColor: "#f4ba09",
+                                    }
+                                  : each.status ===
+                                      Constants.USER_STATUS.Joined ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Submitted ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Accepeted ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Approved
+                                  ? {
+                                      backgroundColor: "#e0f9ea",
+                                      color: "#66e397",
+                                      borderColor: "#66e397",
+                                    }
+                                  : each.status ===
+                                      Constants.USER_STATUS.Declined ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Disqualified ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Canceled ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Deleted
+                                  ? {
+                                      backgroundColor: "#fce7e7",
+                                      color: "#f18989",
+                                      borderColor: "#f18989",
+                                    }
+                                  : {}
+                              }
+                            >
+                              {each.status}
+                            </div>
+                            <div>
+                              {moment(each.createdDate).format("DD.MM.YYYY")}
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    );
+                  })
+                : null}
             </Row>
           </div>
         </Col>

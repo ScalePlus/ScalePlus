@@ -293,7 +293,11 @@ function Users({ t, history }) {
                 {"<"}
               </span>
             )}
-            {renderPage} of {totalPage}
+
+            <span>{renderPage}</span>
+            <span className="of-text">{t("of")}</span>
+            <span>{totalPage}</span>
+
             {renderPage !== totalPage && (
               <span
                 className="next-page"

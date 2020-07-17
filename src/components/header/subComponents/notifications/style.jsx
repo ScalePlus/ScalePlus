@@ -13,6 +13,9 @@ export const HeaderContainer = styled.div`
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumRegular};
   }
+  .right-text {
+    cursor: pointer;
+  }
 `;
 
 export const ContentContainer = styled.div`
@@ -36,10 +39,21 @@ export const ContentContainer = styled.div`
     }
     .left-container {
       display: flex;
+      align-items: center;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
     }
     .right-container,
     .small-text {
       font-size: ${theme.fontSize.small};
+    }
+    .user-name {
+      font-size: ${theme.fontSize.small};
+      font-family: ${theme.fontFamily.bold};
+      margin-right: ${theme.isLTR && "10px"};
+      margin-left: ${theme.isRTL && "10px"};
     }
     .main-text {
       font-family: ${theme.fontFamily.bold};
