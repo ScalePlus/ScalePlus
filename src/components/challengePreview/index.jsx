@@ -580,7 +580,7 @@ const ChallengePreview = ({ history, match }) => {
                     if (is_mentor_judge) {
                       history.push("/dashboard");
                     } else if (!submissionClosed) {
-                      history.push(`/solve/challenge/${challengeData._id}`);
+                      history.push(`/challenge/agreement/${challengeData._id}`);
                     }
                   } else {
                     if (!submissionClosed) {

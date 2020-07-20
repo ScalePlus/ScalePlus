@@ -225,7 +225,7 @@ const MainRouter = () => {
             component={AllUsers}
           />
           <OpenRoute
-            path="/challenge/agreement"
+            path="/challenge/agreement/:id"
             exact
             layout={MainLayout}
             component={ChallengeAgreement}

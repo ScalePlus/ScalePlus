@@ -50,13 +50,16 @@ const Header = ({ t }) => {
     }
   }, [activitiesReducer]);
 
-  const is_organisation =
+  const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN,
+    is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
     is_logged_in = localStorage.getItem("token");
 
   const [links] = useState(
     is_logged_in
-      ? is_organisation
+      ? is_admin
+        ? [{ label: t("DASHBOARD"), link: "/dashboard" }]
+        : is_organisation
         ? [
             { label: t("ALL CHALLENGES"), link: "/all/challenges" },
             { label: t("HOW IT WORKS"), link: "/workflow" },

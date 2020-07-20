@@ -2,9 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Modal } from "react-bootstrap";
 import { MainContainer } from "./style";
+import { Constants } from "../../lib/constant";
 
 const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
   const { t } = useTranslation();
+  const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN;
+
   return (
     <Modal
       show={show}
@@ -16,27 +19,31 @@ const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
           <div className="close-container">
             <span onClick={() => setShow(false)}>x</span>
           </div>
-          <div className="box-container">
-            <div className="info-container">
-              <div className="avtar-container">
-                <img
-                  src="/images/image.svg"
-                  alt=""
-                  height="50px"
-                  width="50px"
-                />
+          {!is_admin && (
+            <div className="box-container">
+              <div className="info-container">
+                <div className="avtar-container">
+                  <img
+                    src="/images/image.svg"
+                    alt=""
+                    height="50px"
+                    width="50px"
+                  />
+                </div>
               </div>
+              <div className="name-container">Organization Name</div>
             </div>
-            <div className="name-container">Organization Name</div>
-          </div>
-          <div
-            className="profile-text"
-            onClick={() => {
-              profileClick();
-            }}
-          >
-            {t("USER PROFILE")}
-          </div>
+          )}
+          {!is_admin && (
+            <div
+              className="profile-text"
+              onClick={() => {
+                profileClick();
+              }}
+            >
+              {t("USER PROFILE")}
+            </div>
+          )}
           <div className="logout-container">
             <div
               className="logout-button"

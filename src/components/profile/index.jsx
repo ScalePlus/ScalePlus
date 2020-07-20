@@ -13,6 +13,7 @@ import Api from "../challengeMaster/api";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import {
+  PassInput,
   Input,
   DropDown,
   DateInput,
@@ -136,6 +137,12 @@ const UserProfileEdit = ({ history }) => {
 
   const [topKPIs, changeTopKPIs] = useState("");
 
+  const [currentPass, setCurrentPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+
+  const [newEmail, setNewEmail] = useState("");
+
   const [ans1, changeAns1] = useState("");
   const [ans2, changeAns2] = useState("");
   const [ans3, changeAns3] = useState("");
@@ -145,7 +152,7 @@ const UserProfileEdit = ({ history }) => {
 
   const [consulting, changeConsulting] = useState(false);
 
-  const [deleteCheck, changeDeleteCheck] = useState(false);
+  // const [deleteCheck, changeDeleteCheck] = useState(false);
 
   const [submittedForm, changeSubmittedForm] = useState(0);
 
@@ -917,6 +924,126 @@ const UserProfileEdit = ({ history }) => {
               </Col>
             </Row>
           </Form>
+          <div className="box-container">
+            <Row>
+              <Col className="header-container">
+                <div className="header-text">{t("Account Settings")}</div>
+              </Col>
+            </Row>
+            {errors && errors.length && submittedForm === 12 ? (
+              <Row>
+                <Col>
+                  <Alert variant={"danger"} className="text-left">
+                    {errors.map((each, index) => {
+                      return <div key={index}>{each}</div>;
+                    })}
+                  </Alert>
+                </Col>
+              </Row>
+            ) : null}
+            <Row style={{ marginTop: 20 }}>
+              <Col lg={6} md={6} sm={12}>
+                <Form
+                  noValidate
+                  validated={validated}
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    changeSubmittedForm(12);
+                    // const form = event.currentTarget;
+                  }}
+                >
+                  <PassInput
+                    label={t("Current Password")}
+                    value={currentPass}
+                    onChange={(e) => setCurrentPass(e.target.value)}
+                    isInvalid={
+                      validated &&
+                      (!currentPass ||
+                        (currentPass &&
+                          !currentPass.match(Constants.isValidPassword)))
+                    }
+                    errorMessage={
+                      currentPass
+                        ? t("invalid_password_error")
+                        : t("password_error")
+                    }
+                  />
+                  <PassInput
+                    label={t("New Password")}
+                    value={newPass}
+                    onChange={(e) => setNewPass(e.target.value)}
+                    isInvalid={
+                      validated &&
+                      (!newPass ||
+                        (newPass && !newPass.match(Constants.isValidPassword)))
+                    }
+                    errorMessage={
+                      newPass
+                        ? t("invalid_password_error")
+                        : t("password_error")
+                    }
+                  />
+                  <PassInput
+                    label={t("Confirm Password")}
+                    value={confirmPass}
+                    onChange={(e) => setConfirmPass(e.target.value)}
+                    isInvalid={
+                      validated &&
+                      (!confirmPass ||
+                        (confirmPass &&
+                          !confirmPass.match(Constants.isValidPassword)))
+                    }
+                    errorMessage={
+                      confirmPass
+                        ? t("invalid_password_error")
+                        : t("password_error")
+                    }
+                  />
+                  <div className="float-right">
+                    <PrimaryButton
+                      text={t("Update Password")}
+                      variant="primary"
+                      type="submit"
+                    />
+                  </div>
+                </Form>
+                <div style={{ marginTop: "5rem" }}>
+                  <PrimaryButton
+                    text={t("Delete Account")}
+                    variant="secondary"
+                  />
+                </div>
+              </Col>
+              <Col lg={6} md={6} sm={12}>
+                <Form
+                  noValidate
+                  validated={validated}
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    changeSubmittedForm(12);
+                    // const form = event.currentTarget;
+                  }}
+                >
+                  <Input
+                    type="email"
+                    label={t("New Email Address")}
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    required
+                  />
+                  <div className="float-right">
+                    <PrimaryButton
+                      text={t("Update Email")}
+                      variant="primary"
+                      type="submit"
+                    />
+                  </div>
+                </Form>
+              </Col>
+            </Row>
+          </div>
           <Form
             className="box-container"
             noValidate
@@ -1815,7 +1942,7 @@ const UserProfileEdit = ({ history }) => {
               </Col>
             </Row>
           </Form>
-          <Form className="box-container">
+          {/* <Form className="box-container">
             <Row>
               <Col className="header-container">
                 <div className="header-text">{t("Delete Account")}</div>
@@ -1859,7 +1986,7 @@ const UserProfileEdit = ({ history }) => {
                 />
               </Col>
             </Row>
-          </Form>
+          </Form> */}
         </Col>
       </Row>
       {(updateProfileReducer.loading ||

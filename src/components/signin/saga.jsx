@@ -73,34 +73,45 @@ function* signinSaga(data) {
         localStorage.setItem("userId", res.result.userId);
       }
 
-      if (data.mode === "modal") {
-        if (res.result.token) {
-          const is_organisation =
-              localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-            is_mentor_judge =
-              localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+      if (
+        res &&
+        res.result &&
+        res.result.userRole &&
+        Constants.ROLES.ADMIN === res.result.userRole
+      ) {
+        history.push("/dashboard");
+      } else {
+        if (data.mode === "modal") {
+          if (res.result.token) {
+            const is_organisation =
+                localStorage.getItem("userRole") ===
+                Constants.ROLES.ORGANIZATION,
+              is_mentor_judge =
+                localStorage.getItem("userRole") ===
+                Constants.ROLES.MENTOR_JUDGE;
 
-          if (res.result.profileUpdated) {
-            if (is_organisation || is_mentor_judge) {
-              data.setUserFlowModal("/dashboard");
+            if (res.result.profileUpdated) {
+              if (is_organisation || is_mentor_judge) {
+                data.setUserFlowModal("/dashboard");
+              } else {
+                data.setUserFlowModal("/solve/challenge");
+              }
             } else {
-              data.setUserFlowModal("/solve/challenge");
+              data.setUserFlowModal("/detail");
             }
           } else {
-            data.setUserFlowModal("/detail");
+            data.setActiveModal("EmailVerification");
           }
         } else {
-          data.setActiveModal("EmailVerification");
-        }
-      } else {
-        if (res.result.token) {
-          if (res.result.profileUpdated) {
-            history.push("/dashboard");
+          if (res.result.token) {
+            if (res.result.profileUpdated) {
+              history.push("/dashboard");
+            } else {
+              history.push("/detail");
+            }
           } else {
-            history.push("/detail");
+            history.push(`/verification/${res.result.userId}`);
           }
-        } else {
-          history.push(`/verification/${res.result.userId}`);
         }
       }
     }

@@ -50,7 +50,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
     if (activeKey.value === "Judges") {
       setFilters({ challengeId: challengeId, filter: "all_judge" });
     }
-  }, [activeKey]);
+  }, [activeKey, challengeId]);
 
   useEffect(() => {
     if (challengeJudgesReducer && challengeJudgesReducer.success) {

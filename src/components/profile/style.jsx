@@ -53,4 +53,8 @@ export const MainContainer = styled.div`
       cursor: pointer;
     }
   }
+
+  .password-icon {
+    margin-top: -35px;
+  }
 `;

@@ -12,10 +12,10 @@ function ListBlock({ history }) {
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
-            <Col lg={6} md={6} sm={6} xs={6}>
+            <Col lg={6} md={6} sm={12} xs={12}>
               <Users t={t} history={history} />
             </Col>
-            <Col lg={6} md={6} sm={6} xs={6}>
+            <Col lg={6} md={6} sm={12} xs={12}>
               <Activities t={t} history={history} />
             </Col>
           </Row>

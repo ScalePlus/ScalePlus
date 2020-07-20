@@ -188,7 +188,6 @@
         "expect_description_3": "Guidance and support from a challenge expert at Scale Plus.",
         "expect_description_4": "Access to a full knowledge base with best practices, templates, and tools.",
         "Sign up to compete in": "Sign up to compete in",
-        "Low Impact Agriculture Challenge": "Low Impact Agriculture Challenge",
         "Create My Team": "Create My Team",
         "No, Solve Alone": "No, Solve Alone",
         "Would you like to compete as a team? *": "Would you like to compete as a team? *",
@@ -530,6 +529,14 @@
         "Notifications": "Notifications",
         "Mark All As Read": "Mark All As Read",
         "Judged Application": "Judged Application",
-        "of": "of"
+        "of": "of",
+        "My Activities": "My Activities",
+        "Other Activities": "Other Activities",
+        "Account Settings": "Account Settings",
+        "Current Password": "Current Password",
+        "New Password": "New Password",
+        "Update Password": "Update Password",
+        "New Email Address": "New Email Address",
+        "Update Email": "Update Email"
     }
 }

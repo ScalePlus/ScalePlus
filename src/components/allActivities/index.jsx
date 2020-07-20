@@ -24,9 +24,12 @@ const AllActivities = ({ history }) => {
   const [searchText, setSearchText] = useState("");
   const [activities, setActivities] = useState(null);
 
-  const is_organisation =
-    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
-    localStorage.getItem("token");
+  const is_admin =
+      localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+      localStorage.getItem("token"),
+    is_organisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      localStorage.getItem("token");
 
   useEffect(() => {
     getActivities(filters, searchText);
@@ -93,7 +96,7 @@ const AllActivities = ({ history }) => {
                         </div>
                       ))}
                     ></Dropdown.Toggle>
-                    {is_organisation ? (
+                    {is_organisation || is_admin ? (
                       <Dropdown.Menu
                         alignRight={true}
                         className="activities-filter-menu"
@@ -144,14 +147,9 @@ const AllActivities = ({ history }) => {
                         <div className="title-block">
                           <span>{t("By Startup/Individual")}</span>
                         </div>
-                        <Dropdown.Item
-                          eventKey={6}
-                          onClick={() => {
-                            setFilters("submitted_application");
-                          }}
-                        >
+                        {/* <Dropdown.Item eventKey={6}>
                           {t("Submitted Application")}
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item
                           eventKey={7}
                           onClick={() => {
@@ -160,20 +158,20 @@ const AllActivities = ({ history }) => {
                         >
                           {t("Participants")}
                         </Dropdown.Item>
-                        <Dropdown.Item eventKey={8}>
+                        <Dropdown.Item
+                          eventKey={8}
+                          onClick={() => {
+                            setFilters("submitted_application");
+                          }}
+                        >
                           {t("Submissions")}
                         </Dropdown.Item>
                         <div className="title-block">
                           <span>{t("By Judge")}</span>
                         </div>
-                        <Dropdown.Item
-                          eventKey={9}
-                          onClick={() => {
-                            setFilters("judged_application");
-                          }}
-                        >
+                        {/* <Dropdown.Item eventKey={9}>
                           {t("Judged Application")}
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item
                           eventKey={10}
                           onClick={() => {
@@ -182,7 +180,12 @@ const AllActivities = ({ history }) => {
                         >
                           {t("Participants")}
                         </Dropdown.Item>
-                        <Dropdown.Item eventKey={11}>
+                        <Dropdown.Item
+                          eventKey={11}
+                          onClick={() => {
+                            setFilters("judged_application");
+                          }}
+                        >
                           {t("All Reviews")}
                         </Dropdown.Item>
                       </Dropdown.Menu>

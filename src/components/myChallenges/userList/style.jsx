@@ -2,6 +2,7 @@ import styled from "styled-components";
 import theme from "../../../theme";
 
 export const MainContainer = styled.div`
+  margin-bottom: 3rem;
   .left-block {
     display: flex;
     align-items: center;

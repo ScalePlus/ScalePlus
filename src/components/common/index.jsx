@@ -477,10 +477,11 @@ export const BannerInput = React.memo(
   }
 );
 
-export const PassInput = React.memo(({ errorMessage, ...props }) => {
+export const PassInput = React.memo(({ errorMessage, label, ...props }) => {
   const [showPass, changeToggle] = useState(false);
   return (
     <Form.Group>
+      {label && <Form.Label className="text-label">{label}</Form.Label>}
       <Form.Control type={showPass ? "text" : "password"} {...props} />
       <img
         src={showPass ? "/images/eyeSlash.svg" : "/images/eye.svg"}

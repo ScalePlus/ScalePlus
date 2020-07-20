@@ -1,14 +1,55 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import { MainContainer } from "./style";
 import { PrimaryButton } from "../common";
+import { getChallengeAction } from "../challengeMaster/action";
+import { useDispatch, useSelector } from "react-redux";
 
-const ChallengeAgreement = ({ history }) => {
+const ChallengeAgreement = ({ history, match }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const getChallengeMethod = useCallback(
+    (challengeId) => dispatch(getChallengeAction(challengeId)),
+    [dispatch]
+  );
+
+  const challengeReducer = useSelector((state) => {
+    return state.challengeReducer;
+  });
+
+  const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    getChallengeMethod(match.params.id);
+  }, [getChallengeMethod, match]);
+
+  useEffect(() => {
+    const { error } = challengeReducer;
+    let errors = [];
+    if (Array.isArray(error)) {
+      errors = error;
+    } else if (typeof error === "string") {
+      errors.push(error);
+    }
+    setErrors(errors);
+  }, [challengeReducer]);
 
   return (
     <MainContainer>
+      {errors && errors.length ? (
+        <Row style={{ marginTop: 10 }}>
+          <Col>
+            <Alert variant={"danger"} className="text-left">
+              {errors.map((each, index) => {
+                return <div key={index}>{each}</div>;
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : null}
+
       <Row className="justify-content-center">
         <Col lg={9} md={10} sm={12}>
           <div className="header-container">
@@ -21,11 +62,47 @@ const ChallengeAgreement = ({ history }) => {
               {"<"}
             </div>
             <div className="avtar-container">
-              <img src="/images/image.svg" alt="" height="25px" width="25px" />
+              <img
+                src={
+                  challengeReducer.challengeData &&
+                  challengeReducer.challengeData.organisationId &&
+                  challengeReducer.challengeData.organisationId.details &&
+                  challengeReducer.challengeData.organisationId.details.logo
+                    ? challengeReducer.challengeData.organisationId.details.logo
+                    : "/images/image.svg"
+                }
+                height={
+                  challengeReducer.challengeData &&
+                  challengeReducer.challengeData.organisationId &&
+                  challengeReducer.challengeData.organisationId.details &&
+                  challengeReducer.challengeData.organisationId.details.logo
+                    ? "100%"
+                    : "25px"
+                }
+                width={
+                  challengeReducer.challengeData &&
+                  challengeReducer.challengeData.organisationId &&
+                  challengeReducer.challengeData.organisationId.details &&
+                  challengeReducer.challengeData.organisationId.details.logo
+                    ? "100%"
+                    : "25px"
+                }
+                alt=""
+                style={{ borderRadius: "50%" }}
+              ></img>
             </div>
-            <div className="user-name">Rio Tinto</div>
+            <div className="user-name">
+              {challengeReducer.challengeData &&
+                challengeReducer.challengeData.organisationId &&
+                challengeReducer.challengeData.organisationId.details &&
+                challengeReducer.challengeData.organisationId.details.name}
+            </div>
           </div>
-          <div className="challenge-title">Challenge Title Here</div>
+          <div className="challenge-title">
+            {challengeReducer.challengeData &&
+              challengeReducer.challengeData.descriptionId &&
+              challengeReducer.challengeData.descriptionId.title}
+          </div>
           <div className="sub-header-container">
             <div className="agreement-text">
               {t("Challenge-Specific Agreement")}
@@ -34,119 +111,45 @@ const ChallengeAgreement = ({ history }) => {
               <PrimaryButton
                 text={t("dont_accept_agreement")}
                 variant="light"
+                onClick={() => {
+                  history.goBack();
+                }}
               />
-              <PrimaryButton text={t("accept_agreement")} variant="primary" />
+              <PrimaryButton
+                text={t("accept_agreement")}
+                variant="primary"
+                onClick={() => {
+                  history.push(`/solve/challenge/${match.params.id}`);
+                }}
+              />
             </div>
           </div>
-          <div className="agreement">
-            Imagine a rover the size of your Roomba® crawling the moon’s
-            surface. These small rovers developed by NASA and commercial
-            partners provide greater mission flexibility and allow NASA to
-            collect key information about the lunar surface. However, existing
-            science payloads are too big, too heavy, and require too much power
-            for these rovers and new, miniaturized payload designs are needed.
-            Payloads need to be similar in size to a new bar of soap to fit
-            cleanly inside the rover (maximum external dimensions: 100mm x 100mm
-            x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years.
-            <br />
-            <br />
-            Imagine a rover the size of your Roomba® crawling the moon’s
-            surface. These small rovers developed by NASA and commercial
-            partners provide greater mission flexibility and allow NASA to
-            collect key information about the lunar surface. However, existing
-            science payloads are too big, too heavy, and require too much power
-            for these rovers and new, miniaturized payload designs are needed.
-            Payloads need to be similar in size to a new bar of soap to fit
-            cleanly inside the rover (maximum external dimensions: 100mm x 100mm
-            x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years. Imagine a rover
-            the size of your Roomba® crawling the moon’s surface. These small
-            rovers developed by NASA and commercial partners provide greater
-            mission flexibility and allow NASA to collect key information about
-            the lunar surface. However, existing science payloads are too big,
-            too heavy, and require too much power for these rovers and new,
-            miniaturized payload designs are needed. Payloads need to be similar
-            in size to a new bar of soap to fit cleanly inside the rover
-            (maximum external dimensions: 100mm x 100mm x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years. Imagine a rover
-            the size of your Roomba® crawling the moon’s surface. These small
-            rovers developed by NASA and commercial partners provide greater
-            mission flexibility and allow NASA to collect key information about
-            the lunar surface. However, existing science payloads are too big,
-            too heavy, and require too much power for these rovers and new,
-            miniaturized payload designs are needed. Payloads need to be similar
-            in size to a new bar of soap to fit cleanly inside the rover
-            (maximum external dimensions: 100mm x 100mm x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years. Imagine a rover
-            the size of your Roomba® crawling the moon’s surface. These small
-            rovers developed by NASA and commercial partners provide greater
-            mission flexibility and allow NASA to collect key information about
-            the lunar surface. However, existing science payloads are too big,
-            too heavy, and require too much power for these rovers and new,
-            miniaturized payload designs are needed. Payloads need to be similar
-            in size to a new bar of soap to fit cleanly inside the rover
-            (maximum external dimensions: 100mm x 100mm x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years. Imagine a rover
-            the size of your Roomba® crawling the moon’s surface. These small
-            rovers developed by NASA and commercial partners provide greater
-            mission flexibility and allow NASA to collect key information about
-            the lunar surface. However, existing science payloads are too big,
-            too heavy, and require too much power for these rovers and new,
-            miniaturized payload designs are needed. Payloads need to be similar
-            in size to a new bar of soap to fit cleanly inside the rover
-            (maximum external dimensions: 100mm x 100mm x 50mm).
-            <br />
-            <br />
-            This ideation challenge will award $160,000 total in prizes across
-            two categories. This ideation challenge is expected to be followed
-            by new challenges to prototype, test, and deliver these miniaturized
-            payloads. This larger effort will generate a maturation pipeline of
-            next-generation instruments, sensors, and experiments that can be
-            used for lunar exploration over the next few years.
-          </div>
+          {challengeReducer.challengeData &&
+          challengeReducer.challengeData.legalAgreementId &&
+          challengeReducer.challengeData.legalAgreementId.data ? (
+            <div
+              className="agreement"
+              dangerouslySetInnerHTML={{
+                __html: challengeReducer.challengeData.legalAgreementId.data,
+              }}
+            />
+          ) : null}
           <div className="float-right">
             <div className="button-container">
               <PrimaryButton
                 text={t("dont_accept_agreement")}
                 variant="light"
+                onClick={() => {
+                  history.goBack();
+                }}
               />
-              <PrimaryButton text={t("accept_agreement")} variant="primary" />
+              <PrimaryButton
+                text={t("accept_agreement")}
+                variant="primary"
+                onClick={() => {
+                  history.push(`/solve/challenge/${match.params.id}`);
+                }}
+              />
             </div>
           </div>
         </Col>

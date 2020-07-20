@@ -27,6 +27,7 @@ export const Constants = {
     redirectUri: "http://localhost:3000/linkedin",
   },
   ROLES: {
+    ADMIN: "Admin",
     STARTUP_INDIVIDUAL: "Startup or Individual",
     ORGANIZATION: "Organization",
     MENTOR_JUDGE: "Mentor / Judge",

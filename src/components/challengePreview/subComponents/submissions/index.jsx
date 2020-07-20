@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
 import { Link } from "react-router-dom";
 import { Row, Col, Alert, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,12 +14,12 @@ import { MainContainer } from "./style";
 import {
   PrimaryButton,
   CheckBox,
-  CommonTable,
+  // CommonTable,
   Input,
   EditorInput,
   FileInput,
   RadioButton,
-  DropDown,
+  // DropDown,
   Loading,
 } from "../../../common";
 import { HeaderComponent } from "../common";
@@ -66,8 +67,14 @@ const Submissions = ({
   const [progress, setProgress] = useState(0);
   const [formFilled, setFormFilled] = useState(false);
   const [submissions, changeSubmissions] = useState(null);
-  const [searchText, setSearchText] = useState("");
-  const [selectedFilter, selectFilter] = useState(null);
+  const [
+    searchText,
+    // setSearchText
+  ] = useState("");
+  const [
+    selectedFilter,
+    // selectFilter
+  ] = useState(null);
 
   useEffect(() => {
     if (challengeData && challengeData._id && localStorage.getItem("token")) {
@@ -611,7 +618,9 @@ const Submissions = ({
                   );
                 }}
               />
-            ) : null}
+            ) : (
+              <HeaderComponent titleText={t("Submissions")} />
+            )}
           </Col>
         </Row>
         <Row className="justify-content-center" style={{ marginBottom: 80 }}>
@@ -620,6 +629,7 @@ const Submissions = ({
             md={fromPreview ? 11 : 12}
             sm={fromPreview ? 11 : 12}
             xs={fromPreview ? 11 : 12}
+            style={{ padding: !selectedRow && "0" }}
           >
             {selectedRow ? (
               <div className="selected-row-container text-left">
@@ -741,194 +751,262 @@ const Submissions = ({
                   : null}
               </div>
             ) : (
-              <CommonTable
-                filters={
-                  <div className="filter-container">
-                    <div className="controll-container">
-                      <DropDown
-                        isSmall={true}
-                        isSingle={true}
-                        isSelectOnly={true}
-                        placeholder={t("Filter Results")}
-                        options={[
-                          { label: t("All"), value: "all" },
-                          {
-                            label: t("Startup Name"),
-                            value: "startup_name",
-                          },
-                          {
-                            label: t("Owner Name"),
-                            value: "owner_name",
-                          },
-                          {
-                            label: t("Location"),
-                            value: "location",
-                          },
-                          {
-                            label: t("Industry"),
-                            value: "industry",
-                          },
-                          {
-                            label: t("Technology"),
-                            value: "technology",
-                          },
-                        ]}
-                        value={selectedFilter}
-                        onChange={(val) => {
-                          selectFilter(val);
-                        }}
-                      />
-                      <Input
-                        type="text"
-                        placeholder={t("Search")}
-                        value={searchText}
-                        onChange={(e) => {
-                          setSearchText(e.target.value);
-                        }}
-                      />
-                      {/* <div className="text">Search</div> */}
-                    </div>
-                  </div>
-                }
-                columns={[
-                  {
-                    Header: "",
-                    accessor: "active",
-                    width: "2.5%",
-                    standAlone: true,
-                    HeaderCell: () => {
+              <Row>
+                {submissions && submissions.length
+                  ? submissions.map((each, index) => {
                       return (
-                        <div>
-                          <CheckBox
-                            id={`checkbox-${Math.random()}`}
-                            checkBoxText=""
-                            onChange={(e) => {
-                              let { checked } = e.target;
-                              changeSubmissions((data) => {
-                                return data.filter((each) => {
-                                  each.active = checked;
-                                  return each;
-                                });
-                              });
+                        <Col lg={6} md={6} sm={12} key={index}>
+                          <div
+                            className="new-block"
+                            onClick={() => {
+                              selectRow(each);
                             }}
-                          />
-                        </div>
+                          >
+                            <div>
+                              {challengeData &&
+                                challengeData.descriptionId &&
+                                challengeData.descriptionId.title && (
+                                  <div className="challenge-name">
+                                    {challengeData.descriptionId.title}
+                                  </div>
+                                )}
+                              <div className="basic-information">
+                                <div className="user-name">
+                                  {each.userId.details &&
+                                  each.userId.details.name
+                                    ? each.userId.details.name
+                                    : each.userId.email}
+                                </div>
+                                <div>Submitted Application</div>
+                              </div>
+                            </div>
+                            <div>
+                              <div
+                                className="status-container"
+                                style={
+                                  each.isEvaluated
+                                    ? {
+                                        backgroundColor: "#e0f9ea",
+                                        color: "#66e397",
+                                        borderColor: "#66e397",
+                                      }
+                                    : each.isDisqualified
+                                    ? {
+                                        backgroundColor: "#fce7e7",
+                                        color: "#f18989",
+                                        borderColor: "#f18989",
+                                      }
+                                    : {
+                                        backgroundColor: "#fdf1ce",
+                                        color: "#f4ba09",
+                                        borderColor: "#f4ba09",
+                                      }
+                                }
+                              >
+                                {each.isDisqualified
+                                  ? "Disqualified"
+                                  : each.isEvaluated
+                                  ? "Approved"
+                                  : "pending"}
+                              </div>
+                              <div>
+                                {moment(each.createdDate).format("DD.MM.YYYY")}
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
                       );
-                    },
-                    Cell: (checked, record) => {
-                      return (
-                        <div>
-                          <CheckBox
-                            id={`checkbox-${Math.random()}`}
-                            checkBoxText=""
-                            checked={checked}
-                            onChange={(e) => {
-                              let { checked } = e.target;
-                              changeSubmissions((data) => {
-                                return data.filter((each) => {
-                                  if (each.id === record.id) {
-                                    each.active = checked;
-                                  }
-                                  return each;
-                                });
-                              });
-                            }}
-                          />
-                        </div>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Startup Name"),
-                    accessor: "userId",
-                    width: "19%",
-                    Cell: (data) => {
-                      return (
-                        <span>{data && data.details && data.details.name}</span>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Owner Name"),
-                    accessor: "userId",
-                    width: "19%",
-                    Cell: (data) => {
-                      return (
-                        <span>
-                          {data && data.firstName} {data && data.lastName}
-                        </span>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Location"),
-                    accessor: "userId",
-                    width: "19%",
-                    Cell: (data) => {
-                      return (
-                        <span>
-                          {data && data.details && data.details.locationData}
-                        </span>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Industry"),
-                    accessor: "userId",
-                    width: "19%",
-                    Cell: (data) => {
-                      return (
-                        <span>
-                          {data &&
-                            data.businessTags &&
-                            data.businessTags.industry &&
-                            data.businessTags.industry
-                              .map((each) => {
-                                return each.name;
-                              })
-                              .join()}
-                        </span>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Technology"),
-                    accessor: "userId",
-                    width: "19%",
-                    Cell: (data) => {
-                      return (
-                        <span>
-                          {data &&
-                            data.businessTags &&
-                            data.businessTags.technology &&
-                            data.businessTags.technology
-                              .map((each) => {
-                                return each.name;
-                              })
-                              .join()}
-                        </span>
-                      );
-                    },
-                  },
-                  {
-                    Header: t("Elegiable"),
-                    accessor: "Elegiable",
-                    width: "2.5%",
-                    Cell: (data) => {
-                      return (
-                        <div className="circle-container">
-                          <div className="elegiable-circle"></div>
-                        </div>
-                      );
-                    },
-                  },
-                ]}
-                data={submissions}
-                showPagination={false}
-                onRowClick={(val) => {
-                  selectRow(val);
-                }}
-              />
+                    })
+                  : null}
+              </Row>
+
+              // <CommonTable
+              //   filters={
+              //     <div className="filter-container">
+              //       <div className="controll-container">
+              //         <DropDown
+              //           isSmall={true}
+              //           isSingle={true}
+              //           isSelectOnly={true}
+              //           placeholder={t("Filter Results")}
+              //           options={[
+              //             { label: t("All"), value: "all" },
+              //             {
+              //               label: t("Startup Name"),
+              //               value: "startup_name",
+              //             },
+              //             {
+              //               label: t("Owner Name"),
+              //               value: "owner_name",
+              //             },
+              //             {
+              //               label: t("Location"),
+              //               value: "location",
+              //             },
+              //             {
+              //               label: t("Industry"),
+              //               value: "industry",
+              //             },
+              //             {
+              //               label: t("Technology"),
+              //               value: "technology",
+              //             },
+              //           ]}
+              //           value={selectedFilter}
+              //           onChange={(val) => {
+              //             selectFilter(val);
+              //           }}
+              //         />
+              //         <Input
+              //           type="text"
+              //           placeholder={t("Search")}
+              //           value={searchText}
+              //           onChange={(e) => {
+              //             setSearchText(e.target.value);
+              //           }}
+              //         />
+              //       </div>
+              //     </div>
+              //   }
+              //   columns={[
+              //     {
+              //       Header: "",
+              //       accessor: "active",
+              //       width: "2.5%",
+              //       standAlone: true,
+              //       HeaderCell: () => {
+              //         return (
+              //           <div>
+              //             <CheckBox
+              //               id={`checkbox-${Math.random()}`}
+              //               checkBoxText=""
+              //               onChange={(e) => {
+              //                 let { checked } = e.target;
+              //                 changeSubmissions((data) => {
+              //                   return data.filter((each) => {
+              //                     each.active = checked;
+              //                     return each;
+              //                   });
+              //                 });
+              //               }}
+              //             />
+              //           </div>
+              //         );
+              //       },
+              //       Cell: (checked, record) => {
+              //         return (
+              //           <div>
+              //             <CheckBox
+              //               id={`checkbox-${Math.random()}`}
+              //               checkBoxText=""
+              //               checked={checked}
+              //               onChange={(e) => {
+              //                 let { checked } = e.target;
+              //                 changeSubmissions((data) => {
+              //                   return data.filter((each) => {
+              //                     if (each.id === record.id) {
+              //                       each.active = checked;
+              //                     }
+              //                     return each;
+              //                   });
+              //                 });
+              //               }}
+              //             />
+              //           </div>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Startup Name"),
+              //       accessor: "userId",
+              //       width: "19%",
+              //       Cell: (data) => {
+              //         return (
+              //           <span>{data && data.details && data.details.name}</span>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Owner Name"),
+              //       accessor: "userId",
+              //       width: "19%",
+              //       Cell: (data) => {
+              //         return (
+              //           <span>
+              //             {data && data.firstName} {data && data.lastName}
+              //           </span>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Location"),
+              //       accessor: "userId",
+              //       width: "19%",
+              //       Cell: (data) => {
+              //         return (
+              //           <span>
+              //             {data && data.details && data.details.locationData}
+              //           </span>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Industry"),
+              //       accessor: "userId",
+              //       width: "19%",
+              //       Cell: (data) => {
+              //         return (
+              //           <span>
+              //             {data &&
+              //               data.businessTags &&
+              //               data.businessTags.industry &&
+              //               data.businessTags.industry
+              //                 .map((each) => {
+              //                   return each.name;
+              //                 })
+              //                 .join()}
+              //           </span>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Technology"),
+              //       accessor: "userId",
+              //       width: "19%",
+              //       Cell: (data) => {
+              //         return (
+              //           <span>
+              //             {data &&
+              //               data.businessTags &&
+              //               data.businessTags.technology &&
+              //               data.businessTags.technology
+              //                 .map((each) => {
+              //                   return each.name;
+              //                 })
+              //                 .join()}
+              //           </span>
+              //         );
+              //       },
+              //     },
+              //     {
+              //       Header: t("Elegiable"),
+              //       accessor: "Elegiable",
+              //       width: "2.5%",
+              //       Cell: (data) => {
+              //         return (
+              //           <div className="circle-container">
+              //             <div className="elegiable-circle"></div>
+              //           </div>
+              //         );
+              //       },
+              //     },
+              //   ]}
+              //   data={submissions}
+              //   showPagination={false}
+              //   onRowClick={(val) => {
+              //     selectRow(val);
+              //   }}
+              // />
             )}
           </Col>
         </Row>

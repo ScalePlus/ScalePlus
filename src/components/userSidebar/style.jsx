@@ -39,6 +39,7 @@ export const MainContainer = styled.div`
     cursor: pointer;
   }
   .logout-container {
+    width: 300px;
     font-size: ${theme.fontSize.mediumRegular};
     font-family: ${theme.fontFamily.bold};
     text-align: center;

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { doSubscriptionAction } from "../allChallenges/action";
 import { MainContainer } from "./style";
 import history from "../../history";
+import { Constants } from "../../lib/constant";
 // const groups = [
 //   "/images/Al-Futtaim_Group_DL_logo.svg",
 //   "/images/Al-Futtaim_Group_DL_logo.svg",
@@ -29,7 +30,9 @@ const Footer = ({ t }) => {
 
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
-
+  const is_admin =
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+    localStorage.getItem("token");
   useEffect(() => {
     const { subscriptionError } = allChallengesReducer;
 
@@ -60,39 +63,41 @@ const Footer = ({ t }) => {
         </Row>
       </div> */}
 
-      <Row className="subscribe-container">
-        <Col lg={9} md={9} sm={9} xs={9}>
-          {errors && errors.length ? (
-            <Alert variant={"danger"} className="text-left">
-              {errors.map((each, index) => {
-                return <div key={index}>{each}</div>;
-              })}
-            </Alert>
-          ) : null}
-          <div className="content-container">
-            <div className="text">
-              <span>{t("footer_subscription_title")}</span>
+      {!is_admin && (
+        <Row className="subscribe-container">
+          <Col lg={9} md={9} sm={9} xs={9}>
+            {errors && errors.length ? (
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
+            ) : null}
+            <div className="content-container">
+              <div className="text">
+                <span>{t("footer_subscription_title")}</span>
+              </div>
+              <div className="form-container">
+                <Input
+                  type="email"
+                  placeholder={t("Your email address")}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <PrimaryButton
+                  variant="light"
+                  text={t("Subscribe")}
+                  onClick={() => {
+                    doSubscriptionMethod({ email }, null, setEmail);
+                  }}
+                ></PrimaryButton>
+              </div>
             </div>
-            <div className="form-container">
-              <Input
-                type="email"
-                placeholder={t("Your email address")}
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <PrimaryButton
-                variant="light"
-                text={t("Subscribe")}
-                onClick={() => {
-                  doSubscriptionMethod({ email }, null, setEmail);
-                }}
-              ></PrimaryButton>
-            </div>
-          </div>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      )}
 
       <Row className="justify-content-center" style={{ marginBottom: 25 }}>
         <Col lg={11} md={11} sm={11} xs={11}>

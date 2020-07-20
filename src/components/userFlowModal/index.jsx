@@ -26,7 +26,11 @@ const UserFlowModal = ({ show, setUserFlowModal, history, challengeData }) => {
             </div>
             <div>
               <span className="challenge-name">
-                {t("Low Impact Agriculture Challenge")}
+                {challengeData &&
+                challengeData.descriptionId &&
+                challengeData.descriptionId.title
+                  ? challengeData.descriptionId.title
+                  : ""}
               </span>
             </div>
           </div>
@@ -40,7 +44,7 @@ const UserFlowModal = ({ show, setUserFlowModal, history, challengeData }) => {
                 setUserFlowModal={(routePath) => {
                   setUserFlowModal(false);
                   if (routePath === "/solve/challenge") {
-                    history.push(`/solve/challenge/${challengeData._id}`);
+                    history.push(`/challenge/agreement/${challengeData._id}`);
                   } else {
                     history.push(routePath);
                   }
