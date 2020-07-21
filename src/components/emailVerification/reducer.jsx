@@ -7,6 +7,7 @@ import {
   RESEND_EMAIL_VERIFICATION_SUCCESS,
   RESEND_EMAIL_VERIFICATION_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -16,6 +17,9 @@ let initialState = {
 };
 
 export const emailVerificationReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [EMAIL_VERIFICATION_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

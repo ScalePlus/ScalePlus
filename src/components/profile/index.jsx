@@ -13,6 +13,7 @@ import {
   targetMarketsOptionsAction,
   geographicalMarketsOptionsAction,
 } from "../businessTags/action";
+import { logoutAction } from "../signin/action";
 import Api from "../challengeMaster/api";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Alert } from "react-bootstrap";
@@ -37,6 +38,7 @@ const UserProfileEdit = ({ history }) => {
   const updateProfile = (data) => dispatch(updateProfileAction(data));
   const changeEmailMethod = (data) => dispatch(changeEmailAction(data));
   const resetPasswordMethod = (data) => dispatch(resetPasswordAction(data));
+  const logout = () => dispatch(logoutAction());
 
   const industriesOptionsMethod = useCallback(
     () => dispatch(industriesOptionsAction()),
@@ -1983,8 +1985,7 @@ const UserProfileEdit = ({ history }) => {
           await updateProfile({
             status: Constants.STATUS.INACTIVE,
           });
-          localStorage.clear();
-          history.push("/");
+          logout();
         }}
       />
       {(updateProfileReducer.loading ||

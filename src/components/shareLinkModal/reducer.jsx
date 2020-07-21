@@ -4,6 +4,7 @@ import {
   SHARE_LINK_SUCCESS,
   SHARE_LINK_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const sharelinkReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [SHARE_LINK_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

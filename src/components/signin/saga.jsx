@@ -24,6 +24,8 @@ import {
   FILE_LIST_LOADING,
   FILE_LIST_SUCCESS,
   FILE_LIST_ERROR,
+  LOGOUT_ACTION,
+  LOGOUT_SUCCESS,
 } from "./types";
 import Api from "./api";
 import {
@@ -270,6 +272,12 @@ function* getFileListSaga() {
   }
 }
 
+function* logoutSaga() {
+  yield put({ type: LOGOUT_SUCCESS });
+  localStorage.clear();
+  history.push("/");
+}
+
 function* watchSigninAsync() {
   yield takeLatest(SIGNIN_ACTION, signinSaga);
   yield takeLatest(LOGGEDIN_USER_ACTION, loggedInUserSaga);
@@ -277,6 +285,7 @@ function* watchSigninAsync() {
   yield takeLatest(GOOGLE_LOGIN_ACTION, googleLoginSaga);
   yield takeLatest(LINKEDIN_LOGIN_ACTION, linkedinLoginSaga);
   yield takeLatest(FILE_LIST_ACTION, getFileListSaga);
+  yield takeLatest(LOGOUT_ACTION, logoutSaga);
 }
 
 export default watchSigninAsync;

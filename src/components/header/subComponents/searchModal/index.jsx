@@ -24,13 +24,12 @@ const SearchModal = ({ show, setShow }) => {
 
   useEffect(() => {
     const { error, searchData } = searchAllReducer;
-    if (
-      searchText &&
-      searchData &&
-      searchData.result &&
-      searchData.result.length
-    ) {
-      setChallenges(searchData.result);
+    if (searchText && searchData && searchData.result) {
+      if (searchData.result.length) {
+        setChallenges(searchData.result);
+      } else {
+        setChallenges([]);
+      }
     }
 
     let errors = [];

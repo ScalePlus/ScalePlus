@@ -10,6 +10,7 @@ import {
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -18,6 +19,9 @@ let initialState = {
 };
 
 export const updateProfileReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [UPDATE_PROFILE_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

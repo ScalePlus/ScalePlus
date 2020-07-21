@@ -18,6 +18,7 @@ import {
   FILE_LIST_LOADING,
   FILE_LIST_SUCCESS,
   FILE_LIST_ERROR,
+  LOGOUT_SUCCESS,
 } from "./types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
 import {
@@ -38,6 +39,9 @@ let initialState = {
 };
 
 export const signinReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [SIGNIN_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

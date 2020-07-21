@@ -4,6 +4,7 @@ import {
   UPDATE_ESSENTIAL_DETAILS_SUCCESS,
   UPDATE_ESSENTIAL_DETAILS_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const updateEssentialDetailsReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [UPDATE_ESSENTIAL_DETAILS_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

@@ -4,6 +4,7 @@ import {
   LINKEDIN_DATA_SUCCESS,
   LINKEDIN_DATA_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const linkedinDataReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [LINKEDIN_DATA_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

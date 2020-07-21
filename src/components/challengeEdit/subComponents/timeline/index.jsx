@@ -59,19 +59,19 @@ const Timeline = ({ t, challengeId }) => {
 
   useEffect(() => {
     const { error, timelineStatesSuccess } = challengeTimelineReducer;
-    if (
-      timelineStatesSuccess &&
-      timelineStatesSuccess.result &&
-      timelineStatesSuccess.result.length
-    ) {
-      changeStateList(
-        timelineStatesSuccess.result.map((each) => {
-          return {
-            value: each._id,
-            label: each.name,
-          };
-        })
-      );
+    if (timelineStatesSuccess && timelineStatesSuccess.result) {
+      if (timelineStatesSuccess.result.length) {
+        changeStateList(
+          timelineStatesSuccess.result.map((each) => {
+            return {
+              value: each._id,
+              label: each.name,
+            };
+          })
+        );
+      } else {
+        changeStateList([]);
+      }
     }
 
     let errors = [];

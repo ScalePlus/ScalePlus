@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivitiesAction } from "../allActivities/action";
+import { logoutAction } from "../signin/action";
 import { Container } from "./style";
 import history from "../../history";
 import SearchModal from "./subComponents/searchModal";
@@ -26,6 +27,7 @@ const Header = ({ t }) => {
     () => dispatch(getActivitiesAction("", "")),
     [dispatch]
   );
+  const logout = () => dispatch(logoutAction());
 
   const activitiesReducer = useSelector((state) => {
     return state.activitiesReducer;
@@ -34,7 +36,9 @@ const Header = ({ t }) => {
   const [activities, setActivities] = useState(null);
 
   useEffect(() => {
-    getActivities();
+    if (localStorage.getItem("token")) {
+      getActivities();
+    }
   }, [getActivities]);
 
   useEffect(() => {
@@ -288,7 +292,7 @@ const Header = ({ t }) => {
             //   <NavDropdown.Item
             //     href="/"
             //     onClick={() => {
-            //       localStorage.clear();
+            //       logout();
             //       onToggle(false);
             //     }}
             //   >
@@ -327,8 +331,7 @@ const Header = ({ t }) => {
         }}
         onLogout={() => {
           setShowSidebar(false);
-          localStorage.clear();
-          history.push("/");
+          logout();
         }}
       />
     </Container>

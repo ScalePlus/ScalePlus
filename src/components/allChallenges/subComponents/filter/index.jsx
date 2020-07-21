@@ -43,12 +43,12 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
 
   useEffect(() => {
     const { timelineStatesSuccess } = challengeTimelineReducer;
-    if (
-      timelineStatesSuccess &&
-      timelineStatesSuccess.result &&
-      timelineStatesSuccess.result.length
-    ) {
-      setStageTabs(timelineStatesSuccess.result);
+    if (timelineStatesSuccess && timelineStatesSuccess.result) {
+      if (timelineStatesSuccess.result.length) {
+        setStageTabs(timelineStatesSuccess.result);
+      } else {
+        setStageTabs(null);
+      }
     }
   }, [challengeTimelineReducer]);
 

@@ -4,6 +4,7 @@ import {
   ATTACH_LEGAL_AGREEMENT_SUCCESS,
   ATTACH_LEGAL_AGREEMENT_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const challengeLegalAggreementReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [ATTACH_LEGAL_AGREEMENT_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

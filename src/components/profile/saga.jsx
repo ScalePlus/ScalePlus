@@ -13,6 +13,7 @@ import {
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 import Api from "./api";
 import history from "../../history";
 
@@ -38,6 +39,7 @@ function* changeEmailSaga(data) {
       yield put({ type: UPDATE_EMAIL_ERROR, payload: res.message });
     } else {
       yield put({ type: UPDATE_EMAIL_SUCCESS, payload: res.message });
+      yield put({ type: LOGOUT_SUCCESS });
       localStorage.clear();
       history.push("/");
     }
@@ -54,6 +56,7 @@ function* resetPasswordSaga(data) {
       yield put({ type: UPDATE_PASSWORD_ERROR, payload: res.message });
     } else {
       yield put({ type: UPDATE_PASSWORD_SUCCESS, payload: res.message });
+      yield put({ type: LOGOUT_SUCCESS });
       localStorage.clear();
       history.push("/");
     }

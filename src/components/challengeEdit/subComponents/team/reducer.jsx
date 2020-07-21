@@ -5,6 +5,7 @@ import {
   ATTACH_TEAM_ERROR,
 } from "./types";
 import { GET_ATTACHED_USERS_LOADING } from "../../../allUsers/types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -13,6 +14,9 @@ let initialState = {
 };
 
 export const challengeTeamReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [GET_ATTACHED_USERS_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: false,

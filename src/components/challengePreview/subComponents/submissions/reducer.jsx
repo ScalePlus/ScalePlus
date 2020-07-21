@@ -13,6 +13,7 @@ import {
   JUDGE_SUBMISSION_FORM_SUCCESS,
   JUDGE_SUBMISSION_FORM_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -24,6 +25,9 @@ let initialState = {
 };
 
 export const submissionListReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [FILL_SUBMISSION_FORM_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

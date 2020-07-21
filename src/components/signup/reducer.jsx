@@ -10,6 +10,7 @@ import {
   LINKEDIN_SIGNUP_SUCCESS,
   LINKEDIN_SIGNUP_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -18,6 +19,9 @@ let initialState = {
 };
 
 export const signupReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [SIGNUP_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

@@ -4,6 +4,7 @@ import {
   GET_ATTACHED_USERS_SUCCESS,
   GET_ATTACHED_USERS_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const attachedUsersReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [GET_ATTACHED_USERS_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

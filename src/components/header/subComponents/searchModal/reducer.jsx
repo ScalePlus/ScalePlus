@@ -4,6 +4,7 @@ import {
   SEARCH_ALL_SUCCESS,
   SEARCH_ALL_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const searchAllReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [SEARCH_ALL_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

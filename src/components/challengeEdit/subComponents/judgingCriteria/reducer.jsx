@@ -7,6 +7,7 @@ import {
   GET_RATING_TYPES_SUCCESS,
   GET_RATING_TYPES_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -16,6 +17,9 @@ let initialState = {
 };
 
 export const challengeJudgingCriteriaReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [ATTACH_JUDGING_CRITERIA_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

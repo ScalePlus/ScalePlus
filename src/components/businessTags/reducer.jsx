@@ -22,6 +22,7 @@ import {
   GEOGRAPHICAL_MARKET_OPTIONS_SUCCESS,
   GEOGRAPHICAL_MARKET_OPTIONS_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -36,6 +37,9 @@ let initialState = {
 };
 
 export const updateBusinessTagsReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [UPDATE_BUSINESS_TAGS_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

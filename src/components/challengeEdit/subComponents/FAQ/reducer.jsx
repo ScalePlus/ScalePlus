@@ -4,6 +4,7 @@ import {
   ATTACH_FAQ_SUCCESS,
   ATTACH_FAQ_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const challengeFAQReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [ATTACH_FAQ_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

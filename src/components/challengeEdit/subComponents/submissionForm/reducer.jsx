@@ -4,6 +4,7 @@ import {
   ATTACH_SUBMISSION_FORM_SUCCESS,
   ATTACH_SUBMISSION_FORM_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../../../signin/types";
 
 let initialState = {
   loading: false,
@@ -12,6 +13,9 @@ let initialState = {
 };
 
 export const challengeSubmissionformReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [ATTACH_SUBMISSION_FORM_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,

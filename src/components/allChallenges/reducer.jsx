@@ -7,6 +7,7 @@ import {
   DO_SUBSCRIPTION_SUCCESS,
   DO_SUBSCRIPTION_ERROR,
 } from "./types";
+import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -18,6 +19,9 @@ let initialState = {
 };
 
 export const allChallengesReducer = createReducer(initialState, {
+  [LOGOUT_SUCCESS](state, action) {
+    return Object.assign({}, state, initialState);
+  },
   [GET_ALL_CHALLENGES_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
