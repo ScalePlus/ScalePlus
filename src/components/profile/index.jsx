@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { updateProfileAction } from "./action";
+import {
+  updateProfileAction,
+  changeEmailAction,
+  resetPasswordAction,
+} from "./action";
 import {
   industriesOptionsAction,
   servicesOptionsAction,
@@ -24,12 +28,15 @@ import {
 } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
+import DeleteUserModal from "./deleteModal";
 let fileUploader;
 
 const UserProfileEdit = ({ history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const updateProfile = (data) => dispatch(updateProfileAction(data));
+  const changeEmailMethod = (data) => dispatch(changeEmailAction(data));
+  const resetPasswordMethod = (data) => dispatch(resetPasswordAction(data));
 
   const industriesOptionsMethod = useCallback(
     () => dispatch(industriesOptionsAction()),
@@ -152,7 +159,7 @@ const UserProfileEdit = ({ history }) => {
 
   const [consulting, changeConsulting] = useState(false);
 
-  // const [deleteCheck, changeDeleteCheck] = useState(false);
+  const [deleteModalShow, setShow] = useState(false);
 
   const [submittedForm, changeSubmittedForm] = useState(0);
 
@@ -466,11 +473,10 @@ const UserProfileEdit = ({ history }) => {
       <Row className="justify-content-center">
         <Col lg={9} md={10} sm={10}>
           <div className="title">{t("Edit Profile")}</div>
-
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 1}
             onSubmit={async (event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -574,7 +580,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 1 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -930,9 +936,11 @@ const UserProfileEdit = ({ history }) => {
                 <div className="header-text">{t("Account Settings")}</div>
               </Col>
             </Row>
-            {errors && errors.length && submittedForm === 12 ? (
+            {errors &&
+            errors.length &&
+            (submittedForm === 12 || submittedForm === 13) ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -945,12 +953,28 @@ const UserProfileEdit = ({ history }) => {
               <Col lg={6} md={6} sm={12}>
                 <Form
                   noValidate
-                  validated={validated}
+                  validated={validated && submittedForm === 12}
                   onSubmit={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
                     changeSubmittedForm(12);
-                    // const form = event.currentTarget;
+                    const form = event.currentTarget;
+                    if (
+                      currentPass &&
+                      currentPass.match(Constants.isValidPassword) &&
+                      newPass &&
+                      newPass.match(Constants.isValidPassword) &&
+                      confirmPass &&
+                      confirmPass.match(Constants.isValidPassword) &&
+                      newPass === confirmPass &&
+                      form.checkValidity()
+                    ) {
+                      resetPasswordMethod({
+                        currentPass,
+                        confirmPass,
+                      });
+                    }
+                    setValidated(true);
                   }}
                 >
                   <PassInput
@@ -991,13 +1015,12 @@ const UserProfileEdit = ({ history }) => {
                     isInvalid={
                       validated &&
                       (!confirmPass ||
-                        (confirmPass &&
-                          !confirmPass.match(Constants.isValidPassword)))
+                        (newPass && confirmPass && newPass !== confirmPass))
                     }
                     errorMessage={
                       confirmPass
-                        ? t("invalid_password_error")
-                        : t("password_error")
+                        ? t("passwordMismatch_error")
+                        : t("confirmPassword_error")
                     }
                   />
                   <div className="float-right">
@@ -1012,18 +1035,25 @@ const UserProfileEdit = ({ history }) => {
                   <PrimaryButton
                     text={t("Delete Account")}
                     variant="secondary"
+                    onClick={() => {
+                      setShow(true);
+                    }}
                   />
                 </div>
               </Col>
               <Col lg={6} md={6} sm={12}>
                 <Form
                   noValidate
-                  validated={validated}
+                  validated={validated && submittedForm === 13}
                   onSubmit={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    changeSubmittedForm(12);
-                    // const form = event.currentTarget;
+                    changeSubmittedForm(13);
+                    const form = event.currentTarget;
+                    if (newEmail && form.checkValidity()) {
+                      changeEmailMethod({ email: newEmail });
+                    }
+                    setValidated(true);
                   }}
                 >
                   <Input
@@ -1047,7 +1077,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 2}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1096,7 +1126,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 2 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1253,7 +1283,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 3}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1288,7 +1318,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 3 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1355,7 +1385,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 4}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1387,7 +1417,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 4 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1434,7 +1464,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 5}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1467,7 +1497,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 5 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1524,7 +1554,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 6}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1556,7 +1586,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 6 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1597,7 +1627,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 7}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1629,7 +1659,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 7 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1670,7 +1700,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 8}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1702,7 +1732,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 8 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1743,7 +1773,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 9}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1773,7 +1803,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 9 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1798,7 +1828,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 10}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1833,7 +1863,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 10 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1892,7 +1922,7 @@ const UserProfileEdit = ({ history }) => {
           <Form
             className="box-container"
             noValidate
-            validated={validated}
+            validated={validated && submittedForm === 11}
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1920,7 +1950,7 @@ const UserProfileEdit = ({ history }) => {
             </Row>
             {errors && errors.length && submittedForm === 11 ? (
               <Row>
-                <Col>
+                <Col style={{ marginTop: "1rem" }}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -1942,53 +1972,21 @@ const UserProfileEdit = ({ history }) => {
               </Col>
             </Row>
           </Form>
-          {/* <Form className="box-container">
-            <Row>
-              <Col className="header-container">
-                <div className="header-text">{t("Delete Account")}</div>
-                <div className="button-container">
-                  <PrimaryButton
-                    text={t("Delete")}
-                    variant="danger"
-                    disabled={!deleteCheck}
-                    onClick={async () => {
-                      changeSubmittedForm(12);
-                      await updateProfile({
-                        status: Constants.STATUS.INACTIVE,
-                      });
-                      localStorage.clear();
-                      history.push("/");
-                    }}
-                  />
-                </div>
-              </Col>
-            </Row>
-            {errors && errors.length && submittedForm === 12 ? (
-              <Row>
-                <Col>
-                  <Alert variant={"danger"} className="text-left">
-                    {errors.map((each, index) => {
-                      return <div key={index}>{each}</div>;
-                    })}
-                  </Alert>
-                </Col>
-              </Row>
-            ) : null}
-            <Row style={{ marginTop: 20 }}>
-              <Col>
-                <CheckBox
-                  id={`checkbox-2`}
-                  checkBoxText={t("delete_account_description")}
-                  checked={deleteCheck}
-                  onChange={(e) => {
-                    changeDeleteCheck(!deleteCheck);
-                  }}
-                />
-              </Col>
-            </Row>
-          </Form> */}
         </Col>
       </Row>
+      <DeleteUserModal
+        t={t}
+        show={deleteModalShow}
+        setShow={setShow}
+        errors={errors}
+        onDelete={async () => {
+          await updateProfile({
+            status: Constants.STATUS.INACTIVE,
+          });
+          localStorage.clear();
+          history.push("/");
+        }}
+      />
       {(updateProfileReducer.loading ||
         signinReducer.loading ||
         updateBusinessTagsReducer.loading ||

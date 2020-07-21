@@ -529,6 +529,17 @@
         "Notifications": "Notifications",
         "Mark All As Read": "Mark All As Read",
         "Judged Application": "Judged Application",
-        "of": "of"
+        "of": "of",
+        "My Activities": "My Activities",
+        "Other Activities": "Other Activities",
+        "Account Settings": "Account Settings",
+        "Current Password": "Current Password",
+        "New Password": "New Password",
+        "Update Password": "Update Password",
+        "New Email Address": "New Email Address",
+        "Update Email": "Update Email",
+        "delete_user_modal_title": "You are about to delete your account!",
+        "delete_user_modal_sub_title": "You will lose all your information and you cannot undo this!",
+        "delete_user_modal_yes": "Delete my account"
     }
 }

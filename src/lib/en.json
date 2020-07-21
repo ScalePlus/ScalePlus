@@ -537,6 +537,9 @@
         "New Password": "New Password",
         "Update Password": "Update Password",
         "New Email Address": "New Email Address",
-        "Update Email": "Update Email"
+        "Update Email": "Update Email",
+        "delete_user_modal_title": "You are about to delete your account!",
+        "delete_user_modal_sub_title": "You will lose all your information and you cannot undo this!",
+        "delete_user_modal_yes": "Delete my account"
     }
 }
