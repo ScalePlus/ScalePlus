@@ -242,7 +242,10 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                         }}
                       >
                         <div className="avtar-container">
-                          {each.data.userId.details &&
+                          {each &&
+                          each.data &&
+                          each.data.userId &&
+                          each.data.userId.details &&
                           each.data.userId.details.logo ? (
                             <img
                               src={each.data.userId.details.logo}
@@ -264,10 +267,12 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                           <div className="basic-information">
                             <div>
                               <div className="user-name">
-                                {each.data.userId.details &&
-                                each.data.userId.details.name
-                                  ? each.data.userId.details.name
-                                  : each.data.userId.email}
+                                {each && each.data && each.data.userId
+                                  ? each.data.userId.details &&
+                                    each.data.userId.details.name
+                                    ? each.data.userId.details.name
+                                    : each.data.userId.email
+                                  : null}
                               </div>
                               <div className="user-role">
                                 {each.data.permission

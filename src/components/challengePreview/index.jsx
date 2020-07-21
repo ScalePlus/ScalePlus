@@ -235,6 +235,9 @@ const ChallengePreview = ({ history, match }) => {
             for (let j = 0; j < team.length; j++) {
               const member = team[j];
               if (
+                member &&
+                member.userId &&
+                member.userId._id &&
                 member.userId._id.toString() === localStorage.getItem("userId")
               ) {
                 memberAsParticipant = member;

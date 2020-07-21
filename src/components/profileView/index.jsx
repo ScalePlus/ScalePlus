@@ -67,6 +67,8 @@ const UserProfileView = ({ match, history }) => {
       if (record) {
         setUserData(record);
         if (
+          record &&
+          record.data &&
           record.data.userId &&
           record.data.userId.roles &&
           record.data.userId.roles.length

@@ -2,8 +2,7 @@ import styled from "styled-components";
 import theme from "../../theme";
 
 export const MainContainer = styled.div`
-  margin-top: 40px;
-  padding: 0px 20px;
+  padding: 40px 20px;
   .title-container {
     display: flex;
     justify-content: space-between;

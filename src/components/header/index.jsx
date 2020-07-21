@@ -231,16 +231,21 @@ const Header = ({ t }) => {
                                 each.challengeId.descriptionId.title
                               }
                               userName={
-                                each.userId.details && each.userId.details.name
-                                  ? each.userId.details.name
-                                  : each.userId.email
+                                each.userId
+                                  ? each.userId.details &&
+                                    each.userId.details.name
+                                    ? each.userId.details.name
+                                    : each.userId.email
+                                  : null
                               }
                               imageURL={
-                                each.userId.details
-                                  ? each.userId.details.logo
+                                each.userId
+                                  ? each.userId.details
                                     ? each.userId.details.logo
-                                    : each.userId.details.personal_photo
-                                    ? each.userId.details.personal_photo
+                                      ? each.userId.details.logo
+                                      : each.userId.details.personal_photo
+                                      ? each.userId.details.personal_photo
+                                      : ""
                                     : ""
                                   : ""
                               }

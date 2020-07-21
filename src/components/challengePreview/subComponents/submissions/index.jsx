@@ -772,10 +772,12 @@ const Submissions = ({
                                 )}
                               <div className="basic-information">
                                 <div className="user-name">
-                                  {each.userId.details &&
-                                  each.userId.details.name
-                                    ? each.userId.details.name
-                                    : each.userId.email}
+                                  {each.userId
+                                    ? each.userId.details &&
+                                      each.userId.details.name
+                                      ? each.userId.details.name
+                                      : each.userId.email
+                                    : null}
                                 </div>
                                 <div>Submitted Application</div>
                               </div>

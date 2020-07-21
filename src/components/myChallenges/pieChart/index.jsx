@@ -30,15 +30,25 @@ const PieChart = ({ t }) => {
       if (attachedUsers.result.length) {
         const { result } = attachedUsers;
         const judges = result.filter(
-          (each) => each.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
+          (each) =>
+            each &&
+            each.data &&
+            each.data.userId &&
+            each.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
         );
         const individuals = result.filter(
           (each) =>
+            each &&
+            each.data &&
+            each.data.userId &&
             each.data.userId.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL &&
             each.data.userId.details.isIndividual
         );
         const startUps = result.filter(
           (each) =>
+            each &&
+            each.data &&
+            each.data.userId &&
             each.data.userId.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL &&
             each.data.userId.details.isStartUp
         );

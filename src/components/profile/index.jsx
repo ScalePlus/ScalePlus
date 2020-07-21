@@ -1033,7 +1033,7 @@ const UserProfileEdit = ({ history }) => {
                     />
                   </div>
                 </Form>
-                <div style={{ marginTop: "5rem" }}>
+                <div style={{ marginTop: "5rem", marginBottom: "1rem" }}>
                   <PrimaryButton
                     text={t("Delete Account")}
                     variant="secondary"

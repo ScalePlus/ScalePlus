@@ -99,7 +99,10 @@ const Footer = ({ t }) => {
         </Row>
       )}
 
-      <Row className="justify-content-center" style={{ marginBottom: 25 }}>
+      <Row
+        className="justify-content-center"
+        style={{ marginBottom: 25, marginTop: is_admin ? 70 : 0 }}
+      >
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row className="align-items-center middle-container">
             <Col

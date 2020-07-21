@@ -205,9 +205,12 @@ function Users({ t, history }) {
                 <div>
                   <div className="basic-information">
                     <div className="user-name">
-                      {each.data.userId.details && each.data.userId.details.name
-                        ? each.data.userId.details.name
-                        : each.data.userId.email}
+                      {each && each.data && each.data.userId
+                        ? each.data.userId.details &&
+                          each.data.userId.details.name
+                          ? each.data.userId.details.name
+                          : each.data.userId.email
+                        : null}
                     </div>
                     <div className="user-role">
                       {each.data.permission
