@@ -17,6 +17,13 @@ const PieChart = ({ t }) => {
   const attachedUsersReducer = useSelector((state) => {
     return state.attachedUsersReducer;
   });
+  const allChallengesReducer = useSelector((state) => {
+    return state.allChallengesReducer;
+  });
+
+  const is_admin =
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+    localStorage.getItem("token");
 
   useEffect(() => {
     getAttachedUsers({}, "");
@@ -26,31 +33,70 @@ const PieChart = ({ t }) => {
 
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
+    const { allChallenges } = allChallengesReducer;
+
     if (attachedUsers && attachedUsers.result) {
       if (attachedUsers.result.length) {
-        const { result } = attachedUsers;
+        let result = Object.assign([], attachedUsers.result);
+
+        if (
+          allChallenges &&
+          allChallenges.result &&
+          allChallenges.result.data &&
+          is_admin
+        ) {
+          result = result.filter((each) => {
+            if (each.challengeId && each.challengeId._id) {
+              const index = allChallenges.result.data.findIndex(
+                (data) =>
+                  data._id.toString() === each.challengeId._id.toString()
+              );
+              if (index >= 0) {
+                return each;
+              } else {
+                return null;
+              }
+            } else {
+              return each;
+            }
+          });
+        }
+
         const judges = result.filter(
-          (each) =>
-            each &&
-            each.data &&
-            each.data.userId &&
-            each.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
+          (each, index, self) =>
+            self.findIndex(
+              (record) =>
+                record.data.userId._id === each.data.userId._id &&
+                record.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
+            ) === index
         );
         const individuals = result.filter(
-          (each) =>
-            each &&
-            each.data &&
-            each.data.userId &&
-            each.data.userId.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL &&
-            each.data.userId.details.isIndividual
+          (each, index, self) =>
+            self.findIndex(
+              (record) =>
+                record.data.userId._id === each.data.userId._id &&
+                record.data.userId.roles[0] ===
+                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                record.data.userId.details.isIndividual
+            ) === index
         );
         const startUps = result.filter(
-          (each) =>
-            each &&
-            each.data &&
-            each.data.userId &&
-            each.data.userId.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL &&
-            each.data.userId.details.isStartUp
+          (each, index, self) =>
+            self.findIndex(
+              (record) =>
+                record.data.userId._id === each.data.userId._id &&
+                record.data.userId.roles[0] ===
+                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                record.data.userId.details.isStartUp
+            ) === index
+        );
+        const organisations = result.filter(
+          (each, index, self) =>
+            self.findIndex(
+              (record) =>
+                record.data.userId._id === each.data.userId._id &&
+                record.data.userId.roles[0] === Constants.ROLES.ORGANIZATION
+            ) === index
         );
 
         let data = [];
@@ -67,12 +113,16 @@ const PieChart = ({ t }) => {
           data.push({ y: startUps.length, label: "Startup" });
         }
 
+        if (is_admin) {
+          data.push({ y: organisations.length, label: "Organisation" });
+        }
+
         setDataPoints(data);
       } else {
         setDataPoints([]);
       }
     }
-  }, [attachedUsersReducer]);
+  }, [attachedUsersReducer, allChallengesReducer, is_admin]);
 
   return (
     <MainContainer>

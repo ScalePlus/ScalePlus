@@ -235,6 +235,11 @@ const Header = ({ t }) => {
                                   ? each.userId.details &&
                                     each.userId.details.name
                                     ? each.userId.details.name
+                                    : each.userId.firstName &&
+                                      each.userId.lastName
+                                    ? each.userId.firstName +
+                                      " " +
+                                      each.userId.lastName
                                     : each.userId.email
                                   : null
                               }

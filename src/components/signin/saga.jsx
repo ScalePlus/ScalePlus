@@ -81,7 +81,11 @@ function* signinSaga(data) {
         res.result.userRole &&
         Constants.ROLES.ADMIN === res.result.userRole
       ) {
-        history.push("/dashboard");
+        if (res.result.token) {
+          history.push("/dashboard");
+        } else {
+          history.push(`/verification/${res.result.userId}`);
+        }
       } else {
         if (data.mode === "modal") {
           if (res.result.token) {

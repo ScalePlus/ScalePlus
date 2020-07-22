@@ -120,7 +120,9 @@ const UserProfileView = ({ match, history }) => {
                     : userData.data.status === Constants.USER_STATUS.Joined ||
                       userData.data.status ===
                         Constants.USER_STATUS.Submitted ||
-                      userData.data.status === Constants.USER_STATUS.Accepeted
+                      userData.data.status ===
+                        Constants.USER_STATUS.Accepeted ||
+                      userData.data.status === Constants.USER_STATUS.Created
                     ? {
                         backgroundColor: "#e0f9ea",
                         color: "#66e397",

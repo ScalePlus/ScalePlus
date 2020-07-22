@@ -6,6 +6,7 @@ import { getAllChallengeAction } from "../../action";
 import Filters from "../filter";
 import { ChallengesListContainer } from "./style";
 import { PrimaryButton, CardComponent, Loading } from "../../../common";
+import { Constants } from "../../../../lib/constant";
 
 const ChallengesList = ({ history }) => {
   const { t } = useTranslation();
@@ -19,6 +20,9 @@ const ChallengesList = ({ history }) => {
     return state.allChallengesReducer;
   });
 
+  const is_admin =
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+    localStorage.getItem("token");
   const [show, setShow] = useState(false);
   const [filterCount, setFilterCount] = useState(null);
   const [filters, setFilters] = useState({});
@@ -87,20 +91,31 @@ const ChallengesList = ({ history }) => {
 
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={11} xs={11}>
-          <Row style={{ marginTop: 45 }}>
-            <Col>
-              <div className="header-container">
-                <span className="title-text">{t("Explore Challenges")}</span>
-              </div>
-            </Col>
-          </Row>
+          {!is_admin && (
+            <Row style={{ marginTop: 45 }}>
+              <Col>
+                <div className="header-container">
+                  <span className="title-text">{t("Explore Challenges")}</span>
+                </div>
+              </Col>
+            </Row>
+          )}
 
-          <Row>
+          <Row style={{ marginTop: is_admin ? 45 : 0 }}>
             <Col>
               <div className="sub-header-container">
-                <div className="text">
-                  <span>{t("Explore_challenges_sub_text")}</span>
-                </div>
+                {is_admin ? (
+                  <div className="header-container">
+                    <div className="title-text">{t("All Challenges")}</div>
+                    <div className="circle-container">
+                      <span className="count">{allChallenges.length}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text">
+                    <span>{t("Explore_challenges_sub_text")}</span>
+                  </div>
+                )}
                 <div
                   className="filter-button-container"
                   onClick={() => setShow(true)}
@@ -127,43 +142,36 @@ const ChallengesList = ({ history }) => {
           </Row>
 
           {allChallenges && allChallenges.length ? (
-            <Row style={{ marginTop: 25 }}>
-              <Col>
-                <div className="card-list">
-                  <Row style={{ paddingRight: 0, paddingLeft: 0 }}>
-                    {allChallenges.map((each, index) => {
-                      return (
-                        <Col
-                          lg={4}
-                          md={6}
-                          sm={12}
-                          xs={12}
-                          key={index}
-                          style={{
-                            paddingRight: "15px",
-                            paddingLeft: "15px",
-                          }}
-                          onClick={() => {
-                            history.push(
-                              `/challenge/${each._id}/preview/Overview`
-                            );
-                          }}
-                        >
-                          <CardComponent
-                            t={t}
-                            organisationId={each.organisationId}
-                            descriptionId={each.descriptionId}
-                            judgesId={each.judgesId}
-                            participantsId={each.participantsId}
-                            timelineId={each.timelineId}
-                          />
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </div>
-              </Col>
-            </Row>
+            <div className="card-list" style={{ marginTop: 25 }}>
+              <Row>
+                {allChallenges.map((each, index) => {
+                  return (
+                    <Col
+                      lg={4}
+                      md={6}
+                      sm={12}
+                      xs={12}
+                      key={index}
+                      onClick={() => {
+                        history.push(`/challenge/${each._id}/preview/Overview`);
+                      }}
+                    >
+                      <CardComponent
+                        t={t}
+                        organisationId={each.organisationId}
+                        descriptionId={each.descriptionId}
+                        judgesId={each.judgesId}
+                        participantsId={each.participantsId}
+                        timelineId={each.timelineId}
+                        showProgress={is_admin}
+                        applications={each.applications}
+                        qualified={each.qualified}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
           ) : (
             <Row className="justify-content-center">
               <Col lg={11} md={11} sm={11} xs={11}>

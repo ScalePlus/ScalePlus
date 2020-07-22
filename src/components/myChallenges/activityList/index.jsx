@@ -16,6 +16,9 @@ function Activities({ t, history }) {
   const activitiesReducer = useSelector((state) => {
     return state.activitiesReducer;
   });
+  const allChallengesReducer = useSelector((state) => {
+    return state.allChallengesReducer;
+  });
 
   const [filters, setFilters] = useState("");
   const [activities, setActivities] = useState(null);
@@ -45,8 +48,41 @@ function Activities({ t, history }) {
 
   useEffect(() => {
     const { activities } = activitiesReducer;
+    const { allChallenges } = allChallengesReducer;
     if (activities && activities.result) {
-      if (activities.result.length) {
+      if (
+        allChallenges &&
+        allChallenges.result &&
+        allChallenges.result.data &&
+        is_admin
+      ) {
+        let list = Object.assign([], activities.result);
+
+        list = list.filter((each) => {
+          if (each.challengeId && each.challengeId._id) {
+            const index = allChallenges.result.data.findIndex(
+              (data) => data._id.toString() === each.challengeId._id.toString()
+            );
+            if (index >= 0) {
+              return each;
+            } else {
+              return null;
+            }
+          } else {
+            return each;
+          }
+        });
+
+        let length = list.length;
+        if (allChallenges.result.data.length && length) {
+          setTotalPage(Math.ceil(length / limit));
+          setRenderPage(1);
+          setActivities(list);
+        } else {
+          setActivities([]);
+          setVisibleData([]);
+        }
+      } else if (!is_admin && activities.result.length) {
         let length = activities.result.length;
         setTotalPage(Math.ceil(length / limit));
         setRenderPage(1);
@@ -56,7 +92,7 @@ function Activities({ t, history }) {
         setVisibleData([]);
       }
     }
-  }, [activitiesReducer]);
+  }, [activitiesReducer, allChallengesReducer, is_admin]);
 
   return (
     <MainContainer>
@@ -242,6 +278,8 @@ function Activities({ t, history }) {
                       {each.userId
                         ? each.userId.details && each.userId.details.name
                           ? each.userId.details.name
+                          : each.userId.firstName && each.userId.lastName
+                          ? each.userId.firstName + " " + each.userId.lastName
                           : each.userId.email
                         : null}
                     </div>
@@ -261,7 +299,8 @@ function Activities({ t, history }) {
                         : each.status === Constants.USER_STATUS.Joined ||
                           each.status === Constants.USER_STATUS.Submitted ||
                           each.status === Constants.USER_STATUS.Accepeted ||
-                          each.status === Constants.USER_STATUS.Approved
+                          each.status === Constants.USER_STATUS.Approved ||
+                          each.status === Constants.USER_STATUS.Created
                         ? {
                             backgroundColor: "#e0f9ea",
                             color: "#66e397",

@@ -246,6 +246,11 @@ const AllActivities = ({ history }) => {
                                   ? each.userId.details &&
                                     each.userId.details.name
                                     ? each.userId.details.name
+                                    : each.userId.firstName &&
+                                      each.userId.lastName
+                                    ? each.userId.firstName +
+                                      " " +
+                                      each.userId.lastName
                                     : each.userId.email
                                   : null}
                               </div>
@@ -269,7 +274,9 @@ const AllActivities = ({ history }) => {
                                     each.status ===
                                       Constants.USER_STATUS.Accepeted ||
                                     each.status ===
-                                      Constants.USER_STATUS.Approved
+                                      Constants.USER_STATUS.Approved ||
+                                    each.status ===
+                                      Constants.USER_STATUS.Created
                                   ? {
                                       backgroundColor: "#e0f9ea",
                                       color: "#66e397",

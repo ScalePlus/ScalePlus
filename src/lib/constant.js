@@ -11,6 +11,7 @@ export const Constants = {
     INACTIVE: 1,
   },
   USER_STATUS: {
+    Created: "Created",
     Invited: "Invited",
     Joined: "Joined",
     Approved: "Approved",

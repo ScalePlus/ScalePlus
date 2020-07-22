@@ -17,6 +17,13 @@ function Users({ t, history }) {
   const attachedUsersReducer = useSelector((state) => {
     return state.attachedUsersReducer;
   });
+  const allChallengesReducer = useSelector((state) => {
+    return state.allChallengesReducer;
+  });
+
+  const is_admin =
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+    localStorage.getItem("token");
 
   const [filters, setFilters] = useState({});
   const [attachedUsers, setAttachedUsers] = useState(null);
@@ -40,8 +47,43 @@ function Users({ t, history }) {
 
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
+    const { allChallenges } = allChallengesReducer;
+
     if (attachedUsers && attachedUsers.result) {
-      if (attachedUsers.result.length) {
+      if (
+        allChallenges &&
+        allChallenges.result &&
+        allChallenges.result.data &&
+        is_admin
+      ) {
+        let list = Object.assign([], attachedUsers.result);
+
+        list = list.filter((each) => {
+          if (each.challengeId && each.challengeId._id) {
+            const index = allChallenges.result.data.findIndex(
+              (data) => data._id.toString() === each.challengeId._id.toString()
+            );
+            if (index >= 0) {
+              return each;
+            } else {
+              return null;
+            }
+          } else {
+            return each;
+          }
+        });
+
+        let length = list.length;
+
+        if (allChallenges.result.data.length && length) {
+          setTotalPage(Math.ceil(length / limit));
+          setRenderPage(1);
+          setAttachedUsers(list);
+        } else {
+          setAttachedUsers([]);
+          setVisibleData([]);
+        }
+      } else if (!is_admin && attachedUsers.result.length) {
         let length = attachedUsers.result.length;
         setTotalPage(Math.ceil(length / limit));
         setRenderPage(1);
@@ -51,7 +93,7 @@ function Users({ t, history }) {
         setVisibleData([]);
       }
     }
-  }, [attachedUsersReducer]);
+  }, [attachedUsersReducer, allChallengesReducer, is_admin]);
 
   return (
     <MainContainer>
@@ -209,6 +251,11 @@ function Users({ t, history }) {
                         ? each.data.userId.details &&
                           each.data.userId.details.name
                           ? each.data.userId.details.name
+                          : each.data.userId.firstName &&
+                            each.data.userId.lastName
+                          ? each.data.userId.firstName +
+                            " " +
+                            each.data.userId.lastName
                           : each.data.userId.email
                         : null}
                     </div>
@@ -234,7 +281,11 @@ function Users({ t, history }) {
                         : ""}
                     </div>
                   </div>
-                  <div className="challenge-name">{each.challengeTitle}</div>
+                  {each.challengeId && each.challengeId.descriptionId && (
+                    <div className="challenge-name">
+                      {each.challengeId.descriptionId.title}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <div
@@ -249,7 +300,9 @@ function Users({ t, history }) {
                         : each.data.status === Constants.USER_STATUS.Joined ||
                           each.data.status ===
                             Constants.USER_STATUS.Submitted ||
-                          each.data.status === Constants.USER_STATUS.Accepeted
+                          each.data.status ===
+                            Constants.USER_STATUS.Accepeted ||
+                          each.data.status === Constants.USER_STATUS.Created
                         ? {
                             backgroundColor: "#e0f9ea",
                             color: "#66e397",

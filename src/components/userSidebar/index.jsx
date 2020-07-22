@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { MainContainer } from "./style";
-import { Constants } from "../../lib/constant";
 
 const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
   const { t } = useTranslation();
-  const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN;
+
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
+
+  const [userDetail, setData] = useState(null);
+
+  useEffect(() => {
+    const { userData } = signinReducer;
+    if (userData) {
+      setData(userData);
+    }
+  }, [signinReducer]);
 
   return (
     <Modal
@@ -19,31 +31,65 @@ const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
           <div className="close-container">
             <span onClick={() => setShow(false)}>x</span>
           </div>
-          {!is_admin && (
-            <div className="box-container">
-              <div className="info-container">
-                <div className="avtar-container">
+
+          <div className="box-container">
+            <div className="info-container">
+              <div className="avtar-container">
+                {userDetail && userDetail.details ? (
+                  userDetail.details.logo ? (
+                    <img
+                      src={userDetail.details.logo}
+                      alt=""
+                      height="100%"
+                      width="100%"
+                      style={{ borderRadius: "50%" }}
+                    />
+                  ) : userDetail.details.personal_photo ? (
+                    <img
+                      src={userDetail.details.personal_photo}
+                      alt=""
+                      height="100%"
+                      width="100%"
+                      style={{ borderRadius: "50%" }}
+                    />
+                  ) : (
+                    <img
+                      src="/images/image.svg"
+                      alt=""
+                      height="50px"
+                      width="50px"
+                    />
+                  )
+                ) : (
                   <img
                     src="/images/image.svg"
                     alt=""
                     height="50px"
                     width="50px"
                   />
-                </div>
+                )}
               </div>
-              <div className="name-container">Organization Name</div>
             </div>
-          )}
-          {!is_admin && (
-            <div
-              className="profile-text"
-              onClick={() => {
-                profileClick();
-              }}
-            >
-              {t("USER PROFILE")}
+            <div className="name-container">
+              {userDetail
+                ? userDetail.details && userDetail.details.name
+                  ? userDetail.details.name
+                  : userDetail.firstName && userDetail.lastName
+                  ? userDetail.firstName + " " + userDetail.lastName
+                  : userDetail.email
+                : ""}
             </div>
-          )}
+          </div>
+
+          <div
+            className="profile-text"
+            onClick={() => {
+              profileClick();
+            }}
+          >
+            {t("USER PROFILE")}
+          </div>
+
           <div className="logout-container">
             <div
               className="logout-button"

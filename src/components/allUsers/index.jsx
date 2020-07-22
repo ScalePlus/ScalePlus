@@ -245,15 +245,31 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                           {each &&
                           each.data &&
                           each.data.userId &&
-                          each.data.userId.details &&
-                          each.data.userId.details.logo ? (
-                            <img
-                              src={each.data.userId.details.logo}
-                              alt=""
-                              height={"100%"}
-                              width={"100%"}
-                              style={{ borderRadius: "50%" }}
-                            />
+                          each.data.userId.details ? (
+                            each.data.userId.details.logo ? (
+                              <img
+                                src={each.data.userId.details.logo}
+                                alt=""
+                                height={"100%"}
+                                width={"100%"}
+                                style={{ borderRadius: "50%" }}
+                              />
+                            ) : each.data.userId.details.personal_photo ? (
+                              <img
+                                src={each.data.userId.details.personal_photo}
+                                alt=""
+                                height={"100%"}
+                                width={"100%"}
+                                style={{ borderRadius: "50%" }}
+                              />
+                            ) : (
+                              <img
+                                src="/images/image.svg"
+                                alt=""
+                                height={30}
+                                width={30}
+                              />
+                            )
                           ) : (
                             <img
                               src="/images/image.svg"
@@ -271,6 +287,11 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                   ? each.data.userId.details &&
                                     each.data.userId.details.name
                                     ? each.data.userId.details.name
+                                    : each.data.userId.firstName &&
+                                      each.data.userId.lastName
+                                    ? each.data.userId.firstName +
+                                      " " +
+                                      each.data.userId.lastName
                                     : each.data.userId.email
                                   : null}
                               </div>
@@ -297,9 +318,12 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                               </div>
                             </div>
                             <div>
-                              <div className="challenge-name">
-                                {each.challengeTitle}
-                              </div>
+                              {each.challengeId &&
+                                each.challengeId.descriptionId && (
+                                  <div className="challenge-name">
+                                    {each.challengeId.descriptionId.title}
+                                  </div>
+                                )}
                               <span
                                 className="status-container"
                                 style={
@@ -315,7 +339,9 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                       each.data.status ===
                                         Constants.USER_STATUS.Submitted ||
                                       each.data.status ===
-                                        Constants.USER_STATUS.Accepeted
+                                        Constants.USER_STATUS.Accepeted ||
+                                      each.data.status ===
+                                        Constants.USER_STATUS.Created
                                     ? {
                                         backgroundColor: "#e0f9ea",
                                         color: "#66e397",
