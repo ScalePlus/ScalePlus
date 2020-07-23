@@ -67,7 +67,9 @@ const PieChart = ({ t }) => {
             self.findIndex(
               (record) =>
                 record.data.userId._id === each.data.userId._id &&
-                record.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
+                record.data.userId.roles.find(
+                  (role) => role === Constants.ROLES.MENTOR_JUDGE
+                )
             ) === index
         );
         const individuals = result.filter(
@@ -75,8 +77,9 @@ const PieChart = ({ t }) => {
             self.findIndex(
               (record) =>
                 record.data.userId._id === each.data.userId._id &&
-                record.data.userId.roles[0] ===
-                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                record.data.userId.roles.find(
+                  (role) => role === Constants.ROLES.STARTUP_INDIVIDUAL
+                ) &&
                 record.data.userId.details.isIndividual
             ) === index
         );
@@ -85,8 +88,9 @@ const PieChart = ({ t }) => {
             self.findIndex(
               (record) =>
                 record.data.userId._id === each.data.userId._id &&
-                record.data.userId.roles[0] ===
-                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                record.data.userId.roles.find(
+                  (role) => role === Constants.ROLES.STARTUP_INDIVIDUAL
+                ) &&
                 record.data.userId.details.isStartUp
             ) === index
         );
@@ -95,7 +99,9 @@ const PieChart = ({ t }) => {
             self.findIndex(
               (record) =>
                 record.data.userId._id === each.data.userId._id &&
-                record.data.userId.roles[0] === Constants.ROLES.ORGANIZATION
+                record.data.userId.roles.find(
+                  (role) => role === Constants.ROLES.ORGANIZATION
+                )
             ) === index
         );
 

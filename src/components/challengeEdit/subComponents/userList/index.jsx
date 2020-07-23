@@ -293,19 +293,27 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                           <div className="user-role">
                             {each.data.permission
                               ? each.data.permission
-                              : each.data.userId.roles[0] ===
-                                Constants.ROLES.MENTOR_JUDGE
+                              : each.data.userId.roles.find(
+                                  (role) =>
+                                    role === Constants.ROLES.MENTOR_JUDGE
+                                )
                               ? "Judge"
-                              : each.data.userId.roles[0] ===
-                                Constants.ROLES.ORGANIZATION
+                              : each.data.userId.roles.find(
+                                  (role) =>
+                                    role === Constants.ROLES.ORGANIZATION
+                                )
                               ? "Organisation"
-                              : each.data.userId.roles[0] ===
-                                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                              : each.data.userId.roles.find(
+                                  (role) =>
+                                    role === Constants.ROLES.STARTUP_INDIVIDUAL
+                                ) &&
                                 each.data.userId.details &&
                                 each.data.userId.details.isIndividual
                               ? "Individual"
-                              : each.data.userId.roles[0] ===
-                                  Constants.ROLES.STARTUP_INDIVIDUAL &&
+                              : each.data.userId.roles.find(
+                                  (role) =>
+                                    role === Constants.ROLES.STARTUP_INDIVIDUAL
+                                ) &&
                                 each.data.userId.details &&
                                 each.data.userId.details.isStartUp
                               ? "StartUp"

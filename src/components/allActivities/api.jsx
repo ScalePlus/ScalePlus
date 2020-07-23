@@ -6,4 +6,9 @@ export default {
     let result = coreApi.PUT(url, { filters, searchText });
     return result;
   },
+  markRead: () => {
+    let url = `/activities/mark/all/read`;
+    let result = coreApi.PUT(url);
+    return result;
+  },
 };

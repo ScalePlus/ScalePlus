@@ -7,8 +7,9 @@ import {
   //  NavDropdown,
   Dropdown,
 } from "react-bootstrap";
+import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
-import { getActivitiesAction } from "../allActivities/action";
+import { getActivitiesAction, markReadAction } from "../allActivities/action";
 import { logoutAction } from "../signin/action";
 import { Container } from "./style";
 import history from "../../history";
@@ -27,6 +28,7 @@ const Header = ({ t }) => {
     () => dispatch(getActivitiesAction("", "")),
     [dispatch]
   );
+  const markRead = () => dispatch(markReadAction());
   const logout = () => dispatch(logoutAction());
 
   const activitiesReducer = useSelector((state) => {
@@ -34,6 +36,22 @@ const Header = ({ t }) => {
   });
 
   const [activities, setActivities] = useState(null);
+  const [showDropdown, toggleDropdown] = useState(false);
+
+  useEffect(() => {
+    let socket = io(Constants.SOCKET_BASE_URL);
+
+    socket.on("connect", () => {
+      console.log("connected to server");
+      if (localStorage.getItem("userId")) {
+        socket.emit("userId", localStorage.getItem("userId"));
+      }
+    });
+
+    socket.on("activitiesUpdate", () => {
+      console.log("activitiesUpdate");
+    });
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -42,17 +60,28 @@ const Header = ({ t }) => {
   }, [getActivities]);
 
   useEffect(() => {
-    const { activities } = activitiesReducer;
+    const { activities, success } = activitiesReducer;
+    if (success) {
+      getActivities();
+    }
     if (activities && activities.result) {
-      if (activities.result.length && activities.result.length <= 5) {
-        setActivities(activities.result);
-      } else if (activities.result.length && activities.result.length > 5) {
-        setActivities(activities.result.slice(0, 5));
+      let result = Object.assign([], activities.result);
+      result = result.filter(
+        (each) =>
+          each.userId &&
+          each.userId._id.toString() ===
+            localStorage.getItem("userId").toString()
+      );
+
+      if (result.length && result.length <= 5) {
+        setActivities(result);
+      } else if (result.length && result.length > 5) {
+        setActivities(result.slice(0, 5));
       } else {
         setActivities([]);
       }
     }
-  }, [activitiesReducer]);
+  }, [activitiesReducer, getActivities]);
 
   const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN,
     is_organisation =
@@ -165,14 +194,16 @@ const Header = ({ t }) => {
 
           {localStorage.getItem("token") && (
             <div>
-              <Dropdown>
+              <Dropdown show={showDropdown}>
                 <Dropdown.Toggle
                   as={React.forwardRef(({ onClick }, ref) => (
                     <div
                       className="notification-container"
+                      ref={ref}
                       onClick={(e) => {
                         e.preventDefault();
                         onClick(e);
+                        toggleDropdown(!showDropdown);
                       }}
                     >
                       <div className="bell-img">
@@ -185,7 +216,18 @@ const Header = ({ t }) => {
                           ></img>
                         </Navbar.Text>
                       </div>
-                      <div className="notification-circle"></div>
+
+                      <div
+                        className="notification-circle"
+                        style={{
+                          background:
+                            activities &&
+                            activities.length &&
+                            activities.find((each) => !each.mark_read)
+                              ? theme.colors.yellow
+                              : "transparent",
+                        }}
+                      ></div>
                     </div>
                   ))}
                   id="notification-menu"
@@ -210,7 +252,12 @@ const Header = ({ t }) => {
                           className={className}
                           aria-labelledby={labeledBy}
                         >
-                          <HeaderPart />
+                          <HeaderPart
+                            markReadClick={() => {
+                              markRead();
+                              toggleDropdown(!showDropdown);
+                            }}
+                          />
 
                           {React.Children.toArray(children).filter(
                             (child) => child.props.children

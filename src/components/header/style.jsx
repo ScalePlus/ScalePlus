@@ -39,7 +39,6 @@ export const Container = styled.div`
   .notification-circle {
     height: 10px;
     width: 10px;
-    background: ${theme.colors.yellow};
     border-radius: 50%;
     margin-right: ${theme.isLTR ? "20px" : "-9px"};
     margin-left: ${theme.isLTR ? "-9px" : "20px"};

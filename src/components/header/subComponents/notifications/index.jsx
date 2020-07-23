@@ -2,12 +2,19 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { HeaderContainer, ContentContainer } from "./style";
 
-export const HeaderPart = React.memo(() => {
+export const HeaderPart = React.memo(({ markReadClick }) => {
   const { t } = useTranslation();
   return (
     <HeaderContainer>
       <div className="left-text">{t("Notifications")}</div>
-      <div className="right-text">{t("Mark All As Read")}</div>
+      <div
+        className="right-text"
+        onClick={() => {
+          markReadClick();
+        }}
+      >
+        {t("Mark All As Read")}
+      </div>
     </HeaderContainer>
   );
 });

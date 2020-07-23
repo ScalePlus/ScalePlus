@@ -74,13 +74,19 @@ const UserProfileView = ({ match, history }) => {
           record.data.userId.roles.length
         ) {
           set_is_startup_Individual(
-            record.data.userId.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL
+            record.data.userId.roles.find(
+              (role) => role === Constants.ROLES.STARTUP_INDIVIDUAL
+            )
           );
           set_is_organisation(
-            record.data.userId.roles[0] === Constants.ROLES.ORGANIZATION
+            record.data.userId.roles.find(
+              (role) => role === Constants.ROLES.ORGANIZATION
+            )
           );
           set_is_mentor_judge(
-            record.data.userId.roles[0] === Constants.ROLES.MENTOR_JUDGE
+            record.data.userId.roles.find(
+              (role) => role === Constants.ROLES.MENTOR_JUDGE
+            )
           );
         }
       }
