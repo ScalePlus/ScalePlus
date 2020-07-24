@@ -49,9 +49,9 @@ const Header = ({ t }) => {
     });
 
     socket.on("activitiesUpdate", () => {
-      console.log("activitiesUpdate");
+      getActivities();
     });
-  }, []);
+  }, [getActivities]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -68,9 +68,8 @@ const Header = ({ t }) => {
       let result = Object.assign([], activities.result);
       result = result.filter(
         (each) =>
-          each.userId &&
-          each.userId._id.toString() ===
-            localStorage.getItem("userId").toString()
+          each.belongs_to.toString() ===
+            localStorage.getItem("userId").toString() && !each.mark_read
       );
 
       if (result.length && result.length <= 5) {
@@ -267,47 +266,53 @@ const Header = ({ t }) => {
                     }
                   )}
                 >
-                  {activities && activities.length
-                    ? activities.map((each, index) => {
-                        return (
-                          <Dropdown.Item key={index} eventKey={index}>
-                            <ContentPart
-                              mainText={
-                                each.challengeId &&
-                                each.challengeId.descriptionId &&
-                                each.challengeId.descriptionId.title
-                              }
-                              userName={
-                                each.userId
-                                  ? each.userId.details &&
-                                    each.userId.details.name
-                                    ? each.userId.details.name
-                                    : each.userId.firstName &&
-                                      each.userId.lastName
-                                    ? each.userId.firstName +
-                                      " " +
-                                      each.userId.lastName
-                                    : each.userId.email
-                                  : null
-                              }
-                              imageURL={
-                                each.userId
-                                  ? each.userId.details
+                  {activities && activities.length ? (
+                    activities.map((each, index) => {
+                      return (
+                        <Dropdown.Item key={index} eventKey={index}>
+                          <ContentPart
+                            mainText={
+                              each.challengeId &&
+                              each.challengeId.descriptionId &&
+                              each.challengeId.descriptionId.title
+                            }
+                            userName={
+                              each.userId
+                                ? each.userId.details &&
+                                  each.userId.details.name
+                                  ? each.userId.details.name
+                                  : each.userId.firstName &&
+                                    each.userId.lastName
+                                  ? each.userId.firstName +
+                                    " " +
+                                    each.userId.lastName
+                                  : each.userId.email
+                                : null
+                            }
+                            imageURL={
+                              each.userId
+                                ? each.userId.details
+                                  ? each.userId.details.logo
                                     ? each.userId.details.logo
-                                      ? each.userId.details.logo
-                                      : each.userId.details.personal_photo
-                                      ? each.userId.details.personal_photo
-                                      : ""
+                                    : each.userId.details.personal_photo
+                                    ? each.userId.details.personal_photo
                                     : ""
                                   : ""
-                              }
-                              subText={each.type}
-                              timestamp={moment(each.createdDate).fromNow()}
-                            />
-                          </Dropdown.Item>
-                        );
-                      })
-                    : null}
+                                : ""
+                            }
+                            subText={each.type}
+                            timestamp={moment(each.createdDate).fromNow()}
+                          />
+                        </Dropdown.Item>
+                      );
+                    })
+                  ) : (
+                    <Dropdown.Item eventKey={1}>
+                      <div className="no-notification">
+                        {t("no_notification")}
+                      </div>
+                    </Dropdown.Item>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             </div>

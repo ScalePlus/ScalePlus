@@ -155,4 +155,10 @@ export const Container = styled.div`
     margin-right: ${theme.isLTR && "10px"};
     margin-left: ${theme.isRTL && "10px"};
   }
+
+  .no-notification {
+    text-align: center;
+    padding: 1rem;
+    font-size: ${theme.fontSize.mediumRegular};
+  }
 `;
