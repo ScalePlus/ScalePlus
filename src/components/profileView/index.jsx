@@ -151,6 +151,9 @@ const UserProfileView = ({ match, history }) => {
                 <PrimaryButton
                   text={t("Reject")}
                   variant="danger_light"
+                  disabled={
+                    userData.data.status === Constants.USER_STATUS.Declined
+                  }
                   onClick={() => {
                     updateStatus({
                       userId: userData.data.userId._id,
@@ -162,6 +165,9 @@ const UserProfileView = ({ match, history }) => {
                 <PrimaryButton
                   text={t("Accept")}
                   variant="primary"
+                  disabled={
+                    userData.data.status === Constants.USER_STATUS.Accepeted
+                  }
                   onClick={() => {
                     updateStatus({
                       userId: userData.data.userId._id,
