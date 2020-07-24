@@ -54,6 +54,7 @@ function Activities({ t, history }) {
         allChallenges &&
         allChallenges.result &&
         allChallenges.result.data &&
+        allChallenges.result.data.length &&
         is_admin
       ) {
         let list = Object.assign([], activities.result);
@@ -82,7 +83,7 @@ function Activities({ t, history }) {
           setActivities([]);
           setVisibleData([]);
         }
-      } else if (!is_admin && activities.result.length) {
+      } else if (activities.result.length) {
         let length = activities.result.length;
         setTotalPage(Math.ceil(length / limit));
         setRenderPage(1);
