@@ -1,6 +1,6 @@
 export const Constants = {
   BASE_URL: "http://localhost:3001/api",
-  SOCKET_BASE_URL: "http://localhost:5000",
+  SOCKET_BASE_URL: "http://localhost:3001",
   isURL: new RegExp(
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
   ),

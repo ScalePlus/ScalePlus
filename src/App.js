@@ -20,15 +20,30 @@ i18next
     detect: async (cb) => {
       if (cookies.get("language")) {
         if (theme.isRTL) {
-          require("./lib/bootstrap.rtl.min.css");
+          let link = document.createElement("link");
+          link.id = "bootstrap-rtl";
+          link.rel = "stylesheet";
+          link.href =
+            "https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css";
+          document.head.appendChild(link);
           document.getElementById("MainComponent").setAttribute("dir", "rtl");
         } else {
-          require("bootstrap/dist/css/bootstrap.min.css");
+          let link = document.createElement("link");
+          link.id = "bootstrap";
+          link.rel = "stylesheet";
+          link.href =
+            "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css";
+          document.head.appendChild(link);
           document.getElementById("MainComponent").setAttribute("dir", "ltr");
         }
         cb(cookies.get("language"));
       } else {
-        require("bootstrap/dist/css/bootstrap.min.css");
+        let link = document.createElement("link");
+        link.id = "bootstrap";
+        link.rel = "stylesheet";
+        link.href =
+          "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css";
+        document.head.appendChild(link);
         document.getElementById("MainComponent").setAttribute("dir", "ltr");
         cb("en");
       }

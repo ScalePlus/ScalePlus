@@ -192,12 +192,12 @@ const Submissions = ({
   }, [submissionForm]);
 
   const onDisqualify = () => {
-    disqualifySubmissionMethod(selectedRow.challengeId, selectedRow._id);
+    disqualifySubmissionMethod(selectedRow.challengeId._id, selectedRow._id);
   };
 
   const onSaveDraft = (data) => {
     judgeSubmissionformMethod(
-      selectedRow.challengeId,
+      selectedRow.challengeId._id,
       selectedRow._id,
       data,
       false
@@ -206,7 +206,7 @@ const Submissions = ({
 
   const onSubmitEvaluation = (data) => {
     judgeSubmissionformMethod(
-      selectedRow.challengeId,
+      selectedRow.challengeId._id,
       selectedRow._id,
       data,
       true
@@ -645,8 +645,17 @@ const Submissions = ({
                   <div style={{ flex: 0.2 }}>
                     <div className="regular-text">{t("Owner Name")}</div>
                     <div className="bold-semi-large-text">
-                      {selectedRow.userId && selectedRow.userId.firstName}{" "}
-                      {selectedRow.userId && selectedRow.userId.lastName}
+                      {selectedRow.userId
+                        ? selectedRow.userId.firstName &&
+                          selectedRow.userId.lastName
+                          ? selectedRow.userId.firstName +
+                            " " +
+                            selectedRow.userId.lastName
+                          : selectedRow.userId.details &&
+                            selectedRow.userId.details.name
+                          ? selectedRow.userId.details.name
+                          : selectedRow.userId.email
+                        : selectedRow.userId.email}
                     </div>
                   </div>
                   <div style={{ flex: 0.2 }}>

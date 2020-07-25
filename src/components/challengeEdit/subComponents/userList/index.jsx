@@ -222,7 +222,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
         {attachedUsers && attachedUsers.length
           ? attachedUsers.map((each, index) => {
               return (
-                <Col lg={6} md={6} xs={12} key={index}>
+                <Col lg={6} md={12} xs={12} key={index}>
                   <div
                     className="list-single-block"
                     onClick={() => {

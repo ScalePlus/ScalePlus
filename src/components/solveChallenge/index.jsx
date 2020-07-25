@@ -161,9 +161,7 @@ const SolveChallenge = ({ match }) => {
               <Row>
                 <Col>
                   <div className="sub-description-container">
-                    {t(
-                      "Type in their email addresses to invite people to your team:"
-                    )}
+                    {t("invite_people_team")}
                   </div>
                 </Col>
               </Row>
@@ -291,9 +289,7 @@ const SolveChallenge = ({ match }) => {
                 <Row>
                   <Col>
                     <div className="right-container">
-                      {t(
-                        "Leave fields blank if you don't want to invite anyone right now."
-                      )}
+                      {t("Leave_fields_blank")}
                     </div>
                   </Col>
                 </Row>
