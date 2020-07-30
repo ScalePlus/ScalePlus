@@ -152,7 +152,11 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
             event.preventDefault();
             event.stopPropagation();
             const form = event.currentTarget;
-            if (form.checkValidity() && selectedTab.value === tabs[0].value) {
+            if (
+              form.checkValidity() &&
+              (!linkedin || (linkedin && linkedin.match(Constants.isURL))) &&
+              selectedTab.value === tabs[0].value
+            ) {
               attachTeamMethod({
                 email,
                 linkedin,
@@ -164,6 +168,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
               });
             } else if (
               form.checkValidity() &&
+              (!linkedin || (linkedin && linkedin.match(Constants.isURL))) &&
               selectedTab.value === tabs[1].value
             ) {
               inviteParticipantsMethod({
@@ -174,6 +179,7 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
               });
             } else if (
               form.checkValidity() &&
+              (!linkedin || (linkedin && linkedin.match(Constants.isURL))) &&
               selectedTab.value === tabs[2].value
             ) {
               attachJudgesMethod({

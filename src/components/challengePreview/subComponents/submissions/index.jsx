@@ -503,6 +503,7 @@ const Submissions = ({
                             newArr[index]["value"] = e.target.files[0];
                             changeSubmissionForm(newArr);
                           }}
+                          acceptTypes=".doc, .docx, .pdf"
                           description={`${t(
                             "Allowed file types are"
                           )}: word, pdf`}

@@ -15,6 +15,7 @@ import {
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
+import { Constants } from "../../../../lib/constant";
 
 const Resources = ({ t, challengeId }) => {
   const dispatch = useDispatch();
@@ -109,7 +110,12 @@ const Resources = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (
+            form.checkValidity() &&
+            !resources.find(
+              (each) => each.link && !each.link.match(Constants.isURL)
+            )
+          ) {
             let newArr = [...resources];
 
             for (let i = 0; i < newArr.length; i++) {
@@ -212,6 +218,7 @@ const Resources = ({ t, challengeId }) => {
                             newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
+                          acceptTypes="*"
                         ></FileInput>
                       </Col>
                       <Col
@@ -252,6 +259,11 @@ const Resources = ({ t, challengeId }) => {
                             newArr[index]["date"] = new Date();
                             changeResources(newArr);
                           }}
+                          isInvalid={
+                            validated &&
+                            each.link &&
+                            !each.link.match(Constants.isURL)
+                          }
                         />
                       </Col>
                     </Row>

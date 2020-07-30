@@ -231,6 +231,7 @@ const OrganizationDetails = () => {
                       required
                       errorMessage={t("logo_error")}
                       buttonText="Upload"
+                      acceptTypes="image/*"
                     ></FileInput>
                     <Input
                       type="text"
@@ -287,6 +288,7 @@ const OrganizationDetails = () => {
                       required
                       errorMessage={t("personal_photo_error")}
                       buttonText="Upload"
+                      acceptTypes="image/*"
                     ></FileInput>
                     <Input
                       type="number"

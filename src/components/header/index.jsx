@@ -43,6 +43,12 @@ const Header = ({ t }) => {
 
     socket.on("connect", () => {
       console.log("connected to server");
+      if (cookies.get("unique_id")) {
+        socket.emit("languageInfo", {
+          unique_id: cookies.get("unique_id"),
+          language: cookies.get("language"),
+        });
+      }
       if (localStorage.getItem("userId")) {
         socket.emit("userId", localStorage.getItem("userId"));
       }

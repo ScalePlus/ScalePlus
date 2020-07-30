@@ -92,9 +92,7 @@ const ChangePassword = ({ match }) => {
                             !password.match(Constants.isValidPassword)))
                       }
                       errorMessage={
-                        password
-                          ? t("invalid_password_error")
-                          : t("password_error")
+                        password ? t("Password_Message") : t("password_error")
                       }
                     />
                     <div className="password-feedback">

@@ -427,6 +427,7 @@ const Timeline = ({ t, challengeId }) => {
                                         changeTimeline(newArr);
                                       }}
                                       required
+                                      acceptTypes="*"
                                     ></FileInput>
                                   </div>
                                 </Col>

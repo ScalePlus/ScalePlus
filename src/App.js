@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Cookies from "universal-cookie";
+import { v4 as uuidv4 } from "uuid";
 import MainRouter from "./Router";
 import { GlobalStyle } from "./styles/CommonStyle";
 import theme from "./theme";
@@ -59,6 +60,12 @@ i18next
   });
 
 const App = () => {
+  useEffect(() => {
+    if (!cookies.get("unique_id")) {
+      cookies.set("unique_id", uuidv4(), { path: "/" });
+    }
+  }, []);
+
   useEffect(() => {
     Api.getFileList().then((res) => {
       if (res && res.result && res.result.length) {

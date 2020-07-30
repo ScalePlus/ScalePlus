@@ -6,7 +6,7 @@ import { Row, Col, Dropdown } from "react-bootstrap";
 import { MainContainer } from "./style";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { InfoBlock } from "../common";
-import { Switch } from "../../../common";
+// import { Switch } from "../../../common";
 import UserInviteModal from "./inviteModal";
 import { Constants } from "../../../../lib/constant";
 
@@ -115,7 +115,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
       </Row>
       <Row style={{ marginBottom: 25 }}>
         <Col className="switch-filter-container">
-          <Switch variant="primary" label={t("Enable users tab")}></Switch>
+          {/* <Switch variant="primary" label={t("Enable users tab")}></Switch> */}
           <Dropdown>
             <Dropdown.Toggle
               as={React.forwardRef(({ children, onClick }, ref) => (
@@ -222,7 +222,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
         {attachedUsers && attachedUsers.length
           ? attachedUsers.map((each, index) => {
               return (
-                <Col lg={6} md={12} xs={12} key={index}>
+                <Col lg={12} md={12} xs={12} key={index}>
                   <div
                     className="list-single-block"
                     onClick={() => {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { v4 as uuidv4 } from "uuid";
 import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,11 +84,7 @@ const ChallengePreview = ({ history, match }) => {
   const challengeId = match.params.id;
 
   useEffect(() => {
-    if (challengeId) {
-      if (!cookies.get("unique_id")) {
-        cookies.set("unique_id", uuidv4(), { path: "/" });
-      }
-
+    if (challengeId && cookies.get("unique_id")) {
       updateChallengeViewsMethod({
         _id: challengeId,
         unique_id: cookies.get("unique_id"),

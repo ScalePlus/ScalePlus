@@ -1,11 +1,18 @@
+import Cookies from "universal-cookie";
 import { Constants } from "./constant";
 let domainUrl = Constants.BASE_URL;
+
+const cookies = new Cookies();
 
 export default {
   GET: (link) =>
     new Promise((resolve, reject) => {
       const token = localStorage.getItem("token");
-      const url = domainUrl + link;
+      let url = domainUrl + link;
+
+      if (cookies.get("unique_id")) {
+        url = url + `?unique_id=${cookies.get("unique_id")}`;
+      }
 
       fetch(url, {
         method: "GET",
@@ -32,7 +39,12 @@ export default {
   POST: (link, data) =>
     new Promise((resolve, reject) => {
       const token = localStorage.getItem("token");
-      const url = domainUrl + link;
+      let url = domainUrl + link;
+
+      if (cookies.get("unique_id")) {
+        url = url + `?unique_id=${cookies.get("unique_id")}`;
+      }
+
       fetch(url, {
         body: JSON.stringify(data),
         method: "POST",
@@ -58,7 +70,12 @@ export default {
   PUT: (link, data) =>
     new Promise((resolve, reject) => {
       const token = localStorage.getItem("token");
-      const url = domainUrl + link;
+      let url = domainUrl + link;
+
+      if (cookies.get("unique_id")) {
+        url = url + `?unique_id=${cookies.get("unique_id")}`;
+      }
+
       fetch(url, {
         body: JSON.stringify(data),
         method: "PUT",
@@ -84,7 +101,12 @@ export default {
   FILE_UPLOAD: (link, data, fileKey, method) =>
     new Promise((resolve, reject) => {
       const token = localStorage.getItem("token");
-      const url = domainUrl + link;
+      let url = domainUrl + link;
+
+      if (cookies.get("unique_id")) {
+        url = url + `?unique_id=${cookies.get("unique_id")}`;
+      }
+
       let formData = new FormData();
       let file = data[fileKey];
       delete data[fileKey];

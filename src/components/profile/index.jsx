@@ -1103,9 +1103,7 @@ const UserProfileEdit = ({ history }) => {
                           !currentPass.match(Constants.isValidPassword)))
                     }
                     errorMessage={
-                      currentPass
-                        ? t("invalid_password_error")
-                        : t("password_error")
+                      currentPass ? t("Password_Message") : t("password_error")
                     }
                   />
                   <PassInput
@@ -1118,9 +1116,7 @@ const UserProfileEdit = ({ history }) => {
                         (newPass && !newPass.match(Constants.isValidPassword)))
                     }
                     errorMessage={
-                      newPass
-                        ? t("invalid_password_error")
-                        : t("password_error")
+                      newPass ? t("Password_Message") : t("password_error")
                     }
                   />
                   <PassInput

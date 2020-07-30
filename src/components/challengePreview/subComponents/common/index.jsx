@@ -308,6 +308,7 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                                 <FileInput
                                   placeholder="file name……word"
                                   prependButtonText="Browse"
+                                  acceptTypes="*"
                                 ></FileInput>
                               </div>
                             </div>

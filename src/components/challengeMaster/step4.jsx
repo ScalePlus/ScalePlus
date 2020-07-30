@@ -414,6 +414,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                   changeTimeline(newArr);
                                                 }}
                                                 required
+                                                acceptTypes="*"
                                               ></FileInput>
                                             </div>
                                           </Col>
