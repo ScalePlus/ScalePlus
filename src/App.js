@@ -75,7 +75,15 @@ const App = () => {
         if (
           ar_record &&
           ar_record.file_Data &&
-          ar_record.file_Data.translation &&
+          ar_record.file_Data.translation
+        ) {
+          i18next.addResources(
+            "ar",
+            "translation",
+            ar_record.file_Data.translation
+          );
+        }
+        if (
           en_record &&
           en_record.file_Data &&
           en_record.file_Data.translation
@@ -84,11 +92,6 @@ const App = () => {
             "en",
             "translation",
             en_record.file_Data.translation
-          );
-          i18next.addResources(
-            "ar",
-            "translation",
-            ar_record.file_Data.translation
           );
         }
         if (theme.isRTL) {
