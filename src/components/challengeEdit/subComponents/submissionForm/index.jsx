@@ -12,10 +12,12 @@ import {
   AddButton,
   Switch,
   Loading,
+  CheckBox,
 } from "../../../common";
 import { HeaderComponent } from "../../../challengePreview/subComponents/common";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
+import FormPreviewModal from "./formPreview";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -45,6 +47,7 @@ const SubmissionForm = ({ t, challengeId }) => {
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [submissionForm, setForm] = useState([]);
+  const [show, setShow] = useState(false);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -124,6 +127,9 @@ const SubmissionForm = ({ t, challengeId }) => {
         <Row style={{ marginBottom: 45 }}>
           <Col>
             <HeaderComponent
+              infoButtonText={t("Preview")}
+              infoButtonVariant="secondary"
+              infoButtonClick={() => setShow(true)}
               titleText={t("Submission form")}
               buttonText={t("Save")}
               buttonVariant="success"
@@ -258,6 +264,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`single-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -296,6 +303,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`editor-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -334,6 +342,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`document-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -363,6 +372,37 @@ const SubmissionForm = ({ t, challengeId }) => {
                                           }}
                                         />
                                       </div>
+                                      <div className="allow-types-container">
+                                        <div className="title">
+                                          {t("Allowed file types are")}
+                                        </div>
+                                        <div className="types">
+                                          <CheckBox
+                                            id={"doc"}
+                                            checkBoxText={"doc"}
+                                          />
+                                          <CheckBox
+                                            id={"docx"}
+                                            checkBoxText={"docx"}
+                                          />
+                                          <CheckBox
+                                            id={"pdf"}
+                                            checkBoxText={"pdf"}
+                                          />
+                                          <CheckBox
+                                            id={"image"}
+                                            checkBoxText={"image"}
+                                          />
+                                          <CheckBox
+                                            id={"audio"}
+                                            checkBoxText={"audio"}
+                                          />
+                                          <CheckBox
+                                            id={"video"}
+                                            checkBoxText={"video"}
+                                          />
+                                        </div>
+                                      </div>
                                     </div>
                                   )}
                                   {each.field === "Yes-No-Question" && (
@@ -372,6 +412,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`question-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -413,6 +454,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`multichoice-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -530,6 +572,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                         <div>
                                           <Switch
                                             checked={each.isRequired}
+                                            id={`singlechoice-${index}`}
                                             onChange={() => {
                                               let newArr = [...submissionForm];
                                               newArr[index][
@@ -671,6 +714,12 @@ const SubmissionForm = ({ t, challengeId }) => {
           </Col>
         </Row>
       </Form>
+      <FormPreviewModal
+        show={show}
+        setShow={setShow}
+        submissionForm={submissionForm}
+        t={t}
+      />
     </MainContainer>
   );
 };

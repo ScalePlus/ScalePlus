@@ -304,8 +304,8 @@ const UserInviteModal = ({ t, show, setShow, challengeId }) => {
                       }}
                       isInvalid={
                         validated &&
-                        (!linkedin ||
-                          (linkedin && !linkedin.match(Constants.isURL)))
+                        linkedin &&
+                        !linkedin.match(Constants.isURL)
                       }
                       errorMessage={
                         linkedin

@@ -115,7 +115,10 @@ const Team = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (
+            form.checkValidity() &&
+            (!linkedin || (linkedin && linkedin.match(Constants.isURL)))
+          ) {
             attachTeamMethod({
               email,
               linkedin,
@@ -151,8 +154,7 @@ const Team = ({ t, challengeId }) => {
                   setLinkedin(e.target.value);
                 }}
                 isInvalid={
-                  validated &&
-                  (!linkedin || (linkedin && !linkedin.match(Constants.isURL)))
+                  validated && linkedin && !linkedin.match(Constants.isURL)
                 }
                 errorMessage={
                   linkedin

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import io from "socket.io-client";
 import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,6 +95,13 @@ const ChallengePreview = ({ history, match }) => {
 
   useEffect(() => {
     getChallengeMethod(challengeId);
+  }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    let socket = io(Constants.SOCKET_BASE_URL);
+    socket.on("activitiesUpdate", () => {
+      getChallengeMethod(challengeId);
+    });
   }, [getChallengeMethod, challengeId]);
 
   useEffect(() => {
@@ -318,7 +326,11 @@ const ChallengePreview = ({ history, match }) => {
       // }
 
       changeTabs((data) => {
-        if (challengeData.resourceId && challengeData.resourceId.isActive) {
+        if (
+          challengeData.resourceId &&
+          challengeData.resourceId.isActive &&
+          challengeData.resourceId.data & challengeData.resourceId.data.length
+        ) {
           if (!data.find((each) => each.value === "Resources")) {
             data.splice(3, 0, { label: t("Resources"), value: "Resources" });
           }
@@ -329,7 +341,11 @@ const ChallengePreview = ({ history, match }) => {
           }
         }
 
-        if (challengeData.FAQId && challengeData.FAQId.isActive) {
+        if (
+          challengeData.FAQId &&
+          challengeData.FAQId.isActive &&
+          challengeData.FAQId.data & challengeData.FAQId.data.length
+        ) {
           if (!data.find((each) => each.value === "FAQ")) {
             data.splice(3, 0, { label: t("FAQ"), value: "FAQ" });
           }
@@ -340,7 +356,11 @@ const ChallengePreview = ({ history, match }) => {
           }
         }
 
-        if (challengeData.updateId && challengeData.updateId.isActive) {
+        if (
+          challengeData.updateId &&
+          challengeData.updateId.isActive &&
+          challengeData.updateId.data & challengeData.updateId.data.length
+        ) {
           if (!data.find((each) => each.value === "Updates")) {
             data.splice(1, 0, { label: t("Updates"), value: "Updates" });
           }
@@ -351,7 +371,11 @@ const ChallengePreview = ({ history, match }) => {
           }
         }
 
-        if (challengeData.guidelineId && challengeData.guidelineId.isActive) {
+        if (
+          challengeData.guidelineId &&
+          challengeData.guidelineId.isActive &&
+          challengeData.guidelineId.data & challengeData.guidelineId.data.length
+        ) {
           if (!data.find((each) => each.value === "Guidelines")) {
             data.splice(1, 0, { label: t("Guidelines"), value: "Guidelines" });
           }
@@ -576,7 +600,7 @@ const ChallengePreview = ({ history, match }) => {
                 if (is_logged_in) {
                   if (is_profile_updated) {
                     if (is_mentor_judge) {
-                      history.push("/dashboard");
+                      history.push(`/judges/agreement/${challengeData._id}`);
                     } else if (!submissionClosed) {
                       history.push(`/challenge/agreement/${challengeData._id}`);
                     }

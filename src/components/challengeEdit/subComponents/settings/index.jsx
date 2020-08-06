@@ -17,7 +17,10 @@ const Settings = ({ t, challengeId }) => {
 
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
-  const [cancellationReason, changeReason] = useState("");
+  const [
+    cancellationReason,
+    // changeReason
+  ] = useState(t("cancel_challenge_reason"));
 
   useEffect(() => {
     const { error } = challengeReducer;
@@ -77,8 +80,11 @@ const Settings = ({ t, challengeId }) => {
               rows="4"
               label={t("Cancel challenge")}
               value={cancellationReason}
-              onChange={(e) => changeReason(e.target.value)}
-              required
+              onChange={(e) => {
+                e.preventDefault();
+              }}
+              // onChange={(e) => changeReason(e.target.value)}
+              // required
               errorMessage={t("cancellationReason_error")}
             />
             <div className="danger-button-container">

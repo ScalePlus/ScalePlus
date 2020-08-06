@@ -101,7 +101,7 @@ const LegalAgreement = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && legalAgreement) {
             attachLegalAggreementMethod({
               legalAgreement,
             });
@@ -124,8 +124,14 @@ const LegalAgreement = ({ t, challengeId }) => {
             <EditorInput
               value={legalAgreement}
               onChange={(value) => {
-                changeLegalAgreement(value);
+                if (value.replace(/<(.|\n)*?>/g, "").trim().length === 0) {
+                  //textarea is still empty
+                  changeLegalAgreement("");
+                } else {
+                  changeLegalAgreement(value);
+                }
               }}
+              isInvalid={validated && !legalAgreement}
               description={t("legal_agreement__description")}
             />
           </Col>

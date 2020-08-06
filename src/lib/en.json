@@ -734,6 +734,12 @@
         "FILE_UPLOAD_ERROR": "File upload error",
         "INVALID_VALUE_OF": "Invalid value of",
         "template_error": "Template is required",
-        "subject_error": "Subject is required"
+        "subject_error": "Subject is required",
+        "User role": "User role",
+        "Start Date": "Start Date",
+        "End Date": "End Date",
+        "Select": "Select",
+        "Date": "Date",
+        "cancel_challenge_reason": "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?"
     }
 }

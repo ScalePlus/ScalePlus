@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import queryString from "query-string";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Row, Col, Alert, Form } from "react-bootstrap";
@@ -96,6 +97,9 @@ const Submissions = ({
         });
       }
       selectRow(null);
+      if (queryString.parse(window.location.search).submissionId) {
+        history.push(`/challenge/${challengeData._id}/preview/Submissions`);
+      }
     }
 
     if (judgeSuccess && show) {
@@ -107,6 +111,9 @@ const Submissions = ({
         });
       }
       selectRow(null);
+      if (queryString.parse(window.location.search).submissionId) {
+        history.push(`/challenge/${challengeData._id}/preview/Submissions`);
+      }
     }
   }, [
     submissionListReducer,
@@ -134,6 +141,14 @@ const Submissions = ({
         );
         setFormFilled(record ? true : false);
         changeSubmissions(submissionsListSuccess.result);
+        if (queryString.parse(window.location.search).submissionId) {
+          let record = submissionsListSuccess.result.find(
+            (each) =>
+              each._id.toString() ===
+              queryString.parse(window.location.search).submissionId.toString()
+          );
+          selectRow(record);
+        }
       } else {
         changeSubmissions(null);
       }
@@ -362,9 +377,19 @@ const Submissions = ({
                           label={each.title}
                           value={each.value}
                           onChange={(value) => {
-                            let newArr = [...submissionForm];
-                            newArr[index]["value"] = value;
-                            changeSubmissionForm(newArr);
+                            if (
+                              value.replace(/<(.|\n)*?>/g, "").trim().length ===
+                              0
+                            ) {
+                              //textarea is still empty
+                              let newArr = [...submissionForm];
+                              newArr[index]["value"] = "";
+                              changeSubmissionForm(newArr);
+                            } else {
+                              let newArr = [...submissionForm];
+                              newArr[index]["value"] = value;
+                              changeSubmissionForm(newArr);
+                            }
                           }}
                         />
                       </div>
@@ -569,6 +594,13 @@ const Submissions = ({
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
+                    if (
+                      queryString.parse(window.location.search).submissionId
+                    ) {
+                      history.push(
+                        `/challenge/${challengeData._id}/preview/Submissions`
+                      );
+                    }
                   }}
                 />
               ) : selectedRow.isEvaluated ? (
@@ -577,6 +609,13 @@ const Submissions = ({
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
+                    if (
+                      queryString.parse(window.location.search).submissionId
+                    ) {
+                      history.push(
+                        `/challenge/${challengeData._id}/preview/Submissions`
+                      );
+                    }
                   }}
                 />
               ) : judgingClosed ? (
@@ -585,6 +624,13 @@ const Submissions = ({
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
+                    if (
+                      queryString.parse(window.location.search).submissionId
+                    ) {
+                      history.push(
+                        `/challenge/${challengeData._id}/preview/Submissions`
+                      );
+                    }
                   }}
                 />
               ) : (
@@ -603,6 +649,13 @@ const Submissions = ({
                   backButton={true}
                   onBackButtonClick={() => {
                     selectRow(null);
+                    if (
+                      queryString.parse(window.location.search).submissionId
+                    ) {
+                      history.push(
+                        `/challenge/${challengeData._id}/preview/Submissions`
+                      );
+                    }
                   }}
                 />
               )

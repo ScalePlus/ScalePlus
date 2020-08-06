@@ -96,7 +96,7 @@ const Overview = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && overview) {
             attachOverviewMethod({
               overview,
             });
@@ -120,8 +120,14 @@ const Overview = ({ t, challengeId }) => {
               description={t("Overview_editor_description")}
               value={overview}
               onChange={(value) => {
-                changeOverview(value);
+                if (value.replace(/<(.|\n)*?>/g, "").trim().length === 0) {
+                  //textarea is still empty
+                  changeOverview("");
+                } else {
+                  changeOverview(value);
+                }
               }}
+              isInvalid={validated && !overview}
             />
           </Col>
         </Row>

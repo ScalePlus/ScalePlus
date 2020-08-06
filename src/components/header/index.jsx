@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import Cookies from "universal-cookie";
 import {
@@ -19,6 +19,26 @@ import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
 import { Switch } from "../common";
 import theme from "../../theme";
+
+function useOutsideAlerter(ref, toggleDropdown) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        toggleDropdown(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, toggleDropdown]);
+}
 
 const cookies = new Cookies();
 
@@ -87,6 +107,9 @@ const Header = ({ t }) => {
       }
     }
   }, [activitiesReducer, getActivities]);
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, toggleDropdown);
 
   const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN,
     is_organisation =
@@ -198,7 +221,7 @@ const Header = ({ t }) => {
           </div>
 
           {localStorage.getItem("token") && (
-            <div>
+            <div ref={wrapperRef}>
               <Dropdown show={showDropdown}>
                 <Dropdown.Toggle
                   as={React.forwardRef(({ onClick }, ref) => (

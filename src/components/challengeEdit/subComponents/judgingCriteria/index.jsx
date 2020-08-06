@@ -167,7 +167,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
                     _id: `judgingCriteria-${data.length + 1}`,
                     title: "",
                     description: "",
-                    weight: "",
+                    weight: 0,
                   })
                 );
                 setValidated(false);

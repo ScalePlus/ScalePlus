@@ -67,6 +67,12 @@ export const MainContainer = styled.div`
       .form-group {
         flex: 1;
         margin-bottom: 0;
+        padding: 0 10px;
+      }
+      .remove-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
 
@@ -84,11 +90,6 @@ export const MainContainer = styled.div`
         margin-bottom: 0;
         flex: 1;
         padding: 0 10px;
-      }
-      .remove-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
       }
     }
   }

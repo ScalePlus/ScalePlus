@@ -143,7 +143,9 @@ const OverView = ({
                         if (is_logged_in) {
                           if (is_profile_updated) {
                             if (is_mentor_judge) {
-                              history.push("/dashboard");
+                              history.push(
+                                `/judges/agreement/${challengeData._id}`
+                              );
                             } else if (!submissionClosed) {
                               history.push(
                                 `/challenge/agreement/${challengeData._id}`
@@ -233,7 +235,7 @@ const OverView = ({
                   if (is_logged_in) {
                     if (is_profile_updated) {
                       if (is_mentor_judge) {
-                        history.push("/dashboard");
+                        history.push(`/judges/agreement/${challengeData._id}`);
                       } else if (!submissionClosed) {
                         history.push(
                           `/challenge/agreement/${challengeData._id}`

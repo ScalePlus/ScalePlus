@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { addDays, setHours, setMinutes, getHours, getMinutes } from "date-fns";
+import { setHours, setMinutes, getHours, getMinutes } from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -241,8 +241,11 @@ const Timeline = ({ t, challengeId }) => {
                         <DateInput
                           isSmall={true}
                           showTime={true}
-                          minDate={addDays(new Date(), 1)}
-                          minTime={setHours(setMinutes(new Date(), 0), 0)}
+                          minDate={new Date()}
+                          minTime={setHours(
+                            setMinutes(new Date(), getMinutes(new Date())),
+                            getHours(new Date()) + 1
+                          )}
                           maxTime={setHours(setMinutes(new Date(), 45), 23)}
                           value={
                             each.startDate ? new Date(each.startDate) : null
@@ -252,6 +255,7 @@ const Timeline = ({ t, challengeId }) => {
                             newArr[index]["startDate"] = startDate;
                             changeTimeline(newArr);
                           }}
+                          placeholder={t("Start Date")}
                           required
                         />
                       </Col>
@@ -262,7 +266,7 @@ const Timeline = ({ t, challengeId }) => {
                           minDate={
                             each.startDate
                               ? new Date(each.startDate)
-                              : addDays(new Date(), 1)
+                              : new Date()
                           }
                           minTime={
                             each.startDate
@@ -288,6 +292,7 @@ const Timeline = ({ t, challengeId }) => {
                             newArr[index]["endDate"] = endDate;
                             changeTimeline(newArr);
                           }}
+                          placeholder={t("End Date")}
                           required
                         />
                       </Col>
@@ -297,7 +302,7 @@ const Timeline = ({ t, challengeId }) => {
                           inBox={true}
                           isSingle={true}
                           isSelectOnly={true}
-                          placeholder=""
+                          placeholder={t("Select")}
                           options={stateList}
                           value={stateList.find((option) =>
                             each.state._id
@@ -317,6 +322,7 @@ const Timeline = ({ t, challengeId }) => {
                         <TextArea
                           rows="2"
                           value={each.description}
+                          placeholder={t("Description")}
                           onChange={(e) => {
                             let newArr = [...timeline];
                             newArr[index]["description"] = e.target.value;
@@ -388,32 +394,9 @@ const Timeline = ({ t, challengeId }) => {
                                       }}
                                       required
                                     ></Input>
-                                    <div className="remove-container">
-                                      <RemoveButton
-                                        onClick={() => {
-                                          let newArr = [...timeline];
-                                          newArr[index][
-                                            "adminAttachments"
-                                          ] = each.adminAttachments.filter(
-                                            (data) => {
-                                              return attach._id !== data._id;
-                                            }
-                                          );
-                                          changeTimeline(newArr);
-                                        }}
-                                      />
-                                    </div>
                                   </div>
                                 </Col>
-                                <Col
-                                  lg={{
-                                    span: 5,
-                                    offset: 1,
-                                  }}
-                                  md={12}
-                                  sm={12}
-                                  xs={12}
-                                >
+                                <Col lg={6} md={12} sm={12} xs={12}>
                                   <div className="file-container">
                                     <FileInput
                                       placeholder={t("file name……word")}
@@ -429,6 +412,21 @@ const Timeline = ({ t, challengeId }) => {
                                       required
                                       acceptTypes="*"
                                     ></FileInput>
+                                    <div className="remove-container">
+                                      <RemoveButton
+                                        onClick={() => {
+                                          let newArr = [...timeline];
+                                          newArr[index][
+                                            "adminAttachments"
+                                          ] = each.adminAttachments.filter(
+                                            (data) => {
+                                              return attach._id !== data._id;
+                                            }
+                                          );
+                                          changeTimeline(newArr);
+                                        }}
+                                      />
+                                    </div>
                                   </div>
                                 </Col>
                               </Row>

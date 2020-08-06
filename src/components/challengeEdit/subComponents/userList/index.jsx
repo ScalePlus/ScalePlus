@@ -37,20 +37,20 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
   const [attachedUsers, setAttachedUsers] = useState(null);
   const searchText = "";
 
-  useEffect(() => {
-    if (activeKey.value === "Team") {
-      setFilters({ challengeId: challengeId, filter: "all_admin" });
-    }
-    if (activeKey.value === "Participants") {
-      setFilters({
-        challengeId: challengeId,
-        filter: "all_startup_individual",
-      });
-    }
-    if (activeKey.value === "Judges") {
-      setFilters({ challengeId: challengeId, filter: "all_judge" });
-    }
-  }, [activeKey, challengeId]);
+  // useEffect(() => {
+  //   if (activeKey.value === "Team") {
+  //     setFilters({ challengeId: challengeId, filter: "all_admin" });
+  //   }
+  //   if (activeKey.value === "Participants") {
+  //     setFilters({
+  //       challengeId: challengeId,
+  //       filter: "all_startup_individual",
+  //     });
+  //   }
+  //   if (activeKey.value === "Judges") {
+  //     setFilters({ challengeId: challengeId, filter: "all_judge" });
+  //   }
+  // }, [activeKey, challengeId]);
 
   useEffect(() => {
     if (challengeJudgesReducer && challengeJudgesReducer.success) {
@@ -142,6 +142,121 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
               ))}
             ></Dropdown.Toggle>
             <Dropdown.Menu alignRight={true} className="user-filter-menu">
+              <Dropdown.Item
+                eventKey={1}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "all",
+                  });
+                }}
+              >
+                {t("All Users")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item
+                eventKey={2}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "all_admin",
+                  });
+                }}
+              >
+                {t("All Admins")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={3}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "admin_invited",
+                  });
+                }}
+              >
+                {t("Admin Invites")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={4}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "admin_joined",
+                  });
+                }}
+              >
+                {t("Joined")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item
+                eventKey={5}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "all_startup_individual",
+                  });
+                }}
+              >
+                {t("Startup/Individual Only")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={6}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "startup_individual_invited",
+                  });
+                }}
+              >
+                {t("Invited")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={7}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "startup_individual_submitted",
+                  });
+                }}
+              >
+                {t("Submitted Application")}
+              </Dropdown.Item>
+              <div className="border-container"></div>
+              <Dropdown.Item
+                eventKey={8}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "all_judge",
+                  });
+                }}
+              >
+                {t("Judge Only")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={9}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "judge_invited",
+                  });
+                }}
+              >
+                {t("Invited")}
+              </Dropdown.Item>
+              <Dropdown.Item
+                eventKey={10}
+                onClick={() => {
+                  setFilters({
+                    challengeId: challengeId,
+                    filter: "judge_joined",
+                  });
+                }}
+              >
+                {t("Joined")}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+            {/* <Dropdown.Menu alignRight={true} className="user-filter-menu">
               {activeKey.value === "Team" && (
                 <Dropdown.Item
                   eventKey={1}
@@ -214,7 +329,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                   {t("Submitted Application")}
                 </Dropdown.Item>
               )}
-            </Dropdown.Menu>
+            </Dropdown.Menu> */}
           </Dropdown>
         </Col>
       </Row>
@@ -276,7 +391,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                     </div>
                     <div className="user-info-container">
                       <div className="basic-information">
-                        <div>
+                        <div style={{ flex: 0.5 }}>
                           <div className="user-name">
                             {each && each.data && each.data.userId
                               ? each.data.userId.details &&
@@ -320,7 +435,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                               : ""}
                           </div>
                         </div>
-                        <div>
+                        <div style={{ flex: 0.4 }}>
                           {each.challengeId &&
                             each.challengeId.descriptionId && (
                               <div className="challenge-name">
@@ -362,7 +477,7 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                             {each.data.status}
                           </span>
                         </div>
-                        <div className="timestamp">
+                        <div className="timestamp" style={{ flex: 0.1 }}>
                           {moment(each.data.date).format("DD.MM.YYYY")}
                         </div>
                       </div>

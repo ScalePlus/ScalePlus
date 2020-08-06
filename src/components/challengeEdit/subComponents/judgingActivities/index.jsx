@@ -149,6 +149,7 @@ const JudgingActivities = ({ t, challengeId }) => {
                             newArr[index]["date"] = date;
                             changeJudgingActivities(newArr);
                           }}
+                          placeholder={t("Date")}
                           required
                         />
                       </Col>
@@ -163,6 +164,7 @@ const JudgingActivities = ({ t, challengeId }) => {
                             newArr[index]["description"] = e.target.value;
                             changeJudgingActivities(newArr);
                           }}
+                          placeholder={t("Description")}
                         />
                       </Col>
                     </Row>

@@ -281,7 +281,7 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                         </div>
                         <div className="user-info-container">
                           <div className="basic-information">
-                            <div>
+                            <div style={{ flex: 0.6 }}>
                               <div className="user-name">
                                 {each && each.data && each.data.userId
                                   ? each.data.userId.details &&
@@ -327,7 +327,7 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                   : ""}
                               </div>
                             </div>
-                            <div>
+                            <div style={{ flex: 0.3 }}>
                               {each.challengeId &&
                                 each.challengeId.descriptionId && (
                                   <div className="challenge-name">
@@ -370,7 +370,7 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                 {each.data.status}
                               </span>
                             </div>
-                            <div className="timestamp">
+                            <div className="timestamp" style={{ flex: 0.1 }}>
                               {moment(each.data.date).format("DD.MM.YYYY")}
                             </div>
                           </div>

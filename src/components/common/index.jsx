@@ -105,6 +105,15 @@ export const Input = React.memo(
           maxLength={max}
           min={minNumber}
           max={maxNumber}
+          onKeyDown={(e) => {
+            // prevent: "e", "=", ",", "-"
+            if (
+              props.type === "number" &&
+              [69, 187, 188, 189].includes(e.keyCode)
+            ) {
+              e.preventDefault();
+            }
+          }}
         />
         {errorMessage && (
           <Form.Control.Feedback className="text-left" type="invalid">
@@ -705,20 +714,22 @@ export const DropDown = React.memo(
   }
 );
 
-export const Switch = React.memo(({ checked, onChange, variant, label }) => {
-  return (
-    <Form.Group>
-      <Form.Check
-        type="switch"
-        label={label}
-        id={`switch-${new Date().getTime()}`}
-        checked={checked}
-        onChange={onChange}
-        className={variant === "primary" && "primary_switch"}
-      />
-    </Form.Group>
-  );
-});
+export const Switch = React.memo(
+  ({ id, checked, onChange, variant, label }) => {
+    return (
+      <Form.Group>
+        <Form.Check
+          type="switch"
+          label={label}
+          id={id ? id : `switch-${new Date().getTime()}`}
+          checked={checked}
+          onChange={onChange}
+          className={variant === "primary" && "primary_switch"}
+        />
+      </Form.Group>
+    );
+  }
+);
 
 export const IconButton = React.memo(({ text, onClick, disabled, type }) => {
   return (

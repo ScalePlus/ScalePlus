@@ -216,6 +216,18 @@ const UserProfileView = ({ match, history }) => {
                 {is_startup_Individual || is_organisation ? (
                   <div className="info-container">
                     <Row>
+                      {userData.data.userId.roles &&
+                      userData.data.userId.roles.length ? (
+                        <Col lg={6} md={6} sm={12}>
+                          <div className="field-container">
+                            <div className="bold-text">
+                              {t("User role") + " *"}
+                            </div>
+                            <div>{userData.data.userId.roles[0]}</div>
+                          </div>
+                        </Col>
+                      ) : null}
+
                       {userData.data.userId.firstName && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">
@@ -320,6 +332,18 @@ const UserProfileView = ({ match, history }) => {
                 ) : is_mentor_judge ? (
                   <div className="info-container">
                     <Row>
+                      {userData.data.userId.roles &&
+                      userData.data.userId.roles.length ? (
+                        <Col lg={6} md={6} sm={12}>
+                          <div className="field-container">
+                            <div className="bold-text">
+                              {t("User role") + " *"}
+                            </div>
+                            <div>{userData.data.userId.roles[0]}</div>
+                          </div>
+                        </Col>
+                      ) : null}
+
                       {userData.data.userId.firstName && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">

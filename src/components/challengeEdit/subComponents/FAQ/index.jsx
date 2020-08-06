@@ -170,9 +170,18 @@ const FAQ = ({ t, challengeId }) => {
                       label={t("Answer") + " *"}
                       value={each.answer}
                       onChange={(value) => {
-                        let newArr = [...FAQs];
-                        newArr[index]["answer"] = value;
-                        changeFAQS(newArr);
+                        if (
+                          value.replace(/<(.|\n)*?>/g, "").trim().length === 0
+                        ) {
+                          //textarea is still empty
+                          let newArr = [...FAQs];
+                          newArr[index]["answer"] = "";
+                          changeFAQS(newArr);
+                        } else {
+                          let newArr = [...FAQs];
+                          newArr[index]["answer"] = value;
+                          changeFAQS(newArr);
+                        }
                       }}
                       isInvalid={validated && !each.answer}
                     ></EditorInput>

@@ -66,4 +66,18 @@ export const MainContainer = styled.div`
       font-size: ${theme.fontSize.semiLarge};
     }
   }
+  .allow-types-container {
+    .title {
+      font-family: ${theme.fontFamily.bold};
+      margin-bottom: 1rem;
+    }
+    .types {
+      display: flex;
+      align-items: center;
+      .form-group {
+        margin-left: ${theme.isRTL && "1rem"};
+        margin-right: ${theme.isLTR && "1rem"};
+      }
+    }
+  }
 `;

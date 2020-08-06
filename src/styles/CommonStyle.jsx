@@ -87,7 +87,10 @@ body {
 }
 
 .was-validated .invalid-react-quill{
-  border-color: #dc3545;
+  border-color: #dc3545 !important;
+  .ql-container,.ql-toolbar{
+    border-color: #dc3545 !important;
+  }
 }
 
 .text-muted-description{
@@ -551,7 +554,7 @@ body {
   }
 }
 
-.filter-modal{
+.filter-modal,.form-preview{
   max-width:90%;
   .modal-content{
     border-radius: 6px;

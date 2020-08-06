@@ -100,7 +100,7 @@ const JudgesNDA = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && judgesNDA) {
             attachJudgesNDAMethod({
               isActive,
               judgesNDA,
@@ -136,8 +136,14 @@ const JudgesNDA = ({ t, challengeId }) => {
             <EditorInput
               value={judgesNDA}
               onChange={(value) => {
-                changeJudgesNDA(value);
+                if (value.replace(/<(.|\n)*?>/g, "").trim().length === 0) {
+                  //textarea is still empty
+                  changeJudgesNDA("");
+                } else {
+                  changeJudgesNDA(value);
+                }
               }}
+              isInvalid={validated && !judgesNDA}
               description={t("Judging_activities_description_text")}
             />
           </Col>

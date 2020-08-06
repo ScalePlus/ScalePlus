@@ -265,7 +265,29 @@ function Activities({ t, history }) {
         <div className="list-container">
           {visibleData.map((each, index) => {
             return (
-              <div className="block" key={index}>
+              <div
+                className="block"
+                key={index}
+                onClick={() => {
+                  if (each.submissionId) {
+                    history.push(
+                      `challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
+                    );
+                  } else if (each && each.userId && each.userId._id) {
+                    if (
+                      each.userId._id.toString() !==
+                      localStorage.getItem("userId")
+                    ) {
+                      history.push(`/profile/view/${each.userId._id}`);
+                    } else if (
+                      each.userId._id.toString() ===
+                      localStorage.getItem("userId")
+                    ) {
+                      history.push(`/profile/edit`);
+                    }
+                  }
+                }}
+              >
                 <div>
                   {each.challengeId &&
                     each.challengeId.descriptionId &&

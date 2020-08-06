@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { addDays, setHours, setMinutes, getHours, getMinutes } from "date-fns";
+import { setHours, setMinutes, getHours, getMinutes } from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -199,10 +199,13 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                 <DateInput
                                   isSmall={true}
                                   showTime={true}
-                                  minDate={addDays(new Date(), 1)}
+                                  minDate={new Date()}
                                   minTime={setHours(
-                                    setMinutes(new Date(), 0),
-                                    0
+                                    setMinutes(
+                                      new Date(),
+                                      getMinutes(new Date())
+                                    ),
+                                    getHours(new Date()) + 1
                                   )}
                                   maxTime={setHours(
                                     setMinutes(new Date(), 45),
@@ -228,7 +231,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                   minDate={
                                     each.startDate
                                       ? new Date(each.startDate)
-                                      : addDays(new Date(), 1)
+                                      : new Date()
                                   }
                                   minTime={
                                     each.startDate
@@ -369,35 +372,9 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                 }}
                                                 required
                                               ></Input>
-                                              <div className="remove-container">
-                                                <RemoveButton
-                                                  onClick={() => {
-                                                    let newArr = [...timeline];
-                                                    newArr[index][
-                                                      "adminAttachments"
-                                                    ] = each.adminAttachments.filter(
-                                                      (data) => {
-                                                        return (
-                                                          attach._id !==
-                                                          data._id
-                                                        );
-                                                      }
-                                                    );
-                                                    changeTimeline(newArr);
-                                                  }}
-                                                />
-                                              </div>
                                             </div>
                                           </Col>
-                                          <Col
-                                            lg={{
-                                              span: 5,
-                                              offset: 1,
-                                            }}
-                                            md={12}
-                                            sm={12}
-                                            xs={12}
-                                          >
+                                          <Col lg={6} md={12} sm={12} xs={12}>
                                             <div className="file-container">
                                               <FileInput
                                                 placeholder={t(
@@ -416,6 +393,24 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                 required
                                                 acceptTypes="*"
                                               ></FileInput>
+                                              <div className="remove-container">
+                                                <RemoveButton
+                                                  onClick={() => {
+                                                    let newArr = [...timeline];
+                                                    newArr[index][
+                                                      "adminAttachments"
+                                                    ] = each.adminAttachments.filter(
+                                                      (data) => {
+                                                        return (
+                                                          attach._id !==
+                                                          data._id
+                                                        );
+                                                      }
+                                                    );
+                                                    changeTimeline(newArr);
+                                                  }}
+                                                />
+                                              </div>
                                             </div>
                                           </Col>
                                         </Row>

@@ -231,7 +231,30 @@ const AllActivities = ({ history }) => {
                 ? activities.map((each, index) => {
                     return (
                       <Col lg={6} md={6} sm={12} key={index}>
-                        <div className="block">
+                        <div
+                          className="block"
+                          onClick={() => {
+                            if (each.submissionId) {
+                              history.push(
+                                `challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
+                              );
+                            } else if (each && each.userId && each.userId._id) {
+                              if (
+                                each.userId._id.toString() !==
+                                localStorage.getItem("userId")
+                              ) {
+                                history.push(
+                                  `/profile/view/${each.userId._id}`
+                                );
+                              } else if (
+                                each.userId._id.toString() ===
+                                localStorage.getItem("userId")
+                              ) {
+                                history.push(`/profile/edit`);
+                              }
+                            }
+                          }}
+                        >
                           <div>
                             {each.challengeId &&
                               each.challengeId.descriptionId &&

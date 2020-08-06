@@ -24,6 +24,7 @@ import UserProfileEdit from "./components/profile";
 import UserProfileView from "./components/profileView";
 import AllUsers from "./components/allUsers";
 import ChallengeAgreement from "./components/challengeAgreement";
+import JudgesAggrement from "./components/judgesNDA";
 import AllActivities from "./components/allActivities";
 import store from "./store";
 import { Provider } from "react-redux";
@@ -229,6 +230,12 @@ const MainRouter = () => {
             exact
             layout={MainLayout}
             component={ChallengeAgreement}
+          />
+          <OpenRoute
+            path="/judges/agreement/:id"
+            exact
+            layout={MainLayout}
+            component={JudgesAggrement}
           />
           <OpenRoute
             path="/activities"

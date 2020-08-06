@@ -73,7 +73,10 @@ const InviteModal = ({ t, show, setShow, challengeId }) => {
             event.preventDefault();
             event.stopPropagation();
             const form = event.currentTarget;
-            if (form.checkValidity()) {
+            if (
+              form.checkValidity() &&
+              (!linkedin || (linkedin && linkedin.match(Constants.isURL)))
+            ) {
               attachJudgesMethod({
                 email,
                 linkedin,
@@ -122,8 +125,8 @@ const InviteModal = ({ t, show, setShow, challengeId }) => {
                       }}
                       isInvalid={
                         validated &&
-                        (!linkedin ||
-                          (linkedin && !linkedin.match(Constants.isURL)))
+                        linkedin &&
+                        !linkedin.match(Constants.isURL)
                       }
                       errorMessage={
                         linkedin

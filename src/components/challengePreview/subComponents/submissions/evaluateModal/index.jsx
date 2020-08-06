@@ -63,7 +63,7 @@ const EvaluateModal = ({
           >
             {errors && errors.length ? (
               <Row className="justify-content-center">
-                <Col lg={8} md={10} sm={10} xs={10}>
+                <Col lg={11} md={11} sm={11} xs={11}>
                   <Alert variant={"danger"} className="text-left">
                     {errors.map((each, index) => {
                       return <div key={index}>{each}</div>;
@@ -73,7 +73,7 @@ const EvaluateModal = ({
               </Row>
             ) : null}
             <Row className="justify-content-center">
-              <Col lg={8} md={10} sm={10} xs={10}>
+              <Col lg={11} md={11} sm={11} xs={11}>
                 {data && data.length
                   ? data.map((each, index) => {
                       return (

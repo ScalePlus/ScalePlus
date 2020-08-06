@@ -51,10 +51,10 @@ const ChallengeEdit = ({ history, match }) => {
   ];
 
   const usersLinks = [
-    { label: t("Team"), value: "Team" },
-    { label: t("Participants"), value: "Participants" },
-
-    { label: t("Judges"), value: "Judges" },
+    { label: t("All Users"), value: "userList" },
+    // { label: t("Team"), value: "Team" },
+    // { label: t("Participants"), value: "Participants" },
+    // { label: t("Judges"), value: "Judges" },
   ];
 
   const judgeLinks = [
@@ -113,7 +113,7 @@ const ChallengeEdit = ({ history, match }) => {
     setErrors(errors);
 
     if (challengeData) {
-      const perFieldPer = 100 / 13;
+      const perFieldPer = 100 / 7;
       let filledTabs = 0;
 
       if (challengeData.descriptionId) {
@@ -133,34 +133,34 @@ const ChallengeEdit = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.FAQId &&
-        challengeData.FAQId.data &&
-        challengeData.FAQId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.resourceId &&
-        challengeData.resourceId.data &&
-        challengeData.resourceId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.guidelineId &&
-        challengeData.guidelineId.data &&
-        challengeData.guidelineId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.updateId &&
-        challengeData.updateId.data &&
-        challengeData.updateId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.FAQId &&
+      //   challengeData.FAQId.data &&
+      //   challengeData.FAQId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.resourceId &&
+      //   challengeData.resourceId.data &&
+      //   challengeData.resourceId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.guidelineId &&
+      //   challengeData.guidelineId.data &&
+      //   challengeData.guidelineId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.updateId &&
+      //   challengeData.updateId.data &&
+      //   challengeData.updateId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.submissionFormId &&
         challengeData.submissionFormId.data &&
@@ -168,13 +168,13 @@ const ChallengeEdit = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.judgesId &&
-        challengeData.judgesId.data &&
-        challengeData.judgesId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.judgesId &&
+      //   challengeData.judgesId.data &&
+      //   challengeData.judgesId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.judgingCriteriaId &&
         challengeData.judgingCriteriaId.data &&
@@ -189,13 +189,13 @@ const ChallengeEdit = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.teamId &&
-        challengeData.teamId.data &&
-        challengeData.teamId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.teamId &&
+      //   challengeData.teamId.data &&
+      //   challengeData.teamId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.legalAgreementId &&
         challengeData.legalAgreementId.data &&
@@ -524,6 +524,14 @@ const ChallengeEdit = ({ history, match }) => {
                       submissionClosed={false}
                     />
                   )}
+                {activeKey && activeKey.value === "userList" && (
+                  <UserList
+                    t={t}
+                    history={history}
+                    activeKey={activeKey}
+                    challengeId={challengeId}
+                  />
+                )}
                 {activeKey && activeKey.value === "Team" && (
                   <UserList
                     t={t}
