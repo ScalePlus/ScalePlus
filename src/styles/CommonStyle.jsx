@@ -27,7 +27,7 @@ body {
   font-size: ${theme.fontSize.regular};
 }
 
-.form-control,.banner-input{
+.form-control{
   text-align: ${theme.isLTR ? "left" : "right"};
   padding: 20px;
   height: 60px;
@@ -36,6 +36,33 @@ body {
   background-color: ${theme.colors.white};
   color: ${theme.colors.gray};
   font-size: ${theme.fontSize.regular};
+}
+
+.banner-input{
+  text-align: ${theme.isLTR ? "left" : "right"};
+  width: 100%;
+  min-height:220px;
+  padding-top: 56.25%;
+  cursor: pointer;
+  border: 1px solid ${theme.colors.borderGrey};
+  border-radius: 6px;
+  background-color: ${theme.colors.white};
+  color: ${theme.colors.gray};
+  font-size: ${theme.fontSize.regular};
+}
+
+.have-image{
+  position: relative;
+  .crop-icon{
+    position: absolute;
+    top: 5px;
+    right: ${theme.isLTR && "5px"};
+    left: ${theme.isRTL && "5px"};
+    box-shadow: 2px 2px ${theme.colors.black};
+    border: 1px solid ${theme.colors.black};
+    padding: 2px;
+    background: ${theme.colors.white};
+  }
 }
 
 .input-group-append{

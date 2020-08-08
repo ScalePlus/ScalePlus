@@ -20,8 +20,8 @@ const Resources = ({
             (organisationTeamMember &&
               organisationTeamMember.permission ===
                 Constants.TEAM_PERMISSION.ADMIN)) &&
-          challengeData &&
-          !challengeData.isPublished ? (
+          challengeData ? (
+            // && !challengeData.isPublished
             <HeaderComponent
               titleText={t("Resources")}
               buttonText={t("Add New")}

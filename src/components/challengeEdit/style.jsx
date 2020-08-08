@@ -12,10 +12,6 @@ export const MainContainer = styled.div`
   textarea.form-control {
     height: auto;
   }
-  .banner-input {
-    height: 220px;
-    cursor: pointer;
-  }
   .navbar {
     padding: 0px;
     margin-bottom: 10px;

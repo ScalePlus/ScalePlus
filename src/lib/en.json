@@ -740,6 +740,18 @@
         "End Date": "End Date",
         "Select": "Select",
         "Date": "Date",
-        "cancel_challenge_reason": "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?"
+        "cancel_challenge_reason": "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?",
+        "file_size_error": "The file is extending the maximum file size of 10 MB.",
+        "Currencies": "Currencies",
+        "Country": "Country",
+        "Symbol": "Symbol",
+        "Currency Configuration": "Currency Configuration",
+        "CURRENCY_CREATE_SUCCESS": "Currency created successfully",
+        "CURRENCY_CREATE_ERROR": "Error while creating currency",
+        "CURRENCY_CREATE_DUPLICATE": "Currency already exists",
+        "CURRENCY_UPDATE_SUCCESS": "Currency updated successfully",
+        "CURRENCY_UPDATE_ERROR": "Error while updating currency",
+        "CURRENCY_DELETE_SUCCESS": "Currency deleted successfully",
+        "CURRENCY_DELETE_ERROR": "Error while deleting currency"
     }
 }

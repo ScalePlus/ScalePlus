@@ -116,7 +116,7 @@ const ChallengePreview = ({ history, match }) => {
     setErrors(errors);
 
     if (challengeData) {
-      const perFieldPer = 100 / 13;
+      const perFieldPer = 100 / 7;
       let filledTabs = 0;
 
       if (challengeData.descriptionId) {
@@ -136,34 +136,34 @@ const ChallengePreview = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.FAQId &&
-        challengeData.FAQId.data &&
-        challengeData.FAQId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.resourceId &&
-        challengeData.resourceId.data &&
-        challengeData.resourceId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.guidelineId &&
-        challengeData.guidelineId.data &&
-        challengeData.guidelineId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
-      if (
-        challengeData.updateId &&
-        challengeData.updateId.data &&
-        challengeData.updateId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.FAQId &&
+      //   challengeData.FAQId.data &&
+      //   challengeData.FAQId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.resourceId &&
+      //   challengeData.resourceId.data &&
+      //   challengeData.resourceId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.guidelineId &&
+      //   challengeData.guidelineId.data &&
+      //   challengeData.guidelineId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
+      // if (
+      //   challengeData.updateId &&
+      //   challengeData.updateId.data &&
+      //   challengeData.updateId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.submissionFormId &&
         challengeData.submissionFormId.data &&
@@ -171,13 +171,13 @@ const ChallengePreview = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.judgesId &&
-        challengeData.judgesId.data &&
-        challengeData.judgesId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.judgesId &&
+      //   challengeData.judgesId.data &&
+      //   challengeData.judgesId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.judgingCriteriaId &&
         challengeData.judgingCriteriaId.data &&
@@ -192,13 +192,13 @@ const ChallengePreview = ({ history, match }) => {
       ) {
         filledTabs = filledTabs + 1;
       }
-      if (
-        challengeData.teamId &&
-        challengeData.teamId.data &&
-        challengeData.teamId.data.length
-      ) {
-        filledTabs = filledTabs + 1;
-      }
+      // if (
+      //   challengeData.teamId &&
+      //   challengeData.teamId.data &&
+      //   challengeData.teamId.data.length
+      // ) {
+      //   filledTabs = filledTabs + 1;
+      // }
       if (
         challengeData.legalAgreementId &&
         challengeData.legalAgreementId.data &&
@@ -329,7 +329,8 @@ const ChallengePreview = ({ history, match }) => {
         if (
           challengeData.resourceId &&
           challengeData.resourceId.isActive &&
-          challengeData.resourceId.data & challengeData.resourceId.data.length
+          challengeData.resourceId.data &&
+          challengeData.resourceId.data.length
         ) {
           if (!data.find((each) => each.value === "Resources")) {
             data.splice(3, 0, { label: t("Resources"), value: "Resources" });
@@ -344,7 +345,8 @@ const ChallengePreview = ({ history, match }) => {
         if (
           challengeData.FAQId &&
           challengeData.FAQId.isActive &&
-          challengeData.FAQId.data & challengeData.FAQId.data.length
+          challengeData.FAQId.data &&
+          challengeData.FAQId.data.length
         ) {
           if (!data.find((each) => each.value === "FAQ")) {
             data.splice(3, 0, { label: t("FAQ"), value: "FAQ" });
@@ -359,7 +361,8 @@ const ChallengePreview = ({ history, match }) => {
         if (
           challengeData.updateId &&
           challengeData.updateId.isActive &&
-          challengeData.updateId.data & challengeData.updateId.data.length
+          challengeData.updateId.data &&
+          challengeData.updateId.data.length
         ) {
           if (!data.find((each) => each.value === "Updates")) {
             data.splice(1, 0, { label: t("Updates"), value: "Updates" });
@@ -374,7 +377,8 @@ const ChallengePreview = ({ history, match }) => {
         if (
           challengeData.guidelineId &&
           challengeData.guidelineId.isActive &&
-          challengeData.guidelineId.data & challengeData.guidelineId.data.length
+          challengeData.guidelineId.data &&
+          challengeData.guidelineId.data.length
         ) {
           if (!data.find((each) => each.value === "Guidelines")) {
             data.splice(1, 0, { label: t("Guidelines"), value: "Guidelines" });
@@ -535,7 +539,6 @@ const ChallengePreview = ({ history, match }) => {
             <Col lg={11} md={11} sm={11} xs={11}>
               <ChallengeHeader
                 primaryButtonText={t("Submit for review")}
-                secondaryButtonText={t("Edit Challenge Details")}
                 primaryButtonClick={() => {
                   updateChallengeMethod({
                     _id: challengeId,
@@ -543,6 +546,7 @@ const ChallengePreview = ({ history, match }) => {
                   });
                 }}
                 primaryButtonDisable={progress !== 100}
+                secondaryButtonText={t("Edit Challenge Details")}
                 secondaryButtonClick={() => {
                   history.push(`/challenge/${challengeId}/edit/Description`);
                 }}
@@ -557,13 +561,12 @@ const ChallengePreview = ({ history, match }) => {
             style={{ marginBottom: 10, marginTop: 20 }}
           >
             <Col lg={11} md={11} sm={11} xs={11}>
-              <ChallengeViewHeader
+              <ChallengeHeader
                 organisationId={challengeData.organisationId}
-                viewCount={
-                  challengeData &&
-                  challengeData.views &&
-                  challengeData.views.length
-                }
+                secondaryButtonText={t("Edit Challenge Details")}
+                secondaryButtonClick={() => {
+                  history.push(`/challenge/${challengeId}/edit/Description`);
+                }}
               />
             </Col>
           </Row>

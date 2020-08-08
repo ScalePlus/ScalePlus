@@ -24,6 +24,8 @@ const Step2 = ({
   setSortDescription,
   bannerImage,
   setBannerImage,
+  cropedBannerImage,
+  setCropedBannerImage,
   videoURL,
   setVideoURL,
 }) => {
@@ -123,8 +125,12 @@ const Step2 = ({
                 label={t("Challenge Banner Image")}
                 description={t("Banner_Image_desscription")}
                 value={bannerImage}
+                cropedBannerImage={cropedBannerImage}
                 onChange={(e) => {
                   setBannerImage(e.target.files[0]);
+                }}
+                onCropDone={(file) => {
+                  setCropedBannerImage(file);
                 }}
               />
               <Input

@@ -1,12 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import Cookies from "universal-cookie";
-import {
-  Navbar,
-  Nav,
-  //  NavDropdown,
-  Dropdown,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivitiesAction, markReadAction } from "../allActivities/action";
@@ -17,7 +12,7 @@ import SearchModal from "./subComponents/searchModal";
 import UserSidebar from "../userSidebar";
 import { HeaderPart, ContentPart } from "./subComponents/notifications";
 import { Constants } from "../../lib/constant";
-import { Switch } from "../common";
+// import { Switch } from "../common";
 import theme from "../../theme";
 
 function useOutsideAlerter(ref, toggleDropdown) {
@@ -195,7 +190,40 @@ const Header = ({ t }) => {
             })}
           </Nav>
 
-          <div className="switch-container">
+          <div className="language-dropdown">
+            <NavDropdown
+              title={cookies.get("language") ? cookies.get("language") : "en"}
+            >
+              <NavDropdown.Item
+                onClick={() => {
+                  if (
+                    cookies.get("language") &&
+                    cookies.get("language") !== "en"
+                  ) {
+                    cookies.set("language", "en", { path: "/" });
+                    document.location.reload();
+                  }
+                }}
+              >
+                EN
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => {
+                  if (
+                    cookies.get("language") &&
+                    cookies.get("language") !== "ar"
+                  ) {
+                    cookies.set("language", "ar", { path: "/" });
+                    document.location.reload();
+                  }
+                }}
+              >
+                AR
+              </NavDropdown.Item>
+            </NavDropdown>
+          </div>
+
+          {/* <div className="switch-container">
             <div className={"left-text"}>
               <span>{t(theme.isRTL ? "EN" : "AR")}</span>
             </div>
@@ -218,7 +246,7 @@ const Header = ({ t }) => {
             <div className={"right-text"}>
               <span>{t(theme.isRTL ? "AR" : "EN")}</span>
             </div>
-          </div>
+          </div> */}
 
           {localStorage.getItem("token") && (
             <div ref={wrapperRef}>

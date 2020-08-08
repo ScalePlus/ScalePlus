@@ -14,8 +14,8 @@ const FAQ = ({ t, is_organisation, organisationTeamMember, challengeData }) => {
             (organisationTeamMember &&
               organisationTeamMember.permission ===
                 Constants.TEAM_PERMISSION.ADMIN)) &&
-          challengeData &&
-          !challengeData.isPublished ? (
+          challengeData ? (
+            // && !challengeData.isPublished
             <HeaderComponent
               titleText={t("Frequently Asked Questions")}
               buttonText={t("Add New")}

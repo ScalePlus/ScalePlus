@@ -274,8 +274,8 @@ const ChallengeEdit = ({ history, match }) => {
   ]);
 
   return challengeData &&
-    (challengeData.isPublished ||
-      challengeData.organisationId._id !== localStorage.getItem("userId") ||
+    // challengeData.isPublished ||
+    (challengeData.organisationId._id !== localStorage.getItem("userId") ||
       (organisationTeamMember &&
         organisationTeamMember.permission ===
           Constants.TEAM_PERMISSION.VIEW)) ? (
@@ -297,31 +297,44 @@ const ChallengeEdit = ({ history, match }) => {
       ) : null}
 
       {challengeData && !challengeData.isPublished && (
-        <Row style={{ marginBottom: 20 }}>
+        <Row>
           <Col>
             <WarningBlock t={t} />
           </Col>
         </Row>
       )}
 
-      <Row className="justify-content-center" style={{ marginBottom: 35 }}>
+      <Row
+        className="justify-content-center"
+        style={{ marginTop: 20, marginBottom: 35 }}
+      >
         <Col lg={11} md={11} sm={11} xs={11}>
-          <ChallengeHeader
-            primaryButtonText={t("Submit for review")}
-            secondaryButtonText={t("Preview")}
-            primaryButtonClick={() => {
-              updateChallengeMethod({
-                _id: challengeId,
-                isPublished: true,
-              });
-            }}
-            primaryButtonDisable={progress !== 100}
-            secondaryButtonClick={() => {
-              history.push(`/challenge/${challengeId}/preview/Overview`);
-            }}
-            organisationId={challengeData && challengeData.organisationId}
-            progress={progress}
-          />
+          {challengeData && !challengeData.isPublished ? (
+            <ChallengeHeader
+              primaryButtonText={t("Submit for review")}
+              secondaryButtonText={t("Preview")}
+              primaryButtonClick={() => {
+                updateChallengeMethod({
+                  _id: challengeId,
+                  isPublished: true,
+                });
+              }}
+              primaryButtonDisable={progress !== 100}
+              secondaryButtonClick={() => {
+                history.push(`/challenge/${challengeId}/preview/Overview`);
+              }}
+              organisationId={challengeData && challengeData.organisationId}
+              progress={progress}
+            />
+          ) : (
+            <ChallengeHeader
+              secondaryButtonText={t("Preview")}
+              secondaryButtonClick={() => {
+                history.push(`/challenge/${challengeId}/preview/Overview`);
+              }}
+              organisationId={challengeData && challengeData.organisationId}
+            />
+          )}
         </Col>
       </Row>
 

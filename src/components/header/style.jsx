@@ -161,4 +161,13 @@ export const Container = styled.div`
     padding: 1rem;
     font-size: ${theme.fontSize.mediumRegular};
   }
+
+  .language-dropdown {
+    .dropdown-menu {
+      min-width: 0px;
+    }
+    .dropdown-toggle {
+      text-transform: uppercase;
+    }
+  }
 `;

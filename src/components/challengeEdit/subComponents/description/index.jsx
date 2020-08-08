@@ -54,6 +54,7 @@ const Description = ({ t, challengeId }) => {
   const [currentSolution, changeCurrentSolution] = useState("");
   const [painPoint, changePainPoint] = useState("");
   const [bannerImage, changeBannerImage] = useState("");
+  const [cropedBannerImage, setCropedBannerImage] = useState("");
   const [videoURL, changeVideoUrl] = useState("");
   const [tags, selectTag] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -202,10 +203,16 @@ const Description = ({ t, challengeId }) => {
               tags,
             };
 
-            if (bannerImage && bannerImage.name) {
+            if (
+              (bannerImage && bannerImage.name) ||
+              (cropedBannerImage && cropedBannerImage.name)
+            ) {
               setLoading(true);
               let fileResult = await Api.uploadFile({
-                file: bannerImage,
+                file:
+                  cropedBannerImage && cropedBannerImage.name
+                    ? cropedBannerImage
+                    : bannerImage,
               });
               if (
                 fileResult &&
@@ -249,8 +256,12 @@ const Description = ({ t, challengeId }) => {
               label={t("Challenge Banner Image")}
               description={t("Banner_Image_desscription")}
               value={bannerImage}
+              cropedBannerImage={cropedBannerImage}
               onChange={(e) => {
                 changeBannerImage(e.target.files[0]);
+              }}
+              onCropDone={(file) => {
+                setCropedBannerImage(file);
               }}
             />
             <Input

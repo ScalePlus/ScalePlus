@@ -33,6 +33,7 @@ const ChallengeMaster = () => {
   const [categories, selectCategories] = useState([]);
   const [shortDescription, setSortDescription] = useState("");
   const [bannerImage, setBannerImage] = useState("");
+  const [cropedBannerImage, setCropedBannerImage] = useState("");
   const [videoURL, setVideoURL] = useState("");
   const [problemStatement, changeProblemStatement] = useState("");
   const [currentSolution, changeCurrentSolution] = useState("");
@@ -75,7 +76,7 @@ const ChallengeMaster = () => {
   }, [activeStep]);
 
   const createChallenge = async () => {
-    let file = bannerImage;
+    let file = cropedBannerImage ? cropedBannerImage : bannerImage;
     setLoading(true);
 
     if (file && file.name) {
@@ -184,6 +185,8 @@ const ChallengeMaster = () => {
               setSortDescription={setSortDescription}
               bannerImage={bannerImage}
               setBannerImage={setBannerImage}
+              cropedBannerImage={cropedBannerImage}
+              setCropedBannerImage={setCropedBannerImage}
               videoURL={videoURL}
               setVideoURL={setVideoURL}
             ></Step2>

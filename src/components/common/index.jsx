@@ -16,6 +16,7 @@ import Creatable from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import ReactQuill from "react-quill";
+import CropImage from "../cropImage";
 import {
   SocialLoginContainer,
   ORDeviderContainer,
@@ -324,7 +325,6 @@ export const TextArea = React.memo(
 
 export const FileInput = React.memo(
   ({
-    t,
     placeholder,
     label,
     value,
@@ -336,6 +336,7 @@ export const FileInput = React.memo(
     acceptTypes,
     ...props
   }) => {
+    const { t } = useTranslation();
     let fileUploader;
     return (
       <Form.Group>
@@ -366,7 +367,19 @@ export const FileInput = React.memo(
                 onClick={(event) => {
                   event.target.value = null;
                 }}
-                onChange={onChange}
+                onChange={(e) => {
+                  if (
+                    e &&
+                    e.target &&
+                    e.target.files &&
+                    e.target.files.length &&
+                    e.target.files[0].size <= 10 * 1000 * 1000
+                  ) {
+                    onChange(e);
+                  } else {
+                    alert(t("file_size_error"));
+                  }
+                }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
               />
               {errorMessage && (
@@ -401,7 +414,19 @@ export const FileInput = React.memo(
               onClick={(event) => {
                 event.target.value = null;
               }}
-              onChange={onChange}
+              onChange={(e) => {
+                if (
+                  e &&
+                  e.target &&
+                  e.target.files &&
+                  e.target.files.length &&
+                  e.target.files[0].size <= 10 * 1000 * 1000
+                ) {
+                  onChange(e);
+                } else {
+                  alert(t("file_size_error"));
+                }
+              }}
               accept={acceptTypes ? acceptTypes : "image/*"}
             />
             {buttonText && (
@@ -432,22 +457,41 @@ export const FileInput = React.memo(
 );
 
 export const BannerInput = React.memo(
-  ({ t, value, onChange, label, description, acceptTypes }) => {
+  ({
+    value,
+    cropedBannerImage,
+    onChange,
+    label,
+    description,
+    acceptTypes,
+    onCropDone,
+  }) => {
+    const { t } = useTranslation();
     let fileUploader;
+    const [show, setShow] = useState(false);
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <div
-          className="banner-input"
+          className={`banner-input ${value && "have-image"}`}
           onClick={() => {
-            fileUploader.click();
+            !value && fileUploader.click();
           }}
         >
           {value ? (
             <img
-              src={value && value.name ? URL.createObjectURL(value) : value}
+              src={
+                cropedBannerImage && cropedBannerImage.name
+                  ? URL.createObjectURL(cropedBannerImage)
+                  : value && value.name
+                  ? URL.createObjectURL(value)
+                  : value
+              }
               alt=""
               className="selected-img"
+              onClick={() => {
+                fileUploader.click();
+              }}
             ></img>
           ) : (
             <div
@@ -465,6 +509,16 @@ export const BannerInput = React.memo(
               {!value && <div>{t("Upload image")}</div>}
             </div>
           )}
+          {value && (
+            <div className="crop-icon" onClick={() => setShow(true)}>
+              <img
+                src={"/images/crop.png"}
+                height="25px"
+                width="25px"
+                alt=""
+              ></img>
+            </div>
+          )}
         </div>
         <input
           type="file"
@@ -473,7 +527,20 @@ export const BannerInput = React.memo(
           onClick={(event) => {
             event.target.value = null;
           }}
-          onChange={onChange}
+          onChange={(e) => {
+            if (
+              e &&
+              e.target &&
+              e.target.files &&
+              e.target.files.length &&
+              e.target.files[0].size <= 10 * 1000 * 1000
+            ) {
+              onChange(e);
+              setShow(true);
+            } else {
+              alert(t("file_size_error"));
+            }
+          }}
           accept={acceptTypes ? acceptTypes : "image/*"}
         />
         {description && (
@@ -481,6 +548,15 @@ export const BannerInput = React.memo(
             {description}
           </Form.Text>
         )}
+        <CropImage
+          show={show}
+          setShow={setShow}
+          file={value}
+          onFileChange={(file) => {
+            setShow(false);
+            onCropDone(file);
+          }}
+        />
       </Form.Group>
     );
   }
@@ -854,19 +930,21 @@ export const ChallengeHeader = React.memo(
           </div>
         </div>
         <div className="right-continer">
-          <CircularProgressbar
-            value={progress}
-            text={`${progress}%`}
-            className="progress-oval-container"
-            background={true}
-            styles={buildStyles({
-              textSize: "30px",
-              pathColor: "#4CD964",
-              textColor: theme.colors.black,
-              trailColor: "#d7d7d7",
-              backgroundColor: theme.colors.white,
-            })}
-          />
+          {progress && (
+            <CircularProgressbar
+              value={progress}
+              text={`${progress}%`}
+              className="progress-oval-container"
+              background={true}
+              styles={buildStyles({
+                textSize: "30px",
+                pathColor: "#4CD964",
+                textColor: theme.colors.black,
+                trailColor: "#d7d7d7",
+                backgroundColor: theme.colors.white,
+              })}
+            />
+          )}
           {secondaryButtonText && (
             <div style={{ margin: "0px 10px" }}>
               <PrimaryButton

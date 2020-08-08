@@ -15,10 +15,6 @@ export const MainContainer = styled.div`
   textarea.form-control {
     height: auto;
   }
-  .banner-input {
-    height: 220px;
-    cursor: pointer;
-  }
   .sub-container {
     margin-top: 50px;
     text-align: ${theme.isLTR ? "left" : "right"};

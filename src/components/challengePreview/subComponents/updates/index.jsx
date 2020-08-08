@@ -20,8 +20,8 @@ const Updates = ({
             (organisationTeamMember &&
               organisationTeamMember.permission ===
                 Constants.TEAM_PERMISSION.ADMIN)) &&
-          challengeData &&
-          !challengeData.isPublished ? (
+          challengeData ? (
+            // && !challengeData.isPublished
             <HeaderComponent
               titleText={t("Updates")}
               buttonText={t("Add New")}
