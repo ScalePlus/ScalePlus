@@ -37,4 +37,9 @@ export default {
     let result = coreApi.PUT(url, { searchText: "" });
     return result;
   },
+  getCurrencyList: (data) => {
+    let url = `/currency/list`;
+    let result = coreApi.PUT(url, data);
+    return result;
+  },
 };

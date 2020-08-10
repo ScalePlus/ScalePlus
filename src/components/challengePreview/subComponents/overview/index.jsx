@@ -42,8 +42,10 @@ const OverView = ({
         challengeData.judgesId &&
           challengeData.judgesId.data.length &&
           challengeData.judgesId.data.find(
-            (each) =>
-              each.userId._id.toString() === localStorage.getItem("userId")
+            (member) =>
+              member.userId._id.toString() === localStorage.getItem("userId") &&
+              member.status !== Constants.USER_STATUS.Declined &&
+              member.status !== Constants.USER_STATUS.Invited
           )
           ? true
           : false

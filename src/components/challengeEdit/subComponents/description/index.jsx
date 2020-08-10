@@ -19,6 +19,7 @@ import { HeaderComponent } from "../../../challengePreview/subComponents/common"
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import { Constants } from "../../../../lib/constant";
+import ValidationBlock from "./validationBlock";
 
 const Description = ({ t, challengeId }) => {
   const dispatch = useDispatch();
@@ -180,6 +181,7 @@ const Description = ({ t, challengeId }) => {
           </Col>
         </Row>
       ) : null}
+
       <Form
         noValidate
         validated={validated}
@@ -189,7 +191,12 @@ const Description = ({ t, challengeId }) => {
           const form = event.currentTarget;
           if (
             form.checkValidity() &&
-            (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
+            (!videoURL || (videoURL && videoURL.match(Constants.isURL))) &&
+            categories &&
+            categories.length &&
+            shortDescription &&
+            tags &&
+            tags.length
           ) {
             let updateObj = {
               title,
@@ -239,6 +246,21 @@ const Description = ({ t, challengeId }) => {
             />
           </Col>
         </Row>
+        {validated &&
+        (!shortDescription ||
+          !categories ||
+          (categories && categories.length === 0) ||
+          !bannerImage) ? (
+          <ValidationBlock
+            descError={validated && !shortDescription}
+            catError={
+              validated &&
+              (!categories || (categories && categories.length === 0))
+            }
+            imgError={validated && !bannerImage}
+            t={t}
+          />
+        ) : null}
         <Row>
           <Col>
             <Input
@@ -333,12 +355,14 @@ const Description = ({ t, challengeId }) => {
             />
             <TextArea
               rows="4"
-              label={t("Short Description")}
+              label={t("Short Description") + " *"}
               description={t("Short_desscription")}
               value={shortDescription}
               onChange={(e) => {
                 changeShortDesc(e.target.value);
               }}
+              isInvalid={validated && !shortDescription}
+              errorMessage={t("Short_desscription_error")}
             />
             <TextArea
               rows="4"

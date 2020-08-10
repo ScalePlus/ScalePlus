@@ -20,6 +20,8 @@ const Step2 = ({
   setPrize,
   categories,
   selectCategories,
+  currency,
+  selectCurrency,
   shortDescription,
   setSortDescription,
   bannerImage,
@@ -28,6 +30,7 @@ const Step2 = ({
   setCropedBannerImage,
   videoURL,
   setVideoURL,
+  currencyList,
 }) => {
   const [validated, setValidated] = useState(false);
   const challengeReducer = useSelector((state) => {
@@ -57,7 +60,10 @@ const Step2 = ({
             const form = event.currentTarget;
             if (
               form.checkValidity() &&
-              (!videoURL || (videoURL && videoURL.match(Constants.isURL)))
+              (!videoURL || (videoURL && videoURL.match(Constants.isURL))) &&
+              shortDescription &&
+              categories &&
+              categories.length
             ) {
               setActiveStep(2);
             }
@@ -100,6 +106,30 @@ const Step2 = ({
                 }
                 errorMessage={t("Categories_error")}
               />
+              {/* <div className="price-container">
+                <DropDown
+                  isSmall={true}
+                  label={t("Currency") + " *"}
+                  placeholder=""
+                  // description={t("Categories_description")}
+                  options={
+                    currencyList && currencyList.length
+                      ? currencyList.map((option) => {
+                          return { value: option._id, label: option.country };
+                        })
+                      : []
+                  }
+                  value={currency}
+                  onChange={(val) => {
+                    selectCurrency(val);
+                  }}
+                  isInvalid={
+                    validated &&
+                    (!currency || (currency && currency.length === 0))
+                  }
+                  errorMessage={t("currency_error")}
+                /> */}
+
               <Input
                 type="number"
                 label={t("Prize") + " *"}
@@ -111,14 +141,17 @@ const Step2 = ({
                   setPrize(e.target.value);
                 }}
               />
+              {/* </div> */}
               <TextArea
                 rows="4"
-                label={t("Short Description")}
+                label={t("Short Description") + " *"}
                 description={t("Short_desscription")}
                 value={shortDescription}
                 onChange={(e) => {
                   setSortDescription(e.target.value);
                 }}
+                isInvalid={validated && !shortDescription}
+                errorMessage={t("Short_desscription_error")}
               />
               <BannerInput
                 t={t}

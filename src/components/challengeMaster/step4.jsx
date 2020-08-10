@@ -221,6 +221,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                     newArr[index]["startDate"] = startDate;
                                     changeTimeline(newArr);
                                   }}
+                                  placeholder={t("Start Date")}
                                   required
                                 />
                               </Col>
@@ -262,6 +263,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                     newArr[index]["endDate"] = endDate;
                                     changeTimeline(newArr);
                                   }}
+                                  placeholder={t("End Date")}
                                   required
                                 />
                               </Col>
@@ -271,7 +273,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                   inBox={true}
                                   isSingle={true}
                                   isSelectOnly={true}
-                                  placeholder=""
+                                  placeholder={t("Select")}
                                   options={stateList}
                                   value={stateList.find((option) =>
                                     each.state._id
@@ -292,6 +294,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                 <TextArea
                                   rows="2"
                                   value={each.description}
+                                  placeholder={t("Description")}
                                   onChange={(e) => {
                                     let newArr = [...timeline];
                                     newArr[index]["description"] =

@@ -397,6 +397,8 @@
         "title_error": "Title is required",
         "prize_error": "Prize is required",
         "Categories_error": "Categories is required",
+        "Short_desscription_error": "Short desscription is required",
+        "currency_error": "Currency is required",
         "launchDate_error": "Launch date is required",
         "dueDate_error": "Due date is required",
         "biginDate_error": "Bigin date is required",
@@ -752,6 +754,11 @@
         "CURRENCY_UPDATE_SUCCESS": "Currency updated successfully",
         "CURRENCY_UPDATE_ERROR": "Error while updating currency",
         "CURRENCY_DELETE_SUCCESS": "Currency deleted successfully",
-        "CURRENCY_DELETE_ERROR": "Error while deleting currency"
+        "CURRENCY_DELETE_ERROR": "Error while deleting currency",
+        "VALIDATION_BLOCK_TITLE": "Before we can publish your challenge live, you need to complete the following tasks:",
+        "VALIDATION_BLOCK_SHORT_DESC": "Describe the challenge in 140 characters or less.",
+        "VALIDATION_BLOCK_CATEGORIES_DESC": "Choose appropriate categories for your challenge.",
+        "Add Image": "Add Image",
+        "Add_Image_DESC": "The image should illustrate your challenge. Recommended size is 1280 by 720 "
     }
 }

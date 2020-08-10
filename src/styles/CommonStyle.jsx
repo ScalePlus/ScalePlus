@@ -765,4 +765,14 @@ body {
     }
   }
 }
+
+.price-container {
+  display: flex;
+  justify-content: space-between;
+  .form-group:first-child{
+    flex:auto;
+    margin-right: ${theme.isLTR && "0.5rem"};
+    margin-left: ${theme.isRTL && "0.5rem"};
+  }
+}
 `;

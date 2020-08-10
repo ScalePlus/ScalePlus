@@ -21,6 +21,9 @@ import {
   UPDATE_CHALLENGE_VIEWS_LOADING,
   UPDATE_CHALLENGE_VIEWS_SUCCESS,
   UPDATE_CHALLENGE_VIEWS_ERROR,
+  CURRENCY_LIST_LOADING,
+  CURRENCY_LIST_SUCCESS,
+  CURRENCY_LIST_ERROR,
 } from "./types";
 import { UPDATE_DESC_SUCCESS } from "../challengeEdit/subComponents/description/types";
 import { ATTACH_OVERVIEW_SUCCESS } from "../challengeEdit/subComponents/overview/types";
@@ -43,11 +46,33 @@ let initialState = {
   uploadedFile: null,
   challengeCategories: null,
   challengeTags: null,
+  currencyList: null,
 };
 
 export const challengeReducer = createReducer(initialState, {
   [LOGOUT_SUCCESS](state, action) {
     return Object.assign({}, state, initialState);
+  },
+  [CURRENCY_LIST_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      currencyList: null,
+      error: null,
+    });
+  },
+  [CURRENCY_LIST_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      currencyList: action.payload,
+      error: null,
+    });
+  },
+  [CURRENCY_LIST_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      currencyList: null,
+      error: action.payload,
+    });
   },
   [CREATE_CHALLENGE_LOADING](state, action) {
     return Object.assign({}, state, {

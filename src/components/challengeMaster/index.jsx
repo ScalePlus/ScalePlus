@@ -3,7 +3,11 @@ import { useTranslation } from "react-i18next";
 import Stepper from "../stepper";
 import { Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { createChallengeAction, challengeCategoriesListAction } from "./action";
+import {
+  createChallengeAction,
+  challengeCategoriesListAction,
+  getCurrencyListAction,
+} from "./action";
 import Api from "../challengeMaster/api";
 import theme from "../../theme";
 import Step1 from "./step1";
@@ -21,6 +25,9 @@ const ChallengeMaster = () => {
     () => dispatch(challengeCategoriesListAction()),
     [dispatch]
   );
+  const getCurrencyList = useCallback(() => dispatch(getCurrencyListAction()), [
+    dispatch,
+  ]);
 
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
@@ -31,6 +38,8 @@ const ChallengeMaster = () => {
   const [title, setTitle] = useState("");
   const [prize, setPrize] = useState("");
   const [categories, selectCategories] = useState([]);
+  const [currency, selectCurrency] = useState([]);
+  const [currencyList, setCurrencyList] = useState([]);
   const [shortDescription, setSortDescription] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [cropedBannerImage, setCropedBannerImage] = useState("");
@@ -61,7 +70,20 @@ const ChallengeMaster = () => {
   }, [challengeCategoriesListMethod]);
 
   useEffect(() => {
-    const { error } = challengeReducer;
+    getCurrencyList();
+  }, [getCurrencyList]);
+
+  useEffect(() => {
+    const { error, currencyList } = challengeReducer;
+
+    if (currencyList) {
+      if (currencyList.length) {
+        setCurrencyList(currencyList);
+      } else {
+        setCurrencyList([]);
+      }
+    }
+
     let errors = [];
     if (Array.isArray(error)) {
       errors = error;
@@ -181,6 +203,8 @@ const ChallengeMaster = () => {
               setPrize={setPrize}
               categories={categories}
               selectCategories={selectCategories}
+              currency={currency}
+              selectCurrency={selectCurrency}
               shortDescription={shortDescription}
               setSortDescription={setSortDescription}
               bannerImage={bannerImage}
@@ -189,6 +213,7 @@ const ChallengeMaster = () => {
               setCropedBannerImage={setCropedBannerImage}
               videoURL={videoURL}
               setVideoURL={setVideoURL}
+              currencyList={currencyList}
             ></Step2>
           ) : activeStep === 2 ? (
             <Step3

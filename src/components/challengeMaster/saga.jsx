@@ -28,9 +28,28 @@ import {
   CHALLENGE_TAGS_LOADING,
   CHALLENGE_TAGS_SUCCESS,
   CHALLENGE_TAGS_ERROR,
+  CURRENCY_LIST_ACTION,
+  CURRENCY_LIST_LOADING,
+  CURRENCY_LIST_SUCCESS,
+  CURRENCY_LIST_ERROR,
 } from "./types";
 import Api from "./api";
 import history from "../../history";
+
+function* getCurrencyListSaga(data) {
+  yield put({ type: CURRENCY_LIST_LOADING });
+  try {
+    let res = yield call(Api.getCurrencyList, data.payload);
+
+    if (res.status) {
+      yield put({ type: CURRENCY_LIST_ERROR, payload: res.message });
+    } else {
+      yield put({ type: CURRENCY_LIST_SUCCESS, payload: res.result });
+    }
+  } catch (error) {
+    yield put({ type: CURRENCY_LIST_ERROR, payload: error.message });
+  }
+}
 
 function* createChallengeSaga(data) {
   yield put({ type: CREATE_CHALLENGE_LOADING });
@@ -133,6 +152,7 @@ function* challengeTagsListSaga() {
 }
 
 function* watchChallengeAsync() {
+  yield takeLatest(CURRENCY_LIST_ACTION, getCurrencyListSaga);
   yield takeLatest(CREATE_CHALLENGE_ACTION, createChallengeSaga);
   yield takeLatest(GET_CHALLENGE_ACTION, getChallengeSaga);
   yield takeLatest(UPDATE_CHALLENGE_ACTION, updateChallengeSaga);

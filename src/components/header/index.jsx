@@ -5,6 +5,9 @@ import { Navbar, Nav, NavDropdown, Dropdown } from "react-bootstrap";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivitiesAction, markReadAction } from "../allActivities/action";
+import { getMyChallengeAction } from "../myChallenges/action";
+import { getAllChallengeAction } from "../allChallenges/action";
+import { getChallengeAction } from "../challengeMaster/action";
 import { logoutAction } from "../signin/action";
 import { Container } from "./style";
 import history from "../../history";
@@ -43,6 +46,18 @@ const Header = ({ t }) => {
     () => dispatch(getActivitiesAction("", "")),
     [dispatch]
   );
+  const getMyChallengeMethod = useCallback(
+    () => dispatch(getMyChallengeAction()),
+    [dispatch]
+  );
+  const getAllChallengeMethod = useCallback(
+    (page, filters) => dispatch(getAllChallengeAction(page, filters)),
+    [dispatch]
+  );
+  const getChallengeMethod = useCallback(
+    (challengeId) => dispatch(getChallengeAction(challengeId)),
+    [dispatch]
+  );
   const markRead = () => dispatch(markReadAction());
   const logout = () => dispatch(logoutAction());
 
@@ -71,8 +86,24 @@ const Header = ({ t }) => {
 
     socket.on("activitiesUpdate", () => {
       getActivities();
+      getMyChallengeMethod();
+      getAllChallengeMethod(1, {});
+      if (window.location.pathname.includes("/preview/")) {
+        const challengeId = window.location.pathname.substring(
+          window.location.pathname.lastIndexOf("challenge/") + 10,
+          window.location.pathname.lastIndexOf("/preview")
+        );
+        if (challengeId) {
+          getChallengeMethod(challengeId);
+        }
+      }
     });
-  }, [getActivities]);
+  }, [
+    getActivities,
+    getMyChallengeMethod,
+    getAllChallengeMethod,
+    getChallengeMethod,
+  ]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -197,8 +228,9 @@ const Header = ({ t }) => {
               <NavDropdown.Item
                 onClick={() => {
                   if (
-                    cookies.get("language") &&
-                    cookies.get("language") !== "en"
+                    (cookies.get("language") &&
+                      cookies.get("language") !== "en") ||
+                    !cookies.get("language")
                   ) {
                     cookies.set("language", "en", { path: "/" });
                     document.location.reload();
@@ -210,8 +242,9 @@ const Header = ({ t }) => {
               <NavDropdown.Item
                 onClick={() => {
                   if (
-                    cookies.get("language") &&
-                    cookies.get("language") !== "ar"
+                    (cookies.get("language") &&
+                      cookies.get("language") !== "ar") ||
+                    !cookies.get("language")
                   ) {
                     cookies.set("language", "ar", { path: "/" });
                     document.location.reload();
@@ -326,7 +359,44 @@ const Header = ({ t }) => {
                   {activities && activities.length ? (
                     activities.map((each, index) => {
                       return (
-                        <Dropdown.Item key={index} eventKey={index}>
+                        <Dropdown.Item
+                          key={index}
+                          eventKey={index}
+                          onClick={() => {
+                            if (
+                              each.submissionId &&
+                              (is_admin || is_organisation)
+                            ) {
+                              history.push(
+                                `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
+                              );
+                            } else if (each && each.userId && each.userId._id) {
+                              if (is_admin || is_organisation) {
+                                if (
+                                  each.userId._id.toString() !==
+                                  localStorage.getItem("userId")
+                                ) {
+                                  history.push(
+                                    `/profile/view/${each.userId._id}`
+                                  );
+                                } else if (
+                                  each.userId._id.toString() ===
+                                  localStorage.getItem("userId")
+                                ) {
+                                  history.push(`/profile/edit`);
+                                }
+                              } else if (
+                                each.challengeId &&
+                                each.challengeId._id
+                              ) {
+                                history.push(
+                                  `/challenge/${each.challengeId._id}/preview/Overview`
+                                );
+                              }
+                            }
+                            toggleDropdown(!showDropdown);
+                          }}
+                        >
                           <ContentPart
                             mainText={
                               each.challengeId &&

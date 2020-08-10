@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import theme from "../../../../theme";
 
-export const MainContainer = styled.div`
+export const MainContainer = styled.div``;
+
+export const ValidationBlockContainer = styled.div`
   .complete-task-dialogue {
     border: 1px solid #e3e3e3;
     border-radius: 6px;
@@ -13,7 +15,7 @@ export const MainContainer = styled.div`
     z-index: 1;
     right: ${theme.isLTR && "0"};
     left: ${theme.isRTL && "0"};
-    margin-top: -30px;
+    margin-top: -55px;
     margin-right: ${theme.isLTR && "-5%"};
     margin-right: ${theme.isRTL && "-5%"};
     .step {

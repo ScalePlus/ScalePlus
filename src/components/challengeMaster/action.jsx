@@ -6,7 +6,13 @@ import {
   CHALLENGE_TAGS_ACTION,
   UPDATE_CHALLENGE_ACTION,
   UPDATE_CHALLENGE_VIEWS_ACTION,
+  CURRENCY_LIST_ACTION,
 } from "./types";
+
+export const getCurrencyListAction = (data) => ({
+  type: CURRENCY_LIST_ACTION,
+  payload: data,
+});
 
 export const createChallengeAction = (data) => ({
   type: CREATE_CHALLENGE_ACTION,

@@ -269,21 +269,27 @@ function Activities({ t, history }) {
                 className="block"
                 key={index}
                 onClick={() => {
-                  if (each.submissionId) {
+                  if (each.submissionId && (is_admin || is_organisation)) {
                     history.push(
-                      `challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
+                      `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
                     );
                   } else if (each && each.userId && each.userId._id) {
-                    if (
-                      each.userId._id.toString() !==
-                      localStorage.getItem("userId")
-                    ) {
-                      history.push(`/profile/view/${each.userId._id}`);
-                    } else if (
-                      each.userId._id.toString() ===
-                      localStorage.getItem("userId")
-                    ) {
-                      history.push(`/profile/edit`);
+                    if (is_admin || is_organisation) {
+                      if (
+                        each.userId._id.toString() !==
+                        localStorage.getItem("userId")
+                      ) {
+                        history.push(`/profile/view/${each.userId._id}`);
+                      } else if (
+                        each.userId._id.toString() ===
+                        localStorage.getItem("userId")
+                      ) {
+                        history.push(`/profile/edit`);
+                      }
+                    } else if (each.challengeId && each.challengeId._id) {
+                      history.push(
+                        `/challenge/${each.challengeId._id}/preview/Overview`
+                      );
                     }
                   }
                 }}

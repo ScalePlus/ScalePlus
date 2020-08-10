@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import io from "socket.io-client";
+
 import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,13 +95,6 @@ const ChallengePreview = ({ history, match }) => {
 
   useEffect(() => {
     getChallengeMethod(challengeId);
-  }, [getChallengeMethod, challengeId]);
-
-  useEffect(() => {
-    let socket = io(Constants.SOCKET_BASE_URL);
-    socket.on("activitiesUpdate", () => {
-      getChallengeMethod(challengeId);
-    });
   }, [getChallengeMethod, challengeId]);
 
   useEffect(() => {
@@ -256,8 +249,10 @@ const ChallengePreview = ({ history, match }) => {
         challengeData.judgesId &&
         challengeData.judgesId.data.length &&
         challengeData.judgesId.data.find(
-          (each) =>
-            each.userId._id.toString() === localStorage.getItem("userId")
+          (member) =>
+            member.userId._id.toString() === localStorage.getItem("userId") &&
+            member.status !== Constants.USER_STATUS.Declined &&
+            member.status !== Constants.USER_STATUS.Invited
         )
           ? true
           : false;
