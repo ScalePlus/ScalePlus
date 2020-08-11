@@ -19,6 +19,16 @@ function* attachTimelineSaga(data) {
       yield put({ type: ATTACH_TIMELINE_ERROR, payload: res.message });
     } else {
       yield put({ type: ATTACH_TIMELINE_SUCCESS, payload: res });
+      try {
+        let res = yield call(Api.getTimelineState);
+        if (res.status) {
+          yield put({ type: TIMELINE_STATES_ERROR, payload: res.message });
+        } else {
+          yield put({ type: TIMELINE_STATES_SUCCESS, payload: res });
+        }
+      } catch (error) {
+        yield put({ type: TIMELINE_STATES_ERROR, payload: error.message });
+      }
     }
   } catch (error) {
     yield put({ type: ATTACH_TIMELINE_ERROR, payload: error.message });

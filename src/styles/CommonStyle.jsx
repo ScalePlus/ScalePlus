@@ -114,9 +114,9 @@ body {
 }
 
 .was-validated .invalid-react-quill{
-  border-color: #dc3545 !important;
+  border-color: ${theme.colors.amaranth} !important;
   .ql-container,.ql-toolbar{
-    border-color: #dc3545 !important;
+    border-color: ${theme.colors.amaranth} !important;
   }
 }
 

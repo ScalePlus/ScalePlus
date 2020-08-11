@@ -604,6 +604,7 @@ export const DateInput = React.memo(
     errorMessage,
     isSmall,
     showTime,
+    isInvalid,
   }) => {
     return (
       <Form.Group>
@@ -620,7 +621,7 @@ export const DateInput = React.memo(
           placeholderText={placeholder}
           showMonthDropdown
           showYearDropdown
-          className="form-control"
+          className={`form-control ${isInvalid && "is-invalid"}`}
           minDate={minDate}
           maxDate={maxDate}
           minTime={minTime}
@@ -641,7 +642,7 @@ export const DateInput = React.memo(
           width="25px"
           alt=""
         ></img>
-        {!value && errorMessage && (
+        {(!value || isInvalid) && errorMessage && (
           <Form.Text className="invalid-text">{errorMessage}</Form.Text>
         )}
         {description && (

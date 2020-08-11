@@ -93,6 +93,24 @@ const Timeline = ({ t, challengeId }) => {
     }
   }, [challengeReducer]);
 
+  const checkTimeline = () => {
+    for (let i = 0; i < timeline.length; i++) {
+      const record = timeline[i];
+      if (
+        !record.startDate ||
+        (record.startDate && new Date(record.startDate) < new Date()) ||
+        !record.endDate ||
+        !record.state ||
+        (i > 0 &&
+          (new Date(record.startDate) < new Date(timeline[i - 1].endDate) ||
+            new Date(record.startDate) < new Date(timeline[i - 1].startDate)))
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   return (
     <MainContainer>
       {(challengeTimelineReducer.loading ||
@@ -106,6 +124,7 @@ const Timeline = ({ t, challengeId }) => {
         </Col>
       </Row>
       {validated &&
+      checkTimeline() &&
       challengeTimelineReducer &&
       challengeTimelineReducer.success &&
       challengeTimelineReducer.success.message ? (
@@ -135,7 +154,7 @@ const Timeline = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && checkTimeline()) {
             let newArr = [...timeline];
             setLoading(true);
 
@@ -241,11 +260,51 @@ const Timeline = ({ t, challengeId }) => {
                         <DateInput
                           isSmall={true}
                           showTime={true}
-                          minDate={new Date()}
-                          minTime={setHours(
-                            setMinutes(new Date(), getMinutes(new Date())),
-                            getHours(new Date()) + 1
-                          )}
+                          openToDate={
+                            each.startDate
+                              ? new Date(each.startDate)
+                              : index > 0 &&
+                                timeline &&
+                                timeline.length &&
+                                timeline[index - 1] &&
+                                timeline[index - 1].endDate
+                              ? new Date(timeline[index - 1].endDate)
+                              : new Date()
+                          }
+                          minDate={
+                            index > 0 &&
+                            timeline &&
+                            timeline.length &&
+                            timeline[index - 1] &&
+                            timeline[index - 1].endDate
+                              ? new Date(timeline[index - 1].endDate)
+                              : new Date()
+                          }
+                          minTime={
+                            index > 0 &&
+                            timeline &&
+                            timeline.length &&
+                            timeline[index - 1] &&
+                            timeline[index - 1].endDate
+                              ? setHours(
+                                  setMinutes(
+                                    new Date(timeline[index - 1].endDate),
+                                    getMinutes(
+                                      new Date(timeline[index - 1].endDate)
+                                    )
+                                  ),
+                                  getHours(
+                                    new Date(timeline[index - 1].endDate)
+                                  )
+                                )
+                              : setHours(
+                                  setMinutes(
+                                    new Date(),
+                                    getMinutes(new Date())
+                                  ),
+                                  getHours(new Date())
+                                )
+                          }
                           maxTime={setHours(setMinutes(new Date(), 45), 23)}
                           value={
                             each.startDate ? new Date(each.startDate) : null
@@ -253,17 +312,38 @@ const Timeline = ({ t, challengeId }) => {
                           onChange={(startDate) => {
                             let newArr = [...timeline];
                             newArr[index]["startDate"] = startDate;
+                            newArr[index]["endDate"] = "";
                             changeTimeline(newArr);
                           }}
                           placeholder={t("Start Date")}
                           required
-                          errorMessage={t("startDate_error")}
+                          isInvalid={
+                            new Date(each.startDate) < new Date() ||
+                            timeline.find(
+                              (record, recordIndex) =>
+                                recordIndex < index &&
+                                (new Date(record.startDate) >
+                                  new Date(each.startDate) ||
+                                  new Date(record.endDate) >
+                                    new Date(each.startDate))
+                            )
+                          }
+                          errorMessage={
+                            each.startDate
+                              ? t("invalid_startDate_error")
+                              : t("startDate_error")
+                          }
                         />
                       </Col>
                       <Col lg={4} md={4} sm={12} xs={12}>
                         <DateInput
                           isSmall={true}
                           showTime={true}
+                          openToDate={
+                            each.startDate
+                              ? new Date(each.startDate)
+                              : new Date()
+                          }
                           minDate={
                             each.startDate
                               ? new Date(each.startDate)
@@ -295,7 +375,14 @@ const Timeline = ({ t, challengeId }) => {
                           }}
                           placeholder={t("End Date")}
                           required
-                          errorMessage={t("endDate_error")}
+                          isInvalid={
+                            new Date(each.endDate) < new Date(each.startDate)
+                          }
+                          errorMessage={
+                            each.startDate
+                              ? t("invalid_endDate_error")
+                              : t("endDate_error")
+                          }
                         />
                       </Col>
                       <Col lg={4} md={4} sm={12} xs={12}>
@@ -303,7 +390,6 @@ const Timeline = ({ t, challengeId }) => {
                           isSmall={true}
                           inBox={true}
                           isSingle={true}
-                          isSelectOnly={true}
                           placeholder={t("Select")}
                           options={stateList}
                           value={stateList.find((option) =>
@@ -313,7 +399,7 @@ const Timeline = ({ t, challengeId }) => {
                           )}
                           onChange={(val) => {
                             let newArr = [...timeline];
-                            newArr[index]["state"] = val.value;
+                            newArr[index]["state"] = val;
                             changeTimeline(newArr);
                           }}
                           isInvalid={validated && !each.state}
