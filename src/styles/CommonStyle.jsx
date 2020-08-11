@@ -637,6 +637,9 @@ body {
   font-family: ${theme.fontFamily.bold};
   font-size:${theme.fontSize.medium};
   padding: 80px;
+  a{
+    color:${theme.colors.yellow}
+  }
 }
 
 .filter-button-container {

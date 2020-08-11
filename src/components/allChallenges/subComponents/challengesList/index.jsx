@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +22,11 @@ const ChallengesList = ({ history }) => {
   });
 
   const is_admin =
-    localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
-    localStorage.getItem("token");
+      localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+      localStorage.getItem("token"),
+    is_organisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      localStorage.getItem("token");
   const [show, setShow] = useState(false);
   const [filterCount, setFilterCount] = useState(null);
   const [filters, setFilters] = useState({});
@@ -176,7 +180,10 @@ const ChallengesList = ({ history }) => {
             <Row className="justify-content-center">
               <Col lg={11} md={11} sm={11} xs={11}>
                 <div className="no-data-text">
-                  {t("No challenges to explore")}
+                  {t("No challenges to explore")}{" "}
+                  {is_organisation ? (
+                    <Link to="/create/challenge">{t("create challenge")}</Link>
+                  ) : null}
                 </div>
               </Col>
             </Row>

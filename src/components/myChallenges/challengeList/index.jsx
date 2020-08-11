@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,34 +62,34 @@ const MyChallengesList = ({ history }) => {
             </Row>
             <div className="card-list">
               <Row style={{ paddingRight: 0, paddingLeft: 0 }}>
-                {myChallenges && myChallenges.length
-                  ? myChallenges.map((each, index) => {
-                      return (
-                        <Col
-                          lg={4}
-                          md={6}
-                          sm={12}
-                          xs={12}
-                          key={index}
-                          className="custom-card"
-                          onClick={() => {
-                            history.push(
-                              `/challenge/${each._id}/preview/Overview`
-                            );
-                          }}
-                        >
-                          <CardComponent
-                            t={t}
-                            organisationId={each.organisationId}
-                            descriptionId={each.descriptionId}
-                            judgesId={each.judgesId}
-                            participantsId={each.participantsId}
-                            timelineId={each.timelineId}
-                            showProgress={true}
-                            applications={each.applications}
-                            qualified={each.qualified}
-                          />
-                          {/* <div
+                {myChallenges && myChallenges.length ? (
+                  myChallenges.map((each, index) => {
+                    return (
+                      <Col
+                        lg={4}
+                        md={6}
+                        sm={12}
+                        xs={12}
+                        key={index}
+                        className="custom-card"
+                        onClick={() => {
+                          history.push(
+                            `/challenge/${each._id}/preview/Overview`
+                          );
+                        }}
+                      >
+                        <CardComponent
+                          t={t}
+                          organisationId={each.organisationId}
+                          descriptionId={each.descriptionId}
+                          judgesId={each.judgesId}
+                          participantsId={each.participantsId}
+                          timelineId={each.timelineId}
+                          showProgress={true}
+                          applications={each.applications}
+                          qualified={each.qualified}
+                        />
+                        {/* <div
                         className={
                           menu === index
                             ? "hover-container active"
@@ -116,10 +117,21 @@ const MyChallengesList = ({ history }) => {
                           />
                         </div>
                       </div> */}
-                        </Col>
-                      );
-                    })
-                  : null}
+                      </Col>
+                    );
+                  })
+                ) : (
+                  <Col lg={11} md={11} sm={11} xs={11}>
+                    <div className="no-data-text">
+                      {t("No challenges to explore")}{" "}
+                      {is_organisation ? (
+                        <Link to="/create/challenge">
+                          {t("create challenge")}
+                        </Link>
+                      ) : null}
+                    </div>
+                  </Col>
+                )}
               </Row>
             </div>
           </Col>
