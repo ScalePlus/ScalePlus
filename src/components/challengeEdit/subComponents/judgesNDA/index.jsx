@@ -144,6 +144,7 @@ const JudgesNDA = ({ t, challengeId }) => {
                 }
               }}
               isInvalid={validated && !judgesNDA}
+              errorMessage={t("judgesNDA_error")}
               description={t("Judging_activities_description_text")}
             />
           </Col>

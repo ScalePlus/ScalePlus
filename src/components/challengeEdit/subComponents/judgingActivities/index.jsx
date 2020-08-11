@@ -151,6 +151,7 @@ const JudgingActivities = ({ t, challengeId }) => {
                           }}
                           placeholder={t("Date")}
                           required
+                          errorMessage={t("date_error")}
                         />
                       </Col>
                     </Row>

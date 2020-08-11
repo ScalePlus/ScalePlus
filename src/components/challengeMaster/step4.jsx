@@ -223,6 +223,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                   }}
                                   placeholder={t("Start Date")}
                                   required
+                                  errorMessage={t("startDate_error")}
                                 />
                               </Col>
                               <Col lg={4} md={4} sm={12} xs={12}>
@@ -265,6 +266,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                   }}
                                   placeholder={t("End Date")}
                                   required
+                                  errorMessage={t("endDate_error")}
                                 />
                               </Col>
                               <Col lg={4} md={4} sm={12} xs={12}>
@@ -286,6 +288,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                     changeTimeline(newArr);
                                   }}
                                   isInvalid={validated && !each.state}
+                                  errorMessage={t("dropdown_error")}
                                 />
                               </Col>
                             </Row>
@@ -374,6 +377,9 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                   changeTimeline(newArr);
                                                 }}
                                                 required
+                                                errorMessage={t(
+                                                  "file_name_error"
+                                                )}
                                               ></Input>
                                             </div>
                                           </Col>
@@ -394,6 +400,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                   changeTimeline(newArr);
                                                 }}
                                                 required
+                                                errorMessage={t("file_error")}
                                                 acceptTypes="*"
                                               ></FileInput>
                                               <div className="remove-container">

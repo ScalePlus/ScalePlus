@@ -132,6 +132,7 @@ const LegalAgreement = ({ t, challengeId }) => {
                 }
               }}
               isInvalid={validated && !legalAgreement}
+              errorMessage={t("legal_agreement_error")}
               description={t("legal_agreement__description")}
             />
           </Col>

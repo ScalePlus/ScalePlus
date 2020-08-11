@@ -198,6 +198,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
               }}
               isSingle={true}
               isInvalid={validated && !ratingType}
+              errorMessage={t("rating_type_error")}
             />
           </Col>
           <Col lg={6} md={6} sm={12} xs={12}>
@@ -243,6 +244,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
                                     <Col lg={6} md={6} sm={12} xs={12}>
                                       <Input
                                         required
+                                        errorMessage={t("title_error")}
                                         type="text"
                                         label={t("Section Title") + " *"}
                                         value={each.title}
@@ -257,6 +259,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
                                     <Col lg={6} md={6} sm={12} xs={12}>
                                       <Input
                                         required
+                                        errorMessage={t("weight_error")}
                                         type="number"
                                         label={t("Overall Weight") + " *"}
                                         value={each.weight}

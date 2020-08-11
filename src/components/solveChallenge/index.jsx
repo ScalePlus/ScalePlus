@@ -198,6 +198,11 @@ const SolveChallenge = ({ match }) => {
                               setMembers(newArr);
                             }}
                             required
+                            errorMessage={
+                              each.email
+                                ? t("invalid_email_error")
+                                : t("email_error")
+                            }
                           ></Input>
 
                           <div className="switch-container">

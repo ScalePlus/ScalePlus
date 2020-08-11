@@ -280,6 +280,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <Input
                                           required
+                                          errorMessage={t("title_error")}
                                           type="text"
                                           label={t("Field Title") + " *"}
                                           placeholder={t(
@@ -319,6 +320,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <Input
                                           required
+                                          errorMessage={t("title_error")}
                                           type="text"
                                           label={t("Field Title") + " *"}
                                           placeholder={t(
@@ -358,6 +360,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <Input
                                           required
+                                          errorMessage={t("title_error")}
                                           type="text"
                                           label={t("Field Title") + " *"}
                                           placeholder={t(
@@ -428,6 +431,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <TextArea
                                           required
+                                          errorMessage={t("question_error")}
                                           label={
                                             t("Enter your question below") +
                                             " *"
@@ -470,6 +474,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <TextArea
                                           required
+                                          errorMessage={t("question_error")}
                                           label={
                                             t("Enter your question below") +
                                             " *"
@@ -522,6 +527,9 @@ const SubmissionForm = ({ t, challengeId }) => {
                                                     <div className="choice-input">
                                                       <Input
                                                         required
+                                                        errorMessage={t(
+                                                          "choice_error"
+                                                        )}
                                                         type="text"
                                                         value={eachChoice.title}
                                                         onChange={(e) => {
@@ -588,6 +596,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                                       <div className="field-container">
                                         <TextArea
                                           required
+                                          errorMessage={t("question_error")}
                                           label={
                                             t("Enter your question below") +
                                             " *"
@@ -640,6 +649,9 @@ const SubmissionForm = ({ t, challengeId }) => {
                                                     <div className="choice-input">
                                                       <Input
                                                         required
+                                                        errorMessage={t(
+                                                          "choice_error"
+                                                        )}
                                                         type="text"
                                                         value={eachChoice.title}
                                                         onChange={(e) => {

@@ -85,7 +85,7 @@ const Settings = ({ t, challengeId }) => {
               }}
               // onChange={(e) => changeReason(e.target.value)}
               // required
-              errorMessage={t("cancellationReason_error")}
+              // errorMessage={t("cancellationReason_error")}
             />
             <div className="danger-button-container">
               <PrimaryButton

@@ -128,6 +128,7 @@ const Overview = ({ t, challengeId }) => {
                 }
               }}
               isInvalid={validated && !overview}
+              errorMessage={t("overview_error")}
             />
           </Col>
         </Row>

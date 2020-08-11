@@ -108,6 +108,7 @@ const EvaluateModal = ({
                                   minNumber={1}
                                   maxNumber={each.weight}
                                   required
+                                  errorMessage={t("weight_error")}
                                 />
                                 <TextArea
                                   label={

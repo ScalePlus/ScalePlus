@@ -165,6 +165,7 @@ const FAQ = ({ t, challengeId }) => {
                         changeFAQS(newArr);
                       }}
                       required
+                      errorMessage={t("question_error")}
                     />
                     <EditorInput
                       label={t("Answer") + " *"}
@@ -184,6 +185,7 @@ const FAQ = ({ t, challengeId }) => {
                         }
                       }}
                       isInvalid={validated && !each.answer}
+                      errorMessage={t("answer_error")}
                     ></EditorInput>
                   </div>
                   <div className="right-container">

@@ -192,6 +192,7 @@ const Resources = ({ t, challengeId }) => {
                       <Col>
                         <Input
                           required
+                          errorMessage={t("title_error")}
                           type="text"
                           label={t("Title") + " *"}
                           value={each.title}
@@ -264,6 +265,7 @@ const Resources = ({ t, challengeId }) => {
                             each.link &&
                             !each.link.match(Constants.isURL)
                           }
+                          errorMessage={t("invalid_URL_error")}
                         />
                       </Col>
                     </Row>

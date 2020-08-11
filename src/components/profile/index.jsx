@@ -1176,6 +1176,9 @@ const UserProfileEdit = ({ history }) => {
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     required
+                    errorMessage={
+                      newEmail ? t("invalid_email_error") : t("email_error")
+                    }
                   />
                   <div className="float-right">
                     <PrimaryButton

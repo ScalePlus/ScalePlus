@@ -159,6 +159,7 @@ const Updates = ({ t, challengeId }) => {
                   <div className="left-container">
                     <Input
                       required
+                      errorMessage={t("title_error")}
                       type="text"
                       label={t("Title") + " *"}
                       value={each.title}
