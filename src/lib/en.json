@@ -773,6 +773,7 @@
         "VALIDATION_BLOCK_SHORT_DESC": "Describe the challenge in 140 characters or less.",
         "VALIDATION_BLOCK_CATEGORIES_DESC": "Choose appropriate categories for your challenge.",
         "Add Image": "Add Image",
-        "Add_Image_DESC": "The image should illustrate your challenge. Recommended size is 1280 by 720 "
+        "Add_Image_DESC": "The image should illustrate your challenge. Recommended size is 1280 by 720",
+        "Max limit achieved": "Max limit achieved"
     }
 }

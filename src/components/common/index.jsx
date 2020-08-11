@@ -669,6 +669,7 @@ export const DropDown = React.memo(
     isSingle,
     isSelectOnly,
   }) => {
+    const { t } = useTranslation();
     const customStyle = {
       indicatorSeparator: () => ({
         display: "none",
@@ -744,7 +745,7 @@ export const DropDown = React.memo(
                   color: theme.colors.black,
                 }}
               >
-                <span>Max limit achieved</span>
+                <span>{t("Max limit achieved")}</span>
               </div>
             )}
           </components.Menu>
@@ -756,6 +757,7 @@ export const DropDown = React.memo(
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <Creatable
           isMulti={isSingle ? false : true}
+          formatCreateLabel={(userInput) => `${t("Other")} "${userInput}"`}
           placeholder={placeholder}
           isValidNewOption={(inputValue, selectValue) => {
             return (
