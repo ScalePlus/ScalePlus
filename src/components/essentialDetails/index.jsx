@@ -52,9 +52,9 @@ const EssentialDetail = ({ history }) => {
     is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [textAreaValue, setTextAreaValue] = useState("");
-  const [coreBusiness, selectCoreBusiness] = useState("");
-  const [marketStage, selectMarketStage] = useState("");
-  const [funding, selectFunding] = useState("");
+  const [coreBusiness, selectCoreBusiness] = useState([]);
+  const [marketStage, selectMarketStage] = useState([]);
+  const [funding, selectFunding] = useState([]);
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
 
@@ -75,20 +75,44 @@ const EssentialDetail = ({ history }) => {
       if (is_mentor_judge && summary) {
         setTextAreaValue(summary);
       }
-      if (coreBusiness) {
-        selectCoreBusiness(coreBusiness);
+      if (coreBusiness && coreBusiness.length) {
+        if (Array.isArray(coreBusiness)) {
+          selectCoreBusiness(coreBusiness);
+        } else {
+          selectCoreBusiness([coreBusiness]);
+        }
       }
 
-      if ((is_startup_Individual || is_organisation) && funding) {
-        selectFunding(funding);
+      if (
+        (is_startup_Individual || is_organisation) &&
+        funding &&
+        funding.length
+      ) {
+        if (Array.isArray(funding)) {
+          selectFunding(funding);
+        } else {
+          selectFunding([funding]);
+        }
       }
 
-      if ((is_startup_Individual || is_organisation) && marketStage) {
-        selectMarketStage(marketStage);
+      if (
+        (is_startup_Individual || is_organisation) &&
+        marketStage &&
+        marketStage.length
+      ) {
+        if (Array.isArray(marketStage)) {
+          selectMarketStage(marketStage);
+        } else {
+          selectMarketStage([marketStage]);
+        }
       }
 
-      if (is_mentor_judge && expertise) {
-        selectMarketStage(expertise);
+      if (is_mentor_judge && expertise && expertise.length) {
+        if (Array.isArray(expertise)) {
+          selectMarketStage(expertise);
+        } else {
+          selectMarketStage([expertise]);
+        }
       }
     }
   }, [signinReducer, is_startup_Individual, is_organisation, is_mentor_judge]);
@@ -113,8 +137,11 @@ const EssentialDetail = ({ history }) => {
       form.checkValidity() &&
       textAreaValue &&
       coreBusiness &&
+      coreBusiness.length &&
       marketStage &&
-      funding
+      marketStage.length &&
+      funding &&
+      funding.length
     ) {
       updateEssentialDetailsMethod({
         companyDesciption: textAreaValue,
@@ -129,7 +156,9 @@ const EssentialDetail = ({ history }) => {
       form.checkValidity() &&
       textAreaValue &&
       coreBusiness &&
-      marketStage
+      coreBusiness.length &&
+      marketStage &&
+      marketStage.length
     ) {
       updateEssentialDetailsMethod({
         summary: textAreaValue,
@@ -205,25 +234,33 @@ const EssentialDetail = ({ history }) => {
                     sm={6}
                     xs={12}
                     onClick={() => {
-                      selectCoreBusiness(each.value);
+                      let newArray = [...coreBusiness];
+                      if (newArray.indexOf(each.value) >= 0) {
+                        newArray.splice(newArray.indexOf(each.value), 1);
+                      } else {
+                        newArray.push(each.value);
+                      }
+                      selectCoreBusiness(newArray);
                     }}
                   >
                     <Tab
                       text={each.label}
-                      isActive={each.value === coreBusiness}
+                      isActive={
+                        coreBusiness.indexOf(each.value) >= 0 ? true : false
+                      }
                     />
                   </Col>
                 );
               })}
               <Col md={12}>
-                {!coreBusiness && (
+                {!coreBusiness || (coreBusiness && !coreBusiness.length) ? (
                   <Form.Text
                     className="invalid-text"
                     style={{ marginTop: -10, marginBottom: 15 }}
                   >
                     {t("coreBusiness_error")}
                   </Form.Text>
-                )}
+                ) : null}
               </Col>
             </Row>
 
@@ -248,18 +285,26 @@ const EssentialDetail = ({ history }) => {
                     sm={6}
                     xs={12}
                     onClick={() => {
-                      selectMarketStage(each.value);
+                      let newArray = [...marketStage];
+                      if (newArray.indexOf(each.value) >= 0) {
+                        newArray.splice(newArray.indexOf(each.value), 1);
+                      } else {
+                        newArray.push(each.value);
+                      }
+                      selectMarketStage(newArray);
                     }}
                   >
                     <Tab
                       text={each.label}
-                      isActive={each.value === marketStage}
+                      isActive={
+                        marketStage.indexOf(each.value) >= 0 ? true : false
+                      }
                     />
                   </Col>
                 );
               })}
               <Col md={12}>
-                {!marketStage && (
+                {!marketStage || (marketStage && !marketStage.length) ? (
                   <Form.Text
                     className="invalid-text"
                     style={{ marginTop: -10, marginBottom: 15 }}
@@ -268,7 +313,7 @@ const EssentialDetail = ({ history }) => {
                       ? t("expertise_error")
                       : t("marketStage_error")}
                   </Form.Text>
-                )}
+                ) : null}
               </Col>
             </Row>
 
@@ -289,25 +334,33 @@ const EssentialDetail = ({ history }) => {
                         sm={6}
                         xs={12}
                         onClick={() => {
-                          selectFunding(each.value);
+                          let newArray = [...funding];
+                          if (newArray.indexOf(each.value) >= 0) {
+                            newArray.splice(newArray.indexOf(each.value), 1);
+                          } else {
+                            newArray.push(each.value);
+                          }
+                          selectFunding(newArray);
                         }}
                       >
                         <Tab
                           text={each.label}
-                          isActive={each.value === funding}
+                          isActive={
+                            funding.indexOf(each.value) >= 0 ? true : false
+                          }
                         />
                       </Col>
                     );
                   })}
                   <Col md={12}>
-                    {!funding && (
+                    {!funding || (funding && !funding.length) ? (
                       <Form.Text
                         className="invalid-text"
                         style={{ marginTop: -10, marginBottom: 15 }}
                       >
                         {t("funding_error")}
                       </Form.Text>
-                    )}
+                    ) : null}
                   </Col>
                 </Row>
               </>
