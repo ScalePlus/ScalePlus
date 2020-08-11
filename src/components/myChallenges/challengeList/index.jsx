@@ -128,7 +128,9 @@ const MyChallengesList = ({ history }) => {
                         <Link to="/create/challenge">
                           {t("create challenge")}
                         </Link>
-                      ) : null}
+                      ) : (
+                        <Link to="/all/challenges">{t("join challenge")}</Link>
+                      )}
                     </div>
                   </Col>
                 )}

@@ -161,11 +161,11 @@ const OrganizationDetails = () => {
               <Title
                 text={
                   is_startup_Individual
-                    ? t("Initial Details")
+                    ? t("Quick Details")
                     : is_organisation
                     ? t("Organization Details")
                     : is_mentor_judge
-                    ? t("Initial Details")
+                    ? t("Quick Details")
                     : ""
                 }
                 icon={true}
