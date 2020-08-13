@@ -267,6 +267,10 @@ function Users({ t, history }) {
                           )
                         ? "Judge"
                         : each.data.userId.roles.find(
+                            (role) => role === Constants.ROLES.ADMIN
+                          )
+                        ? "Admin"
+                        : each.data.userId.roles.find(
                             (role) => role === Constants.ROLES.ORGANIZATION
                           )
                         ? "Organisation"

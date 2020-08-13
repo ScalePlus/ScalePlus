@@ -73,7 +73,8 @@ const ChallengeEdit = ({ history, match }) => {
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
       localStorage.getItem("token"),
     is_organisation =
-      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      (localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ||
+        localStorage.getItem("userRole") === Constants.ROLES.ADMIN) &&
       localStorage.getItem("token"),
     is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
@@ -273,331 +274,332 @@ const ChallengeEdit = ({ history, match }) => {
     activeKey,
   ]);
 
-  return challengeData &&
+  return challengeData ? (
     // challengeData.isPublished ||
-    (challengeData.organisationId._id !== localStorage.getItem("userId") ||
-      (organisationTeamMember &&
-        organisationTeamMember.permission ===
-          Constants.TEAM_PERMISSION.VIEW)) ? (
-    <Redirect to={`/challenge/${challengeData._id}/preview/Overview`} />
-  ) : (
-    <MainContainer>
-      {challengeReducer.loading && <Loading />}
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN ||
+    challengeData.organisationId._id === localStorage.getItem("userId") ||
+    (organisationTeamMember &&
+      organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
+      <MainContainer>
+        {challengeReducer.loading && <Loading />}
 
-      {errors && errors.length ? (
-        <Row style={{ marginTop: 10 }}>
-          <Col>
-            <Alert variant={"danger"} className="text-left">
-              {errors.map((each, index) => {
-                return <div key={index}>{each}</div>;
-              })}
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
-
-      {challengeData && !challengeData.isPublished && (
-        <Row>
-          <Col>
-            <WarningBlock t={t} />
-          </Col>
-        </Row>
-      )}
-
-      <Row
-        className="justify-content-center"
-        style={{ marginTop: 20, marginBottom: 35 }}
-      >
-        <Col lg={11} md={11} sm={11} xs={11}>
-          {challengeData && !challengeData.isPublished ? (
-            <ChallengeHeader
-              primaryButtonText={t("Submit for review")}
-              secondaryButtonText={t("Preview")}
-              primaryButtonClick={() => {
-                updateChallengeMethod({
-                  _id: challengeId,
-                  isPublished: true,
-                });
-              }}
-              primaryButtonDisable={progress !== 100}
-              secondaryButtonClick={() => {
-                history.push(`/challenge/${challengeId}/preview/Overview`);
-              }}
-              organisationId={challengeData && challengeData.organisationId}
-              progress={progress}
-            />
-          ) : (
-            <ChallengeHeader
-              secondaryButtonText={t("Preview")}
-              secondaryButtonClick={() => {
-                history.push(`/challenge/${challengeId}/preview/Overview`);
-              }}
-              organisationId={challengeData && challengeData.organisationId}
-            />
-          )}
-        </Col>
-      </Row>
-
-      <Row className="justify-content-center">
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <Row>
-            <Col lg={3} md={4} sm={12} xs={12}>
-              <Navbar
-                expand="md"
-                onToggle={() => {
-                  onToggle(!expanded);
-                }}
-                expanded={expanded}
-              >
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <div style={{ flex: "auto" }}>
-                    <div className="custom-sidebar">
-                      <div>
-                        <div className="title">
-                          <span>{t("Challenge page")}</span>
-                        </div>
-                        <Nav
-                          activeKey={activeKey && activeKey.value}
-                          className="flex-column"
-                        >
-                          {challengeLinks.map((each, index) => {
-                            return (
-                              <Nav.Item
-                                key={index}
-                                onClick={() => {
-                                  history.push(
-                                    `/challenge/${challengeId}/edit/${each.value}`
-                                  );
-                                }}
-                              >
-                                <Nav.Link eventKey={each.value}>
-                                  {each.label}
-                                </Nav.Link>
-                              </Nav.Item>
-                            );
-                          })}
-                        </Nav>
-                      </div>
-                      <div style={{ marginTop: 20 }}>
-                        <div className="title">
-                          <span>{t("Users")}</span>
-                        </div>
-                        <Nav
-                          activeKey={activeKey && activeKey.value}
-                          className="flex-column"
-                        >
-                          {usersLinks.map((each, index) => {
-                            return (
-                              <Nav.Item
-                                key={index}
-                                onClick={() => {
-                                  history.push(
-                                    `/challenge/${challengeId}/edit/${each.value}`
-                                  );
-                                }}
-                              >
-                                <Nav.Link eventKey={each.value}>
-                                  {each.label}
-                                </Nav.Link>
-                              </Nav.Item>
-                            );
-                          })}
-                        </Nav>
-                      </div>
-                      <div style={{ marginTop: 20 }}>
-                        <div className="title">
-                          <span>{t("Submissions")}</span>
-                        </div>
-                        <Nav
-                          activeKey={activeKey && activeKey.value}
-                          className="flex-column"
-                        >
-                          {submissionLinks.map((each, index) => {
-                            return (
-                              <Nav.Item
-                                key={index}
-                                onClick={() => {
-                                  history.push(
-                                    `/challenge/${challengeId}/edit/${each.value}`
-                                  );
-                                }}
-                              >
-                                <Nav.Link eventKey={each.value}>
-                                  {each.label}
-                                </Nav.Link>
-                              </Nav.Item>
-                            );
-                          })}
-                        </Nav>
-                      </div>
-                      <div style={{ marginTop: 20 }}>
-                        <div className="title">
-                          <span>{t("Judging")}</span>
-                        </div>
-                        <Nav
-                          activeKey={activeKey && activeKey.value}
-                          className="flex-column"
-                        >
-                          {judgeLinks.map((each, index) => {
-                            return (
-                              <Nav.Item
-                                key={index}
-                                onClick={() => {
-                                  history.push(
-                                    `/challenge/${challengeId}/edit/${each.value}`
-                                  );
-                                }}
-                              >
-                                <Nav.Link eventKey={each.value}>
-                                  {each.label}
-                                </Nav.Link>
-                              </Nav.Item>
-                            );
-                          })}
-                        </Nav>
-                      </div>
-                      <div style={{ margin: "20px 0px" }}>
-                        <div className="title">
-                          <span>{t("Other")}</span>
-                        </div>
-                        <Nav
-                          activeKey={activeKey && activeKey.value}
-                          className="flex-column"
-                        >
-                          {otherLinks.map((each, index) => {
-                            return (
-                              <Nav.Item
-                                key={index}
-                                onClick={() => {
-                                  history.push(
-                                    `/challenge/${challengeId}/edit/${each.value}`
-                                  );
-                                }}
-                              >
-                                <Nav.Link eventKey={each.value}>
-                                  {each.label}
-                                </Nav.Link>
-                              </Nav.Item>
-                            );
-                          })}
-                        </Nav>
-                      </div>
-                    </div>
-                  </div>
-                </Navbar.Collapse>
-              </Navbar>
-              <div className="button-container">
-                <PrimaryButton
-                  variant="primary"
-                  text={t("Need_Help")}
-                  onClick={() => {}}
-                ></PrimaryButton>
-              </div>
-            </Col>
-            <Col lg={9} md={8} sm={12} xs={12}>
-              <div className="content-container">
-                {activeKey && activeKey.value === "Description" && (
-                  <Description t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Overview" && (
-                  <Overview t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Timeline" && (
-                  <Timeline t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "FAQ" && (
-                  <FAQ t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Resources" && (
-                  <Resources t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Guidelines" && (
-                  <Guidelines t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Updates" && (
-                  <Updates t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Submission form" && (
-                  <SubmissionForm t={t} challengeId={challengeId} />
-                )}
-                {activeKey &&
-                  activeKey.value === "Submissions" &&
-                  challengeData && (
-                    <Submissions
-                      t={t}
-                      challengeData={challengeData}
-                      is_startup_Individual={is_startup_Individual}
-                      is_mentor_judge={is_mentor_judge}
-                      is_organisation={is_organisation}
-                      fromPreview={false}
-                      submissionVisibility={true}
-                      judgingStarted={true}
-                      judgingClosed={false}
-                      submissionClosed={false}
-                    />
-                  )}
-                {activeKey && activeKey.value === "userList" && (
-                  <UserList
-                    t={t}
-                    history={history}
-                    activeKey={activeKey}
-                    challengeId={challengeId}
-                  />
-                )}
-                {activeKey && activeKey.value === "Team" && (
-                  <UserList
-                    t={t}
-                    history={history}
-                    activeKey={activeKey}
-                    challengeId={challengeId}
-                  />
-                )}
-                {activeKey && activeKey.value === "Participants" && (
-                  <UserList
-                    t={t}
-                    history={history}
-                    activeKey={activeKey}
-                    challengeId={challengeId}
-                  />
-                )}
-
-                {activeKey && activeKey.value === "Judges" && (
-                  <UserList
-                    t={t}
-                    history={history}
-                    activeKey={activeKey}
-                    challengeId={challengeId}
-                  />
-                )}
-                {activeKey && activeKey.value === "Judging criteria" && (
-                  <JudgingCriteria t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Judging activities" && (
-                  <JudgingActivities t={t} challengeId={challengeId} />
-                )}
-                {/* {activeKey && activeKey.value === "Judges" && (
-                  <Judges t={t} challengeId={challengeId} />
-                )} */}
-                {activeKey && activeKey.value === "Judges NDA" && (
-                  <JudgesNDA t={t} challengeId={challengeId} />
-                )}
-                {/* {activeKey && activeKey.value === "Team" && (
-                  <Team t={t} challengeId={challengeId} />
-                )} */}
-                {activeKey && activeKey.value === "Legal agreement" && (
-                  <LegalAgreement t={t} challengeId={challengeId} />
-                )}
-                {activeKey && activeKey.value === "Settings" && (
-                  <Settings t={t} challengeId={challengeId} />
-                )}
-              </div>
+        {errors && errors.length ? (
+          <Row style={{ marginTop: 10 }}>
+            <Col>
+              <Alert variant={"danger"} className="text-left">
+                {errors.map((each, index) => {
+                  return <div key={index}>{each}</div>;
+                })}
+              </Alert>
             </Col>
           </Row>
-        </Col>
-      </Row>
-    </MainContainer>
-  );
+        ) : null}
+
+        {challengeData && !challengeData.isPublished && (
+          <Row>
+            <Col>
+              <WarningBlock t={t} />
+            </Col>
+          </Row>
+        )}
+
+        <Row
+          className="justify-content-center"
+          style={{ marginTop: 20, marginBottom: 35 }}
+        >
+          <Col lg={11} md={11} sm={11} xs={11}>
+            {challengeData && !challengeData.isPublished ? (
+              <ChallengeHeader
+                primaryButtonText={t("Submit for review")}
+                secondaryButtonText={t("Preview")}
+                primaryButtonClick={() => {
+                  updateChallengeMethod({
+                    _id: challengeId,
+                    isPublished: true,
+                  });
+                }}
+                primaryButtonDisable={progress !== 100}
+                secondaryButtonClick={() => {
+                  history.push(`/challenge/${challengeId}/preview/Overview`);
+                }}
+                organisationId={challengeData && challengeData.organisationId}
+                progress={progress}
+              />
+            ) : (
+              <ChallengeHeader
+                secondaryButtonText={t("Preview")}
+                secondaryButtonClick={() => {
+                  history.push(`/challenge/${challengeId}/preview/Overview`);
+                }}
+                organisationId={challengeData && challengeData.organisationId}
+              />
+            )}
+          </Col>
+        </Row>
+
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <Row>
+              <Col lg={3} md={4} sm={12} xs={12}>
+                <Navbar
+                  expand="md"
+                  onToggle={() => {
+                    onToggle(!expanded);
+                  }}
+                  expanded={expanded}
+                >
+                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                  <Navbar.Collapse id="basic-navbar-nav">
+                    <div style={{ flex: "auto" }}>
+                      <div className="custom-sidebar">
+                        <div>
+                          <div className="title">
+                            <span>{t("Challenge page")}</span>
+                          </div>
+                          <Nav
+                            activeKey={activeKey && activeKey.value}
+                            className="flex-column"
+                          >
+                            {challengeLinks.map((each, index) => {
+                              return (
+                                <Nav.Item
+                                  key={index}
+                                  onClick={() => {
+                                    history.push(
+                                      `/challenge/${challengeId}/edit/${each.value}`
+                                    );
+                                  }}
+                                >
+                                  <Nav.Link eventKey={each.value}>
+                                    {each.label}
+                                  </Nav.Link>
+                                </Nav.Item>
+                              );
+                            })}
+                          </Nav>
+                        </div>
+                        <div style={{ marginTop: 20 }}>
+                          <div className="title">
+                            <span>{t("Users")}</span>
+                          </div>
+                          <Nav
+                            activeKey={activeKey && activeKey.value}
+                            className="flex-column"
+                          >
+                            {usersLinks.map((each, index) => {
+                              return (
+                                <Nav.Item
+                                  key={index}
+                                  onClick={() => {
+                                    history.push(
+                                      `/challenge/${challengeId}/edit/${each.value}`
+                                    );
+                                  }}
+                                >
+                                  <Nav.Link eventKey={each.value}>
+                                    {each.label}
+                                  </Nav.Link>
+                                </Nav.Item>
+                              );
+                            })}
+                          </Nav>
+                        </div>
+                        <div style={{ marginTop: 20 }}>
+                          <div className="title">
+                            <span>{t("Submissions")}</span>
+                          </div>
+                          <Nav
+                            activeKey={activeKey && activeKey.value}
+                            className="flex-column"
+                          >
+                            {submissionLinks.map((each, index) => {
+                              return (
+                                <Nav.Item
+                                  key={index}
+                                  onClick={() => {
+                                    history.push(
+                                      `/challenge/${challengeId}/edit/${each.value}`
+                                    );
+                                  }}
+                                >
+                                  <Nav.Link eventKey={each.value}>
+                                    {each.label}
+                                  </Nav.Link>
+                                </Nav.Item>
+                              );
+                            })}
+                          </Nav>
+                        </div>
+                        <div style={{ marginTop: 20 }}>
+                          <div className="title">
+                            <span>{t("Judging")}</span>
+                          </div>
+                          <Nav
+                            activeKey={activeKey && activeKey.value}
+                            className="flex-column"
+                          >
+                            {judgeLinks.map((each, index) => {
+                              return (
+                                <Nav.Item
+                                  key={index}
+                                  onClick={() => {
+                                    history.push(
+                                      `/challenge/${challengeId}/edit/${each.value}`
+                                    );
+                                  }}
+                                >
+                                  <Nav.Link eventKey={each.value}>
+                                    {each.label}
+                                  </Nav.Link>
+                                </Nav.Item>
+                              );
+                            })}
+                          </Nav>
+                        </div>
+                        <div style={{ margin: "20px 0px" }}>
+                          <div className="title">
+                            <span>{t("Other")}</span>
+                          </div>
+                          <Nav
+                            activeKey={activeKey && activeKey.value}
+                            className="flex-column"
+                          >
+                            {otherLinks.map((each, index) => {
+                              return (
+                                <Nav.Item
+                                  key={index}
+                                  onClick={() => {
+                                    history.push(
+                                      `/challenge/${challengeId}/edit/${each.value}`
+                                    );
+                                  }}
+                                >
+                                  <Nav.Link eventKey={each.value}>
+                                    {each.label}
+                                  </Nav.Link>
+                                </Nav.Item>
+                              );
+                            })}
+                          </Nav>
+                        </div>
+                      </div>
+                    </div>
+                  </Navbar.Collapse>
+                </Navbar>
+                <div className="button-container">
+                  <PrimaryButton
+                    variant="primary"
+                    text={t("Need_Help")}
+                    onClick={() => {}}
+                  ></PrimaryButton>
+                </div>
+              </Col>
+              <Col lg={9} md={8} sm={12} xs={12}>
+                <div className="content-container">
+                  {activeKey && activeKey.value === "Description" && (
+                    <Description t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Overview" && (
+                    <Overview t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Timeline" && (
+                    <Timeline t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "FAQ" && (
+                    <FAQ t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Resources" && (
+                    <Resources t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Guidelines" && (
+                    <Guidelines t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Updates" && (
+                    <Updates t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Submission form" && (
+                    <SubmissionForm t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey &&
+                    activeKey.value === "Submissions" &&
+                    challengeData && (
+                      <Submissions
+                        t={t}
+                        challengeData={challengeData}
+                        is_startup_Individual={is_startup_Individual}
+                        is_mentor_judge={is_mentor_judge}
+                        is_organisation={is_organisation}
+                        fromPreview={false}
+                        submissionVisibility={true}
+                        judgingStarted={true}
+                        judgingClosed={false}
+                        submissionClosed={false}
+                      />
+                    )}
+                  {activeKey && activeKey.value === "userList" && (
+                    <UserList
+                      t={t}
+                      history={history}
+                      activeKey={activeKey}
+                      challengeId={challengeId}
+                    />
+                  )}
+                  {activeKey && activeKey.value === "Team" && (
+                    <UserList
+                      t={t}
+                      history={history}
+                      activeKey={activeKey}
+                      challengeId={challengeId}
+                    />
+                  )}
+                  {activeKey && activeKey.value === "Participants" && (
+                    <UserList
+                      t={t}
+                      history={history}
+                      activeKey={activeKey}
+                      challengeId={challengeId}
+                    />
+                  )}
+
+                  {activeKey && activeKey.value === "Judges" && (
+                    <UserList
+                      t={t}
+                      history={history}
+                      activeKey={activeKey}
+                      challengeId={challengeId}
+                    />
+                  )}
+                  {activeKey && activeKey.value === "Judging criteria" && (
+                    <JudgingCriteria t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Judging activities" && (
+                    <JudgingActivities t={t} challengeId={challengeId} />
+                  )}
+                  {/* {activeKey && activeKey.value === "Judges" && (
+                  <Judges t={t} challengeId={challengeId} />
+                )} */}
+                  {activeKey && activeKey.value === "Judges NDA" && (
+                    <JudgesNDA t={t} challengeId={challengeId} />
+                  )}
+                  {/* {activeKey && activeKey.value === "Team" && (
+                  <Team t={t} challengeId={challengeId} />
+                )} */}
+                  {activeKey && activeKey.value === "Legal agreement" && (
+                    <LegalAgreement t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Settings" && (
+                    <Settings t={t} challengeId={challengeId} />
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </MainContainer>
+    ) : (
+      <Redirect to={`/challenge/${challengeData._id}/preview/Overview`} />
+    )
+  ) : null;
 };
 
 export default ChallengeEdit;

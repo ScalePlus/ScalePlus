@@ -27,7 +27,8 @@ const UserProfileView = ({ match, history }) => {
   });
 
   const logged_user_organisation =
-    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION;
+    localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ||
+    localStorage.getItem("userRole") === Constants.ROLES.ADMIN;
 
   const [is_startup_Individual, set_is_startup_Individual] = useState(false);
   const [is_organisation, set_is_organisation] = useState(false);
@@ -146,7 +147,13 @@ const UserProfileView = ({ match, history }) => {
                 {userData && userData.data && userData.data.status}
               </div>
             </div>
-            {logged_user_organisation && (
+            {logged_user_organisation &&
+            userData &&
+            userData.type &&
+            (userData.type === "judge_invite" ||
+              userData.type === "team_invite" ||
+              userData.type === "participants" ||
+              userData.type === "participants_invited") ? (
               <div className="button-container">
                 <PrimaryButton
                   text={t("Reject")}
@@ -177,7 +184,7 @@ const UserProfileView = ({ match, history }) => {
                   }}
                 />
               </div>
-            )}
+            ) : null}
           </div>
           <Form className="box-container">
             <Row>

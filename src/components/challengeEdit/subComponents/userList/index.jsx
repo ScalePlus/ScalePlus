@@ -414,6 +414,10 @@ const UserList = ({ t, history, activeKey, challengeId }) => {
                                 )
                               ? "Judge"
                               : each.data.userId.roles.find(
+                                  (role) => role === Constants.ROLES.ADMIN
+                                )
+                              ? "Admin"
+                              : each.data.userId.roles.find(
                                   (role) =>
                                     role === Constants.ROLES.ORGANIZATION
                                 )

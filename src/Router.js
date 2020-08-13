@@ -88,7 +88,8 @@ const MainRouter = () => {
       {...rest}
       render={(props) =>
         localStorage.getItem("token") &&
-        localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ? (
+        (localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ||
+          localStorage.getItem("userRole") === Constants.ROLES.ADMIN) ? (
           <Layout>
             <Component {...props} />
           </Layout>

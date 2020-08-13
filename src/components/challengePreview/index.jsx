@@ -55,7 +55,8 @@ const ChallengePreview = ({ history, match }) => {
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
       localStorage.getItem("token"),
     is_organisation =
-      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
+      (localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ||
+        localStorage.getItem("userRole") === Constants.ROLES.ADMIN) &&
       localStorage.getItem("token"),
     is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&

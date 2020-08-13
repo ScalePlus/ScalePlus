@@ -304,6 +304,10 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                     )
                                   ? "Judge"
                                   : each.data.userId.roles.find(
+                                      (role) => role === Constants.ROLES.ADMIN
+                                    )
+                                  ? "Admin"
+                                  : each.data.userId.roles.find(
                                       (role) =>
                                         role === Constants.ROLES.ORGANIZATION
                                     )
