@@ -125,7 +125,7 @@ const MyChallengesList = ({ history }) => {
                     <div className="no-data-text">
                       {t("No challenges to explore")}{" "}
                       {is_organisation ? (
-                        <Link to="/create/challenge">
+                        <Link to="/create/challenge/1">
                           {t("create challenge")}
                         </Link>
                       ) : (

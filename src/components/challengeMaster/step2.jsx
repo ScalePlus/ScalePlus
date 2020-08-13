@@ -13,7 +13,6 @@ import { Constants } from "../../lib/constant";
 
 const Step2 = ({
   t,
-  setActiveStep,
   title,
   setTitle,
   prize,
@@ -31,6 +30,7 @@ const Step2 = ({
   videoURL,
   setVideoURL,
   currencyList,
+  history,
 }) => {
   const [validated, setValidated] = useState(false);
   const challengeReducer = useSelector((state) => {
@@ -65,7 +65,7 @@ const Step2 = ({
               categories &&
               categories.length
             ) {
-              setActiveStep(2);
+              history.push("/create/challenge/3");
             }
             window.scrollTo(0, 0);
             setValidated(true);

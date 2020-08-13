@@ -150,7 +150,7 @@ const Header = ({ t }) => {
         ? [
             { label: t("ALL CHALLENGES"), link: "/all/challenges" },
             { label: t("HOW IT WORKS"), link: "/workflow" },
-            { label: t("LAUNCH CHALLENGE"), link: "/create/challenge" },
+            { label: t("LAUNCH CHALLENGE"), link: "/create/challenge/1" },
             { label: t("DASHBOARD"), link: "/dashboard" },
           ]
         : [
@@ -161,7 +161,7 @@ const Header = ({ t }) => {
       : [
           { label: t("ALL CHALLENGES"), link: "/all/challenges" },
           { label: t("HOW IT WORKS"), link: "/workflow" },
-          { label: t("LAUNCH CHALLENGE"), link: "/create/challenge" },
+          { label: t("LAUNCH CHALLENGE"), link: "/create/challenge/1" },
         ]
   );
   const [activeKey, selectKey] = useState(

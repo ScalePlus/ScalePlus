@@ -17,7 +17,7 @@ import Step4 from "./step4";
 import { MainContainer } from "./style";
 import { Loading } from "../common";
 
-const ChallengeMaster = () => {
+const ChallengeMaster = ({ match, history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const createChallengeMethod = (data) => dispatch(createChallengeAction(data));
@@ -64,6 +64,12 @@ const ChallengeMaster = () => {
   ]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (match && match.params && match.params.step) {
+      setActiveStep(parseFloat(match.params.step) - 1);
+    }
+  }, [match]);
 
   useEffect(() => {
     challengeCategoriesListMethod();
@@ -136,25 +142,25 @@ const ChallengeMaster = () => {
               {
                 onClick: (e) => {
                   e.preventDefault();
-                  setActiveStep(0);
+                  history.push("/create/challenge/1");
                 },
               },
               {
                 onClick: (e) => {
                   e.preventDefault();
-                  setActiveStep(1);
+                  history.push("/create/challenge/2");
                 },
               },
               {
                 onClick: (e) => {
                   e.preventDefault();
-                  setActiveStep(2);
+                  history.push("/create/challenge/3");
                 },
               },
               {
                 onClick: (e) => {
                   e.preventDefault();
-                  setActiveStep(3);
+                  history.push("/create/challenge/4");
                 },
               },
             ]}
@@ -189,14 +195,14 @@ const ChallengeMaster = () => {
           {activeStep === 0 ? (
             <Step1
               t={t}
-              setActiveStep={setActiveStep}
+              history={history}
               typeOfSolution={typeOfSolution}
               setTypeOfSolution={setTypeOfSolution}
             ></Step1>
           ) : activeStep === 1 ? (
             <Step2
               t={t}
-              setActiveStep={setActiveStep}
+              history={history}
               title={title}
               setTitle={setTitle}
               prize={prize}
@@ -218,7 +224,7 @@ const ChallengeMaster = () => {
           ) : activeStep === 2 ? (
             <Step3
               t={t}
-              setActiveStep={setActiveStep}
+              history={history}
               problemStatement={problemStatement}
               changeProblemStatement={changeProblemStatement}
               currentSolution={currentSolution}

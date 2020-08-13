@@ -165,7 +165,7 @@ const MainRouter = () => {
             component={EssentialDetail}
           />
           <OrganizationRoute
-            path="/create/challenge"
+            path="/create/challenge/:step"
             exact
             layout={MainLayout}
             component={ChallengeMaster}

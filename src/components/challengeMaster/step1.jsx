@@ -2,7 +2,7 @@ import React from "react";
 import { PageTitle } from "../common";
 import { Row, Col } from "react-bootstrap";
 
-const Step1 = ({ t, setActiveStep, typeOfSolution, setTypeOfSolution }) => {
+const Step1 = ({ t, typeOfSolution, setTypeOfSolution, history }) => {
   const tabs = [
     {
       src: "/images/idea.svg",
@@ -46,7 +46,7 @@ const Step1 = ({ t, setActiveStep, typeOfSolution, setTypeOfSolution }) => {
                       : "step-box-container"
                   }
                   onClick={() => {
-                    setActiveStep(1);
+                    history.push("/create/challenge/2");
                     setTypeOfSolution(each.title);
                   }}
                 >

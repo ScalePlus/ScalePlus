@@ -65,7 +65,7 @@ const Content = ({ history }) => {
               </div>
               <AddButton
                 onClick={() => {
-                  history.push("/create/challenge");
+                  history.push("/create/challenge/1");
                 }}
               >
                 <span className="button-text">Create</span>

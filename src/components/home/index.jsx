@@ -70,7 +70,7 @@ const Home = ({ history }) => {
                         if (!is_logged_in) {
                           history.push("/login");
                         } else if (is_organisation) {
-                          history.push("/create/challenge");
+                          history.push("/create/challenge/1");
                         } else {
                           setOrganisationInfoShow(true);
                         }

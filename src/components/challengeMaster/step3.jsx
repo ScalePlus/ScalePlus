@@ -4,13 +4,13 @@ import { Form, Row, Col } from "react-bootstrap";
 
 const Step3 = ({
   t,
-  setActiveStep,
   problemStatement,
   changeProblemStatement,
   currentSolution,
   changeCurrentSolution,
   painPoint,
   changePainPoint,
+  history,
 }) => {
   return (
     <Row className="sub-container">
@@ -67,7 +67,7 @@ const Step3 = ({
                 variant="primary"
                 text={t("Continue")}
                 onClick={() => {
-                  setActiveStep(3);
+                  history.push("/create/challenge/4");
                 }}
               ></PrimaryButton>
             </Col>
