@@ -48,6 +48,30 @@ const SubmissionForm = ({ t, challengeId }) => {
   const [validated, setValidated] = useState(false);
   const [submissionForm, setForm] = useState([]);
   const [show, setShow] = useState(false);
+  const fileTypes = [
+    { label: t("doc"), value: ".doc" },
+    {
+      label: t("docx"),
+      value: ".docx",
+    },
+    { label: t("pdf"), value: ".pdf" },
+    {
+      label: t("image"),
+      value: "image/*",
+    },
+    {
+      label: t("audio"),
+      value: "audio/*",
+    },
+    {
+      label: t("video"),
+      value: "video/*",
+    },
+    {
+      label: t("other"),
+      value: "*",
+    },
+  ];
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -73,6 +97,21 @@ const SubmissionForm = ({ t, challengeId }) => {
       }
     }
   }, [challengeReducer]);
+
+  const checkForm = () => {
+    for (let i = 0; i < submissionForm.length; i++) {
+      const record = submissionForm[i];
+      if (
+        !record.title ||
+        (record.field === "Document-Upload-Box" &&
+          record.allowed_types &&
+          !record.allowed_types.length)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   return (
     <MainContainer>
@@ -116,7 +155,7 @@ const SubmissionForm = ({ t, challengeId }) => {
           event.preventDefault();
           event.stopPropagation();
           const form = event.currentTarget;
-          if (form.checkValidity()) {
+          if (form.checkValidity() && checkForm()) {
             attachSubmissionformMethod({
               submissionForm,
             });
@@ -219,6 +258,7 @@ const SubmissionForm = ({ t, challengeId }) => {
                         field: "Document-Upload-Box",
                         title: "",
                         isRequired: false,
+                        allowed_types: [],
                       })
                     );
                   },
@@ -380,31 +420,60 @@ const SubmissionForm = ({ t, challengeId }) => {
                                           {t("Allowed file types are")}
                                         </div>
                                         <div className="types">
-                                          <CheckBox
-                                            id={"doc"}
-                                            checkBoxText={"doc"}
-                                          />
-                                          <CheckBox
-                                            id={"docx"}
-                                            checkBoxText={"docx"}
-                                          />
-                                          <CheckBox
-                                            id={"pdf"}
-                                            checkBoxText={"pdf"}
-                                          />
-                                          <CheckBox
-                                            id={"image"}
-                                            checkBoxText={"image"}
-                                          />
-                                          <CheckBox
-                                            id={"audio"}
-                                            checkBoxText={"audio"}
-                                          />
-                                          <CheckBox
-                                            id={"video"}
-                                            checkBoxText={"video"}
-                                          />
+                                          {fileTypes.map(
+                                            (option, optionIndex) => (
+                                              <CheckBox
+                                                key={optionIndex}
+                                                id={`checkbox-${optionIndex}`}
+                                                checkBoxText={option.label}
+                                                checked={
+                                                  each.allowed_types.indexOf(
+                                                    option.value
+                                                  ) >= 0
+                                                }
+                                                onChange={(e) => {
+                                                  let newArr = [
+                                                    ...submissionForm,
+                                                  ];
+
+                                                  if (
+                                                    newArr[index][
+                                                      "allowed_types"
+                                                    ].indexOf(option.value) >= 0
+                                                  ) {
+                                                    newArr[index][
+                                                      "allowed_types"
+                                                    ].splice(
+                                                      newArr[index][
+                                                        "allowed_types"
+                                                      ].indexOf(option.value),
+                                                      1
+                                                    );
+                                                  } else {
+                                                    newArr[index][
+                                                      "allowed_types"
+                                                    ].push(option.value);
+                                                  }
+
+                                                  setForm(newArr);
+                                                }}
+                                              />
+                                            )
+                                          )}
                                         </div>
+
+                                        {!each.allowed_types.length && (
+                                          <div
+                                            style={{
+                                              marginTop: "-0.75rem",
+                                              marginBottom: "1rem",
+                                            }}
+                                          >
+                                            <Form.Text className="invalid-text">
+                                              {t("file_types_error")}
+                                            </Form.Text>
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   )}

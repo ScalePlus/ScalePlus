@@ -129,10 +129,16 @@ function FormPreviewModal({ t, show, setShow, submissionForm }) {
                         <FileInput
                           label={each.title}
                           prependButtonText={t("Browse")}
-                          acceptTypes=".doc, .docx, .pdf"
+                          acceptTypes={
+                            each.allowed_types &&
+                            each.allowed_types.length &&
+                            each.allowed_types.indexOf("*") < 0
+                              ? each.allowed_types.join(",")
+                              : "*"
+                          }
                           description={`${t(
                             "Allowed file types are"
-                          )}: word, pdf`}
+                          )}: ${each.allowed_types.join(" , ")}`}
                         ></FileInput>
                       </div>
                     ) : null;

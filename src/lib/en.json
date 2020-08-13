@@ -371,6 +371,7 @@
         "passwordMismatch_error": "Password does not match",
         "role_error": "Role is required",
         "verificationCode_error": "Verification code is required",
+        "file_types_error": "Allowed file types are required",
         "name_error": "Name is required",
         "logo_error": "Logo is required",
         "personal_photo_error": "Personal photo is required",
@@ -778,6 +779,13 @@
         "Add_Image_DESC": "The image should illustrate your challenge. Recommended size is 1280 by 720",
         "Max limit achieved": "Max limit achieved",
         "create challenge": "create challenge",
-        "join challenge": "join challenge"
+        "join challenge": "join challenge",
+        "doc": "doc",
+        "docx": "docx",
+        "pdf": "pdf",
+        "image": "image",
+        "audio": "audio",
+        "video": "video",
+        "other": "other"
     }
 }
