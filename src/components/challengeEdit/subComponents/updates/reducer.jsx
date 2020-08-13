@@ -3,6 +3,9 @@ import {
   ATTACH_UPDATES_LOADING,
   ATTACH_UPDATES_SUCCESS,
   ATTACH_UPDATES_ERROR,
+  UPDATE_VIEW_LOADING,
+  UPDATE_VIEW_SUCCESS,
+  UPDATE_VIEW_ERROR,
 } from "./types";
 import { LOGOUT_SUCCESS } from "../../../signin/types";
 
@@ -31,6 +34,27 @@ export const challengeUpdatesReducer = createReducer(initialState, {
     });
   },
   [ATTACH_UPDATES_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
+      error: action.payload,
+    });
+  },
+  [UPDATE_VIEW_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [UPDATE_VIEW_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [UPDATE_VIEW_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
       success: null,

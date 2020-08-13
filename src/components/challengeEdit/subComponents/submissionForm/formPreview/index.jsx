@@ -136,9 +136,11 @@ function FormPreviewModal({ t, show, setShow, submissionForm }) {
                               ? each.allowed_types.join(",")
                               : "*"
                           }
-                          description={`${t(
-                            "Allowed file types are"
-                          )}: ${each.allowed_types.join(" , ")}`}
+                          description={`${t("Allowed file types are")}: ${
+                            each.allowed_types && each.allowed_types.length
+                              ? each.allowed_types.join(" , ")
+                              : ""
+                          }`}
                         ></FileInput>
                       </div>
                     ) : null;

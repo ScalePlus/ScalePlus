@@ -316,39 +316,42 @@ function Activities({ t, history }) {
                   </div>
                 </div>
                 <div>
-                  <div
-                    className="status-container"
-                    style={
-                      each.status === Constants.USER_STATUS.Invited
-                        ? {
-                            backgroundColor: "#fdf1ce",
-                            color: "#f4ba09",
-                            borderColor: "#f4ba09",
-                          }
-                        : each.status === Constants.USER_STATUS.Joined ||
-                          each.status === Constants.USER_STATUS.Submitted ||
-                          each.status === Constants.USER_STATUS.Accepeted ||
-                          each.status === Constants.USER_STATUS.Approved ||
-                          each.status === Constants.USER_STATUS.Created
-                        ? {
-                            backgroundColor: "#e0f9ea",
-                            color: "#66e397",
-                            borderColor: "#66e397",
-                          }
-                        : each.status === Constants.USER_STATUS.Declined ||
-                          each.status === Constants.USER_STATUS.Disqualified ||
-                          each.status === Constants.USER_STATUS.Canceled ||
-                          each.status === Constants.USER_STATUS.Deleted
-                        ? {
-                            backgroundColor: "#fce7e7",
-                            color: "#f18989",
-                            borderColor: "#f18989",
-                          }
-                        : {}
-                    }
-                  >
-                    {each.status}
-                  </div>
+                  {each && each.status && (
+                    <div
+                      className="status-container"
+                      style={
+                        each.status === Constants.USER_STATUS.Invited
+                          ? {
+                              backgroundColor: "#fdf1ce",
+                              color: "#f4ba09",
+                              borderColor: "#f4ba09",
+                            }
+                          : each.status === Constants.USER_STATUS.Joined ||
+                            each.status === Constants.USER_STATUS.Submitted ||
+                            each.status === Constants.USER_STATUS.Accepeted ||
+                            each.status === Constants.USER_STATUS.Approved ||
+                            each.status === Constants.USER_STATUS.Created
+                          ? {
+                              backgroundColor: "#e0f9ea",
+                              color: "#66e397",
+                              borderColor: "#66e397",
+                            }
+                          : each.status === Constants.USER_STATUS.Declined ||
+                            each.status ===
+                              Constants.USER_STATUS.Disqualified ||
+                            each.status === Constants.USER_STATUS.Canceled ||
+                            each.status === Constants.USER_STATUS.Deleted
+                          ? {
+                              backgroundColor: "#fce7e7",
+                              color: "#f18989",
+                              borderColor: "#f18989",
+                            }
+                          : {}
+                      }
+                    >
+                      {each.status}
+                    </div>
+                  )}
                   <div>{moment(each.createdDate).format("DD.MM.YYYY")}</div>
                 </div>
               </div>

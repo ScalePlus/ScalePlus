@@ -115,37 +115,39 @@ const UserProfileView = ({ match, history }) => {
               >
                 {t("< User Profile")}
               </div>
-              <div
-                className="status-container"
-                style={
-                  userData.data.status === Constants.USER_STATUS.Invited
-                    ? {
-                        backgroundColor: "#fdf1ce",
-                        color: "#f4ba09",
-                        borderColor: "#f4ba09",
-                      }
-                    : userData.data.status === Constants.USER_STATUS.Joined ||
-                      userData.data.status ===
-                        Constants.USER_STATUS.Submitted ||
-                      userData.data.status ===
-                        Constants.USER_STATUS.Accepeted ||
-                      userData.data.status === Constants.USER_STATUS.Created
-                    ? {
-                        backgroundColor: "#e0f9ea",
-                        color: "#66e397",
-                        borderColor: "#66e397",
-                      }
-                    : userData.data.status === Constants.USER_STATUS.Declined
-                    ? {
-                        backgroundColor: "#fce7e7",
-                        color: "#f18989",
-                        borderColor: "#f18989",
-                      }
-                    : {}
-                }
-              >
-                {userData && userData.data && userData.data.status}
-              </div>
+              {userData && userData.data && userData.data.status && (
+                <div
+                  className="status-container"
+                  style={
+                    userData.data.status === Constants.USER_STATUS.Invited
+                      ? {
+                          backgroundColor: "#fdf1ce",
+                          color: "#f4ba09",
+                          borderColor: "#f4ba09",
+                        }
+                      : userData.data.status === Constants.USER_STATUS.Joined ||
+                        userData.data.status ===
+                          Constants.USER_STATUS.Submitted ||
+                        userData.data.status ===
+                          Constants.USER_STATUS.Accepeted ||
+                        userData.data.status === Constants.USER_STATUS.Created
+                      ? {
+                          backgroundColor: "#e0f9ea",
+                          color: "#66e397",
+                          borderColor: "#66e397",
+                        }
+                      : userData.data.status === Constants.USER_STATUS.Declined
+                      ? {
+                          backgroundColor: "#fce7e7",
+                          color: "#f18989",
+                          borderColor: "#f18989",
+                        }
+                      : {}
+                  }
+                >
+                  {userData && userData.data && userData.data.status}
+                </div>
+              )}
             </div>
             {logged_user_organisation &&
             userData &&

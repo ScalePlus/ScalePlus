@@ -83,6 +83,7 @@ const ChallengePreview = ({ history, match }) => {
     // setSubmissionClosed
   ] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [updateCount, setUpdateCount] = useState(0);
   const challengeId = match.params.id;
 
   useEffect(() => {
@@ -490,8 +491,37 @@ const ChallengePreview = ({ history, match }) => {
   ]);
 
   useEffect(() => {
+    if (
+      challengeData &&
+      challengeData.updateId &&
+      challengeData.updateId.data &&
+      challengeData.updateId.data.length
+    ) {
+      let count = 0;
+      const { data } = challengeData.updateId;
+      for (let i = 0; i < data.length; i++) {
+        const record = data[i];
+        if (
+          record &&
+          record.viewers &&
+          (!record.viewers.length ||
+            (record.viewers.length &&
+              localStorage.getItem("userId") &&
+              record.viewers.indexOf(localStorage.getItem("userId")) < 0))
+        ) {
+          count++;
+        }
+      }
+      setUpdateCount(count);
+    }
+  }, [challengeData]);
+
+  useEffect(() => {
     if (match && match.params && match.params.tab) {
       selectTab(match.params.tab);
+      if (match.params.tab === "Updates") {
+        setUpdateCount(0);
+      }
     }
   }, [match]);
 
@@ -650,11 +680,13 @@ const ChallengePreview = ({ history, match }) => {
                                 <Nav.Link eventKey={each.value}>
                                   {each.label}
                                 </Nav.Link>
-                                {each.value === "Updates" && (
+                                {each.value === "Updates" &&
+                                updateCount &&
+                                updateCount > 0 ? (
                                   <div className="count-container">
-                                    <span>1</span>
+                                    <span>{updateCount}</span>
                                   </div>
-                                )}
+                                ) : null}
                               </Nav.Item>
                             );
                           })
@@ -680,6 +712,7 @@ const ChallengePreview = ({ history, match }) => {
               is_profile_updated={is_profile_updated}
               setUserFlowModal={setUserFlowModal}
               submissionClosed={submissionClosed}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Judging Criteria">
@@ -688,6 +721,7 @@ const ChallengePreview = ({ history, match }) => {
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               challengeData={challengeData}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Submissions">
@@ -704,6 +738,7 @@ const ChallengePreview = ({ history, match }) => {
                 judgingStarted={true}
                 judgingClosed={false}
                 submissionClosed={false}
+                match={match}
               />
             )}
           </Tab.Pane>
@@ -713,6 +748,7 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Updates">
@@ -721,6 +757,7 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Timeline">
@@ -730,6 +767,7 @@ const ChallengePreview = ({ history, match }) => {
               is_startup_Individual={is_startup_Individual}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Forum">
@@ -738,6 +776,7 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Users">
@@ -748,6 +787,7 @@ const ChallengePreview = ({ history, match }) => {
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
               from_preview={true}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="FAQ">
@@ -756,6 +796,7 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="Resources">
@@ -764,6 +805,7 @@ const ChallengePreview = ({ history, match }) => {
               challengeData={challengeData}
               organisationTeamMember={organisationTeamMember}
               is_organisation={is_organisation}
+              match={match}
             />
           </Tab.Pane>
         </Tab.Content>

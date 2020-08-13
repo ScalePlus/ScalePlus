@@ -338,41 +338,43 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                     {each.challengeId.descriptionId.title}
                                   </div>
                                 )}
-                              <span
-                                className="status-container"
-                                style={
-                                  each.data.status ===
-                                  Constants.USER_STATUS.Invited
-                                    ? {
-                                        backgroundColor: "#fdf1ce",
-                                        color: "#f4ba09",
-                                        borderColor: "#f4ba09",
-                                      }
-                                    : each.data.status ===
-                                        Constants.USER_STATUS.Joined ||
-                                      each.data.status ===
-                                        Constants.USER_STATUS.Submitted ||
-                                      each.data.status ===
-                                        Constants.USER_STATUS.Accepeted ||
-                                      each.data.status ===
-                                        Constants.USER_STATUS.Created
-                                    ? {
-                                        backgroundColor: "#e0f9ea",
-                                        color: "#66e397",
-                                        borderColor: "#66e397",
-                                      }
-                                    : each.data.status ===
-                                      Constants.USER_STATUS.Declined
-                                    ? {
-                                        backgroundColor: "#fce7e7",
-                                        color: "#f18989",
-                                        borderColor: "#f18989",
-                                      }
-                                    : {}
-                                }
-                              >
-                                {each.data.status}
-                              </span>
+                              {each && each.data && each.data.status && (
+                                <span
+                                  className="status-container"
+                                  style={
+                                    each.data.status ===
+                                    Constants.USER_STATUS.Invited
+                                      ? {
+                                          backgroundColor: "#fdf1ce",
+                                          color: "#f4ba09",
+                                          borderColor: "#f4ba09",
+                                        }
+                                      : each.data.status ===
+                                          Constants.USER_STATUS.Joined ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Submitted ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Accepeted ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Created
+                                      ? {
+                                          backgroundColor: "#e0f9ea",
+                                          color: "#66e397",
+                                          borderColor: "#66e397",
+                                        }
+                                      : each.data.status ===
+                                        Constants.USER_STATUS.Declined
+                                      ? {
+                                          backgroundColor: "#fce7e7",
+                                          color: "#f18989",
+                                          borderColor: "#f18989",
+                                        }
+                                      : {}
+                                  }
+                                >
+                                  {each.data.status}
+                                </span>
+                              )}
                             </div>
                             <div className="timestamp" style={{ flex: 0.1 }}>
                               {moment(each.data.date).format("DD.MM.YYYY")}

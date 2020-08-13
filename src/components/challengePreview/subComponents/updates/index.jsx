@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import moment from "moment";
 import { Row, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { updateViewAction } from "../../../challengeEdit/subComponents/updates/action";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 import history from "../../../../history";
@@ -11,7 +13,25 @@ const Updates = ({
   is_organisation,
   organisationTeamMember,
   challengeData,
+  match,
 }) => {
+  const dispatch = useDispatch();
+
+  const updateView = useCallback(
+    (challengeId) => dispatch(updateViewAction(challengeId)),
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (
+      match.params.tab === "Updates" &&
+      localStorage.getItem("userId") &&
+      challengeData
+    ) {
+      updateView(challengeData._id);
+    }
+  }, [updateView, challengeData, match]);
+
   return (
     <MainContainer>
       <Row className="justify-content-center center-alignment header-container">

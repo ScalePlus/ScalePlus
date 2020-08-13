@@ -4,6 +4,10 @@ import {
   ATTACH_UPDATES_LOADING,
   ATTACH_UPDATES_SUCCESS,
   ATTACH_UPDATES_ERROR,
+  UPDATE_VIEW_ACTION,
+  UPDATE_VIEW_LOADING,
+  UPDATE_VIEW_SUCCESS,
+  UPDATE_VIEW_ERROR,
 } from "./types";
 import Api from "./api";
 
@@ -21,8 +25,23 @@ function* attachUpdatesSaga(data) {
   }
 }
 
+function* updateViewSaga(data) {
+  yield put({ type: UPDATE_VIEW_LOADING });
+  try {
+    let res = yield call(Api.updateView, data.id);
+    if (res.status) {
+      yield put({ type: UPDATE_VIEW_ERROR, payload: res.message });
+    } else {
+      yield put({ type: UPDATE_VIEW_SUCCESS, payload: res });
+    }
+  } catch (error) {
+    yield put({ type: UPDATE_VIEW_ERROR, payload: error.message });
+  }
+}
+
 function* watchAttachUpdatesAsync() {
   yield takeLatest(ATTACH_UPDATES_ACTION, attachUpdatesSaga);
+  yield takeLatest(UPDATE_VIEW_ACTION, updateViewSaga);
 }
 
 export default watchAttachUpdatesAsync;
