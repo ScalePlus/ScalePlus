@@ -337,6 +337,7 @@ export const FileInput = React.memo(
     ...props
   }) => {
     let fileUploader;
+    const { t } = useTranslation();
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
@@ -367,7 +368,15 @@ export const FileInput = React.memo(
                   event.target.value = null;
                 }}
                 onChange={(e) => {
-                  onChange(e);
+                  if (
+                    e.target.files &&
+                    e.target.files.length &&
+                    e.target.files[0].size < 1000 * 1000 * 500
+                  ) {
+                    onChange(e);
+                  } else {
+                    alert(t("Max limit achieved"));
+                  }
                 }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
               />
@@ -404,7 +413,15 @@ export const FileInput = React.memo(
                 event.target.value = null;
               }}
               onChange={(e) => {
-                onChange(e);
+                if (
+                  e.target.files &&
+                  e.target.files.length &&
+                  e.target.files[0].size < 1000 * 1000 * 500
+                ) {
+                  onChange(e);
+                } else {
+                  alert(t("Max limit achieved"));
+                }
               }}
               accept={acceptTypes ? acceptTypes : "image/*"}
             />
@@ -507,8 +524,16 @@ export const BannerInput = React.memo(
             event.target.value = null;
           }}
           onChange={(e) => {
-            onChange(e);
-            setShow(true);
+            if (
+              e.target.files &&
+              e.target.files.length &&
+              e.target.files[0].size < 1000 * 1000 * 500
+            ) {
+              onChange(e);
+              setShow(true);
+            } else {
+              alert(t("Max limit achieved"));
+            }
           }}
           accept={acceptTypes ? acceptTypes : "image/*"}
         />
