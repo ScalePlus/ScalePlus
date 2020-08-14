@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import { Row, Col, Alert, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,7 +7,7 @@ import {
   challengeCategoriesListAction,
   challengeTagsListAction,
 } from "../../../challengeMaster/action";
-import Api from "../../../challengeMaster/api";
+// import Api from "../../../challengeMaster/api";
 import { updateDescriptionAction } from "./action";
 import {
   Input,
@@ -60,6 +61,7 @@ const Description = ({ t, challengeId }) => {
   const [tags, selectTag] = useState([]);
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   useEffect(() => {
     challengeCategoriesListMethod();
@@ -150,7 +152,7 @@ const Description = ({ t, challengeId }) => {
     <MainContainer>
       {(challengeDescriptionReducer.loading ||
         challengeReducer.loading ||
-        loading) && <Loading />}
+        loading) && <Loading uploadPercentage={uploadPercentage} />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText={t("Click Here")}>
@@ -215,19 +217,68 @@ const Description = ({ t, challengeId }) => {
               (cropedBannerImage && cropedBannerImage.name)
             ) {
               setLoading(true);
-              let fileResult = await Api.uploadFile({
-                file:
-                  cropedBannerImage && cropedBannerImage.name
-                    ? cropedBannerImage
-                    : bannerImage,
+              // let fileResult = await Api.uploadFile({
+              //   file:
+              //     cropedBannerImage && cropedBannerImage.name
+              //       ? cropedBannerImage
+              //       : bannerImage,
+              // });
+              // if (
+              //   fileResult &&
+              //   fileResult.result &&
+              //   fileResult.result.imageKey
+              // ) {
+              //   updateObj["bannerImage"] = fileResult.result.imageKey;
+              // }
+
+              let formData = new FormData();
+
+              formData.append(
+                "file",
+                cropedBannerImage && cropedBannerImage.name
+                  ? cropedBannerImage
+                  : bannerImage
+              );
+
+              let fileResult = await Axios({
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `JWT ${localStorage.getItem("token")}`,
+                },
+                method: "POST",
+                data: formData,
+                url: "/uploadFile", // route name
+                baseURL: Constants.BASE_URL, //local url
+                onUploadProgress: (progress) => {
+                  const { total, loaded } = progress;
+                  const totalSizeInMB = total / 1000000;
+                  const loadedSizeInMB = loaded / 1000000;
+                  const uploadPercentage =
+                    (loadedSizeInMB / totalSizeInMB) * 100;
+                  setUploadPercentage({
+                    name:
+                      cropedBannerImage && cropedBannerImage.name
+                        ? cropedBannerImage.name
+                        : bannerImage && bannerImage.name
+                        ? bannerImage.name
+                        : "",
+                    progress: parseInt(uploadPercentage, 10),
+                  });
+                },
+                encType: "multipart/form-data",
               });
+
               if (
                 fileResult &&
-                fileResult.result &&
-                fileResult.result.imageKey
+                fileResult.status === 200 &&
+                fileResult.data &&
+                fileResult.data.result &&
+                fileResult.data.result.imageKey
               ) {
-                updateObj["bannerImage"] = fileResult.result.imageKey;
+                updateObj["bannerImage"] = fileResult.data.result.imageKey;
+                setUploadPercentage(null);
               }
+
               setLoading(false);
             }
 

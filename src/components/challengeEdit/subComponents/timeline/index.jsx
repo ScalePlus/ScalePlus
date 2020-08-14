@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import { setHours, setMinutes, getHours, getMinutes } from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 // import { getChallengeAction } from "../../../challengeMaster/action";
-import Api from "../../../challengeMaster/api";
+// import Api from "../../../challengeMaster/api";
 import { attachTimelineAction, getTimelineStateAction } from "./action";
 import {
   DateInput,
@@ -21,6 +22,7 @@ import Stepper from "../../../stepper";
 import { MainContainer } from "./style";
 import { InfoBlock } from "../common";
 import theme from "../../../../theme";
+import { Constants } from "../../../../lib/constant";
 
 const Timeline = ({ t, challengeId }) => {
   const dispatch = useDispatch();
@@ -48,6 +50,7 @@ const Timeline = ({ t, challengeId }) => {
   const [timeline, changeTimeline] = useState([]);
   const [stateList, changeStateList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -115,7 +118,7 @@ const Timeline = ({ t, challengeId }) => {
     <MainContainer>
       {(challengeTimelineReducer.loading ||
         challengeReducer.loading ||
-        loading) && <Loading />}
+        loading) && <Loading uploadPercentage={uploadPercentage} />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock buttonText={t("Click Here")}>
@@ -168,15 +171,52 @@ const Timeline = ({ t, challengeId }) => {
                 for (let j = 0; j < record.adminAttachments.length; j++) {
                   const attachmentRecord = record.adminAttachments[j];
                   if (attachmentRecord.file && attachmentRecord.file.name) {
-                    let fileResult = await Api.uploadFile({
-                      file: attachmentRecord.file,
+                    // let fileResult = await Api.uploadFile({
+                    //   file: attachmentRecord.file,
+                    // });
+                    // if (
+                    //   fileResult &&
+                    //   fileResult.result &&
+                    //   fileResult.result.imageKey
+                    // ) {
+                    //   attachmentRecord.file = fileResult.result.imageKey;
+                    // }
+                    let formData = new FormData();
+
+                    formData.append("file", attachmentRecord.file);
+
+                    let fileResult = await Axios({
+                      headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `JWT ${localStorage.getItem("token")}`,
+                      },
+                      method: "POST",
+                      data: formData,
+                      url: "/uploadFile", // route name
+                      baseURL: Constants.BASE_URL, //local url
+                      onUploadProgress: (progress) => {
+                        const { total, loaded } = progress;
+                        const totalSizeInMB = total / 1000000;
+                        const loadedSizeInMB = loaded / 1000000;
+                        const uploadPercentage =
+                          (loadedSizeInMB / totalSizeInMB) * 100;
+                        setUploadPercentage({
+                          name: attachmentRecord.file.name,
+                          progress: parseInt(uploadPercentage, 10),
+                        });
+                      },
+                      encType: "multipart/form-data",
                     });
+
                     if (
                       fileResult &&
-                      fileResult.result &&
-                      fileResult.result.imageKey
+                      fileResult.status === 200 &&
+                      fileResult.data &&
+                      fileResult.data.result &&
+                      fileResult.data.result.imageKey
                     ) {
-                      attachmentRecord.file = fileResult.result.imageKey;
+                      attachmentRecord.file = fileResult.data.result.imageKey;
+                      setUploadPercentage(null);
                     }
                   }
                 }

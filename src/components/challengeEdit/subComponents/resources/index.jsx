@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { getChallengeAction } from "../../../challengeMaster/action";
-import Api from "../../../challengeMaster/api";
+// import Api from "../../../challengeMaster/api";
 import { attachResourcesAction } from "./action";
 import {
   Switch,
@@ -39,6 +40,7 @@ const Resources = ({ t, challengeId }) => {
   const [isActive, setActivity] = useState(false);
   const [resources, changeResources] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   // useEffect(() => {
   //   getChallengeMethod(challengeId);
@@ -72,7 +74,7 @@ const Resources = ({ t, challengeId }) => {
     <MainContainer>
       {(challengeResourceReducer.loading ||
         challengeReducer.loading ||
-        loading) && <Loading />}
+        loading) && <Loading uploadPercentage={uploadPercentage} />}
       <Row style={{ marginBottom: 30 }}>
         <Col>
           <InfoBlock>
@@ -122,16 +124,55 @@ const Resources = ({ t, challengeId }) => {
               const resource = newArr[i];
               if (resource.attachment && resource.attachment.name) {
                 setLoading(true);
-                let fileResult = await Api.uploadFile({
-                  file: resource.attachment,
+                // let fileResult = await Api.uploadFile({
+                //   file: resource.attachment,
+                // });
+                // if (
+                //   fileResult &&
+                //   fileResult.result &&
+                //   fileResult.result.imageKey
+                // ) {
+                //   resource.attachment = fileResult.result.imageKey;
+                // }
+
+                let formData = new FormData();
+
+                formData.append("file", resource.attachment);
+
+                let fileResult = await Axios({
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `JWT ${localStorage.getItem("token")}`,
+                  },
+                  method: "POST",
+                  data: formData,
+                  url: "/uploadFile", // route name
+                  baseURL: Constants.BASE_URL, //local url
+                  onUploadProgress: (progress) => {
+                    const { total, loaded } = progress;
+                    const totalSizeInMB = total / 1000000;
+                    const loadedSizeInMB = loaded / 1000000;
+                    const uploadPercentage =
+                      (loadedSizeInMB / totalSizeInMB) * 100;
+                    setUploadPercentage({
+                      name: resource.attachment.name,
+                      progress: parseInt(uploadPercentage, 10),
+                    });
+                  },
+                  encType: "multipart/form-data",
                 });
+
                 if (
                   fileResult &&
-                  fileResult.result &&
-                  fileResult.result.imageKey
+                  fileResult.status === 200 &&
+                  fileResult.data &&
+                  fileResult.data.result &&
+                  fileResult.data.result.imageKey
                 ) {
-                  resource.attachment = fileResult.result.imageKey;
+                  resource.attachment = fileResult.data.result.imageKey;
+                  setUploadPercentage(null);
                 }
+
                 setLoading(false);
               }
             }

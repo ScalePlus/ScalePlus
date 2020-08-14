@@ -336,7 +336,6 @@ export const FileInput = React.memo(
     acceptTypes,
     ...props
   }) => {
-    const { t } = useTranslation();
     let fileUploader;
     return (
       <Form.Group>
@@ -368,17 +367,7 @@ export const FileInput = React.memo(
                   event.target.value = null;
                 }}
                 onChange={(e) => {
-                  if (
-                    e &&
-                    e.target &&
-                    e.target.files &&
-                    e.target.files.length &&
-                    e.target.files[0].size <= 10 * 1000 * 1000
-                  ) {
-                    onChange(e);
-                  } else {
-                    alert(t("file_size_error"));
-                  }
+                  onChange(e);
                 }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
               />
@@ -415,17 +404,7 @@ export const FileInput = React.memo(
                 event.target.value = null;
               }}
               onChange={(e) => {
-                if (
-                  e &&
-                  e.target &&
-                  e.target.files &&
-                  e.target.files.length &&
-                  e.target.files[0].size <= 10 * 1000 * 1000
-                ) {
-                  onChange(e);
-                } else {
-                  alert(t("file_size_error"));
-                }
+                onChange(e);
               }}
               accept={acceptTypes ? acceptTypes : "image/*"}
             />
@@ -528,18 +507,8 @@ export const BannerInput = React.memo(
             event.target.value = null;
           }}
           onChange={(e) => {
-            if (
-              e &&
-              e.target &&
-              e.target.files &&
-              e.target.files.length &&
-              e.target.files[0].size <= 10 * 1000 * 1000
-            ) {
-              onChange(e);
-              setShow(true);
-            } else {
-              alert(t("file_size_error"));
-            }
+            onChange(e);
+            setShow(true);
           }}
           accept={acceptTypes ? acceptTypes : "image/*"}
         />
@@ -859,10 +828,25 @@ export const Tab = React.memo(({ text, subText, isActive }) => {
   );
 });
 
-export const Loading = () => {
+export const Loading = ({ uploadPercentage }) => {
+  const { t } = useTranslation();
   return (
     <LoadingContainer>
-      <Spinner animation="border" />
+      {uploadPercentage ? (
+        <div>
+          <div className="file-upload-label">
+            {t("Uploading")} {uploadPercentage.name}
+          </div>
+          <ProgressBar
+            now={parseInt(uploadPercentage.progress, 10)}
+            label={`${parseInt(uploadPercentage.progress, 10)}%`}
+          />
+        </div>
+      ) : (
+        <div>
+          <Spinner animation="border" />
+        </div>
+      )}
     </LoadingContainer>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import { useTranslation } from "react-i18next";
 import Stepper from "../stepper";
 import { Row, Col, Alert } from "react-bootstrap";
@@ -8,7 +9,7 @@ import {
   challengeCategoriesListAction,
   getCurrencyListAction,
 } from "./action";
-import Api from "../challengeMaster/api";
+// import Api from "../challengeMaster/api";
 import theme from "../../theme";
 import Step1 from "./step1";
 import Step2 from "./step2";
@@ -16,6 +17,7 @@ import Step3 from "./step3";
 import Step4 from "./step4";
 import { MainContainer } from "./style";
 import { Loading } from "../common";
+import { Constants } from "../../lib/constant";
 
 const ChallengeMaster = ({ match, history }) => {
   const { t } = useTranslation();
@@ -64,6 +66,7 @@ const ChallengeMaster = ({ match, history }) => {
   ]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   useEffect(() => {
     if (match && match.params && match.params.step) {
@@ -108,11 +111,48 @@ const ChallengeMaster = ({ match, history }) => {
     setLoading(true);
 
     if (file && file.name) {
-      let fileResult = await Api.uploadFile({
-        file: file,
+      // let fileResult = await Api.uploadFile({
+      //   file: file,
+      // });
+      // if (fileResult && fileResult.result && fileResult.result.imageKey) {
+      //   file = fileResult.result.imageKey;
+      // }
+
+      let formData = new FormData();
+
+      formData.append("file", file);
+
+      let fileResult = await Axios({
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+        method: "POST",
+        data: formData,
+        url: "/uploadFile", // route name
+        baseURL: Constants.BASE_URL, //local url
+        onUploadProgress: (progress) => {
+          const { total, loaded } = progress;
+          const totalSizeInMB = total / 1000000;
+          const loadedSizeInMB = loaded / 1000000;
+          const uploadPercentage = (loadedSizeInMB / totalSizeInMB) * 100;
+          setUploadPercentage({
+            name: file.name,
+            progress: parseInt(uploadPercentage, 10),
+          });
+        },
+        encType: "multipart/form-data",
       });
-      if (fileResult && fileResult.result && fileResult.result.imageKey) {
-        file = fileResult.result.imageKey;
+
+      if (
+        fileResult &&
+        fileResult.status === 200 &&
+        fileResult.data &&
+        fileResult.data.result &&
+        fileResult.data.result.imageKey
+      ) {
+        file = fileResult.data.result.imageKey;
+        setUploadPercentage(null);
       }
     }
 
@@ -134,7 +174,9 @@ const ChallengeMaster = ({ match, history }) => {
 
   return (
     <MainContainer>
-      {(challengeReducer.loading || loading) && <Loading />}
+      {(challengeReducer.loading || loading) && (
+        <Loading uploadPercentage={uploadPercentage} />
+      )}
       <Row className="justify-content-center">
         <Col lg={7} md={10} sm={12} className="container">
           <Stepper

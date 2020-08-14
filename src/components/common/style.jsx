@@ -187,6 +187,18 @@ export const LoadingContainer = styled.div`
     width: 4rem;
     height: 4rem;
   }
+  .file-upload-label {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: ${theme.fontSize.mediumRegular};
+    font-family: ${theme.fontFamily.bold};
+  }
+  .progress {
+    height: 1.5rem;
+    min-width: 25rem;
+    font-size: ${theme.fontSize.regular};
+    border: 1px solid;
+  }
 `;
 
 export const PageTitleContainer = styled.h2`

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import queryString from "query-string";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Row, Col, Alert, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Api from "../../../challengeMaster/api";
+// import Api from "../../../challengeMaster/api";
 import {
   fillSubmissionformAction,
   getSubmissionsListAction,
@@ -76,6 +77,8 @@ const Submissions = ({
     selectedFilter,
     // selectFilter
   ] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   useEffect(() => {
     if (challengeData && challengeData._id && localStorage.getItem("token")) {
@@ -230,7 +233,9 @@ const Submissions = ({
 
   return is_startup_Individual && !organisationTeamMember ? (
     <MainContainer>
-      {submissionListReducer.loading && <Loading />}
+      {(submissionListReducer.loading || loading) && (
+        <Loading uploadPercentage={uploadPercentage} />
+      )}
       {errors && errors.length ? (
         <Row className="justify-content-center">
           <Col lg={11} md={11} sm={11} xs={11}>
@@ -309,16 +314,56 @@ const Submissions = ({
                   record.value &&
                   record.value.name
                 ) {
-                  let fileResult = await Api.uploadFile({
-                    file: record.value,
+                  // let fileResult = await Api.uploadFile({
+                  //   file: record.value,
+                  // });
+                  // if (
+                  //   fileResult &&
+                  //   fileResult.result &&
+                  //   fileResult.result.imageKey
+                  // ) {
+                  //   record.value = fileResult.result.imageKey;
+                  // }
+                  setLoading(true);
+
+                  let formData = new FormData();
+
+                  formData.append("file", record.value);
+
+                  let fileResult = await Axios({
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                    method: "POST",
+                    data: formData,
+                    url: "/uploadFile", // route name
+                    baseURL: Constants.BASE_URL, //local url
+                    onUploadProgress: (progress) => {
+                      const { total, loaded } = progress;
+                      const totalSizeInMB = total / 1000000;
+                      const loadedSizeInMB = loaded / 1000000;
+                      const uploadPercentage =
+                        (loadedSizeInMB / totalSizeInMB) * 100;
+                      setUploadPercentage({
+                        name: record.value.name,
+                        progress: parseInt(uploadPercentage, 10),
+                      });
+                    },
+                    encType: "multipart/form-data",
                   });
+
                   if (
                     fileResult &&
-                    fileResult.result &&
-                    fileResult.result.imageKey
+                    fileResult.status === 200 &&
+                    fileResult.data &&
+                    fileResult.data.result &&
+                    fileResult.data.result.imageKey
                   ) {
-                    record.value = fileResult.result.imageKey;
+                    record.value = fileResult.data.result.imageKey;
+                    setUploadPercentage(null);
                   }
+                  setLoading(false);
                 }
               }
               fillSubmissionformMethod(submissionForm);

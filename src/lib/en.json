@@ -786,6 +786,7 @@
         "image": "image",
         "audio": "audio",
         "video": "video",
-        "other": "other"
+        "other": "other",
+        "Uploading": "Uploading"
     }
 }

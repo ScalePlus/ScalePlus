@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import { setHours, setMinutes, getHours, getMinutes } from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import Api from "../challengeMaster/api";
+// import Api from "../challengeMaster/api";
 import { getTimelineStateAction } from "../challengeEdit/subComponents/timeline/action";
 import {
   DateInput,
@@ -15,10 +16,12 @@ import {
   FileInput,
   PageTitle,
   PrimaryButton,
+  Loading,
 } from "../common";
 import Stepper from "../stepper";
 import { MainContainer } from "../challengeEdit/subComponents/timeline/style";
 import theme from "../../theme";
+import { Constants } from "../../lib/constant";
 
 const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
   const dispatch = useDispatch();
@@ -34,6 +37,8 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [stateList, changeStateList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
 
   useEffect(() => {
     getTimelineStateMethod();
@@ -86,6 +91,8 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
   return (
     <Row className="sub-container">
       <Col>
+        {loading && <Loading uploadPercentage={uploadPercentage} />}
+
         <Row className="sub-title">
           <Col>{t("STEP4_title")}</Col>
         </Row>
@@ -138,6 +145,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
             event.stopPropagation();
             const form = event.currentTarget;
             if (form.checkValidity() && checkTimeline()) {
+              setLoading(true);
               let newArr = [...timeline];
               for (let i = 0; i < newArr.length; i++) {
                 const record = newArr[i];
@@ -149,21 +157,58 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                   for (let j = 0; j < record.adminAttachments.length; j++) {
                     const attachmentRecord = record.adminAttachments[j];
                     if (attachmentRecord.file && attachmentRecord.file.name) {
-                      let fileResult = await Api.uploadFile({
-                        file: attachmentRecord.file,
+                      // let fileResult = await Api.uploadFile({
+                      //   file: attachmentRecord.file,
+                      // });
+                      // if (
+                      //   fileResult &&
+                      //   fileResult.result &&
+                      //   fileResult.result.imageKey
+                      // ) {
+                      //   attachmentRecord.file = fileResult.result.imageKey;
+                      // }
+                      let formData = new FormData();
+
+                      formData.append("file", attachmentRecord.file);
+
+                      let fileResult = await Axios({
+                        headers: {
+                          "Content-Type": "multipart/form-data",
+                          Authorization: `JWT ${localStorage.getItem("token")}`,
+                        },
+                        method: "POST",
+                        data: formData,
+                        url: "/uploadFile", // route name
+                        baseURL: Constants.BASE_URL, //local url
+                        onUploadProgress: (progress) => {
+                          const { total, loaded } = progress;
+                          const totalSizeInMB = total / 1000000;
+                          const loadedSizeInMB = loaded / 1000000;
+                          const uploadPercentage =
+                            (loadedSizeInMB / totalSizeInMB) * 100;
+                          setUploadPercentage({
+                            name: attachmentRecord.file.name,
+                            progress: parseInt(uploadPercentage, 10),
+                          });
+                        },
+                        encType: "multipart/form-data",
                       });
+
                       if (
                         fileResult &&
-                        fileResult.result &&
-                        fileResult.result.imageKey
+                        fileResult.status === 200 &&
+                        fileResult.data &&
+                        fileResult.data.result &&
+                        fileResult.data.result.imageKey
                       ) {
-                        attachmentRecord.file = fileResult.result.imageKey;
+                        attachmentRecord.file = fileResult.data.result.imageKey;
+                        setUploadPercentage(null);
                       }
                     }
                   }
                 }
               }
-
+              setLoading(false);
               changeTimeline(newArr);
               createChallenge();
             } else {

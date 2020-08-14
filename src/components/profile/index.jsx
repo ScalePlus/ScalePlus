@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import Axios from "axios";
 import { useTranslation } from "react-i18next";
 import {
   updateProfileAction,
@@ -14,7 +15,7 @@ import {
   geographicalMarketsOptionsAction,
 } from "../businessTags/action";
 import { logoutAction } from "../signin/action";
-import Api from "../challengeMaster/api";
+// import Api from "../challengeMaster/api";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import {
@@ -84,6 +85,7 @@ const UserProfileEdit = ({ history }) => {
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
   const [loading, setLoading] = useState(false);
+  const [uploadPercentage, setUploadPercentage] = useState(null);
   const [roleSwitch, switchToggle] = useState(false);
   const [logo, changeLogo] = useState("");
   const [personal_photo, changePersonalPhoto] = useState("");
@@ -492,16 +494,56 @@ const UserProfileEdit = ({ history }) => {
                 };
                 if (personal_photo && personal_photo.name) {
                   setLoading(true);
-                  let fileResult = await Api.uploadFile({
-                    file: personal_photo,
+                  // let fileResult = await Api.uploadFile({
+                  //   file: personal_photo,
+                  // });
+                  // if (
+                  //   fileResult &&
+                  //   fileResult.result &&
+                  //   fileResult.result.imageKey
+                  // ) {
+                  //   formData["personal_photo"] = fileResult.result.imageKey;
+                  // }
+
+                  let apiFormData = new FormData();
+
+                  apiFormData.append("file", personal_photo);
+
+                  let fileResult = await Axios({
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                    method: "POST",
+                    data: apiFormData,
+                    url: "/uploadFile", // route name
+                    baseURL: Constants.BASE_URL, //local url
+                    onUploadProgress: (progress) => {
+                      const { total, loaded } = progress;
+                      const totalSizeInMB = total / 1000000;
+                      const loadedSizeInMB = loaded / 1000000;
+                      const uploadPercentage =
+                        (loadedSizeInMB / totalSizeInMB) * 100;
+                      setUploadPercentage({
+                        name: personal_photo.name,
+                        progress: parseInt(uploadPercentage, 10),
+                      });
+                    },
+                    encType: "multipart/form-data",
                   });
+
                   if (
                     fileResult &&
-                    fileResult.result &&
-                    fileResult.result.imageKey
+                    fileResult.status === 200 &&
+                    fileResult.data &&
+                    fileResult.data.result &&
+                    fileResult.data.result.imageKey
                   ) {
-                    formData["personal_photo"] = fileResult.result.imageKey;
+                    formData["personal_photo"] =
+                      fileResult.data.result.imageKey;
+                    setUploadPercentage(null);
                   }
+
                   setLoading(false);
                 }
                 updateProfile({
@@ -531,16 +573,55 @@ const UserProfileEdit = ({ history }) => {
                 };
                 if (logo && logo.name) {
                   setLoading(true);
-                  let fileResult = await Api.uploadFile({
-                    file: logo,
+                  // let fileResult = await Api.uploadFile({
+                  //   file: logo,
+                  // });
+                  // if (
+                  //   fileResult &&
+                  //   fileResult.result &&
+                  //   fileResult.result.imageKey
+                  // ) {
+                  //   formData["logo"] = fileResult.result.imageKey;
+                  // }
+
+                  let apiFormData = new FormData();
+
+                  apiFormData.append("file", logo);
+
+                  let fileResult = await Axios({
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                    method: "POST",
+                    data: apiFormData,
+                    url: "/uploadFile", // route name
+                    baseURL: Constants.BASE_URL, //local url
+                    onUploadProgress: (progress) => {
+                      const { total, loaded } = progress;
+                      const totalSizeInMB = total / 1000000;
+                      const loadedSizeInMB = loaded / 1000000;
+                      const uploadPercentage =
+                        (loadedSizeInMB / totalSizeInMB) * 100;
+                      setUploadPercentage({
+                        name: logo.name,
+                        progress: parseInt(uploadPercentage, 10),
+                      });
+                    },
+                    encType: "multipart/form-data",
                   });
+
                   if (
                     fileResult &&
-                    fileResult.result &&
-                    fileResult.result.imageKey
+                    fileResult.status === 200 &&
+                    fileResult.data &&
+                    fileResult.data.result &&
+                    fileResult.data.result.imageKey
                   ) {
-                    formData["logo"] = fileResult.result.imageKey;
+                    formData["logo"] = fileResult.data.result.imageKey;
+                    setUploadPercentage(null);
                   }
+
                   setLoading(false);
                 }
                 updateProfile({
@@ -571,16 +652,56 @@ const UserProfileEdit = ({ history }) => {
                 };
                 if (personal_photo && personal_photo.name) {
                   setLoading(true);
-                  let fileResult = await Api.uploadFile({
-                    file: personal_photo,
+                  // let fileResult = await Api.uploadFile({
+                  //   file: personal_photo,
+                  // });
+                  // if (
+                  //   fileResult &&
+                  //   fileResult.result &&
+                  //   fileResult.result.imageKey
+                  // ) {
+                  //   formData["personal_photo"] = fileResult.result.imageKey;
+                  // }
+
+                  let apiFormData = new FormData();
+
+                  apiFormData.append("file", personal_photo);
+
+                  let fileResult = await Axios({
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                    method: "POST",
+                    data: apiFormData,
+                    url: "/uploadFile", // route name
+                    baseURL: Constants.BASE_URL, //local url
+                    onUploadProgress: (progress) => {
+                      const { total, loaded } = progress;
+                      const totalSizeInMB = total / 1000000;
+                      const loadedSizeInMB = loaded / 1000000;
+                      const uploadPercentage =
+                        (loadedSizeInMB / totalSizeInMB) * 100;
+                      setUploadPercentage({
+                        name: personal_photo.name,
+                        progress: parseInt(uploadPercentage, 10),
+                      });
+                    },
+                    encType: "multipart/form-data",
                   });
+
                   if (
                     fileResult &&
-                    fileResult.result &&
-                    fileResult.result.imageKey
+                    fileResult.status === 200 &&
+                    fileResult.data &&
+                    fileResult.data.result &&
+                    fileResult.data.result.imageKey
                   ) {
-                    formData["personal_photo"] = fileResult.result.imageKey;
+                    formData["personal_photo"] =
+                      fileResult.data.result.imageKey;
+                    setUploadPercentage(null);
                   }
+
                   setLoading(false);
                 }
                 updateProfile({
@@ -2126,7 +2247,7 @@ const UserProfileEdit = ({ history }) => {
       {(updateProfileReducer.loading ||
         signinReducer.loading ||
         updateBusinessTagsReducer.loading ||
-        loading) && <Loading />}
+        loading) && <Loading uploadPercentage={uploadPercentage} />}
     </MainContainer>
   );
 };

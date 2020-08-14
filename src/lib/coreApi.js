@@ -32,7 +32,11 @@ export default {
           resolve(responseText);
         })
         .catch((error) => {
-          reject(error);
+          resolve({
+            status: 1,
+            message:
+              error && error.message ? error.message : "Unexpected error",
+          });
         });
     }),
 
@@ -63,7 +67,11 @@ export default {
           resolve(responseText);
         })
         .catch((error) => {
-          reject(error);
+          resolve({
+            status: 1,
+            message:
+              error && error.message ? error.message : "Unexpected error",
+          });
         });
     }),
 
@@ -94,7 +102,11 @@ export default {
           resolve(responseText);
         })
         .catch((error) => {
-          reject(error);
+          resolve({
+            status: 1,
+            message:
+              error && error.message ? error.message : "Unexpected error",
+          });
         });
     }),
 
@@ -135,7 +147,11 @@ export default {
           resolve(responseText);
         })
         .catch((error) => {
-          reject(error);
+          resolve({
+            status: 1,
+            message:
+              error && error.message ? error.message : "Unexpected error",
+          });
         });
     }),
 };
