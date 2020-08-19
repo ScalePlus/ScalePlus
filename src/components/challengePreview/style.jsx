@@ -31,8 +31,8 @@ export const TabContainer = styled.div`
     border: none;
   }
   .nav-item {
-    margin-left: ${theme.isLTR && "25px"};
-    margin-right: ${theme.isRTL && "25px"};
+    margin-left: ${theme.isLTR && "15px"};
+    margin-right: ${theme.isRTL && "15px"};
   }
   .nav-link {
     border-bottom: 8px solid transparent;

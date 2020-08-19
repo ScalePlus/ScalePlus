@@ -560,7 +560,12 @@ const ChallengePreview = ({ history, match }) => {
       )}
 
       {is_organisation &&
-        (challengeData && !challengeData.isPublished ? (
+      challengeData &&
+      challengeData.organisationId &&
+      challengeData.organisationId._id &&
+      challengeData.organisationId._id.toString() ===
+        localStorage.getItem("userId") ? (
+        !challengeData.isPublished ? (
           <Row className="justify-content-center" style={{ marginBottom: 10 }}>
             <Col lg={11} md={11} sm={11} xs={11}>
               <ChallengeHeader
@@ -596,9 +601,8 @@ const ChallengePreview = ({ history, match }) => {
               />
             </Col>
           </Row>
-        ))}
-
-      {!is_organisation && (
+        )
+      ) : !is_organisation ? (
         <Row
           className="justify-content-center"
           style={{ marginBottom: 10, marginTop: 20 }}
@@ -652,6 +656,22 @@ const ChallengePreview = ({ history, match }) => {
                 submissionClosed
                   ? "secondary"
                   : "primary"
+              }
+            />
+          </Col>
+        </Row>
+      ) : (
+        <Row
+          className="justify-content-center"
+          style={{ marginBottom: 10, marginTop: 20 }}
+        >
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <ChallengeViewHeader
+              organisationId={challengeData.organisationId}
+              viewCount={
+                challengeData &&
+                challengeData.views &&
+                challengeData.views.length
               }
             />
           </Col>
