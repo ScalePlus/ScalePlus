@@ -1,9 +1,9 @@
 import coreApi from "../../lib/coreApi";
 
 export default {
-  getActivities: (filters, searchText) => {
+  getActivities: (filters, searchText, challengeId) => {
     let url = `/activities/list`;
-    let result = coreApi.PUT(url, { filters, searchText });
+    let result = coreApi.PUT(url, { filters, searchText, challengeId });
     return result;
   },
   markRead: () => {

@@ -43,7 +43,7 @@ const cookies = new Cookies();
 const Header = ({ t }) => {
   const dispatch = useDispatch();
   const getActivities = useCallback(
-    () => dispatch(getActivitiesAction("", "")),
+    () => dispatch(getActivitiesAction("", "", null)),
     [dispatch]
   );
   const getMyChallengeMethod = useCallback(

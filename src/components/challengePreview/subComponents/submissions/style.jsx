@@ -208,6 +208,7 @@ export const MainContainer = styled.div`
     }
     .challenge-name {
       font-family: ${theme.fontFamily.bold};
+      text-align: ${theme.isLTR ? "left" : "right"};
     }
     .status-container {
       padding: 2px 8px;

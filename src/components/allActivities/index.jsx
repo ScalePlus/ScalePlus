@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
+import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivitiesAction } from "./action";
@@ -12,7 +13,8 @@ const AllActivities = ({ history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const getActivities = useCallback(
-    (filters, searchText) => dispatch(getActivitiesAction(filters, searchText)),
+    (filters, searchText, challengeId) =>
+      dispatch(getActivitiesAction(filters, searchText, challengeId)),
     [dispatch]
   );
 
@@ -23,6 +25,7 @@ const AllActivities = ({ history }) => {
   const [filters, setFilters] = useState("");
   const [searchText, setSearchText] = useState("");
   const [activities, setActivities] = useState(null);
+  const [challengeId, setChallengeId] = useState(null);
 
   const is_admin =
       localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
@@ -32,8 +35,15 @@ const AllActivities = ({ history }) => {
       localStorage.getItem("token");
 
   useEffect(() => {
-    getActivities(filters, searchText);
-  }, [getActivities, filters, searchText]);
+    const QS = queryString.parse(window.location.search);
+    if (QS && QS.challengeId) {
+      setChallengeId(QS.challengeId);
+    }
+  }, []);
+
+  useEffect(() => {
+    getActivities(filters, searchText, challengeId);
+  }, [getActivities, filters, searchText, challengeId]);
 
   useEffect(() => {
     const { activities } = activitiesReducer;

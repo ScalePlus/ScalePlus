@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { updateViewAction } from "../../../challengeEdit/subComponents/updates/action";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
+import Activities from "../../../myChallenges/activityList";
 import history from "../../../../history";
 import { Constants } from "../../../../lib/constant";
 
@@ -57,7 +58,7 @@ const Updates = ({
       </Row>
       <Row
         className="justify-content-center center-alignment"
-        style={{ marginBottom: 80 }}
+        style={{ marginBottom: 20 }}
       >
         <Col lg={11} md={11} sm={11} xs={11}>
           {challengeData.updateId &&
@@ -86,6 +87,20 @@ const Updates = ({
                 );
               })
             : null}
+        </Col>
+      </Row>
+      <Row
+        className="justify-content-center center-alignment"
+        style={{ marginBottom: 80 }}
+      >
+        <Col lg={11} md={11} sm={11} xs={11}>
+          {challengeData && challengeData._id && (
+            <Activities
+              t={t}
+              history={history}
+              challengeId={challengeData._id}
+            />
+          )}
         </Col>
       </Row>
     </MainContainer>

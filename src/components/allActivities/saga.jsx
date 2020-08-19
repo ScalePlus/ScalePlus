@@ -14,7 +14,12 @@ import Api from "./api";
 function* getActivitiesSaga(data) {
   yield put({ type: GET_ACTIVITIES_LOADING });
   try {
-    let res = yield call(Api.getActivities, data.filters, data.searchText);
+    let res = yield call(
+      Api.getActivities,
+      data.filters,
+      data.searchText,
+      data.challengeId
+    );
     if (res.status) {
       yield put({ type: GET_ACTIVITIES_ERROR, payload: res.message });
     } else {

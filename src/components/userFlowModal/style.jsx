@@ -17,6 +17,7 @@ export const MainContainer = styled.div`
     .challenge-name {
       font-size: ${theme.fontSize.mediumRegular};
       font-family: ${theme.fontFamily.bold};
+      text-align: ${theme.isLTR ? "left" : "right"};
     }
   }
   .title-container {

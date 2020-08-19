@@ -6,11 +6,12 @@ import { Dropdown } from "react-bootstrap";
 import { MainContainer } from "./style";
 import { Constants } from "../../../lib/constant";
 
-function Activities({ t, history }) {
+function Activities({ t, history, challengeId }) {
   const dispatch = useDispatch();
   const getActivities = useCallback(
-    (filters, searchText) => dispatch(getActivitiesAction(filters, searchText)),
-    [dispatch]
+    (filters, searchText) =>
+      dispatch(getActivitiesAction(filters, searchText, challengeId)),
+    [dispatch, challengeId]
   );
 
   const activitiesReducer = useSelector((state) => {
@@ -106,7 +107,11 @@ function Activities({ t, history }) {
             <div
               className="view-text"
               onClick={() => {
-                history.push("/activities");
+                history.push(
+                  `/activities${
+                    challengeId ? `?challengeId=${challengeId}` : ""
+                  }`
+                );
               }}
             >
               {t("View All")}

@@ -712,6 +712,7 @@ body {
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.regular};
         margin-bottom: 5px;
+        text-align: ${theme.isLTR ? "left" : "right"};
       }
       .user-role{
         font-size: ${theme.fontSize.semiRegular};
