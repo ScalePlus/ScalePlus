@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Axios from "axios";
-import { setHours, setMinutes, getHours, getMinutes } from "date-fns";
+import {
+  setHours,
+  setMinutes,
+  getHours,
+  getMinutes,
+  isSameDay,
+} from "date-fns";
 import { Row, Col, Form, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -326,17 +332,26 @@ const Timeline = ({ t, challengeId }) => {
                             timeline.length &&
                             timeline[index - 1] &&
                             timeline[index - 1].endDate
-                              ? setHours(
-                                  setMinutes(
-                                    new Date(timeline[index - 1].endDate),
-                                    getMinutes(
+                              ? each.startDate &&
+                                !isSameDay(
+                                  new Date(each.startDate),
+                                  new Date(timeline[index - 1].endDate)
+                                )
+                                ? setHours(setMinutes(new Date(), 0), 0)
+                                : setHours(
+                                    setMinutes(
+                                      new Date(timeline[index - 1].endDate),
+                                      getMinutes(
+                                        new Date(timeline[index - 1].endDate)
+                                      )
+                                    ),
+                                    getHours(
                                       new Date(timeline[index - 1].endDate)
                                     )
-                                  ),
-                                  getHours(
-                                    new Date(timeline[index - 1].endDate)
                                   )
-                                )
+                              : each.startDate &&
+                                !isSameDay(new Date(each.startDate), new Date())
+                              ? setHours(setMinutes(new Date(), 0), 0)
                               : setHours(
                                   setMinutes(
                                     new Date(),
@@ -391,13 +406,19 @@ const Timeline = ({ t, challengeId }) => {
                           }
                           minTime={
                             each.startDate
-                              ? setHours(
-                                  setMinutes(
-                                    new Date(),
-                                    getMinutes(new Date(each.startDate))
-                                  ),
-                                  getHours(new Date(each.startDate)) + 1
+                              ? each.endDate &&
+                                !isSameDay(
+                                  new Date(each.startDate),
+                                  new Date(each.endDate)
                                 )
+                                ? setHours(setMinutes(new Date(), 0), 0)
+                                : setHours(
+                                    setMinutes(
+                                      new Date(),
+                                      getMinutes(new Date(each.startDate))
+                                    ),
+                                    getHours(new Date(each.startDate)) + 1
+                                  )
                               : setHours(
                                   setMinutes(
                                     new Date(),
