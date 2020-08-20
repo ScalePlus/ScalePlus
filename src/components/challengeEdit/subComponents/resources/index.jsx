@@ -156,6 +156,7 @@ const Resources = ({ t, challengeId }) => {
                       (loadedSizeInMB / totalSizeInMB) * 100;
                     setUploadPercentage({
                       name: resource.attachment.name,
+                      message: t("Uploading attachment to resources"),
                       progress: parseInt(uploadPercentage, 10),
                     });
                   },
@@ -170,7 +171,9 @@ const Resources = ({ t, challengeId }) => {
                   fileResult.data.result.imageKey
                 ) {
                   resource.attachment = fileResult.data.result.imageKey;
-                  setUploadPercentage(null);
+                  setUploadPercentage({
+                    message: t("Upload is successful and saved"),
+                  });
                 }
 
                 setLoading(false);

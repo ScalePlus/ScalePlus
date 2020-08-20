@@ -262,6 +262,7 @@ const Description = ({ t, challengeId }) => {
                         : bannerImage && bannerImage.name
                         ? bannerImage.name
                         : "",
+                    message: t("Uploading banner image"),
                     progress: parseInt(uploadPercentage, 10),
                   });
                 },
@@ -276,7 +277,9 @@ const Description = ({ t, challengeId }) => {
                 fileResult.data.result.imageKey
               ) {
                 updateObj["bannerImage"] = fileResult.data.result.imageKey;
-                setUploadPercentage(null);
+                setUploadPercentage({
+                  message: t("Upload is successful and saved"),
+                });
               }
 
               setLoading(false);

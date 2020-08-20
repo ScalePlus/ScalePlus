@@ -347,6 +347,7 @@ const Submissions = ({
                         (loadedSizeInMB / totalSizeInMB) * 100;
                       setUploadPercentage({
                         name: record.value.name,
+                        message: t("Uploading file to submission"),
                         progress: parseInt(uploadPercentage, 10),
                       });
                     },
@@ -361,7 +362,9 @@ const Submissions = ({
                     fileResult.data.result.imageKey
                   ) {
                     record.value = fileResult.data.result.imageKey;
-                    setUploadPercentage(null);
+                    setUploadPercentage({
+                      message: t("Upload is successful and saved"),
+                    });
                   }
                   setLoading(false);
                 }

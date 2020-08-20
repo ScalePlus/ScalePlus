@@ -792,6 +792,13 @@
         "audio": "audio",
         "video": "video",
         "other": "other",
-        "Uploading": "Uploading"
+        "Uploading": "Uploading",
+        "Uploading file to timeline": "Uploading file to timeline",
+        "Upload is successful and saved": "Upload is successful and saved",
+        "Uploading banner image": "Uploading banner image",
+        "Uploading attachment to resources": "Uploading attachment to resources",
+        "Uploading file to submission": "Uploading file to submission",
+        "Uploading personal photo": "Uploading personal photo",
+        "Uploading logo": "Uploading logo"
     }
 }

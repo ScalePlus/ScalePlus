@@ -138,6 +138,7 @@ const ChallengeMaster = ({ match, history }) => {
           const uploadPercentage = (loadedSizeInMB / totalSizeInMB) * 100;
           setUploadPercentage({
             name: file.name,
+            message: t("Uploading banner image"),
             progress: parseInt(uploadPercentage, 10),
           });
         },
@@ -152,7 +153,9 @@ const ChallengeMaster = ({ match, history }) => {
         fileResult.data.result.imageKey
       ) {
         file = fileResult.data.result.imageKey;
-        setUploadPercentage(null);
+        setUploadPercentage({
+          message: t("Upload is successful and saved"),
+        });
       }
     }
 

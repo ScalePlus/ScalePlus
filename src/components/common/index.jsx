@@ -337,7 +337,7 @@ export const FileInput = React.memo(
     ...props
   }) => {
     let fileUploader;
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
@@ -368,15 +368,15 @@ export const FileInput = React.memo(
                   event.target.value = null;
                 }}
                 onChange={(e) => {
-                  if (
-                    e.target.files &&
-                    e.target.files.length &&
-                    e.target.files[0].size < 1000 * 1000 * 500
-                  ) {
-                    onChange(e);
-                  } else {
-                    alert(t("Max limit achieved"));
-                  }
+                  // if (
+                  //   e.target.files &&
+                  //   e.target.files.length &&
+                  //   e.target.files[0].size < 1000 * 1000 * 500
+                  // ) {
+                  onChange(e);
+                  // } else {
+                  //   alert(t("Max limit achieved"));
+                  // }
                 }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
               />
@@ -413,15 +413,15 @@ export const FileInput = React.memo(
                 event.target.value = null;
               }}
               onChange={(e) => {
-                if (
-                  e.target.files &&
-                  e.target.files.length &&
-                  e.target.files[0].size < 1000 * 1000 * 500
-                ) {
-                  onChange(e);
-                } else {
-                  alert(t("Max limit achieved"));
-                }
+                // if (
+                //   e.target.files &&
+                //   e.target.files.length &&
+                //   e.target.files[0].size < 1000 * 1000 * 500
+                // ) {
+                onChange(e);
+                // } else {
+                //   alert(t("Max limit achieved"));
+                // }
               }}
               accept={acceptTypes ? acceptTypes : "image/*"}
             />
@@ -524,16 +524,16 @@ export const BannerInput = React.memo(
             event.target.value = null;
           }}
           onChange={(e) => {
-            if (
-              e.target.files &&
-              e.target.files.length &&
-              e.target.files[0].size < 1000 * 1000 * 500
-            ) {
-              onChange(e);
-              setShow(true);
-            } else {
-              alert(t("Max limit achieved"));
-            }
+            // if (
+            //   e.target.files &&
+            //   e.target.files.length &&
+            //   e.target.files[0].size < 1000 * 1000 * 500
+            // ) {
+            onChange(e);
+            setShow(true);
+            // } else {
+            //   alert(t("Max limit achieved"));
+            // }
           }}
           accept={acceptTypes ? acceptTypes : "image/*"}
         />
@@ -854,18 +854,22 @@ export const Tab = React.memo(({ text, subText, isActive }) => {
 });
 
 export const Loading = ({ uploadPercentage }) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   return (
     <LoadingContainer>
       {uploadPercentage ? (
         <div>
           <div className="file-upload-label">
-            {t("Uploading")} {uploadPercentage.name}
+            {/* {t("Uploading")} {uploadPercentage.name} */}
+            {uploadPercentage.message}
+            {uploadPercentage.name && <div>({uploadPercentage.name})</div>}
           </div>
-          <ProgressBar
-            now={parseInt(uploadPercentage.progress, 10)}
-            label={`${parseInt(uploadPercentage.progress, 10)}%`}
-          />
+          {uploadPercentage.progress ? (
+            <ProgressBar
+              now={parseInt(uploadPercentage.progress, 10)}
+              label={`${parseInt(uploadPercentage.progress, 10)}%`}
+            />
+          ) : null}
         </div>
       ) : (
         <div>

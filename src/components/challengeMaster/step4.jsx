@@ -194,6 +194,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                             (loadedSizeInMB / totalSizeInMB) * 100;
                           setUploadPercentage({
                             name: attachmentRecord.file.name,
+                            message: t("Uploading file to timeline"),
                             progress: parseInt(uploadPercentage, 10),
                           });
                         },
@@ -208,7 +209,9 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                         fileResult.data.result.imageKey
                       ) {
                         attachmentRecord.file = fileResult.data.result.imageKey;
-                        setUploadPercentage(null);
+                        setUploadPercentage({
+                          message: t("Upload is successful and saved"),
+                        });
                       }
                     }
                   }

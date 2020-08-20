@@ -526,6 +526,7 @@ const UserProfileEdit = ({ history }) => {
                         (loadedSizeInMB / totalSizeInMB) * 100;
                       setUploadPercentage({
                         name: personal_photo.name,
+                        message: t("Uploading personal photo"),
                         progress: parseInt(uploadPercentage, 10),
                       });
                     },
@@ -541,7 +542,9 @@ const UserProfileEdit = ({ history }) => {
                   ) {
                     formData["personal_photo"] =
                       fileResult.data.result.imageKey;
-                    setUploadPercentage(null);
+                    setUploadPercentage({
+                      message: t("Upload is successful and saved"),
+                    });
                   }
 
                   setLoading(false);
@@ -605,6 +608,7 @@ const UserProfileEdit = ({ history }) => {
                         (loadedSizeInMB / totalSizeInMB) * 100;
                       setUploadPercentage({
                         name: logo.name,
+                        message: t("Uploading logo"),
                         progress: parseInt(uploadPercentage, 10),
                       });
                     },
@@ -619,7 +623,9 @@ const UserProfileEdit = ({ history }) => {
                     fileResult.data.result.imageKey
                   ) {
                     formData["logo"] = fileResult.data.result.imageKey;
-                    setUploadPercentage(null);
+                    setUploadPercentage({
+                      message: t("Upload is successful and saved"),
+                    });
                   }
 
                   setLoading(false);
@@ -684,6 +690,7 @@ const UserProfileEdit = ({ history }) => {
                         (loadedSizeInMB / totalSizeInMB) * 100;
                       setUploadPercentage({
                         name: personal_photo.name,
+                        message: t("Uploading personal photo"),
                         progress: parseInt(uploadPercentage, 10),
                       });
                     },
@@ -699,7 +706,9 @@ const UserProfileEdit = ({ history }) => {
                   ) {
                     formData["personal_photo"] =
                       fileResult.data.result.imageKey;
-                    setUploadPercentage(null);
+                    setUploadPercentage({
+                      message: t("Upload is successful and saved"),
+                    });
                   }
 
                   setLoading(false);
