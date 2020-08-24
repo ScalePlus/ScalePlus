@@ -67,7 +67,8 @@ export const MainContainer = styled.div`
       .form-group {
         flex: 1;
         margin-bottom: 0;
-        padding: 0 10px;
+        padding-right: ${theme.isLTR && "0.5rem"};
+        padding-left: ${theme.isRTL && "0.5rem"};
       }
       .remove-container {
         display: flex;

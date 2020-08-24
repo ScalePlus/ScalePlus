@@ -752,11 +752,18 @@ export const DropDown = React.memo(
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <Creatable
           isMulti={isSingle ? false : true}
-          formatCreateLabel={(userInput) => `${t("Other")} "${userInput}"`}
+          formatCreateLabel={(userInput) => `${t("Create")} "${userInput}"`}
           placeholder={placeholder}
           isValidNewOption={(inputValue, selectValue) => {
             return (
-              inputValue.length > 0 && selectValue.length < 3 && !isSelectOnly
+              inputValue.length > 0 &&
+              selectValue.length < 3 &&
+              !options.find(
+                (each) =>
+                  each.label.toLocaleLowerCase().trim() ===
+                  inputValue.toLocaleLowerCase().trimEnd()
+              ) &&
+              !isSelectOnly
             );
           }}
           value={value}

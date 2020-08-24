@@ -762,7 +762,7 @@
         "User role": "User role",
         "Start Date": "Start Date",
         "End Date": "End Date",
-        "Select": "Select",
+        "Select_state": "Select/Create State",
         "Date": "Date",
         "cancel_challenge_reason": "This will remove it from the Scaleplus.co website and delete all the associated comments, updates and submissions. Are you absolutely sure this is what you want to do?",
         "file_size_error": "The file is extending the maximum file size of 10 MB.",
@@ -799,6 +799,7 @@
         "Uploading attachment to resources": "Uploading attachment to resources",
         "Uploading file to submission": "Uploading file to submission",
         "Uploading personal photo": "Uploading personal photo",
-        "Uploading logo": "Uploading logo"
+        "Uploading logo": "Uploading logo",
+        "Create": "Create"
     }
 }

@@ -19,7 +19,7 @@ import {
   TextArea,
   RemoveButton,
   AddButton,
-  Input,
+  // Input,
   FileInput,
   Loading,
 } from "../../../common";
@@ -454,7 +454,7 @@ const Timeline = ({ t, challengeId }) => {
                           isSmall={true}
                           inBox={true}
                           isSingle={true}
-                          placeholder={t("Select")}
+                          placeholder={t("Select_state")}
                           options={stateList}
                           value={stateList.find((option) =>
                             each.state._id
@@ -530,7 +530,7 @@ const Timeline = ({ t, challengeId }) => {
                               key={attach._id}
                             >
                               <Row>
-                                <Col lg={6} md={12} sm={12} xs={12}>
+                                {/* <Col lg={6} md={12} sm={12} xs={12}>
                                   <div className="label-title-container">
                                     <div className="title">
                                       {t("Field Label")}
@@ -550,8 +550,8 @@ const Timeline = ({ t, challengeId }) => {
                                       errorMessage={t("file_name_error")}
                                     ></Input>
                                   </div>
-                                </Col>
-                                <Col lg={6} md={12} sm={12} xs={12}>
+                                </Col> */}
+                                <Col lg={12} md={12} sm={12} xs={12}>
                                   <div className="file-container">
                                     <FileInput
                                       placeholder={t("file name……word")}

@@ -799,6 +799,26 @@ const UserProfileEdit = ({ history }) => {
                   <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
+                      label={t("User role") + " *"}
+                      value={localStorage.getItem("userRole")}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="email"
+                      label={t("Email") + " *"}
+                      value={email}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="text"
                       label={t("First name") + " *"}
                       value={firstName}
                       onChange={(e) => changeFirstName(e.target.value)}
@@ -815,16 +835,6 @@ const UserProfileEdit = ({ history }) => {
                       onChange={(e) => changeLastName(e.target.value)}
                       required
                       errorMessage={t("lname_error")}
-                    ></Input>
-                  </Col>
-
-                  <Col lg={6} md={6} sm={12}>
-                    <Input
-                      type="email"
-                      label={t("Email") + " *"}
-                      value={email}
-                      onChange={() => {}}
-                      readOnly
                     ></Input>
                   </Col>
                 </Row>
@@ -895,6 +905,26 @@ const UserProfileEdit = ({ history }) => {
                   <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
+                      label={t("User role") + " *"}
+                      value={localStorage.getItem("userRole")}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="email"
+                      label={t("Email") + " *"}
+                      value={email}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="text"
                       label={t("First name") + " *"}
                       value={firstName}
                       onChange={(e) => changeFirstName(e.target.value)}
@@ -922,16 +952,6 @@ const UserProfileEdit = ({ history }) => {
                       onChange={(e) => changeName(e.target.value)}
                       required
                       errorMessage={t("name_error")}
-                    ></Input>
-                  </Col>
-
-                  <Col lg={6} md={6} sm={12}>
-                    <Input
-                      type="email"
-                      label={t("Email") + " *"}
-                      value={email}
-                      onChange={() => {}}
-                      readOnly
                     ></Input>
                   </Col>
 
@@ -1032,6 +1052,26 @@ const UserProfileEdit = ({ history }) => {
                   <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
+                      label={t("User role") + " *"}
+                      value={localStorage.getItem("userRole")}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="email"
+                      label={t("Email") + " *"}
+                      value={email}
+                      onChange={() => {}}
+                      readOnly
+                    ></Input>
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <Input
+                      type="text"
                       label={t("First name") + " *"}
                       value={firstName}
                       onChange={(e) => changeFirstName(e.target.value)}
@@ -1059,16 +1099,6 @@ const UserProfileEdit = ({ history }) => {
                       onChange={(e) => changeName(e.target.value)}
                       required
                       errorMessage={t("name_error")}
-                    ></Input>
-                  </Col>
-
-                  <Col lg={6} md={6} sm={12}>
-                    <Input
-                      type="email"
-                      label={t("Email") + " *"}
-                      value={email}
-                      onChange={() => {}}
-                      readOnly
                     ></Input>
                   </Col>
 

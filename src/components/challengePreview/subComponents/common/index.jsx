@@ -166,6 +166,15 @@ export const HeaderComponentWithSearchBox = React.memo(
 export const ExpandCollapse = React.memo(
   ({ title, timestamp, attachmentLink, link, description }) => {
     const [open, setOpen] = useState(false);
+
+    const checkURL = (URL) => {
+      let prefix = "http://";
+      if (URL.substr(0, prefix.length) !== prefix) {
+        URL = prefix + URL;
+      }
+      return URL;
+    };
+
     return (
       <ExpandCollapseContainer>
         <div className="main-container" onClick={() => setOpen(!open)}>
@@ -188,7 +197,7 @@ export const ExpandCollapse = React.memo(
               {attachmentLink && (
                 <div className="link">
                   <a
-                    href={attachmentLink}
+                    href={checkURL(attachmentLink)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -198,7 +207,11 @@ export const ExpandCollapse = React.memo(
               )}
               {link && (
                 <div className="link">
-                  <a href={link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={checkURL(link)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {link}
                   </a>
                 </div>

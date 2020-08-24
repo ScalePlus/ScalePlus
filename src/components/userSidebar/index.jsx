@@ -79,6 +79,11 @@ const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
                   : userDetail.email
                 : ""}
             </div>
+            <div className="name-container">
+              {userDetail && userDetail.roles && userDetail.roles.length
+                ? `(${userDetail.roles[0]})`
+                : ""}
+            </div>
           </div>
 
           <div

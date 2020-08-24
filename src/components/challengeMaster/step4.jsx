@@ -18,7 +18,7 @@ import {
   TextArea,
   RemoveButton,
   AddButton,
-  Input,
+  // Input,
   FileInput,
   PageTitle,
   PrimaryButton,
@@ -439,7 +439,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                   isSmall={true}
                                   inBox={true}
                                   isSingle={true}
-                                  placeholder={t("Select")}
+                                  placeholder={t("Select_state")}
                                   options={stateList}
                                   value={stateList.find((option) =>
                                     each.state._id
@@ -521,7 +521,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                         key={attach._id}
                                       >
                                         <Row>
-                                          <Col lg={6} md={12} sm={12} xs={12}>
+                                          {/* <Col lg={6} md={12} sm={12} xs={12}>
                                             <div className="label-title-container">
                                               <div className="title">
                                                 {t("Field Label")}
@@ -546,8 +546,8 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                 )}
                                               ></Input>
                                             </div>
-                                          </Col>
-                                          <Col lg={6} md={12} sm={12} xs={12}>
+                                          </Col> */}
+                                          <Col lg={12} md={12} sm={12} xs={12}>
                                             <div className="file-container">
                                               <FileInput
                                                 placeholder={t(
