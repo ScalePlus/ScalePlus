@@ -103,6 +103,7 @@ const Timeline = ({ t, challengeId }) => {
   }, [challengeReducer]);
 
   const checkTimeline = () => {
+    let localErrors = [];
     for (let i = 0; i < timeline.length; i++) {
       const record = timeline[i];
       if (
@@ -114,6 +115,20 @@ const Timeline = ({ t, challengeId }) => {
           (new Date(record.startDate) < new Date(timeline[i - 1].endDate) ||
             new Date(record.startDate) < new Date(timeline[i - 1].startDate)))
       ) {
+        if (errors.indexOf(t("There is some issue with dates")) < 0) {
+          localErrors.push(t("There is some issue with dates"));
+        }
+        setErrors(localErrors);
+        return false;
+      } else if (
+        record.adminAttachments &&
+        record.adminAttachments.length &&
+        record.adminAttachments.find((each) => each.progress)
+      ) {
+        if (errors.indexOf(t("File uploading is in progress")) < 0) {
+          localErrors.push(t("File uploading is in progress"));
+          setErrors(localErrors);
+        }
         return false;
       }
     }
@@ -557,12 +572,85 @@ const Timeline = ({ t, challengeId }) => {
                                       placeholder={t("file name……word")}
                                       prependButtonText={t("Browse")}
                                       value={attach.file}
-                                      onChange={(e) => {
+                                      progress={attach.progress}
+                                      maxMB={10}
+                                      onChange={async (e) => {
                                         let newArr = [...timeline];
                                         newArr[index]["adminAttachments"][
                                           attachIndex
                                         ]["file"] = e.target.files[0];
                                         changeTimeline(newArr);
+
+                                        // file upload
+                                        const attachmentRecord = {
+                                          file: e.target.files[0],
+                                        };
+                                        if (
+                                          attachmentRecord.file &&
+                                          attachmentRecord.file.name
+                                        ) {
+                                          let formData = new FormData();
+
+                                          formData.append(
+                                            "file",
+                                            attachmentRecord.file
+                                          );
+
+                                          let fileResult = await Axios({
+                                            headers: {
+                                              "Content-Type":
+                                                "multipart/form-data",
+                                              Authorization: `JWT ${localStorage.getItem(
+                                                "token"
+                                              )}`,
+                                            },
+                                            method: "POST",
+                                            data: formData,
+                                            url: "/uploadFile", // route name
+                                            baseURL: Constants.BASE_URL, //local url
+                                            onUploadProgress: (progress) => {
+                                              const {
+                                                total,
+                                                loaded,
+                                              } = progress;
+                                              const totalSizeInMB =
+                                                total / 1000000;
+                                              const loadedSizeInMB =
+                                                loaded / 1000000;
+                                              const uploadPercentage =
+                                                (loadedSizeInMB /
+                                                  totalSizeInMB) *
+                                                100;
+                                              let newArr = [...timeline];
+                                              newArr[index]["adminAttachments"][
+                                                attachIndex
+                                              ]["progress"] = parseInt(
+                                                uploadPercentage,
+                                                10
+                                              );
+                                              changeTimeline(newArr);
+                                            },
+                                            encType: "multipart/form-data",
+                                          });
+
+                                          if (
+                                            fileResult &&
+                                            fileResult.status === 200 &&
+                                            fileResult.data &&
+                                            fileResult.data.result &&
+                                            fileResult.data.result.imageKey
+                                          ) {
+                                            let newArr = [...timeline];
+                                            delete newArr[index][
+                                              "adminAttachments"
+                                            ][attachIndex]["progress"];
+                                            newArr[index]["adminAttachments"][
+                                              attachIndex
+                                            ]["file"] =
+                                              fileResult.data.result.imageKey;
+                                            changeTimeline(newArr);
+                                          }
+                                        }
                                       }}
                                       required
                                       errorMessage={t("file_error")}

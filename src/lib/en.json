@@ -800,6 +800,9 @@
         "Uploading file to submission": "Uploading file to submission",
         "Uploading personal photo": "Uploading personal photo",
         "Uploading logo": "Uploading logo",
-        "Create": "Create"
+        "Create": "Create",
+        "You can upload up to": "You can upload up to",
+        "There is some issue with dates": "There is some issue with dates",
+        "File uploading is in progress": "File uploading is in progress"
     }
 }

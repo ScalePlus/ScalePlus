@@ -302,6 +302,9 @@ const Submissions = ({
             ) {
               setValidated(true);
               setErrors([t("submission_validation_error")]);
+            } else if (submissionForm.find((each) => each.progress)) {
+              setValidated(true);
+              setErrors([t("File uploading is in progress")]);
             } else {
               setErrors([]);
               let newArr = [...submissionForm];
@@ -571,10 +574,57 @@ const Submissions = ({
                           label={each.title}
                           prependButtonText={t("Browse")}
                           value={each.value}
-                          onChange={(e) => {
+                          progress={each.progress}
+                          onChange={async (e) => {
                             let newArr = [...submissionForm];
                             newArr[index]["value"] = e.target.files[0];
                             changeSubmissionForm(newArr);
+
+                            //file upload
+                            let formData = new FormData();
+
+                            formData.append("file", e.target.files[0]);
+
+                            let fileResult = await Axios({
+                              headers: {
+                                "Content-Type": "multipart/form-data",
+                                Authorization: `JWT ${localStorage.getItem(
+                                  "token"
+                                )}`,
+                              },
+                              method: "POST",
+                              data: formData,
+                              url: "/uploadFile", // route name
+                              baseURL: Constants.BASE_URL, //local url
+                              onUploadProgress: (progress) => {
+                                const { total, loaded } = progress;
+                                const totalSizeInMB = total / 1000000;
+                                const loadedSizeInMB = loaded / 1000000;
+                                const uploadPercentage =
+                                  (loadedSizeInMB / totalSizeInMB) * 100;
+                                let newArr = [...submissionForm];
+                                newArr[index]["progress"] = parseInt(
+                                  uploadPercentage,
+                                  10
+                                );
+                                changeSubmissionForm(newArr);
+                              },
+                              encType: "multipart/form-data",
+                            });
+
+                            if (
+                              fileResult &&
+                              fileResult.status === 200 &&
+                              fileResult.data &&
+                              fileResult.data.result &&
+                              fileResult.data.result.imageKey
+                            ) {
+                              let newArr = [...submissionForm];
+                              delete newArr[index]["progress"];
+                              newArr[index]["value"] =
+                                fileResult.data.result.imageKey;
+                              changeSubmissionForm(newArr);
+                            }
                           }}
                           acceptTypes={
                             each.allowed_types &&

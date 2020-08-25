@@ -334,27 +334,72 @@ export const FileInput = React.memo(
     prependButtonText,
     description,
     acceptTypes,
+    progress,
+    maxMB,
     ...props
   }) => {
     let fileUploader;
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         {prependButtonText ? (
           <>
             <InputGroup>
-              <Form.Control
-                type={"text"}
-                placeholder={placeholder}
-                value={value && value.name ? value.name : value}
-                onChange={() => {}}
+              <div
+                className="form-control"
+                style={{
+                  padding: progress ? 0 : 10,
+                  alignItems: "center",
+                  display: "flex",
+                  cursor: "text",
+                }}
                 onClick={() => {
                   fileUploader.click();
                 }}
-                // readOnly
-                {...props}
-              />
+              >
+                {/* <Form.Control
+                  type={"text"}
+                  placeholder={placeholder}
+                  value={value && value.name ? value.name : value}
+                  onChange={() => {}}
+                  onClick={() => {
+                    fileUploader.click();
+                  }}
+                  // readOnly
+                  {...props}
+                /> */}
+                {progress ? (
+                  <div
+                    style={{
+                      position: "absolute",
+                      color: theme.colors.black,
+                      backgroundColor: theme.colors.yellow,
+                      transition: "width .6s ease",
+                      borderTopLeftRadius: theme.isLTR && "6px",
+                      borderBottomLeftRadius: theme.isLTR && "6px",
+                      borderTopRightRadius: theme.isRTL && "6px",
+                      borderBottomRightRadius: theme.isRTL && "6px",
+                      width: `${progress}%`,
+                      maxWidth: "100%",
+                      height: "100%",
+                      alignItems: "center",
+                      display: "flex",
+                      padding: "10px",
+                    }}
+                  >
+                    {value && value.name ? value.name : value}
+                  </div>
+                ) : value ? (
+                  value.name ? (
+                    value.name
+                  ) : (
+                    value
+                  )
+                ) : (
+                  placeholder
+                )}
+              </div>
               {prependButtonText && (
                 <InputGroup.Append>
                   <InputGroup.Text>{prependButtonText}</InputGroup.Text>
@@ -368,15 +413,19 @@ export const FileInput = React.memo(
                   event.target.value = null;
                 }}
                 onChange={(e) => {
-                  // if (
-                  //   e.target.files &&
-                  //   e.target.files.length &&
-                  //   e.target.files[0].size < 1000 * 1000 * 500
-                  // ) {
-                  onChange(e);
-                  // } else {
-                  //   alert(t("Max limit achieved"));
-                  // }
+                  if (maxMB) {
+                    if (
+                      e.target.files &&
+                      e.target.files.length &&
+                      e.target.files[0].size < 1000 * 1000 * maxMB
+                    ) {
+                      onChange(e);
+                    } else {
+                      alert(`${t("You can upload up to")} ${maxMB}MB`);
+                    }
+                  } else {
+                    onChange(e);
+                  }
                 }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
               />

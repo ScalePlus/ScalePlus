@@ -118,74 +118,84 @@ const Resources = ({ t, challengeId }) => {
               (each) => each.link && !each.link.match(Constants.isURL)
             )
           ) {
-            let newArr = [...resources];
-
-            for (let i = 0; i < newArr.length; i++) {
-              const resource = newArr[i];
-              if (resource.attachment && resource.attachment.name) {
-                setLoading(true);
-                // let fileResult = await Api.uploadFile({
-                //   file: resource.attachment,
-                // });
-                // if (
-                //   fileResult &&
-                //   fileResult.result &&
-                //   fileResult.result.imageKey
-                // ) {
-                //   resource.attachment = fileResult.result.imageKey;
-                // }
-
-                let formData = new FormData();
-
-                formData.append("file", resource.attachment);
-
-                let fileResult = await Axios({
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `JWT ${localStorage.getItem("token")}`,
-                  },
-                  method: "POST",
-                  data: formData,
-                  url: "/uploadFile", // route name
-                  baseURL: Constants.BASE_URL, //local url
-                  onUploadProgress: (progress) => {
-                    const { total, loaded } = progress;
-                    const totalSizeInMB = total / 1000000;
-                    const loadedSizeInMB = loaded / 1000000;
-                    const uploadPercentage =
-                      (loadedSizeInMB / totalSizeInMB) * 100;
-                    setUploadPercentage({
-                      name: resource.attachment.name,
-                      message: t("Uploading attachment to resources"),
-                      progress: parseInt(uploadPercentage, 10),
-                    });
-                  },
-                  encType: "multipart/form-data",
-                });
-
-                if (
-                  fileResult &&
-                  fileResult.status === 200 &&
-                  fileResult.data &&
-                  fileResult.data.result &&
-                  fileResult.data.result.imageKey
-                ) {
-                  resource.attachment = fileResult.data.result.imageKey;
-                  setUploadPercentage({
-                    message: t("Upload is successful and saved"),
-                  });
-                }
-
-                setLoading(false);
+            if (resources.find((each) => each.progress)) {
+              let localErrors = [];
+              if (errors.indexOf(t("File uploading is in progress")) < 0) {
+                localErrors.push(t("File uploading is in progress"));
+                setErrors(localErrors);
               }
-            }
+              setValidated(true);
+            } else {
+              let newArr = [...resources];
 
-            attachResourcesMethod({
-              isActive,
-              resources: newArr,
-            });
+              for (let i = 0; i < newArr.length; i++) {
+                const resource = newArr[i];
+                if (resource.attachment && resource.attachment.name) {
+                  setLoading(true);
+                  // let fileResult = await Api.uploadFile({
+                  //   file: resource.attachment,
+                  // });
+                  // if (
+                  //   fileResult &&
+                  //   fileResult.result &&
+                  //   fileResult.result.imageKey
+                  // ) {
+                  //   resource.attachment = fileResult.result.imageKey;
+                  // }
+
+                  let formData = new FormData();
+
+                  formData.append("file", resource.attachment);
+
+                  let fileResult = await Axios({
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                      Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                    method: "POST",
+                    data: formData,
+                    url: "/uploadFile", // route name
+                    baseURL: Constants.BASE_URL, //local url
+                    onUploadProgress: (progress) => {
+                      const { total, loaded } = progress;
+                      const totalSizeInMB = total / 1000000;
+                      const loadedSizeInMB = loaded / 1000000;
+                      const uploadPercentage =
+                        (loadedSizeInMB / totalSizeInMB) * 100;
+                      setUploadPercentage({
+                        name: resource.attachment.name,
+                        message: t("Uploading attachment to resources"),
+                        progress: parseInt(uploadPercentage, 10),
+                      });
+                    },
+                    encType: "multipart/form-data",
+                  });
+
+                  if (
+                    fileResult &&
+                    fileResult.status === 200 &&
+                    fileResult.data &&
+                    fileResult.data.result &&
+                    fileResult.data.result.imageKey
+                  ) {
+                    resource.attachment = fileResult.data.result.imageKey;
+                    setUploadPercentage({
+                      message: t("Upload is successful and saved"),
+                    });
+                  }
+
+                  setLoading(false);
+                }
+              }
+
+              attachResourcesMethod({
+                isActive,
+                resources: newArr,
+              });
+            }
+          } else {
+            setValidated(true);
           }
-          setValidated(true);
         }}
       >
         <Row style={{ marginBottom: 25 }}>
@@ -251,22 +261,73 @@ const Resources = ({ t, challengeId }) => {
                     </Row>
 
                     <Row className="align-items-center fileContainer">
-                      <Col lg={4} md={6} sm={12} xs={12}>
+                      <Col lg={12} md={12} sm={12} xs={12}>
                         <FileInput
                           placeholder={t("choose file")}
                           label={t("Attachment")}
-                          buttonText={t("Upload File")}
+                          prependButtonText={t("Upload File")}
                           value={each.attachment}
-                          onChange={(e) => {
+                          progress={each.progress}
+                          onChange={async (e) => {
                             let newArr = [...resources];
                             newArr[index]["attachment"] = e.target.files[0];
                             newArr[index]["date"] = new Date();
                             changeResources(newArr);
+
+                            //upload file
+                            if (e.target.files[0] && e.target.files[0].name) {
+                              let formData = new FormData();
+
+                              formData.append("file", e.target.files[0]);
+
+                              let fileResult = await Axios({
+                                headers: {
+                                  "Content-Type": "multipart/form-data",
+                                  Authorization: `JWT ${localStorage.getItem(
+                                    "token"
+                                  )}`,
+                                },
+                                method: "POST",
+                                data: formData,
+                                url: "/uploadFile", // route name
+                                baseURL: Constants.BASE_URL, //local url
+                                onUploadProgress: (progress) => {
+                                  const { total, loaded } = progress;
+                                  const totalSizeInMB = total / 1000000;
+                                  const loadedSizeInMB = loaded / 1000000;
+                                  const uploadPercentage =
+                                    (loadedSizeInMB / totalSizeInMB) * 100;
+                                  let newArr = [...resources];
+                                  newArr[index]["progress"] = parseInt(
+                                    uploadPercentage,
+                                    10
+                                  );
+                                  newArr[index]["date"] = new Date();
+                                  changeResources(newArr);
+                                },
+                                encType: "multipart/form-data",
+                              });
+
+                              if (
+                                fileResult &&
+                                fileResult.status === 200 &&
+                                fileResult.data &&
+                                fileResult.data.result &&
+                                fileResult.data.result.imageKey
+                              ) {
+                                let newArr = [...resources];
+                                delete newArr[index]["progress"];
+                                newArr[index]["attachment"] =
+                                  fileResult.data.result.imageKey;
+                                newArr[index]["date"] = new Date();
+                                changeResources(newArr);
+                              }
+                            }
                           }}
                           acceptTypes="*"
                         ></FileInput>
                       </Col>
-                      <Col
+                      {/* <Col
                         lg={4}
                         md={6}
                         sm={12}
@@ -276,7 +337,7 @@ const Resources = ({ t, challengeId }) => {
                         <span className="info-text">
                           {t("Allowed file types are")}: ....
                         </span>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row>
                       <Col>
