@@ -82,18 +82,6 @@ const Resources = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      challengeResourceReducer &&
-      challengeResourceReducer.success &&
-      challengeResourceReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeResourceReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -101,6 +89,17 @@ const Resources = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : // validated &&
+      challengeResourceReducer &&
+        challengeResourceReducer.success &&
+        challengeResourceReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeResourceReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>
@@ -119,10 +118,8 @@ const Resources = ({ t, challengeId }) => {
             )
           ) {
             if (resources.find((each) => each.progress)) {
-              let localErrors = [];
               if (errors.indexOf(t("File uploading is in progress")) < 0) {
-                localErrors.push(t("File uploading is in progress"));
-                setErrors(localErrors);
+                setErrors([t("File uploading is in progress")]);
               }
               setValidated(true);
             } else {

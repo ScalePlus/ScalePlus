@@ -71,18 +71,7 @@ const LegalAgreement = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      challengeLegalAggreementReducer &&
-      challengeLegalAggreementReducer.success &&
-      challengeLegalAggreementReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeLegalAggreementReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -90,6 +79,17 @@ const LegalAgreement = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        challengeLegalAggreementReducer &&
+        challengeLegalAggreementReducer.success &&
+        challengeLegalAggreementReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeLegalAggreementReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>

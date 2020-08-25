@@ -77,7 +77,6 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
   }, [challengeTimelineReducer]);
 
   const checkTimeline = () => {
-    let localErrors = [];
     for (let i = 0; i < timeline.length; i++) {
       const record = timeline[i];
       if (
@@ -87,22 +86,12 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
         !record.state ||
         (i > 0 &&
           (new Date(record.startDate) < new Date(timeline[i - 1].endDate) ||
-            new Date(record.startDate) < new Date(timeline[i - 1].startDate)))
+            new Date(record.startDate) <
+              new Date(timeline[i - 1].startDate))) ||
+        (record.adminAttachments &&
+          record.adminAttachments.length &&
+          record.adminAttachments.find((each) => each.progress))
       ) {
-        if (errors.indexOf(t("There is some issue with dates")) < 0) {
-          localErrors.push(t("There is some issue with dates"));
-        }
-        setErrors(localErrors);
-        return false;
-      } else if (
-        record.adminAttachments &&
-        record.adminAttachments.length &&
-        record.adminAttachments.find((each) => each.progress)
-      ) {
-        if (errors.indexOf(t("File uploading is in progress")) < 0) {
-          localErrors.push(t("File uploading is in progress"));
-          setErrors(localErrors);
-        }
         return false;
       }
     }
@@ -235,8 +224,21 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
               setLoading(false);
               changeTimeline(newArr);
               createChallenge();
+            } else if (
+              timeline &&
+              timeline.length &&
+              timeline.find(
+                (record) =>
+                  record.adminAttachments &&
+                  record.adminAttachments.length &&
+                  record.adminAttachments.find((each) => each.progress)
+              )
+            ) {
+              if (errors.indexOf(t("File uploading is in progress")) < 0) {
+                setErrors([t("File uploading is in progress")]);
+              }
+              setValidated(true);
             } else {
-              window.scrollTo(0, 0);
               setValidated(true);
             }
           }}

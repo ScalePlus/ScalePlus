@@ -127,8 +127,7 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                             return <div key={index}>{each}</div>;
                           })}
                         </Alert>
-                      ) : null}
-                      {validated && success ? (
+                      ) : validated && success ? (
                         <Alert variant={"success"} className="text-left">
                           <div>{success}</div>
                         </Alert>

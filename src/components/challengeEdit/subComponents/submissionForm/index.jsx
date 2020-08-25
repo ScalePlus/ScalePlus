@@ -125,18 +125,7 @@ const SubmissionForm = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      challengeSubmissionformReducer &&
-      challengeSubmissionformReducer.success &&
-      challengeSubmissionformReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeSubmissionformReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -144,6 +133,17 @@ const SubmissionForm = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        challengeSubmissionformReducer &&
+        challengeSubmissionformReducer.success &&
+        challengeSubmissionformReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeSubmissionformReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>

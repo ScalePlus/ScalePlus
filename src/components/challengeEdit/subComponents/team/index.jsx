@@ -84,18 +84,7 @@ const Team = ({ t, challengeId }) => {
           <HeaderComponent titleText={t("Team")} />
         </Col>
       </Row>
-      {validated &&
-      challengeTeamReducer &&
-      challengeTeamReducer.success &&
-      challengeTeamReducer.success.message ? (
-        <Row style={{ marginBottom: 25 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeTeamReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 25 }}>
           <Col>
@@ -103,6 +92,17 @@ const Team = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        challengeTeamReducer &&
+        challengeTeamReducer.success &&
+        challengeTeamReducer.success.message ? (
+        <Row style={{ marginBottom: 25 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeTeamReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>

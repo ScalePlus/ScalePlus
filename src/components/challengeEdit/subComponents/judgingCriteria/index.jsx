@@ -108,18 +108,7 @@ const JudgingCriteria = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      challengeJudgingCriteriaReducer &&
-      challengeJudgingCriteriaReducer.success &&
-      challengeJudgingCriteriaReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeJudgingCriteriaReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -130,7 +119,19 @@ const JudgingCriteria = ({ t, challengeId }) => {
             </Alert>
           </Col>
         </Row>
+      ) : validated &&
+        challengeJudgingCriteriaReducer &&
+        challengeJudgingCriteriaReducer.success &&
+        challengeJudgingCriteriaReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeJudgingCriteriaReducer.success.message}</div>
+            </Alert>
+          </Col>
+        </Row>
       ) : null}
+
       <Form
         noValidate
         validated={validated}

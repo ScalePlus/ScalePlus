@@ -69,18 +69,6 @@ const JudgingActivities = ({ t, challengeId }) => {
         </Col>
       </Row>
 
-      {validated &&
-      challengeJudgingActivitiesReducer &&
-      challengeJudgingActivitiesReducer.success &&
-      challengeJudgingActivitiesReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeJudgingActivitiesReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -88,6 +76,17 @@ const JudgingActivities = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        challengeJudgingActivitiesReducer &&
+        challengeJudgingActivitiesReducer.success &&
+        challengeJudgingActivitiesReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeJudgingActivitiesReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>

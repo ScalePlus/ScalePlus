@@ -76,18 +76,7 @@ const Updates = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      challengeUpdatesReducer &&
-      challengeUpdatesReducer.success &&
-      challengeUpdatesReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeUpdatesReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -95,6 +84,17 @@ const Updates = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        challengeUpdatesReducer &&
+        challengeUpdatesReducer.success &&
+        challengeUpdatesReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeUpdatesReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>

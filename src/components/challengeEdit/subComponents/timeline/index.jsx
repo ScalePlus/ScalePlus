@@ -103,7 +103,6 @@ const Timeline = ({ t, challengeId }) => {
   }, [challengeReducer]);
 
   const checkTimeline = () => {
-    let localErrors = [];
     for (let i = 0; i < timeline.length; i++) {
       const record = timeline[i];
       if (
@@ -113,22 +112,12 @@ const Timeline = ({ t, challengeId }) => {
         !record.state ||
         (i > 0 &&
           (new Date(record.startDate) < new Date(timeline[i - 1].endDate) ||
-            new Date(record.startDate) < new Date(timeline[i - 1].startDate)))
+            new Date(record.startDate) <
+              new Date(timeline[i - 1].startDate))) ||
+        (record.adminAttachments &&
+          record.adminAttachments.length &&
+          record.adminAttachments.find((each) => each.progress))
       ) {
-        if (errors.indexOf(t("There is some issue with dates")) < 0) {
-          localErrors.push(t("There is some issue with dates"));
-        }
-        setErrors(localErrors);
-        return false;
-      } else if (
-        record.adminAttachments &&
-        record.adminAttachments.length &&
-        record.adminAttachments.find((each) => each.progress)
-      ) {
-        if (errors.indexOf(t("File uploading is in progress")) < 0) {
-          localErrors.push(t("File uploading is in progress"));
-          setErrors(localErrors);
-        }
         return false;
       }
     }
@@ -147,19 +136,7 @@ const Timeline = ({ t, challengeId }) => {
           </InfoBlock>
         </Col>
       </Row>
-      {validated &&
-      checkTimeline() &&
-      challengeTimelineReducer &&
-      challengeTimelineReducer.success &&
-      challengeTimelineReducer.success.message ? (
-        <Row style={{ marginBottom: 30 }}>
-          <Col>
-            <Alert variant={"success"} className="text-left">
-              <div>{challengeTimelineReducer.success.message}</div>
-            </Alert>
-          </Col>
-        </Row>
-      ) : null}
+
       {errors && errors.length ? (
         <Row style={{ marginBottom: 30 }}>
           <Col>
@@ -167,6 +144,18 @@ const Timeline = ({ t, challengeId }) => {
               {errors.map((each, index) => {
                 return <div key={index}>{each}</div>;
               })}
+            </Alert>
+          </Col>
+        </Row>
+      ) : validated &&
+        checkTimeline() &&
+        challengeTimelineReducer &&
+        challengeTimelineReducer.success &&
+        challengeTimelineReducer.success.message ? (
+        <Row style={{ marginBottom: 30 }}>
+          <Col>
+            <Alert variant={"success"} className="text-left">
+              <div>{challengeTimelineReducer.success.message}</div>
             </Alert>
           </Col>
         </Row>
@@ -251,8 +240,23 @@ const Timeline = ({ t, challengeId }) => {
             attachTimelineMethod({
               timeline: newArr,
             });
+          } else if (
+            timeline &&
+            timeline.length &&
+            timeline.find(
+              (record) =>
+                record.adminAttachments &&
+                record.adminAttachments.length &&
+                record.adminAttachments.find((each) => each.progress)
+            )
+          ) {
+            if (errors.indexOf(t("File uploading is in progress")) < 0) {
+              setErrors([t("File uploading is in progress")]);
+            }
+            setValidated(true);
+          } else {
+            setValidated(true);
           }
-          setValidated(true);
         }}
         style={{ marginBottom: 30 }}
       >
