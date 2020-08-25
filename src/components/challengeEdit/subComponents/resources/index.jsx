@@ -118,8 +118,8 @@ const Resources = ({ t, challengeId }) => {
             )
           ) {
             if (resources.find((each) => each.progress)) {
-              if (errors.indexOf(t("File uploading is in progress")) < 0) {
-                setErrors([t("File uploading is in progress")]);
+              if (errors.indexOf(t("File upload in progress")) < 0) {
+                setErrors([t("File upload in progress")]);
               }
               setValidated(true);
             } else {
@@ -206,15 +206,21 @@ const Resources = ({ t, challengeId }) => {
               infoButtonVariant="info"
               infoButtonType="button"
               infoButtonClick={() => {
-                changeResources((data) =>
-                  data.concat({
-                    _id: `resource-${data.length + 1}`,
-                    title: "",
-                    attachment: "",
-                    description: "",
-                    link: "",
-                  })
-                );
+                if (resources.find((each) => each.progress)) {
+                  if (errors.indexOf(t("File upload in progress")) < 0) {
+                    setErrors([t("File upload in progress")]);
+                  }
+                } else {
+                  changeResources((data) =>
+                    data.concat({
+                      _id: `resource-${data.length + 1}`,
+                      title: "",
+                      attachment: "",
+                      description: "",
+                      link: "",
+                    })
+                  );
+                }
               }}
             />
           </Col>
@@ -376,11 +382,19 @@ const Resources = ({ t, challengeId }) => {
                   <div className="right-container">
                     <RemoveButton
                       onClick={() => {
-                        let newArr = [...resources];
-                        newArr = newArr.filter((data) => {
-                          return each._id !== data._id;
-                        });
-                        changeResources(newArr);
+                        if (resources.find((each) => each.progress)) {
+                          if (
+                            errors.indexOf(t("File upload in progress")) < 0
+                          ) {
+                            setErrors([t("File upload in progress")]);
+                          }
+                        } else {
+                          let newArr = [...resources];
+                          newArr = newArr.filter((data) => {
+                            return each._id !== data._id;
+                          });
+                          changeResources(newArr);
+                        }
                       }}
                     />
                   </div>

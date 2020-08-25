@@ -47,9 +47,13 @@ export const MainContainer = styled.div`
 
   .description-container {
     text-align: ${theme.isLTR ? "left" : "right"};
+    color: ${theme.colors.black};
+    font-family: ${theme.fontFamily.bold};
+    margin-top: 2rem;
   }
   .tab-container {
     margin-top: 10px;
+    margin-bottom: 1rem;
     .tab-sub-container {
       margin-bottom: 1rem;
       min-height: 70px;

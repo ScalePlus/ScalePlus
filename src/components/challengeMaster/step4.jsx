@@ -116,16 +116,31 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                 variant="info"
                 type="button"
                 onClick={() => {
-                  changeTimeline((data) =>
-                    data.concat({
-                      _id: `timeline-${data.length + 1}`,
-                      startDate: "",
-                      endDate: "",
-                      state: "",
-                      description: "",
-                      adminAttachments: [],
-                    })
-                  );
+                  if (
+                    timeline &&
+                    timeline.length &&
+                    timeline.find(
+                      (record) =>
+                        record.adminAttachments &&
+                        record.adminAttachments.length &&
+                        record.adminAttachments.find((each) => each.progress)
+                    )
+                  ) {
+                    if (errors.indexOf(t("File upload in progress")) < 0) {
+                      setErrors([t("File upload in progress")]);
+                    }
+                  } else {
+                    changeTimeline((data) =>
+                      data.concat({
+                        _id: `timeline-${data.length + 1}`,
+                        startDate: "",
+                        endDate: "",
+                        state: "",
+                        description: "",
+                        adminAttachments: [],
+                      })
+                    );
+                  }
                 }}
               ></PrimaryButton>
             </div>
@@ -234,8 +249,8 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                   record.adminAttachments.find((each) => each.progress)
               )
             ) {
-              if (errors.indexOf(t("File uploading is in progress")) < 0) {
-                setErrors([t("File uploading is in progress")]);
+              if (errors.indexOf(t("File upload in progress")) < 0) {
+                setErrors([t("File upload in progress")]);
               }
               setValidated(true);
             } else {
@@ -708,11 +723,32 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                             <div className="right-container">
                               <RemoveButton
                                 onClick={() => {
-                                  let newArr = [...timeline];
-                                  newArr = newArr.filter((data) => {
-                                    return each._id !== data._id;
-                                  });
-                                  changeTimeline(newArr);
+                                  if (
+                                    timeline &&
+                                    timeline.length &&
+                                    timeline.find(
+                                      (record) =>
+                                        record.adminAttachments &&
+                                        record.adminAttachments.length &&
+                                        record.adminAttachments.find(
+                                          (each) => each.progress
+                                        )
+                                    )
+                                  ) {
+                                    if (
+                                      errors.indexOf(
+                                        t("File upload in progress")
+                                      ) < 0
+                                    ) {
+                                      setErrors([t("File upload in progress")]);
+                                    }
+                                  } else {
+                                    let newArr = [...timeline];
+                                    newArr = newArr.filter((data) => {
+                                      return each._id !== data._id;
+                                    });
+                                    changeTimeline(newArr);
+                                  }
                                 }}
                               />
                             </div>

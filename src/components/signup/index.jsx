@@ -13,7 +13,6 @@ import {
   SocialLoginButton,
   OrDevider,
   Title,
-  Description,
   Input,
   PassInput,
   PrimaryButton,
@@ -158,36 +157,6 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
             </Col>
           </Row>
           <div className="content-container">
-            <Row className="description-container">
-              <Col>
-                <Description>{t("Choose what describe you best")}</Description>
-              </Col>
-            </Row>
-
-            <Row className="tab-container">
-              {tabs.map((each, index) => {
-                return (
-                  <Col
-                    key={index}
-                    lg={4}
-                    md={6}
-                    sm={6}
-                    xs={12}
-                    onClick={() => {
-                      localStorage.setItem("userRole", each.role);
-                      setActiveTab(each.role);
-                    }}
-                  >
-                    <Tab
-                      text={each.mainText}
-                      subText={each.subText}
-                      isActive={activeTab === each.role}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
-
             <div className="social-button-container">
               <div className="google-button">
                 {/* <GoogleLogin
@@ -321,6 +290,36 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                     <span>{t("Password_Message")}</span>
                   </div>
                 </Col>
+              </Row>
+
+              <Row className="description-container">
+                <Col>
+                  <span>{t("Choose what describe you best")}</span>
+                </Col>
+              </Row>
+
+              <Row className="tab-container">
+                {tabs.map((each, index) => {
+                  return (
+                    <Col
+                      key={index}
+                      lg={4}
+                      md={6}
+                      sm={6}
+                      xs={12}
+                      onClick={() => {
+                        localStorage.setItem("userRole", each.role);
+                        setActiveTab(each.role);
+                      }}
+                    >
+                      <Tab
+                        text={each.mainText}
+                        subText={each.subText}
+                        isActive={activeTab === each.role}
+                      />
+                    </Col>
+                  );
+                })}
               </Row>
 
               <Row>

@@ -304,7 +304,7 @@ const Submissions = ({
               setErrors([t("submission_validation_error")]);
             } else if (submissionForm.find((each) => each.progress)) {
               setValidated(true);
-              setErrors([t("File uploading is in progress")]);
+              setErrors([t("File upload in progress")]);
             } else {
               setErrors([]);
               let newArr = [...submissionForm];
