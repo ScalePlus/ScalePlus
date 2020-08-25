@@ -7,6 +7,7 @@ export const MainContainer = styled.div`
   .title {
     font-family: ${theme.fontFamily.bold};
     font-size: ${theme.fontSize.mediumLarge};
+    cursor: pointer;
   }
   .box-container {
     margin-top: 20px;

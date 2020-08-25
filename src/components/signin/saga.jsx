@@ -149,7 +149,7 @@ function* getUserSaga(data) {
       yield put({ type: GET_USER_ERROR, payload: res.message });
     } else {
       yield put({ type: GET_USER_SUCCESS, payload: res.result });
-      localStorage.setItem("userRole", res.result.roles[0]);
+      // localStorage.setItem("userRole", res.result.roles[0]);
     }
   } catch (error) {
     yield put({ type: GET_USER_ERROR, payload: error.message });

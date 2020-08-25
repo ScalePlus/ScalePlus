@@ -209,7 +209,7 @@ const MainRouter = () => {
             component={SolveChallenge}
           />
           <OpenRoute
-            path="/profile/edit"
+            path="/profile/edit/:userId"
             exact
             layout={MainLayout}
             component={UserProfileEdit}

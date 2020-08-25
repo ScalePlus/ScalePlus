@@ -22,7 +22,7 @@ export const MainContainer = styled.div`
     .button-container {
       display: flex;
       align-items: center;
-      button:first-child {
+      button:not(:last-child) {
         margin-right: ${theme.isLTR && "1rem"};
         margin-left: ${theme.isRTL && "1rem"};
       }

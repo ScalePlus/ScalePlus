@@ -289,7 +289,9 @@ function Activities({ t, history, challengeId }) {
                         each.userId._id.toString() ===
                         localStorage.getItem("userId")
                       ) {
-                        history.push(`/profile/edit`);
+                        history.push(
+                          `/profile/edit/${localStorage.getItem("userId")}`
+                        );
                       }
                     } else if (each.challengeId && each.challengeId._id) {
                       history.push(

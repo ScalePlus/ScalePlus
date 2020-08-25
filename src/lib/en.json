@@ -458,7 +458,6 @@
         "Page 404": "Page 404",
         "Page 500": "Page 500",
         "Home": "Home",
-        "Edit Profile": "Edit Profile",
         "Basic information": "Basic information",
         "Update": "Update",
         "replace": "replace",
@@ -803,6 +802,8 @@
         "Create": "Create",
         "You can upload up to": "You can upload up to",
         "There is some issue with dates": "There is some issue with dates",
-        "File upload in progress": "File upload in progress"
+        "File upload in progress": "File upload in progress",
+        "Cancel Invitation": "Cancel Invitation",
+        "< Edit Profile": "< Edit Profile"
     }
 }

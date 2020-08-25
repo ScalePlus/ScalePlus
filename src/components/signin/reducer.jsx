@@ -35,6 +35,7 @@ let initialState = {
   error: null,
   success: null,
   userData: null,
+  otherUserDetail: null,
   fileList: null,
 };
 
@@ -132,21 +133,21 @@ export const signinReducer = createReducer(initialState, {
   [GET_USER_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      userData: null,
+      otherUserDetail: null,
       error: null,
     });
   },
   [GET_USER_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      userData: action.payload,
+      otherUserDetail: action.payload,
       error: null,
     });
   },
   [GET_USER_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      userData: null,
+      otherUserDetail: null,
       error: action.payload,
     });
   },

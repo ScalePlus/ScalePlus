@@ -6,6 +6,7 @@ import {
   changeEmailAction,
   resetPasswordAction,
 } from "./action";
+import { getUser } from "../signin/action";
 import {
   industriesOptionsAction,
   servicesOptionsAction,
@@ -33,12 +34,13 @@ import { Constants } from "../../lib/constant";
 import DeleteUserModal from "./deleteModal";
 let fileUploader;
 
-const UserProfileEdit = ({ history }) => {
+const UserProfileEdit = ({ match, history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const updateProfile = (data) => dispatch(updateProfileAction(data));
   const changeEmailMethod = (data) => dispatch(changeEmailAction(data));
   const resetPasswordMethod = (data) => dispatch(resetPasswordAction(data));
+  const getUserMethod = useCallback((id) => dispatch(getUser(id)), [dispatch]);
   const logout = () => dispatch(logoutAction());
 
   const industriesOptionsMethod = useCallback(
@@ -76,19 +78,17 @@ const UserProfileEdit = ({ history }) => {
     return state.updateBusinessTagsReducer;
   });
 
-  const is_admin = localStorage.getItem("userRole") === Constants.ROLES.ADMIN,
-    is_startup_Individual =
-      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
-    is_organisation =
-      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
-    is_mentor_judge =
-      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
+  const [is_admin, set_is_admin] = useState(false);
+  const [is_startup_Individual, set_is_startup_Individual] = useState(false);
+  const [is_organisation, set_is_organisation] = useState(false);
+  const [is_mentor_judge, set_is_mentor_judge] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [uploadPercentage, setUploadPercentage] = useState(null);
   const [roleSwitch, switchToggle] = useState(false);
   const [logo, changeLogo] = useState("");
   const [personal_photo, changePersonalPhoto] = useState("");
+  const [userRole, changeRole] = useState("");
   const [firstName, changeFirstName] = useState("");
   const [lastName, changeLastName] = useState("");
   const [email, changeEmail] = useState("");
@@ -169,6 +169,12 @@ const UserProfileEdit = ({ history }) => {
   const [submittedForm, changeSubmittedForm] = useState(0);
 
   useEffect(() => {
+    if (match && match.params && match.params.userId) {
+      getUserMethod(match.params.userId);
+    }
+  }, [match, getUserMethod]);
+
+  useEffect(() => {
     industriesOptionsMethod();
   }, [industriesOptionsMethod]);
 
@@ -193,9 +199,75 @@ const UserProfileEdit = ({ history }) => {
   }, [geographicalMarketsOptionsMethod]);
 
   useEffect(() => {
-    const { userData } = signinReducer;
+    let userData = signinReducer.otherUserDetail;
     if (userData) {
+      //reset values
+      switchToggle(false);
+      changeLogo("");
+      changePersonalPhoto("");
+      changeRole("");
+      changeFirstName("");
+      changeLastName("");
+      changeEmail("");
+
+      changeName("");
+      changeMobile("");
+      changeWebsite("");
+      changeLocation("");
+      changeBirthDate(null);
+      changeIncorporationDate(null);
+      setInspireText("");
+      setBioText("");
+
+      changeIndustry("");
+      changeSubIndustry("");
+      changeMarketLocation("");
+      changeBusinessModel("");
+      changeMarketSegment("");
+      changeTopCustomers("");
+
+      changeSize("");
+      changeFounders("");
+      changeDepartments("");
+
+      changeRevenue("");
+      changeCost("");
+      changeEBTIDA("");
+      changeOperational("");
+
+      changeRounds("");
+      changeInvestors("");
+      changeEquityStructure("");
+
+      changeFrontEnd("");
+      changeBackEnd("");
+      changeOther("");
+
+      changeSocialLinks("");
+      changeNumberOfLikes("");
+      changeReactions("");
+
+      changeTopKPIs("");
+
+      setCurrentPass("");
+      setNewPass("");
+      setConfirmPass("");
+
+      setNewEmail("");
+
+      changeAns1("");
+      changeAns2("");
+      changeAns3("");
+      changeAns4("");
+      changeAns5("");
+      changeAns6("");
+
+      changeConsulting(false);
+
+      setShow(false);
+
       const {
+        roles,
         firstName,
         lastName,
         email,
@@ -213,6 +285,16 @@ const UserProfileEdit = ({ history }) => {
         M_A,
         consulting,
       } = userData;
+
+      if (roles && roles.length) {
+        changeRole(roles[0]);
+        set_is_admin(roles[0] === Constants.ROLES.ADMIN);
+        set_is_startup_Individual(
+          roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL
+        );
+        set_is_organisation(roles[0] === Constants.ROLES.ORGANIZATION);
+        set_is_mentor_judge(roles[0] === Constants.ROLES.MENTOR_JUDGE);
+      }
 
       if (firstName) {
         changeFirstName(firstName);
@@ -477,7 +559,14 @@ const UserProfileEdit = ({ history }) => {
     <MainContainer>
       <Row className="justify-content-center">
         <Col lg={9} md={10} sm={10}>
-          <div className="title">{t("Edit Profile")}</div>
+          <div
+            className="title"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            {t("< Edit Profile")}
+          </div>
 
           <Form
             className="box-container"
@@ -800,7 +889,7 @@ const UserProfileEdit = ({ history }) => {
                     <Input
                       type="text"
                       label={t("User role") + " *"}
-                      value={localStorage.getItem("userRole")}
+                      value={userRole}
                       onChange={() => {}}
                       readOnly
                     ></Input>
@@ -906,7 +995,7 @@ const UserProfileEdit = ({ history }) => {
                     <Input
                       type="text"
                       label={t("User role") + " *"}
-                      value={localStorage.getItem("userRole")}
+                      value={userRole}
                       onChange={() => {}}
                       readOnly
                     ></Input>
@@ -1053,7 +1142,7 @@ const UserProfileEdit = ({ history }) => {
                     <Input
                       type="text"
                       label={t("User role") + " *"}
-                      value={localStorage.getItem("userRole")}
+                      value={userRole}
                       onChange={() => {}}
                       readOnly
                     ></Input>

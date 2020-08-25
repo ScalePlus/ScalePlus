@@ -383,7 +383,11 @@ const Header = ({ t }) => {
                                   each.userId._id.toString() ===
                                   localStorage.getItem("userId")
                                 ) {
-                                  history.push(`/profile/edit`);
+                                  history.push(
+                                    `/profile/edit/${localStorage.getItem(
+                                      "userId"
+                                    )}`
+                                  );
                                 }
                               } else if (
                                 each.challengeId &&
@@ -516,7 +520,7 @@ const Header = ({ t }) => {
         setShow={setShowSidebar}
         profileClick={() => {
           setShowSidebar(false);
-          history.push("/profile/edit");
+          history.push(`/profile/edit/${localStorage.getItem("userId")}`);
         }}
         onLogout={() => {
           setShowSidebar(false);

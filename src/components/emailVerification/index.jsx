@@ -36,25 +36,25 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
   const isVerified =
     emailVerificationReducer.success ||
     (signinReducer &&
-      signinReducer.userData &&
-      signinReducer.userData.emailVerification);
+      signinReducer.otherUserDetail &&
+      signinReducer.otherUserDetail.emailVerification);
 
   useEffect(() => {
     getUserMethod(userId);
   }, [getUserMethod, userId]);
 
   useEffect(() => {
-    const { userData } = signinReducer;
+    const { otherUserDetail } = signinReducer;
 
     if (
-      userData &&
-      userData.verificationCode &&
-      userData.verificationCode.length === 4
+      otherUserDetail &&
+      otherUserDetail.verificationCode &&
+      otherUserDetail.verificationCode.length === 4
     ) {
-      setFirst(userData.verificationCode.slice(0, 1));
-      setSecond(userData.verificationCode.slice(1, 2));
-      setThird(userData.verificationCode.slice(2, 3));
-      setForth(userData.verificationCode.slice(3, 4));
+      setFirst(otherUserDetail.verificationCode.slice(0, 1));
+      setSecond(otherUserDetail.verificationCode.slice(1, 2));
+      setThird(otherUserDetail.verificationCode.slice(2, 3));
+      setForth(otherUserDetail.verificationCode.slice(3, 4));
     }
   }, [signinReducer]);
 
@@ -127,7 +127,8 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                             return <div key={index}>{each}</div>;
                           })}
                         </Alert>
-                      ) : validated && success ? (
+                      ) : null}
+                      {validated && success ? (
                         <Alert variant={"success"} className="text-left">
                           <div>{success}</div>
                         </Alert>
@@ -219,8 +220,8 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
                     <div>
                       <span>
                         {signinReducer &&
-                          signinReducer.userData &&
-                          signinReducer.userData.email}
+                          signinReducer.otherUserDetail &&
+                          signinReducer.otherUserDetail.email}
                       </span>
                       <span className="seprator">|</span>
                       <span
