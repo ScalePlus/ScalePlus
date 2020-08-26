@@ -20,7 +20,7 @@ import history from "../../history";
 function* updateProfileSaga(data) {
   yield put({ type: UPDATE_PROFILE_LOADING });
   try {
-    let res = yield call(Api.updateProfile, data.payload);
+    let res = yield call(Api.updateProfile, data.payload, data.userId);
     if (res.status) {
       yield put({ type: UPDATE_PROFILE_ERROR, payload: res.message });
     } else {

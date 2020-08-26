@@ -37,7 +37,8 @@ let fileUploader;
 const UserProfileEdit = ({ match, history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const updateProfile = (data) => dispatch(updateProfileAction(data));
+  const updateProfile = (data) =>
+    dispatch(updateProfileAction(data, match.params.userId));
   const changeEmailMethod = (data) => dispatch(changeEmailAction(data));
   const resetPasswordMethod = (data) => dispatch(resetPasswordAction(data));
   const getUserMethod = useCallback((id) => dispatch(getUser(id)), [dispatch]);
@@ -740,6 +741,7 @@ const UserProfileEdit = ({ match, history }) => {
               ) {
                 let formData = {
                   name,
+                  personal_photo,
                   mobile,
                   website,
                   locationData: location,

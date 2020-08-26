@@ -5,7 +5,7 @@ import { Form, Row, Col, Alert } from "react-bootstrap";
 import { getAttachedUsersAction } from "../allUsers/action";
 import { updateStatusAction } from "./action";
 import { useDispatch, useSelector } from "react-redux";
-import { PrimaryButton, Switch } from "../common";
+import { PrimaryButton, Switch, Loading } from "../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 
@@ -25,6 +25,9 @@ const UserProfileView = ({ match, history }) => {
   const updateProfileViewReducer = useSelector((state) => {
     return state.updateProfileViewReducer;
   });
+  const updateProfileReducer = useSelector((state) => {
+    return state.updateProfileReducer;
+  });
 
   const logged_user_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
@@ -41,6 +44,13 @@ const UserProfileView = ({ match, history }) => {
   useEffect(() => {
     getAttachedUsers({}, "");
   }, [getAttachedUsers]);
+
+  useEffect(() => {
+    const { success } = updateProfileReducer;
+    if (success) {
+      getAttachedUsers({}, "");
+    }
+  }, [getAttachedUsers, updateProfileReducer]);
 
   useEffect(() => {
     const { error, success } = updateProfileViewReducer;
@@ -97,6 +107,9 @@ const UserProfileView = ({ match, history }) => {
 
   return userData && userData.data && userData.data.userId ? (
     <MainContainer>
+      {(attachedUsersReducer.loading ||
+        updateProfileViewReducer.loading ||
+        updateProfileReducer.loading) && <Loading />}
       <Row className="justify-content-center">
         <Col lg={9} md={10} sm={10}>
           {errors && errors.length ? (

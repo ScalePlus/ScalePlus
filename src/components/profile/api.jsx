@@ -1,8 +1,8 @@
 import coreApi from "../../lib/coreApi";
 
 export default {
-  updateProfile: (data) => {
-    const url = `/user/update`;
+  updateProfile: (data, userId) => {
+    const url = `/user/update/${userId}`;
     const result = coreApi.PUT(url, data);
     return result;
   },

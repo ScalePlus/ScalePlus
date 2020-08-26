@@ -4,9 +4,10 @@ import {
   UPDATE_PASSWORD_ACTION,
 } from "./types";
 
-export const updateProfileAction = (data) => ({
+export const updateProfileAction = (data, userId) => ({
   type: UPDATE_PROFILE_ACTION,
   payload: data,
+  userId,
 });
 
 export const changeEmailAction = (data) => ({
