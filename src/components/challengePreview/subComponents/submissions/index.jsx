@@ -42,6 +42,7 @@ const Submissions = ({
   judgingStarted,
   judgingClosed,
   submissionClosed,
+  memberAsParticipant,
 }) => {
   const dispatch = useDispatch();
   const fillSubmissionformMethod = (data) =>
@@ -231,7 +232,9 @@ const Submissions = ({
     );
   };
 
-  return is_startup_Individual && !organisationTeamMember ? (
+  return is_startup_Individual &&
+    memberAsParticipant &&
+    !organisationTeamMember ? (
     <MainContainer>
       {(submissionListReducer.loading || loading) && (
         <Loading uploadPercentage={uploadPercentage} />
@@ -1204,7 +1207,16 @@ const Submissions = ({
         />
       </MainContainer>
     )
-  ) : null;
+  ) : (
+    <Row className="justify-content-center">
+      <Col lg={11} md={11} sm={11} xs={11}>
+        <div className="no-data-text">
+          {t("Invitation is expired or Permission denied")}{" "}
+          <Link to="/dashboard">{t("explore other challenges")}</Link>
+        </div>
+      </Col>
+    </Row>
+  );
 };
 
 export default Submissions;

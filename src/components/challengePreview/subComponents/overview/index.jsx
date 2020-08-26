@@ -31,7 +31,10 @@ const OverView = ({
           challengeData.participantsId.data.find((each) => {
             return each.team.find(
               (member) =>
-                member.userId._id.toString() === localStorage.getItem("userId")
+                member.userId._id.toString() ===
+                  localStorage.getItem("userId") &&
+                member.status !== Constants.USER_STATUS.Declined &&
+                member.status !== Constants.USER_STATUS.Canceled
             );
           })
           ? true

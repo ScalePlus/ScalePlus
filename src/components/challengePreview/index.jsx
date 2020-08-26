@@ -239,7 +239,10 @@ const ChallengePreview = ({ history, match }) => {
                 member &&
                 member.userId &&
                 member.userId._id &&
-                member.userId._id.toString() === localStorage.getItem("userId")
+                member.userId._id.toString() ===
+                  localStorage.getItem("userId") &&
+                member.status !== Constants.USER_STATUS.Declined &&
+                member.status !== Constants.USER_STATUS.Canceled
               ) {
                 memberAsParticipant = member;
                 setParticipation(memberAsParticipant);
@@ -756,6 +759,7 @@ const ChallengePreview = ({ history, match }) => {
                 is_startup_Individual={is_startup_Individual}
                 is_mentor_judge={is_mentor_judge}
                 organisationTeamMember={organisationTeamMember}
+                memberAsParticipant={memberAsParticipant}
                 is_organisation={is_organisation}
                 fromPreview={true}
                 submissionVisibility={true}

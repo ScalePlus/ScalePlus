@@ -200,10 +200,18 @@ const UserProfileView = ({ match, history }) => {
                         userData.data.userId &&
                         userData.data.userId._id
                       ) {
-                        cancelInvitation({
-                          userId: userData.data.userId._id,
-                          challengeId: userData.challengeId._id,
-                        });
+                        if (userData.type === "judge_invite") {
+                          cancelInvitation({
+                            userId: userData.data.userId._id,
+                            challengeId: userData.challengeId._id,
+                          });
+                        } else {
+                          updateStatus({
+                            userId: userData.data.userId._id,
+                            type: userData.type,
+                            status: Constants.USER_STATUS.Canceled,
+                          });
+                        }
                       }
                     }}
                   />
