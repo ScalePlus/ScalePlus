@@ -3,7 +3,7 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { getAttachedUsersAction } from "../allUsers/action";
-import { updateStatusAction } from "./action";
+import { updateStatusAction, cancelInvitationAction } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import { PrimaryButton, Switch, Loading } from "../common";
 import { MainContainer } from "./style";
@@ -18,6 +18,7 @@ const UserProfileView = ({ match, history }) => {
     [dispatch]
   );
   const updateStatus = (data) => dispatch(updateStatusAction(data));
+  const cancelInvitation = (data) => dispatch(cancelInvitationAction(data));
 
   const attachedUsersReducer = useSelector((state) => {
     return state.attachedUsersReducer;
@@ -56,6 +57,7 @@ const UserProfileView = ({ match, history }) => {
     const { error, success } = updateProfileViewReducer;
     if (success) {
       getAttachedUsers({}, "");
+      setErrors([]);
     }
 
     if (error) {
@@ -150,7 +152,9 @@ const UserProfileView = ({ match, history }) => {
                           color: "#66e397",
                           borderColor: "#66e397",
                         }
-                      : userData.data.status === Constants.USER_STATUS.Declined
+                      : userData.data.status ===
+                          Constants.USER_STATUS.Declined ||
+                        userData.data.status === Constants.USER_STATUS.Canceled
                       ? {
                           backgroundColor: "#fce7e7",
                           color: "#f18989",
@@ -183,57 +187,75 @@ const UserProfileView = ({ match, history }) => {
                   />
                 )}
 
-                <PrimaryButton
-                  text={t("Cancel Invitation")}
-                  variant="danger_light"
-                  disabled={
-                    userData.data.status !== Constants.USER_STATUS.Invited
-                  }
-                  onClick={() => {}}
-                />
+                {userData.data.status === Constants.USER_STATUS.Invited ? (
+                  <PrimaryButton
+                    text={t("Cancel Invitation")}
+                    variant="danger_light"
+                    onClick={() => {
+                      if (
+                        userData &&
+                        userData.challengeId &&
+                        userData.challengeId._id &&
+                        userData.data &&
+                        userData.data.userId &&
+                        userData.data.userId._id
+                      ) {
+                        cancelInvitation({
+                          userId: userData.data.userId._id,
+                          challengeId: userData.challengeId._id,
+                        });
+                      }
+                    }}
+                  />
+                ) : null}
 
                 {userData &&
-                  userData.type &&
-                  (userData.type === "judge_invite" ||
-                    userData.type === "team_invite" ||
-                    userData.type === "participants" ||
-                    userData.type === "participants_invited") && (
-                    <PrimaryButton
-                      text={t("Reject")}
-                      variant="danger_light"
-                      disabled={
-                        userData.data.status === Constants.USER_STATUS.Declined
-                      }
-                      onClick={() => {
-                        updateStatus({
-                          userId: userData.data.userId._id,
-                          type: userData.type,
-                          status: Constants.USER_STATUS.Declined,
-                        });
-                      }}
-                    />
-                  )}
+                userData.type &&
+                (userData.type === "judge_invite" ||
+                  userData.type === "team_invite" ||
+                  userData.type === "participants" ||
+                  userData.type === "participants_invited") &&
+                userData.data.status !== Constants.USER_STATUS.Invited &&
+                userData.data.status !== Constants.USER_STATUS.Canceled ? (
+                  <PrimaryButton
+                    text={t("Reject")}
+                    variant="danger_light"
+                    disabled={
+                      userData.data.status === Constants.USER_STATUS.Declined
+                    }
+                    onClick={() => {
+                      updateStatus({
+                        userId: userData.data.userId._id,
+                        type: userData.type,
+                        status: Constants.USER_STATUS.Declined,
+                      });
+                    }}
+                  />
+                ) : null}
+
                 {userData &&
-                  userData.type &&
-                  (userData.type === "judge_invite" ||
-                    userData.type === "team_invite" ||
-                    userData.type === "participants" ||
-                    userData.type === "participants_invited") && (
-                    <PrimaryButton
-                      text={t("Accept")}
-                      variant="primary"
-                      disabled={
-                        userData.data.status === Constants.USER_STATUS.Accepeted
-                      }
-                      onClick={() => {
-                        updateStatus({
-                          userId: userData.data.userId._id,
-                          type: userData.type,
-                          status: Constants.USER_STATUS.Accepeted,
-                        });
-                      }}
-                    />
-                  )}
+                userData.type &&
+                (userData.type === "judge_invite" ||
+                  userData.type === "team_invite" ||
+                  userData.type === "participants" ||
+                  userData.type === "participants_invited") &&
+                userData.data.status !== Constants.USER_STATUS.Invited &&
+                userData.data.status !== Constants.USER_STATUS.Canceled ? (
+                  <PrimaryButton
+                    text={t("Accept")}
+                    variant="primary"
+                    disabled={
+                      userData.data.status === Constants.USER_STATUS.Accepeted
+                    }
+                    onClick={() => {
+                      updateStatus({
+                        userId: userData.data.userId._id,
+                        type: userData.type,
+                        status: Constants.USER_STATUS.Accepeted,
+                      });
+                    }}
+                  />
+                ) : null}
               </div>
             ) : null}
           </div>

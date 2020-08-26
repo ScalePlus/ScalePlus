@@ -31,4 +31,9 @@ export default {
     let result = coreApi.GET(url);
     return result;
   },
+  getInvitationByCode: (invitationCode) => {
+    let url = `/mail/invitations/invitationCode/${invitationCode}`;
+    let result = coreApi.GET(url);
+    return result;
+  },
 };

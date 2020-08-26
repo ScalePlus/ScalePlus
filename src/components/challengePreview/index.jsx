@@ -58,6 +58,9 @@ const ChallengePreview = ({ history, match }) => {
       (localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION ||
         localStorage.getItem("userRole") === Constants.ROLES.ADMIN) &&
       localStorage.getItem("token"),
+    is_admin =
+      localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
+      localStorage.getItem("token"),
     is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
       localStorage.getItem("token"),
@@ -559,12 +562,13 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
       )}
 
-      {is_organisation &&
-      challengeData &&
-      challengeData.organisationId &&
-      challengeData.organisationId._id &&
-      challengeData.organisationId._id.toString() ===
-        localStorage.getItem("userId") ? (
+      {(is_organisation &&
+        challengeData &&
+        challengeData.organisationId &&
+        challengeData.organisationId._id &&
+        challengeData.organisationId._id.toString() ===
+          localStorage.getItem("userId")) ||
+      is_admin ? (
         !challengeData.isPublished ? (
           <Row className="justify-content-center" style={{ marginBottom: 10 }}>
             <Col lg={11} md={11} sm={11} xs={11}>

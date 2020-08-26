@@ -19,6 +19,9 @@ import {
   FILE_LIST_SUCCESS,
   FILE_LIST_ERROR,
   LOGOUT_SUCCESS,
+  GET_INVITATION_BY_CODE_LOADING,
+  GET_INVITATION_BY_CODE_SUCCESS,
+  GET_INVITATION_BY_CODE_ERROR,
 } from "./types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
 import {
@@ -29,6 +32,7 @@ import {
   UPDATE_ESSENTIAL_DETAILS_SUCCESS,
   PRESERVE_ESSENTIAL_DATA_SUCCESS,
 } from "../essentialDetails/types";
+import { ATTACH_JUDGES_SUCCESS } from "../challengeEdit/subComponents/judges/types";
 
 let initialState = {
   loading: false,
@@ -37,11 +41,40 @@ let initialState = {
   userData: null,
   otherUserDetail: null,
   fileList: null,
+  invitation: null,
 };
 
 export const signinReducer = createReducer(initialState, {
   [LOGOUT_SUCCESS](state, action) {
     return Object.assign({}, state, initialState);
+  },
+  [ATTACH_JUDGES_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: null,
+      error: null,
+    });
+  },
+  [GET_INVITATION_BY_CODE_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      invitation: null,
+      error: null,
+    });
+  },
+  [GET_INVITATION_BY_CODE_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: action.payload,
+      error: null,
+    });
+  },
+  [GET_INVITATION_BY_CODE_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: null,
+      error: action.payload,
+    });
   },
   [SIGNIN_LOADING](state, action) {
     return Object.assign({}, state, {

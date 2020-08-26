@@ -26,6 +26,10 @@ import {
   FILE_LIST_ERROR,
   LOGOUT_ACTION,
   LOGOUT_SUCCESS,
+  GET_INVITATION_BY_CODE_ACTION,
+  GET_INVITATION_BY_CODE_LOADING,
+  GET_INVITATION_BY_CODE_SUCCESS,
+  GET_INVITATION_BY_CODE_ERROR,
 } from "./types";
 import Api from "./api";
 import {
@@ -282,6 +286,20 @@ function* logoutSaga() {
   history.push("/");
 }
 
+function* getInvitationByCodeSaga(data) {
+  yield put({ type: GET_INVITATION_BY_CODE_LOADING });
+  try {
+    let res = yield call(Api.getInvitationByCode, data.invitationCode);
+    if (res.status) {
+      yield put({ type: GET_INVITATION_BY_CODE_ERROR, payload: res.message });
+    } else {
+      yield put({ type: GET_INVITATION_BY_CODE_SUCCESS, payload: res.result });
+    }
+  } catch (error) {
+    yield put({ type: GET_INVITATION_BY_CODE_ERROR, payload: error.message });
+  }
+}
+
 function* watchSigninAsync() {
   yield takeLatest(SIGNIN_ACTION, signinSaga);
   yield takeLatest(LOGGEDIN_USER_ACTION, loggedInUserSaga);
@@ -290,6 +308,7 @@ function* watchSigninAsync() {
   yield takeLatest(LINKEDIN_LOGIN_ACTION, linkedinLoginSaga);
   yield takeLatest(FILE_LIST_ACTION, getFileListSaga);
   yield takeLatest(LOGOUT_ACTION, logoutSaga);
+  yield takeLatest(GET_INVITATION_BY_CODE_ACTION, getInvitationByCodeSaga);
 }
 
 export default watchSigninAsync;

@@ -239,6 +239,12 @@ const MainRouter = () => {
             component={JudgesAggrement}
           />
           <OpenRoute
+            path="/judges/invitation/:invitationCode"
+            exact
+            layout={MainLayout}
+            component={JudgesAggrement}
+          />
+          <OpenRoute
             path="/activities"
             exact
             layout={MainLayout}

@@ -3,6 +3,9 @@ import {
   UPDATE_STATUS_LOADING,
   UPDATE_STATUS_SUCCESS,
   UPDATE_STATUS_ERROR,
+  CANCEL_INVITATION_LOADING,
+  CANCEL_INVITATION_SUCCESS,
+  CANCEL_INVITATION_ERROR,
 } from "./types";
 import { GET_ATTACHED_USERS_LOADING } from "../allUsers/types";
 import { LOGOUT_SUCCESS } from "../signin/types";
@@ -39,6 +42,27 @@ export const updateProfileViewReducer = createReducer(initialState, {
     });
   },
   [UPDATE_STATUS_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: null,
+      error: action.payload,
+    });
+  },
+  [CANCEL_INVITATION_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [CANCEL_INVITATION_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [CANCEL_INVITATION_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
       success: null,

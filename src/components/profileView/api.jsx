@@ -6,4 +6,9 @@ export default {
     const result = coreApi.PUT(url, data);
     return result;
   },
+  cancelInvitation: (data) => {
+    const url = `/mail/invitations/cancel/invitation`;
+    const result = coreApi.PUT(url, data);
+    return result;
+  },
 };

@@ -6,6 +6,7 @@ import {
   LINKEDIN_LOGIN_ACTION,
   FILE_LIST_ACTION,
   LOGOUT_ACTION,
+  GET_INVITATION_BY_CODE_ACTION,
 } from "./types";
 
 export const signinAction = (data, mode, setActiveModal, setUserFlowModal) => ({
@@ -57,4 +58,9 @@ export const getFileListAction = () => ({
 
 export const logoutAction = () => ({
   type: LOGOUT_ACTION,
+});
+
+export const getInvitationByCodeAction = (invitationCode) => ({
+  type: GET_INVITATION_BY_CODE_ACTION,
+  invitationCode,
 });

@@ -7,6 +7,10 @@ import {
   DO_SUBSCRIPTION_SUCCESS,
   DO_SUBSCRIPTION_ERROR,
 } from "./types";
+import { INVITE_PARTICIPANTS_SUCCESS } from "../challengeEdit/subComponents/userList/inviteModal/types";
+import { ATTACH_TEAM_SUCCESS } from "../challengeEdit/subComponents/team/types";
+import { ATTACH_JUDGES_SUCCESS } from "../challengeEdit/subComponents/judges/types";
+import { UPDATE_DESC_SUCCESS } from "../challengeEdit/subComponents/description/types";
 import { LOGOUT_SUCCESS } from "../signin/types";
 
 let initialState = {
@@ -27,6 +31,18 @@ export const allChallengesReducer = createReducer(initialState, {
       loading: true,
       error: null,
     });
+  },
+  [UPDATE_DESC_SUCCESS](state, action) {
+    return { loadedPage: 0 };
+  },
+  [INVITE_PARTICIPANTS_SUCCESS](state, action) {
+    return { loadedPage: 0 };
+  },
+  [ATTACH_TEAM_SUCCESS](state, action) {
+    return { loadedPage: 0 };
+  },
+  [ATTACH_JUDGES_SUCCESS](state, action) {
+    return { loadedPage: 0 };
   },
   [GET_ALL_CHALLENGES_SUCCESS](state, action) {
     let { allChallenges } = state;

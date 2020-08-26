@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Row, Col, Alert } from "react-bootstrap";
 import { attachJudgesAction } from "../challengeEdit/subComponents/judges/action";
+import { getInvitationByCodeAction } from "../signin/action";
 import { MainContainer } from "./style";
 import { PrimaryButton, Loading } from "../common";
 import { getChallengeAction } from "../challengeMaster/action";
@@ -12,10 +14,15 @@ const JudgesAggrement = ({ history, match }) => {
   const dispatch = useDispatch();
 
   const attachJudgesMethod = (data) =>
-    dispatch(attachJudgesAction(data, match.params.id));
+    dispatch(attachJudgesAction(data, challengeId));
 
   const getChallengeMethod = useCallback(
     (challengeId) => dispatch(getChallengeAction(challengeId)),
+    [dispatch]
+  );
+
+  const getInvitationByCode = useCallback(
+    (invitationCode) => dispatch(getInvitationByCodeAction(invitationCode)),
     [dispatch]
   );
 
@@ -32,10 +39,38 @@ const JudgesAggrement = ({ history, match }) => {
   });
 
   const [errors, setErrors] = useState([]);
+  const [challengeId, setChallengeId] = useState(null);
 
   useEffect(() => {
-    getChallengeMethod(match.params.id);
-  }, [getChallengeMethod, match]);
+    if (match.params && match.params.id) {
+      setChallengeId(match.params.id);
+    }
+    if (match.params && match.params.invitationCode) {
+      getInvitationByCode(match.params.invitationCode);
+    }
+  }, [getInvitationByCode, match]);
+
+  useEffect(() => {
+    if (challengeId) {
+      getChallengeMethod(challengeId);
+    }
+  }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { invitation } = signinReducer;
+    if (
+      invitation &&
+      invitation.userId &&
+      invitation.userId.toString() ===
+        localStorage.getItem("userId").toString() &&
+      invitation.challengeId &&
+      (!challengeId ||
+        (challengeId &&
+          challengeId.toString() !== invitation.challengeId.toString()))
+    ) {
+      setChallengeId(invitation.challengeId);
+    }
+  }, [signinReducer, challengeId]);
 
   useEffect(() => {
     const { error } = challengeReducer;
@@ -50,8 +85,8 @@ const JudgesAggrement = ({ history, match }) => {
 
   useEffect(() => {
     const { error, success } = challengeJudgesReducer;
-    if (success) {
-      history.push(`/challenge/${match.params.id}/preview/Submissions`);
+    if (success && challengeId) {
+      history.push(`/challenge/${challengeId}/preview/Submissions`);
     }
 
     let errors = [];
@@ -61,7 +96,7 @@ const JudgesAggrement = ({ history, match }) => {
       errors.push(error);
     }
     setErrors(errors);
-  }, [challengeJudgesReducer, history, match]);
+  }, [challengeJudgesReducer, history, challengeId]);
 
   return (
     <MainContainer>
@@ -81,136 +116,154 @@ const JudgesAggrement = ({ history, match }) => {
         </Row>
       ) : null}
 
-      <Row className="justify-content-center">
-        <Col lg={9} md={10} sm={12}>
-          <div className="header-container">
-            <div
-              className="back-container"
-              onClick={() => {
-                history.goBack();
-              }}
-            >
-              {"<"}
+      {challengeReducer.challengeData ? (
+        <Row className="justify-content-center">
+          <Col lg={9} md={10} sm={12}>
+            <div className="header-container">
+              <div
+                className="back-container"
+                onClick={() => {
+                  history.goBack();
+                }}
+              >
+                {"<"}
+              </div>
+              <div className="avtar-container">
+                <img
+                  src={
+                    challengeReducer.challengeData &&
+                    challengeReducer.challengeData.organisationId &&
+                    challengeReducer.challengeData.organisationId.details &&
+                    challengeReducer.challengeData.organisationId.details.logo
+                      ? challengeReducer.challengeData.organisationId.details
+                          .logo
+                      : "/images/image.svg"
+                  }
+                  height={
+                    challengeReducer.challengeData &&
+                    challengeReducer.challengeData.organisationId &&
+                    challengeReducer.challengeData.organisationId.details &&
+                    challengeReducer.challengeData.organisationId.details.logo
+                      ? "100%"
+                      : "25px"
+                  }
+                  width={
+                    challengeReducer.challengeData &&
+                    challengeReducer.challengeData.organisationId &&
+                    challengeReducer.challengeData.organisationId.details &&
+                    challengeReducer.challengeData.organisationId.details.logo
+                      ? "100%"
+                      : "25px"
+                  }
+                  alt=""
+                  style={{ borderRadius: "50%" }}
+                ></img>
+              </div>
+              <div className="user-name">
+                {challengeReducer.challengeData &&
+                  challengeReducer.challengeData.organisationId &&
+                  challengeReducer.challengeData.organisationId.details &&
+                  challengeReducer.challengeData.organisationId.details.name}
+              </div>
             </div>
-            <div className="avtar-container">
-              <img
-                src={
-                  challengeReducer.challengeData &&
-                  challengeReducer.challengeData.organisationId &&
-                  challengeReducer.challengeData.organisationId.details &&
-                  challengeReducer.challengeData.organisationId.details.logo
-                    ? challengeReducer.challengeData.organisationId.details.logo
-                    : "/images/image.svg"
-                }
-                height={
-                  challengeReducer.challengeData &&
-                  challengeReducer.challengeData.organisationId &&
-                  challengeReducer.challengeData.organisationId.details &&
-                  challengeReducer.challengeData.organisationId.details.logo
-                    ? "100%"
-                    : "25px"
-                }
-                width={
-                  challengeReducer.challengeData &&
-                  challengeReducer.challengeData.organisationId &&
-                  challengeReducer.challengeData.organisationId.details &&
-                  challengeReducer.challengeData.organisationId.details.logo
-                    ? "100%"
-                    : "25px"
-                }
-                alt=""
-                style={{ borderRadius: "50%" }}
-              ></img>
-            </div>
-            <div className="user-name">
+            <div className="challenge-title">
               {challengeReducer.challengeData &&
-                challengeReducer.challengeData.organisationId &&
-                challengeReducer.challengeData.organisationId.details &&
-                challengeReducer.challengeData.organisationId.details.name}
+                challengeReducer.challengeData.descriptionId &&
+                challengeReducer.challengeData.descriptionId.title}
             </div>
-          </div>
-          <div className="challenge-title">
+            <div className="sub-header-container">
+              <div className="agreement-text">{t("Judges NDA")}</div>
+              <div className="button-container">
+                <PrimaryButton
+                  text={t("dont_accept_agreement")}
+                  variant="light"
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                />
+                <PrimaryButton
+                  text={t("accept_agreement")}
+                  variant="primary"
+                  onClick={() => {
+                    if (
+                      signinReducer &&
+                      signinReducer.userData &&
+                      signinReducer.userData.email
+                    ) {
+                      attachJudgesMethod({
+                        email: signinReducer.userData.email,
+                        linkedin:
+                          signinReducer.userData.details &&
+                          signinReducer.userData.details.website
+                            ? signinReducer.userData.details.website
+                            : "",
+                        additionalMessage: "",
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
             {challengeReducer.challengeData &&
-              challengeReducer.challengeData.descriptionId &&
-              challengeReducer.challengeData.descriptionId.title}
-          </div>
-          <div className="sub-header-container">
-            <div className="agreement-text">{t("Judges NDA")}</div>
-            <div className="button-container">
-              <PrimaryButton
-                text={t("dont_accept_agreement")}
-                variant="light"
-                onClick={() => {
-                  history.goBack();
+            challengeReducer.challengeData.judgesNDAID &&
+            challengeReducer.challengeData.judgesNDAID.data ? (
+              <div
+                className="agreement"
+                dangerouslySetInnerHTML={{
+                  __html: challengeReducer.challengeData.judgesNDAID.data,
                 }}
               />
-              <PrimaryButton
-                text={t("accept_agreement")}
-                variant="primary"
-                onClick={() => {
-                  if (
-                    signinReducer &&
-                    signinReducer.userData &&
-                    signinReducer.userData.email
-                  ) {
-                    attachJudgesMethod({
-                      email: signinReducer.userData.email,
-                      linkedin:
-                        signinReducer.userData.details &&
-                        signinReducer.userData.details.website
-                          ? signinReducer.userData.details.website
-                          : "",
-                      additionalMessage: "",
-                    });
-                  }
-                }}
-              />
+            ) : null}
+            <div className="float-right">
+              <div className="button-container">
+                <PrimaryButton
+                  text={t("dont_accept_agreement")}
+                  variant="light"
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                />
+                <PrimaryButton
+                  text={t("accept_agreement")}
+                  variant="primary"
+                  onClick={() => {
+                    if (
+                      signinReducer &&
+                      signinReducer.userData &&
+                      signinReducer.userData.email
+                    ) {
+                      attachJudgesMethod({
+                        email: signinReducer.userData.email,
+                        linkedin:
+                          signinReducer.userData.details &&
+                          signinReducer.userData.details.website
+                            ? signinReducer.userData.details.website
+                            : "",
+                        additionalMessage: "",
+                      });
+                    }
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          {challengeReducer.challengeData &&
-          challengeReducer.challengeData.judgesNDAID &&
-          challengeReducer.challengeData.judgesNDAID.data ? (
-            <div
-              className="agreement"
-              dangerouslySetInnerHTML={{
-                __html: challengeReducer.challengeData.judgesNDAID.data,
-              }}
-            />
-          ) : null}
-          <div className="float-right">
-            <div className="button-container">
-              <PrimaryButton
-                text={t("dont_accept_agreement")}
-                variant="light"
-                onClick={() => {
-                  history.goBack();
-                }}
-              />
-              <PrimaryButton
-                text={t("accept_agreement")}
-                variant="primary"
-                onClick={() => {
-                  if (
-                    signinReducer &&
-                    signinReducer.userData &&
-                    signinReducer.userData.email
-                  ) {
-                    attachJudgesMethod({
-                      email: signinReducer.userData.email,
-                      linkedin:
-                        signinReducer.userData.details &&
-                        signinReducer.userData.details.website
-                          ? signinReducer.userData.details.website
-                          : "",
-                      additionalMessage: "",
-                    });
-                  }
-                }}
-              />
+          </Col>
+        </Row>
+      ) : match.params &&
+        match.params.invitationCode &&
+        signinReducer &&
+        ((signinReducer.invitation &&
+          match.params.invitationCode ===
+            signinReducer.invitation.invitationCode) ||
+          !signinReducer.invitation) ? (
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <div className="no-data-text">
+              {t("Invitation is expired or invalid")}{" "}
+              <Link to="/dashboard">{t("explore other challenges")}</Link>
             </div>
-          </div>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      ) : null}
     </MainContainer>
   );
 };

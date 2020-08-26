@@ -36,7 +36,10 @@ import { ATTACH_SUBMISSION_FORM_SUCCESS } from "../challengeEdit/subComponents/s
 import { ATTACH_JUDGING_CRITERIA_SUCCESS } from "../challengeEdit/subComponents/judgingCriteria/types";
 import { ATTACH_JUDGES_NDA_SUCCESS } from "../challengeEdit/subComponents/judgesNDA/types";
 import { ATTACH_LEGAL_AGREEMENT_SUCCESS } from "../challengeEdit/subComponents/legalAgreement/types";
-import { LOGOUT_SUCCESS } from "../signin/types";
+import {
+  LOGOUT_SUCCESS,
+  GET_INVITATION_BY_CODE_LOADING,
+} from "../signin/types";
 
 let initialState = {
   loading: false,
@@ -52,6 +55,13 @@ let initialState = {
 export const challengeReducer = createReducer(initialState, {
   [LOGOUT_SUCCESS](state, action) {
     return Object.assign({}, state, initialState);
+  },
+  [GET_INVITATION_BY_CODE_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      challengeData: null,
+      error: null,
+    });
   },
   [CURRENCY_LIST_LOADING](state, action) {
     return Object.assign({}, state, {
