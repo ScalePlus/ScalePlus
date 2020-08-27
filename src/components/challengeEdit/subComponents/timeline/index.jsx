@@ -147,9 +147,9 @@ const Timeline = ({ t, challengeId }) => {
             </Alert>
           </Col>
         </Row>
-      ) : validated &&
-        checkTimeline() &&
-        challengeTimelineReducer &&
+      ) : // validated &&
+      //   checkTimeline() &&
+      challengeTimelineReducer &&
         challengeTimelineReducer.success &&
         challengeTimelineReducer.success.message ? (
         <Row style={{ marginBottom: 30 }}>
@@ -160,6 +160,7 @@ const Timeline = ({ t, challengeId }) => {
           </Col>
         </Row>
       ) : null}
+
       <Form
         noValidate
         validated={validated}

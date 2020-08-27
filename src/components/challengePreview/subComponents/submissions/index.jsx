@@ -232,13 +232,12 @@ const Submissions = ({
     );
   };
 
-  return is_startup_Individual &&
+  return submissionListReducer.loading || loading ? (
+    <Loading uploadPercentage={uploadPercentage} />
+  ) : is_startup_Individual &&
     memberAsParticipant &&
     !organisationTeamMember ? (
     <MainContainer>
-      {(submissionListReducer.loading || loading) && (
-        <Loading uploadPercentage={uploadPercentage} />
-      )}
       {errors && errors.length ? (
         <Row className="justify-content-center">
           <Col lg={11} md={11} sm={11} xs={11}>
@@ -671,7 +670,6 @@ const Submissions = ({
       organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
     !judgingStarted ? (
       <MainContainer>
-        {submissionListReducer.loading && <Loading />}
         <Row className="justify-content-center center-alignment header-container">
           <Col lg={10} md={10} sm={10} xs={10}>
             <HeaderComponent titleText={t("Submissions")} />
@@ -688,7 +686,6 @@ const Submissions = ({
       </MainContainer>
     ) : (
       <MainContainer>
-        {submissionListReducer.loading && <Loading />}
         <Row className="justify-content-center center-alignment header-container">
           <Col
             lg={fromPreview ? 11 : 12}

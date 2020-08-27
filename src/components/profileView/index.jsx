@@ -146,7 +146,10 @@ const UserProfileView = ({ match, history }) => {
                           Constants.USER_STATUS.Submitted ||
                         userData.data.status ===
                           Constants.USER_STATUS.Accepeted ||
-                        userData.data.status === Constants.USER_STATUS.Created
+                        userData.data.status ===
+                          Constants.USER_STATUS.Created ||
+                        userData.data.status ===
+                          Constants.USER_STATUS.Challenge_Update
                       ? {
                           backgroundColor: "#e0f9ea",
                           color: "#66e397",

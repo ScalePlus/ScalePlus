@@ -313,7 +313,10 @@ function Users({ t, history }) {
                               Constants.USER_STATUS.Submitted ||
                             each.data.status ===
                               Constants.USER_STATUS.Accepeted ||
-                            each.data.status === Constants.USER_STATUS.Created
+                            each.data.status ===
+                              Constants.USER_STATUS.Created ||
+                            each.data.status ===
+                              Constants.USER_STATUS.Challenge_Update
                           ? {
                               backgroundColor: "#e0f9ea",
                               color: "#66e397",

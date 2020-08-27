@@ -171,7 +171,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
             </Col>
           </Row>
           <div className="content-container">
-            <div className="social-button-container">
+            {/* <div className="social-button-container">
               <div className="google-button">
                 <GoogleLogin
                   clientId="808920075047-5m8mcn3afdlbtr7ts2jvejcnr1mctcht.apps.googleusercontent.com"
@@ -238,7 +238,7 @@ const SignUp = ({ history, mode, setActiveModal, setUserFlowModal }) => {
             </div>
             <div className="devided-container">
               <OrDevider t={t} />
-            </div>
+            </div> */}
 
             <Form noValidate validated={validated} onSubmit={onSignup}>
               {errors && errors.length ? (

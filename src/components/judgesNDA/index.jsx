@@ -100,10 +100,6 @@ const JudgesAggrement = ({ history, match }) => {
 
   return (
     <MainContainer>
-      {(challengeReducer.loading ||
-        signinReducer.loading ||
-        challengeJudgesReducer.loading) && <Loading />}
-
       {errors && errors.length ? (
         <Row style={{ marginTop: 10 }} className="justify-content-center">
           <Col lg={9} md={10} sm={12}>
@@ -116,7 +112,11 @@ const JudgesAggrement = ({ history, match }) => {
         </Row>
       ) : null}
 
-      {challengeReducer.challengeData ? (
+      {challengeReducer.loading ||
+      signinReducer.loading ||
+      challengeJudgesReducer.loading ? (
+        <Loading />
+      ) : challengeReducer.challengeData ? (
         <Row className="justify-content-center">
           <Col lg={9} md={10} sm={12}>
             <div className="header-container">

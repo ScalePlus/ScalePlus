@@ -356,7 +356,9 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                         each.data.status ===
                                           Constants.USER_STATUS.Accepeted ||
                                         each.data.status ===
-                                          Constants.USER_STATUS.Created
+                                          Constants.USER_STATUS.Created ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Challenge_Update
                                       ? {
                                           backgroundColor: "#e0f9ea",
                                           color: "#66e397",

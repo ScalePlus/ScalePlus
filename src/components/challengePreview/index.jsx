@@ -859,8 +859,6 @@ const ChallengePreview = ({ history, match }) => {
     </MainContainer>
   ) : (
     <MainContainer>
-      {challengeReducer.loading && <Loading />}
-
       {errors && errors.length ? (
         <Row style={{ marginTop: 10 }}>
           <Col>
@@ -873,14 +871,18 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
       ) : null}
 
-      <Row className="justify-content-center">
-        <Col lg={11} md={11} sm={11} xs={11}>
-          <div className="no-data-text">
-            {t("Invitation is expired or Permission denied")}{" "}
-            <Link to="/dashboard">{t("explore other challenges")}</Link>
-          </div>
-        </Col>
-      </Row>
+      {challengeReducer.loading ? (
+        <Loading />
+      ) : (
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <div className="no-data-text">
+              {t("Invitation is expired or Permission denied")}{" "}
+              <Link to="/dashboard">{t("explore other challenges")}</Link>
+            </div>
+          </Col>
+        </Row>
+      )}
     </MainContainer>
   );
 };
