@@ -49,7 +49,6 @@ export const MainContainer = styled.div`
     text-align: ${theme.isLTR ? "left" : "right"};
     color: ${theme.colors.black};
     font-family: ${theme.fontFamily.bold};
-    margin-top: 2rem;
   }
   .tab-container {
     margin-top: 10px;
@@ -67,6 +66,7 @@ export const MainContainer = styled.div`
     color: ${theme.colors.gray};
     text-align: ${theme.isLTR ? "left" : "right"};
     margin-top: -10px;
+    margin-bottom: 2rem;
     padding: 0px 10px;
   }
 
