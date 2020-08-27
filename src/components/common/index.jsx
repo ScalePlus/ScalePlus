@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
@@ -15,6 +16,10 @@ import { components } from "react-select";
 import Creatable from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import {
+  getChallengeAction,
+  updateChallengeAction,
+} from "../challengeMaster/action";
 import ReactQuill from "react-quill";
 import CropImage from "../cropImage";
 import {
@@ -39,6 +44,7 @@ import {
 } from "./style";
 import ShareAsEmail from "../shareLinkModal";
 import theme from "../../theme";
+import { Constants } from "../../lib/constant";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-quill/dist/quill.snow.css";
 
@@ -961,9 +967,31 @@ export const ChallengeHeader = React.memo(
     primaryButtonDisable,
     secondaryButtonText,
     secondaryButtonClick,
+    challengeData,
     organisationId,
     progress,
   }) => {
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const getChallengeMethod = useCallback(
+      (challengeId) => dispatch(getChallengeAction(challengeId)),
+      [dispatch]
+    );
+
+    const updateChallengeMethod = (data) =>
+      dispatch(updateChallengeAction(data));
+
+    const challengeReducer = useSelector((state) => {
+      return state.challengeReducer;
+    });
+
+    useEffect(() => {
+      if (challengeReducer.success) {
+        getChallengeMethod(challengeData._id);
+      }
+    }, [getChallengeMethod, challengeData, challengeReducer]);
+
     return (
       <ChallengeHeaderContainer>
         <div className="left-continer">
@@ -1017,6 +1045,23 @@ export const ChallengeHeader = React.memo(
               })}
             />
           )}
+          {localStorage.getItem("userRole") === Constants.ROLES.ADMIN ||
+          localStorage.getItem("userId").toString() ===
+            organisationId._id.toString() ? (
+            <div className="privacy-switch">
+              <Switch
+                checked={challengeData && challengeData.isPrivate}
+                onChange={() => {
+                  updateChallengeMethod({
+                    _id: challengeData._id,
+                    isPrivate: !challengeData.isPrivate,
+                  });
+                }}
+                variant="primary"
+                label={t("Make Private")}
+              ></Switch>
+            </div>
+          ) : null}
           {secondaryButtonText && (
             <div style={{ margin: "0px 10px" }}>
               <PrimaryButton

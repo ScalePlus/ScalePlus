@@ -258,6 +258,11 @@ export const ChallengeHeaderContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    .privacy-switch {
+      .form-group {
+        margin-bottom: 0;
+      }
+    }
   }
   .progress-oval-container {
     height: 35px;

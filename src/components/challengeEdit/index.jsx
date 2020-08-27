@@ -322,6 +322,7 @@ const ChallengeEdit = ({ history, match }) => {
                 secondaryButtonClick={() => {
                   history.push(`/challenge/${challengeId}/preview/Overview`);
                 }}
+                challengeData={challengeData}
                 organisationId={challengeData && challengeData.organisationId}
                 progress={progress}
               />
@@ -331,6 +332,7 @@ const ChallengeEdit = ({ history, match }) => {
                 secondaryButtonClick={() => {
                   history.push(`/challenge/${challengeId}/preview/Overview`);
                 }}
+                challengeData={challengeData}
                 organisationId={challengeData && challengeData.organisationId}
               />
             )}

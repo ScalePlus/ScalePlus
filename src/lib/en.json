@@ -808,6 +808,7 @@
         "Invitation is expired or invalid": "Invitation is expired or invalid",
         "Invitation is expired or Permission denied": "Invitation is expired or Permission denied",
         "explore other challenges": "explore other challenges",
-        "CANCEL_INVITATION": "Invitation Canceled"
+        "CANCEL_INVITATION": "Invitation Canceled",
+        "Make Private": "Make Private"
     }
 }

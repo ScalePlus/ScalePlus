@@ -88,7 +88,9 @@ function* updateChallengeSaga(data) {
       yield put({ type: UPDATE_CHALLENGE_ERROR, payload: res.message });
     } else {
       yield put({ type: UPDATE_CHALLENGE_SUCCESS, payload: res.result });
-      history.push(`/dashboard`);
+      if (!("isPrivate" in data.payload)) {
+        history.push(`/dashboard`);
+      }
     }
   } catch (error) {
     yield put({ type: UPDATE_CHALLENGE_ERROR, payload: error.message });

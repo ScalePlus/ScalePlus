@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-
+import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { Row, Col, Tab, Nav, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -531,7 +531,17 @@ const ChallengePreview = ({ history, match }) => {
     }
   }, [match]);
 
-  return challengeData ? (
+  return challengeData &&
+    (!challengeData.isPrivate ||
+      (challengeData.isPrivate &&
+        (organisationTeamMember ||
+          memberAsParticipant ||
+          memberAsJudge ||
+          is_admin ||
+          (challengeData.organisationId &&
+            challengeData.organisationId._id &&
+            challengeData.organisationId._id.toString() ===
+              localStorage.getItem("userId"))))) ? (
     <MainContainer>
       {challengeReducer.loading && <Loading />}
 
@@ -588,6 +598,7 @@ const ChallengePreview = ({ history, match }) => {
                 secondaryButtonClick={() => {
                   history.push(`/challenge/${challengeId}/edit/Description`);
                 }}
+                challengeData={challengeData}
                 organisationId={challengeData.organisationId}
                 progress={progress}
               />
@@ -600,6 +611,7 @@ const ChallengePreview = ({ history, match }) => {
           >
             <Col lg={11} md={11} sm={11} xs={11}>
               <ChallengeHeader
+                challengeData={challengeData}
                 organisationId={challengeData.organisationId}
                 secondaryButtonText={t("Edit Challenge Details")}
                 secondaryButtonClick={() => {
@@ -860,6 +872,15 @@ const ChallengePreview = ({ history, match }) => {
           </Col>
         </Row>
       ) : null}
+
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={11} xs={11}>
+          <div className="no-data-text">
+            {t("Invitation is expired or Permission denied")}{" "}
+            <Link to="/dashboard">{t("explore other challenges")}</Link>
+          </div>
+        </Col>
+      </Row>
     </MainContainer>
   );
 };

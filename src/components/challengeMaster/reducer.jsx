@@ -108,6 +108,7 @@ export const challengeReducer = createReducer(initialState, {
   [GET_CHALLENGE_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
+      success: null,
       challengeData: null,
       error: null,
     });
@@ -115,6 +116,7 @@ export const challengeReducer = createReducer(initialState, {
   [GET_CHALLENGE_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
+      success: null,
       challengeData: action.payload,
       error: null,
     });
