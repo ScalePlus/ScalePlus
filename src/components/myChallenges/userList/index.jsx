@@ -322,7 +322,14 @@ function Users({ t, history }) {
                               color: "#66e397",
                               borderColor: "#66e397",
                             }
-                          : each.data.status === Constants.USER_STATUS.Declined
+                          : each.data.status ===
+                              Constants.USER_STATUS.Declined ||
+                            each.data.status ===
+                              Constants.USER_STATUS.Canceled ||
+                            each.data.status ===
+                              Constants.USER_STATUS.Deleted ||
+                            each.data.status ===
+                              Constants.USER_STATUS.Disqualified
                           ? {
                               backgroundColor: "#fce7e7",
                               color: "#f18989",

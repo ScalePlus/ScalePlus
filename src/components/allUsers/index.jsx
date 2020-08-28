@@ -365,7 +365,13 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                                           borderColor: "#66e397",
                                         }
                                       : each.data.status ===
-                                        Constants.USER_STATUS.Declined
+                                          Constants.USER_STATUS.Declined ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Canceled ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Deleted ||
+                                        each.data.status ===
+                                          Constants.USER_STATUS.Disqualified
                                       ? {
                                           backgroundColor: "#fce7e7",
                                           color: "#f18989",

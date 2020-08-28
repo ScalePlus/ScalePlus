@@ -209,6 +209,12 @@ const MainRouter = () => {
             component={SolveChallenge}
           />
           <OpenRoute
+            path="/solve/challenge/invitation/:invitationCode"
+            exact
+            layout={MainLayout}
+            component={SolveChallenge}
+          />
+          <OpenRoute
             path="/profile/edit/:userId"
             exact
             layout={MainLayout}
@@ -228,6 +234,18 @@ const MainRouter = () => {
           />
           <OpenRoute
             path="/challenge/agreement/:id"
+            exact
+            layout={MainLayout}
+            component={ChallengeAgreement}
+          />
+          <OpenRoute
+            path="/challenge/participant/invitation/:invitationCode"
+            exact
+            layout={MainLayout}
+            component={ChallengeAgreement}
+          />
+          <OpenRoute
+            path="/challenge/team/invitation/:invitationCode"
             exact
             layout={MainLayout}
             component={ChallengeAgreement}
@@ -253,7 +271,8 @@ const MainRouter = () => {
           <Redirect
             from="/"
             to={
-              localStorage.getItem("profileUpdated")
+              localStorage.getItem("profileUpdated") ||
+              localStorage.getItem("userRole") === Constants.ROLES.ADMIN
                 ? "/dashboard"
                 : localStorage.getItem("token")
                 ? "/detail"

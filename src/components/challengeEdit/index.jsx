@@ -215,7 +215,10 @@ const ChallengeEdit = ({ history, match }) => {
         challengeData.teamId.data.length &&
         challengeData.teamId.data.find(
           (each) =>
-            each.userId._id.toString() === localStorage.getItem("userId")
+            each.userId._id.toString() === localStorage.getItem("userId") &&
+            each.status !== Constants.USER_STATUS.Declined &&
+            each.status !== Constants.USER_STATUS.Canceled &&
+            each.status !== Constants.USER_STATUS.Invited
         );
 
       setTeamMember(memberOfTeam);

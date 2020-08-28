@@ -251,6 +251,8 @@ const AllActivities = ({ history }) => {
                               history.push(
                                 `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
                               );
+                            } else if (each.redirectLink) {
+                              history.push(each.redirectLink);
                             } else if (each && each.userId && each.userId._id) {
                               if (is_admin || is_organisation) {
                                 if (

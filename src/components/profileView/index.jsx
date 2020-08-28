@@ -157,7 +157,12 @@ const UserProfileView = ({ match, history }) => {
                         }
                       : userData.data.status ===
                           Constants.USER_STATUS.Declined ||
-                        userData.data.status === Constants.USER_STATUS.Canceled
+                        userData.data.status ===
+                          Constants.USER_STATUS.Canceled ||
+                        userData.data.status ===
+                          Constants.USER_STATUS.Deleted ||
+                        userData.data.status ===
+                          Constants.USER_STATUS.Disqualified
                       ? {
                           backgroundColor: "#fce7e7",
                           color: "#f18989",

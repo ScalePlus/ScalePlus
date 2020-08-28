@@ -33,6 +33,11 @@ import {
   PRESERVE_ESSENTIAL_DATA_SUCCESS,
 } from "../essentialDetails/types";
 import { ATTACH_JUDGES_SUCCESS } from "../challengeEdit/subComponents/judges/types";
+import {
+  ACCEPT_PARTICIPANT_INVITATION_SUCCESS,
+  SOLVE_CHALLENGE_SUCCESS,
+} from "../solveChallenge/types";
+import { ACCEPT_TEAM_INVITATION_SUCCESS } from "../challengeEdit/subComponents/team/types";
 
 let initialState = {
   loading: false,
@@ -49,6 +54,27 @@ export const signinReducer = createReducer(initialState, {
     return Object.assign({}, state, initialState);
   },
   [ATTACH_JUDGES_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: null,
+      error: null,
+    });
+  },
+  [ACCEPT_PARTICIPANT_INVITATION_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: null,
+      error: null,
+    });
+  },
+  [ACCEPT_TEAM_INVITATION_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      invitation: null,
+      error: null,
+    });
+  },
+  [SOLVE_CHALLENGE_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
       invitation: null,

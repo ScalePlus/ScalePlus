@@ -6,4 +6,9 @@ export default {
     let result = coreApi.PUT(url, data);
     return result;
   },
+  acceptTeamInvitation: (data) => {
+    let url = `/accept/team/invitation`;
+    let result = coreApi.PUT(url, data);
+    return result;
+  },
 };

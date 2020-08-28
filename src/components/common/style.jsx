@@ -259,6 +259,8 @@ export const ChallengeHeaderContainer = styled.div`
     align-items: center;
     margin-bottom: 15px;
     .privacy-switch {
+      margin-right: ${theme.isRTL && "0.5rem"};
+      margin-left: ${theme.isLTR && "0.5rem"};
       .form-group {
         margin-bottom: 0;
       }

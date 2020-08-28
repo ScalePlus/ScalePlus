@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { solveChallengeAction } from "./action";
 import { getChallengeAction } from "../challengeMaster/action";
+import { getInvitationByCodeAction } from "../signin/action";
 import { Constants } from "../../lib/constant";
 import { MainContainer } from "./style";
 import {
@@ -16,27 +18,27 @@ import {
   RemoveButton,
   Tab,
   CheckBox,
+  Loading,
 } from "../common";
 import TeamAgreement from "./teamAgreement";
-
-const tabs = [
-  {
-    text: "Create My Team",
-  },
-  {
-    text: "No, Solve Alone",
-  },
-];
 
 const SolveChallenge = ({ match }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const solveChallengeMethod = (data) =>
-    dispatch(solveChallengeAction(match.params.id, data));
+    dispatch(solveChallengeAction(challengeId, data));
   const getChallengeMethod = useCallback(
     (challengeId) => dispatch(getChallengeAction(challengeId)),
     [dispatch]
   );
+  const getInvitationByCode = useCallback(
+    (invitationCode) => dispatch(getInvitationByCodeAction(invitationCode)),
+    [dispatch]
+  );
+
+  const signinReducer = useSelector((state) => {
+    return state.signinReducer;
+  });
 
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
@@ -46,6 +48,14 @@ const SolveChallenge = ({ match }) => {
     return state.SolveChallengeReducer;
   });
 
+  const tabs = [
+    {
+      text: t("Create My Team"),
+    },
+    {
+      text: t("No, Solve Alone"),
+    },
+  ];
   const [activeTab, setActiveTab] = useState(tabs[0].text);
   const [validated, setValidated] = useState(false);
   const [check, setCheck] = useState(false);
@@ -58,11 +68,38 @@ const SolveChallenge = ({ match }) => {
   ]);
   const [errors, setErrors] = useState([]);
   const [participated, setParticipation] = useState(false);
-  const challengeId = match.params.id;
+  const [challengeId, setChallengeId] = useState(null);
 
   useEffect(() => {
-    getChallengeMethod(challengeId);
+    if (match.params && match.params.id) {
+      setChallengeId(match.params.id);
+    }
+    if (match.params && match.params.invitationCode) {
+      getInvitationByCode(match.params.invitationCode);
+    }
+  }, [getInvitationByCode, match]);
+
+  useEffect(() => {
+    if (challengeId) {
+      getChallengeMethod(challengeId);
+    }
   }, [getChallengeMethod, challengeId]);
+
+  useEffect(() => {
+    const { invitation } = signinReducer;
+    if (
+      invitation &&
+      invitation.userId &&
+      invitation.userId.toString() ===
+        localStorage.getItem("userId").toString() &&
+      invitation.challengeId &&
+      (!challengeId ||
+        (challengeId &&
+          challengeId.toString() !== invitation.challengeId.toString()))
+    ) {
+      setChallengeId(invitation.challengeId);
+    }
+  }, [signinReducer, challengeId]);
 
   useEffect(() => {
     const { error, challengeData } = challengeReducer;
@@ -106,8 +143,13 @@ const SolveChallenge = ({ match }) => {
 
   return participated ? (
     <Redirect to={`/challenge/${challengeId}/preview/Submissions`}></Redirect>
-  ) : (
+  ) : challengeId &&
+    challengeReducer.challengeData &&
+    challengeReducer.challengeData._id.toString() === challengeId.toString() ? (
     <MainContainer>
+      {challengeReducer.loading ||
+        signinReducer.loading ||
+        (SolveChallengeReducer.loading && <Loading />)}
       <Row className="justify-content-center">
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
@@ -338,7 +380,22 @@ const SolveChallenge = ({ match }) => {
       </Row>
       <TeamAgreement t={t} show={show} setShow={setShow} setCheck={setCheck} />
     </MainContainer>
-  );
+  ) : match.params &&
+    match.params.invitationCode &&
+    signinReducer &&
+    ((signinReducer.invitation &&
+      match.params.invitationCode ===
+        signinReducer.invitation.invitationCode) ||
+      !signinReducer.invitation) ? (
+    <Row className="justify-content-center">
+      <Col lg={11} md={11} sm={11} xs={11}>
+        <div className="no-data-text">
+          {t("Invitation is expired or invalid")}{" "}
+          <Link to="/dashboard">{t("explore other challenges")}</Link>
+        </div>
+      </Col>
+    </Row>
+  ) : null;
 };
 
 export default SolveChallenge;

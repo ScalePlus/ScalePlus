@@ -116,7 +116,10 @@ const JudgesAggrement = ({ history, match }) => {
       signinReducer.loading ||
       challengeJudgesReducer.loading ? (
         <Loading />
-      ) : challengeReducer.challengeData ? (
+      ) : challengeId &&
+        challengeReducer.challengeData &&
+        challengeReducer.challengeData._id.toString() ===
+          challengeId.toString() ? (
         <Row className="justify-content-center">
           <Col lg={9} md={10} sm={12}>
             <div className="header-container">

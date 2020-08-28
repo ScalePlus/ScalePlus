@@ -34,7 +34,8 @@ const OverView = ({
                 member.userId._id.toString() ===
                   localStorage.getItem("userId") &&
                 member.status !== Constants.USER_STATUS.Declined &&
-                member.status !== Constants.USER_STATUS.Canceled
+                member.status !== Constants.USER_STATUS.Canceled &&
+                member.status !== Constants.USER_STATUS.Invited
             );
           })
           ? true
