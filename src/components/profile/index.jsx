@@ -535,7 +535,23 @@ const UserProfileEdit = ({ match, history }) => {
   }, [signinReducer]);
 
   useEffect(() => {
-    const { error } = updateProfileReducer;
+    const {
+      error,
+      updatePassSuccess,
+      updateEmailSuccess,
+    } = updateProfileReducer;
+    if (updatePassSuccess) {
+      setCurrentPass("");
+      setNewPass("");
+      setConfirmPass("");
+      setValidated(false);
+    }
+
+    if (updateEmailSuccess) {
+      setNewEmail("");
+      setValidated(false);
+    }
+
     let errors = [];
     if (Array.isArray(error)) {
       errors = error;
@@ -1326,6 +1342,11 @@ const UserProfileEdit = ({ match, history }) => {
                     changeSubmittedForm(12);
                     const form = event.currentTarget;
                     if (
+                      signinReducer &&
+                      signinReducer.otherUserDetail &&
+                      signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userId") ===
+                        signinReducer.otherUserDetail._id &&
                       currentPass &&
                       currentPass.match(Constants.isValidPassword) &&
                       newPass &&
@@ -1339,24 +1360,51 @@ const UserProfileEdit = ({ match, history }) => {
                         currentPass,
                         confirmPass,
                       });
+                    } else if (
+                      signinReducer &&
+                      signinReducer.otherUserDetail &&
+                      signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userId") !==
+                        signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userRole") ===
+                        Constants.ROLES.ADMIN &&
+                      newPass &&
+                      newPass.match(Constants.isValidPassword) &&
+                      confirmPass &&
+                      confirmPass.match(Constants.isValidPassword) &&
+                      newPass === confirmPass &&
+                      form.checkValidity()
+                    ) {
+                      resetPasswordMethod({
+                        userId: signinReducer.otherUserDetail._id,
+                        confirmPass,
+                      });
                     }
                     setValidated(true);
                   }}
                 >
-                  <PassInput
-                    label={t("Current Password")}
-                    value={currentPass}
-                    onChange={(e) => setCurrentPass(e.target.value)}
-                    isInvalid={
-                      validated &&
-                      (!currentPass ||
-                        (currentPass &&
-                          !currentPass.match(Constants.isValidPassword)))
-                    }
-                    errorMessage={
-                      currentPass ? t("Password_Message") : t("password_error")
-                    }
-                  />
+                  {signinReducer &&
+                    signinReducer.otherUserDetail &&
+                    signinReducer.otherUserDetail._id &&
+                    localStorage.getItem("userId") ===
+                      signinReducer.otherUserDetail._id && (
+                      <PassInput
+                        label={t("Current Password")}
+                        value={currentPass}
+                        onChange={(e) => setCurrentPass(e.target.value)}
+                        isInvalid={
+                          validated &&
+                          (!currentPass ||
+                            (currentPass &&
+                              !currentPass.match(Constants.isValidPassword)))
+                        }
+                        errorMessage={
+                          currentPass
+                            ? t("Password_Message")
+                            : t("password_error")
+                        }
+                      />
+                    )}
                   <PassInput
                     label={t("New Password")}
                     value={newPass}
@@ -1415,8 +1463,31 @@ const UserProfileEdit = ({ match, history }) => {
                     event.stopPropagation();
                     changeSubmittedForm(13);
                     const form = event.currentTarget;
-                    if (newEmail && form.checkValidity()) {
+                    if (
+                      signinReducer &&
+                      signinReducer.otherUserDetail &&
+                      signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userId") ===
+                        signinReducer.otherUserDetail._id &&
+                      newEmail &&
+                      form.checkValidity()
+                    ) {
                       changeEmailMethod({ email: newEmail });
+                    } else if (
+                      signinReducer &&
+                      signinReducer.otherUserDetail &&
+                      signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userId") !==
+                        signinReducer.otherUserDetail._id &&
+                      localStorage.getItem("userRole") ===
+                        Constants.ROLES.ADMIN &&
+                      newEmail &&
+                      form.checkValidity()
+                    ) {
+                      changeEmailMethod({
+                        userId: signinReducer.otherUserDetail._id,
+                        email: newEmail,
+                      });
                     }
                     setValidated(true);
                   }}
@@ -2371,7 +2442,14 @@ const UserProfileEdit = ({ match, history }) => {
           await updateProfile({
             status: Constants.STATUS.INACTIVE,
           });
-          logout();
+          if (
+            signinReducer &&
+            signinReducer.otherUserDetail &&
+            signinReducer.otherUserDetail._id &&
+            localStorage.getItem("userId") === signinReducer.otherUserDetail._id
+          ) {
+            logout();
+          }
         }}
       />
       {(updateProfileReducer.loading ||

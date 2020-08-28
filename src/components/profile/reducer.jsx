@@ -16,6 +16,8 @@ let initialState = {
   loading: false,
   error: null,
   success: null,
+  updateEmailSuccess: null,
+  updatePassSuccess: null,
 };
 
 export const updateProfileReducer = createReducer(initialState, {
@@ -46,42 +48,42 @@ export const updateProfileReducer = createReducer(initialState, {
   [UPDATE_EMAIL_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      success: null,
+      updateEmailSuccess: null,
       error: null,
     });
   },
   [UPDATE_EMAIL_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: action.payload,
+      updateEmailSuccess: action.payload,
       error: null,
     });
   },
   [UPDATE_EMAIL_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: null,
+      updateEmailSuccess: null,
       error: action.payload,
     });
   },
   [UPDATE_PASSWORD_LOADING](state, action) {
     return Object.assign({}, state, {
       loading: true,
-      success: null,
+      updatePassSuccess: null,
       error: null,
     });
   },
   [UPDATE_PASSWORD_SUCCESS](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: action.payload,
+      updatePassSuccess: action.payload,
       error: null,
     });
   },
   [UPDATE_PASSWORD_ERROR](state, action) {
     return Object.assign({}, state, {
       loading: false,
-      success: null,
+      updatePassSuccess: null,
       error: action.payload,
     });
   },
