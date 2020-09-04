@@ -84,7 +84,7 @@ function Activities({ t, history, challengeId }) {
           setActivities([]);
           setVisibleData([]);
         }
-      } else if (activities.result.length) {
+      } else if (!is_admin && activities.result.length) {
         let length = activities.result.length;
         setTotalPage(Math.ceil(length / limit));
         setRenderPage(1);

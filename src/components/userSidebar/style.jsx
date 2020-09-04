@@ -29,6 +29,21 @@ export const MainContainer = styled.div`
       font-size: ${theme.fontSize.mediumRegular};
       font-family: ${theme.fontFamily.bold};
       text-align: center;
+      margin-top: 0.5rem;
+    }
+    .role-container {
+      text-align: center;
+      margin-top: 0.5rem;
+      .role-name {
+        padding: 2px 8px;
+        border: 1px solid;
+        border-radius: 6px;
+        font-size: ${theme.fontSize.semiRegular};
+        font-family: ${theme.fontFamily.bold};
+        background-color: #ffc0004d;
+        color: ${theme.colors.yellow};
+        border-color: ${theme.colors.yellow};
+      }
     }
   }
   .profile-text {

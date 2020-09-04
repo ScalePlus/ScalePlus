@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { MainContainer } from "./style";
+import { Constants } from "../../lib/constant";
 
 const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
   const { t } = useTranslation();
@@ -79,11 +80,19 @@ const UserSidebar = ({ show, setShow, profileClick, onLogout }) => {
                   : userDetail.email
                 : ""}
             </div>
-            <div className="name-container">
-              {userDetail && userDetail.roles && userDetail.roles.length
-                ? `(${userDetail.roles[0]})`
-                : ""}
-            </div>
+            {userDetail && userDetail.roles && userDetail.roles.length ? (
+              <div className="role-container">
+                <span className="role-name">
+                  {userDetail.roles[0] !== Constants.ROLES.STARTUP_INDIVIDUAL
+                    ? `${userDetail.roles[0]}`
+                    : userDetail.roles[0] === Constants.ROLES.STARTUP_INDIVIDUAL
+                    ? userDetail.details && userDetail.details.isIndividual
+                      ? "Individual"
+                      : "Startup"
+                    : ""}
+                </span>
+              </div>
+            ) : null}
           </div>
 
           <div

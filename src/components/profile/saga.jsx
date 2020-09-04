@@ -24,7 +24,7 @@ function* updateProfileSaga(data) {
     if (res.status) {
       yield put({ type: UPDATE_PROFILE_ERROR, payload: res.message });
     } else {
-      yield put({ type: UPDATE_PROFILE_SUCCESS, payload: res.message });
+      yield put({ type: UPDATE_PROFILE_SUCCESS, payload: res });
     }
   } catch (error) {
     yield put({ type: UPDATE_PROFILE_ERROR, payload: error.message });

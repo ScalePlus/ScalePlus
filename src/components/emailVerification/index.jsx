@@ -43,20 +43,21 @@ const EmailVerification = ({ history, mode, setActiveModal, match }) => {
     getUserMethod(userId);
   }, [getUserMethod, userId]);
 
-  useEffect(() => {
-    const { otherUserDetail } = signinReducer;
+  // autofill verification code
+  // useEffect(() => {
+  //   const { otherUserDetail } = signinReducer;
 
-    if (
-      otherUserDetail &&
-      otherUserDetail.verificationCode &&
-      otherUserDetail.verificationCode.length === 4
-    ) {
-      setFirst(otherUserDetail.verificationCode.slice(0, 1));
-      setSecond(otherUserDetail.verificationCode.slice(1, 2));
-      setThird(otherUserDetail.verificationCode.slice(2, 3));
-      setForth(otherUserDetail.verificationCode.slice(3, 4));
-    }
-  }, [signinReducer]);
+  //   if (
+  //     otherUserDetail &&
+  //     otherUserDetail.verificationCode &&
+  //     otherUserDetail.verificationCode.length === 4
+  //   ) {
+  //     setFirst(otherUserDetail.verificationCode.slice(0, 1));
+  //     setSecond(otherUserDetail.verificationCode.slice(1, 2));
+  //     setThird(otherUserDetail.verificationCode.slice(2, 3));
+  //     setForth(otherUserDetail.verificationCode.slice(3, 4));
+  //   }
+  // }, [signinReducer]);
 
   useEffect(() => {
     const { error, resendSuccess } = emailVerificationReducer;

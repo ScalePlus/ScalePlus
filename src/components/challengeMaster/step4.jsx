@@ -427,18 +427,17 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                             setMinutes(
                                               new Date(),
                                               getMinutes(
-                                                new Date(each.startDate)
+                                                new Date(each.startDate) + 15
                                               )
                                             ),
-                                            getHours(new Date(each.startDate)) +
-                                              1
+                                            getHours(new Date(each.startDate))
                                           )
                                       : setHours(
                                           setMinutes(
                                             new Date(),
-                                            getMinutes(new Date())
+                                            getMinutes(new Date()) + 15
                                           ),
-                                          getHours(new Date()) + 1
+                                          getHours(new Date())
                                         )
                                   }
                                   maxTime={setHours(

@@ -32,10 +32,18 @@ export const MainContainer = styled.div`
   .content-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
   .content-container {
+    .subscribe-button-container {
+      button {
+        padding: 5px 50px;
+        .button-text {
+          font-size: ${theme.fontSize.semiRegular};
+        }
+      }
+    }
     .text {
       font-size: ${theme.fontSize.mediumRegular};
       font-family: ${theme.fontFamily.bold};

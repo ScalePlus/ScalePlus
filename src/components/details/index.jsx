@@ -35,7 +35,7 @@ const OrganizationDetails = () => {
     is_mentor_judge =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
 
-  const [roleSwitch, switchToggle] = useState(false);
+  const [isInd, switchIsInd] = useState(false);
   const [logo, changeLogo] = useState("");
   const [personal_photo, changePersonalPhoto] = useState("");
   const [name, changeName] = useState("");
@@ -85,7 +85,7 @@ const OrganizationDetails = () => {
       if (incorporationDate) {
         changeIncorporationDate(new Date(incorporationDate));
       }
-      switchToggle(isIndividual);
+      switchIsInd(isIndividual);
     }
   }, [signinReducer]);
 
@@ -120,8 +120,8 @@ const OrganizationDetails = () => {
         website,
         locationData: location,
         incorporationDate,
-        isStartUp: !roleSwitch,
-        isIndividual: roleSwitch,
+        isStartUp: !isInd,
+        isIndividual: isInd,
       });
     }
     if (
@@ -177,19 +177,55 @@ const OrganizationDetails = () => {
             <Row>
               <Col>
                 <div className="switch-container">
-                  <div className={`startup-text ${!roleSwitch && "active"}`}>
+                  <div className={`startup-text ${!isInd && "active"}`}>
                     <span>{t("Startup")}</span>
                   </div>
                   <div>
                     <Switch
-                      checked={roleSwitch}
+                      checked={isInd}
                       onChange={(e) => {
-                        switchToggle(!roleSwitch);
+                        switchIsInd(!isInd);
+                        const { userData } = signinReducer;
+                        if (userData && userData.details) {
+                          const {
+                            name,
+                            logo,
+                            website,
+                            locationData,
+                            incorporationDate,
+                            isIndividual,
+                          } = userData.details;
+                          if (isIndividual === isInd) {
+                            changeName("");
+                            changeLogo("");
+                            changeWebsite("");
+                            changeLocation("");
+                            changeIncorporationDate(null);
+                          } else {
+                            if (name) {
+                              changeName(name);
+                            }
+                            if (logo) {
+                              changeLogo(logo);
+                            }
+                            if (website) {
+                              changeWebsite(website);
+                            }
+                            if (locationData) {
+                              changeLocation(locationData);
+                            }
+                            if (incorporationDate) {
+                              changeIncorporationDate(
+                                new Date(incorporationDate)
+                              );
+                            }
+                          }
+                        }
                       }}
                       label=""
                     ></Switch>
                   </div>
-                  <div className={`individual-text ${roleSwitch && "active"}`}>
+                  <div className={`individual-text ${isInd && "active"}`}>
                     <span>{t("Individual")}</span>
                   </div>
                 </div>
@@ -216,20 +252,26 @@ const OrganizationDetails = () => {
                   <Col>
                     <Input
                       type="text"
-                      placeholder={t("Organization Name")}
+                      placeholder={
+                        isInd
+                          ? t("Full Name as Per Passport")
+                          : t("Organization Name")
+                      }
                       value={name}
                       onChange={(e) => changeName(e.target.value)}
                       required
                       errorMessage={t("name_error")}
                     ></Input>
                     <FileInput
-                      placeholder={t("Logo")}
+                      placeholder={isInd ? t("Personal Photo") : t("Logo")}
                       value={logo}
                       onChange={(e) => {
                         changeLogo(e.target.files[0]);
                       }}
                       required
-                      errorMessage={t("logo_error")}
+                      errorMessage={
+                        isInd ? t("personal_photo_error") : t("logo_error")
+                      }
                       buttonText="Upload"
                       acceptTypes="image/*"
                     ></FileInput>
@@ -257,17 +299,43 @@ const OrganizationDetails = () => {
                       required
                       errorMessage={t("location_error")}
                     ></Input>
-                    <DateInput
-                      isSmall={false}
-                      placeholder={t("Incorporation Date")}
-                      value={incorporationDate}
-                      maxDate={new Date()}
-                      onChange={(date) => {
-                        changeIncorporationDate(date);
-                      }}
-                      required
-                      errorMessage={t("incorporationDate_error")}
-                    />
+                    {isInd ? (
+                      <DateInput
+                        isSmall={false}
+                        placeholder={t("Date of Birth")}
+                        value={incorporationDate}
+                        openToDate={
+                          incorporationDate
+                            ? incorporationDate
+                            : new Date().setFullYear(
+                                new Date().getFullYear() - 18
+                              )
+                        }
+                        minDate={new Date().setFullYear(
+                          new Date().getFullYear() - 150
+                        )}
+                        maxDate={new Date().setFullYear(
+                          new Date().getFullYear() - 18
+                        )}
+                        onChange={(date) => {
+                          changeIncorporationDate(date);
+                        }}
+                        required
+                        errorMessage={t("birthDate_error")}
+                      />
+                    ) : (
+                      <DateInput
+                        isSmall={false}
+                        placeholder={t("Incorporation Date")}
+                        value={incorporationDate}
+                        maxDate={new Date()}
+                        onChange={(date) => {
+                          changeIncorporationDate(date);
+                        }}
+                        required
+                        errorMessage={t("incorporationDate_error")}
+                      />
+                    )}
                   </Col>
                 ) : is_mentor_judge ? (
                   <Col>
@@ -324,7 +392,7 @@ const OrganizationDetails = () => {
                     ></Input>
                     <DateInput
                       isSmall={false}
-                      placeholder={t("Birth Date")}
+                      placeholder={t("Date of Birth")}
                       value={birthDate}
                       openToDate={
                         birthDate

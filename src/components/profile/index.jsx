@@ -1253,7 +1253,7 @@ const UserProfileEdit = ({ match, history }) => {
                   <Col lg={6} md={6} sm={12}>
                     <DateInput
                       isSmall={true}
-                      label={t("Birth Date")}
+                      label={t("Date of Birth")}
                       value={birthDate}
                       openToDate={
                         birthDate

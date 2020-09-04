@@ -39,6 +39,14 @@ const ChallengesList = ({ history }) => {
   );
 
   useEffect(() => {
+    setLoadedPage(0);
+    setFilters({});
+    setFilterCount(null);
+    setShow(false);
+    getAllChallengeMethod(1, {});
+  }, [getAllChallengeMethod]);
+
+  useEffect(() => {
     const { allChallenges, loadedPage } = allChallengesReducer;
     if (loadedPage) {
       setLoadedPage(loadedPage);
@@ -62,15 +70,15 @@ const ChallengesList = ({ history }) => {
       count++;
       filters["searchText"] = searchText;
     }
-    if (stage) {
+    if (stage && stage.length) {
       count++;
       filters["stage"] = stage;
     }
-    if (category) {
+    if (category && category.length) {
       count++;
       filters["category"] = category;
     }
-    if (orderby) {
+    if (orderby && orderby.length) {
       count++;
       filters["orderby"] = orderby;
     }

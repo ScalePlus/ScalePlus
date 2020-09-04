@@ -27,9 +27,9 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
   });
 
   const [searchText, setSearchText] = useState("");
-  const [stage, selectStage] = useState("");
-  const [category, selectCategory] = useState("");
-  const [orderby, selectOrder] = useState("");
+  const [stage, selectStage] = useState([]);
+  const [category, selectCategory] = useState([]);
+  const [orderby, selectOrder] = useState([]);
   const [stageTabs, setStageTabs] = useState(null);
   const [categoryTabs, setCategoryTabs] = useState(null);
 
@@ -109,15 +109,22 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
                             <div
                               key={index}
                               onClick={() => {
-                                selectStage(each._id);
+                                let newArray = [...stage];
+                                if (newArray.indexOf(each._id) < 0) {
+                                  newArray.push(each._id);
+                                } else {
+                                  newArray.splice(
+                                    newArray.indexOf(each._id),
+                                    1
+                                  );
+                                }
+                                selectStage(newArray);
                               }}
                               className="custom-tab"
                             >
                               <Tab
                                 text={each.name}
-                                isActive={
-                                  each._id.toString() === stage.toString()
-                                }
+                                isActive={stage.indexOf(each._id) >= 0}
                               />
                             </div>
                           );
@@ -138,15 +145,22 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
                             <div
                               key={index}
                               onClick={() => {
-                                selectCategory(each._id);
+                                let newArray = [...category];
+                                if (newArray.indexOf(each._id) < 0) {
+                                  newArray.push(each._id);
+                                } else {
+                                  newArray.splice(
+                                    newArray.indexOf(each._id),
+                                    1
+                                  );
+                                }
+                                selectCategory(newArray);
                               }}
                               className="custom-tab"
                             >
                               <Tab
                                 text={each.name}
-                                isActive={
-                                  each._id.toString() === category.toString()
-                                }
+                                isActive={category.indexOf(each._id) >= 0}
                               />
                             </div>
                           );
@@ -166,11 +180,20 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
                         <div
                           key={index}
                           onClick={() => {
-                            selectOrder(each);
+                            let newArray = [...orderby];
+                            if (newArray.indexOf(each) < 0) {
+                              newArray.push(each);
+                            } else {
+                              newArray.splice(newArray.indexOf(each), 1);
+                            }
+                            selectOrder(newArray);
                           }}
                           className="custom-tab"
                         >
-                          <Tab text={each} isActive={each === orderby} />
+                          <Tab
+                            text={each}
+                            isActive={orderby.indexOf(each) >= 0}
+                          />
                         </div>
                       );
                     })}
@@ -193,9 +216,9 @@ const Filters = ({ t, show, setShow, onApply, onReset }) => {
                       text={t("Reset Filter")}
                       onClick={() => {
                         setSearchText("");
-                        selectStage("");
-                        selectCategory("");
-                        selectOrder("");
+                        selectStage([]);
+                        selectCategory([]);
+                        selectOrder([]);
                         onReset();
                       }}
                     ></PrimaryButton>

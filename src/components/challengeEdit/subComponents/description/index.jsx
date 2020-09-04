@@ -197,6 +197,7 @@ const Description = ({ t, challengeId }) => {
             categories &&
             categories.length &&
             shortDescription &&
+            shortDescription.length <= 140 &&
             tags &&
             tags.length
           ) {
@@ -408,15 +409,24 @@ const Description = ({ t, challengeId }) => {
               errorMessage={t("Categories_error")}
             />
             <TextArea
-              rows="4"
+              rows="3"
               label={t("Short Description") + " *"}
               description={t("Short_desscription")}
+              showCount={140}
               value={shortDescription}
               onChange={(e) => {
                 changeShortDesc(e.target.value);
               }}
-              isInvalid={validated && !shortDescription}
-              errorMessage={t("Short_desscription_error")}
+              isInvalid={
+                validated &&
+                (!shortDescription ||
+                  (shortDescription && shortDescription.length > 140))
+              }
+              errorMessage={
+                shortDescription
+                  ? t("Short_desscription_invalid_error")
+                  : t("Short_desscription_error")
+              }
             />
             <TextArea
               rows="4"

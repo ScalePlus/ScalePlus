@@ -518,7 +518,9 @@ const UserProfileView = ({ match, history }) => {
                       {userData.data.userId.details.birthDate && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">
-                            <div className="bold-text">{t("Birth Date")}</div>
+                            <div className="bold-text">
+                              {t("Date of Birth")}
+                            </div>
                             <div>
                               {moment(
                                 userData.data.userId.details.birthDate

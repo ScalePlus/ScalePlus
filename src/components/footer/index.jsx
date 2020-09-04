@@ -1,12 +1,23 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  // useCallback, useEffect
+} from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Alert } from "react-bootstrap";
-import { Input, PrimaryButton } from "../common";
-import { useDispatch, useSelector } from "react-redux";
-import { doSubscriptionAction } from "../allChallenges/action";
+import {
+  Row,
+  Col,
+  //  Alert
+} from "react-bootstrap";
+import {
+  // Input,
+  PrimaryButton,
+} from "../common";
+// import { useDispatch, useSelector } from "react-redux";
+// import { doSubscriptionAction } from "../allChallenges/action";
 import { MainContainer } from "./style";
 import history from "../../history";
 import { Constants } from "../../lib/constant";
+import Subscribe from "../allChallenges/subComponents/subscribeModal";
 // const groups = [
 //   "/images/Al-Futtaim_Group_DL_logo.svg",
 //   "/images/Al-Futtaim_Group_DL_logo.svg",
@@ -17,33 +28,34 @@ import { Constants } from "../../lib/constant";
 // ];
 
 const Footer = ({ t }) => {
-  const dispatch = useDispatch();
-  const doSubscriptionMethod = useCallback(
-    (data, changeSubscribed, setEmail) =>
-      dispatch(doSubscriptionAction(data, changeSubscribed, setEmail)),
-    [dispatch]
-  );
+  // const dispatch = useDispatch();
+  // const doSubscriptionMethod = useCallback(
+  //   (data, changeSubscribed, setEmail) =>
+  //     dispatch(doSubscriptionAction(data, changeSubscribed, setEmail)),
+  //   [dispatch]
+  // );
 
-  const allChallengesReducer = useSelector((state) => {
-    return state.allChallengesReducer;
-  });
+  // const allChallengesReducer = useSelector((state) => {
+  //   return state.allChallengesReducer;
+  // });
 
-  const [errors, setErrors] = useState([]);
-  const [email, setEmail] = useState("");
+  // const [errors, setErrors] = useState([]);
+  // const [email, setEmail] = useState("");
+  const [show, setShow] = useState(false);
   const is_admin =
     localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
     localStorage.getItem("token");
-  useEffect(() => {
-    const { subscriptionError } = allChallengesReducer;
+  // useEffect(() => {
+  //   const { subscriptionError } = allChallengesReducer;
 
-    let errors = [];
-    if (Array.isArray(subscriptionError)) {
-      errors = subscriptionError;
-    } else if (typeof subscriptionError === "string") {
-      errors.push(subscriptionError);
-    }
-    setErrors(errors);
-  }, [allChallengesReducer, email]);
+  //   let errors = [];
+  //   if (Array.isArray(subscriptionError)) {
+  //     errors = subscriptionError;
+  //   } else if (typeof subscriptionError === "string") {
+  //     errors.push(subscriptionError);
+  //   }
+  //   setErrors(errors);
+  // }, [allChallengesReducer, email]);
 
   return (
     <MainContainer>
@@ -66,18 +78,27 @@ const Footer = ({ t }) => {
       {!is_admin && (
         <Row className="subscribe-container">
           <Col lg={9} md={9} sm={9} xs={9}>
-            {errors && errors.length ? (
+            {/* {errors && errors.length ? (
               <Alert variant={"danger"} className="text-left">
                 {errors.map((each, index) => {
                   return <div key={index}>{each}</div>;
                 })}
               </Alert>
-            ) : null}
+            ) : null} */}
             <div className="content-container">
               <div className="text">
                 <span>{t("footer_subscription_title")}</span>
               </div>
-              <div className="form-container">
+              <div className="subscribe-button-container">
+                <PrimaryButton
+                  variant="light"
+                  text={t("Subscribe")}
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                ></PrimaryButton>
+              </div>
+              {/* <div className="form-container">
                 <Input
                   type="email"
                   placeholder={t("Your email address")}
@@ -93,7 +114,7 @@ const Footer = ({ t }) => {
                     doSubscriptionMethod({ email }, null, setEmail);
                   }}
                 ></PrimaryButton>
-              </div>
+              </div> */}
             </div>
           </Col>
         </Row>
@@ -222,6 +243,7 @@ const Footer = ({ t }) => {
           </div>
         </Col>
       </Row>
+      <Subscribe show={show} setShow={setShow} />
     </MainContainer>
   );
 };

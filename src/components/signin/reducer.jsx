@@ -23,6 +23,7 @@ import {
   GET_INVITATION_BY_CODE_SUCCESS,
   GET_INVITATION_BY_CODE_ERROR,
 } from "./types";
+import { UPDATE_PROFILE_SUCCESS } from "../profile/types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
 import {
   UPDATE_BUSINESS_TAGS_SUCCESS,
@@ -134,6 +135,27 @@ export const signinReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       userData: action.payload,
+      error: null,
+    });
+  },
+  [UPDATE_PROFILE_SUCCESS](state, action) {
+    let userData = state.userData,
+      otherUserDetail = state.otherUserDetail;
+
+    if (action.payload && action.payload.result) {
+      if (
+        action.payload.result._id.toString() ===
+        localStorage.getItem("userId").toString()
+      ) {
+        userData = action.payload.result;
+      }
+      otherUserDetail = action.payload.result;
+    }
+
+    return Object.assign({}, state, {
+      loading: false,
+      userData,
+      otherUserDetail,
       error: null,
     });
   },
