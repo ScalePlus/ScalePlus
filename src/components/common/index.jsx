@@ -342,10 +342,13 @@ export const FileInput = React.memo(
     acceptTypes,
     progress,
     maxMB,
+    onCropDone,
+    aspectRatio,
     ...props
   }) => {
     let fileUploader;
     const { t } = useTranslation();
+    const [show, setShow] = useState(false);
     return (
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
@@ -426,14 +429,30 @@ export const FileInput = React.memo(
                       e.target.files[0].size < 1000 * 1000 * maxMB
                     ) {
                       onChange(e);
+                      if (e.target.files[0].type.split("/")[0] === "image") {
+                        setShow(true);
+                      }
                     } else {
                       alert(`${t("You can upload up to")} ${maxMB}MB`);
                     }
                   } else {
                     onChange(e);
+                    if (e.target.files[0].type.split("/")[0] === "image") {
+                      setShow(true);
+                    }
                   }
                 }}
                 accept={acceptTypes ? acceptTypes : "image/*"}
+              />
+              <CropImage
+                aspectRatio={aspectRatio}
+                show={show}
+                setShow={setShow}
+                file={value}
+                onFileChange={(file) => {
+                  setShow(false);
+                  onCropDone(file);
+                }}
               />
               {errorMessage && (
                 <Form.Control.Feedback className="text-left" type="invalid">
@@ -468,17 +487,37 @@ export const FileInput = React.memo(
                 event.target.value = null;
               }}
               onChange={(e) => {
-                // if (
-                //   e.target.files &&
-                //   e.target.files.length &&
-                //   e.target.files[0].size < 1000 * 1000 * 500
-                // ) {
-                onChange(e);
-                // } else {
-                //   alert(t("Max limit achieved"));
-                // }
+                if (maxMB) {
+                  if (
+                    e.target.files &&
+                    e.target.files.length &&
+                    e.target.files[0].size < 1000 * 1000 * maxMB
+                  ) {
+                    onChange(e);
+                    if (e.target.files[0].type.split("/")[0] === "image") {
+                      setShow(true);
+                    }
+                  } else {
+                    alert(`${t("You can upload up to")} ${maxMB}MB`);
+                  }
+                } else {
+                  onChange(e);
+                  if (e.target.files[0].type.split("/")[0] === "image") {
+                    setShow(true);
+                  }
+                }
               }}
               accept={acceptTypes ? acceptTypes : "image/*"}
+            />
+            <CropImage
+              aspectRatio={aspectRatio}
+              show={show}
+              setShow={setShow}
+              file={value}
+              onFileChange={(file) => {
+                setShow(false);
+                onCropDone(file);
+              }}
             />
             {buttonText && (
               <Button
@@ -515,6 +554,7 @@ export const BannerInput = React.memo(
     label,
     description,
     acceptTypes,
+    maxMB,
     onCropDone,
   }) => {
     const { t } = useTranslation();
@@ -579,16 +619,25 @@ export const BannerInput = React.memo(
             event.target.value = null;
           }}
           onChange={(e) => {
-            // if (
-            //   e.target.files &&
-            //   e.target.files.length &&
-            //   e.target.files[0].size < 1000 * 1000 * 500
-            // ) {
-            onChange(e);
-            setShow(true);
-            // } else {
-            //   alert(t("Max limit achieved"));
-            // }
+            if (maxMB) {
+              if (
+                e.target.files &&
+                e.target.files.length &&
+                e.target.files[0].size < 1000 * 1000 * maxMB
+              ) {
+                onChange(e);
+                if (e.target.files[0].type.split("/")[0] === "image") {
+                  setShow(true);
+                }
+              } else {
+                alert(`${t("You can upload up to")} ${maxMB}MB`);
+              }
+            } else {
+              onChange(e);
+              if (e.target.files[0].type.split("/")[0] === "image") {
+                setShow(true);
+              }
+            }
           }}
           accept={acceptTypes ? acceptTypes : "image/*"}
         />
@@ -598,6 +647,7 @@ export const BannerInput = React.memo(
           </Form.Text>
         )}
         <CropImage
+          aspectRatio={16 / 9}
           show={show}
           setShow={setShow}
           file={value}

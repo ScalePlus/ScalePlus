@@ -32,6 +32,7 @@ import {
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
 import DeleteUserModal from "./deleteModal";
+import CropImage from "../cropImage";
 let fileUploader;
 
 const UserProfileEdit = ({ match, history }) => {
@@ -168,6 +169,8 @@ const UserProfileEdit = ({ match, history }) => {
   const [deleteModalShow, setShow] = useState(false);
 
   const [submittedForm, changeSubmittedForm] = useState(0);
+
+  const [cropImageShow, setCropImageShow] = useState(false);
 
   useEffect(() => {
     if (match && match.params && match.params.userId) {
@@ -897,6 +900,7 @@ const UserProfileEdit = ({ match, history }) => {
                       }}
                       onChange={(e) => {
                         changePersonalPhoto(e.target.files[0]);
+                        setCropImageShow(true);
                       }}
                       accept={"image/*"}
                     />
@@ -1003,6 +1007,7 @@ const UserProfileEdit = ({ match, history }) => {
                         } else {
                           changeLogo(e.target.files[0]);
                         }
+                        setCropImageShow(true);
                       }}
                       accept={"image/*"}
                     />
@@ -1150,6 +1155,7 @@ const UserProfileEdit = ({ match, history }) => {
                       }}
                       onChange={(e) => {
                         changePersonalPhoto(e.target.files[0]);
+                        setCropImageShow(true);
                       }}
                       accept={"image/*"}
                     />
@@ -2450,6 +2456,20 @@ const UserProfileEdit = ({ match, history }) => {
           ) {
             logout();
           }
+        }}
+      />
+      <CropImage
+        aspectRatio={1 / 1}
+        show={cropImageShow}
+        setShow={setCropImageShow}
+        file={is_admin || is_mentor_judge ? personal_photo : logo}
+        onFileChange={(file) => {
+          if (is_admin || is_mentor_judge) {
+            changePersonalPhoto(file);
+          } else {
+            changeLogo(file);
+          }
+          setCropImageShow(false);
         }}
       />
       {(updateProfileReducer.loading ||

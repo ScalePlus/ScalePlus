@@ -98,6 +98,56 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
     return true;
   };
 
+  const fileUpload = async (file, index, attachIndex) => {
+    // file upload
+    const attachmentRecord = {
+      file,
+    };
+    if (attachmentRecord.file && attachmentRecord.file.name) {
+      let formData = new FormData();
+
+      formData.append("file", attachmentRecord.file);
+
+      let fileResult = await Axios({
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+        method: "POST",
+        data: formData,
+        url: "/uploadFile", // route name
+        baseURL: Constants.BASE_URL, //local url
+        onUploadProgress: (progress) => {
+          const { total, loaded } = progress;
+          const totalSizeInMB = total / 1000000;
+          const loadedSizeInMB = loaded / 1000000;
+          const uploadPercentage = (loadedSizeInMB / totalSizeInMB) * 100;
+          let newArr = [...timeline];
+          newArr[index]["adminAttachments"][attachIndex]["progress"] = parseInt(
+            uploadPercentage,
+            10
+          );
+          changeTimeline(newArr);
+        },
+        encType: "multipart/form-data",
+      });
+
+      if (
+        fileResult &&
+        fileResult.status === 200 &&
+        fileResult.data &&
+        fileResult.data.result &&
+        fileResult.data.result.imageKey
+      ) {
+        let newArr = [...timeline];
+        delete newArr[index]["adminAttachments"][attachIndex]["progress"];
+        newArr[index]["adminAttachments"][attachIndex]["file"] =
+          fileResult.data.result.imageKey;
+        changeTimeline(newArr);
+      }
+    }
+  };
+
   return (
     <Row className="sub-container">
       <Col>
@@ -587,7 +637,6 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                 prependButtonText="Browse"
                                                 value={attach.file}
                                                 progress={attach.progress}
-                                                maxMB={10}
                                                 onChange={async (e) => {
                                                   let newArr = [...timeline];
                                                   newArr[index][
@@ -595,95 +644,25 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                   ][attachIndex]["file"] =
                                                     e.target.files[0];
                                                   changeTimeline(newArr);
-
-                                                  // file upload
-                                                  const attachmentRecord = {
-                                                    file: e.target.files[0],
-                                                  };
-                                                  if (
-                                                    attachmentRecord.file &&
-                                                    attachmentRecord.file.name
-                                                  ) {
-                                                    let formData = new FormData();
-
-                                                    formData.append(
-                                                      "file",
-                                                      attachmentRecord.file
-                                                    );
-
-                                                    let fileResult = await Axios(
-                                                      {
-                                                        headers: {
-                                                          "Content-Type":
-                                                            "multipart/form-data",
-                                                          Authorization: `JWT ${localStorage.getItem(
-                                                            "token"
-                                                          )}`,
-                                                        },
-                                                        method: "POST",
-                                                        data: formData,
-                                                        url: "/uploadFile", // route name
-                                                        baseURL:
-                                                          Constants.BASE_URL, //local url
-                                                        onUploadProgress: (
-                                                          progress
-                                                        ) => {
-                                                          const {
-                                                            total,
-                                                            loaded,
-                                                          } = progress;
-                                                          const totalSizeInMB =
-                                                            total / 1000000;
-                                                          const loadedSizeInMB =
-                                                            loaded / 1000000;
-                                                          const uploadPercentage =
-                                                            (loadedSizeInMB /
-                                                              totalSizeInMB) *
-                                                            100;
-                                                          let newArr = [
-                                                            ...timeline,
-                                                          ];
-                                                          newArr[index][
-                                                            "adminAttachments"
-                                                          ][attachIndex][
-                                                            "progress"
-                                                          ] = parseInt(
-                                                            uploadPercentage,
-                                                            10
-                                                          );
-                                                          changeTimeline(
-                                                            newArr
-                                                          );
-                                                        },
-                                                        encType:
-                                                          "multipart/form-data",
-                                                      }
-                                                    );
-
-                                                    if (
-                                                      fileResult &&
-                                                      fileResult.status ===
-                                                        200 &&
-                                                      fileResult.data &&
-                                                      fileResult.data.result &&
-                                                      fileResult.data.result
-                                                        .imageKey
-                                                    ) {
-                                                      let newArr = [
-                                                        ...timeline,
-                                                      ];
-                                                      delete newArr[index][
-                                                        "adminAttachments"
-                                                      ][attachIndex][
-                                                        "progress"
-                                                      ];
-                                                      newArr[index][
-                                                        "adminAttachments"
-                                                      ][attachIndex]["file"] =
-                                                        fileResult.data.result.imageKey;
-                                                      changeTimeline(newArr);
-                                                    }
-                                                  }
+                                                  await fileUpload(
+                                                    e.target.files[0],
+                                                    index,
+                                                    attachIndex
+                                                  );
+                                                }}
+                                                maxMB={10}
+                                                aspectRatio={16 / 9}
+                                                onCropDone={async (file) => {
+                                                  let newArr = [...timeline];
+                                                  newArr[index][
+                                                    "adminAttachments"
+                                                  ][attachIndex]["file"] = file;
+                                                  changeTimeline(newArr);
+                                                  await fileUpload(
+                                                    file,
+                                                    index,
+                                                    attachIndex
+                                                  );
                                                 }}
                                                 required
                                                 errorMessage={t("file_error")}

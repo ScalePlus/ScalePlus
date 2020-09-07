@@ -65,12 +65,22 @@ function convertImgToBase64(url, callback, outputFormat) {
   img.src = url;
 }
 
-export default function CropImage({ show, setShow, file, onFileChange }) {
+export default function CropImage({
+  show,
+  setShow,
+  file,
+  onFileChange,
+  aspectRatio,
+}) {
   const { t } = useTranslation();
   const [upImg, setUpImg] = useState();
   const imgRef = useRef(null);
   const previewCanvasRef = useRef(null);
-  const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
+  const [crop, setCrop] = useState({
+    unit: "%",
+    width: 30,
+    aspect: aspectRatio,
+  });
   const [completedCrop, setCompletedCrop] = useState(null);
 
   const onLoad = useCallback((img) => {

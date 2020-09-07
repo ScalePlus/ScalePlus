@@ -232,6 +232,47 @@ const Submissions = ({
     );
   };
 
+  const fileUpload = async (file, index) => {
+    //file upload
+    let formData = new FormData();
+
+    formData.append("file", file);
+
+    let fileResult = await Axios({
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
+      },
+      method: "POST",
+      data: formData,
+      url: "/uploadFile", // route name
+      baseURL: Constants.BASE_URL, //local url
+      onUploadProgress: (progress) => {
+        const { total, loaded } = progress;
+        const totalSizeInMB = total / 1000000;
+        const loadedSizeInMB = loaded / 1000000;
+        const uploadPercentage = (loadedSizeInMB / totalSizeInMB) * 100;
+        let newArr = [...submissionForm];
+        newArr[index]["progress"] = parseInt(uploadPercentage, 10);
+        changeSubmissionForm(newArr);
+      },
+      encType: "multipart/form-data",
+    });
+
+    if (
+      fileResult &&
+      fileResult.status === 200 &&
+      fileResult.data &&
+      fileResult.data.result &&
+      fileResult.data.result.imageKey
+    ) {
+      let newArr = [...submissionForm];
+      delete newArr[index]["progress"];
+      newArr[index]["value"] = fileResult.data.result.imageKey;
+      changeSubmissionForm(newArr);
+    }
+  };
+
   return submissionListReducer.loading || loading ? (
     <Loading uploadPercentage={uploadPercentage} />
   ) : is_startup_Individual &&
@@ -581,52 +622,15 @@ const Submissions = ({
                             let newArr = [...submissionForm];
                             newArr[index]["value"] = e.target.files[0];
                             changeSubmissionForm(newArr);
-
-                            //file upload
-                            let formData = new FormData();
-
-                            formData.append("file", e.target.files[0]);
-
-                            let fileResult = await Axios({
-                              headers: {
-                                "Content-Type": "multipart/form-data",
-                                Authorization: `JWT ${localStorage.getItem(
-                                  "token"
-                                )}`,
-                              },
-                              method: "POST",
-                              data: formData,
-                              url: "/uploadFile", // route name
-                              baseURL: Constants.BASE_URL, //local url
-                              onUploadProgress: (progress) => {
-                                const { total, loaded } = progress;
-                                const totalSizeInMB = total / 1000000;
-                                const loadedSizeInMB = loaded / 1000000;
-                                const uploadPercentage =
-                                  (loadedSizeInMB / totalSizeInMB) * 100;
-                                let newArr = [...submissionForm];
-                                newArr[index]["progress"] = parseInt(
-                                  uploadPercentage,
-                                  10
-                                );
-                                changeSubmissionForm(newArr);
-                              },
-                              encType: "multipart/form-data",
-                            });
-
-                            if (
-                              fileResult &&
-                              fileResult.status === 200 &&
-                              fileResult.data &&
-                              fileResult.data.result &&
-                              fileResult.data.result.imageKey
-                            ) {
-                              let newArr = [...submissionForm];
-                              delete newArr[index]["progress"];
-                              newArr[index]["value"] =
-                                fileResult.data.result.imageKey;
-                              changeSubmissionForm(newArr);
-                            }
+                            await fileUpload(e.target.files[0], index);
+                          }}
+                          maxMB={10}
+                          aspectRatio={16 / 9}
+                          onCropDone={async (file) => {
+                            let newArr = [...submissionForm];
+                            newArr[index]["value"] = file;
+                            changeSubmissionForm(newArr);
+                            await fileUpload(file, index);
                           }}
                           acceptTypes={
                             each.allowed_types &&

@@ -274,6 +274,11 @@ const OrganizationDetails = () => {
                       }
                       buttonText="Upload"
                       acceptTypes="image/*"
+                      maxMB={10}
+                      aspectRatio={1 / 1}
+                      onCropDone={(file) => {
+                        changeLogo(file);
+                      }}
                     ></FileInput>
                     <Input
                       type="text"
@@ -357,6 +362,11 @@ const OrganizationDetails = () => {
                       errorMessage={t("personal_photo_error")}
                       buttonText="Upload"
                       acceptTypes="image/*"
+                      maxMB={10}
+                      aspectRatio={1 / 1}
+                      onCropDone={(file) => {
+                        changePersonalPhoto(file);
+                      }}
                     ></FileInput>
                     <Input
                       type="number"

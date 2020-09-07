@@ -40,9 +40,9 @@ export const MainContainer = styled.div`
         border-radius: 6px;
         font-size: ${theme.fontSize.semiRegular};
         font-family: ${theme.fontFamily.bold};
-        background-color: #ffc0004d;
-        color: ${theme.colors.yellow};
-        border-color: ${theme.colors.yellow};
+        background-color: #fdf1ce;
+        color: #f4ba09;
+        border-color: #f4ba09;
       }
     }
   }

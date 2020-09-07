@@ -70,6 +70,51 @@ const Resources = ({ t, challengeId }) => {
     }
   }, [challengeReducer]);
 
+  const fileUpload = async (file, index) => {
+    //upload file
+    if (file && file.name) {
+      let formData = new FormData();
+
+      formData.append("file", file);
+
+      let fileResult = await Axios({
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+        method: "POST",
+        data: formData,
+        url: "/uploadFile", // route name
+        baseURL: Constants.BASE_URL, //local url
+        onUploadProgress: (progress) => {
+          const { total, loaded } = progress;
+          const totalSizeInMB = total / 1000000;
+          const loadedSizeInMB = loaded / 1000000;
+          const uploadPercentage = (loadedSizeInMB / totalSizeInMB) * 100;
+          let newArr = [...resources];
+          newArr[index]["progress"] = parseInt(uploadPercentage, 10);
+          newArr[index]["date"] = new Date();
+          changeResources(newArr);
+        },
+        encType: "multipart/form-data",
+      });
+
+      if (
+        fileResult &&
+        fileResult.status === 200 &&
+        fileResult.data &&
+        fileResult.data.result &&
+        fileResult.data.result.imageKey
+      ) {
+        let newArr = [...resources];
+        delete newArr[index]["progress"];
+        newArr[index]["attachment"] = fileResult.data.result.imageKey;
+        newArr[index]["date"] = new Date();
+        changeResources(newArr);
+      }
+    }
+  };
+
   return (
     <MainContainer>
       {(challengeResourceReducer.loading ||
@@ -276,56 +321,16 @@ const Resources = ({ t, challengeId }) => {
                             newArr[index]["attachment"] = e.target.files[0];
                             newArr[index]["date"] = new Date();
                             changeResources(newArr);
-
-                            //upload file
-                            if (e.target.files[0] && e.target.files[0].name) {
-                              let formData = new FormData();
-
-                              formData.append("file", e.target.files[0]);
-
-                              let fileResult = await Axios({
-                                headers: {
-                                  "Content-Type": "multipart/form-data",
-                                  Authorization: `JWT ${localStorage.getItem(
-                                    "token"
-                                  )}`,
-                                },
-                                method: "POST",
-                                data: formData,
-                                url: "/uploadFile", // route name
-                                baseURL: Constants.BASE_URL, //local url
-                                onUploadProgress: (progress) => {
-                                  const { total, loaded } = progress;
-                                  const totalSizeInMB = total / 1000000;
-                                  const loadedSizeInMB = loaded / 1000000;
-                                  const uploadPercentage =
-                                    (loadedSizeInMB / totalSizeInMB) * 100;
-                                  let newArr = [...resources];
-                                  newArr[index]["progress"] = parseInt(
-                                    uploadPercentage,
-                                    10
-                                  );
-                                  newArr[index]["date"] = new Date();
-                                  changeResources(newArr);
-                                },
-                                encType: "multipart/form-data",
-                              });
-
-                              if (
-                                fileResult &&
-                                fileResult.status === 200 &&
-                                fileResult.data &&
-                                fileResult.data.result &&
-                                fileResult.data.result.imageKey
-                              ) {
-                                let newArr = [...resources];
-                                delete newArr[index]["progress"];
-                                newArr[index]["attachment"] =
-                                  fileResult.data.result.imageKey;
-                                newArr[index]["date"] = new Date();
-                                changeResources(newArr);
-                              }
-                            }
+                            await fileUpload(e.target.files[0], index);
+                          }}
+                          maxMB={10}
+                          aspectRatio={16 / 9}
+                          onCropDone={async (file) => {
+                            let newArr = [...resources];
+                            newArr[index]["attachment"] = file;
+                            newArr[index]["date"] = new Date();
+                            changeResources(newArr);
+                            await fileUpload(file, index);
                           }}
                           acceptTypes="*"
                         ></FileInput>
