@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { updateEssentialDetailsAction, preserveDataAction } from "./action";
+import {
+  updateEssentialDetailsAction,
+  preserveDataAction,
+  coreBusinessOptionsAction,
+  marketStagesOptionsAction,
+  expertisesOptionsAction,
+  fundingsOptionsAction,
+} from "./action";
 
 import { MainContainer } from "./style";
 import {
@@ -10,8 +17,9 @@ import {
   TextArea,
   IconButton,
   BackButton,
-  Tab,
+  // Tab,
   Loading,
+  DropDown,
 } from "../common";
 import { Constants } from "../../lib/constant";
 
@@ -21,6 +29,22 @@ const EssentialDetail = ({ history }) => {
   const updateEssentialDetailsMethod = (data) =>
     dispatch(updateEssentialDetailsAction(data));
   const preserveDataMethod = (data) => dispatch(preserveDataAction(data));
+  const coreBusinessOptionsMethod = useCallback(
+    () => dispatch(coreBusinessOptionsAction()),
+    [dispatch]
+  );
+  const marketStagesOptionsMethod = useCallback(
+    () => dispatch(marketStagesOptionsAction()),
+    [dispatch]
+  );
+  const expertisesOptionsMethod = useCallback(
+    () => dispatch(expertisesOptionsAction()),
+    [dispatch]
+  );
+  const fundingsOptionsMethod = useCallback(
+    () => dispatch(fundingsOptionsAction()),
+    [dispatch]
+  );
 
   const updateEssentialDetailsReducer = useSelector((state) => {
     return state.updateEssentialDetailsReducer;
@@ -29,22 +53,6 @@ const EssentialDetail = ({ history }) => {
     return state.signinReducer;
   });
 
-  const coreBusinessTabs = [
-      { label: t("Software"), value: "Software" },
-      { label: t("Physical Products"), value: "Physical Products" },
-      { label: t("Consulting"), value: "Consulting" },
-    ],
-    marketStageTabs = [
-      { label: t("Idea"), value: "Idea" },
-      { label: t("Prototype"), value: "Prototype" },
-      { label: t("Ready For Market"), value: "Ready For Market" },
-      { label: t("Product Released"), value: "Product Released" },
-    ],
-    fundingTabs = [
-      { label: t("Consulting"), value: "Consulting" },
-      { label: t("Ext_Investment"), value: "Ext. Investment" },
-      { label: t("Revenue"), value: "Revenue" },
-    ];
   const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
     is_organisation =
@@ -54,14 +62,33 @@ const EssentialDetail = ({ history }) => {
   const [textAreaValue, setTextAreaValue] = useState("");
   const [coreBusiness, selectCoreBusiness] = useState([]);
   const [marketStage, selectMarketStage] = useState([]);
+  const [expertise, selectExpertise] = useState([]);
   const [funding, selectFunding] = useState([]);
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
+  const {
+    coreBusinessOptions,
+    marketStagesOptions,
+    expertisesOptions,
+    fundingsOptions,
+  } = updateEssentialDetailsReducer;
+
+  useEffect(() => {
+    coreBusinessOptionsMethod();
+    marketStagesOptionsMethod();
+    expertisesOptionsMethod();
+    fundingsOptionsMethod();
+  }, [
+    coreBusinessOptionsMethod,
+    marketStagesOptionsMethod,
+    expertisesOptionsMethod,
+    fundingsOptionsMethod,
+  ]);
 
   useEffect(() => {
     const { userData } = signinReducer;
     if (userData && userData.essentialDetails) {
-      const {
+      let {
         companyDesciption,
         summary,
         coreBusiness,
@@ -76,11 +103,26 @@ const EssentialDetail = ({ history }) => {
         setTextAreaValue(summary);
       }
       if (coreBusiness && coreBusiness.length) {
-        if (Array.isArray(coreBusiness)) {
-          selectCoreBusiness(coreBusiness);
-        } else {
-          selectCoreBusiness([coreBusiness]);
-        }
+        coreBusiness = coreBusiness.filter((each) => each._id && each.name);
+        selectCoreBusiness(
+          coreBusiness.map((each) => {
+            return { value: each._id, label: each.name };
+          })
+        );
+        // if (Array.isArray(coreBusiness)) {
+        //   selectCoreBusiness(
+        //     coreBusiness.map((each) => {
+        //       const record = coreBusinessTabs.find(
+        //         (record) => each === record.value
+        //       );
+        //       return record;
+        //     })
+        //   );
+        // } else {
+        //   selectCoreBusiness([
+        //     coreBusinessTabs.find((record) => coreBusiness === record.value),
+        //   ]);
+        // }
       }
 
       if (
@@ -88,11 +130,26 @@ const EssentialDetail = ({ history }) => {
         funding &&
         funding.length
       ) {
-        if (Array.isArray(funding)) {
-          selectFunding(funding);
-        } else {
-          selectFunding([funding]);
-        }
+        funding = funding.filter((each) => each._id && each.name);
+        selectFunding(
+          funding.map((each) => {
+            return { value: each._id, label: each.name };
+          })
+        );
+        // if (Array.isArray(funding)) {
+        //   selectFunding(
+        //     funding.map((each) => {
+        //       const record = fundingTabs.find(
+        //         (record) => each === record.value
+        //       );
+        //       return record;
+        //     })
+        //   );
+        // } else {
+        //   selectFunding([
+        //     fundingTabs.find((record) => funding === record.value),
+        //   ]);
+        // }
       }
 
       if (
@@ -100,22 +157,60 @@ const EssentialDetail = ({ history }) => {
         marketStage &&
         marketStage.length
       ) {
-        if (Array.isArray(marketStage)) {
-          selectMarketStage(marketStage);
-        } else {
-          selectMarketStage([marketStage]);
-        }
+        marketStage = marketStage.filter((each) => each._id && each.name);
+        selectMarketStage(
+          marketStage.map((each) => {
+            return { value: each._id, label: each.name };
+          })
+        );
+        // if (Array.isArray(marketStage)) {
+        //   selectMarketStage(
+        //     marketStage.map((each) => {
+        //       const record = marketStageTabs.find(
+        //         (record) => each === record.value
+        //       );
+        //       return record;
+        //     })
+        //   );
+        // } else {
+        //   selectMarketStage([
+        //     marketStageTabs.find((record) => marketStage === record.value),
+        //   ]);
+        // }
       }
 
       if (is_mentor_judge && expertise && expertise.length) {
-        if (Array.isArray(expertise)) {
-          selectMarketStage(expertise);
-        } else {
-          selectMarketStage([expertise]);
-        }
+        expertise = expertise.filter((each) => each._id && each.name);
+        selectExpertise(
+          expertise.map((each) => {
+            return { value: each._id, label: each.name };
+          })
+        );
+        // if (Array.isArray(expertise)) {
+        //   selectExpertise(
+        //     expertise.map((each) => {
+        //       const record = marketStageTabs.find(
+        //         (record) => each === record.value
+        //       );
+        //       return record;
+        //     })
+        //   );
+        // } else {
+        //   selectExpertise([
+        //     marketStageTabs.find((record) => expertise === record.value),
+        //   ]);
+        // }
       }
     }
-  }, [signinReducer, is_startup_Individual, is_organisation, is_mentor_judge]);
+  }, [
+    signinReducer,
+    is_startup_Individual,
+    is_organisation,
+    is_mentor_judge,
+    // coreBusinessTabs,
+    // fundingTabs,
+    // marketStageTabs,
+  ]);
 
   useEffect(() => {
     const { error } = updateEssentialDetailsReducer;
@@ -145,9 +240,9 @@ const EssentialDetail = ({ history }) => {
     ) {
       updateEssentialDetailsMethod({
         companyDesciption: textAreaValue,
-        coreBusiness,
-        marketStage,
-        funding,
+        coreBusiness: coreBusiness,
+        marketStage: marketStage,
+        funding: funding,
       });
     }
 
@@ -157,13 +252,13 @@ const EssentialDetail = ({ history }) => {
       textAreaValue &&
       coreBusiness &&
       coreBusiness.length &&
-      marketStage &&
-      marketStage.length
+      expertise &&
+      expertise.length
     ) {
       updateEssentialDetailsMethod({
         summary: textAreaValue,
-        coreBusiness,
-        expertise: marketStage,
+        coreBusiness: coreBusiness,
+        expertise: expertise,
       });
     }
 
@@ -224,7 +319,31 @@ const EssentialDetail = ({ history }) => {
                 <span>{t("Core Business")}</span>
               </Col>
             </Row>
-            <Row className="tab-container">
+            <Row>
+              <Col>
+                <DropDown
+                  isSmall={false}
+                  placeholder={t("Core Business")}
+                  options={
+                    coreBusinessOptions && coreBusinessOptions.length
+                      ? coreBusinessOptions.map((each) => {
+                          return { value: each._id, label: each.name };
+                        })
+                      : []
+                  }
+                  value={coreBusiness}
+                  onChange={(val) => {
+                    selectCoreBusiness(val);
+                  }}
+                  isInvalid={
+                    validated &&
+                    (!coreBusiness || (coreBusiness && !coreBusiness.length))
+                  }
+                  errorMessage={t("coreBusiness_error")}
+                />
+              </Col>
+            </Row>
+            {/* <Row className="tab-container">
               {coreBusinessTabs.map((each, index) => {
                 return (
                   <Col
@@ -262,20 +381,74 @@ const EssentialDetail = ({ history }) => {
                   </Form.Text>
                 ) : null}
               </Col>
-            </Row>
+            </Row> */}
 
-            <Row className="tab-title">
-              <Col>
-                <span>
-                  {is_startup_Individual || is_organisation
-                    ? t("Market Stage")
-                    : is_mentor_judge
-                    ? t("Expertise")
-                    : ""}
-                </span>
-              </Col>
-            </Row>
-            <Row className="tab-container">
+            {is_startup_Individual || is_organisation ? (
+              <Row className="tab-title">
+                <Col>
+                  <span>{t("Market Stage")}</span>
+                </Col>
+              </Row>
+            ) : is_mentor_judge ? (
+              <Row className="tab-title">
+                <Col>
+                  <span>{t("Expertise")}</span>
+                </Col>
+              </Row>
+            ) : null}
+
+            {is_startup_Individual || is_organisation ? (
+              <Row>
+                <Col>
+                  <DropDown
+                    isSmall={false}
+                    placeholder={t("Market Stage")}
+                    options={
+                      marketStagesOptions && marketStagesOptions.length
+                        ? marketStagesOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
+                    }
+                    value={marketStage}
+                    onChange={(val) => {
+                      selectMarketStage(val);
+                    }}
+                    isInvalid={
+                      validated &&
+                      (!marketStage || (marketStage && !marketStage.length))
+                    }
+                    errorMessage={t("marketStage_error")}
+                  />
+                </Col>
+              </Row>
+            ) : is_mentor_judge ? (
+              <Row>
+                <Col>
+                  <DropDown
+                    isSmall={false}
+                    placeholder={t("Expertise")}
+                    options={
+                      expertisesOptions && expertisesOptions.length
+                        ? expertisesOptions.map((each) => {
+                            return { value: each._id, label: each.name };
+                          })
+                        : []
+                    }
+                    value={expertise}
+                    onChange={(val) => {
+                      selectExpertise(val);
+                    }}
+                    isInvalid={
+                      validated &&
+                      (!expertise || (expertise && !expertise.length))
+                    }
+                    errorMessage={t("expertise_error")}
+                  />
+                </Col>
+              </Row>
+            ) : null}
+            {/* <Row className="tab-container">
               {marketStageTabs.map((each, index) => {
                 return (
                   <Col
@@ -315,7 +488,7 @@ const EssentialDetail = ({ history }) => {
                   </Form.Text>
                 ) : null}
               </Col>
-            </Row>
+            </Row> */}
 
             {is_startup_Individual || is_organisation ? (
               <>
@@ -324,7 +497,30 @@ const EssentialDetail = ({ history }) => {
                     <span>{t("Funding")}</span>
                   </Col>
                 </Row>
-                <Row className="tab-container">
+                <Row>
+                  <Col>
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Funding")}
+                      options={
+                        fundingsOptions && fundingsOptions.length
+                          ? fundingsOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={funding}
+                      onChange={(val) => {
+                        selectFunding(val);
+                      }}
+                      isInvalid={
+                        validated && (!funding || (funding && !funding.length))
+                      }
+                      errorMessage={t("funding_error")}
+                    />
+                  </Col>
+                </Row>
+                {/* <Row className="tab-container">
                   {fundingTabs.map((each, index) => {
                     return (
                       <Col
@@ -362,7 +558,7 @@ const EssentialDetail = ({ history }) => {
                       </Form.Text>
                     ) : null}
                   </Col>
-                </Row>
+                </Row> */}
               </>
             ) : null}
 
@@ -381,9 +577,11 @@ const EssentialDetail = ({ history }) => {
                         ) {
                           preserveDataMethod({
                             companyDesciption: textAreaValue,
-                            coreBusiness,
-                            marketStage,
-                            funding,
+                            coreBusiness: coreBusiness.map(
+                              (each) => each.value
+                            ),
+                            marketStage: marketStage,
+                            funding: funding,
                           });
                         }
                       }
@@ -391,8 +589,8 @@ const EssentialDetail = ({ history }) => {
                       if (is_mentor_judge) {
                         preserveDataMethod({
                           summary: textAreaValue,
-                          coreBusiness,
-                          expertise: marketStage,
+                          coreBusiness: coreBusiness,
+                          expertise: expertise,
                         });
                       }
 

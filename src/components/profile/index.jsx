@@ -899,8 +899,20 @@ const UserProfileEdit = ({ match, history }) => {
                         event.target.value = null;
                       }}
                       onChange={(e) => {
-                        changePersonalPhoto(e.target.files[0]);
-                        setCropImageShow(true);
+                        if (
+                          e.target.files &&
+                          e.target.files.length &&
+                          e.target.files[0].size < 1000 * 1000 * 10
+                        ) {
+                          changePersonalPhoto(e.target.files[0]);
+                          if (
+                            e.target.files[0].type.split("/")[0] === "image"
+                          ) {
+                            setCropImageShow(true);
+                          }
+                        } else {
+                          alert(`${t("You can upload up to")} ${10}MB`);
+                        }
                       }}
                       accept={"image/*"}
                     />
@@ -1002,12 +1014,24 @@ const UserProfileEdit = ({ match, history }) => {
                         event.target.value = null;
                       }}
                       onChange={(e) => {
-                        if (is_mentor_judge) {
-                          changePersonalPhoto(e.target.files[0]);
+                        if (
+                          e.target.files &&
+                          e.target.files.length &&
+                          e.target.files[0].size < 1000 * 1000 * 10
+                        ) {
+                          if (is_mentor_judge) {
+                            changePersonalPhoto(e.target.files[0]);
+                          } else {
+                            changeLogo(e.target.files[0]);
+                          }
+                          if (
+                            e.target.files[0].type.split("/")[0] === "image"
+                          ) {
+                            setCropImageShow(true);
+                          }
                         } else {
-                          changeLogo(e.target.files[0]);
+                          alert(`${t("You can upload up to")} ${10}MB`);
                         }
-                        setCropImageShow(true);
                       }}
                       accept={"image/*"}
                     />
@@ -1154,8 +1178,20 @@ const UserProfileEdit = ({ match, history }) => {
                         event.target.value = null;
                       }}
                       onChange={(e) => {
-                        changePersonalPhoto(e.target.files[0]);
-                        setCropImageShow(true);
+                        if (
+                          e.target.files &&
+                          e.target.files.length &&
+                          e.target.files[0].size < 1000 * 1000 * 10
+                        ) {
+                          changePersonalPhoto(e.target.files[0]);
+                          if (
+                            e.target.files[0].type.split("/")[0] === "image"
+                          ) {
+                            setCropImageShow(true);
+                          }
+                        } else {
+                          alert(`${t("You can upload up to")} ${10}MB`);
+                        }
                       }}
                       accept={"image/*"}
                     />
