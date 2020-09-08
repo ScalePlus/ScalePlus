@@ -47,8 +47,8 @@
         "Mobile Number": "Mobile Number",
         "Website of Linkedin": "Website of Linkedin",
         "Date of Birth": "Date of Birth",
-        "Next_Business_Tags": "Next: Business Tags",
-        "Business Tags": "Business Tags",
+        "Next_Business_Tags": "Next: Detailed Profile",
+        "Detailed Profile": "Detailed Profile",
         "Select_tag_text": "Select from the list below what fits your business",
         "Industry": "Industry",
         "Sevices / products you offer": "Sevices / products you offer",
@@ -810,6 +810,8 @@
         "Invitation is expired or Permission denied": "Invitation is expired or Permission denied",
         "explore other challenges": "explore other challenges",
         "CANCEL_INVITATION": "Invitation Canceled",
-        "Make Private": "Make Private"
+        "Make Private": "Make Private",
+        "Reactivate Account": "Reactivate Account",
+        "reactive_user_description": "You account has been deactivated , Do you want to reactivate?"
     }
 }

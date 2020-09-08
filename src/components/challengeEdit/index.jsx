@@ -280,7 +280,9 @@ const ChallengeEdit = ({ history, match }) => {
   return challengeData ? (
     // challengeData.isPublished ||
     localStorage.getItem("userRole") === Constants.ROLES.ADMIN ||
-    challengeData.organisationId._id === localStorage.getItem("userId") ||
+    (challengeData.organisationId &&
+      challengeData.organisationId.status === Constants.STATUS.ACTIVE &&
+      challengeData.organisationId._id === localStorage.getItem("userId")) ||
     (organisationTeamMember &&
       organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
       <MainContainer>

@@ -539,7 +539,7 @@ const UserProfileView = ({ match, history }) => {
             <Form className="box-container">
               <Row>
                 <Col className="header-container">
-                  <div className="header-text">{t("Business Tags")}</div>
+                  <div className="header-text">{t("Detailed Profile")}</div>
                 </Col>
               </Row>
               <div className="info-container">

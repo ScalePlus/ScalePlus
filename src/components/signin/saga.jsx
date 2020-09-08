@@ -45,7 +45,14 @@ function* signinSaga(data) {
   try {
     let res = yield call(Api.signin, data.payload);
     if (res.status) {
-      yield put({ type: SIGNIN_ERROR, payload: res.message });
+      if (res.result && res.result.data) {
+        yield put({
+          type: SIGNIN_ERROR,
+          payload: { message: res.message, user: res.result.data },
+        });
+      } else {
+        yield put({ type: SIGNIN_ERROR, payload: res.message });
+      }
     } else {
       //get challenges after login
       let allChallengeRes = yield call(allChallengesApi.getAllChallenge, 1);

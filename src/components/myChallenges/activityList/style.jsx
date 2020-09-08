@@ -29,10 +29,13 @@ export const MainContainer = styled.div`
     border-radius: 6px;
     background-color: ${theme.colors.white};
     padding: 1rem;
+    .block.disable {
+      opacity: 0.5;
+    }
     .block {
       cursor: pointer;
       border-bottom: 1px solid ${theme.colors.mediumgray};
-      padding: 0.5rem 0rem;
+      padding: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;

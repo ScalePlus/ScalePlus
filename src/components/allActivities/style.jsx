@@ -32,6 +32,9 @@ export const MainContainer = styled.div`
   }
   .list-container {
     margin-top: 2rem;
+    .block.disable {
+      opacity: 0.5;
+    }
     .block {
       cursor: pointer;
       border: 1px solid ${theme.colors.mediumgray};

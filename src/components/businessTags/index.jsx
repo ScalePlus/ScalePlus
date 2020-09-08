@@ -213,7 +213,7 @@ const BusinessTags = ({ history }) => {
         <Col lg={5} md={10} sm={12}>
           <Row className="title-container">
             <Col>
-              <Title text={t("Business Tags")} icon={true}></Title>
+              <Title text={t("Detailed Profile")} icon={true}></Title>
             </Col>
           </Row>
           <Form
@@ -221,6 +221,61 @@ const BusinessTags = ({ history }) => {
             validated={validated}
             onSubmit={onUpdateBusinessTags}
           >
+            <Row>
+              <Col className="market-label">
+                <span>{t("Market Details")}</span>
+              </Col>
+            </Row>
+
+            <Row className="form-container">
+              <Col>
+                <DropDown
+                  isSmall={false}
+                  placeholder={t("Target Market")}
+                  options={
+                    targetMarketsOptions && targetMarketsOptions.length
+                      ? targetMarketsOptions.map((each) => {
+                          return { value: each._id, label: each.name };
+                        })
+                      : {}
+                  }
+                  value={selectedTargetMarkets}
+                  onChange={(val) => {
+                    selectTargetMarket(val);
+                  }}
+                  isInvalid={
+                    validated &&
+                    (!selectedTargetMarkets ||
+                      (selectedTargetMarkets &&
+                        selectedTargetMarkets.length === 0))
+                  }
+                  errorMessage={t("targetMarket_error")}
+                />
+                <DropDown
+                  isSmall={false}
+                  placeholder={t("Geographical Market")}
+                  options={
+                    geographicalMarketsOptions &&
+                    geographicalMarketsOptions.length
+                      ? geographicalMarketsOptions.map((each) => {
+                          return { value: each._id, label: each.name };
+                        })
+                      : []
+                  }
+                  value={selectedGeographicalMarket}
+                  onChange={(val) => {
+                    selectGeographicalMarket(val);
+                  }}
+                  isInvalid={
+                    validated &&
+                    (!selectedGeographicalMarket ||
+                      (selectedGeographicalMarket &&
+                        selectedGeographicalMarket.length === 0))
+                  }
+                  errorMessage={t("georgraphicalMarket_error")}
+                />
+              </Col>
+            </Row>
             <Row className="description-container">
               <Col>
                 <Description>{t("Select_tag_text")}</Description>
@@ -327,61 +382,6 @@ const BusinessTags = ({ history }) => {
                 </Col>
               </Row>
             </div>
-            <Row>
-              <Col className="market-label">
-                <span>{t("Market Details")}</span>
-              </Col>
-            </Row>
-
-            <Row className="form-container">
-              <Col>
-                <DropDown
-                  isSmall={false}
-                  placeholder={t("Target Market")}
-                  options={
-                    targetMarketsOptions && targetMarketsOptions.length
-                      ? targetMarketsOptions.map((each) => {
-                          return { value: each._id, label: each.name };
-                        })
-                      : {}
-                  }
-                  value={selectedTargetMarkets}
-                  onChange={(val) => {
-                    selectTargetMarket(val);
-                  }}
-                  isInvalid={
-                    validated &&
-                    (!selectedTargetMarkets ||
-                      (selectedTargetMarkets &&
-                        selectedTargetMarkets.length === 0))
-                  }
-                  errorMessage={t("targetMarket_error")}
-                />
-                <DropDown
-                  isSmall={false}
-                  placeholder={t("Geographical Market")}
-                  options={
-                    geographicalMarketsOptions &&
-                    geographicalMarketsOptions.length
-                      ? geographicalMarketsOptions.map((each) => {
-                          return { value: each._id, label: each.name };
-                        })
-                      : []
-                  }
-                  value={selectedGeographicalMarket}
-                  onChange={(val) => {
-                    selectGeographicalMarket(val);
-                  }}
-                  isInvalid={
-                    validated &&
-                    (!selectedGeographicalMarket ||
-                      (selectedGeographicalMarket &&
-                        selectedGeographicalMarket.length === 0))
-                  }
-                  errorMessage={t("georgraphicalMarket_error")}
-                />
-              </Col>
-            </Row>
 
             <Row>
               <Col>

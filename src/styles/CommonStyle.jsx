@@ -672,7 +672,9 @@ body {
     }
   }
 }
-
+.list-single-block.disable {
+  opacity: 0.5;
+}
 .list-single-block{
   cursor: pointer;
   display: flex;

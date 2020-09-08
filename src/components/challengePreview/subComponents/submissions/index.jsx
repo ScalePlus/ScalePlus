@@ -930,9 +930,19 @@ const Submissions = ({
                       return (
                         <Col lg={6} md={6} sm={12} key={index}>
                           <div
-                            className="new-block"
+                            className={`new-block ${
+                              each.userId &&
+                              each.userId.status === Constants.STATUS.INACTIVE
+                                ? "disable"
+                                : ""
+                            }`}
                             onClick={() => {
-                              selectRow(each);
+                              if (
+                                each.userId &&
+                                each.userId.status === Constants.STATUS.ACTIVE
+                              ) {
+                                selectRow(each);
+                              }
                             }}
                           >
                             <div>

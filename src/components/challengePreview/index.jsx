@@ -429,12 +429,13 @@ const ChallengePreview = ({ history, match }) => {
           });
         }
       }
-      if (is_organisation || is_mentor_judge) {
+      if (is_organisation || is_mentor_judge || is_admin) {
         if (
           (challengeData &&
             challengeData.organisationId._id.toString() ===
               localStorage.getItem("userId")) ||
-          memberAsJudge
+          memberAsJudge ||
+          is_admin
         ) {
           changeTabs((data) => {
             if (!data.find((each) => each.value === "Submissions")) {
@@ -458,12 +459,13 @@ const ChallengePreview = ({ history, match }) => {
         }
       }
 
-      if (is_organisation || is_mentor_judge) {
+      if (is_organisation || is_mentor_judge || is_admin) {
         if (
           challengeData &&
           (challengeData.organisationId._id.toString() ===
             localStorage.getItem("userId") ||
-            memberAsJudge) &&
+            memberAsJudge ||
+            is_admin) &&
           challengeData.judgingCriteriaId &&
           challengeData.judgingCriteriaId.data &&
           challengeData.judgingCriteriaId.data.length
@@ -493,6 +495,7 @@ const ChallengePreview = ({ history, match }) => {
       }
     }
   }, [
+    is_admin,
     is_organisation,
     is_startup_Individual,
     is_mentor_judge,
@@ -543,6 +546,7 @@ const ChallengePreview = ({ history, match }) => {
           memberAsJudge ||
           is_admin ||
           (challengeData.organisationId &&
+            challengeData.organisationId.status === Constants.STATUS.ACTIVE &&
             challengeData.organisationId._id &&
             challengeData.organisationId._id.toString() ===
               localStorage.getItem("userId"))))) ? (

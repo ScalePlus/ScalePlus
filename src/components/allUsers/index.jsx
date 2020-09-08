@@ -227,13 +227,21 @@ const AllUsers = ({ history, from_preview, challengeId }) => {
                   return (
                     <Col lg={6} md={6} xs={12} key={index}>
                       <div
-                        className="list-single-block"
+                        className={`list-single-block ${
+                          each &&
+                          each.data &&
+                          each.data.userId &&
+                          each.data.userId.status === Constants.STATUS.INACTIVE
+                            ? "disable"
+                            : ""
+                        }`}
                         onClick={() => {
                           if (
                             each &&
                             each.data &&
                             each.data.userId &&
-                            each.data.userId._id
+                            each.data.userId._id &&
+                            each.data.userId.status === Constants.STATUS.ACTIVE
                           ) {
                             history.push(
                               `/profile/view/${each.data.userId._id}`

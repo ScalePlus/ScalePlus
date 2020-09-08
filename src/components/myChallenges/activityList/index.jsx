@@ -271,34 +271,54 @@ function Activities({ t, history, challengeId }) {
           {visibleData.map((each, index) => {
             return (
               <div
-                className="block"
+                className={`block ${
+                  (each &&
+                    each.userId &&
+                    each.userId.status === Constants.STATUS.INACTIVE) ||
+                  (each.challengeId &&
+                    each.challengeId.organisationId &&
+                    each.challengeId.organisationId.status ===
+                      Constants.STATUS.INACTIVE)
+                    ? "disable"
+                    : ""
+                }`}
                 key={index}
                 onClick={() => {
-                  if (each.submissionId && (is_admin || is_organisation)) {
-                    history.push(
-                      `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
-                    );
-                  } else if (each.redirectLink) {
-                    history.push(each.redirectLink);
-                  } else if (each && each.userId && each.userId._id) {
-                    if (is_admin || is_organisation) {
-                      if (
-                        each.userId._id.toString() !==
-                        localStorage.getItem("userId")
-                      ) {
-                        history.push(`/profile/view/${each.userId._id}`);
-                      } else if (
-                        each.userId._id.toString() ===
-                        localStorage.getItem("userId")
-                      ) {
+                  if (
+                    each &&
+                    each.userId &&
+                    each.userId.status === Constants.STATUS.ACTIVE &&
+                    each.challengeId &&
+                    each.challengeId.organisationId &&
+                    each.challengeId.organisationId.status ===
+                      Constants.STATUS.ACTIVE
+                  ) {
+                    if (each.submissionId && (is_admin || is_organisation)) {
+                      history.push(
+                        `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
+                      );
+                    } else if (each.redirectLink) {
+                      history.push(each.redirectLink);
+                    } else if (each && each.userId && each.userId._id) {
+                      if (is_admin || is_organisation) {
+                        if (
+                          each.userId._id.toString() !==
+                          localStorage.getItem("userId")
+                        ) {
+                          history.push(`/profile/view/${each.userId._id}`);
+                        } else if (
+                          each.userId._id.toString() ===
+                          localStorage.getItem("userId")
+                        ) {
+                          history.push(
+                            `/profile/edit/${localStorage.getItem("userId")}`
+                          );
+                        }
+                      } else if (each.challengeId && each.challengeId._id) {
                         history.push(
-                          `/profile/edit/${localStorage.getItem("userId")}`
+                          `/challenge/${each.challengeId._id}/preview/Overview`
                         );
                       }
-                    } else if (each.challengeId && each.challengeId._id) {
-                      history.push(
-                        `/challenge/${each.challengeId._id}/preview/Overview`
-                      );
                     }
                   }
                 }}

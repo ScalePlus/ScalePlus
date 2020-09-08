@@ -231,14 +231,22 @@ function Users({ t, history }) {
           {visibleData.map((each, index) => {
             return (
               <div
-                className="block"
+                className={`block ${
+                  each &&
+                  each.data &&
+                  each.data.userId &&
+                  each.data.userId.status === Constants.STATUS.INACTIVE
+                    ? "disable"
+                    : ""
+                }`}
                 key={index}
                 onClick={() => {
                   if (
                     each &&
                     each.data &&
                     each.data.userId &&
-                    each.data.userId._id
+                    each.data.userId._id &&
+                    each.data.userId.status === Constants.STATUS.ACTIVE
                   ) {
                     history.push(`/profile/view/${each.data.userId._id}`);
                   }

@@ -1596,7 +1596,7 @@ const UserProfileEdit = ({ match, history }) => {
             >
               <Row>
                 <Col className="header-container">
-                  <div className="header-text">{t("Business Tags")}</div>
+                  <div className="header-text">{t("Detailed Profile")}</div>
                   <div className="button-container">
                     <PrimaryButton
                       text={t("Update")}

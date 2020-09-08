@@ -165,7 +165,14 @@ const ChallengesList = ({ history }) => {
                       xs={12}
                       key={index}
                       onClick={() => {
-                        history.push(`/challenge/${each._id}/preview/Overview`);
+                        if (
+                          each.organisationId &&
+                          each.organisationId.status === Constants.STATUS.ACTIVE
+                        ) {
+                          history.push(
+                            `/challenge/${each._id}/preview/Overview`
+                          );
+                        }
                       }}
                     >
                       <CardComponent

@@ -242,43 +242,68 @@ const AllActivities = ({ history }) => {
                     return (
                       <Col lg={6} md={6} sm={12} key={index}>
                         <div
-                          className="block"
+                          className={`block ${
+                            (each &&
+                              each.userId &&
+                              each.userId.status ===
+                                Constants.STATUS.INACTIVE) ||
+                            (each.challengeId &&
+                              each.challengeId.organisationId &&
+                              each.challengeId.organisationId.status ===
+                                Constants.STATUS.INACTIVE)
+                              ? "disable"
+                              : ""
+                          }`}
                           onClick={() => {
                             if (
-                              each.submissionId &&
-                              (is_admin || is_organisation)
+                              each &&
+                              each.userId &&
+                              each.userId.status === Constants.STATUS.ACTIVE &&
+                              each.challengeId &&
+                              each.challengeId.organisationId &&
+                              each.challengeId.organisationId.status ===
+                                Constants.STATUS.ACTIVE
                             ) {
-                              history.push(
-                                `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
-                              );
-                            } else if (each.redirectLink) {
-                              history.push(each.redirectLink);
-                            } else if (each && each.userId && each.userId._id) {
-                              if (is_admin || is_organisation) {
-                                if (
-                                  each.userId._id.toString() !==
-                                  localStorage.getItem("userId")
-                                ) {
-                                  history.push(
-                                    `/profile/view/${each.userId._id}`
-                                  );
-                                } else if (
-                                  each.userId._id.toString() ===
-                                  localStorage.getItem("userId")
-                                ) {
-                                  history.push(
-                                    `/profile/edit/${localStorage.getItem(
-                                      "userId"
-                                    )}`
-                                  );
-                                }
-                              } else if (
-                                each.challengeId &&
-                                each.challengeId._id
+                              if (
+                                each.submissionId &&
+                                (is_admin || is_organisation)
                               ) {
                                 history.push(
-                                  `/challenge/${each.challengeId._id}/preview/Overview`
+                                  `/challenge/${each.challengeId._id}/preview/Submissions?submissionId=${each.submissionId}`
                                 );
+                              } else if (each.redirectLink) {
+                                history.push(each.redirectLink);
+                              } else if (
+                                each &&
+                                each.userId &&
+                                each.userId._id
+                              ) {
+                                if (is_admin || is_organisation) {
+                                  if (
+                                    each.userId._id.toString() !==
+                                    localStorage.getItem("userId")
+                                  ) {
+                                    history.push(
+                                      `/profile/view/${each.userId._id}`
+                                    );
+                                  } else if (
+                                    each.userId._id.toString() ===
+                                    localStorage.getItem("userId")
+                                  ) {
+                                    history.push(
+                                      `/profile/edit/${localStorage.getItem(
+                                        "userId"
+                                      )}`
+                                    );
+                                  }
+                                } else if (
+                                  each.challengeId &&
+                                  each.challengeId._id
+                                ) {
+                                  history.push(
+                                    `/challenge/${each.challengeId._id}/preview/Overview`
+                                  );
+                                }
                               }
                             }
                           }}

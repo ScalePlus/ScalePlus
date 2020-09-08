@@ -430,6 +430,9 @@ export const TableContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
+  .circle-container.disable {
+    opacity: 0.5;
+  }
   .circle-container {
     height: 70px;
     width: 70px;
@@ -447,6 +450,12 @@ export const CardContainer = styled.div`
       max-width: 70px;
       max-height: 70px;
       border-radius: 50%;
+    }
+  }
+  .card.disable {
+    opacity: 0.5;
+    :hover {
+      box-shadow: none;
     }
   }
   .card {

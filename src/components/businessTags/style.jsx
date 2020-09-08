@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
     margin-top: 40px;
   }
   .description-container {
-    margin-top: 30px;
+    margin: 0.5rem 0rem;
     font-family: ${theme.fontFamily.bold};
   }
   .form-container {
@@ -27,10 +27,13 @@ export const MainContainer = styled.div`
     }
   }
   .market-label {
-    text-align: ${theme.isLTR ? "left" : "right"};
-    margin-left: ${theme.isLTR && "10px"};
-    margin-right: ${theme.isRTL && "10px"};
-    margin-top: 10px;
-    font-family: ${theme.fontFamily.semi_bold};
+    margin-top: 30px;
+    font-family: ${theme.fontFamily.bold};
+    color: ${theme.colors.gray};
+    // text-align: ${theme.isLTR ? "left" : "right"};
+    // margin-left: ${theme.isLTR && "10px"};
+    // margin-right: ${theme.isRTL && "10px"};
+    // margin-top: 10px;
+    // font-family: ${theme.fontFamily.semi_bold};
   }
 `;

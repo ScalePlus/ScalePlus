@@ -19,6 +19,7 @@ import {
 import { MainContainer } from "./style";
 // import { Constants } from "../../lib/constant";
 import theme from "../../theme";
+import ReActiveUserModal from "./reactivateModal";
 // let popup;
 const cookies = new Cookies();
 
@@ -40,6 +41,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const [errors, setErrors] = useState([]);
   const [check, setCheck] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (cookies.get("email") && cookies.get("password")) {
@@ -52,13 +54,22 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   useEffect(() => {
     const { error } = signinReducer;
     let errors = [];
-    if (Array.isArray(error)) {
-      errors = error;
-    } else if (typeof error === "string") {
-      errors.push(error);
+    if (
+      error &&
+      error.message &&
+      error.message === t("AUTH_USER_INACTIVE") &&
+      error.user
+    ) {
+      setShow(true);
+    } else {
+      if (Array.isArray(error)) {
+        errors = error;
+      } else if (typeof error === "string") {
+        errors.push(error);
+      }
     }
     setErrors(errors);
-  }, [signinReducer]);
+  }, [t, signinReducer]);
 
   const onLogin = (event) => {
     event.preventDefault();
@@ -275,6 +286,7 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
           </div>
         </Col>
       </Row>
+      <ReActiveUserModal show={show} setShow={setShow} />
       {signinReducer.loading && <Loading />}
     </MainContainer>
   );

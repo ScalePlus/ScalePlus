@@ -187,6 +187,10 @@ export const MainContainer = styled.div`
     }
   }
 
+  .new-block.disable {
+    opacity: 0.5;
+  }
+
   .new-block {
     text-align: ${theme.isLTR ? "left" : "right"};
     cursor: pointer;

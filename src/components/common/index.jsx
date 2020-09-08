@@ -1454,7 +1454,14 @@ export const CardComponent = React.memo(
 
     return (
       <CardContainer>
-        <Card>
+        <Card
+          className={
+            organisationId &&
+            organisationId.status === Constants.STATUS.INACTIVE
+              ? "disable"
+              : ""
+          }
+        >
           <Card.Img
             variant="top"
             src={
@@ -1559,7 +1566,14 @@ export const CardComponent = React.memo(
             )}
           </Card.Footer>
         </Card>
-        <div className="circle-container">
+        <div
+          className={`circle-container ${
+            organisationId &&
+            organisationId.status === Constants.STATUS.INACTIVE
+              ? "disable"
+              : ""
+          }`}
+        >
           <img
             src={
               organisationId &&
