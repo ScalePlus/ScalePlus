@@ -36,4 +36,9 @@ export default {
     let result = coreApi.GET(url);
     return result;
   },
+  accountReactivate: (data) => {
+    let url = `/user/account/reactivate`;
+    let result = coreApi.PUT(url, data);
+    return result;
+  },
 };

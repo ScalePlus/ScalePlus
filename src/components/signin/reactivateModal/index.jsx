@@ -4,7 +4,7 @@ import { PrimaryButton } from "../../common";
 import { Modal, Row, Col } from "react-bootstrap";
 import { HeaderContainer, ContentContainer } from "./style";
 
-function ReActiveUserModal({ show, setShow }) {
+function ReActiveUserModal({ show, setShow, onSubmit }) {
   const { t } = useTranslation();
   return (
     <Modal
@@ -34,9 +34,7 @@ function ReActiveUserModal({ show, setShow }) {
                   <PrimaryButton
                     variant="primary"
                     text={t("Yes")}
-                    onClick={() => {
-                      setShow(false);
-                    }}
+                    onClick={onSubmit}
                   ></PrimaryButton>
                 </Col>
                 <Col>

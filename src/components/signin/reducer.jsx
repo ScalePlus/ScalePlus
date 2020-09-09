@@ -22,6 +22,9 @@ import {
   GET_INVITATION_BY_CODE_LOADING,
   GET_INVITATION_BY_CODE_SUCCESS,
   GET_INVITATION_BY_CODE_ERROR,
+  ACCOUNT_REACTIVATE_LOADING,
+  ACCOUNT_REACTIVATE_SUCCESS,
+  ACCOUNT_REACTIVATE_ERROR,
 } from "./types";
 import { UPDATE_PROFILE_SUCCESS } from "../profile/types";
 import { UPDATE_DETAILS_SUCCESS } from "../details/types";
@@ -294,6 +297,27 @@ export const signinReducer = createReducer(initialState, {
     return Object.assign({}, state, {
       loading: false,
       fileList: null,
+      success: null,
+      error: action.payload,
+    });
+  },
+  [ACCOUNT_REACTIVATE_LOADING](state, action) {
+    return Object.assign({}, state, {
+      loading: true,
+      success: null,
+      error: null,
+    });
+  },
+  [ACCOUNT_REACTIVATE_SUCCESS](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
+      success: action.payload,
+      error: null,
+    });
+  },
+  [ACCOUNT_REACTIVATE_ERROR](state, action) {
+    return Object.assign({}, state, {
+      loading: false,
       success: null,
       error: action.payload,
     });

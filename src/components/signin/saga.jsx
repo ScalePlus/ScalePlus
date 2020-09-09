@@ -30,6 +30,10 @@ import {
   GET_INVITATION_BY_CODE_LOADING,
   GET_INVITATION_BY_CODE_SUCCESS,
   GET_INVITATION_BY_CODE_ERROR,
+  ACCOUNT_REACTIVATE_ACTION,
+  ACCOUNT_REACTIVATE_LOADING,
+  ACCOUNT_REACTIVATE_SUCCESS,
+  ACCOUNT_REACTIVATE_ERROR,
 } from "./types";
 import Api from "./api";
 import {
@@ -287,6 +291,23 @@ function* getFileListSaga() {
   }
 }
 
+function* accountReactivateSaga(data) {
+  yield put({ type: ACCOUNT_REACTIVATE_LOADING });
+  try {
+    let res = yield call(Api.accountReactivate, data.payload);
+    if (res.status) {
+      yield put({ type: ACCOUNT_REACTIVATE_ERROR, payload: res.message });
+    } else {
+      yield put({
+        type: ACCOUNT_REACTIVATE_SUCCESS,
+        payload: { message: res.message },
+      });
+    }
+  } catch (error) {
+    yield put({ type: ACCOUNT_REACTIVATE_ERROR, payload: error.message });
+  }
+}
+
 function* logoutSaga() {
   yield put({ type: LOGOUT_SUCCESS });
   localStorage.clear();
@@ -316,6 +337,7 @@ function* watchSigninAsync() {
   yield takeLatest(FILE_LIST_ACTION, getFileListSaga);
   yield takeLatest(LOGOUT_ACTION, logoutSaga);
   yield takeLatest(GET_INVITATION_BY_CODE_ACTION, getInvitationByCodeSaga);
+  yield takeLatest(ACCOUNT_REACTIVATE_ACTION, accountReactivateSaga);
 }
 
 export default watchSigninAsync;

@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 // import GoogleLogin from "react-google-login";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { signinAction } from "./action";
+import { signinAction, accountReactivateAction } from "./action";
 // import { googleLoginAction, linkedinLoginAction } from "./action";
 import {
   SocialLoginButton,
@@ -28,6 +28,10 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
   const dispatch = useDispatch();
   const signinMethod = (data) =>
     dispatch(signinAction(data, mode, setActiveModal, setUserFlowModal));
+  const accountReactivateMethod = (data) =>
+    dispatch(
+      accountReactivateAction(data, mode, setActiveModal, setUserFlowModal)
+    );
   // const googleLoginMethod = (data) =>
   //   dispatch(googleLoginAction(data, mode, setActiveModal, setUserFlowModal));
   // const linkedinLoginMethod = (data) =>
@@ -199,6 +203,16 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
                     return <div key={index}>{each}</div>;
                   })}
                 </Alert>
+              ) : signinReducer &&
+                signinReducer.success &&
+                signinReducer.success.message ? (
+                <Row style={{ marginBottom: 30 }}>
+                  <Col>
+                    <Alert variant={"success"} className="text-left">
+                      <div>{signinReducer.success.message}</div>
+                    </Alert>
+                  </Col>
+                </Row>
               ) : null}
 
               <Row>
@@ -286,7 +300,14 @@ const SignIn = ({ history, mode, setActiveModal, setUserFlowModal }) => {
           </div>
         </Col>
       </Row>
-      <ReActiveUserModal show={show} setShow={setShow} />
+      <ReActiveUserModal
+        show={show}
+        setShow={setShow}
+        onSubmit={async () => {
+          await accountReactivateMethod({ email });
+          setShow(false);
+        }}
+      />
       {signinReducer.loading && <Loading />}
     </MainContainer>
   );

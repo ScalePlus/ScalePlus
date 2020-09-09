@@ -7,6 +7,7 @@ import {
   FILE_LIST_ACTION,
   LOGOUT_ACTION,
   GET_INVITATION_BY_CODE_ACTION,
+  ACCOUNT_REACTIVATE_ACTION,
 } from "./types";
 
 export const signinAction = (data, mode, setActiveModal, setUserFlowModal) => ({
@@ -63,4 +64,9 @@ export const logoutAction = () => ({
 export const getInvitationByCodeAction = (invitationCode) => ({
   type: GET_INVITATION_BY_CODE_ACTION,
   invitationCode,
+});
+
+export const accountReactivateAction = (data) => ({
+  type: ACCOUNT_REACTIVATE_ACTION,
+  payload: data,
 });
