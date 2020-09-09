@@ -61,7 +61,7 @@
         "Next_Essential_Details": "Next: Essential Details",
         "Essential Detail": "Essential Detail",
         "Company Description": "Company Description",
-        "Summary": "Summary",
+        "Summary": "How do you want to help the startups?",
         "Core Business": "Core Business",
         "Market Stage": "Market Stage",
         "Expertise": "Expertise",
@@ -812,6 +812,11 @@
         "CANCEL_INVITATION": "Invitation Canceled",
         "Make Private": "Make Private",
         "Reactivate Account": "Reactivate Account",
-        "reactive_user_description": "You account has been deactivated , Do you want to reactivate?"
+        "reactive_user_description": "You account has been deactivated , Do you want to reactivate?",
+        "Active": "Active",
+        "Technology Expertise": "Technology Expertise",
+        "Problem solved / Market gap addressed": "Problem solved / Market gap addressed",
+        "HQ": "HQ",
+        "Areas of expertise you willing to provide advice on": "Areas of expertise you willing to provide advice on"
     }
 }

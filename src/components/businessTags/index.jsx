@@ -22,6 +22,7 @@ import {
   BackButton,
   Loading,
 } from "../common";
+import { Constants } from "../../lib/constant";
 
 const BusinessTags = ({ history }) => {
   const { t } = useTranslation();
@@ -59,12 +60,19 @@ const BusinessTags = ({ history }) => {
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
+
+  // is_startup_Individual = localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
+  const is_organisation =
+      localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION,
+    is_mentor_judge =
+      localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE;
   const [selectedIndustries, selectIndustry] = useState([]);
   const [selectedServices, selectService] = useState([]);
   const [selectedTechnologies, selectTechnology] = useState([]);
   const [selectedBusinessModels, selectBusinessModels] = useState([]);
   const [selectedTargetMarkets, selectTargetMarket] = useState([]);
   const [selectedGeographicalMarket, selectGeographicalMarket] = useState([]);
+  const [providedExpertise, setProvidedExpertise] = useState([]);
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const {
@@ -110,7 +118,13 @@ const BusinessTags = ({ history }) => {
         businessModel,
         georgraphicalMarket,
         targetMarket,
+        providedExpertise,
       } = userData.businessTags;
+
+      if (providedExpertise && providedExpertise.length) {
+        setProvidedExpertise(providedExpertise);
+      }
+
       if (industry && industry.length) {
         industry = industry.filter((each) => each._id && each.name);
         selectIndustry(
@@ -181,6 +195,40 @@ const BusinessTags = ({ history }) => {
     const form = event.currentTarget;
 
     if (
+      is_organisation &&
+      selectedIndustries &&
+      selectedIndustries.length &&
+      selectedServices &&
+      selectedServices.length &&
+      selectedTargetMarkets &&
+      selectedTargetMarkets.length &&
+      selectedGeographicalMarket &&
+      selectedGeographicalMarket.length &&
+      form.checkValidity()
+    ) {
+      updateBusinessTagsActionMethod({
+        industry: selectedIndustries,
+        services: selectedServices,
+        targetMarket: selectedTargetMarkets,
+        georgraphicalMarket: selectedGeographicalMarket,
+      });
+    } else if (
+      is_mentor_judge &&
+      selectedIndustries &&
+      selectedIndustries.length &&
+      selectedServices &&
+      selectedServices.length &&
+      selectedTechnologies &&
+      selectedTechnologies.length &&
+      form.checkValidity()
+    ) {
+      updateBusinessTagsActionMethod({
+        industry: selectedIndustries,
+        services: selectedServices,
+        technology: selectedTechnologies,
+        providedExpertise: providedExpertise,
+      });
+    } else if (
       selectedIndustries &&
       selectedIndustries.length &&
       selectedServices &&
@@ -221,67 +269,6 @@ const BusinessTags = ({ history }) => {
             validated={validated}
             onSubmit={onUpdateBusinessTags}
           >
-            <Row>
-              <Col className="market-label">
-                <span>{t("Market Details")}</span>
-              </Col>
-            </Row>
-
-            <Row className="form-container">
-              <Col>
-                <DropDown
-                  isSmall={false}
-                  placeholder={t("Target Market")}
-                  options={
-                    targetMarketsOptions && targetMarketsOptions.length
-                      ? targetMarketsOptions.map((each) => {
-                          return { value: each._id, label: each.name };
-                        })
-                      : {}
-                  }
-                  value={selectedTargetMarkets}
-                  onChange={(val) => {
-                    selectTargetMarket(val);
-                  }}
-                  isInvalid={
-                    validated &&
-                    (!selectedTargetMarkets ||
-                      (selectedTargetMarkets &&
-                        selectedTargetMarkets.length === 0))
-                  }
-                  errorMessage={t("targetMarket_error")}
-                />
-                <DropDown
-                  isSmall={false}
-                  placeholder={t("Geographical Market")}
-                  options={
-                    geographicalMarketsOptions &&
-                    geographicalMarketsOptions.length
-                      ? geographicalMarketsOptions.map((each) => {
-                          return { value: each._id, label: each.name };
-                        })
-                      : []
-                  }
-                  value={selectedGeographicalMarket}
-                  onChange={(val) => {
-                    selectGeographicalMarket(val);
-                  }}
-                  isInvalid={
-                    validated &&
-                    (!selectedGeographicalMarket ||
-                      (selectedGeographicalMarket &&
-                        selectedGeographicalMarket.length === 0))
-                  }
-                  errorMessage={t("georgraphicalMarket_error")}
-                />
-              </Col>
-            </Row>
-            <Row className="description-container">
-              <Col>
-                <Description>{t("Select_tag_text")}</Description>
-              </Col>
-            </Row>
-
             <div className="form-container">
               {errors && errors.length ? (
                 <Alert variant={"danger"} className="text-left">
@@ -290,6 +277,98 @@ const BusinessTags = ({ history }) => {
                   })}
                 </Alert>
               ) : null}
+
+              {!is_mentor_judge ? (
+                <>
+                  <Row>
+                    <Col className="market-label">
+                      <span>{t("Market Details")}</span>
+                    </Col>
+                  </Row>
+
+                  <Row className="form-container">
+                    <Col>
+                      <DropDown
+                        isSmall={false}
+                        placeholder={t("Target Market")}
+                        options={
+                          targetMarketsOptions && targetMarketsOptions.length
+                            ? targetMarketsOptions.map((each) => {
+                                return { value: each._id, label: each.name };
+                              })
+                            : {}
+                        }
+                        value={selectedTargetMarkets}
+                        onChange={(val) => {
+                          selectTargetMarket(val);
+                        }}
+                        isInvalid={
+                          validated &&
+                          (!selectedTargetMarkets ||
+                            (selectedTargetMarkets &&
+                              selectedTargetMarkets.length === 0))
+                        }
+                        errorMessage={t("targetMarket_error")}
+                      />
+                      <DropDown
+                        isSmall={false}
+                        placeholder={t("Geographical Market")}
+                        options={
+                          geographicalMarketsOptions &&
+                          geographicalMarketsOptions.length
+                            ? geographicalMarketsOptions.map((each) => {
+                                return { value: each._id, label: each.name };
+                              })
+                            : []
+                        }
+                        value={selectedGeographicalMarket}
+                        onChange={(val) => {
+                          selectGeographicalMarket(val);
+                        }}
+                        isInvalid={
+                          validated &&
+                          (!selectedGeographicalMarket ||
+                            (selectedGeographicalMarket &&
+                              selectedGeographicalMarket.length === 0))
+                        }
+                        errorMessage={t("georgraphicalMarket_error")}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              ) : (
+                <>
+                  <Row>
+                    <Col className="market-label">
+                      <span>
+                        {t(
+                          "Areas of expertise you willing to provide advice on"
+                        )}
+                      </span>
+                    </Col>
+                  </Row>
+
+                  <Row className="form-container">
+                    <Col>
+                      <DropDown
+                        isSmall={false}
+                        placeholder={t("Expertise")}
+                        options={[]}
+                        value={providedExpertise}
+                        onChange={(val) => {
+                          setProvidedExpertise(val);
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              )}
+
+              <Row className="description-container">
+                <Col>
+                  <Description>{t("Select_tag_text")}</Description>
+                </Col>
+              </Row>
 
               <Row>
                 <Col>
@@ -335,50 +414,58 @@ const BusinessTags = ({ history }) => {
                     }
                     errorMessage={t("service_error")}
                   />
-                  <DropDown
-                    isSmall={false}
-                    placeholder={t("Technology")}
-                    options={
-                      technologiesOptions && technologiesOptions.length
-                        ? technologiesOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={selectedTechnologies}
-                    onChange={(val) => {
-                      selectTechnology(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedTechnologies ||
-                        (selectedTechnologies &&
-                          selectedTechnologies.length === 0))
-                    }
-                    errorMessage={t("technology_error")}
-                  />
-                  <DropDown
-                    isSmall={false}
-                    placeholder={t("Business Model")}
-                    options={
-                      businessModelsOptions && businessModelsOptions.length
-                        ? businessModelsOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={selectedBusinessModels}
-                    onChange={(val) => {
-                      selectBusinessModels(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedBusinessModels ||
-                        (selectedBusinessModels &&
-                          selectedBusinessModels.length === 0))
-                    }
-                    errorMessage={t("businessModel_error")}
-                  />
+                  {!is_organisation ? (
+                    <DropDown
+                      isSmall={false}
+                      placeholder={
+                        is_mentor_judge
+                          ? t("Technology Expertise")
+                          : t("Technology")
+                      }
+                      options={
+                        technologiesOptions && technologiesOptions.length
+                          ? technologiesOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedTechnologies}
+                      onChange={(val) => {
+                        selectTechnology(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedTechnologies ||
+                          (selectedTechnologies &&
+                            selectedTechnologies.length === 0))
+                      }
+                      errorMessage={t("technology_error")}
+                    />
+                  ) : null}
+                  {!is_organisation && !is_mentor_judge ? (
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Business Model")}
+                      options={
+                        businessModelsOptions && businessModelsOptions.length
+                          ? businessModelsOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedBusinessModels}
+                      onChange={(val) => {
+                        selectBusinessModels(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedBusinessModels ||
+                          (selectedBusinessModels &&
+                            selectedBusinessModels.length === 0))
+                      }
+                      errorMessage={t("businessModel_error")}
+                    />
+                  ) : null}
                 </Col>
               </Row>
             </div>

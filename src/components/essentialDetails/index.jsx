@@ -62,14 +62,14 @@ const EssentialDetail = ({ history }) => {
   const [textAreaValue, setTextAreaValue] = useState("");
   const [coreBusiness, selectCoreBusiness] = useState([]);
   const [marketStage, selectMarketStage] = useState([]);
-  const [expertise, selectExpertise] = useState([]);
+  // const [expertise, selectExpertise] = useState([]);
   const [funding, selectFunding] = useState([]);
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const {
     coreBusinessOptions,
     marketStagesOptions,
-    expertisesOptions,
+    // expertisesOptions,
     fundingsOptions,
   } = updateEssentialDetailsReducer;
 
@@ -181,11 +181,11 @@ const EssentialDetail = ({ history }) => {
 
       if (is_mentor_judge && expertise && expertise.length) {
         expertise = expertise.filter((each) => each._id && each.name);
-        selectExpertise(
-          expertise.map((each) => {
-            return { value: each._id, label: each.name };
-          })
-        );
+        // selectExpertise(
+        //   expertise.map((each) => {
+        //     return { value: each._id, label: each.name };
+        //   })
+        // );
         // if (Array.isArray(expertise)) {
         //   selectExpertise(
         //     expertise.map((each) => {
@@ -228,9 +228,29 @@ const EssentialDetail = ({ history }) => {
     event.stopPropagation();
     const form = event.currentTarget;
     if (
-      (is_startup_Individual || is_organisation) &&
+      is_organisation &&
+      form.checkValidity()
+      // &&
+      // textAreaValue &&
+      // coreBusiness &&
+      // coreBusiness.length &&
+      // marketStage &&
+      // marketStage.length &&
+      // funding &&
+      // funding.length
+    ) {
+      updateEssentialDetailsMethod({
+        companyDesciption: textAreaValue,
+        // coreBusiness: coreBusiness,
+        // marketStage: marketStage,
+        // funding: funding,
+      });
+    }
+
+    if (
+      is_startup_Individual &&
       form.checkValidity() &&
-      textAreaValue &&
+      // textAreaValue &&
       coreBusiness &&
       coreBusiness.length &&
       marketStage &&
@@ -248,17 +268,18 @@ const EssentialDetail = ({ history }) => {
 
     if (
       is_mentor_judge &&
-      form.checkValidity() &&
-      textAreaValue &&
-      coreBusiness &&
-      coreBusiness.length &&
-      expertise &&
-      expertise.length
+      form.checkValidity()
+      // &&
+      // textAreaValue &&
+      // coreBusiness &&
+      // coreBusiness.length &&
+      // expertise &&
+      // expertise.length
     ) {
       updateEssentialDetailsMethod({
         summary: textAreaValue,
-        coreBusiness: coreBusiness,
-        expertise: expertise,
+        // coreBusiness: coreBusiness,
+        // expertise: expertise,
       });
     }
 
@@ -304,45 +325,50 @@ const EssentialDetail = ({ history }) => {
                     setTextAreaValue(e.target.value);
                   }}
                   showCount={1000}
-                  required
-                  errorMessage={
-                    is_startup_Individual || is_organisation
-                      ? t("companyDesciption_error")
-                      : t("summary_error")
-                  }
+                  // required
+                  // errorMessage={
+                  //   is_startup_Individual || is_organisation
+                  //     ? t("companyDesciption_error")
+                  //     : t("summary_error")
+                  // }
                 />
               </Col>
             </Row>
 
-            <Row className="tab-title">
-              <Col>
-                <span>{t("Core Business")}</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <DropDown
-                  isSmall={false}
-                  placeholder={t("Core Business")}
-                  options={
-                    coreBusinessOptions && coreBusinessOptions.length
-                      ? coreBusinessOptions.map((each) => {
-                          return { value: each._id, label: each.name };
-                        })
-                      : []
-                  }
-                  value={coreBusiness}
-                  onChange={(val) => {
-                    selectCoreBusiness(val);
-                  }}
-                  isInvalid={
-                    validated &&
-                    (!coreBusiness || (coreBusiness && !coreBusiness.length))
-                  }
-                  errorMessage={t("coreBusiness_error")}
-                />
-              </Col>
-            </Row>
+            {!is_organisation && !is_mentor_judge ? (
+              <>
+                <Row className="tab-title">
+                  <Col>
+                    <span>{t("Core Business")}</span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Core Business")}
+                      options={
+                        coreBusinessOptions && coreBusinessOptions.length
+                          ? coreBusinessOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={coreBusiness}
+                      onChange={(val) => {
+                        selectCoreBusiness(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!coreBusiness ||
+                          (coreBusiness && !coreBusiness.length))
+                      }
+                      errorMessage={t("coreBusiness_error")}
+                    />
+                  </Col>
+                </Row>
+              </>
+            ) : null}
             {/* <Row className="tab-container">
               {coreBusinessTabs.map((each, index) => {
                 return (
@@ -383,71 +409,73 @@ const EssentialDetail = ({ history }) => {
               </Col>
             </Row> */}
 
-            {is_startup_Individual || is_organisation ? (
-              <Row className="tab-title">
-                <Col>
-                  <span>{t("Market Stage")}</span>
-                </Col>
-              </Row>
-            ) : is_mentor_judge ? (
-              <Row className="tab-title">
-                <Col>
-                  <span>{t("Expertise")}</span>
-                </Col>
-              </Row>
-            ) : null}
+            {is_startup_Individual ? (
+              <>
+                <Row className="tab-title">
+                  <Col>
+                    <span>{t("Market Stage")}</span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Market Stage")}
+                      options={
+                        marketStagesOptions && marketStagesOptions.length
+                          ? marketStagesOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={marketStage}
+                      onChange={(val) => {
+                        selectMarketStage(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!marketStage || (marketStage && !marketStage.length))
+                      }
+                      errorMessage={t("marketStage_error")}
+                    />
+                  </Col>
+                </Row>
+              </>
+            ) : // : is_mentor_judge ? (
+            //   <>
+            //     <Row className="tab-title">
+            //       <Col>
+            //         <span>{t("Expertise")}</span>
+            //       </Col>
+            //     </Row>
+            //     <Row>
+            //       <Col>
+            //         <DropDown
+            //           isSmall={false}
+            //           placeholder={t("Expertise")}
+            //           options={
+            //             expertisesOptions && expertisesOptions.length
+            //               ? expertisesOptions.map((each) => {
+            //                   return { value: each._id, label: each.name };
+            //                 })
+            //               : []
+            //           }
+            //           value={expertise}
+            //           onChange={(val) => {
+            //             selectExpertise(val);
+            //           }}
+            //           isInvalid={
+            //             validated &&
+            //             (!expertise || (expertise && !expertise.length))
+            //           }
+            //           errorMessage={t("expertise_error")}
+            //         />
+            //       </Col>
+            //     </Row>
+            //   </>
+            // )
+            null}
 
-            {is_startup_Individual || is_organisation ? (
-              <Row>
-                <Col>
-                  <DropDown
-                    isSmall={false}
-                    placeholder={t("Market Stage")}
-                    options={
-                      marketStagesOptions && marketStagesOptions.length
-                        ? marketStagesOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={marketStage}
-                    onChange={(val) => {
-                      selectMarketStage(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!marketStage || (marketStage && !marketStage.length))
-                    }
-                    errorMessage={t("marketStage_error")}
-                  />
-                </Col>
-              </Row>
-            ) : is_mentor_judge ? (
-              <Row>
-                <Col>
-                  <DropDown
-                    isSmall={false}
-                    placeholder={t("Expertise")}
-                    options={
-                      expertisesOptions && expertisesOptions.length
-                        ? expertisesOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={expertise}
-                    onChange={(val) => {
-                      selectExpertise(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!expertise || (expertise && !expertise.length))
-                    }
-                    errorMessage={t("expertise_error")}
-                  />
-                </Col>
-              </Row>
-            ) : null}
             {/* <Row className="tab-container">
               {marketStageTabs.map((each, index) => {
                 return (
@@ -490,7 +518,7 @@ const EssentialDetail = ({ history }) => {
               </Col>
             </Row> */}
 
-            {is_startup_Individual || is_organisation ? (
+            {is_startup_Individual ? (
               <>
                 <Row className="tab-title">
                   <Col>
@@ -570,7 +598,7 @@ const EssentialDetail = ({ history }) => {
                     onClick={() => {
                       if (is_startup_Individual || is_organisation) {
                         if (
-                          textAreaValue &&
+                          // textAreaValue &&
                           coreBusiness &&
                           marketStage &&
                           funding
@@ -589,8 +617,8 @@ const EssentialDetail = ({ history }) => {
                       if (is_mentor_judge) {
                         preserveDataMethod({
                           summary: textAreaValue,
-                          coreBusiness: coreBusiness,
-                          expertise: expertise,
+                          // coreBusiness: coreBusiness,
+                          // expertise: expertise,
                         });
                       }
 

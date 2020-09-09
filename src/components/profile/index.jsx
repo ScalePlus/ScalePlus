@@ -99,7 +99,9 @@ const UserProfileEdit = ({ match, history }) => {
   const [mobile, changeMobile] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
-  const [birthDate, changeBirthDate] = useState(null);
+  const [HQ, changeHQ] = useState("");
+  const [problemSolved, changeProblemSolved] = useState("");
+  // const [birthDate, changeBirthDate] = useState(null);
   const [incorporationDate, changeIncorporationDate] = useState(null);
   const [inspireText, setInspireText] = useState("");
   const [bioText, setBioText] = useState("");
@@ -112,6 +114,7 @@ const UserProfileEdit = ({ match, history }) => {
   const [selectedBusinessModels, selectBusinessModels] = useState([]);
   const [selectedTargetMarkets, selectTargetMarket] = useState([]);
   const [selectedGeographicalMarket, selectGeographicalMarket] = useState([]);
+  const [providedExpertise, setProvidedExpertise] = useState([]);
   const {
     industriesOptions,
     servicesOptions,
@@ -218,7 +221,9 @@ const UserProfileEdit = ({ match, history }) => {
       changeMobile("");
       changeWebsite("");
       changeLocation("");
-      changeBirthDate(null);
+      changeHQ("");
+      changeProblemSolved("");
+      // changeBirthDate(null);
       changeIncorporationDate(null);
       setInspireText("");
       setBioText("");
@@ -323,9 +328,11 @@ const UserProfileEdit = ({ match, history }) => {
           mobile,
           website,
           locationData,
-          birthDate,
+          // birthDate,
           incorporationDate,
           isIndividual,
+          HQ,
+          problemSolved,
         } = details;
         if (name) {
           changeName(name);
@@ -345,9 +352,15 @@ const UserProfileEdit = ({ match, history }) => {
         if (locationData) {
           changeLocation(locationData);
         }
-        if (birthDate) {
-          changeBirthDate(new Date(birthDate));
+        if (HQ) {
+          changeHQ(HQ);
         }
+        if (problemSolved) {
+          changeProblemSolved(problemSolved);
+        }
+        // if (birthDate) {
+        //   changeBirthDate(new Date(birthDate));
+        // }
         if (incorporationDate) {
           changeIncorporationDate(new Date(incorporationDate));
         }
@@ -361,7 +374,11 @@ const UserProfileEdit = ({ match, history }) => {
           businessModel,
           georgraphicalMarket,
           targetMarket,
+          providedExpertise,
         } = businessTags;
+        if (providedExpertise && providedExpertise.length) {
+          setProvidedExpertise(providedExpertise);
+        }
         if (industry && industry.length) {
           industry = industry.filter((each) => each._id && each.name);
           selectIndustry(
@@ -755,7 +772,7 @@ const UserProfileEdit = ({ match, history }) => {
                 website &&
                 website.match(Constants.isURL) &&
                 location &&
-                birthDate &&
+                // birthDate &&
                 form.checkValidity()
               ) {
                 let formData = {
@@ -764,7 +781,7 @@ const UserProfileEdit = ({ match, history }) => {
                   mobile,
                   website,
                   locationData: location,
-                  birthDate,
+                  // birthDate,
                 };
                 if (personal_photo && personal_photo.name) {
                   setLoading(true);
@@ -1134,6 +1151,29 @@ const UserProfileEdit = ({ match, history }) => {
                       errorMessage={t("incorporationDate_error")}
                     />
                   </Col>
+
+                  {is_startup_Individual ? (
+                    <>
+                      <Col lg={6} md={6} sm={12}>
+                        <Input
+                          type="text"
+                          label={t("Problem solved / Market gap addressed")}
+                          value={problemSolved}
+                          onChange={(e) => changeProblemSolved(e.target.value)}
+                          readOnly
+                        ></Input>
+                      </Col>
+                      <Col lg={6} md={6} sm={12}>
+                        <Input
+                          type="text"
+                          label={t("HQ")}
+                          value={HQ}
+                          onChange={(e) => changeHQ(e.target.value)}
+                          readOnly
+                        ></Input>
+                      </Col>
+                    </>
+                  ) : null}
                 </Row>
               </>
             ) : is_mentor_judge ? (
@@ -1292,7 +1332,7 @@ const UserProfileEdit = ({ match, history }) => {
                     ></Input>
                   </Col>
 
-                  <Col lg={6} md={6} sm={12}>
+                  {/* <Col lg={6} md={6} sm={12}>
                     <DateInput
                       isSmall={true}
                       label={t("Date of Birth")}
@@ -1316,7 +1356,7 @@ const UserProfileEdit = ({ match, history }) => {
                       required
                       errorMessage={t("birthDate_error")}
                     />
-                  </Col>
+                  </Col> */}
                 </Row>
               </>
             ) : null}
@@ -1566,6 +1606,42 @@ const UserProfileEdit = ({ match, history }) => {
                 const form = event.currentTarget;
                 changeSubmittedForm(2);
                 if (
+                  is_organisation &&
+                  selectedIndustries &&
+                  selectedIndustries.length &&
+                  selectedServices &&
+                  selectedServices.length &&
+                  selectedTargetMarkets &&
+                  selectedTargetMarkets.length &&
+                  selectedGeographicalMarket &&
+                  selectedGeographicalMarket.length &&
+                  form.checkValidity()
+                ) {
+                  updateProfile({
+                    industry: selectedIndustries,
+                    services: selectedServices,
+                    targetMarket: selectedTargetMarkets,
+                    georgraphicalMarket: selectedGeographicalMarket,
+                  });
+                } else if (
+                  is_mentor_judge &&
+                  selectedIndustries &&
+                  selectedIndustries.length &&
+                  selectedServices &&
+                  selectedServices.length &&
+                  selectedTechnologies &&
+                  selectedTechnologies.length &&
+                  form.checkValidity()
+                ) {
+                  updateProfile({
+                    businessTags: {
+                      industry: selectedIndustries,
+                      services: selectedServices,
+                      technology: selectedTechnologies,
+                      providedExpertise: providedExpertise,
+                    },
+                  });
+                } else if (
                   selectedIndustries &&
                   selectedIndustries.length &&
                   selectedServices &&
@@ -1619,6 +1695,20 @@ const UserProfileEdit = ({ match, history }) => {
               ) : null}
               <Row style={{ marginTop: 20 }}>
                 <Col>
+                  {is_mentor_judge ? (
+                    <DropDown
+                      isSmall={true}
+                      label={t(
+                        "Areas of expertise you willing to provide advice on"
+                      )}
+                      options={[]}
+                      value={providedExpertise}
+                      onChange={(val) => {
+                        setProvidedExpertise(val);
+                      }}
+                    />
+                  ) : null}
+
                   <DropDown
                     isSmall={true}
                     label={t("Industry")}
@@ -1664,101 +1754,110 @@ const UserProfileEdit = ({ match, history }) => {
                     }
                     errorMessage={t("service_error")}
                   />
-                  <DropDown
-                    isSmall={true}
-                    label={t("Technology")}
-                    description={t("max_tag_description")}
-                    options={
-                      technologiesOptions && technologiesOptions.length
-                        ? technologiesOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={selectedTechnologies}
-                    onChange={(val) => {
-                      selectTechnology(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedTechnologies ||
-                        (selectedTechnologies &&
-                          selectedTechnologies.length === 0))
-                    }
-                    errorMessage={t("technology_error")}
-                  />
 
-                  <DropDown
-                    isSmall={true}
-                    label={t("Business Model")}
-                    description={t("max_tag_description")}
-                    options={
-                      businessModelsOptions && businessModelsOptions.length
-                        ? businessModelsOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={selectedBusinessModels}
-                    onChange={(val) => {
-                      selectBusinessModels(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedBusinessModels ||
-                        (selectedBusinessModels &&
-                          selectedBusinessModels.length === 0))
-                    }
-                    errorMessage={t("businessModel_error")}
-                  />
+                  {!is_organisation ? (
+                    <DropDown
+                      isSmall={true}
+                      label={t("Technology")}
+                      description={t("max_tag_description")}
+                      options={
+                        technologiesOptions && technologiesOptions.length
+                          ? technologiesOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedTechnologies}
+                      onChange={(val) => {
+                        selectTechnology(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedTechnologies ||
+                          (selectedTechnologies &&
+                            selectedTechnologies.length === 0))
+                      }
+                      errorMessage={t("technology_error")}
+                    />
+                  ) : null}
 
-                  <DropDown
-                    isSmall={true}
-                    label={t("Target Market")}
-                    description={t("max_tag_description")}
-                    options={
-                      targetMarketsOptions && targetMarketsOptions.length
-                        ? targetMarketsOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : {}
-                    }
-                    value={selectedTargetMarkets}
-                    onChange={(val) => {
-                      selectTargetMarket(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedTargetMarkets ||
-                        (selectedTargetMarkets &&
-                          selectedTargetMarkets.length === 0))
-                    }
-                    errorMessage={t("targetMarket_error")}
-                  />
-                  <DropDown
-                    isSmall={true}
-                    label={t("Geographical Market")}
-                    description={t("max_tag_description")}
-                    options={
-                      geographicalMarketsOptions &&
-                      geographicalMarketsOptions.length
-                        ? geographicalMarketsOptions.map((each) => {
-                            return { value: each._id, label: each.name };
-                          })
-                        : []
-                    }
-                    value={selectedGeographicalMarket}
-                    onChange={(val) => {
-                      selectGeographicalMarket(val);
-                    }}
-                    isInvalid={
-                      validated &&
-                      (!selectedGeographicalMarket ||
-                        (selectedGeographicalMarket &&
-                          selectedGeographicalMarket.length === 0))
-                    }
-                    errorMessage={t("georgraphicalMarket_error")}
-                  />
+                  {!is_organisation && !is_mentor_judge ? (
+                    <DropDown
+                      isSmall={true}
+                      label={t("Business Model")}
+                      description={t("max_tag_description")}
+                      options={
+                        businessModelsOptions && businessModelsOptions.length
+                          ? businessModelsOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedBusinessModels}
+                      onChange={(val) => {
+                        selectBusinessModels(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedBusinessModels ||
+                          (selectedBusinessModels &&
+                            selectedBusinessModels.length === 0))
+                      }
+                      errorMessage={t("businessModel_error")}
+                    />
+                  ) : null}
+
+                  {!is_mentor_judge ? (
+                    <DropDown
+                      isSmall={true}
+                      label={t("Target Market")}
+                      description={t("max_tag_description")}
+                      options={
+                        targetMarketsOptions && targetMarketsOptions.length
+                          ? targetMarketsOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : {}
+                      }
+                      value={selectedTargetMarkets}
+                      onChange={(val) => {
+                        selectTargetMarket(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedTargetMarkets ||
+                          (selectedTargetMarkets &&
+                            selectedTargetMarkets.length === 0))
+                      }
+                      errorMessage={t("targetMarket_error")}
+                    />
+                  ) : null}
+                  {!is_mentor_judge ? (
+                    <DropDown
+                      isSmall={true}
+                      label={t("Geographical Market")}
+                      description={t("max_tag_description")}
+                      options={
+                        geographicalMarketsOptions &&
+                        geographicalMarketsOptions.length
+                          ? geographicalMarketsOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedGeographicalMarket}
+                      onChange={(val) => {
+                        selectGeographicalMarket(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedGeographicalMarket ||
+                          (selectedGeographicalMarket &&
+                            selectedGeographicalMarket.length === 0))
+                      }
+                      errorMessage={t("georgraphicalMarket_error")}
+                    />
+                  ) : null}
                 </Col>
               </Row>
             </Form>

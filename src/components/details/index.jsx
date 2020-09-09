@@ -42,7 +42,9 @@ const OrganizationDetails = () => {
   const [mobile, changeMobile] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
-  const [birthDate, changeBirthDate] = useState(null);
+  const [HQ, changeHQ] = useState("");
+  const [problemSolved, changeProblemSolved] = useState("");
+  // const [birthDate, changeBirthDate] = useState(null);
   const [incorporationDate, changeIncorporationDate] = useState(null);
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -57,9 +59,11 @@ const OrganizationDetails = () => {
         mobile,
         website,
         locationData,
-        birthDate,
+        // birthDate,
         incorporationDate,
         isIndividual,
+        HQ,
+        problemSolved,
       } = userData.details;
       if (name) {
         changeName(name);
@@ -79,9 +83,15 @@ const OrganizationDetails = () => {
       if (locationData) {
         changeLocation(locationData);
       }
-      if (birthDate) {
-        changeBirthDate(new Date(birthDate));
+      if (HQ) {
+        changeHQ(HQ);
       }
+      if (problemSolved) {
+        changeProblemSolved(problemSolved);
+      }
+      // if (birthDate) {
+      //   changeBirthDate(new Date(birthDate));
+      // }
       if (incorporationDate) {
         changeIncorporationDate(new Date(incorporationDate));
       }
@@ -122,6 +132,8 @@ const OrganizationDetails = () => {
         incorporationDate,
         isStartUp: !isInd,
         isIndividual: isInd,
+        problemSolved: problemSolved,
+        HQ: HQ,
       });
     }
     if (
@@ -132,7 +144,7 @@ const OrganizationDetails = () => {
       website &&
       website.match(Constants.isURL) &&
       location &&
-      birthDate &&
+      // birthDate &&
       form.checkValidity()
     ) {
       let formData = {
@@ -140,7 +152,7 @@ const OrganizationDetails = () => {
         mobile,
         website,
         locationData: location,
-        birthDate,
+        // birthDate,
       };
       if (personal_photo && personal_photo.name) {
         formData["logo"] = personal_photo;
@@ -341,6 +353,24 @@ const OrganizationDetails = () => {
                         errorMessage={t("incorporationDate_error")}
                       />
                     )}
+                    {is_startup_Individual ? (
+                      <>
+                        <Input
+                          type="text"
+                          placeholder={t(
+                            "Problem solved / Market gap addressed"
+                          )}
+                          value={problemSolved}
+                          onChange={(e) => changeProblemSolved(e.target.value)}
+                        ></Input>
+                        <Input
+                          type="text"
+                          placeholder={t("HQ")}
+                          value={HQ}
+                          onChange={(e) => changeHQ(e.target.value)}
+                        ></Input>
+                      </>
+                    ) : null}
                   </Col>
                 ) : is_mentor_judge ? (
                   <Col>
@@ -400,7 +430,7 @@ const OrganizationDetails = () => {
                       required
                       errorMessage={t("location_error")}
                     ></Input>
-                    <DateInput
+                    {/* <DateInput
                       isSmall={false}
                       placeholder={t("Date of Birth")}
                       value={birthDate}
@@ -422,7 +452,7 @@ const OrganizationDetails = () => {
                       }}
                       required
                       errorMessage={t("birthDate_error")}
-                    />
+                    /> */}
                   </Col>
                 ) : null}
               </Row>
