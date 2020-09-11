@@ -624,7 +624,11 @@ const UserProfileView = ({ match, history }) => {
                     !is_organisation && (
                       <Col lg={12} md={12} sm={12}>
                         <div className="field-container">
-                          <div className="bold-text">{t("Technologies")}</div>
+                          <div className="bold-text">
+                            {is_mentor_judge
+                              ? t("Technology Expertise")
+                              : t("Technologies")}
+                          </div>
                           <div>
                             {" "}
                             {userData.data.userId.businessTags.technology &&
@@ -654,39 +658,41 @@ const UserProfileView = ({ match, history }) => {
                         </div>
                       </Col>
                     )}
-                  {userData.data.userId.businessTags.targetMarket && (
-                    <Col lg={12} md={12} sm={12}>
-                      <div className="field-container">
-                        <div className="bold-text">{t("Target Market")}</div>
-                        <div>
-                          {userData.data.userId.businessTags.targetMarket &&
-                            userData.data.userId.businessTags.targetMarket
-                              .length &&
-                            userData.data.userId.businessTags.targetMarket
-                              .map((each) => each.name)
-                              .join(" , ")}
+                  {!is_mentor_judge &&
+                    userData.data.userId.businessTags.targetMarket && (
+                      <Col lg={12} md={12} sm={12}>
+                        <div className="field-container">
+                          <div className="bold-text">{t("Target Market")}</div>
+                          <div>
+                            {userData.data.userId.businessTags.targetMarket &&
+                              userData.data.userId.businessTags.targetMarket
+                                .length &&
+                              userData.data.userId.businessTags.targetMarket
+                                .map((each) => each.name)
+                                .join(" , ")}
+                          </div>
                         </div>
-                      </div>
-                    </Col>
-                  )}
-                  {userData.data.userId.businessTags.georgraphicalMarket && (
-                    <Col lg={12} md={12} sm={12}>
-                      <div className="field-container">
-                        <div className="bold-text">
-                          {t("Geographical Market")}
+                      </Col>
+                    )}
+                  {!is_mentor_judge &&
+                    userData.data.userId.businessTags.georgraphicalMarket && (
+                      <Col lg={12} md={12} sm={12}>
+                        <div className="field-container">
+                          <div className="bold-text">
+                            {t("Geographical Market")}
+                          </div>
+                          <div>
+                            {userData.data.userId.businessTags
+                              .georgraphicalMarket &&
+                              userData.data.userId.businessTags
+                                .georgraphicalMarket.length &&
+                              userData.data.userId.businessTags.georgraphicalMarket
+                                .map((each) => each.name)
+                                .join(" , ")}
+                          </div>
                         </div>
-                        <div>
-                          {userData.data.userId.businessTags
-                            .georgraphicalMarket &&
-                            userData.data.userId.businessTags
-                              .georgraphicalMarket.length &&
-                            userData.data.userId.businessTags.georgraphicalMarket
-                              .map((each) => each.name)
-                              .join(" , ")}
-                        </div>
-                      </div>
-                    </Col>
-                  )}
+                      </Col>
+                    )}
                 </Row>
               </div>
             </Form>

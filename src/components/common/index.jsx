@@ -768,6 +768,7 @@ export const DropDown = React.memo(
     errorMessage,
     isSingle,
     isSelectOnly,
+    isDisabled,
   }) => {
     const { t } = useTranslation();
     const customStyle = {
@@ -856,6 +857,7 @@ export const DropDown = React.memo(
       <Form.Group>
         {label && <Form.Label className="text-label">{label}</Form.Label>}
         <Creatable
+          isDisabled={isDisabled}
           isMulti={isSingle ? false : true}
           formatCreateLabel={(userInput) => `${t("Create")} "${userInput}"`}
           placeholder={placeholder}
@@ -1374,71 +1376,81 @@ export const CardComponent = React.memo(
     qualified,
   }) => {
     const [participantCount, setCount] = useState(0);
-    const [
-      progressPer,
-      // setProgressPer
-    ] = useState(0);
-    const [
-      currentMilestone,
-      //  setCurrentMilestone
-    ] = useState("");
-    const [
-      leftDays,
-      // setLeftDays
-    ] = useState(0);
+    const [progressPer, setProgressPer] = useState(0);
+    const [currentMilestone, setCurrentMilestone] = useState("");
+    const [leftDuration, setLeftDuration] = useState("");
 
-    // useEffect(() => {
-    //   let selectedData = null,
-    //     perByPart;
-    //   if (timelineId && timelineId.data && timelineId.data.length) {
-    //     const { data } = timelineId;
-    //     perByPart = 100 / data.length;
-    //     for (let i = 0; i < data.length; i++) {
-    //       const each = data[i];
-    //       if (selectedData) {
-    //         selectedData =
-    //           new Date(each.date).setHours(0, 0, 0, 0) <=
-    //             new Date().setHours(0, 0, 0, 0) &&
-    //           new Date(each.date).setHours(0, 0, 0, 0) >=
-    //             new Date(selectedData.date).setHours(0, 0, 0, 0)
-    //             ? each
-    //             : selectedData;
-    //       } else {
-    //         selectedData =
-    //           new Date(each.date).setHours(0, 0, 0, 0) ===
-    //           new Date().setHours(0, 0, 0, 0)
-    //             ? each
-    //             : selectedData;
-    //       }
-    //     }
-    //     if (selectedData && selectedData.state && selectedData.state.name) {
-    //       const index = data.findIndex(
-    //         (each) => each._id.toString() === selectedData._id.toString()
-    //       );
-    //       if (index >= 0) {
-    //         setProgressPer((index + 1) * perByPart);
-    //       }
-    //       setCurrentMilestone(selectedData.state.name);
-    //     }
-    //   }
-    // }, [timelineId]);
+    useEffect(() => {
+      let selectedData = null,
+        perByPart;
+      if (timelineId && timelineId.data && timelineId.data.length) {
+        const { data } = timelineId;
+        perByPart = 100 / data.length;
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          if (selectedData) {
+            selectedData =
+              new Date(each.startDate).getTime() <= new Date().getTime() &&
+              new Date(each.endDate).getTime() >= new Date().getTime() &&
+              new Date(each.endDate).getTime() >=
+                new Date(selectedData.endDate).getTime()
+                ? each
+                : selectedData;
+          } else {
+            selectedData =
+              new Date(each.startDate).getTime() <= new Date().getTime() &&
+              new Date(each.endDate).getTime() >= new Date().getTime()
+                ? each
+                : selectedData;
+          }
+        }
+        if (selectedData && selectedData.state && selectedData.state.name) {
+          const index = data.findIndex(
+            (each) => each._id.toString() === selectedData._id.toString()
+          );
+          if (index >= 0) {
+            setProgressPer((index + 1) * perByPart);
+          }
+          setCurrentMilestone(selectedData.state.name);
+        }
+      }
+    }, [timelineId]);
 
-    // useEffect(() => {
-    //   if (timelineId && timelineId.data && timelineId.data.length) {
-    //     const { data } = timelineId;
-    //     for (let i = 0; i < data.length; i++) {
-    //       const each = data[i];
-    //       if (each.state.name === "Won") {
-    //         const currentDate = new Date().getTime();
-    //         const recordDate = new Date(each.date).getTime();
-    //         const diffTime = Math.abs(recordDate - currentDate);
-    //         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    useEffect(() => {
+      if (timelineId && timelineId.data && timelineId.data.length) {
+        const { data } = timelineId;
+        for (let i = 0; i < data.length; i++) {
+          const each = data[i];
+          if (each.state.name === "Closing") {
+            const currentDate = new Date().getTime();
+            const closingEndDate = new Date(each.endDate).getTime();
+            const diffTime = Math.abs(closingEndDate - currentDate);
+            if (closingEndDate > currentDate) {
+              const diffDays = Math.floor(diffTime / 86400000); // days
+              const diffHrs = Math.floor((diffTime % 86400000) / 3600000); // hours
+              const diffMins = Math.round(
+                ((diffTime % 86400000) % 3600000) / 60000
+              ); // minutes
 
-    //         setLeftDays(diffDays);
-    //       }
-    //     }
-    //   }
-    // }, [timelineId]);
+              if (diffDays || diffHrs || diffMins) {
+                let leftduration = "";
+                if (diffDays) {
+                  leftduration = `${diffDays} ${t("day")} `;
+                }
+                if (diffHrs) {
+                  leftduration += `${diffHrs} ${t("hour")} `;
+                }
+                if (diffMins) {
+                  leftduration += `${diffMins} ${t("minute")} `;
+                }
+                leftduration += `${t("left")}`;
+                setLeftDuration(leftduration);
+              }
+            }
+          }
+        }
+      }
+    }, [timelineId, t]);
 
     useEffect(() => {
       let count = 0;
@@ -1456,8 +1468,9 @@ export const CardComponent = React.memo(
       <CardContainer>
         <Card
           className={
-            organisationId &&
-            organisationId.status === Constants.STATUS.INACTIVE
+            !leftDuration ||
+            (organisationId &&
+              organisationId.status === Constants.STATUS.INACTIVE)
               ? "disable"
               : ""
           }
@@ -1492,10 +1505,12 @@ export const CardComponent = React.memo(
                   alt=""
                 ></img>
                 <div className="days-text">
-                  {leftDays ? (
-                    <span>
-                      {leftDays} {t("days left")}
-                    </span>
+                  {leftDuration ? (
+                    currentMilestone ? (
+                      <span>{leftDuration}</span>
+                    ) : (
+                      <span>{t("Comming soon")}</span>
+                    )
                   ) : (
                     <span>{t("Completed")}</span>
                   )}
@@ -1514,12 +1529,27 @@ export const CardComponent = React.memo(
                   <div className="heading-text">
                     <span>{t("Current Milestone")}</span>
                   </div>
-                  <div className="sub-heading-text">
-                    <ProgressBar
-                      variant={"warning"}
-                      now={progressPer}
-                      label={currentMilestone}
-                    />
+                  <div
+                    className={`sub-heading-text ${
+                      leftDuration
+                        ? progressPer && currentMilestone
+                          ? `${currentMilestone}-progress`
+                          : "Comming-progress"
+                        : "Completed-progress"
+                    }`}
+                  >
+                    {leftDuration ? (
+                      progressPer && currentMilestone ? (
+                        <ProgressBar
+                          now={progressPer}
+                          label={currentMilestone}
+                        />
+                      ) : (
+                        <ProgressBar now={100} label={t("Comming soon")} />
+                      )
+                    ) : (
+                      <ProgressBar now={100} label={t("Completed")} />
+                    )}
                   </div>
                 </div>
                 <div className="count-container">
@@ -1568,8 +1598,9 @@ export const CardComponent = React.memo(
         </Card>
         <div
           className={`circle-container ${
-            organisationId &&
-            organisationId.status === Constants.STATUS.INACTIVE
+            !leftDuration ||
+            (organisationId &&
+              organisationId.status === Constants.STATUS.INACTIVE)
               ? "disable"
               : ""
           }`}

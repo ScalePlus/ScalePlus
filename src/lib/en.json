@@ -84,7 +84,10 @@
         "Apply Filter": "Apply Filter",
         "Reset Filter": "Reset Filter",
         "By": "By",
-        "days left": "days left",
+        "day": "day",
+        "hour": "hour",
+        "minute": "minute",
+        "left": "left",
         "Completed": "Completed",
         "Prize": "Prize",
         "Current Milestone": "Current Milestone",
@@ -817,6 +820,8 @@
         "Technology Expertise": "Technology Expertise",
         "Problem solved / Market gap addressed": "Problem solved / Market gap addressed",
         "HQ": "HQ",
-        "Areas of expertise you willing to provide advice on": "Areas of expertise you willing to provide advice on"
+        "Areas of expertise you willing to provide advice on": "Areas of expertise you willing to provide advice on",
+        "functionality_not_available": "This functionality is not available in current milestone, You can explore",
+        "Comming soon": "Comming soon"
     }
 }

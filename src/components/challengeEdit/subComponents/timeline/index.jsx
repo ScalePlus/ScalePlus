@@ -98,9 +98,42 @@ const Timeline = ({ t, challengeId }) => {
       const { timelineId } = challengeData;
       if (timelineId && timelineId.data) {
         changeTimeline(timelineId.data);
+      } else {
+        const { timelineStatesSuccess } = challengeTimelineReducer;
+        if (timelineStatesSuccess && timelineStatesSuccess.result) {
+          if (timelineStatesSuccess.result.length) {
+            const listOrder = [
+              "Start",
+              "Presentation",
+              "Workshop",
+              "Submission",
+              "Judging",
+              "Announcement",
+              "Closing",
+            ];
+            changeTimeline([]);
+            for (let i = 0; i < listOrder.length; i++) {
+              const each = listOrder[i];
+              if (timelineStatesSuccess.result.find((rec) => rec.name === each))
+                changeTimeline((data) =>
+                  data.concat({
+                    _id: `timeline-${data.length + 1}`,
+                    startDate: "",
+                    endDate: "",
+                    state: timelineStatesSuccess.result.find(
+                      (rec) => rec.name === each
+                    ),
+                    description: "",
+                    adminAttachments: [],
+                    isCustom: false,
+                  })
+                );
+            }
+          }
+        }
       }
     }
-  }, [challengeReducer]);
+  }, [challengeReducer, challengeTimelineReducer]);
 
   const checkTimeline = () => {
     for (let i = 0; i < timeline.length; i++) {
@@ -318,36 +351,37 @@ const Timeline = ({ t, challengeId }) => {
               buttonText={t("Save")}
               buttonVariant="success"
               buttonType="submit"
-              infoButtonText={t("Add Item")}
-              infoButtonVariant="info"
-              infoButtonType="button"
-              infoButtonClick={() => {
-                if (
-                  timeline &&
-                  timeline.length &&
-                  timeline.find(
-                    (record) =>
-                      record.adminAttachments &&
-                      record.adminAttachments.length &&
-                      record.adminAttachments.find((each) => each.progress)
-                  )
-                ) {
-                  if (errors.indexOf(t("File upload in progress")) < 0) {
-                    setErrors([t("File upload in progress")]);
-                  }
-                } else {
-                  changeTimeline((data) =>
-                    data.concat({
-                      _id: `timeline-${data.length + 1}`,
-                      startDate: "",
-                      endDate: "",
-                      state: "",
-                      description: "",
-                      adminAttachments: [],
-                    })
-                  );
-                }
-              }}
+              // infoButtonText={t("Add Item")}
+              // infoButtonVariant="info"
+              // infoButtonType="button"
+              // infoButtonClick={() => {
+              //   if (
+              //     timeline &&
+              //     timeline.length &&
+              //     timeline.find(
+              //       (record) =>
+              //         record.adminAttachments &&
+              //         record.adminAttachments.length &&
+              //         record.adminAttachments.find((each) => each.progress)
+              //     )
+              //   ) {
+              //     if (errors.indexOf(t("File upload in progress")) < 0) {
+              //       setErrors([t("File upload in progress")]);
+              //     }
+              //   } else {
+              //     changeTimeline((data) =>
+              //       data.concat({
+              //         _id: `timeline-${data.length + 1}`,
+              //         startDate: "",
+              //         endDate: "",
+              //         state: "",
+              //         description: "",
+              //         adminAttachments: [],
+              //         isCustom: true,
+              //       })
+              //     );
+              //   }
+              // }}
             />
           </Col>
         </Row>
@@ -536,6 +570,8 @@ const Timeline = ({ t, challengeId }) => {
                       </Col>
                       <Col lg={4} md={4} sm={12} xs={12}>
                         <DropDown
+                          isDisabled={!each.isCustom}
+                          isSelectOnly={true}
                           isSmall={true}
                           inBox={true}
                           isSingle={true}
@@ -773,34 +809,36 @@ const Timeline = ({ t, challengeId }) => {
                       : null} */}
                   </div>
                   <div className="right-container">
-                    <RemoveButton
-                      onClick={() => {
-                        if (
-                          timeline &&
-                          timeline.length &&
-                          timeline.find(
-                            (record) =>
-                              record.adminAttachments &&
-                              record.adminAttachments.length &&
-                              record.adminAttachments.find(
-                                (each) => each.progress
-                              )
-                          )
-                        ) {
+                    {each.isCustom ? (
+                      <RemoveButton
+                        onClick={() => {
                           if (
-                            errors.indexOf(t("File upload in progress")) < 0
+                            timeline &&
+                            timeline.length &&
+                            timeline.find(
+                              (record) =>
+                                record.adminAttachments &&
+                                record.adminAttachments.length &&
+                                record.adminAttachments.find(
+                                  (each) => each.progress
+                                )
+                            )
                           ) {
-                            setErrors([t("File upload in progress")]);
+                            if (
+                              errors.indexOf(t("File upload in progress")) < 0
+                            ) {
+                              setErrors([t("File upload in progress")]);
+                            }
+                          } else {
+                            let newArr = [...timeline];
+                            newArr = newArr.filter((data) => {
+                              return each._id !== data._id;
+                            });
+                            changeTimeline(newArr);
                           }
-                        } else {
-                          let newArr = [...timeline];
-                          newArr = newArr.filter((data) => {
-                            return each._id !== data._id;
-                          });
-                          changeTimeline(newArr);
-                        }
-                      }}
-                    />
+                        }}
+                      />
+                    ) : null}
                   </div>
                 </div>
               );

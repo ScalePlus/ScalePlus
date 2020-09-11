@@ -95,7 +95,7 @@ export default function CropImage({
           setUpImg(reader.result);
         });
         reader.readAsDataURL(file);
-      } else if (file.match(Constants.isURL)) {
+      } else if (file.match(Constants.isURL) && file.includes("http")) {
         convertImgToBase64(
           "https://cors-anywhere.herokuapp.com/" + file,
           (base64Img) => {

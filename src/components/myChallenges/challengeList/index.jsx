@@ -74,6 +74,20 @@ const MyChallengesList = ({ history }) => {
                         className="custom-card"
                         onClick={() => {
                           if (
+                            each &&
+                            (!each.timelineId ||
+                              (each.timelineId && !each.timelineId.data) ||
+                              (each.timelineId &&
+                                each.timelineId.data &&
+                                !each.timelineId.data.length) ||
+                              (each.timelineId &&
+                                each.timelineId.data &&
+                                each.timelineId.data.length &&
+                                each.timelineId.data.find(
+                                  (rec) =>
+                                    rec.state.name === "Closing" &&
+                                    new Date(rec.endDate) > new Date()
+                                ))) &&
                             each.organisationId &&
                             each.organisationId.status ===
                               Constants.STATUS.ACTIVE

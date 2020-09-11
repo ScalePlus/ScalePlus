@@ -781,4 +781,50 @@ body {
     margin-left: ${theme.isRTL && "0.5rem"};
   }
 }
+
+.Start-progress{
+  .progress-bar{
+    background-color: green !important;
+    color:${theme.colors.white} !important;
+  }
+}
+
+.Presentation-progress{
+  .progress-bar{
+    background-color: ${theme.colors.yellow} !important;
+  }
+}
+
+.Workshop-progress{
+  .progress-bar{
+    background-color: orange !important;
+  }
+}
+
+.Submission-progress{
+  .progress-bar{
+    background-color: purple !important;
+    color:${theme.colors.white} !important;
+  }
+}
+
+.Judging-progress{
+  .progress-bar{
+    background-color: blue !important;
+    color:${theme.colors.white} !important;
+  }
+}
+
+.Announcement-progress{
+  .progress-bar{
+    background-color: gold !important;
+  }
+}
+
+.Closing-progress,.Completed-progress,.Comming-progress{
+  .progress-bar{
+    background-color: ${theme.colors.gray} !important;
+    color:${theme.colors.white} !important;
+  }
+}
 `;

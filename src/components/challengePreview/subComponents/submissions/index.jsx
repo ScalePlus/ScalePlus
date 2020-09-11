@@ -38,10 +38,10 @@ const Submissions = ({
   organisationTeamMember,
   challengeData,
   fromPreview,
-  submissionVisibility,
-  judgingStarted,
+  // submissionVisibility,
+  // judgingStarted,
   judgingClosed,
-  submissionClosed,
+  // submissionClosed,
   memberAsParticipant,
 }) => {
   const dispatch = useDispatch();
@@ -80,6 +80,7 @@ const Submissions = ({
   ] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadPercentage, setUploadPercentage] = useState(null);
+  const [currentMilestone, setCurrentMilestone] = useState("");
 
   useEffect(() => {
     if (challengeData && challengeData._id && localStorage.getItem("token")) {
@@ -89,6 +90,35 @@ const Submissions = ({
       });
     }
   }, [getSubmissionsListMethod, challengeData, selectedFilter, searchText]);
+
+  useEffect(() => {
+    let selectedData = null;
+    const { timelineId } = challengeData;
+    if (timelineId && timelineId.data && timelineId.data.length) {
+      const { data } = timelineId;
+      for (let i = 0; i < data.length; i++) {
+        const each = data[i];
+        if (selectedData) {
+          selectedData =
+            new Date(each.startDate).getTime() <= new Date().getTime() &&
+            new Date(each.endDate).getTime() >= new Date().getTime() &&
+            new Date(each.endDate).getTime() >=
+              new Date(selectedData.endDate).getTime()
+              ? each
+              : selectedData;
+        } else {
+          selectedData =
+            new Date(each.startDate).getTime() <= new Date().getTime() &&
+            new Date(each.endDate).getTime() >= new Date().getTime()
+              ? each
+              : selectedData;
+        }
+      }
+      if (selectedData && selectedData.state && selectedData.state.name) {
+        setCurrentMilestone(selectedData.state.name);
+      }
+    }
+  }, [challengeData]);
 
   useEffect(() => {
     const { disqualifySuccess, judgeSuccess } = submissionListReducer;
@@ -306,7 +336,8 @@ const Submissions = ({
             </Col>
           </Row>
         </div>
-      ) : !submissionVisibility ? (
+      ) : !currentMilestone ||
+        (currentMilestone && currentMilestone !== "Submission") ? (
         <div>
           <Row className="justify-content-center center-alignment header-container">
             <Col lg={10} md={10} sm={10} xs={10}>
@@ -316,9 +347,10 @@ const Submissions = ({
           <Row className="justify-content-center">
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
-                {submissionClosed
+                {t("functionality_not_available")}{" "}
+                {/* {submissionClosed
                   ? t("submission_closed")
-                  : t("submission_not_started")}{" "}
+                  : t("submission_not_started")}{" "} */}
                 <Link to="/all/challenges">{t("Other Challenges")}</Link>
               </div>
             </Col>
@@ -672,553 +704,550 @@ const Submissions = ({
     is_organisation ||
     (organisationTeamMember &&
       organisationTeamMember.permission === Constants.TEAM_PERMISSION.ADMIN) ? (
-    !judgingStarted ? (
-      <MainContainer>
-        <Row className="justify-content-center center-alignment header-container">
-          <Col lg={10} md={10} sm={10} xs={10}>
-            <HeaderComponent titleText={t("Submissions")} />
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col lg={10} md={10} sm={10} xs={10}>
-            <div className="thankyou-text">
-              {t("judgement_not_started")}{" "}
-              <Link to="/all/challenges">{t("Other Challenges")}</Link>
-            </div>
-          </Col>
-        </Row>
-      </MainContainer>
-    ) : (
-      <MainContainer>
-        <Row className="justify-content-center center-alignment header-container">
-          <Col
-            lg={fromPreview ? 11 : 12}
-            md={fromPreview ? 11 : 12}
-            sm={fromPreview ? 11 : 12}
-            xs={fromPreview ? 11 : 12}
-          >
-            {selectedRow ? (
-              selectedRow.isDisqualified ? (
-                <HeaderComponent
-                  titleText={t("Submissions (DISQUALIFIED)")}
-                  backButton={true}
-                  onBackButtonClick={() => {
-                    selectRow(null);
-                    if (
-                      queryString.parse(window.location.search).submissionId
-                    ) {
-                      history.push(
-                        `/challenge/${challengeData._id}/preview/Submissions`
-                      );
-                    }
-                  }}
-                />
-              ) : selectedRow.isEvaluated ? (
-                <HeaderComponent
-                  titleText={t("Submissions")}
-                  backButton={true}
-                  onBackButtonClick={() => {
-                    selectRow(null);
-                    if (
-                      queryString.parse(window.location.search).submissionId
-                    ) {
-                      history.push(
-                        `/challenge/${challengeData._id}/preview/Submissions`
-                      );
-                    }
-                  }}
-                />
-              ) : judgingClosed ? (
-                <HeaderComponent
-                  titleText={t("Submissions")}
-                  backButton={true}
-                  onBackButtonClick={() => {
-                    selectRow(null);
-                    if (
-                      queryString.parse(window.location.search).submissionId
-                    ) {
-                      history.push(
-                        `/challenge/${challengeData._id}/preview/Submissions`
-                      );
-                    }
-                  }}
-                />
-              ) : (
-                <HeaderComponent
-                  titleText={t("Submission")}
-                  buttonText={t("Evaluate Submission")}
-                  buttonVariant="primary"
-                  buttonClick={() => {
-                    setShow(true);
-                  }}
-                  infoButtonText={t("Disqualify")}
-                  infoButtonVariant="danger_light"
-                  infoButtonClick={() => {
-                    setDisqualifyShow(true);
-                  }}
-                  backButton={true}
-                  onBackButtonClick={() => {
-                    selectRow(null);
-                    if (
-                      queryString.parse(window.location.search).submissionId
-                    ) {
-                      history.push(
-                        `/challenge/${challengeData._id}/preview/Submissions`
-                      );
-                    }
-                  }}
-                />
-              )
-            ) : is_mentor_judge ? (
-              <HeaderComponent titleText={t("Submissions")} />
-            ) : fromPreview && challengeData && !challengeData.isPublished ? (
+    // !currentMilestone ||
+    // (currentMilestone && currentMilestone !== "Judging") ? (
+    //   <MainContainer>
+    //     <Row className="justify-content-center center-alignment header-container">
+    //       <Col lg={10} md={10} sm={10} xs={10}>
+    //         <HeaderComponent titleText={t("Submissions")} />
+    //       </Col>
+    //     </Row>
+    //     <Row className="justify-content-center">
+    //       <Col lg={10} md={10} sm={10} xs={10}>
+    //         <div className="thankyou-text">
+    //           {t("functionality_not_available")}{" "}
+    //           {/* {t("judgement_not_started")}{" "} */}
+    //           <Link to="/all/challenges">{t("Other Challenges")}</Link>
+    //         </div>
+    //       </Col>
+    //     </Row>
+    //   </MainContainer>
+    // ) : (
+    <MainContainer>
+      <Row className="justify-content-center center-alignment header-container">
+        <Col
+          lg={fromPreview ? 11 : 12}
+          md={fromPreview ? 11 : 12}
+          sm={fromPreview ? 11 : 12}
+          xs={fromPreview ? 11 : 12}
+        >
+          {selectedRow ? (
+            selectedRow.isDisqualified ? (
+              <HeaderComponent
+                titleText={t("Submissions (DISQUALIFIED)")}
+                backButton={true}
+                onBackButtonClick={() => {
+                  selectRow(null);
+                  if (queryString.parse(window.location.search).submissionId) {
+                    history.push(
+                      `/challenge/${challengeData._id}/preview/Submissions`
+                    );
+                  }
+                }}
+              />
+            ) : selectedRow.isEvaluated ? (
               <HeaderComponent
                 titleText={t("Submissions")}
-                buttonText={t("Edit Form")}
-                buttonVariant="info"
-                buttonClick={() => {
-                  history.push(
-                    `/challenge/${challengeData._id}/edit/Submission%20form`
-                  );
+                backButton={true}
+                onBackButtonClick={() => {
+                  selectRow(null);
+                  if (queryString.parse(window.location.search).submissionId) {
+                    history.push(
+                      `/challenge/${challengeData._id}/preview/Submissions`
+                    );
+                  }
+                }}
+              />
+            ) : judgingClosed ? (
+              <HeaderComponent
+                titleText={t("Submissions")}
+                backButton={true}
+                onBackButtonClick={() => {
+                  selectRow(null);
+                  if (queryString.parse(window.location.search).submissionId) {
+                    history.push(
+                      `/challenge/${challengeData._id}/preview/Submissions`
+                    );
+                  }
                 }}
               />
             ) : (
-              <HeaderComponent titleText={t("Submissions")} />
-            )}
-          </Col>
-        </Row>
-        <Row className="justify-content-center" style={{ marginBottom: 80 }}>
-          <Col
-            lg={fromPreview ? 11 : 12}
-            md={fromPreview ? 11 : 12}
-            sm={fromPreview ? 11 : 12}
-            xs={fromPreview ? 11 : 12}
-            style={{ padding: !selectedRow && "0" }}
-          >
-            {selectedRow ? (
-              <div className="selected-row-container text-left">
-                <div className="inline-block">
-                  <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">{t("Startup Name")}</div>
-                    <div className="bold-semi-large-text">
-                      {selectedRow.userId &&
-                        selectedRow.userId.details &&
-                        selectedRow.userId.details.name}
-                    </div>
+              <HeaderComponent
+                titleText={t("Submission")}
+                buttonText={
+                  currentMilestone &&
+                  currentMilestone === "Judging" &&
+                  t("Evaluate Submission")
+                }
+                buttonVariant="primary"
+                buttonClick={() => {
+                  setShow(true);
+                }}
+                infoButtonText={
+                  currentMilestone &&
+                  currentMilestone === "Judging" &&
+                  t("Disqualify")
+                }
+                infoButtonVariant="danger_light"
+                infoButtonClick={() => {
+                  setDisqualifyShow(true);
+                }}
+                backButton={true}
+                onBackButtonClick={() => {
+                  selectRow(null);
+                  if (queryString.parse(window.location.search).submissionId) {
+                    history.push(
+                      `/challenge/${challengeData._id}/preview/Submissions`
+                    );
+                  }
+                }}
+              />
+            )
+          ) : is_mentor_judge ? (
+            <HeaderComponent titleText={t("Submissions")} />
+          ) : fromPreview && challengeData && !challengeData.isPublished ? (
+            <HeaderComponent
+              titleText={t("Submissions")}
+              buttonText={t("Edit Form")}
+              buttonVariant="info"
+              buttonClick={() => {
+                history.push(
+                  `/challenge/${challengeData._id}/edit/Submission%20form`
+                );
+              }}
+            />
+          ) : (
+            <HeaderComponent titleText={t("Submissions")} />
+          )}
+        </Col>
+      </Row>
+      <Row className="justify-content-center" style={{ marginBottom: 80 }}>
+        <Col
+          lg={fromPreview ? 11 : 12}
+          md={fromPreview ? 11 : 12}
+          sm={fromPreview ? 11 : 12}
+          xs={fromPreview ? 11 : 12}
+          style={{ padding: !selectedRow && "0" }}
+        >
+          {selectedRow ? (
+            <div className="selected-row-container text-left">
+              <div className="inline-block">
+                <div style={{ flex: 0.2 }}>
+                  <div className="regular-text">{t("Startup Name")}</div>
+                  <div className="bold-semi-large-text">
+                    {selectedRow.userId &&
+                      selectedRow.userId.details &&
+                      selectedRow.userId.details.name}
                   </div>
-                  <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">{t("Owner Name")}</div>
-                    <div className="bold-semi-large-text">
-                      {selectedRow.userId
-                        ? selectedRow.userId.firstName &&
-                          selectedRow.userId.lastName
-                          ? selectedRow.userId.firstName +
-                            " " +
-                            selectedRow.userId.lastName
-                          : selectedRow.userId.details &&
-                            selectedRow.userId.details.name
-                          ? selectedRow.userId.details.name
-                          : selectedRow.userId.email
-                        : selectedRow.userId.email}
-                    </div>
-                  </div>
-                  <div style={{ flex: 0.2 }}>
-                    <div className="regular-text">{t("Location")}</div>
-                    <div className="bold-semi-large-text">
-                      {selectedRow.userId &&
-                        selectedRow.userId.details &&
-                        selectedRow.userId.details.locationData}
-                    </div>
-                  </div>
-                  {selectedRow.judgingPer && (
-                    <div style={{ flex: 0.2 }}>
-                      <div className="regular-text">
-                        {t("Judging criteria")}
-                      </div>
-                      <div className="bold-semi-large-text">
-                        {selectedRow.judgingPer}
-                      </div>
-                    </div>
-                  )}
                 </div>
-                {selectedRow.form && selectedRow.form.length
-                  ? selectedRow.form.map((each) => {
-                      return each.field === "Single-Field" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div>{each.value}</div>
+                <div style={{ flex: 0.2 }}>
+                  <div className="regular-text">{t("Owner Name")}</div>
+                  <div className="bold-semi-large-text">
+                    {selectedRow.userId
+                      ? selectedRow.userId.firstName &&
+                        selectedRow.userId.lastName
+                        ? selectedRow.userId.firstName +
+                          " " +
+                          selectedRow.userId.lastName
+                        : selectedRow.userId.details &&
+                          selectedRow.userId.details.name
+                        ? selectedRow.userId.details.name
+                        : selectedRow.userId.email
+                      : selectedRow.userId.email}
+                  </div>
+                </div>
+                <div style={{ flex: 0.2 }}>
+                  <div className="regular-text">{t("Location")}</div>
+                  <div className="bold-semi-large-text">
+                    {selectedRow.userId &&
+                      selectedRow.userId.details &&
+                      selectedRow.userId.details.locationData}
+                  </div>
+                </div>
+                {selectedRow.judgingPer && (
+                  <div style={{ flex: 0.2 }}>
+                    <div className="regular-text">{t("Judging criteria")}</div>
+                    <div className="bold-semi-large-text">
+                      {selectedRow.judgingPer}
+                    </div>
+                  </div>
+                )}
+              </div>
+              {selectedRow.form && selectedRow.form.length
+                ? selectedRow.form.map((each) => {
+                    return each.field === "Single-Field" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div>{each.value}</div>
+                      </div>
+                    ) : each.field === "Rich-Text-Editor" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: each.value,
+                          }}
+                        />
+                      </div>
+                    ) : each.field === "Multiple-Choice" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div>
+                          {each.choices &&
+                            each.choices.length &&
+                            each.choices
+                              .filter((choice) => choice.checked)
+                              .map((choice) => choice.title)
+                              .join()}
                         </div>
-                      ) : each.field === "Rich-Text-Editor" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: each.value,
-                            }}
-                          />
+                      </div>
+                    ) : each.field === "Single-Choice" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div>
+                          {each.choices &&
+                            each.choices.length &&
+                            each.choices
+                              .filter((choice) => choice.checked)
+                              .map((choice) => choice.title)
+                              .join()}
                         </div>
-                      ) : each.field === "Multiple-Choice" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div>
-                            {each.choices &&
-                              each.choices.length &&
-                              each.choices
-                                .filter((choice) => choice.checked)
-                                .map((choice) => choice.title)
-                                .join()}
-                          </div>
+                      </div>
+                    ) : each.field === "Yes-No-Question" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div>
+                          <PrimaryButton text={each.value} variant="primary" />
                         </div>
-                      ) : each.field === "Single-Choice" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div>
-                            {each.choices &&
-                              each.choices.length &&
-                              each.choices
-                                .filter((choice) => choice.checked)
-                                .map((choice) => choice.title)
-                                .join()}
-                          </div>
-                        </div>
-                      ) : each.field === "Yes-No-Question" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div>
-                            <PrimaryButton
-                              text={each.value}
-                              variant="primary"
+                      </div>
+                    ) : each.field === "Document-Upload-Box" ? (
+                      <div className="block" key={each._id}>
+                        <div className="regular-bold">{each.title}</div>
+                        <div className="download-block">
+                          <div className="icon-container">
+                            <img
+                              src="/images/attach.png"
+                              alt=""
+                              height="25px"
+                              width="25px"
                             />
                           </div>
-                        </div>
-                      ) : each.field === "Document-Upload-Box" ? (
-                        <div className="block" key={each._id}>
-                          <div className="regular-bold">{each.title}</div>
-                          <div className="download-block">
-                            <div className="icon-container">
-                              <img
-                                src="/images/attach.png"
-                                alt=""
-                                height="25px"
-                                width="25px"
-                              />
-                            </div>
-                            <div className="name">{each.value}</div>
-                            <div className="button-container">
-                              <PrimaryButton
-                                variant="success_light"
-                                text={t("Download attachment")}
-                                onClick={() => {
-                                  if (each && each.URL) {
-                                    window.open(each.URL);
-                                  } else {
-                                    alert("No_file_found");
-                                  }
-                                }}
-                              ></PrimaryButton>
-                            </div>
-                          </div>
-                        </div>
-                      ) : null;
-                    })
-                  : null}
-              </div>
-            ) : (
-              <Row>
-                {submissions && submissions.length
-                  ? submissions.map((each, index) => {
-                      return (
-                        <Col lg={6} md={6} sm={12} key={index}>
-                          <div
-                            className={`new-block ${
-                              each.userId &&
-                              each.userId.status === Constants.STATUS.INACTIVE
-                                ? "disable"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              if (
-                                each.userId &&
-                                each.userId.status === Constants.STATUS.ACTIVE
-                              ) {
-                                selectRow(each);
-                              }
-                            }}
-                          >
-                            <div>
-                              {challengeData &&
-                                challengeData.descriptionId &&
-                                challengeData.descriptionId.title && (
-                                  <div className="challenge-name">
-                                    {challengeData.descriptionId.title}
-                                  </div>
-                                )}
-                              <div className="basic-information">
-                                <div className="user-name">
-                                  {each.userId
-                                    ? each.userId.details &&
-                                      each.userId.details.name
-                                      ? each.userId.details.name
-                                      : each.userId.firstName &&
-                                        each.userId.lastName
-                                      ? each.userId.firstName +
-                                        " " +
-                                        each.userId.lastName
-                                      : each.userId.email
-                                    : null}
-                                </div>
-                                <div>Submitted Application</div>
-                              </div>
-                            </div>
-                            <div>
-                              <div
-                                className="status-container"
-                                style={
-                                  each.isEvaluated
-                                    ? {
-                                        backgroundColor: "#e0f9ea",
-                                        color: "#66e397",
-                                        borderColor: "#66e397",
-                                      }
-                                    : each.isDisqualified
-                                    ? {
-                                        backgroundColor: "#fce7e7",
-                                        color: "#f18989",
-                                        borderColor: "#f18989",
-                                      }
-                                    : {
-                                        backgroundColor: "#fdf1ce",
-                                        color: "#f4ba09",
-                                        borderColor: "#f4ba09",
-                                      }
+                          <div className="name">{each.value}</div>
+                          <div className="button-container">
+                            <PrimaryButton
+                              variant="success_light"
+                              text={t("Download attachment")}
+                              onClick={() => {
+                                if (each && each.URL) {
+                                  window.open(each.URL);
+                                } else {
+                                  alert("No_file_found");
                                 }
-                              >
-                                {each.isDisqualified
-                                  ? "Disqualified"
-                                  : each.isEvaluated
-                                  ? "Approved"
-                                  : "pending"}
+                              }}
+                            ></PrimaryButton>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null;
+                  })
+                : null}
+            </div>
+          ) : (
+            <Row>
+              {submissions && submissions.length
+                ? submissions.map((each, index) => {
+                    return (
+                      <Col lg={6} md={6} sm={12} key={index}>
+                        <div
+                          className={`new-block ${
+                            each.userId &&
+                            each.userId.status === Constants.STATUS.INACTIVE
+                              ? "disable"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            if (
+                              each.userId &&
+                              each.userId.status === Constants.STATUS.ACTIVE
+                            ) {
+                              selectRow(each);
+                            }
+                          }}
+                        >
+                          <div>
+                            {challengeData &&
+                              challengeData.descriptionId &&
+                              challengeData.descriptionId.title && (
+                                <div className="challenge-name">
+                                  {challengeData.descriptionId.title}
+                                </div>
+                              )}
+                            <div className="basic-information">
+                              <div className="user-name">
+                                {each.userId
+                                  ? each.userId.details &&
+                                    each.userId.details.name
+                                    ? each.userId.details.name
+                                    : each.userId.firstName &&
+                                      each.userId.lastName
+                                    ? each.userId.firstName +
+                                      " " +
+                                      each.userId.lastName
+                                    : each.userId.email
+                                  : null}
                               </div>
-                              <div>
-                                {moment(each.createdDate).format("DD.MM.YYYY")}
-                              </div>
+                              <div>Submitted Application</div>
                             </div>
                           </div>
-                        </Col>
-                      );
-                    })
-                  : null}
-              </Row>
+                          <div>
+                            <div
+                              className="status-container"
+                              style={
+                                each.isEvaluated
+                                  ? {
+                                      backgroundColor: "#e0f9ea",
+                                      color: "#66e397",
+                                      borderColor: "#66e397",
+                                    }
+                                  : each.isDisqualified
+                                  ? {
+                                      backgroundColor: "#fce7e7",
+                                      color: "#f18989",
+                                      borderColor: "#f18989",
+                                    }
+                                  : {
+                                      backgroundColor: "#fdf1ce",
+                                      color: "#f4ba09",
+                                      borderColor: "#f4ba09",
+                                    }
+                              }
+                            >
+                              {each.isDisqualified
+                                ? "Disqualified"
+                                : each.isEvaluated
+                                ? "Approved"
+                                : "pending"}
+                            </div>
+                            <div>
+                              {moment(each.createdDate).format("DD.MM.YYYY")}
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    );
+                  })
+                : null}
+            </Row>
 
-              // <CommonTable
-              //   filters={
-              //     <div className="filter-container">
-              //       <div className="controll-container">
-              //         <DropDown
-              //           isSmall={true}
-              //           isSingle={true}
-              //           isSelectOnly={true}
-              //           placeholder={t("Filter Results")}
-              //           options={[
-              //             { label: t("All"), value: "all" },
-              //             {
-              //               label: t("Startup Name"),
-              //               value: "startup_name",
-              //             },
-              //             {
-              //               label: t("Owner Name"),
-              //               value: "owner_name",
-              //             },
-              //             {
-              //               label: t("Location"),
-              //               value: "location",
-              //             },
-              //             {
-              //               label: t("Industry"),
-              //               value: "industry",
-              //             },
-              //             {
-              //               label: t("Technology"),
-              //               value: "technology",
-              //             },
-              //           ]}
-              //           value={selectedFilter}
-              //           onChange={(val) => {
-              //             selectFilter(val);
-              //           }}
-              //         />
-              //         <Input
-              //           type="text"
-              //           placeholder={t("Search")}
-              //           value={searchText}
-              //           onChange={(e) => {
-              //             setSearchText(e.target.value);
-              //           }}
-              //         />
-              //       </div>
-              //     </div>
-              //   }
-              //   columns={[
-              //     {
-              //       Header: "",
-              //       accessor: "active",
-              //       width: "2.5%",
-              //       standAlone: true,
-              //       HeaderCell: () => {
-              //         return (
-              //           <div>
-              //             <CheckBox
-              //               id={`checkbox-${Math.random()}`}
-              //               checkBoxText=""
-              //               onChange={(e) => {
-              //                 let { checked } = e.target;
-              //                 changeSubmissions((data) => {
-              //                   return data.filter((each) => {
-              //                     each.active = checked;
-              //                     return each;
-              //                   });
-              //                 });
-              //               }}
-              //             />
-              //           </div>
-              //         );
-              //       },
-              //       Cell: (checked, record) => {
-              //         return (
-              //           <div>
-              //             <CheckBox
-              //               id={`checkbox-${Math.random()}`}
-              //               checkBoxText=""
-              //               checked={checked}
-              //               onChange={(e) => {
-              //                 let { checked } = e.target;
-              //                 changeSubmissions((data) => {
-              //                   return data.filter((each) => {
-              //                     if (each.id === record.id) {
-              //                       each.active = checked;
-              //                     }
-              //                     return each;
-              //                   });
-              //                 });
-              //               }}
-              //             />
-              //           </div>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Startup Name"),
-              //       accessor: "userId",
-              //       width: "19%",
-              //       Cell: (data) => {
-              //         return (
-              //           <span>{data && data.details && data.details.name}</span>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Owner Name"),
-              //       accessor: "userId",
-              //       width: "19%",
-              //       Cell: (data) => {
-              //         return (
-              //           <span>
-              //             {data && data.firstName} {data && data.lastName}
-              //           </span>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Location"),
-              //       accessor: "userId",
-              //       width: "19%",
-              //       Cell: (data) => {
-              //         return (
-              //           <span>
-              //             {data && data.details && data.details.locationData}
-              //           </span>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Industry"),
-              //       accessor: "userId",
-              //       width: "19%",
-              //       Cell: (data) => {
-              //         return (
-              //           <span>
-              //             {data &&
-              //               data.businessTags &&
-              //               data.businessTags.industry &&
-              //               data.businessTags.industry
-              //                 .map((each) => {
-              //                   return each.name;
-              //                 })
-              //                 .join()}
-              //           </span>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Technology"),
-              //       accessor: "userId",
-              //       width: "19%",
-              //       Cell: (data) => {
-              //         return (
-              //           <span>
-              //             {data &&
-              //               data.businessTags &&
-              //               data.businessTags.technology &&
-              //               data.businessTags.technology
-              //                 .map((each) => {
-              //                   return each.name;
-              //                 })
-              //                 .join()}
-              //           </span>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       Header: t("Elegiable"),
-              //       accessor: "Elegiable",
-              //       width: "2.5%",
-              //       Cell: (data) => {
-              //         return (
-              //           <div className="circle-container">
-              //             <div className="elegiable-circle"></div>
-              //           </div>
-              //         );
-              //       },
-              //     },
-              //   ]}
-              //   data={submissions}
-              //   showPagination={false}
-              //   onRowClick={(val) => {
-              //     selectRow(val);
-              //   }}
-              // />
-            )}
-          </Col>
-        </Row>
-        <EvaluateModal
-          t={t}
-          show={show}
-          setShow={setShow}
-          selectedRow={selectedRow}
-          challengeData={challengeData}
-          onSaveDraft={onSaveDraft}
-          onSubmitEvaluation={onSubmitEvaluation}
-        />
-        <DisqualifyModal
-          t={t}
-          show={showDisqualify}
-          setShow={setDisqualifyShow}
-          errors={errors}
-          onDisqualify={onDisqualify}
-        />
-      </MainContainer>
-    )
+            // <CommonTable
+            //   filters={
+            //     <div className="filter-container">
+            //       <div className="controll-container">
+            //         <DropDown
+            //           isSmall={true}
+            //           isSingle={true}
+            //           isSelectOnly={true}
+            //           placeholder={t("Filter Results")}
+            //           options={[
+            //             { label: t("All"), value: "all" },
+            //             {
+            //               label: t("Startup Name"),
+            //               value: "startup_name",
+            //             },
+            //             {
+            //               label: t("Owner Name"),
+            //               value: "owner_name",
+            //             },
+            //             {
+            //               label: t("Location"),
+            //               value: "location",
+            //             },
+            //             {
+            //               label: t("Industry"),
+            //               value: "industry",
+            //             },
+            //             {
+            //               label: t("Technology"),
+            //               value: "technology",
+            //             },
+            //           ]}
+            //           value={selectedFilter}
+            //           onChange={(val) => {
+            //             selectFilter(val);
+            //           }}
+            //         />
+            //         <Input
+            //           type="text"
+            //           placeholder={t("Search")}
+            //           value={searchText}
+            //           onChange={(e) => {
+            //             setSearchText(e.target.value);
+            //           }}
+            //         />
+            //       </div>
+            //     </div>
+            //   }
+            //   columns={[
+            //     {
+            //       Header: "",
+            //       accessor: "active",
+            //       width: "2.5%",
+            //       standAlone: true,
+            //       HeaderCell: () => {
+            //         return (
+            //           <div>
+            //             <CheckBox
+            //               id={`checkbox-${Math.random()}`}
+            //               checkBoxText=""
+            //               onChange={(e) => {
+            //                 let { checked } = e.target;
+            //                 changeSubmissions((data) => {
+            //                   return data.filter((each) => {
+            //                     each.active = checked;
+            //                     return each;
+            //                   });
+            //                 });
+            //               }}
+            //             />
+            //           </div>
+            //         );
+            //       },
+            //       Cell: (checked, record) => {
+            //         return (
+            //           <div>
+            //             <CheckBox
+            //               id={`checkbox-${Math.random()}`}
+            //               checkBoxText=""
+            //               checked={checked}
+            //               onChange={(e) => {
+            //                 let { checked } = e.target;
+            //                 changeSubmissions((data) => {
+            //                   return data.filter((each) => {
+            //                     if (each.id === record.id) {
+            //                       each.active = checked;
+            //                     }
+            //                     return each;
+            //                   });
+            //                 });
+            //               }}
+            //             />
+            //           </div>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Startup Name"),
+            //       accessor: "userId",
+            //       width: "19%",
+            //       Cell: (data) => {
+            //         return (
+            //           <span>{data && data.details && data.details.name}</span>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Owner Name"),
+            //       accessor: "userId",
+            //       width: "19%",
+            //       Cell: (data) => {
+            //         return (
+            //           <span>
+            //             {data && data.firstName} {data && data.lastName}
+            //           </span>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Location"),
+            //       accessor: "userId",
+            //       width: "19%",
+            //       Cell: (data) => {
+            //         return (
+            //           <span>
+            //             {data && data.details && data.details.locationData}
+            //           </span>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Industry"),
+            //       accessor: "userId",
+            //       width: "19%",
+            //       Cell: (data) => {
+            //         return (
+            //           <span>
+            //             {data &&
+            //               data.businessTags &&
+            //               data.businessTags.industry &&
+            //               data.businessTags.industry
+            //                 .map((each) => {
+            //                   return each.name;
+            //                 })
+            //                 .join()}
+            //           </span>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Technology"),
+            //       accessor: "userId",
+            //       width: "19%",
+            //       Cell: (data) => {
+            //         return (
+            //           <span>
+            //             {data &&
+            //               data.businessTags &&
+            //               data.businessTags.technology &&
+            //               data.businessTags.technology
+            //                 .map((each) => {
+            //                   return each.name;
+            //                 })
+            //                 .join()}
+            //           </span>
+            //         );
+            //       },
+            //     },
+            //     {
+            //       Header: t("Elegiable"),
+            //       accessor: "Elegiable",
+            //       width: "2.5%",
+            //       Cell: (data) => {
+            //         return (
+            //           <div className="circle-container">
+            //             <div className="elegiable-circle"></div>
+            //           </div>
+            //         );
+            //       },
+            //     },
+            //   ]}
+            //   data={submissions}
+            //   showPagination={false}
+            //   onRowClick={(val) => {
+            //     selectRow(val);
+            //   }}
+            // />
+          )}
+        </Col>
+      </Row>
+      <EvaluateModal
+        t={t}
+        show={show}
+        setShow={setShow}
+        selectedRow={selectedRow}
+        challengeData={challengeData}
+        onSaveDraft={onSaveDraft}
+        onSubmitEvaluation={onSubmitEvaluation}
+      />
+      <DisqualifyModal
+        t={t}
+        show={showDisqualify}
+        setShow={setDisqualifyShow}
+        errors={errors}
+        onDisqualify={onDisqualify}
+      />
+    </MainContainer>
   ) : (
+    // )
     <Row className="justify-content-center">
       <Col lg={11} md={11} sm={11} xs={11}>
         <div className="no-data-text">
