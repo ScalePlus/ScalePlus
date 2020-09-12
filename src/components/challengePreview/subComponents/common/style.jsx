@@ -214,7 +214,8 @@ export const StepperVerticalContainer = styled.div`
     display: none;
   }
 
-  .selected {
+  .selected,
+  .last-selected {
     .inner-oval {
       background-color: ${theme.colors.yellow};
     }
@@ -222,6 +223,23 @@ export const StepperVerticalContainer = styled.div`
 
   .selected::after {
     background-color: ${theme.colors.yellow};
+  }
+
+  .step:not(:first-child).last-selected::after {
+    background-color: ${theme.colors.yellow};
+    bottom: 50%;
+    height: 50%;
+  }
+
+  .step:not(:last-child).last-selected::before {
+    content: "";
+    position: absolute;
+    height: 50%;
+    width: 2px;
+    background-color: ${theme.colors.lightSilver};
+    left: calc(20px / 2);
+    top: 50%;
+    z-index: 1;
   }
 
   .active {
@@ -237,11 +255,11 @@ export const StepperVerticalContainer = styled.div`
   .step:not(:first-child).active::before {
     content: "";
     position: absolute;
-    height: 50%;
+    height: 100%;
     width: 2px;
     background-color: ${theme.colors.yellow};
     left: calc(20px / 2);
-    top: 0;
+    top: -50%;
     z-index: 1;
   }
 

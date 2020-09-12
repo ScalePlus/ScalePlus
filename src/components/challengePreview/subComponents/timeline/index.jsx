@@ -47,12 +47,24 @@ const Timeline = ({
               challengeData.timelineId &&
               challengeData.timelineId.data &&
               challengeData.timelineId.data.length
-                ? challengeData.timelineId.data.map((each) => {
+                ? challengeData.timelineId.data.map((each, index) => {
                     return {
                       completed:
                         each && each.startDate && each.endDate
                           ? new Date(each.startDate) <= new Date() &&
                             new Date(each.endDate) <= new Date()
+                          : false,
+                      lastCompleted:
+                        each && each.startDate && each.endDate
+                          ? new Date(each.startDate) <= new Date() &&
+                            new Date(each.endDate) <= new Date() &&
+                            challengeData.timelineId.data.find(
+                              (rec, ind) =>
+                                ind === index + 1 &&
+                                (new Date(rec.startDate) >= new Date() ||
+                                  (new Date(rec.startDate) <= new Date() &&
+                                    new Date() <= new Date(rec.endDate)))
+                            )
                           : false,
                       active:
                         each && each.startDate && each.endDate

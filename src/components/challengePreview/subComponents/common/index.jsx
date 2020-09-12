@@ -248,9 +248,17 @@ export const VeticalStepper = React.memo(({ steps, is_startup_Individual }) => {
                     //   ? "step selected"
                     //   : index < activeIndex
                     // ? "step selected"
-                    `step ${each.active ? "active" : ""} ${
-                      each.completed ? "selected" : ""
-                    } ${steps.length === 1 ? "single-child" : ""}`
+                    `${
+                      each.active
+                        ? "step active"
+                        : each.lastCompleted
+                        ? "step last-selected"
+                        : each.completed
+                        ? "step selected"
+                        : steps.length === 1
+                        ? "step single-child"
+                        : "step"
+                    }`
                   }
                   key={index}
                 >
