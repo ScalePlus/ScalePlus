@@ -1379,6 +1379,7 @@ export const CardComponent = React.memo(
     const [progressPer, setProgressPer] = useState(0);
     const [currentMilestone, setCurrentMilestone] = useState("");
     const [leftDuration, setLeftDuration] = useState("");
+    const [challengeStarted, setChallengeStart] = useState(false);
 
     useEffect(() => {
       let selectedData = null,
@@ -1421,6 +1422,15 @@ export const CardComponent = React.memo(
         const { data } = timelineId;
         for (let i = 0; i < data.length; i++) {
           const each = data[i];
+          if (each.state.name === "Start") {
+            const currentDate = new Date().getTime();
+            const startDate = new Date(each.startDate).getTime();
+            if (currentDate > startDate) {
+              setChallengeStart(true);
+            } else {
+              setChallengeStart(false);
+            }
+          }
           if (each.state.name === "Closing") {
             const currentDate = new Date().getTime();
             const closingEndDate = new Date(each.endDate).getTime();
@@ -1506,10 +1516,12 @@ export const CardComponent = React.memo(
                 ></img>
                 <div className="days-text">
                   {leftDuration ? (
-                    currentMilestone ? (
+                    !challengeStarted ? (
+                      <span>{t("Comming soon")}</span>
+                    ) : currentMilestone ? (
                       <span>{leftDuration}</span>
                     ) : (
-                      <span>{t("Comming soon")}</span>
+                      <span>{t("In progress")}</span>
                     )
                   ) : (
                     <span>{t("Completed")}</span>
@@ -1544,8 +1556,10 @@ export const CardComponent = React.memo(
                           now={progressPer}
                           label={currentMilestone}
                         />
-                      ) : (
+                      ) : !challengeStarted ? (
                         <ProgressBar now={100} label={t("Comming soon")} />
+                      ) : (
+                        <ProgressBar now={100} label={t("In progress")} />
                       )
                     ) : (
                       <ProgressBar now={100} label={t("Completed")} />

@@ -809,7 +809,9 @@ const Timeline = ({ t, challengeId }) => {
                       : null} */}
                   </div>
                   <div className="right-container">
-                    {each.isCustom ? (
+                    {each.isCustom ||
+                    (each.state.name !== "Start" &&
+                      each.state.name !== "Closing") ? (
                       <RemoveButton
                         onClick={() => {
                           if (
