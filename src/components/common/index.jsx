@@ -873,7 +873,7 @@ export const DropDown = React.memo(
               !isSelectOnly
             );
           }}
-          value={value}
+          value={value ? value : ""}
           onChange={
             isSingle
               ? onChange

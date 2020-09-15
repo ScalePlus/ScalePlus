@@ -54,16 +54,7 @@ const ChallengeMaster = ({ match, history }) => {
   const [biginDate, changeBiginDate] = useState(null);
   const [endDate, changeEndDate] = useState(null);
   const [anounceDate, changeAnounceDate] = useState(null);
-  const [timeline, changeTimeline] = useState([
-    {
-      _id: `timeline-1`,
-      startDate: "",
-      endDate: "",
-      state: "",
-      description: "",
-      adminAttachments: [],
-    },
-  ]);
+  const [timeline, changeTimeline] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploadPercentage, setUploadPercentage] = useState(null);
