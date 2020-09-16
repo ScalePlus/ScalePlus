@@ -309,6 +309,7 @@
         "Read more": "Read more",
         "Forum": "Forum",
         "Judge this Challenge": "Judge this Challenge",
+        "Judging Closed": "Judging Closed",
         "Submission Closed": "Submission Closed",
         "Challenge Overview": "Challenge Overview",
         "Edit Overview": "Edit Overview",
@@ -824,6 +825,8 @@
         "functionality_not_available": "This functionality is not available in current milestone, You can explore",
         "Comming soon": "Comming soon",
         "In progress": "In progress",
-        "This position is not available": "This position is not available"
+        "This position is not available": "This position is not available",
+        "no_submission_found": "No submision done yet, You can explore",
+        "timeline_error": "Error in Timeline : Start state's startdate should be in future"
     }
 }

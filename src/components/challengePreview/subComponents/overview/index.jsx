@@ -18,6 +18,7 @@ const OverView = ({
   is_profile_updated,
   setUserFlowModal,
   submissionClosed,
+  judgingClosed,
 }) => {
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
@@ -132,10 +133,21 @@ const OverView = ({
                 {is_organisation || organisationTeamMember ? null : (
                   <div className="button-container">
                     <PrimaryButton
-                      variant={submissionClosed ? "secondary" : "primary"}
+                      variant={
+                        (((is_startup_Individual &&
+                          !memberAsParticipant &&
+                          !organisationTeamMember) ||
+                          !is_logged_in) &&
+                          submissionClosed) ||
+                        (is_mentor_judge && !memberAsJudge && judgingClosed)
+                          ? "secondary"
+                          : "primary"
+                      }
                       text={
                         is_mentor_judge && !memberAsJudge
-                          ? t("Judge this Challenge")
+                          ? judgingClosed
+                            ? t("Judging Closed")
+                            : t("Judge this Challenge")
                           : (is_startup_Individual &&
                               !memberAsParticipant &&
                               !organisationTeamMember) ||
@@ -148,7 +160,7 @@ const OverView = ({
                       onClick={() => {
                         if (is_logged_in) {
                           if (is_profile_updated) {
-                            if (is_mentor_judge) {
+                            if (is_mentor_judge && !judgingClosed) {
                               history.push(
                                 `/judges/agreement/${challengeData._id}`
                               );
@@ -224,10 +236,21 @@ const OverView = ({
           <Row className="justify-content-center">
             <Col lg={3} md={3} sm={3} xs={3} className="button-container">
               <PrimaryButton
-                variant={submissionClosed ? "secondary" : "primary"}
+                variant={
+                  (((is_startup_Individual &&
+                    !memberAsParticipant &&
+                    !organisationTeamMember) ||
+                    !is_logged_in) &&
+                    submissionClosed) ||
+                  (is_mentor_judge && !memberAsJudge && judgingClosed)
+                    ? "secondary"
+                    : "primary"
+                }
                 text={
                   is_mentor_judge && !memberAsJudge
-                    ? t("Judge this Challenge")
+                    ? judgingClosed
+                      ? t("Judging Closed")
+                      : t("Judge this Challenge")
                     : (is_startup_Individual &&
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
@@ -240,7 +263,7 @@ const OverView = ({
                 onClick={() => {
                   if (is_logged_in) {
                     if (is_profile_updated) {
-                      if (is_mentor_judge) {
+                      if (is_mentor_judge && !judgingClosed) {
                         history.push(`/judges/agreement/${challengeData._id}`);
                       } else if (!submissionClosed) {
                         history.push(

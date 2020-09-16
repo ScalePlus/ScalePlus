@@ -318,10 +318,24 @@ const ChallengeEdit = ({ history, match }) => {
                 primaryButtonText={t("Submit for review")}
                 secondaryButtonText={t("Preview")}
                 primaryButtonClick={() => {
-                  updateChallengeMethod({
-                    _id: challengeId,
-                    isPublished: true,
-                  });
+                  if (
+                    challengeData &&
+                    challengeData.timelineId &&
+                    challengeData.timelineId.data &&
+                    challengeData.timelineId.data.length &&
+                    challengeData.timelineId.data.find(
+                      (each) =>
+                        each.state.name === "Start" &&
+                        new Date(each.startDate) > new Date()
+                    )
+                  ) {
+                    updateChallengeMethod({
+                      _id: challengeId,
+                      isPublished: true,
+                    });
+                  } else {
+                    setErrors([t("timeline_error")]);
+                  }
                 }}
                 primaryButtonDisable={progress !== 100}
                 secondaryButtonClick={() => {
@@ -537,10 +551,6 @@ const ChallengeEdit = ({ history, match }) => {
                         is_mentor_judge={is_mentor_judge}
                         is_organisation={is_organisation}
                         fromPreview={false}
-                        submissionVisibility={true}
-                        judgingStarted={true}
-                        judgingClosed={false}
-                        submissionClosed={false}
                       />
                     )}
                   {activeKey && activeKey.value === "userList" && (

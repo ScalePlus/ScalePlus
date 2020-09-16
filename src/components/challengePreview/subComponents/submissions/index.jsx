@@ -38,10 +38,6 @@ const Submissions = ({
   organisationTeamMember,
   challengeData,
   fromPreview,
-  // submissionVisibility,
-  // judgingStarted,
-  judgingClosed,
-  // submissionClosed,
   memberAsParticipant,
 }) => {
   const dispatch = useDispatch();
@@ -61,6 +57,7 @@ const Submissions = ({
     return state.submissionListReducer;
   });
 
+  const is_loggedin = localStorage.getItem("token");
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
@@ -331,7 +328,9 @@ const Submissions = ({
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
                 {t("thank_submission_text")}{" "}
-                <Link to="/all/challenges">{t("Other Challenges")}</Link>
+                <Link to={is_loggedin ? "/dashboard" : "/all/challenges"}>
+                  {t("Other Challenges")}
+                </Link>
               </div>
             </Col>
           </Row>
@@ -348,10 +347,9 @@ const Submissions = ({
             <Col lg={10} md={10} sm={10} xs={10}>
               <div className="thankyou-text">
                 {t("functionality_not_available")}{" "}
-                {/* {submissionClosed
-                  ? t("submission_closed")
-                  : t("submission_not_started")}{" "} */}
-                <Link to="/all/challenges">{t("Other Challenges")}</Link>
+                <Link to={is_loggedin ? "/dashboard" : "/all/challenges"}>
+                  {t("Other Challenges")}
+                </Link>
               </div>
             </Col>
           </Row>
@@ -717,7 +715,7 @@ const Submissions = ({
     //         <div className="thankyou-text">
     //           {t("functionality_not_available")}{" "}
     //           {/* {t("judgement_not_started")}{" "} */}
-    //           <Link to="/all/challenges">{t("Other Challenges")}</Link>
+    //           <Link to={is_loggedin ? "/dashboard" : "/all/challenges"}>{t("Other Challenges")}</Link>
     //         </div>
     //       </Col>
     //     </Row>
@@ -746,19 +744,6 @@ const Submissions = ({
                 }}
               />
             ) : selectedRow.isEvaluated ? (
-              <HeaderComponent
-                titleText={t("Submissions")}
-                backButton={true}
-                onBackButtonClick={() => {
-                  selectRow(null);
-                  if (queryString.parse(window.location.search).submissionId) {
-                    history.push(
-                      `/challenge/${challengeData._id}/preview/Submissions`
-                    );
-                  }
-                }}
-              />
-            ) : judgingClosed ? (
               <HeaderComponent
                 titleText={t("Submissions")}
                 backButton={true}
@@ -954,89 +939,100 @@ const Submissions = ({
             </div>
           ) : (
             <Row>
-              {submissions && submissions.length
-                ? submissions.map((each, index) => {
-                    return (
-                      <Col lg={6} md={6} sm={12} key={index}>
-                        <div
-                          className={`new-block ${
+              {submissions && submissions.length ? (
+                submissions.map((each, index) => {
+                  return (
+                    <Col lg={6} md={6} sm={12} key={index}>
+                      <div
+                        className={`new-block ${
+                          each.userId &&
+                          each.userId.status === Constants.STATUS.INACTIVE
+                            ? "disable"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          if (
                             each.userId &&
-                            each.userId.status === Constants.STATUS.INACTIVE
-                              ? "disable"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            if (
-                              each.userId &&
-                              each.userId.status === Constants.STATUS.ACTIVE
-                            ) {
-                              selectRow(each);
-                            }
-                          }}
-                        >
-                          <div>
-                            {challengeData &&
-                              challengeData.descriptionId &&
-                              challengeData.descriptionId.title && (
-                                <div className="challenge-name">
-                                  {challengeData.descriptionId.title}
-                                </div>
-                              )}
-                            <div className="basic-information">
-                              <div className="user-name">
-                                {each.userId
-                                  ? each.userId.details &&
-                                    each.userId.details.name
-                                    ? each.userId.details.name
-                                    : each.userId.firstName &&
-                                      each.userId.lastName
-                                    ? each.userId.firstName +
-                                      " " +
-                                      each.userId.lastName
-                                    : each.userId.email
-                                  : null}
+                            each.userId.status === Constants.STATUS.ACTIVE
+                          ) {
+                            selectRow(each);
+                          }
+                        }}
+                      >
+                        <div>
+                          {challengeData &&
+                            challengeData.descriptionId &&
+                            challengeData.descriptionId.title && (
+                              <div className="challenge-name">
+                                {challengeData.descriptionId.title}
                               </div>
-                              <div>Submitted Application</div>
+                            )}
+                          <div className="basic-information">
+                            <div className="user-name">
+                              {each.userId
+                                ? each.userId.details &&
+                                  each.userId.details.name
+                                  ? each.userId.details.name
+                                  : each.userId.firstName &&
+                                    each.userId.lastName
+                                  ? each.userId.firstName +
+                                    " " +
+                                    each.userId.lastName
+                                  : each.userId.email
+                                : null}
                             </div>
-                          </div>
-                          <div>
-                            <div
-                              className="status-container"
-                              style={
-                                each.isEvaluated
-                                  ? {
-                                      backgroundColor: "#e0f9ea",
-                                      color: "#66e397",
-                                      borderColor: "#66e397",
-                                    }
-                                  : each.isDisqualified
-                                  ? {
-                                      backgroundColor: "#fce7e7",
-                                      color: "#f18989",
-                                      borderColor: "#f18989",
-                                    }
-                                  : {
-                                      backgroundColor: "#fdf1ce",
-                                      color: "#f4ba09",
-                                      borderColor: "#f4ba09",
-                                    }
-                              }
-                            >
-                              {each.isDisqualified
-                                ? "Disqualified"
-                                : each.isEvaluated
-                                ? "Approved"
-                                : "pending"}
-                            </div>
-                            <div>
-                              {moment(each.createdDate).format("DD.MM.YYYY")}
-                            </div>
+                            <div>Submitted Application</div>
                           </div>
                         </div>
-                      </Col>
-                    );
-                  })
-                : null}
+                        <div>
+                          <div
+                            className="status-container"
+                            style={
+                              each.isEvaluated
+                                ? {
+                                    backgroundColor: "#e0f9ea",
+                                    color: "#66e397",
+                                    borderColor: "#66e397",
+                                  }
+                                : each.isDisqualified
+                                ? {
+                                    backgroundColor: "#fce7e7",
+                                    color: "#f18989",
+                                    borderColor: "#f18989",
+                                  }
+                                : {
+                                    backgroundColor: "#fdf1ce",
+                                    color: "#f4ba09",
+                                    borderColor: "#f4ba09",
+                                  }
+                            }
+                          >
+                            {each.isDisqualified
+                              ? "Disqualified"
+                              : each.isEvaluated
+                              ? "Approved"
+                              : "pending"}
+                          </div>
+                          <div>
+                            {moment(each.createdDate).format("DD.MM.YYYY")}
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                  );
+                })
+              ) : (
+                <Row className="justify-content-center">
+                  <Col>
+                    <div className="thankyou-text">
+                      {t("no_submission_found")}{" "}
+                      <Link to={is_loggedin ? "/dashboard" : "/all/challenges"}>
+                        {t("Other Challenges")}
+                      </Link>
+                    </div>
+                  </Col>
+                </Row>
+              )}
             </Row>
 
             // <CommonTable

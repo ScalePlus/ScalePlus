@@ -186,6 +186,84 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
     }
   };
 
+  const isPositionAvailable = (sourceIndex, destinationIndex) => {
+    let sourceRecord = timeline.find((rec, index) => index === sourceIndex),
+      destinationRecord = timeline.find(
+        (rec, index) => index === destinationIndex
+      );
+
+    if (sourceRecord && sourceRecord.state && sourceRecord.state.name) {
+      if (
+        sourceRecord.state.name === "Presentation" ||
+        sourceRecord.state.name === "Submission"
+      ) {
+        return true;
+      } else if (sourceRecord.state.name === "Workshop") {
+        if (
+          sourceIndex !== destinationIndex &&
+          destinationRecord &&
+          destinationRecord.state &&
+          (destinationRecord.state.name !== "Presentation" ||
+            (destinationRecord.state.name === "Presentation" &&
+              timeline.find(
+                (rec, index) =>
+                  index < destinationIndex && rec.state.name === "Presentation"
+              )))
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (sourceRecord.state.name === "Judging") {
+        if (
+          sourceIndex !== destinationIndex &&
+          destinationRecord &&
+          destinationRecord.state &&
+          (destinationRecord.state.name !== "Submission" ||
+            (destinationRecord.state.name === "Submission" &&
+              timeline.find(
+                (rec, index) =>
+                  index < destinationIndex && rec.state.name === "Submission"
+              )))
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
+
+  const isPositionAvailableUsingDropdown = (newState, index) => {
+    if (newState === "Presentation" || newState === "Submission") {
+      return true;
+    } else if (
+      newState === "Workshop" &&
+      timeline &&
+      timeline.length &&
+      timeline.find(
+        (rec, ind) => ind < index && rec.state.name === "Presentation"
+      )
+    ) {
+      return true;
+    } else if (
+      newState === "Judging" &&
+      timeline &&
+      timeline.length &&
+      timeline.find(
+        (rec, ind) => ind < index && rec.state.name === "Submission"
+      )
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Row className="sub-container">
       <Col>
@@ -389,6 +467,7 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                     onDragEnd={(result) => {
                       if (
                         !result.source ||
+                        !result.source.index ||
                         !result.destination ||
                         (result.destination &&
                           (!result.destination.index ||
@@ -396,18 +475,23 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                               (result.destination.index ===
                                 timeline.length - 1 ||
                                 result.destination.index ===
-                                  timeline.length - 2))))
-                      ) {
-                        alert(t("This position is not available"));
-                        return;
-                      }
-                      changeTimeline((data) =>
-                        reorder(
-                          data,
+                                  timeline.length - 2)))) ||
+                        !isPositionAvailable(
                           result.source.index,
                           result.destination.index
                         )
-                      );
+                      ) {
+                        alert(t("This position is not available"));
+                        return;
+                      } else {
+                        changeTimeline((data) =>
+                          reorder(
+                            data,
+                            result.source.index,
+                            result.destination.index
+                          )
+                        );
+                      }
                     }}
                   >
                     <Droppable droppableId="droppable">
@@ -581,26 +665,14 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                       setMinutes(new Date(), 0),
                                                       0
                                                     )
-                                                  : setHours(
-                                                      setMinutes(
-                                                        new Date(),
-                                                        getMinutes(
-                                                          new Date(
-                                                            each.startDate
-                                                          ) + 15
-                                                        )
-                                                      ),
-                                                      getHours(
-                                                        new Date(each.startDate)
-                                                      )
+                                                  : new Date(
+                                                      new Date(
+                                                        each.startDate
+                                                      ).getTime() + 900000
                                                     )
-                                                : setHours(
-                                                    setMinutes(
-                                                      new Date(),
-                                                      getMinutes(new Date()) +
-                                                        15
-                                                    ),
-                                                    getHours(new Date())
+                                                : new Date(
+                                                    new Date().getTime() +
+                                                      900000
                                                   )
                                             }
                                             maxTime={setHours(
@@ -617,6 +689,65 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                               newArr[index][
                                                 "endDate"
                                               ] = endDate;
+
+                                              if (
+                                                newArr[index + 1] &&
+                                                newArr[index + 1][
+                                                  "startDate"
+                                                ] &&
+                                                new Date(
+                                                  newArr[index + 1]["startDate"]
+                                                ).getTime() <
+                                                  new Date(
+                                                    newArr[index]["endDate"]
+                                                  ).getTime()
+                                              ) {
+                                                const diffTime = Math.abs(
+                                                  newArr[index]["endDate"] -
+                                                    new Date(
+                                                      newArr[index + 1][
+                                                        "startDate"
+                                                      ]
+                                                    ).getTime()
+                                                );
+
+                                                if (diffTime) {
+                                                  newArr.map(
+                                                    (eachRec, eachRecInd) => {
+                                                      if (eachRecInd > index) {
+                                                        if (
+                                                          eachRec["startDate"]
+                                                        ) {
+                                                          eachRec[
+                                                            "startDate"
+                                                          ] = new Date(
+                                                            new Date(
+                                                              eachRec[
+                                                                "startDate"
+                                                              ]
+                                                            ).getTime() +
+                                                              diffTime
+                                                          );
+                                                        }
+                                                        if (
+                                                          eachRec["endDate"]
+                                                        ) {
+                                                          eachRec[
+                                                            "endDate"
+                                                          ] = new Date(
+                                                            new Date(
+                                                              eachRec["endDate"]
+                                                            ).getTime() +
+                                                              diffTime
+                                                          );
+                                                        }
+                                                      }
+                                                      return eachRec;
+                                                    }
+                                                  );
+                                                }
+                                              }
+
                                               changeTimeline(newArr);
                                             }}
                                             placeholder={t("End Date")}
@@ -652,21 +783,39 @@ const Step4 = ({ t, timeline, changeTimeline, createChallenge }) => {
                                                   )
                                             }
                                             value={stateList.find((option) =>
-                                              each.state._id
-                                                ? option.value ===
-                                                  each.state._id
-                                                : option.value === each.state
+                                              each.state
+                                                ? each.state._id
+                                                  ? option.value ===
+                                                    each.state._id
+                                                  : option.value === each.state
+                                                : ""
                                             )}
                                             onChange={(val) => {
-                                              let newArr = [...timeline];
-                                              newArr[index][
-                                                "state"
-                                              ] = challengeTimelineReducer.timelineStatesSuccess.result.find(
-                                                (each) =>
-                                                  each._id.toString() ===
-                                                  val.value.toString()
-                                              );
-                                              changeTimeline(newArr);
+                                              if (
+                                                isPositionAvailableUsingDropdown(
+                                                  val.label,
+                                                  index
+                                                )
+                                              ) {
+                                                let newArr = [...timeline];
+                                                newArr[index][
+                                                  "state"
+                                                ] = challengeTimelineReducer.timelineStatesSuccess.result.find(
+                                                  (each) =>
+                                                    each._id.toString() ===
+                                                    val.value.toString()
+                                                );
+                                                changeTimeline(newArr);
+                                              } else {
+                                                let newArr = [...timeline];
+                                                newArr[index]["state"] = "";
+                                                changeTimeline(newArr);
+                                                alert(
+                                                  t(
+                                                    "This position is not available"
+                                                  )
+                                                );
+                                              }
                                             }}
                                             // onChange={(val) => {
                                             //   let newArr = [...timeline];

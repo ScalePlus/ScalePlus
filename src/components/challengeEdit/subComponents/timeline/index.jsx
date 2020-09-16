@@ -268,7 +268,7 @@ const Timeline = ({ t, challengeId }) => {
     }
   };
 
-  const isPositionAvailableForNew = (newState, index) => {
+  const isPositionAvailableUsingDropdown = (newState, index) => {
     if (newState === "Presentation" || newState === "Submission") {
       return true;
     } else if (
@@ -276,7 +276,7 @@ const Timeline = ({ t, challengeId }) => {
       timeline &&
       timeline.length &&
       timeline.find(
-        (rec, ind) => ind <= index && rec.state.name === "Presentation"
+        (rec, ind) => ind < index && rec.state.name === "Presentation"
       )
     ) {
       return true;
@@ -285,7 +285,7 @@ const Timeline = ({ t, challengeId }) => {
       timeline &&
       timeline.length &&
       timeline.find(
-        (rec, ind) => ind <= index && rec.state.name === "Submission"
+        (rec, ind) => ind < index && rec.state.name === "Submission"
       )
     ) {
       return true;
@@ -528,10 +528,15 @@ const Timeline = ({ t, challengeId }) => {
                   ) {
                     alert(t("This position is not available"));
                     return;
+                  } else {
+                    changeTimeline((data) =>
+                      reorder(
+                        data,
+                        result.source.index,
+                        result.destination.index
+                      )
+                    );
                   }
-                  changeTimeline((data) =>
-                    reorder(data, result.source.index, result.destination.index)
-                  );
                 }}
               >
                 <Droppable droppableId="droppable">
@@ -701,23 +706,13 @@ const Timeline = ({ t, challengeId }) => {
                                                   setMinutes(new Date(), 0),
                                                   0
                                                 )
-                                              : setHours(
-                                                  setMinutes(
-                                                    new Date(),
-                                                    getMinutes(
-                                                      new Date(each.startDate)
-                                                    ) + 15
-                                                  ),
-                                                  getHours(
-                                                    new Date(each.startDate)
-                                                  )
+                                              : new Date(
+                                                  new Date(
+                                                    each.startDate
+                                                  ).getTime() + 900000
                                                 )
-                                            : setHours(
-                                                setMinutes(
-                                                  new Date(),
-                                                  getMinutes(new Date()) + 15
-                                                ),
-                                                getHours(new Date())
+                                            : new Date(
+                                                new Date().getTime() + 900000
                                               )
                                         }
                                         maxTime={setHours(
@@ -732,6 +727,53 @@ const Timeline = ({ t, challengeId }) => {
                                         onChange={(endDate) => {
                                           let newArr = [...timeline];
                                           newArr[index]["endDate"] = endDate;
+
+                                          if (
+                                            newArr[index + 1] &&
+                                            newArr[index + 1]["startDate"] &&
+                                            new Date(
+                                              newArr[index + 1]["startDate"]
+                                            ).getTime() <
+                                              new Date(
+                                                newArr[index]["endDate"]
+                                              ).getTime()
+                                          ) {
+                                            const diffTime = Math.abs(
+                                              newArr[index]["endDate"] -
+                                                new Date(
+                                                  newArr[index + 1]["startDate"]
+                                                ).getTime()
+                                            );
+
+                                            if (diffTime) {
+                                              newArr.map(
+                                                (eachRec, eachRecInd) => {
+                                                  if (eachRecInd > index) {
+                                                    if (eachRec["startDate"]) {
+                                                      eachRec[
+                                                        "startDate"
+                                                      ] = new Date(
+                                                        new Date(
+                                                          eachRec["startDate"]
+                                                        ).getTime() + diffTime
+                                                      );
+                                                    }
+                                                    if (eachRec["endDate"]) {
+                                                      eachRec[
+                                                        "endDate"
+                                                      ] = new Date(
+                                                        new Date(
+                                                          eachRec["endDate"]
+                                                        ).getTime() + diffTime
+                                                      );
+                                                    }
+                                                  }
+                                                  return eachRec;
+                                                }
+                                              );
+                                            }
+                                          }
+
                                           changeTimeline(newArr);
                                         }}
                                         placeholder={t("End Date")}
@@ -775,7 +817,7 @@ const Timeline = ({ t, challengeId }) => {
                                         )}
                                         onChange={(val) => {
                                           if (
-                                            isPositionAvailableForNew(
+                                            isPositionAvailableUsingDropdown(
                                               val.label,
                                               index
                                             )

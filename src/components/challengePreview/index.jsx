@@ -78,13 +78,8 @@ const ChallengePreview = ({ history, match }) => {
   const [organisationTeamMember, setTeamMember] = useState(null);
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
-  // const [submissionVisibility, setSubmissionVisibility] = useState(false);
-  // const [judgingStarted, setJudgingVisibility] = useState(false);
-  // const [judgingClosed, setJudgingClosed] = useState(false);
-  const [
-    submissionClosed,
-    // setSubmissionClosed
-  ] = useState(false);
+  const [judgingClosed, setJudgingClosed] = useState(false);
+  const [submissionClosed, setSubmissionClosed] = useState(false);
   const [progress, setProgress] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
   const challengeId = match.params.id;
@@ -270,67 +265,39 @@ const ChallengePreview = ({ history, match }) => {
           : false;
       setJudge(memberAsJudge);
 
-      // const submissionStart =
-      //   challengeData &&
-      //   challengeData.timelineId &&
-      //   challengeData.timelineId.data.length &&
-      //   challengeData.timelineId.data.find(
-      //     (each) => each.state.name === "Start"
-      //   );
+      if (
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length
+      ) {
+        setSubmissionClosed(
+          challengeData.timelineId.data.find((each) => {
+            return (
+              each.state.name === "Submission" &&
+              new Date(each.endDate).getTime() > new Date().getTime()
+            );
+          })
+            ? false
+            : true
+        );
+      }
 
-      // const submissionDeadline =
-      //   challengeData &&
-      //   challengeData.timelineId &&
-      //   challengeData.timelineId.data.length &&
-      //   challengeData.timelineId.data.find(
-      //     (each) => each.state.name === "Submission Deadline"
-      //   );
-
-      // if (submissionStart && submissionDeadline) {
-      //   setSubmissionVisibility(
-      //     new Date(submissionStart.date).setHours(0, 0, 0, 0) <=
-      //       new Date().setHours(0, 0, 0, 0) &&
-      //       new Date().setHours(0, 0, 0, 0) <=
-      //         new Date(submissionDeadline.date).setHours(0, 0, 0, 0)
-      //   );
-      // }
-
-      // if (submissionDeadline) {
-      //   setSubmissionClosed(
-      //     new Date(submissionDeadline.date).setHours(0, 0, 0, 0) <
-      //       new Date().setHours(0, 0, 0, 0)
-      //   );
-      // }
-
-      // const judgingStart =
-      //   challengeData &&
-      //   challengeData.timelineId &&
-      //   challengeData.timelineId.data.length &&
-      //   challengeData.timelineId.data.find(
-      //     (each) => each.state.name === "Judging"
-      //   );
-
-      // const judgingClosed =
-      //   challengeData &&
-      //   challengeData.timelineId &&
-      //   challengeData.timelineId.data.length &&
-      //   challengeData.timelineId.data.find(
-      //     (each) => each.state.name === "Judging Closed"
-      //   );
-
-      // if (judgingStart) {
-      //   setJudgingVisibility(
-      //     new Date(judgingStart.date).setHours(0, 0, 0, 0) <=
-      //       new Date().setHours(0, 0, 0, 0)
-      //   );
-      // }
-
-      // if (judgingClosed) {
-      //   setJudgingClosed(
-      //     new Date(judgingClosed.date).setHours(0, 0, 0, 0) <
-      //       new Date().setHours(0, 0, 0, 0)
-      //   );
-      // }
+      if (
+        challengeData &&
+        challengeData.timelineId &&
+        challengeData.timelineId.data.length
+      ) {
+        setJudgingClosed(
+          challengeData.timelineId.data.find((each) => {
+            return (
+              each.state.name === "Judging" &&
+              new Date(each.endDate).getTime() > new Date().getTime()
+            );
+          })
+            ? false
+            : true
+        );
+      }
 
       changeTabs((data) => {
         if (
@@ -596,10 +563,24 @@ const ChallengePreview = ({ history, match }) => {
               <ChallengeHeader
                 primaryButtonText={t("Submit for review")}
                 primaryButtonClick={() => {
-                  updateChallengeMethod({
-                    _id: challengeId,
-                    isPublished: true,
-                  });
+                  if (
+                    challengeData &&
+                    challengeData.timelineId &&
+                    challengeData.timelineId.data &&
+                    challengeData.timelineId.data.length &&
+                    challengeData.timelineId.data.find(
+                      (each) =>
+                        each.state.name === "Start" &&
+                        new Date(each.startDate) > new Date()
+                    )
+                  ) {
+                    updateChallengeMethod({
+                      _id: challengeId,
+                      isPublished: true,
+                    });
+                  } else {
+                    setErrors([t("timeline_error")]);
+                  }
                 }}
                 primaryButtonDisable={progress !== 100}
                 secondaryButtonText={t("Edit Challenge Details")}
@@ -645,7 +626,9 @@ const ChallengePreview = ({ history, match }) => {
               buttonText={
                 selectedTab === tabs[0].value || !is_logged_in
                   ? is_mentor_judge && !memberAsJudge
-                    ? t("Judge this Challenge")
+                    ? judgingClosed
+                      ? t("Judging Closed")
+                      : t("Judge this Challenge")
                     : (is_startup_Individual &&
                         !memberAsParticipant &&
                         !organisationTeamMember) ||
@@ -659,7 +642,7 @@ const ChallengePreview = ({ history, match }) => {
               buttonClick={() => {
                 if (is_logged_in) {
                   if (is_profile_updated) {
-                    if (is_mentor_judge) {
+                    if (is_mentor_judge && !judgingClosed) {
                       history.push(`/judges/agreement/${challengeData._id}`);
                     } else if (!submissionClosed) {
                       history.push(`/challenge/agreement/${challengeData._id}`);
@@ -676,11 +659,12 @@ const ChallengePreview = ({ history, match }) => {
                 }
               }}
               buttonVariant={
-                ((is_startup_Individual &&
+                (((is_startup_Individual &&
                   !memberAsParticipant &&
                   !organisationTeamMember) ||
                   !is_logged_in) &&
-                submissionClosed
+                  submissionClosed) ||
+                (is_mentor_judge && !memberAsJudge && judgingClosed)
                   ? "secondary"
                   : "primary"
               }
@@ -759,6 +743,7 @@ const ChallengePreview = ({ history, match }) => {
               is_profile_updated={is_profile_updated}
               setUserFlowModal={setUserFlowModal}
               submissionClosed={submissionClosed}
+              judgingClosed={judgingClosed}
               match={match}
             />
           </Tab.Pane>
@@ -782,10 +767,6 @@ const ChallengePreview = ({ history, match }) => {
                 memberAsParticipant={memberAsParticipant}
                 is_organisation={is_organisation}
                 fromPreview={true}
-                submissionVisibility={true}
-                judgingStarted={true}
-                judgingClosed={false}
-                submissionClosed={false}
                 match={match}
               />
             )}
