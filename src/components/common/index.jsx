@@ -1374,6 +1374,7 @@ export const CardComponent = React.memo(
     timelineId,
     applications,
     qualified,
+    is_previous,
   }) => {
     const [participantCount, setCount] = useState(0);
     const [progressPer, setProgressPer] = useState(0);
@@ -1478,9 +1479,10 @@ export const CardComponent = React.memo(
       <CardContainer>
         <Card
           className={
-            !leftDuration ||
+            // !leftDuration ||
             (organisationId &&
-              organisationId.status === Constants.STATUS.INACTIVE)
+              organisationId.status === Constants.STATUS.INACTIVE) ||
+            is_previous
               ? "disable"
               : ""
           }
@@ -1506,41 +1508,45 @@ export const CardComponent = React.memo(
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <div className="days-price-container bordered-container">
-              <div className="days-container">
-                <img
-                  src={"/images/interface.svg"}
-                  height="25px"
-                  width="25px"
-                  alt=""
-                ></img>
-                <div className="days-text">
-                  {leftDuration ? (
-                    !challengeStarted ? (
-                      <span>{t("Comming soon")}</span>
-                    ) : currentMilestone ? (
-                      <span>{leftDuration}</span>
+            {!is_previous && (
+              <div className="days-price-container bordered-container">
+                <div className="days-container">
+                  <img
+                    src={"/images/interface.svg"}
+                    height="25px"
+                    width="25px"
+                    alt=""
+                  ></img>
+                  <div className="days-text">
+                    {leftDuration ? (
+                      !challengeStarted ? (
+                        <span>{t("Comming soon")}</span>
+                      ) : currentMilestone ? (
+                        <span>{leftDuration}</span>
+                      ) : (
+                        <span>{t("In progress")}</span>
+                      )
                     ) : (
-                      <span>{t("In progress")}</span>
-                    )
-                  ) : (
-                    <span>{t("Completed")}</span>
-                  )}
+                      <span>{t("Completed")}</span>
+                    )}
+                  </div>
+                </div>
+                <div className="prize-text">
+                  <span>
+                    {t("Prize")} {descriptionId && descriptionId.prize}{" "}
+                  </span>
+                  {/* <span>Prize AED 50K </span> */}
                 </div>
               </div>
-              <div className="prize-text">
-                <span>
-                  {t("Prize")} {descriptionId && descriptionId.prize}{" "}
-                </span>
-                {/* <span>Prize AED 50K </span> */}
-              </div>
-            </div>
+            )}
             {showProgress && (
               <>
                 <div className="bordered-container">
-                  <div className="heading-text">
-                    <span>{t("Current Milestone")}</span>
-                  </div>
+                  {!is_previous && (
+                    <div className="heading-text">
+                      <span>{t("Current Milestone")}</span>
+                    </div>
+                  )}
                   <div
                     className={`sub-heading-text ${
                       leftDuration
@@ -1566,55 +1572,60 @@ export const CardComponent = React.memo(
                     )}
                   </div>
                 </div>
-                <div className="count-container">
-                  <div className="left-container">
-                    <div className="sub-heading-text">
-                      <span>{t("Participants/Matches")}</span>
+                {!is_previous && (
+                  <div className="count-container">
+                    <div className="left-container">
+                      <div className="sub-heading-text">
+                        <span>{t("Participants/Matches")}</span>
+                      </div>
+                      <div className="heading-text">
+                        <span>{participantCount}</span>
+                      </div>
                     </div>
-                    <div className="heading-text">
-                      <span>{participantCount}</span>
-                    </div>
-                  </div>
-                  <div className="right-container">
-                    <div className="sub-heading-text">
-                      <span>{t("Judges")}</span>
-                    </div>
-                    <div className="heading-text">
-                      <span>
-                        {judgesId && judgesId.data && judgesId.data.length
-                          ? judgesId.data.length
-                          : 0}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="count-container">
-                  <div className="left-container">
-                    <div className="sub-heading-text">
-                      <span>{t("Applications")}</span>
-                    </div>
-                    <div className="heading-text">
-                      <span>{applications}</span>
+                    <div className="right-container">
+                      <div className="sub-heading-text">
+                        <span>{t("Judges")}</span>
+                      </div>
+                      <div className="heading-text">
+                        <span>
+                          {judgesId && judgesId.data && judgesId.data.length
+                            ? judgesId.data.length
+                            : 0}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="right-container">
-                    <div className="sub-heading-text">
-                      <span>{t("Qualified")}</span>
+                )}
+                {!is_previous && (
+                  <div className="count-container">
+                    <div className="left-container">
+                      <div className="sub-heading-text">
+                        <span>{t("Applications")}</span>
+                      </div>
+                      <div className="heading-text">
+                        <span>{applications}</span>
+                      </div>
                     </div>
-                    <div className="heading-text">
-                      <span>{qualified}</span>
+                    <div className="right-container">
+                      <div className="sub-heading-text">
+                        <span>{t("Qualified")}</span>
+                      </div>
+                      <div className="heading-text">
+                        <span>{qualified}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </>
             )}
           </Card.Footer>
         </Card>
         <div
           className={`circle-container ${
-            !leftDuration ||
+            // !leftDuration ||
             (organisationId &&
-              organisationId.status === Constants.STATUS.INACTIVE)
+              organisationId.status === Constants.STATUS.INACTIVE) ||
+            is_previous
               ? "disable"
               : ""
           }`}

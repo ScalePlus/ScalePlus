@@ -3,6 +3,8 @@ import { Row, Col } from "react-bootstrap";
 import ChallengesList from "../allChallenges/subComponents/challengesList";
 import MyChallengesList from "./challengeList";
 import ListBlock from "./listBlock";
+import StartupEcoSystem from "./startUpEcoSystem";
+import Team from "./team";
 import Charts from "./charts";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
@@ -20,6 +22,16 @@ const MyChallenges = ({ history }) => {
           ) : (
             <MyChallengesList history={history} />
           )}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <StartupEcoSystem />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Team />
         </Col>
       </Row>
       <Row>

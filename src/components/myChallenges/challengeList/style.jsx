@@ -6,26 +6,46 @@ export const MainContainer = styled.div`
     background-color: ${theme.colors.whiteSmokeTint4};
     padding: 65px 0px;
   }
-  .header {
+  .header-wrapper {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    .title {
-      font-family: ${theme.fontFamily.bold};
-      font-size: ${theme.fontSize.mediumLarge};
-      margin-right: ${theme.isLTR && "20px"};
-      margin-left: ${theme.isRTL && "20px"};
-    }
-    .circle-container {
-      height: 45px;
-      width: 45px;
-      background-color: ${theme.colors.whisper};
-      border-radius: 50%;
+    flex-wrap: wrap;
+    .header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      .count {
+      .title {
         font-family: ${theme.fontFamily.bold};
-        font-size: ${theme.fontSize.title};
+        font-size: ${theme.fontSize.mediumLarge};
+        margin-right: ${theme.isLTR && "20px"};
+        margin-left: ${theme.isRTL && "20px"};
+      }
+      .circle-container {
+        height: 45px;
+        width: 45px;
+        background-color: ${theme.colors.whisper};
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: ${theme.isLTR && "20px"};
+        margin-left: ${theme.isRTL && "20px"};
+        .count {
+          font-family: ${theme.fontFamily.bold};
+          font-size: ${theme.fontSize.title};
+        }
+      }
+      .tags-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .tag {
+          background-color: ${theme.colors.whisper};
+          padding: 5px 10px;
+          border-radius: 15px;
+          margin-right: ${theme.isLTR && "10px"};
+          margin-left: ${theme.isRTL && "10px"};
+        }
       }
     }
   }
@@ -109,6 +129,20 @@ export const MainContainer = styled.div`
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
         border-radius: 50%;
       }
+    }
+  }
+  .box-container {
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    background-color: ${theme.colors.white};
+    cursor: pointer;
+    margin-bottom: 40px;
+    padding: 1.25rem;
+    min-height: 410px;
+    font-family: ${theme.fontFamily.bold};
+    font-size: ${theme.fontSize.semiRegular};
+    a {
+      color: ${theme.colors.yellow};
     }
   }
 `;

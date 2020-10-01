@@ -7,6 +7,7 @@ import { getMyChallengeAction } from "../action";
 import { CardComponent, Loading } from "../../common";
 import { MainContainer } from "./style";
 import { Constants } from "../../../lib/constant";
+const tags = ["A.I", "NLP", "Supply Chain Logistics"];
 
 const MyChallengesList = ({ history }) => {
   const { t } = useTranslation();
@@ -20,7 +21,8 @@ const MyChallengesList = ({ history }) => {
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
       localStorage.getItem("token"),
     userId = localStorage.getItem("userId");
-  const [myChallenges, setMyChallenges] = useState([]);
+  const [currentPrograms, setCurrentPrograms] = useState([]);
+  const [previousPrograms, setPreviousPrograms] = useState([]);
 
   const myChallengesReducer = useSelector((state) => {
     return state.myChallengesReducer;
@@ -34,9 +36,41 @@ const MyChallengesList = ({ history }) => {
     const { myChallenges } = myChallengesReducer;
     if (myChallenges && myChallenges.result) {
       if (myChallenges.result.length) {
-        setMyChallenges(myChallenges.result);
+        const currentPrograms = myChallenges.result.filter((each) => {
+          return (
+            !each.timelineId ||
+            (each.timelineId && !each.timelineId.data) ||
+            (each.timelineId &&
+              each.timelineId.data &&
+              !each.timelineId.data.length) ||
+            (each.timelineId &&
+              each.timelineId.data &&
+              each.timelineId.data.length &&
+              each.timelineId.data.find(
+                (rec) =>
+                  rec.state.name === "Closing" &&
+                  new Date(rec.endDate) > new Date()
+              ))
+          );
+        });
+        setCurrentPrograms(currentPrograms);
+
+        const previousPrograms = myChallenges.result.filter((each) => {
+          return (
+            each.timelineId &&
+            each.timelineId.data &&
+            each.timelineId.data.length &&
+            each.timelineId.data.find(
+              (rec) =>
+                rec.state.name === "Closing" &&
+                new Date(rec.endDate) < new Date()
+            )
+          );
+        });
+        setPreviousPrograms(previousPrograms);
       } else {
-        setMyChallenges([]);
+        setCurrentPrograms([]);
+        setPreviousPrograms([]);
       }
     }
   }, [myChallengesReducer, is_organisation, userId]);
@@ -50,20 +84,47 @@ const MyChallengesList = ({ history }) => {
           <Col lg={11} md={11} sm={11} xs={11}>
             <Row>
               <Col>
-                <div className="header">
-                  <div className="title">
-                    <span>{t("My Challenges")}</span>
+                <div className="header-wrapper">
+                  <div className="header">
+                    <div className="title">
+                      <span>{t("Current Programs")}</span>
+                    </div>
+                    <div className="circle-container">
+                      <span className="count">{currentPrograms.length}</span>
+                    </div>
+                    <div className="tags-container">
+                      {tags.map((each, index) => {
+                        return (
+                          <div key={index} className="tag">
+                            {each}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div className="circle-container">
-                    <span className="count">{myChallenges.length}</span>
+                  <div className="filter-button-container" onClick={() => {}}>
+                    <div>
+                      <img
+                        src={"/images/filter-icon.png"}
+                        height="20px"
+                        width="20px"
+                        alt=""
+                      ></img>
+                    </div>
+                    <div className="filter-text">
+                      <span>{t("Filters")}</span>
+                    </div>
+                    <div className="filter-count">
+                      <span className="count-text">{2}</span>
+                    </div>
                   </div>
                 </div>
               </Col>
             </Row>
             <div className="card-list">
               <Row style={{ paddingRight: 0, paddingLeft: 0 }}>
-                {myChallenges && myChallenges.length ? (
-                  myChallenges.map((each, index) => {
+                {currentPrograms && currentPrograms.length ? (
+                  currentPrograms.map((each, index) => {
                     return (
                       <Col
                         lg={4}
@@ -75,19 +136,6 @@ const MyChallengesList = ({ history }) => {
                         onClick={() => {
                           if (
                             each &&
-                            (!each.timelineId ||
-                              (each.timelineId && !each.timelineId.data) ||
-                              (each.timelineId &&
-                                each.timelineId.data &&
-                                !each.timelineId.data.length) ||
-                              (each.timelineId &&
-                                each.timelineId.data &&
-                                each.timelineId.data.length &&
-                                each.timelineId.data.find(
-                                  (rec) =>
-                                    rec.state.name === "Closing" &&
-                                    new Date(rec.endDate) > new Date()
-                                ))) &&
                             each.organisationId &&
                             each.organisationId.status ===
                               Constants.STATUS.ACTIVE
@@ -141,8 +189,8 @@ const MyChallengesList = ({ history }) => {
                     );
                   })
                 ) : (
-                  <Col lg={11} md={11} sm={11} xs={11}>
-                    <div className="no-data-text">
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <div className=" box-container">
                       {t("No challenges to explore")}{" "}
                       {is_organisation ? (
                         <Link to="/create/challenge/1">
@@ -151,6 +199,71 @@ const MyChallengesList = ({ history }) => {
                       ) : (
                         <Link to="/all/challenges">{t("join challenge")}</Link>
                       )}
+                    </div>
+                  </Col>
+                )}
+              </Row>
+            </div>
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col lg={11} md={11} sm={11} xs={11}>
+            <Row>
+              <Col>
+                <div className="header-wrapper">
+                  <div className="header">
+                    <div className="title">
+                      <span>{t("Previous Programs")}</span>
+                    </div>
+                    <div className="circle-container">
+                      <span className="count">{previousPrograms.length}</span>
+                    </div>
+                    <div className="tags-container">
+                      {tags.map((each, index) => {
+                        return (
+                          <div key={index} className="tag">
+                            {each}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <div className="card-list">
+              <Row style={{ paddingRight: 0, paddingLeft: 0 }}>
+                {previousPrograms && previousPrograms.length ? (
+                  previousPrograms.map((each, index) => {
+                    return (
+                      <Col
+                        lg={4}
+                        md={6}
+                        sm={12}
+                        xs={12}
+                        key={index}
+                        className="custom-card"
+                        onClick={() => {}}
+                      >
+                        <CardComponent
+                          t={t}
+                          organisationId={each.organisationId}
+                          descriptionId={each.descriptionId}
+                          judgesId={each.judgesId}
+                          participantsId={each.participantsId}
+                          timelineId={each.timelineId}
+                          showProgress={true}
+                          applications={each.applications}
+                          qualified={each.qualified}
+                          is_previous={true}
+                        />
+                      </Col>
+                    );
+                  })
+                ) : (
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <div className=" box-container">
+                      {t("No Previous Programs")}
                     </div>
                   </Col>
                 )}
