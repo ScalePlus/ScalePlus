@@ -61,7 +61,7 @@
         "Next_Essential_Details": "Next: Essential Details",
         "Essential Detail": "Essential Detail",
         "Company Description": "Company Description",
-        "Summary": "How do you want to help the startups?",
+        "Summary_text": "How do you want to help the startups?",
         "Core Business": "Core Business",
         "Market Stage": "Market Stage",
         "Expertise": "Expertise",
@@ -836,6 +836,8 @@
         "timeline_error": "Error in Timeline : Start state's startdate should be in future",
         "Areas of expertise": "Areas of expertise",
         "Current position, company (optional)": "Current position, company (optional)",
-        "mentor_sumary": "How are you able to help the startups / founders on this platform?"
+        "mentor_sumary": "How are you able to help the startups / founders on this platform?",
+        "Summary": "Summary",
+        "Challenge Summary": "Challenge Summary"
     }
 }

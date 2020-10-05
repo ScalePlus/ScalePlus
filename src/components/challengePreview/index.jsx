@@ -19,6 +19,7 @@ import {
 import UserFlowModal from "../userFlowModal";
 import { Constants } from "../../lib/constant";
 import { MainContainer, TabContainer } from "./style";
+import Summary from "./subComponents/summary";
 import OverView from "./subComponents/overview";
 import JudgingCriteria from "./subComponents/judgingCriteria";
 import Submissions from "./subComponents/submissions";
@@ -460,6 +461,18 @@ const ChallengePreview = ({ history, match }) => {
           });
         }
       }
+
+      if (
+        challengeData.timelineId &&
+        challengeData.timelineId.data &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (rec) =>
+            rec.state.name === "Closing" && new Date(rec.endDate) < new Date()
+        )
+      ) {
+        changeTabs([{ label: t("Summary"), value: "Summary" }]);
+      }
     }
   }, [
     is_admin,
@@ -731,6 +744,22 @@ const ChallengePreview = ({ history, match }) => {
         </Row>
 
         <Tab.Content>
+          <Tab.Pane eventKey="Summary">
+            <Summary
+              t={t}
+              challengeData={challengeData}
+              organisationTeamMember={organisationTeamMember}
+              is_organisation={is_organisation}
+              is_mentor_judge={is_mentor_judge}
+              is_startup_Individual={is_startup_Individual}
+              is_logged_in={is_logged_in}
+              is_profile_updated={is_profile_updated}
+              setUserFlowModal={setUserFlowModal}
+              submissionClosed={submissionClosed}
+              judgingClosed={judgingClosed}
+              match={match}
+            />
+          </Tab.Pane>
           <Tab.Pane eventKey="Overview">
             <OverView
               t={t}

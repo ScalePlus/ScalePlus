@@ -61,7 +61,7 @@
         "Next_Essential_Details": "Next: Essential Details",
         "Essential Detail": "Essential Detail",
         "Company Description": "Company Description",
-        "Summary": "How do you want to help the startups?",
+        "Summary_text": "How do you want to help the startups?",
         "Core Business": "Core Business",
         "Market Stage": "Market Stage",
         "Expertise": "Expertise",
@@ -742,6 +742,7 @@
         "FILE_UPLOAD_ERROR": "File upload error",
         "INVALID_VALUE_OF": "Invalid value of",
         "template_error": "Template is required",
-        "subject_error": "Subject is required"
+        "subject_error": "Subject is required",
+        "Date": "Date"
     }
 }

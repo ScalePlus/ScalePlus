@@ -243,7 +243,18 @@ const MyChallengesList = ({ history }) => {
                         xs={12}
                         key={index}
                         className="custom-card"
-                        onClick={() => {}}
+                        onClick={() => {
+                          if (
+                            each &&
+                            each.organisationId &&
+                            each.organisationId.status ===
+                              Constants.STATUS.ACTIVE
+                          ) {
+                            history.push(
+                              `/challenge/${each._id}/preview/Summary`
+                            );
+                          }
+                        }}
                       >
                         <CardComponent
                           t={t}

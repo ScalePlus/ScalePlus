@@ -186,6 +186,10 @@ const ChallengesList = ({ history }) => {
                           history.push(
                             `/challenge/${each._id}/preview/Overview`
                           );
+                        } else {
+                          history.push(
+                            `/challenge/${each._id}/preview/Summary`
+                          );
                         }
                       }}
                     >

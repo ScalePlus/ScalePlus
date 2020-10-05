@@ -317,7 +317,7 @@ const EssentialDetail = ({ history }) => {
                     is_startup_Individual || is_organisation
                       ? t("Company Description")
                       : is_mentor_judge
-                      ? t("Summary")
+                      ? t("Summary_text")
                       : ""
                   }
                   value={textAreaValue}
