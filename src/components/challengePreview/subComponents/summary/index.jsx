@@ -21,8 +21,18 @@ const Summary = ({
 }) => {
   const [memberAsParticipant, setParticipation] = useState(false);
   const [memberAsJudge, setJudge] = useState(false);
+
   const [participants, setParticipants] = useState([]);
+  const [visiblePariticipantData, setVisiblePariticipantData] = useState(null);
+  const [totalPariticipantPage, setTotalPariticipantPage] = useState(null);
+  const [renderPariticipantPage, setRenderPariticipantPage] = useState(null);
+
   const [judges, setJudges] = useState([]);
+  const [visibleJudgeData, setVisibleJudgeData] = useState(null);
+  const [totalJudgePage, setTotalJudgePage] = useState(null);
+  const [renderJudgePage, setRenderJudgePage] = useState(null);
+
+  const limit = 10;
 
   useEffect(() => {
     if (challengeData) {
@@ -105,10 +115,39 @@ const Summary = ({
         });
       }
 
+      if (participants && participants.length) {
+        setTotalPariticipantPage(Math.ceil(participants.length / limit));
+        setRenderPariticipantPage(1);
+      }
+
+      if (judges && judges.length) {
+        setTotalJudgePage(Math.ceil(judges.length / limit));
+        setRenderJudgePage(1);
+      }
+
       setParticipants(participants);
       setJudges(judges);
     }
   }, [challengeData]);
+
+  useEffect(() => {
+    if (participants && participants.length) {
+      setVisiblePariticipantData(
+        participants.slice(
+          (renderPariticipantPage - 1) * limit,
+          renderPariticipantPage * limit
+        )
+      );
+    }
+  }, [participants, totalPariticipantPage, renderPariticipantPage]);
+
+  useEffect(() => {
+    if (judges && judges.length) {
+      setVisibleJudgeData(
+        judges.slice((renderJudgePage - 1) * limit, renderJudgePage * limit)
+      );
+    }
+  }, [judges, totalJudgePage, renderJudgePage]);
 
   return (
     <MainContainer>
@@ -199,9 +238,9 @@ const Summary = ({
                 <div className="title-text">
                   {t("Participants")} {participants.length}
                 </div>
-                {participants && participants.length ? (
+                {visiblePariticipantData && visiblePariticipantData.length ? (
                   <div className="list-container">
-                    {participants.map((each, index) => {
+                    {visiblePariticipantData.map((each, index) => {
                       return (
                         <div className="block" key={index}>
                           <div className="avtar-container">
@@ -219,11 +258,57 @@ const Summary = ({
                       );
                     })}
                     <div className="pagination">
-                      <span>{1}</span>
+                      {renderPariticipantPage > 1 && (
+                        <span
+                          className="first-page"
+                          onClick={() => {
+                            setRenderPariticipantPage(1);
+                          }}
+                        >
+                          {"<<"}
+                        </span>
+                      )}
+                      {renderPariticipantPage > 1 && (
+                        <span
+                          className="previous-page"
+                          onClick={() => {
+                            const previousPage = renderPariticipantPage - 1;
+                            if (previousPage >= 1) {
+                              setRenderPariticipantPage(previousPage);
+                            }
+                          }}
+                        >
+                          {"<"}
+                        </span>
+                      )}
+
+                      <span>{renderPariticipantPage}</span>
                       <span className="of-text">{t("of")}</span>
-                      <span>{1}</span>
-                      <span className="next-page">{">"}</span>
-                      <span className="last-page">{">>"}</span>
+                      <span>{totalPariticipantPage}</span>
+
+                      {renderPariticipantPage !== totalPariticipantPage && (
+                        <span
+                          className="next-page"
+                          onClick={() => {
+                            const nextpage = renderPariticipantPage + 1;
+                            if (nextpage <= totalPariticipantPage) {
+                              setRenderPariticipantPage(nextpage);
+                            }
+                          }}
+                        >
+                          {">"}
+                        </span>
+                      )}
+                      {renderPariticipantPage !== totalPariticipantPage && (
+                        <span
+                          className="last-page"
+                          onClick={() =>
+                            setRenderPariticipantPage(totalPariticipantPage)
+                          }
+                        >
+                          {">>"}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ) : null}
@@ -232,9 +317,9 @@ const Summary = ({
                 <div className="title-text">
                   {t("Judges")} {judges.length}
                 </div>
-                {judges && judges.length ? (
+                {visibleJudgeData && visibleJudgeData.length ? (
                   <div className="list-container">
-                    {judges.map((each, index) => {
+                    {visibleJudgeData.map((each, index) => {
                       return (
                         <div className="block" key={index}>
                           <div className="avtar-container">
@@ -252,11 +337,55 @@ const Summary = ({
                       );
                     })}
                     <div className="pagination">
-                      <span>{1}</span>
+                      {renderJudgePage > 1 && (
+                        <span
+                          className="first-page"
+                          onClick={() => {
+                            setRenderJudgePage(1);
+                          }}
+                        >
+                          {"<<"}
+                        </span>
+                      )}
+                      {renderJudgePage > 1 && (
+                        <span
+                          className="previous-page"
+                          onClick={() => {
+                            const previousPage = renderJudgePage - 1;
+                            if (previousPage >= 1) {
+                              setRenderJudgePage(previousPage);
+                            }
+                          }}
+                        >
+                          {"<"}
+                        </span>
+                      )}
+
+                      <span>{renderJudgePage}</span>
                       <span className="of-text">{t("of")}</span>
-                      <span>{1}</span>
-                      <span className="next-page">{">"}</span>
-                      <span className="last-page">{">>"}</span>
+                      <span>{totalJudgePage}</span>
+
+                      {renderJudgePage !== totalJudgePage && (
+                        <span
+                          className="next-page"
+                          onClick={() => {
+                            const nextpage = renderJudgePage + 1;
+                            if (nextpage <= totalJudgePage) {
+                              setRenderJudgePage(nextpage);
+                            }
+                          }}
+                        >
+                          {">"}
+                        </span>
+                      )}
+                      {renderJudgePage !== totalJudgePage && (
+                        <span
+                          className="last-page"
+                          onClick={() => setRenderJudgePage(totalJudgePage)}
+                        >
+                          {">>"}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ) : null}

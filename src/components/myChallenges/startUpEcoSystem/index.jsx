@@ -18,7 +18,20 @@ function StartupEcoSystem() {
   });
 
   const [currentStartUps, setCurrent] = useState([]);
+  const [currentVisible, setCurrentVisible] = useState([]);
   const [previousStartUps, setPrevious] = useState([]);
+  const [prevoiusVisible, setPreviousVisible] = useState([]);
+  const [totalCurrentStartUpPage, setCurrentStartUpTotalPage] = useState(null);
+  const [renderCurrentStartUpPage, setCurrentStartUpRenderPage] = useState(
+    null
+  );
+  const [totalPreviousStartUpPage, setPreviousStartUpTotalPage] = useState(
+    null
+  );
+  const [renderPreviousStartUpPage, setPreviousStartUpRenderPage] = useState(
+    null
+  );
+  const limit = 10;
 
   useEffect(() => {
     getMyChallengeMethod();
@@ -148,6 +161,16 @@ function StartupEcoSystem() {
         return each;
       });
 
+      if (currentStartUps && currentStartUps.length) {
+        setCurrentStartUpTotalPage(Math.ceil(currentStartUps.length / limit));
+        setCurrentStartUpRenderPage(1);
+      }
+
+      if (previousStartUps && previousStartUps.length) {
+        setPreviousStartUpTotalPage(Math.ceil(previousStartUps.length / limit));
+        setPreviousStartUpRenderPage(1);
+      }
+
       setCurrent(currentStartUps);
       setPrevious(previousStartUps);
     } else {
@@ -155,6 +178,28 @@ function StartupEcoSystem() {
       setPrevious([]);
     }
   }, [myChallengesReducer]);
+
+  useEffect(() => {
+    if (currentStartUps && currentStartUps.length) {
+      setCurrentVisible(
+        currentStartUps.slice(
+          (renderCurrentStartUpPage - 1) * limit,
+          renderCurrentStartUpPage * limit
+        )
+      );
+    }
+  }, [currentStartUps, totalCurrentStartUpPage, renderCurrentStartUpPage]);
+
+  useEffect(() => {
+    if (previousStartUps && previousStartUps.length) {
+      setPreviousVisible(
+        previousStartUps.slice(
+          (renderPreviousStartUpPage - 1) * limit,
+          renderPreviousStartUpPage * limit
+        )
+      );
+    }
+  }, [previousStartUps, totalPreviousStartUpPage, renderPreviousStartUpPage]);
 
   return (
     <MainContainer>
@@ -166,9 +211,9 @@ function StartupEcoSystem() {
             </Col>
             <Col lg={6} md={6} sm={12} xs={12}>
               <div className="sub-title-text">{t("Current Programs")}</div>
-              {currentStartUps && currentStartUps.length ? (
+              {currentVisible && currentVisible.length ? (
                 <div className="list-container">
-                  {currentStartUps.map((each, index) => {
+                  {currentVisible.map((each, index) => {
                     return (
                       <div className="block" key={index}>
                         <div className="avtar-container">
@@ -186,20 +231,66 @@ function StartupEcoSystem() {
                     );
                   })}
                   <div className="pagination">
-                    <span>{1}</span>
+                    {renderCurrentStartUpPage > 1 && (
+                      <span
+                        className="first-page"
+                        onClick={() => {
+                          setCurrentStartUpRenderPage(1);
+                        }}
+                      >
+                        {"<<"}
+                      </span>
+                    )}
+                    {renderCurrentStartUpPage > 1 && (
+                      <span
+                        className="previous-page"
+                        onClick={() => {
+                          const previousPage = renderCurrentStartUpPage - 1;
+                          if (previousPage >= 1) {
+                            setCurrentStartUpRenderPage(previousPage);
+                          }
+                        }}
+                      >
+                        {"<"}
+                      </span>
+                    )}
+
+                    <span>{renderCurrentStartUpPage}</span>
                     <span className="of-text">{t("of")}</span>
-                    <span>{1}</span>
-                    <span className="next-page">{">"}</span>
-                    <span className="last-page">{">>"}</span>
+                    <span>{totalCurrentStartUpPage}</span>
+
+                    {renderCurrentStartUpPage !== totalCurrentStartUpPage && (
+                      <span
+                        className="next-page"
+                        onClick={() => {
+                          const nextpage = renderCurrentStartUpPage + 1;
+                          if (nextpage <= totalCurrentStartUpPage) {
+                            setCurrentStartUpRenderPage(nextpage);
+                          }
+                        }}
+                      >
+                        {">"}
+                      </span>
+                    )}
+                    {renderCurrentStartUpPage !== totalCurrentStartUpPage && (
+                      <span
+                        className="last-page"
+                        onClick={() =>
+                          setCurrentStartUpRenderPage(totalCurrentStartUpPage)
+                        }
+                      >
+                        {">>"}
+                      </span>
+                    )}
                   </div>
                 </div>
               ) : null}
             </Col>
             <Col lg={6} md={6} sm={12} xs={12}>
               <div className="sub-title-text">{t("Previous Programs")}</div>{" "}
-              {previousStartUps && previousStartUps.length ? (
+              {prevoiusVisible && prevoiusVisible.length ? (
                 <div className="list-container">
-                  {previousStartUps.map((each, index) => {
+                  {prevoiusVisible.map((each, index) => {
                     return (
                       <div className="block" key={index}>
                         <div className="avtar-container">
@@ -217,11 +308,57 @@ function StartupEcoSystem() {
                     );
                   })}
                   <div className="pagination">
-                    <span>{1}</span>
+                    {renderPreviousStartUpPage > 1 && (
+                      <span
+                        className="first-page"
+                        onClick={() => {
+                          setPreviousStartUpRenderPage(1);
+                        }}
+                      >
+                        {"<<"}
+                      </span>
+                    )}
+                    {renderPreviousStartUpPage > 1 && (
+                      <span
+                        className="previous-page"
+                        onClick={() => {
+                          const previousPage = renderPreviousStartUpPage - 1;
+                          if (previousPage >= 1) {
+                            setPreviousStartUpRenderPage(previousPage);
+                          }
+                        }}
+                      >
+                        {"<"}
+                      </span>
+                    )}
+
+                    <span>{renderPreviousStartUpPage}</span>
                     <span className="of-text">{t("of")}</span>
-                    <span>{1}</span>
-                    <span className="next-page">{">"}</span>
-                    <span className="last-page">{">>"}</span>
+                    <span>{totalPreviousStartUpPage}</span>
+
+                    {renderPreviousStartUpPage !== totalPreviousStartUpPage && (
+                      <span
+                        className="next-page"
+                        onClick={() => {
+                          const nextpage = renderPreviousStartUpPage + 1;
+                          if (nextpage <= totalPreviousStartUpPage) {
+                            setPreviousStartUpRenderPage(nextpage);
+                          }
+                        }}
+                      >
+                        {">"}
+                      </span>
+                    )}
+                    {renderPreviousStartUpPage !== totalPreviousStartUpPage && (
+                      <span
+                        className="last-page"
+                        onClick={() =>
+                          setPreviousStartUpRenderPage(totalPreviousStartUpPage)
+                        }
+                      >
+                        {">>"}
+                      </span>
+                    )}
                   </div>
                 </div>
               ) : null}
