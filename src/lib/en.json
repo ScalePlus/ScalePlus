@@ -838,6 +838,8 @@
         "Current position, company (optional)": "Current position, company (optional)",
         "mentor_sumary": "How are you able to help the startups / founders on this platform?",
         "Summary": "Summary",
-        "Challenge Summary": "Challenge Summary"
+        "Challenge Summary": "Challenge Summary",
+        "team_name_error": "Team name is required",
+        "Team name": "Team name"
     }
 }

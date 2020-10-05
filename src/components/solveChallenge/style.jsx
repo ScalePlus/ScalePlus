@@ -25,8 +25,13 @@ export const MainContainer = styled.div`
     margin-top: 10px;
   }
 
+  .form-group {
+    text-align: ${theme.isLTR ? "left" : "right"};
+  }
+
   .sub-description-container,
-  .add-member {
+  .add-member,
+  .text-label {
     text-align: ${theme.isLTR ? "left" : "right"};
     font-family: ${theme.fontFamily.bold};
   }

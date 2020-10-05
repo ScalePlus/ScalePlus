@@ -69,6 +69,7 @@ const SolveChallenge = ({ match }) => {
   const [errors, setErrors] = useState([]);
   const [participated, setParticipation] = useState(false);
   const [challengeId, setChallengeId] = useState(null);
+  const [teamName, setTeamName] = useState("");
 
   useEffect(() => {
     if (match.params && match.params.id) {
@@ -199,16 +200,6 @@ const SolveChallenge = ({ match }) => {
               })}
             </Row>
 
-            {activeTab === t(tabs[0].text) && (
-              <Row>
-                <Col>
-                  <div className="sub-description-container">
-                    {t("invite_people_team")}
-                  </div>
-                </Col>
-              </Row>
-            )}
-
             {activeTab === t(tabs[0].text) ? (
               <Form
                 noValidate
@@ -217,14 +208,38 @@ const SolveChallenge = ({ match }) => {
                   event.preventDefault();
                   event.stopPropagation();
                   const form = event.currentTarget;
-                  if (form.checkValidity()) {
+                  if (form.checkValidity() && teamName) {
                     solveChallengeMethod({
                       team: members,
+                      name: teamName,
                     });
                   }
                   setValidated(true);
                 }}
               >
+                <Row>
+                  <Col>
+                    <Input
+                      type="text"
+                      label={t("Team name")}
+                      value={teamName}
+                      onChange={(e) => {
+                        setTeamName(e.target.value);
+                      }}
+                      required
+                      errorMessage={t("team_name_error")}
+                    ></Input>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col>
+                    <div className="sub-description-container">
+                      {t("invite_people_team")}
+                    </div>
+                  </Col>
+                </Row>
+
                 <Row className="form-container">
                   <Col>
                     {members.map((each, index) => {
