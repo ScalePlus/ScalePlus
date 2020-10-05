@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Row, Col, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { updateProfileAction } from "../profile/action";
 import { updateDetailsAction } from "./action";
-
+import { technologiesOptionsAction } from "../businessTags/action";
 import { MainContainer } from "./style";
 import {
   Title,
@@ -14,19 +15,37 @@ import {
   Switch,
   IconButton,
   Loading,
+  DropDown,
+  TextArea,
 } from "../common";
 import { Constants } from "../../lib/constant";
+import history from "../../history";
 
 const OrganizationDetails = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const updateProfile = (data, userId) =>
+    dispatch(updateProfileAction(data, userId));
   const updateDetailsMethod = (data) => dispatch(updateDetailsAction(data));
+  const technologiesOptionsMethod = useCallback(
+    () => dispatch(technologiesOptionsAction()),
+    [dispatch]
+  );
+
   const updateDetailsReducer = useSelector((state) => {
     return state.updateDetailsReducer;
   });
   const signinReducer = useSelector((state) => {
     return state.signinReducer;
   });
+  const updateBusinessTagsReducer = useSelector((state) => {
+    return state.updateBusinessTagsReducer;
+  });
+  const updateProfileReducer = useSelector((state) => {
+    return state.updateProfileReducer;
+  });
+
+  const { technologiesOptions } = updateBusinessTagsReducer;
 
   const is_startup_Individual =
       localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL,
@@ -39,15 +58,28 @@ const OrganizationDetails = () => {
   const [logo, changeLogo] = useState("");
   const [personal_photo, changePersonalPhoto] = useState("");
   const [name, changeName] = useState("");
-  const [mobile, changeMobile] = useState("");
+  const [current_position_company, changeCurrentPosition] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
   const [HQ, changeHQ] = useState("");
   const [problemSolved, changeProblemSolved] = useState("");
   // const [birthDate, changeBirthDate] = useState(null);
   const [incorporationDate, changeIncorporationDate] = useState(null);
+  const [providedExpertise, setProvidedExpertise] = useState([]);
+  const [selectedTechnologies, selectTechnology] = useState([]);
+  const [textAreaValue, setTextAreaValue] = useState("");
   const [errors, setErrors] = useState([]);
   const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    technologiesOptionsMethod();
+  }, [technologiesOptionsMethod]);
+
+  useEffect(() => {
+    if (updateProfileReducer?.success?.status === 0) {
+      history.push("/");
+    }
+  }, [updateProfileReducer]);
 
   useEffect(() => {
     const { userData } = signinReducer;
@@ -56,7 +88,7 @@ const OrganizationDetails = () => {
         name,
         logo,
         personal_photo,
-        mobile,
+        current_position_company,
         website,
         locationData,
         // birthDate,
@@ -74,8 +106,8 @@ const OrganizationDetails = () => {
       if (personal_photo) {
         changePersonalPhoto(personal_photo);
       }
-      if (mobile) {
-        changeMobile(mobile);
+      if (current_position_company) {
+        changeCurrentPosition(current_position_company);
       }
       if (website) {
         changeWebsite(website);
@@ -96,6 +128,27 @@ const OrganizationDetails = () => {
         changeIncorporationDate(new Date(incorporationDate));
       }
       switchIsInd(isIndividual);
+    }
+    if (userData?.businessTags) {
+      let { technology, providedExpertise } = userData.businessTags;
+      if (providedExpertise && providedExpertise.length) {
+        setProvidedExpertise(providedExpertise);
+      }
+
+      if (technology && technology.length) {
+        technology = technology.filter((each) => each._id && each.name);
+        selectTechnology(
+          technology.map((each) => {
+            return { value: each._id, label: each.name };
+          })
+        );
+      }
+    }
+    if (userData?.essentialDetails) {
+      const { summary } = userData.essentialDetails;
+      if (summary) {
+        setTextAreaValue(summary);
+      }
     }
   }, [signinReducer]);
 
@@ -140,18 +193,18 @@ const OrganizationDetails = () => {
       is_mentor_judge &&
       name &&
       personal_photo &&
-      mobile &&
-      website &&
-      website.match(Constants.isURL) &&
-      location &&
+      signinReducer?.userData?._id &&
+      // website &&
+      // website.match(Constants.isURL) &&
+      // location &&
       // birthDate &&
       form.checkValidity()
     ) {
       let formData = {
         name,
-        mobile,
-        website,
-        locationData: location,
+        current_position_company,
+        // website,
+        // locationData: location,
         // birthDate,
       };
       if (personal_photo && personal_photo.name) {
@@ -159,7 +212,19 @@ const OrganizationDetails = () => {
       } else {
         formData["personal_photo"] = personal_photo;
       }
-      updateDetailsMethod(formData);
+      // updateDetailsMethod(formData);
+
+      updateProfile(
+        {
+          details: formData,
+          businessTags: {
+            providedExpertise,
+            technology: selectedTechnologies,
+          },
+          essentialDetails: { summary: textAreaValue },
+        },
+        signinReducer.userData._id
+      );
     }
     setValidated(true);
   };
@@ -399,14 +464,12 @@ const OrganizationDetails = () => {
                       }}
                     ></FileInput>
                     <Input
-                      type="number"
-                      placeholder={t("Mobile Number")}
-                      value={mobile}
-                      onChange={(e) => changeMobile(e.target.value)}
-                      required
-                      errorMessage={t("mobile_error")}
+                      type="text"
+                      placeholder={t("Current position, company (optional)")}
+                      value={current_position_company}
+                      onChange={(e) => changeCurrentPosition(e.target.value)}
                     ></Input>
-                    <Input
+                    {/* <Input
                       type="text"
                       placeholder={t("Website of Linkedin")}
                       value={website}
@@ -421,15 +484,15 @@ const OrganizationDetails = () => {
                           ? t("invalid_website_error")
                           : t("website_error")
                       }
-                    ></Input>
-                    <Input
+                    ></Input> */}
+                    {/* <Input
                       type="text"
                       placeholder={t("Location")}
                       value={location}
                       onChange={(e) => changeLocation(e.target.value)}
                       required
                       errorMessage={t("location_error")}
-                    ></Input>
+                    ></Input> */}
                     {/* <DateInput
                       isSmall={false}
                       placeholder={t("Date of Birth")}
@@ -453,6 +516,46 @@ const OrganizationDetails = () => {
                       required
                       errorMessage={t("birthDate_error")}
                     /> */}
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Areas of expertise")}
+                      options={[]}
+                      value={providedExpertise}
+                      onChange={(val) => {
+                        setProvidedExpertise(val);
+                      }}
+                    />
+                    <DropDown
+                      isSmall={false}
+                      placeholder={t("Technology Expertise")}
+                      options={
+                        technologiesOptions && technologiesOptions.length
+                          ? technologiesOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedTechnologies}
+                      onChange={(val) => {
+                        selectTechnology(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedTechnologies ||
+                          (selectedTechnologies &&
+                            selectedTechnologies.length === 0))
+                      }
+                      errorMessage={t("technology_error")}
+                    />
+                    <TextArea
+                      rows="12"
+                      placeholder={t("mentor_sumary")}
+                      value={textAreaValue}
+                      onChange={(e) => {
+                        setTextAreaValue(e.target.value);
+                      }}
+                      showCount={1000}
+                    />
                   </Col>
                 ) : null}
               </Row>
@@ -460,7 +563,11 @@ const OrganizationDetails = () => {
             <Row className="button-container">
               <Col>
                 <IconButton
-                  text={t("Next_Business_Tags")}
+                  text={
+                    is_mentor_judge
+                      ? t("Create My Account")
+                      : t("Next_Business_Tags")
+                  }
                   type="submit"
                 ></IconButton>
               </Col>
@@ -468,7 +575,10 @@ const OrganizationDetails = () => {
           </Form>
         </Col>
       </Row>
-      {(updateDetailsReducer.loading || signinReducer.loading) && <Loading />}
+      {(updateDetailsReducer.loading ||
+        signinReducer.loading ||
+        updateBusinessTagsReducer.loading ||
+        updateProfileReducer.loading) && <Loading />}
     </MainContainer>
   );
 };

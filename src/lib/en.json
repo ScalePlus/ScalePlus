@@ -833,6 +833,9 @@
         "In progress": "In progress",
         "This position is not available": "This position is not available",
         "no_submission_found": "No submision done yet, You can explore",
-        "timeline_error": "Error in Timeline : Start state's startdate should be in future"
+        "timeline_error": "Error in Timeline : Start state's startdate should be in future",
+        "Areas of expertise": "Areas of expertise",
+        "Current position, company (optional)": "Current position, company (optional)",
+        "mentor_sumary": "How are you able to help the startups / founders on this platform?"
     }
 }

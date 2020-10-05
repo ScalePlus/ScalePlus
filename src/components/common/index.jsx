@@ -781,7 +781,7 @@ export const DropDown = React.memo(
           ? theme.isLTR
             ? "0px 10px 0px 0px"
             : "0px 0px 0px 10px"
-          : "10px 20px",
+          : "10px 10px",
         minHeight: isSmall ? "40px" : "60px",
         border: `1px solid ${theme.colors.borderGrey}`,
         borderColor: theme.colors.borderGrey,

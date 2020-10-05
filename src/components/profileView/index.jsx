@@ -506,18 +506,79 @@ const UserProfileView = ({ match, history }) => {
                         </Col>
                       )}
 
-                      {userData.data.userId.details.mobile && (
+                      {userData.data.userId.details
+                        .current_position_company && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">
                             <div className="bold-text">
-                              {t("Mobile Number")}
+                              {t("Current position, company (optional)")}
                             </div>
-                            <div>{userData.data.userId.details.mobile}</div>
+                            <div>
+                              {
+                                userData.data.userId.details
+                                  .current_position_company
+                              }
+                            </div>
                           </div>
                         </Col>
                       )}
 
-                      {userData.data.userId.details.website && (
+                      {userData.data.userId.businessTags.providedExpertise && (
+                        <Col lg={6} md={6} sm={12}>
+                          <div className="field-container">
+                            <div className="bold-text">
+                              {t(
+                                "Areas of expertise you willing to provide advice on"
+                              )}
+                            </div>
+                            <div>
+                              {userData.data.userId.businessTags
+                                .providedExpertise &&
+                                userData.data.userId.businessTags
+                                  .providedExpertise.length &&
+                                userData.data.userId.businessTags.providedExpertise
+                                  .map((each) => each.label)
+                                  .join(" , ")}
+                            </div>
+                          </div>
+                        </Col>
+                      )}
+
+                      {userData.data.userId.businessTags.technology &&
+                        !is_organisation && (
+                          <Col lg={6} md={6} sm={12}>
+                            <div className="field-container">
+                              <div className="bold-text">
+                                {is_mentor_judge
+                                  ? t("Technology Expertise")
+                                  : t("Technologies")}
+                              </div>
+                              <div>
+                                {userData.data.userId.businessTags.technology &&
+                                  userData.data.userId.businessTags.technology
+                                    .length &&
+                                  userData.data.userId.businessTags.technology
+                                    .map((each) => each.name)
+                                    .join(" , ")}
+                              </div>
+                            </div>
+                          </Col>
+                        )}
+
+                      {userData.data.userId.essentialDetails.summary && (
+                        <Col lg={6} md={6} sm={12}>
+                          <div className="field-container">
+                            <div className="bold-text">
+                              {t("mentor_sumary")}
+                            </div>
+                            <div>
+                              {userData.data.userId.essentialDetails.summary}
+                            </div>
+                          </div>
+                        </Col>
+                      )}
+
+                      {/* {userData.data.userId.details.website && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">
                             <div className="bold-text">
@@ -526,9 +587,9 @@ const UserProfileView = ({ match, history }) => {
                             <div>{userData.data.userId.details.website}</div>
                           </div>
                         </Col>
-                      )}
+                      )} */}
 
-                      {userData.data.userId.details.locationData && (
+                      {/* {userData.data.userId.details.locationData && (
                         <Col lg={6} md={6} sm={12}>
                           <div className="field-container">
                             <div className="bold-text">{t("Location")}</div>
@@ -537,7 +598,7 @@ const UserProfileView = ({ match, history }) => {
                             </div>
                           </div>
                         </Col>
-                      )}
+                      )} */}
 
                       {/* {userData.data.userId.details.birthDate && (
                         <Col lg={6} md={6} sm={12}>
@@ -559,7 +620,7 @@ const UserProfileView = ({ match, history }) => {
               </Col>
             </Row>
           </Form>
-          {userData.data.userId.businessTags && (
+          {userData.data.userId.businessTags && !is_mentor_judge && (
             <Form className="box-container">
               <Row>
                 <Col className="header-container">
@@ -568,28 +629,6 @@ const UserProfileView = ({ match, history }) => {
               </Row>
               <div className="info-container">
                 <Row style={{ marginTop: 20 }}>
-                  {is_mentor_judge &&
-                    userData.data.userId.businessTags.providedExpertise && (
-                      <Col lg={12} md={12} sm={12}>
-                        <div className="field-container">
-                          <div className="bold-text">
-                            {t(
-                              "Areas of expertise you willing to provide advice on"
-                            )}
-                          </div>
-                          <div>
-                            {userData.data.userId.businessTags
-                              .providedExpertise &&
-                              userData.data.userId.businessTags
-                                .providedExpertise.length &&
-                              userData.data.userId.businessTags.providedExpertise
-                                .map((each) => each.label)
-                                .join(" , ")}
-                          </div>
-                        </div>
-                      </Col>
-                    )}
-
                   {userData.data.userId.businessTags.industry && (
                     <Col lg={12} md={12} sm={12}>
                       <div className="field-container">
@@ -630,7 +669,6 @@ const UserProfileView = ({ match, history }) => {
                               : t("Technologies")}
                           </div>
                           <div>
-                            {" "}
                             {userData.data.userId.businessTags.technology &&
                               userData.data.userId.businessTags.technology
                                 .length &&

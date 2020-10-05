@@ -96,7 +96,7 @@ const UserProfileEdit = ({ match, history }) => {
   const [email, changeEmail] = useState("");
 
   const [name, changeName] = useState("");
-  const [mobile, changeMobile] = useState("");
+  const [current_position_company, changeCurrentPosition] = useState("");
   const [website, changeWebsite] = useState("");
   const [location, changeLocation] = useState("");
   const [HQ, changeHQ] = useState("");
@@ -123,6 +123,8 @@ const UserProfileEdit = ({ match, history }) => {
     targetMarketsOptions,
     geographicalMarketsOptions,
   } = updateBusinessTagsReducer;
+
+  const [textAreaValue, setTextAreaValue] = useState("");
 
   const [industry, changeIndustry] = useState("");
   const [subIndustry, changeSubIndustry] = useState("");
@@ -218,7 +220,7 @@ const UserProfileEdit = ({ match, history }) => {
       changeEmail("");
 
       changeName("");
-      changeMobile("");
+      changeCurrentPosition("");
       changeWebsite("");
       changeLocation("");
       changeHQ("");
@@ -227,6 +229,8 @@ const UserProfileEdit = ({ match, history }) => {
       changeIncorporationDate(null);
       setInspireText("");
       setBioText("");
+
+      setTextAreaValue("");
 
       changeIndustry("");
       changeSubIndustry("");
@@ -284,6 +288,7 @@ const UserProfileEdit = ({ match, history }) => {
         bioText,
         details,
         businessTags,
+        essentialDetails,
         businessInformation,
         humanCapital,
         financials,
@@ -325,7 +330,7 @@ const UserProfileEdit = ({ match, history }) => {
           name,
           logo,
           personal_photo,
-          mobile,
+          current_position_company,
           website,
           locationData,
           // birthDate,
@@ -343,8 +348,8 @@ const UserProfileEdit = ({ match, history }) => {
         if (personal_photo) {
           changePersonalPhoto(personal_photo);
         }
-        if (mobile) {
-          changeMobile(mobile);
+        if (current_position_company) {
+          changeCurrentPosition(current_position_company);
         }
         if (website) {
           changeWebsite(website);
@@ -428,6 +433,12 @@ const UserProfileEdit = ({ match, history }) => {
               return { value: each._id, label: each.name };
             })
           );
+        }
+      }
+      if (essentialDetails) {
+        const { summary } = essentialDetails;
+        if (summary) {
+          setTextAreaValue(summary);
         }
       }
       if (businessInformation) {
@@ -768,19 +779,18 @@ const UserProfileEdit = ({ match, history }) => {
                 is_mentor_judge &&
                 name &&
                 personal_photo &&
-                mobile &&
-                website &&
-                website.match(Constants.isURL) &&
-                location &&
+                // website &&
+                // website.match(Constants.isURL) &&
+                // location &&
                 // birthDate &&
                 form.checkValidity()
               ) {
                 let formData = {
                   name,
                   personal_photo,
-                  mobile,
-                  website,
-                  locationData: location,
+                  current_position_company,
+                  // website,
+                  // locationData: location,
                   // birthDate,
                 };
                 if (personal_photo && personal_photo.name) {
@@ -846,6 +856,11 @@ const UserProfileEdit = ({ match, history }) => {
                   inspireText,
                   bioText,
                   details: formData,
+                  businessTags: {
+                    providedExpertise,
+                    technology: selectedTechnologies,
+                  },
+                  essentialDetails: { summary: textAreaValue },
                 });
               }
               setValidated(true);
@@ -1294,15 +1309,64 @@ const UserProfileEdit = ({ match, history }) => {
                   <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
-                      label={t("Mobile Number")}
-                      value={mobile}
-                      onChange={(e) => changeMobile(e.target.value)}
-                      required
-                      errorMessage={t("mobile_error")}
+                      label={t("Current position, company (optional)")}
+                      value={current_position_company}
+                      onChange={(e) => changeCurrentPosition(e.target.value)}
                     ></Input>
                   </Col>
 
                   <Col lg={6} md={6} sm={12}>
+                    <DropDown
+                      isSmall={true}
+                      label={t(
+                        "Areas of expertise you willing to provide advice on"
+                      )}
+                      options={[]}
+                      value={providedExpertise}
+                      onChange={(val) => {
+                        setProvidedExpertise(val);
+                      }}
+                    />
+                  </Col>
+
+                  <Col lg={6} md={6} sm={12}>
+                    <DropDown
+                      isSmall={true}
+                      label={t("Technology Expertise")}
+                      options={
+                        technologiesOptions && technologiesOptions.length
+                          ? technologiesOptions.map((each) => {
+                              return { value: each._id, label: each.name };
+                            })
+                          : []
+                      }
+                      value={selectedTechnologies}
+                      onChange={(val) => {
+                        selectTechnology(val);
+                      }}
+                      isInvalid={
+                        validated &&
+                        (!selectedTechnologies ||
+                          (selectedTechnologies &&
+                            selectedTechnologies.length === 0))
+                      }
+                      errorMessage={t("technology_error")}
+                    />
+                  </Col>
+
+                  <Col lg={12} md={12} sm={12}>
+                    <TextArea
+                      rows="12"
+                      label={t("mentor_sumary")}
+                      value={textAreaValue}
+                      onChange={(e) => {
+                        setTextAreaValue(e.target.value);
+                      }}
+                      showCount={1000}
+                    />
+                  </Col>
+
+                  {/* <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
                       label={t("Website of Linkedin")}
@@ -1319,9 +1383,9 @@ const UserProfileEdit = ({ match, history }) => {
                           : t("website_error")
                       }
                     ></Input>
-                  </Col>
+                  </Col> */}
 
-                  <Col lg={6} md={6} sm={12}>
+                  {/* <Col lg={6} md={6} sm={12}>
                     <Input
                       type="text"
                       label={t("Location")}
@@ -1330,7 +1394,7 @@ const UserProfileEdit = ({ match, history }) => {
                       required
                       errorMessage={t("location_error")}
                     ></Input>
-                  </Col>
+                  </Col> */}
 
                   {/* <Col lg={6} md={6} sm={12}>
                     <DateInput
@@ -1595,7 +1659,7 @@ const UserProfileEdit = ({ match, history }) => {
               </Col>
             </Row>
           </div>
-          {!is_admin && (
+          {!is_admin && !is_mentor_judge && (
             <Form
               className="box-container"
               noValidate
@@ -1638,7 +1702,6 @@ const UserProfileEdit = ({ match, history }) => {
                       industry: selectedIndustries,
                       services: selectedServices,
                       technology: selectedTechnologies,
-                      providedExpertise: providedExpertise,
                     },
                   });
                 } else if (
@@ -1695,20 +1758,6 @@ const UserProfileEdit = ({ match, history }) => {
               ) : null}
               <Row style={{ marginTop: 20 }}>
                 <Col>
-                  {is_mentor_judge ? (
-                    <DropDown
-                      isSmall={true}
-                      label={t(
-                        "Areas of expertise you willing to provide advice on"
-                      )}
-                      options={[]}
-                      value={providedExpertise}
-                      onChange={(val) => {
-                        setProvidedExpertise(val);
-                      }}
-                    />
-                  ) : null}
-
                   <DropDown
                     isSmall={true}
                     label={t("Industry")}
