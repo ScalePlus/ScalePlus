@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { PageTitle, Pagination } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
@@ -29,6 +30,34 @@ const Summary = ({
   const [renderJudgePage, setRenderJudgePage] = useState(null);
 
   const limit = 10;
+
+  const [tags, selectTag] = useState([]);
+
+  const challengeDescriptionReducer = useSelector((state) => {
+    return state.challengeDescriptionReducer;
+  });
+
+  useEffect(() => {
+    if (
+      challengeData?.descriptionId?.tags &&
+      challengeData.descriptionId.tags.length
+    ) {
+      if (
+        challengeDescriptionReducer?.taglist?.result &&
+        challengeDescriptionReducer?.taglist?.result.length
+      ) {
+        let selectedData = challengeDescriptionReducer.taglist.result.filter(
+          (each) => {
+            return (
+              each?._id &&
+              challengeData.descriptionId.tags.indexOf(each._id.toString()) >= 0
+            );
+          }
+        );
+        selectTag(selectedData);
+      }
+    }
+  }, [challengeData, challengeDescriptionReducer]);
 
   useEffect(() => {
     if (challengeData) {
@@ -128,10 +157,15 @@ const Summary = ({
                   }
                 />
                 <div className="tab-container">
-                  {challengeData.descriptionId &&
+                  {/* {challengeData.descriptionId &&
                   challengeData.descriptionId.tags &&
                   challengeData.descriptionId.tags.length
                     ? challengeData.descriptionId.tags.map((each, index) => {
+                        return <span key={index}>{each.name}</span>;
+                      })
+                    : null} */}
+                  {tags && tags.length
+                    ? tags.map((each, index) => {
                         return <span key={index}>{each.name}</span>;
                       })
                     : null}

@@ -841,6 +841,7 @@
         "Challenge Summary": "Challenge Summary",
         "team_name_error": "Team name is required",
         "Team name": "Team name",
-        "My Programs": "My Programs"
+        "My Programs": "My Programs",
+        "NO_DATA": "No data found"
     }
 }

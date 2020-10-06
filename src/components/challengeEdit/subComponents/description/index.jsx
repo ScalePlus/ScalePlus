@@ -8,7 +8,7 @@ import {
   challengeTagsListAction,
 } from "../../../challengeMaster/action";
 // import Api from "../../../challengeMaster/api";
-import { updateDescriptionAction } from "./action";
+import { updateDescriptionAction, getTagsAction } from "./action";
 import {
   Input,
   DropDown,
@@ -34,6 +34,9 @@ const Description = ({ t, challengeId }) => {
     () => dispatch(challengeCategoriesListAction()),
     [dispatch]
   );
+  const getTagsMethod = useCallback(() => dispatch(getTagsAction()), [
+    dispatch,
+  ]);
   const challengeTagsListMethod = useCallback(
     () => dispatch(challengeTagsListAction()),
     [dispatch]
@@ -65,7 +68,8 @@ const Description = ({ t, challengeId }) => {
 
   useEffect(() => {
     challengeCategoriesListMethod();
-  }, [challengeCategoriesListMethod]);
+    getTagsMethod();
+  }, [challengeCategoriesListMethod, getTagsMethod]);
 
   useEffect(() => {
     challengeTagsListMethod();
@@ -131,18 +135,38 @@ const Description = ({ t, challengeId }) => {
           changeVideoUrl(descriptionId.videoURL);
         }
         if (descriptionId.tags && descriptionId.tags.length) {
-          let selectedData = [],
-            records = descriptionId.tags.filter(
-              (each) => each._id && each.name
+          if (
+            challengeDescriptionReducer?.taglist?.result &&
+            challengeDescriptionReducer?.taglist?.result.length
+          ) {
+            let selectedData = challengeDescriptionReducer.taglist.result.filter(
+              (each) => {
+                return (
+                  each?._id &&
+                  descriptionId.tags.indexOf(each._id.toString()) >= 0
+                );
+              }
             );
-          records.map((each) => {
-            selectedData.push({
-              value: each._id,
-              label: each.name,
+            selectedData = selectedData.map((each) => {
+              return {
+                value: each._id,
+                label: each.name,
+              };
             });
-            return each;
-          });
-          selectTag(selectedData);
+            selectTag(selectedData);
+          }
+          //   let selectedData = [],
+          //     records = descriptionId.tags.filter(
+          //       (each) => each._id && each.name
+          //     );
+          //   records.map((each) => {
+          //     selectedData.push({
+          //       value: each._id,
+          //       label: each.name,
+          //     });
+          //     return each;
+          //   });
+          //   selectTag(selectedData);
         }
       }
     }
@@ -390,13 +414,22 @@ const Description = ({ t, challengeId }) => {
             />
             <DropDown
               isSmall={true}
+              isSelectOnly={true}
               label={t("Tags") + " *"}
               placeholder=""
               description={t("Categories_description")}
+              // options={
+              //   challengeReducer.challengeTags &&
+              //   challengeReducer.challengeTags.length
+              //     ? challengeReducer.challengeTags.map((option) => {
+              //         return { value: option._id, label: option.name };
+              //       })
+              //     : []
+              // }
               options={
-                challengeReducer.challengeTags &&
-                challengeReducer.challengeTags.length
-                  ? challengeReducer.challengeTags.map((option) => {
+                challengeDescriptionReducer?.taglist?.result &&
+                challengeDescriptionReducer?.taglist?.result.length
+                  ? challengeDescriptionReducer.taglist.result.map((option) => {
                       return { value: option._id, label: option.name };
                     })
                   : []

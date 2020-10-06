@@ -7,4 +7,10 @@ export default {
 
     return result;
   },
+  getTags: () => {
+    let url = `/business/tags`;
+    const result = coreApi.GET(url);
+
+    return result;
+  },
 };

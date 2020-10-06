@@ -9,6 +9,7 @@ import {
   updateChallengeAction,
   updateChallengeViewsAction,
 } from "../challengeMaster/action";
+import { getTagsAction } from "../challengeEdit/subComponents/description/action";
 import {
   PageTitle,
   WarningBlock,
@@ -46,6 +47,9 @@ const ChallengePreview = ({ history, match }) => {
     (data) => dispatch(updateChallengeViewsAction(data)),
     [dispatch]
   );
+  const getTagsMethod = useCallback(() => dispatch(getTagsAction()), [
+    dispatch,
+  ]);
 
   const challengeReducer = useSelector((state) => {
     return state.challengeReducer;
@@ -93,6 +97,10 @@ const ChallengePreview = ({ history, match }) => {
       });
     }
   }, [updateChallengeViewsMethod, challengeId]);
+
+  useEffect(() => {
+    getTagsMethod();
+  }, [getTagsMethod]);
 
   useEffect(() => {
     getChallengeMethod(challengeId);
