@@ -170,7 +170,7 @@ const Description = ({ t, challengeId }) => {
         }
       }
     }
-  }, [challengeReducer]);
+  }, [challengeReducer, challengeDescriptionReducer]);
 
   return (
     <MainContainer>
