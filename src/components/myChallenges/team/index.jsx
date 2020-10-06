@@ -165,9 +165,19 @@ function Team({ history }) {
                         <div className="basic-detail-container">
                           <div className="avtar-container">
                             <img
-                              src="/images/image.svg"
-                              height={15}
-                              width={15}
+                              src={
+                                each?.userData?.details?.logo
+                                  ? each.userData.details.logo
+                                  : each?.userData?.details?.personal_photo
+                                  ? each.userData.details.personal_photo
+                                  : "/images/image.svg"
+                              }
+                              className={
+                                each?.userData?.details?.logo ||
+                                each?.userData?.details?.personal_photo
+                                  ? "user_img"
+                                  : "default_img"
+                              }
                               alt="person"
                             />
                           </div>

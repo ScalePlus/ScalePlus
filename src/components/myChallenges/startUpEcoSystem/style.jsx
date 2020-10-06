@@ -35,6 +35,15 @@ export const MainContainer = styled.div`
         justify-content: center;
         margin-left: ${theme.isRTL && "0.5rem"};
         margin-right: ${theme.isLTR && "0.5rem"};
+        .default_img {
+          height: 15px;
+          width: 15px;
+        }
+        .user_img {
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+        }
       }
       .user-name {
         font-family: ${theme.fontFamily.semi_bold};

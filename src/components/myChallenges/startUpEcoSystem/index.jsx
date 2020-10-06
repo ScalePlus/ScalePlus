@@ -222,9 +222,19 @@ function StartupEcoSystem() {
                       <div className="block" key={index}>
                         <div className="avtar-container">
                           <img
-                            src="/images/image.svg"
-                            height={15}
-                            width={15}
+                            src={
+                              each?.details?.logo
+                                ? each.details.logo
+                                : each?.details?.personal_photo
+                                ? each.details.personal_photo
+                                : "/images/image.svg"
+                            }
+                            className={
+                              each?.details?.logo ||
+                              each?.details?.personal_photo
+                                ? "user_img"
+                                : "default_img"
+                            }
                             alt="person"
                           />
                         </div>
@@ -253,9 +263,19 @@ function StartupEcoSystem() {
                       <div className="block" key={index}>
                         <div className="avtar-container">
                           <img
-                            src="/images/image.svg"
-                            height={15}
-                            width={15}
+                            src={
+                              each?.details?.logo
+                                ? each.details.logo
+                                : each?.details?.personal_photo
+                                ? each.details.personal_photo
+                                : "/images/image.svg"
+                            }
+                            className={
+                              each?.details?.logo ||
+                              each?.details?.personal_photo
+                                ? "user_img"
+                                : "default_img"
+                            }
                             alt="person"
                           />
                         </div>
