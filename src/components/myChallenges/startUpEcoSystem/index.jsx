@@ -1,18 +1,12 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyChallengeAction } from "../action";
+import { useSelector } from "react-redux";
 import { MainContainer } from "./style";
 import { Pagination } from "../../common";
 
 function StartupEcoSystem() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const getMyChallengeMethod = useCallback(
-    () => dispatch(getMyChallengeAction()),
-    [dispatch]
-  );
 
   const myChallengesReducer = useSelector((state) => {
     return state.myChallengesReducer;
@@ -33,10 +27,6 @@ function StartupEcoSystem() {
     null
   );
   const limit = 10;
-
-  useEffect(() => {
-    getMyChallengeMethod();
-  }, [getMyChallengeMethod]);
 
   useEffect(() => {
     if (
@@ -177,6 +167,8 @@ function StartupEcoSystem() {
     } else {
       setCurrent([]);
       setPrevious([]);
+      setCurrentVisible([]);
+      setPreviousVisible([]);
     }
   }, [myChallengesReducer]);
 

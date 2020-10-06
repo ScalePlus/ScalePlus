@@ -1,9 +1,9 @@
 import coreApi from "../../lib/coreApi";
 
 export default {
-  getMyChallenge: () => {
+  getMyChallenge: (filters) => {
     let url = `/my/challenge`;
-    let result = coreApi.GET(url);
+    let result = coreApi.PUT(url, filters);
     return result;
   },
 };

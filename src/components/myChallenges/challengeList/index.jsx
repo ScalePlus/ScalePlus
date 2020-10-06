@@ -9,21 +9,26 @@ import { CardComponent, Loading } from "../../common";
 import { getTagsAction } from "../../challengeEdit/subComponents/description/action";
 import { MainContainer } from "./style";
 import { Constants } from "../../../lib/constant";
+import Filters from "../../allChallenges/subComponents/filter";
 
 const MyChallengesList = ({ history }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const getMyChallengeMethod = useCallback(
-    () => dispatch(getMyChallengeAction()),
+    (filters) => dispatch(getMyChallengeAction(filters)),
     [dispatch]
   );
   const getAllChallengeMethod = useCallback(
-    () => dispatch(getAllChallengeAction(null, {})),
+    (filters) => dispatch(getAllChallengeAction(null, filters)),
     [dispatch]
   );
   const getTagsMethod = useCallback(() => dispatch(getTagsAction()), [
     dispatch,
   ]);
+
+  const [show, setShow] = useState(false);
+  const [filterCount, setFilterCount] = useState(null);
+  const [filters, setFilters] = useState({});
 
   const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
@@ -58,9 +63,9 @@ const MyChallengesList = ({ history }) => {
 
   useEffect(() => {
     getTagsMethod();
-    getAllChallengeMethod();
-    getMyChallengeMethod();
-  }, [getTagsMethod, getAllChallengeMethod, getMyChallengeMethod]);
+    getAllChallengeMethod(filters);
+    getMyChallengeMethod(filters);
+  }, [getTagsMethod, getAllChallengeMethod, getMyChallengeMethod, filters]);
 
   useEffect(() => {
     const { allChallenges } = allChallengesReducer;
@@ -127,93 +132,95 @@ const MyChallengesList = ({ history }) => {
 
       setRelevantTags(relevantTags);
       setRelevantPrograms(filteredRecord);
+    } else {
+      setRelevantTags([]);
+      setRelevantPrograms([]);
     }
   }, [challengeDescriptionReducer, allChallengesReducer, signinReducer]);
 
   useEffect(() => {
     const { myChallenges } = myChallengesReducer;
-    if (myChallenges && myChallenges.result) {
-      if (myChallenges.result.length) {
-        const currentPrograms = myChallenges.result.filter((each) => {
-          return (
-            !each.timelineId ||
-            (each.timelineId && !each.timelineId.data) ||
-            (each.timelineId &&
-              each.timelineId.data &&
-              !each.timelineId.data.length) ||
-            (each.timelineId &&
-              each.timelineId.data &&
-              each.timelineId.data.length &&
-              each.timelineId.data.find(
-                (rec) =>
-                  rec.state.name === "Closing" &&
-                  new Date(rec.endDate) > new Date()
-              ))
-          );
-        });
-        let currentTags = [];
-
-        currentPrograms.map((each) => {
-          if (each?.descriptionId?.tags && each?.descriptionId?.tags.length) {
-            each.descriptionId.tags.map((tag) => {
-              if (
-                tag &&
-                challengeDescriptionReducer?.taglist?.result &&
-                challengeDescriptionReducer?.taglist?.result.length
-              ) {
-                const foundRecord = challengeDescriptionReducer.taglist.result.find(
-                  (each) => each._id && each._id.toString() === tag
-                );
-                currentTags.push(foundRecord);
-              }
-              return tag;
-            });
-          }
-          return each;
-        });
-
-        setCurrentTags(currentTags);
-        setCurrentPrograms(currentPrograms);
-
-        const previousPrograms = myChallenges.result.filter((each) => {
-          return (
-            each.timelineId &&
+    if (myChallenges && myChallenges.result && myChallenges.result.length) {
+      const currentPrograms = myChallenges.result.filter((each) => {
+        return (
+          !each.timelineId ||
+          (each.timelineId && !each.timelineId.data) ||
+          (each.timelineId &&
+            each.timelineId.data &&
+            !each.timelineId.data.length) ||
+          (each.timelineId &&
             each.timelineId.data &&
             each.timelineId.data.length &&
             each.timelineId.data.find(
               (rec) =>
                 rec.state.name === "Closing" &&
-                new Date(rec.endDate) < new Date()
-            )
-          );
-        });
-        let previousTags = [];
+                new Date(rec.endDate) > new Date()
+            ))
+        );
+      });
+      let currentTags = [];
 
-        previousPrograms.map((each) => {
-          if (each?.descriptionId?.tags && each?.descriptionId?.tags.length) {
-            each.descriptionId.tags.map((tag) => {
-              if (
-                tag &&
-                challengeDescriptionReducer?.taglist?.result &&
-                challengeDescriptionReducer?.taglist?.result.length
-              ) {
-                const foundRecord = challengeDescriptionReducer.taglist.result.find(
-                  (each) => each._id && each._id.toString() === tag
-                );
-                previousTags.push(foundRecord);
-              }
-              return tag;
-            });
-          }
-          return each;
-        });
+      currentPrograms.map((each) => {
+        if (each?.descriptionId?.tags && each?.descriptionId?.tags.length) {
+          each.descriptionId.tags.map((tag) => {
+            if (
+              tag &&
+              challengeDescriptionReducer?.taglist?.result &&
+              challengeDescriptionReducer?.taglist?.result.length
+            ) {
+              const foundRecord = challengeDescriptionReducer.taglist.result.find(
+                (each) => each._id && each._id.toString() === tag
+              );
+              currentTags.push(foundRecord);
+            }
+            return tag;
+          });
+        }
+        return each;
+      });
 
-        setPreviousTags(previousTags);
-        setPreviousPrograms(previousPrograms);
-      } else {
-        setCurrentPrograms([]);
-        setPreviousPrograms([]);
-      }
+      setCurrentTags(currentTags);
+      setCurrentPrograms(currentPrograms);
+
+      const previousPrograms = myChallenges.result.filter((each) => {
+        return (
+          each.timelineId &&
+          each.timelineId.data &&
+          each.timelineId.data.length &&
+          each.timelineId.data.find(
+            (rec) =>
+              rec.state.name === "Closing" && new Date(rec.endDate) < new Date()
+          )
+        );
+      });
+      let previousTags = [];
+
+      previousPrograms.map((each) => {
+        if (each?.descriptionId?.tags && each?.descriptionId?.tags.length) {
+          each.descriptionId.tags.map((tag) => {
+            if (
+              tag &&
+              challengeDescriptionReducer?.taglist?.result &&
+              challengeDescriptionReducer?.taglist?.result.length
+            ) {
+              const foundRecord = challengeDescriptionReducer.taglist.result.find(
+                (each) => each._id && each._id.toString() === tag
+              );
+              previousTags.push(foundRecord);
+            }
+            return tag;
+          });
+        }
+        return each;
+      });
+
+      setPreviousTags(previousTags);
+      setPreviousPrograms(previousPrograms);
+    } else {
+      setCurrentPrograms([]);
+      setCurrentTags([]);
+      setPreviousPrograms([]);
+      setPreviousTags([]);
     }
   }, [
     challengeDescriptionReducer,
@@ -221,6 +228,37 @@ const MyChallengesList = ({ history }) => {
     is_organisation,
     userId,
   ]);
+
+  const onApply = ({ searchText, stage, category, orderby }) => {
+    let count = 0,
+      filters = {};
+    if (searchText) {
+      count++;
+      filters["searchText"] = searchText;
+    }
+    if (stage && stage.length) {
+      count++;
+      filters["stage"] = stage;
+    }
+    if (category && category.length) {
+      count++;
+      filters["category"] = category;
+    }
+    if (orderby && orderby.length) {
+      count++;
+      filters["orderby"] = orderby;
+    }
+
+    setFilters(filters);
+    setFilterCount(count);
+    setShow(false);
+  };
+
+  const onReset = () => {
+    setFilters({});
+    setFilterCount(null);
+    setShow(false);
+  };
 
   // const [menu, setMenu] = useState(null);
   return (
@@ -252,7 +290,10 @@ const MyChallengesList = ({ history }) => {
                           : null}
                       </div>
                     </div>
-                    <div className="filter-button-container" onClick={() => {}}>
+                    <div
+                      className="filter-button-container"
+                      onClick={() => setShow(true)}
+                    >
                       <div>
                         <img
                           src={"/images/filter-icon.png"}
@@ -264,9 +305,11 @@ const MyChallengesList = ({ history }) => {
                       <div className="filter-text">
                         <span>{t("Filters")}</span>
                       </div>
-                      <div className="filter-count">
-                        <span className="count-text">{2}</span>
-                      </div>
+                      {filterCount ? (
+                        <div className="filter-count">
+                          <span className="count-text">{filterCount}</span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </Col>
@@ -348,6 +391,29 @@ const MyChallengesList = ({ history }) => {
                         : null}
                     </div>
                   </div>
+                  {!is_startup ? (
+                    <div
+                      className="filter-button-container"
+                      onClick={() => setShow(true)}
+                    >
+                      <div>
+                        <img
+                          src={"/images/filter-icon.png"}
+                          height="20px"
+                          width="20px"
+                          alt=""
+                        ></img>
+                      </div>
+                      <div className="filter-text">
+                        <span>{t("Filters")}</span>
+                      </div>
+                      {filterCount ? (
+                        <div className="filter-count">
+                          <span className="count-text">{filterCount}</span>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
                 </div>
               </Col>
             </Row>
@@ -515,6 +581,13 @@ const MyChallengesList = ({ history }) => {
           </Col>
         </Row>
       </div>
+      <Filters
+        t={t}
+        show={show}
+        setShow={setShow}
+        onApply={onApply}
+        onReset={onReset}
+      />
     </MainContainer>
   );
 };

@@ -21,6 +21,9 @@ function Activities({ t, history, challengeId }) {
   const allChallengesReducer = useSelector((state) => {
     return state.allChallengesReducer;
   });
+  const myChallengesReducer = useSelector((state) => {
+    return state.myChallengesReducer;
+  });
 
   const [filters, setFilters] = useState("");
   const [activities, setActivities] = useState(null);
@@ -51,6 +54,7 @@ function Activities({ t, history, challengeId }) {
   useEffect(() => {
     const { activities } = activitiesReducer;
     const { allChallenges } = allChallengesReducer;
+    const { myChallenges } = myChallengesReducer;
     if (activities && activities.result) {
       if (
         allChallenges &&
@@ -85,17 +89,45 @@ function Activities({ t, history, challengeId }) {
           setActivities([]);
           setVisibleData([]);
         }
-      } else if (!is_admin && activities.result.length) {
-        let length = activities.result.length;
-        setTotalPage(Math.ceil(length / limit));
-        setRenderPage(1);
-        setActivities(activities.result);
+      } else if (
+        !is_admin &&
+        activities.result.length &&
+        myChallenges &&
+        myChallenges.result &&
+        myChallenges.result.length
+      ) {
+        let list = Object.assign([], activities.result);
+
+        list = list.filter((each) => {
+          if (each.challengeId && each.challengeId._id) {
+            const index = myChallenges.result.findIndex(
+              (data) => data._id.toString() === each.challengeId._id.toString()
+            );
+            if (index >= 0) {
+              return each;
+            } else {
+              return null;
+            }
+          } else {
+            return each;
+          }
+        });
+
+        let length = list.length;
+        if (length) {
+          setTotalPage(Math.ceil(length / limit));
+          setRenderPage(1);
+          setActivities(activities.result);
+        } else {
+          setActivities([]);
+          setVisibleData([]);
+        }
       } else {
         setActivities([]);
         setVisibleData([]);
       }
     }
-  }, [activitiesReducer, allChallengesReducer, is_admin]);
+  }, [activitiesReducer, allChallengesReducer, myChallengesReducer, is_admin]);
 
   return (
     <MainContainer>

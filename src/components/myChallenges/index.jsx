@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import ChallengesList from "../allChallenges/subComponents/challengesList";
+// import ChallengesList from "../allChallenges/subComponents/challengesList";
 import MyChallengesList from "./challengeList";
 import ListBlock from "./listBlock";
 import StartupEcoSystem from "./startUpEcoSystem";
@@ -23,11 +23,11 @@ const MyChallenges = ({ history }) => {
     <MainContainer>
       <Row>
         <Col>
-          {is_admin ? (
+          {/* {is_admin ? (
             <ChallengesList history={history} />
-          ) : (
-            <MyChallengesList history={history} />
-          )}
+          ) : ( */}
+          <MyChallengesList history={history} />
+          {/* )} */}
         </Col>
       </Row>
       {is_admin || is_organisation ? (

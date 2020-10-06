@@ -7,10 +7,10 @@ import {
 } from "./types";
 import Api from "./api";
 
-function* getMyChallengeSaga() {
+function* getMyChallengeSaga(data) {
   yield put({ type: GET_MY_CHALLENGES_LOADING });
   try {
-    let res = yield call(Api.getMyChallenge);
+    let res = yield call(Api.getMyChallenge, data.filters);
     if (res.status) {
       yield put({ type: GET_MY_CHALLENGES_ERROR, payload: res.message });
     } else {

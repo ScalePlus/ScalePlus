@@ -1,18 +1,12 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyChallengeAction } from "../action";
+import { useSelector } from "react-redux";
 import { MainContainer } from "./style";
 import { Pagination } from "../../common";
 
 function Team({ history }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const getMyChallengeMethod = useCallback(
-    () => dispatch(getMyChallengeAction()),
-    [dispatch]
-  );
 
   const myChallengesReducer = useSelector((state) => {
     return state.myChallengesReducer;
@@ -28,10 +22,6 @@ function Team({ history }) {
   const [totalActiveTeamsPage, setActiveTeamsTotalPage] = useState(null);
   const [renderActiveTeamsPage, setActiveTeamsRenderPage] = useState(null);
   const limit = 10;
-
-  useEffect(() => {
-    getMyChallengeMethod();
-  }, [getMyChallengeMethod]);
 
   useEffect(() => {
     if (
@@ -117,14 +107,20 @@ function Team({ history }) {
       if (teams && teams.length) {
         setActiveTeamsTotalPage(Math.ceil(teams.length / limit));
         setActiveTeamsRenderPage(1);
-        setActiveTeams(teams);
       }
 
       if (members && members.length) {
         setTeamMembersTotalPage(Math.ceil(members.length / limit));
         setTeamMembersRenderPage(1);
-        setTeamMembers(members);
       }
+
+      setActiveTeams(teams);
+      setTeamMembers(members);
+    } else {
+      setTeamMembers([]);
+      setActiveTeams([]);
+      setVisibleTeamMembers([]);
+      setVisibleActiveTeams([]);
     }
   }, [myChallengesReducer]);
 

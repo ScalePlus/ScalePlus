@@ -47,7 +47,7 @@ const Header = ({ t }) => {
     [dispatch]
   );
   const getMyChallengeMethod = useCallback(
-    () => dispatch(getMyChallengeAction()),
+    (filters) => dispatch(getMyChallengeAction(filters)),
     [dispatch]
   );
   const getAllChallengeMethod = useCallback(
@@ -86,7 +86,7 @@ const Header = ({ t }) => {
 
     socket.on("activitiesUpdate", () => {
       getActivities();
-      getMyChallengeMethod();
+      getMyChallengeMethod({});
       getAllChallengeMethod(1, {});
       if (window.location.pathname.includes("/preview/")) {
         const challengeId = window.location.pathname.substring(

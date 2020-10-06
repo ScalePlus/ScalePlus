@@ -21,6 +21,9 @@ function Users({ t, history }) {
   const allChallengesReducer = useSelector((state) => {
     return state.allChallengesReducer;
   });
+  const myChallengesReducer = useSelector((state) => {
+    return state.myChallengesReducer;
+  });
 
   const is_admin =
     localStorage.getItem("userRole") === Constants.ROLES.ADMIN &&
@@ -49,6 +52,7 @@ function Users({ t, history }) {
   useEffect(() => {
     const { attachedUsers } = attachedUsersReducer;
     const { allChallenges } = allChallengesReducer;
+    const { myChallenges } = myChallengesReducer;
 
     if (attachedUsers && attachedUsers.result) {
       if (
@@ -84,17 +88,50 @@ function Users({ t, history }) {
           setAttachedUsers([]);
           setVisibleData([]);
         }
-      } else if (!is_admin && attachedUsers.result.length) {
-        let length = attachedUsers.result.length;
-        setTotalPage(Math.ceil(length / limit));
-        setRenderPage(1);
-        setAttachedUsers(attachedUsers.result);
+      } else if (
+        !is_admin &&
+        attachedUsers.result.length &&
+        myChallenges &&
+        myChallenges.result &&
+        myChallenges.result.length
+      ) {
+        let list = Object.assign([], attachedUsers.result);
+
+        list = list.filter((each) => {
+          if (each.challengeId && each.challengeId._id) {
+            const index = myChallenges.result.findIndex(
+              (data) => data._id.toString() === each.challengeId._id.toString()
+            );
+            if (index >= 0) {
+              return each;
+            } else {
+              return null;
+            }
+          } else {
+            return each;
+          }
+        });
+
+        let length = list.length;
+        if (length) {
+          setTotalPage(Math.ceil(length / limit));
+          setRenderPage(1);
+          setAttachedUsers(attachedUsers.result);
+        } else {
+          setAttachedUsers([]);
+          setVisibleData([]);
+        }
       } else {
         setAttachedUsers([]);
         setVisibleData([]);
       }
     }
-  }, [attachedUsersReducer, allChallengesReducer, is_admin]);
+  }, [
+    attachedUsersReducer,
+    allChallengesReducer,
+    myChallengesReducer,
+    is_admin,
+  ]);
 
   return (
     <MainContainer>
