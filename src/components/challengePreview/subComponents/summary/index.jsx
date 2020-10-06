@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { PageTitle } from "../../../common";
+import { PageTitle, Pagination } from "../../../common";
 import { HeaderComponent } from "../common";
 import { MainContainer, ContentContainer } from "./style";
 import moment from "moment";
-import { Constants } from "../../../../lib/constant";
 
 const Summary = ({
   t,
@@ -19,9 +18,6 @@ const Summary = ({
   submissionClosed,
   judgingClosed,
 }) => {
-  const [memberAsParticipant, setParticipation] = useState(false);
-  const [memberAsJudge, setJudge] = useState(false);
-
   const [participants, setParticipants] = useState([]);
   const [visiblePariticipantData, setVisiblePariticipantData] = useState(null);
   const [totalPariticipantPage, setTotalPariticipantPage] = useState(null);
@@ -36,37 +32,6 @@ const Summary = ({
 
   useEffect(() => {
     if (challengeData) {
-      setParticipation(
-        challengeData.participantsId &&
-          challengeData.participantsId.data &&
-          challengeData.participantsId.data.length &&
-          challengeData.participantsId.data.find((each) => {
-            return each.team.find(
-              (member) =>
-                member.userId._id.toString() ===
-                  localStorage.getItem("userId") &&
-                member.status !== Constants.USER_STATUS.Declined &&
-                member.status !== Constants.USER_STATUS.Canceled &&
-                member.status !== Constants.USER_STATUS.Invited
-            );
-          })
-          ? true
-          : false
-      );
-
-      setJudge(
-        challengeData.judgesId &&
-          challengeData.judgesId.data.length &&
-          challengeData.judgesId.data.find(
-            (member) =>
-              member.userId._id.toString() === localStorage.getItem("userId") &&
-              member.status !== Constants.USER_STATUS.Declined &&
-              member.status !== Constants.USER_STATUS.Invited
-          )
-          ? true
-          : false
-      );
-
       let participants = [],
         judges = [];
 
@@ -252,64 +217,18 @@ const Summary = ({
                             />
                           </div>
                           <div className="user-name">
-                            {each.firstName} {each.lastName}
+                            {each.firstName && each.lastName
+                              ? each.firstName + " " + each.lastName
+                              : each.email}
                           </div>
                         </div>
                       );
                     })}
-                    <div className="pagination">
-                      {renderPariticipantPage > 1 && (
-                        <span
-                          className="first-page"
-                          onClick={() => {
-                            setRenderPariticipantPage(1);
-                          }}
-                        >
-                          {"<<"}
-                        </span>
-                      )}
-                      {renderPariticipantPage > 1 && (
-                        <span
-                          className="previous-page"
-                          onClick={() => {
-                            const previousPage = renderPariticipantPage - 1;
-                            if (previousPage >= 1) {
-                              setRenderPariticipantPage(previousPage);
-                            }
-                          }}
-                        >
-                          {"<"}
-                        </span>
-                      )}
-
-                      <span>{renderPariticipantPage}</span>
-                      <span className="of-text">{t("of")}</span>
-                      <span>{totalPariticipantPage}</span>
-
-                      {renderPariticipantPage !== totalPariticipantPage && (
-                        <span
-                          className="next-page"
-                          onClick={() => {
-                            const nextpage = renderPariticipantPage + 1;
-                            if (nextpage <= totalPariticipantPage) {
-                              setRenderPariticipantPage(nextpage);
-                            }
-                          }}
-                        >
-                          {">"}
-                        </span>
-                      )}
-                      {renderPariticipantPage !== totalPariticipantPage && (
-                        <span
-                          className="last-page"
-                          onClick={() =>
-                            setRenderPariticipantPage(totalPariticipantPage)
-                          }
-                        >
-                          {">>"}
-                        </span>
-                      )}
-                    </div>
+                    <Pagination
+                      renderPage={renderPariticipantPage}
+                      setRenderPage={setRenderPariticipantPage}
+                      totalPage={totalPariticipantPage}
+                    />
                   </div>
                 ) : null}
               </Col>
@@ -331,62 +250,18 @@ const Summary = ({
                             />
                           </div>
                           <div className="user-name">
-                            {each.firstName} {each.lastName}
+                            {each.firstName && each.lastName
+                              ? each.firstName + " " + each.lastName
+                              : each.email}
                           </div>
                         </div>
                       );
                     })}
-                    <div className="pagination">
-                      {renderJudgePage > 1 && (
-                        <span
-                          className="first-page"
-                          onClick={() => {
-                            setRenderJudgePage(1);
-                          }}
-                        >
-                          {"<<"}
-                        </span>
-                      )}
-                      {renderJudgePage > 1 && (
-                        <span
-                          className="previous-page"
-                          onClick={() => {
-                            const previousPage = renderJudgePage - 1;
-                            if (previousPage >= 1) {
-                              setRenderJudgePage(previousPage);
-                            }
-                          }}
-                        >
-                          {"<"}
-                        </span>
-                      )}
-
-                      <span>{renderJudgePage}</span>
-                      <span className="of-text">{t("of")}</span>
-                      <span>{totalJudgePage}</span>
-
-                      {renderJudgePage !== totalJudgePage && (
-                        <span
-                          className="next-page"
-                          onClick={() => {
-                            const nextpage = renderJudgePage + 1;
-                            if (nextpage <= totalJudgePage) {
-                              setRenderJudgePage(nextpage);
-                            }
-                          }}
-                        >
-                          {">"}
-                        </span>
-                      )}
-                      {renderJudgePage !== totalJudgePage && (
-                        <span
-                          className="last-page"
-                          onClick={() => setRenderJudgePage(totalJudgePage)}
-                        >
-                          {">>"}
-                        </span>
-                      )}
-                    </div>
+                    <Pagination
+                      renderPage={renderJudgePage}
+                      setRenderPage={setRenderJudgePage}
+                      totalPage={totalJudgePage}
+                    />
                   </div>
                 ) : null}
               </Col>

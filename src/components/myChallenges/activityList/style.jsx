@@ -59,21 +59,5 @@ export const MainContainer = styled.div`
         font-family: ${theme.fontFamily.bold};
       }
     }
-    .pagination {
-      margin-top: 1rem;
-      justify-content: center;
-      .of-text {
-        padding: 0px 5px;
-      }
-      .next-page,
-      .previous-page {
-        padding: 0rem 0.5rem;
-        cursor: pointer;
-      }
-      .last-page,
-      .first-page {
-        cursor: pointer;
-      }
-    }
   }
 `;

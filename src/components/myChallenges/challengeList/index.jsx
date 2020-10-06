@@ -20,6 +20,9 @@ const MyChallengesList = ({ history }) => {
   const is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
       localStorage.getItem("token"),
+    is_startup =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
+      localStorage.getItem("token"),
     userId = localStorage.getItem("userId");
   const [currentPrograms, setCurrentPrograms] = useState([]);
   const [previousPrograms, setPreviousPrograms] = useState([]);
@@ -87,7 +90,9 @@ const MyChallengesList = ({ history }) => {
                 <div className="header-wrapper">
                   <div className="header">
                     <div className="title">
-                      <span>{t("Current Programs")}</span>
+                      <span>
+                        {is_startup ? t("My Programs") : t("Current Programs")}
+                      </span>
                     </div>
                     <div className="circle-container">
                       <span className="count">{currentPrograms.length}</span>

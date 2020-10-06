@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
+import { Pagination } from "../../common";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivitiesAction } from "../../allActivities/action";
 import { Dropdown } from "react-bootstrap";
@@ -388,57 +389,11 @@ function Activities({ t, history, challengeId }) {
               </div>
             );
           })}
-          <div className="pagination">
-            {renderPage > 1 && (
-              <span
-                className="first-page"
-                onClick={() => {
-                  setRenderPage(1);
-                }}
-              >
-                {"<<"}
-              </span>
-            )}
-            {renderPage > 1 && (
-              <span
-                className="previous-page"
-                onClick={() => {
-                  const previousPage = renderPage - 1;
-                  if (previousPage >= 1) {
-                    setRenderPage(previousPage);
-                  }
-                }}
-              >
-                {"<"}
-              </span>
-            )}
-
-            <span>{renderPage}</span>
-            <span className="of-text">{t("of")}</span>
-            <span>{totalPage}</span>
-
-            {renderPage !== totalPage && (
-              <span
-                className="next-page"
-                onClick={() => {
-                  const nextpage = renderPage + 1;
-                  if (nextpage <= totalPage) {
-                    setRenderPage(nextpage);
-                  }
-                }}
-              >
-                {">"}
-              </span>
-            )}
-            {renderPage !== totalPage && (
-              <span
-                className="last-page"
-                onClick={() => setRenderPage(totalPage)}
-              >
-                {">>"}
-              </span>
-            )}
-          </div>
+          <Pagination
+            renderPage={renderPage}
+            setRenderPage={setRenderPage}
+            totalPage={totalPage}
+          />
         </div>
       ) : null}
     </MainContainer>

@@ -41,6 +41,7 @@ import {
   UpdateCountButtonContainer,
   TableContainer,
   CardContainer,
+  PaginationContainer,
 } from "./style";
 import ShareAsEmail from "../shareLinkModal";
 import theme from "../../theme";
@@ -1656,6 +1657,62 @@ export const CardComponent = React.memo(
           ></img>
         </div>
       </CardContainer>
+    );
+  }
+);
+
+export const Pagination = React.memo(
+  ({ renderPage, setRenderPage, totalPage }) => {
+    const { t } = useTranslation();
+    return !totalPage ? null : (
+      <PaginationContainer>
+        {renderPage > 1 && (
+          <span
+            className="first-page"
+            onClick={() => {
+              setRenderPage(1);
+            }}
+          >
+            {"<<"}
+          </span>
+        )}
+        {renderPage > 1 && (
+          <span
+            className="previous-page"
+            onClick={() => {
+              const previousPage = renderPage - 1;
+              if (previousPage >= 1) {
+                setRenderPage(previousPage);
+              }
+            }}
+          >
+            {"<"}
+          </span>
+        )}
+
+        <span>{renderPage}</span>
+        <span className="of-text">{t("of")}</span>
+        <span>{totalPage}</span>
+
+        {renderPage !== totalPage && (
+          <span
+            className="next-page"
+            onClick={() => {
+              const nextpage = renderPage + 1;
+              if (nextpage <= totalPage) {
+                setRenderPage(nextpage);
+              }
+            }}
+          >
+            {">"}
+          </span>
+        )}
+        {renderPage !== totalPage && (
+          <span className="last-page" onClick={() => setRenderPage(totalPage)}>
+            {">>"}
+          </span>
+        )}
+      </PaginationContainer>
     );
   }
 );

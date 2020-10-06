@@ -554,3 +554,22 @@ export const CardContainer = styled.div`
     }
   }
 `;
+
+export const PaginationContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .of-text {
+    padding: 0px 5px;
+  }
+  .next-page,
+  .previous-page {
+    padding: 0rem 0.5rem;
+    cursor: pointer;
+  }
+  .last-page,
+  .first-page {
+    cursor: pointer;
+  }
+`;

@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyChallengeAction } from "../action";
 import { MainContainer } from "./style";
+import { Pagination } from "../../common";
 
 function StartupEcoSystem() {
   const { t } = useTranslation();
@@ -206,12 +207,15 @@ function StartupEcoSystem() {
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={11} xs={11}>
           <Row>
-            <Col lg={12} md={12} sm={12} xs={12} style={{ padding: 0 }}>
-              <div className="title-text">{t("Startup Ecosystem")}</div>
-            </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <div className="sub-title-text">{t("Current Programs")}</div>
-              {currentVisible && currentVisible.length ? (
+            {(currentVisible && currentVisible.length) ||
+            (prevoiusVisible && prevoiusVisible.length) ? (
+              <Col lg={12} md={12} sm={12} xs={12} style={{ padding: 0 }}>
+                <div className="title-text">{t("Startup Ecosystem")}</div>
+              </Col>
+            ) : null}
+            {currentVisible && currentVisible.length ? (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="sub-title-text">{t("Current Programs")}</div>
                 <div className="list-container">
                   {currentVisible.map((each, index) => {
                     return (
@@ -225,70 +229,24 @@ function StartupEcoSystem() {
                           />
                         </div>
                         <div className="user-name">
-                          {each.firstName} {each.lastName}
+                          {each.firstName && each.lastName
+                            ? each.firstName + " " + each.lastName
+                            : each.email}
                         </div>
                       </div>
                     );
                   })}
-                  <div className="pagination">
-                    {renderCurrentStartUpPage > 1 && (
-                      <span
-                        className="first-page"
-                        onClick={() => {
-                          setCurrentStartUpRenderPage(1);
-                        }}
-                      >
-                        {"<<"}
-                      </span>
-                    )}
-                    {renderCurrentStartUpPage > 1 && (
-                      <span
-                        className="previous-page"
-                        onClick={() => {
-                          const previousPage = renderCurrentStartUpPage - 1;
-                          if (previousPage >= 1) {
-                            setCurrentStartUpRenderPage(previousPage);
-                          }
-                        }}
-                      >
-                        {"<"}
-                      </span>
-                    )}
-
-                    <span>{renderCurrentStartUpPage}</span>
-                    <span className="of-text">{t("of")}</span>
-                    <span>{totalCurrentStartUpPage}</span>
-
-                    {renderCurrentStartUpPage !== totalCurrentStartUpPage && (
-                      <span
-                        className="next-page"
-                        onClick={() => {
-                          const nextpage = renderCurrentStartUpPage + 1;
-                          if (nextpage <= totalCurrentStartUpPage) {
-                            setCurrentStartUpRenderPage(nextpage);
-                          }
-                        }}
-                      >
-                        {">"}
-                      </span>
-                    )}
-                    {renderCurrentStartUpPage !== totalCurrentStartUpPage && (
-                      <span
-                        className="last-page"
-                        onClick={() =>
-                          setCurrentStartUpRenderPage(totalCurrentStartUpPage)
-                        }
-                      >
-                        {">>"}
-                      </span>
-                    )}
-                  </div>
+                  <Pagination
+                    renderPage={renderCurrentStartUpPage}
+                    setRenderPage={setCurrentStartUpRenderPage}
+                    totalPage={totalCurrentStartUpPage}
+                  />
                 </div>
-              ) : null}
-            </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <div className="sub-title-text">{t("Previous Programs")}</div>{" "}
-              {prevoiusVisible && prevoiusVisible.length ? (
+              </Col>
+            ) : null}
+            {prevoiusVisible && prevoiusVisible.length ? (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="sub-title-text">{t("Previous Programs")}</div>{" "}
                 <div className="list-container">
                   {prevoiusVisible.map((each, index) => {
                     return (
@@ -302,67 +260,21 @@ function StartupEcoSystem() {
                           />
                         </div>
                         <div className="user-name">
-                          {each.firstName} {each.lastName}
+                          {each.firstName && each.lastName
+                            ? each.firstName + " " + each.lastName
+                            : each.email}
                         </div>
                       </div>
                     );
                   })}
-                  <div className="pagination">
-                    {renderPreviousStartUpPage > 1 && (
-                      <span
-                        className="first-page"
-                        onClick={() => {
-                          setPreviousStartUpRenderPage(1);
-                        }}
-                      >
-                        {"<<"}
-                      </span>
-                    )}
-                    {renderPreviousStartUpPage > 1 && (
-                      <span
-                        className="previous-page"
-                        onClick={() => {
-                          const previousPage = renderPreviousStartUpPage - 1;
-                          if (previousPage >= 1) {
-                            setPreviousStartUpRenderPage(previousPage);
-                          }
-                        }}
-                      >
-                        {"<"}
-                      </span>
-                    )}
-
-                    <span>{renderPreviousStartUpPage}</span>
-                    <span className="of-text">{t("of")}</span>
-                    <span>{totalPreviousStartUpPage}</span>
-
-                    {renderPreviousStartUpPage !== totalPreviousStartUpPage && (
-                      <span
-                        className="next-page"
-                        onClick={() => {
-                          const nextpage = renderPreviousStartUpPage + 1;
-                          if (nextpage <= totalPreviousStartUpPage) {
-                            setPreviousStartUpRenderPage(nextpage);
-                          }
-                        }}
-                      >
-                        {">"}
-                      </span>
-                    )}
-                    {renderPreviousStartUpPage !== totalPreviousStartUpPage && (
-                      <span
-                        className="last-page"
-                        onClick={() =>
-                          setPreviousStartUpRenderPage(totalPreviousStartUpPage)
-                        }
-                      >
-                        {">>"}
-                      </span>
-                    )}
-                  </div>
+                  <Pagination
+                    renderPage={renderPreviousStartUpPage}
+                    setRenderPage={setPreviousStartUpRenderPage}
+                    totalPage={totalPreviousStartUpPage}
+                  />
                 </div>
-              ) : null}
-            </Col>
+              </Col>
+            ) : null}
           </Row>
         </Col>
       </Row>
