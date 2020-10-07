@@ -14,6 +14,8 @@ export const MainContainer = styled.div`
     .header {
       display: flex;
       align-items: center;
+      flex: 0.8;
+      flex-wrap: wrap;
       .title {
         font-family: ${theme.fontFamily.bold};
         font-size: ${theme.fontSize.mediumLarge};
@@ -36,13 +38,17 @@ export const MainContainer = styled.div`
         }
       }
       .tags-container {
+        flex: auto;
+        flex-wrap: wrap;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+
         .tag {
           background-color: ${theme.colors.whisper};
           padding: 5px 10px;
           border-radius: 15px;
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
           margin-right: ${theme.isLTR && "10px"};
           margin-left: ${theme.isRTL && "10px"};
         }
