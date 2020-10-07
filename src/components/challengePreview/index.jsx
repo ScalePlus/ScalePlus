@@ -117,7 +117,7 @@ const ChallengePreview = ({ history, match }) => {
     }
     setErrors(errors);
 
-    if (challengeData) {
+    if (challengeData?._id && challengeData._id.toString() === challengeId) {
       const perFieldPer = 100 / 7;
       let filledTabs = 0;
 
@@ -489,6 +489,7 @@ const ChallengePreview = ({ history, match }) => {
     is_mentor_judge,
     challengeReducer,
     t,
+    challengeId,
   ]);
 
   useEffect(() => {
@@ -519,12 +520,29 @@ const ChallengePreview = ({ history, match }) => {
 
   useEffect(() => {
     if (match && match.params && match.params.tab) {
-      selectTab(match.params.tab);
-      if (match.params.tab === "Updates") {
-        setUpdateCount(0);
+      if (
+        challengeId &&
+        challengeData?._id &&
+        challengeData._id.toString() === challengeId &&
+        challengeData?.timelineId?.data &&
+        challengeData.timelineId.data.length &&
+        challengeData.timelineId.data.find(
+          (rec) =>
+            rec.state.name === "Closing" && new Date(rec.endDate) < new Date()
+        ) &&
+        selectedTab !== "Summary"
+      ) {
+        selectTab("Summary");
+        changeTabs([{ label: t("Summary"), value: "Summary" }]);
+        history.push(`/challenge/${challengeData?._id}/preview/Summary`);
+      } else {
+        selectTab(match.params.tab);
+        if (match.params.tab === "Updates") {
+          setUpdateCount(0);
+        }
       }
     }
-  }, [match]);
+  }, [challengeData, match, history, challengeId, selectedTab, t]);
 
   return challengeData &&
     (!challengeData.isPrivate ||

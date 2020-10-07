@@ -8,6 +8,7 @@ import Team from "./team";
 // import Charts from "./charts";
 import { MainContainer } from "./style";
 import { Constants } from "../../lib/constant";
+import SubscribeHeader from "../allChallenges/subComponents/subscribeHeader";
 
 const MyChallenges = ({ history }) => {
   const is_admin =
@@ -16,11 +17,15 @@ const MyChallenges = ({ history }) => {
     is_organisation =
       localStorage.getItem("userRole") === Constants.ROLES.ORGANIZATION &&
       localStorage.getItem("token"),
+    is_startup =
+      localStorage.getItem("userRole") === Constants.ROLES.STARTUP_INDIVIDUAL &&
+      localStorage.getItem("token"),
     is_mentor =
       localStorage.getItem("userRole") === Constants.ROLES.MENTOR_JUDGE &&
       localStorage.getItem("token");
   return (
     <MainContainer>
+      {is_startup ? <SubscribeHeader /> : null}
       <Row>
         <Col>
           {/* {is_admin ? (
