@@ -192,9 +192,8 @@ const Summary = ({
                 <img
                   alt=""
                   src={
-                    challengeData.descriptionId &&
-                    challengeData.descriptionId.bannerImage
-                      ? challengeData.descriptionId.bannerImage
+                    challengeData?.summaryId?.bannerImage
+                      ? challengeData.summaryId.bannerImage
                       : "/images/image.svg"
                   }
                 ></img>
@@ -228,8 +227,7 @@ const Summary = ({
             <div
               className="description"
               dangerouslySetInnerHTML={{
-                __html:
-                  challengeData.overviewId && challengeData.overviewId.data,
+                __html: challengeData?.summaryId?.shortDescription,
               }}
             ></div>
             <Row className="list-row">
@@ -322,6 +320,32 @@ const Summary = ({
             </Row>
           </Col>
         </Row>
+        {challengeData?.summaryId?.data && challengeData?.summaryId?.data.length
+          ? challengeData.summaryId.data.map((each, index) => {
+              return (
+                <div key={index}>
+                  <Row className="justify-content-center header-container">
+                    <Col lg={11} md={11} sm={11} xs={11}>
+                      <HeaderComponent titleText={each.title} />
+                    </Col>
+                  </Row>
+                  <Row
+                    className="justify-content-center"
+                    style={{ marginBottom: "20px" }}
+                  >
+                    <Col lg={11} md={11} sm={11} xs={11}>
+                      <div
+                        className="description"
+                        dangerouslySetInnerHTML={{
+                          __html: each?.description,
+                        }}
+                      ></div>
+                    </Col>
+                  </Row>
+                </div>
+              );
+            })
+          : null}
       </ContentContainer>
     </MainContainer>
   );

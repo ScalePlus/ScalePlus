@@ -83,7 +83,7 @@ export const ContentContainer = styled.div`
 
   .header-container {
     align-items: center;
-    margin-bottom: 45px;
+    margin-bottom: 20px;
   }
 
   .title-text {

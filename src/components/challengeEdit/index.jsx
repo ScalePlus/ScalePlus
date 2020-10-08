@@ -116,10 +116,13 @@ const ChallengeEdit = ({ history, match }) => {
     setErrors(errors);
 
     if (challengeData) {
-      const perFieldPer = 100 / 7;
+      const perFieldPer = 100 / 8;
       let filledTabs = 0;
 
       if (challengeData.descriptionId) {
+        filledTabs = filledTabs + 1;
+      }
+      if (challengeData.summaryId) {
         filledTabs = filledTabs + 1;
       }
       if (
