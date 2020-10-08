@@ -19,6 +19,7 @@ import watchAttachSubmissionformAsync from "../components/challengeEdit/subCompo
 import watchAttachJudgesNDAAsync from "../components/challengeEdit/subComponents/judgesNDA/saga";
 import watchAttachLegalAggreementAsync from "../components/challengeEdit/subComponents/legalAgreement/saga";
 import watchAttachJudgingCriteriaAsync from "../components/challengeEdit/subComponents/judgingCriteria/saga";
+import watchAttachSummaryAsync from "../components/challengeEdit/subComponents/summary/saga";
 import watchAttachTeamAsync from "../components/challengeEdit/subComponents/team/saga";
 import watchAttachJudgesAsync from "../components/challengeEdit/subComponents/judges/saga";
 import inviteParticipantsSaga from "../components/challengeEdit/subComponents/userList/inviteModal/saga";
@@ -70,4 +71,5 @@ export function* rootSaga() {
   yield fork(watchUpdateProfileAsync);
   yield fork(watchUpdateProfileViewAsync);
   yield fork(watchActivitiesAsync);
+  yield fork(watchAttachSummaryAsync);
 }

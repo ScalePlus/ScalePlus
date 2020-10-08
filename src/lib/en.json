@@ -422,6 +422,7 @@
         "overview_error": "Overview is required",
         "Categories_error": "Categories is required",
         "Short_desscription_error": "Short desscription is required",
+        "Desscription_error": "Desscription is required",
         "Short_desscription_invalid_error": "Short desscription is invalid it should be 140 characters or less",
         "currency_error": "Currency is required",
         "launchDate_error": "Launch date is required",
@@ -637,6 +638,8 @@
         "FAQ_CREATE_ERROR": "Error while creating FAQ",
         "FAQ_UPDATE_SUCCESS": "FAQ updated successfully",
         "FAQ_UPDATE_ERROR": "Error while updating FAQ",
+        "SUMMARY_UPDATE_SUCCESS": "Summary updated successfully",
+        "SUMMARY_CREATE_SUCCESS": "Summary created successfully",
         "RESOURCE_CREATE_SUCCESS": "Resource created successfully",
         "RESOURCE_CREATE_ERROR": "Error while creating resource",
         "RESOURCE_UPDATE_SUCCESS": "Resource updated successfully",
@@ -844,6 +847,7 @@
         "My Programs": "My Programs",
         "NO_DATA": "No data found",
         "Relevant Programs": "Relevant Programs",
-        "No Relevant Programs": "No Relevant Programs"
+        "No Relevant Programs": "No Relevant Programs",
+        "Summary Banner Image": "Summary Banner Image"
     }
 }

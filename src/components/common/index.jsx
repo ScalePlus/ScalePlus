@@ -196,7 +196,7 @@ export const EditorInput = React.memo(
           {...props}
         />
         {isInvalid && errorMessage && (
-          <Form.Control.Feedback className="text-left" type="invalid">
+          <Form.Control.Feedback className="text-left invalid-text">
             {errorMessage}
           </Form.Control.Feedback>
         )}

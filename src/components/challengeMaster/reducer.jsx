@@ -32,6 +32,7 @@ import { ATTACH_FAQ_SUCCESS } from "../challengeEdit/subComponents/FAQ/types";
 import { ATTACH_RESOURCES_SUCCESS } from "../challengeEdit/subComponents/resources/types";
 import { ATTACH_GUIDELINE_SUCCESS } from "../challengeEdit/subComponents/guidelines/types";
 import { ATTACH_UPDATES_SUCCESS } from "../challengeEdit/subComponents/updates/types";
+import { ATTACH_SUMMARY_SUCCESS } from "../challengeEdit/subComponents/summary/types";
 import { ATTACH_SUBMISSION_FORM_SUCCESS } from "../challengeEdit/subComponents/submissionForm/types";
 import { ATTACH_JUDGING_CRITERIA_SUCCESS } from "../challengeEdit/subComponents/judgingCriteria/types";
 import { ATTACH_JUDGES_NDA_SUCCESS } from "../challengeEdit/subComponents/judgesNDA/types";
@@ -201,6 +202,19 @@ export const challengeReducer = createReducer(initialState, {
   [ATTACH_UPDATES_SUCCESS](state, action) {
     if (action && action.payload && action.payload.result) {
       state.challengeData["updateId"] = action.payload.result;
+
+      return Object.assign({}, state, {
+        loading: false,
+        challengeData: state.challengeData,
+        error: null,
+      });
+    } else {
+      return {};
+    }
+  },
+  [ATTACH_SUMMARY_SUCCESS](state, action) {
+    if (action && action.payload && action.payload.result) {
+      state.challengeData["summaryId"] = action.payload.result;
 
       return Object.assign({}, state, {
         loading: false,

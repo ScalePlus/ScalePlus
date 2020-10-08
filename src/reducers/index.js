@@ -21,6 +21,7 @@ import * as challengeJudgingCriteriaReducer from "../components/challengeEdit/su
 import * as challengeTeamReducer from "../components/challengeEdit/subComponents/team/reducer";
 import * as challengeJudgesReducer from "../components/challengeEdit/subComponents/judges/reducer";
 import * as challengeInviteParticipantsReducer from "../components/challengeEdit/subComponents/userList/inviteModal/reducer";
+import * as challengeSummaryReducer from "../components/challengeEdit/subComponents/summary/reducer";
 import * as allChallengesReducer from "../components/allChallenges/reducer";
 import * as myChallengesReducer from "../components/myChallenges/reducer";
 import * as submissionListReducer from "../components/challengePreview/subComponents/submissions/reducer";
@@ -69,6 +70,7 @@ export default combineReducers(
     attachedUsersReducer,
     updateProfileReducer,
     updateProfileViewReducer,
-    activitiesReducer
+    activitiesReducer,
+    challengeSummaryReducer
   )
 );

@@ -21,6 +21,7 @@ import FAQ from "./subComponents/FAQ";
 import Resources from "./subComponents/resources";
 import Guidelines from "./subComponents/guidelines";
 import Updates from "./subComponents/updates";
+import Summary from "./subComponents/summary";
 import SubmissionForm from "./subComponents/submissionForm";
 import Submissions from "../challengePreview/subComponents/submissions";
 import JudgingCriteria from "./subComponents/judgingCriteria";
@@ -43,6 +44,7 @@ const ChallengeEdit = ({ history, match }) => {
     { label: t("Resources"), value: "Resources" },
     { label: t("Guidelines"), value: "Guidelines" },
     { label: t("Updates"), value: "Updates" },
+    { label: t("Summary"), value: "Summary" },
   ];
 
   const submissionLinks = [
@@ -537,6 +539,9 @@ const ChallengeEdit = ({ history, match }) => {
                   )}
                   {activeKey && activeKey.value === "Updates" && (
                     <Updates t={t} challengeId={challengeId} />
+                  )}
+                  {activeKey && activeKey.value === "Summary" && (
+                    <Summary t={t} challengeId={challengeId} />
                   )}
                   {activeKey && activeKey.value === "Submission form" && (
                     <SubmissionForm t={t} challengeId={challengeId} />
